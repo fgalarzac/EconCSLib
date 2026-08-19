@@ -32,7 +32,7 @@ than dashboard rows.
 - Paper: *Test-optional Policies: Overcoming Strategic Behavior and
   Informational Gaps*
 - Source version: [arXiv:2107.08922](https://arxiv.org/pdf/2107.08922), pinned
-  in `source.txt` at SHA-256
+  in `cited publication` at SHA-256
   `11fb7a52959948847ce19d85adf97256a30c3f1575941ff6efec0e33bf908e1c`
 - Lean folder: `papers/LG21TestOptionalPolicies`
 - Human-facing theorem file: `papers/LG21TestOptionalPolicies/PaperInterface.lean`
@@ -200,8 +200,8 @@ Generated from the configured source-condition surface and exact current stateme
 
 | Assumption declaration | Lean declaration | Source location / statement | Assumption validators | Comments |
 | --- | --- | --- | --- | --- |
-| Source convention theorem3 1 optional local candidate excluded | `source_convention_theorem3_1_optional_local_candidate_excluded` | Source location: source.txt:1044-1045. The Theorem 3.1 optional-reporting equilibrium refinement rules out every positive-mass local taking/reporting candidate whose attained branches are recalibrated by their own Bayesian posterior estimates and whose changed members strictly gain. | source condition; Agent check by Codex LG21 source-convention provenance closeout; 2026-08-01 | This declaration is an audit-scope predicate for the source's operational equilibrium stability condition. It accepts one complete positive-mass local candidate so every recursively reachable field is audited; universally closing its False result is exactly the visible paper-facing no-candidate premise. It is neither an added source assumption nor a premi... |
-| Source convention theorem3 1 report required local tail candidate excluded | `source_convention_theorem3_1_report_required_local_tail_candidate_excluded` | Source location: source.txt:1577-1578. The Theorem 3.1 report-required equilibrium refinement rules out every positive-mass local pre-score taking candidate whose attained report/no-report branches are recalibrated by their own Bayesian posterior estimates and whose changed takers strictly gain. | source condition; Agent check by Codex LG21 source-convention provenance closeout; 2026-08-01 | This declaration is an audit-scope predicate for the source's operational equilibrium stability condition. It accepts one complete positive-mass local candidate so every recursively reachable field is audited; universally closing its False result is exactly the visible paper-facing no-candidate premise. It is neither an added source assumption nor a premi... |
+| Source convention theorem3 1 optional local candidate excluded | `source_convention_theorem3_1_optional_local_candidate_excluded` | Source location: cited publication:1044-1045. The Theorem 3.1 optional-reporting equilibrium refinement rules out every positive-mass local taking/reporting candidate whose attained branches are recalibrated by their own Bayesian posterior estimates and whose changed members strictly gain. | source condition; Agent check by Codex LG21 source-convention provenance closeout; 2026-08-01 | This declaration is an audit-scope predicate for the source's operational equilibrium stability condition. It accepts one complete positive-mass local candidate so every recursively reachable field is audited; universally closing its False result is exactly the visible paper-facing no-candidate premise. It is neither an added source assumption nor a premi... |
+| Source convention theorem3 1 report required local tail candidate excluded | `source_convention_theorem3_1_report_required_local_tail_candidate_excluded` | Source location: cited publication:1577-1578. The Theorem 3.1 report-required equilibrium refinement rules out every positive-mass local pre-score taking candidate whose attained report/no-report branches are recalibrated by their own Bayesian posterior estimates and whose changed takers strictly gain. | source condition; Agent check by Codex LG21 source-convention provenance closeout; 2026-08-01 | This declaration is an audit-scope predicate for the source's operational equilibrium stability condition. It accepts one complete positive-mass local candidate so every recursively reachable field is audited; universally closing its False result is exactly the visible paper-facing no-candidate premise. It is neither an added source assumption nor a premi... |
 <!-- END GENERATED ASSUMPTION PROVENANCE LEDGER -->
 
 ## 14. Displayed Formula Provenance
@@ -365,7 +365,7 @@ aggregate profile-existence packages remain checked auxiliary support.
 <!-- BEGIN GENERATED SOURCE COVERAGE LEDGER -->
 ### Current Canonical Evidence
 - Coverage scope: named theoretical statements.
-- Source inventory: 18 source statements from `source.txt`.
+- Source inventory: 18 source statements from `cited publication`.
 - Coverage result: 2 corrected target covered, 16 covered.
 - Coverage review: coverage ledger recorded; Agent check by Codex LG21 targeted literal-core sidecar rebind 2026-08-02; 2026-08-02.
 - Row-local statement checks: 18/18 linked row references have a completed canonical statement check; repeated links are counted per source row.

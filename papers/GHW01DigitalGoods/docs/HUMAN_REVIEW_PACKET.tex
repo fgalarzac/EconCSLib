@@ -1,0 +1,3490 @@
+% Generated human-review packet template.  Source records, Lean statements,
+% and raw-source-to-Spec screening fields are substituted by
+% scripts/review_dashboard_packet.py.
+% Do not hand-edit generated packets; annotate the PDF or reconcile notes into
+% the paper-local human-review log.
+\documentclass[10pt]{article}
+\usepackage[margin=0.43in]{geometry}
+\usepackage{fontspec}
+\setmainfont{Latin Modern Roman}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{fvextra}
+\usepackage{enumitem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.15em}
+\linespread{0.92}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+\DefineVerbatimEnvironment{ReviewVerbatim}{Verbatim}{breaklines=true,breakanywhere=true,fontsize=\scriptsize}
+\newcommand{\reviewerbox}{%
+  \par\noindent\fbox{\parbox{0.96\linewidth}{\rule{0pt}{0.38in}}}\par
+}
+\newcommand{\reviewmatch}[1]{%
+  \par\noindent\textbf{Reviewer check:} $\square$\; #1\par
+  \noindent\emph{If left unchecked, explain the discrepancy or uncertainty below.}\par
+}
+
+\begin{document}
+\fontsize{9}{10}\selectfont
+
+\begin{center}
+{\LARGE Human review packet: GHW01DigitalGoods}\\[0.35em]
+\small Generated from byte-pinned source excerpts, the expanded PaperInterface
+specifications, and hash-bound raw-source-to-Spec screening records.
+\end{center}
+
+\noindent\textbf{Paper:} GHW01DigitalGoods\\
+\textbf{Paper id:} \texttt{GHW01DigitalGoods}\\
+\textbf{Source version:} GHW01 byte-pinned source inventory\\
+\textbf{Source record:} \texttt{audit/paper\_statement\_map.json}\\
+\textbf{Rows:} 49\\
+\textbf{Generated:} 2026-08-18\\
+\textbf{Source URL:} \href{http://www.eecs.northwestern.edu/~hartline/papers/auctions-SODA-01.pdf}{official source}
+
+\noindent\fbox{\parbox{0.96\linewidth}{\textbf{Review status:} 0/49 source-claim screens; 0/37 library prerequisite screens. This is a review worksheet while those direct checks remain pending; it is not a final validation receipt.}}\par
+
+
+
+\section*{How to use this packet}
+For each source claim, compare the exact source excerpts with the expanded
+PaperInterface specification. Mark up this PDF or fill the blank reviewer box in the TeX source;
+return the annotated file for reconciliation into the paper-local human-review
+log.
+
+\section*{Open the interactive dashboard}
+The interactive dashboard is an optional alternative to using this PDF; it
+presents the same review surface rather than an additional review requirement.
+After forking and cloning (or pulling) EconCSLib, run the following from the
+repository root. The cache command is needed only the first time in a new clone.
+\begin{ReviewVerbatim}
+cd <your-EconCSLib-checkout>
+lake exe cache get
+python3 scripts/review_dashboard.py --paper GHW01DigitalGoods --serve
+\end{ReviewVerbatim}
+Open \url{http://127.0.0.1:8765/} in a browser and keep that terminal running
+while reviewing. The dashboard records saved annotations in this paper's
+reviewer-owned review record.
+
+\section*{Contents}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-section-71038f49777edb65}{Semantic library prerequisites (37; not paper claims)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-prerequisite-a930053d36ca61f9}{EconCSLib.Auction.DeterministicOfferBidIndependent}
+\item \hyperlink{library-prerequisite-2c40bbb5598d1a85}{EconCSLib.Auction.DigitalGoodsAuction}
+\item \hyperlink{library-prerequisite-d904dd5b0f1471b3}{EconCSLib.Auction.DigitalGoodsAuction.allocation}
+\item \hyperlink{library-prerequisite-76d477754469d363}{EconCSLib.Auction.DigitalGoodsAuction.BinaryAllocation}
+\item \hyperlink{library-prerequisite-2c1f6189bbb30ece}{EconCSLib.Auction.DigitalGoodsAuction.payment}
+\item \hyperlink{library-prerequisite-23ca3998864e8e27}{EconCSLib.Auction.DigitalGoodsAuction.utility}
+\item \hyperlink{library-prerequisite-7d4e9c39b7817429}{EconCSLib.Auction.DigitalGoodsAuction.IndividuallyRational}
+\item \hyperlink{library-prerequisite-de1b10a865ffeb8c}{EconCSLib.Auction.DigitalGoodsAuction.NoPositiveTransfers}
+\item \hyperlink{library-prerequisite-2bd7cf5ef107f1c4}{EconCSLib.Auction.DigitalGoodsAuction.mk}
+\item \hyperlink{library-prerequisite-605b1618dff75e78}{EconCSLib.Auction.GhwTightLowerAgent}
+\item \hyperlink{library-prerequisite-ea6fcf3a24ab4ad3}{EconCSLib.Auction.GhwTightAgent}
+\item \hyperlink{library-prerequisite-0ffec39ee2901bb9}{EconCSLib.Auction.TwoValueAgent}
+\item \hyperlink{library-prerequisite-c46e5d821b494572}{EconCSLib.Auction.saleCount}
+\item \hyperlink{library-prerequisite-42acfd497692c3c6}{EconCSLib.Auction.singlePriceRevenue}
+\item \hyperlink{library-prerequisite-0ad3f8cc830197ef}{EconCSLib.Auction.candidateFixedPriceRevenue}
+\item \hyperlink{library-prerequisite-13bd8295eba9f252}{EconCSLib.Auction.deterministicAuctionOffer}
+\item \hyperlink{library-prerequisite-93bfbf28000c81fe}{EconCSLib.Auction.finiteCandidateFixedPriceBenchmark}
+\item \hyperlink{library-prerequisite-a9f91a7bc3820e14}{EconCSLib.Auction.exists\_candidateFixedPriceRevenue\_eq\_finiteCandidateFixedPriceBenchmark}
+\item \hyperlink{library-prerequisite-63fbbdf8f5d20895}{EconCSLib.Auction.finiteCandidateBenchmarkBidder}
+\item \hyperlink{library-prerequisite-4a020bcdd1308d1b}{EconCSLib.Auction.finiteCandidateOfferPrice}
+\item \hyperlink{library-prerequisite-0e562ec650930ad9}{EconCSLib.Auction.finiteCandidatePriceSet}
+\item \hyperlink{library-prerequisite-599eb5c29226e7e5}{EconCSLib.Auction.ghwTightValue}
+\item \hyperlink{library-prerequisite-e5c7eedc40c11b7a}{EconCSLib.pmfExp}
+\item \hyperlink{library-prerequisite-0011949331b54595}{EconCSLib.Auction.paper\_theorem8\_2\_raw\_cdf\_expected\_revenue}
+\item \hyperlink{library-prerequisite-e0fd2b2fb7cd7939}{EconCSLib.Auction.restrictBidsBySide}
+\item \hyperlink{library-prerequisite-dfc0f9ca8d4d3bc5}{EconCSLib.Auction.thresholdPriceAuction}
+\item \hyperlink{library-prerequisite-0ee10456e4e5d33e}{EconCSLib.Auction.totalBidValue}
+\item \hyperlink{library-prerequisite-70c2329a88c3a04f}{EconCSLib.Auction.twoValueBidProfile}
+\item \hyperlink{library-prerequisite-f9f944b0fdcb16b5}{EconCSLib.Auction.twoValueErasedBidList}
+\item \hyperlink{library-prerequisite-6306d037c75cd8a9}{EconCSLib.Auction.twoValueFixedPriceBenchmark}
+\item \hyperlink{library-prerequisite-dbb37afde855adc6}{EconCSLib.Auction.weightedPairingExpectedPayment}
+\item \hyperlink{library-prerequisite-53b1b7b2240a5658}{EconCSLib.Auction.weightedPairingExpectedRevenue}
+\item \hyperlink{library-prerequisite-ed8d7c98cc166938}{EconCSLib.FairCoin.fairMeasure}
+\item \hyperlink{library-prerequisite-d7cbf48d2b17bb56}{EconCSLib.FairCoin.productMeasure}
+\item \hyperlink{library-prerequisite-b9805c0fe3b56f02}{EconCSLib.pmfPi}
+\item \hyperlink{library-prerequisite-7fec9dedef722fc8}{EconCSLib.pmfProb}
+\item \hyperlink{library-prerequisite-00a2add8d3a6edfc}{EconCSLib.uniformPMF}
+\end{itemize}
+\item \hyperlink{source-section-f10b5f68e4acf3dc}{Source claims (49)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-92a5f1831a1a154c}{definition\_revenueSpec}
+\item \hyperlink{source-claim-fcc1c57101887a67}{definition\_truthfulnessSpec}
+\item \hyperlink{source-claim-12f62bc2b16a034f}{definition\_fixed\_price\_benchmarkSpec}
+\item \hyperlink{source-claim-c629f252e7aba094}{definition\_total\_valueSpec}
+\item \hyperlink{source-claim-11a904f37ac25550}{definition\_weighted\_pairing\_revenueSpec}
+\item \hyperlink{source-claim-2bea065aff29fbec}{result\_theorem4\_1Spec}
+\item \hyperlink{source-claim-c584c5cb21438e15}{result\_corollary4\_2Spec}
+\item \hyperlink{source-claim-de03b129c03015d1}{result\_lemma6\_1\_fixed\_size\_lower\_tailSpec}
+\item \hyperlink{source-claim-dbcf1d32b28d9965}{result\_theorem6\_2\_random\_samplingSpec}
+\item \hyperlink{source-claim-f07b3322ac4a8773}{result\_theorem7\_1\_weighted\_pairingSpec}
+\item \hyperlink{source-claim-d2203fdcdcb5c29a}{result\_theorem7\_2\_lower\_boundSpec}
+\item \hyperlink{source-claim-9c375a1b7af827ba}{result\_theorem7\_2\_tightnessSpec}
+\item \hyperlink{source-claim-16eee1e38ed670e7}{result\_lemma8\_1\_monotone\_allocationSpec}
+\item \hyperlink{source-claim-e7742b37ea94b834}{result\_theorem8\_2\_journal\_revenue\_upper\_boundSpec}
+\item \hyperlink{source-claim-2aeebcaf889368d8}{result\_theorem9\_1\_bid\_independent\_lower\_boundSpec}
+\item \hyperlink{source-claim-60df12d3b02570ba}{result\_lemma9\_2\_bid\_independenceSpec}
+\item \hyperlink{source-claim-6ef8d3c17f2b5df3}{result\_theorem9\_3\_deterministic\_lower\_boundSpec}
+\item \hyperlink{source-claim-5c6c825e7e742c65}{definition\_bounded\_supply\_fixed\_price\_benchmarkSpec}
+\item \hyperlink{source-claim-804fa85d702dba6f}{definition\_bounded\_supply\_top\_k\_totalSpec}
+\item \hyperlink{source-claim-ffcc097a398a48e7}{definition\_bounded\_supply\_optimal\_thresholdSpec}
+\item \hyperlink{source-claim-ec9d72942c947690}{model\_bounded\_single\_price\_sampling\_auctionSpec}
+\item \hyperlink{source-claim-cea76b79a41765be}{model\_bounded\_dual\_price\_sampling\_auctionSpec}
+\item \hyperlink{source-claim-4e4374900527b0f0}{definition\_price\_classesSpec}
+\item \hyperlink{source-claim-f5aa4c6369b51530}{definition\_auction\_correctnessSpec}
+\item \hyperlink{source-claim-ce5033b86185a6e5}{model\_unlimited\_supplySpec}
+\item \hyperlink{source-claim-c87f535bc9ad76c0}{definition\_fixed\_pricingSpec}
+\item \hyperlink{source-claim-71dcfd816163acb2}{definition\_bidder\_countSpec}
+\item \hyperlink{source-claim-df5235958b6d7ea9}{definition\_bid\_extremaSpec}
+\item \hyperlink{source-claim-48593168ec07b0d9}{model\_bidder\_values\_and\_bidsSpec}
+\item \hyperlink{source-claim-3bc5d96e39ab913a}{model\_sorted\_bid\_conventionSpec}
+\item \hyperlink{source-claim-6a520bdced8a8b28}{definition\_auction\_outcomeSpec}
+\item \hyperlink{source-claim-3182def2fd3126fc}{definition\_auction\_mechanismsSpec}
+\item \hyperlink{source-claim-437a3f337df1e177}{definition\_bidder\_profitSpec}
+\item \hyperlink{source-claim-3077d698b4080f2c}{definition\_performance\_conventionSpec}
+\item \hyperlink{source-claim-063516640731ad8f}{definition\_scale\_conditionsSpec}
+\item \hyperlink{source-claim-4ea45a9e13ad5c07}{definition\_competitive\_auctionSpec}
+\item \hyperlink{source-claim-c2c1b6c0e860a69c}{definition\_k\_item\_vickreySpec}
+\item \hyperlink{source-claim-60e5eee461d50443}{definition\_unlimited\_vickrey\_familySpec}
+\item \hyperlink{source-claim-96bf38ca93d360a1}{definition\_optimal\_thresholdSpec}
+\item \hyperlink{source-claim-358ff71fbc93837d}{definition\_bid\_independent\_auctionSpec}
+\item \hyperlink{source-claim-7602d03e98effe60}{definition\_threshold\_boundary\_conventionSpec}
+\item \hyperlink{source-claim-22cf85b32833d663}{definition\_random\_sampling\_auctionSpec}
+\item \hyperlink{source-claim-b7128f52f54f33d4}{definition\_dual\_price\_sampling\_auctionSpec}
+\item \hyperlink{source-claim-58e846d929de7a05}{definition\_exact\_half\_optimal\_thresholdSpec}
+\item \hyperlink{source-claim-f58496f241e6c6f1}{definition\_independent\_half\_analysis\_modelSpec}
+\item \hyperlink{source-claim-e93feb6521b52515}{definition\_weighted\_pairing\_auctionSpec}
+\item \hyperlink{source-claim-5f3388e17a33f6df}{definition\_deterministic\_optimal\_threshold\_auctionSpec}
+\item \hyperlink{source-claim-7bd2b87e23027c5a}{model\_bounded\_supply\_capacitySpec}
+\item \hyperlink{source-claim-2aae9bf386f351db}{definition\_scarce\_supplySpec}
+\end{itemize}
+\end{itemize}
+
+\clearpage
+\hypertarget{library-section-71038f49777edb65}{}
+\section*{Material library prerequisites}
+\hypertarget{library-prerequisite-a930053d36ca61f9}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}DeterministicOfferBidIndependent}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ (offer : ℝ → Option ℝ),
+  (∀ (report : ℝ), offer report = none) ∨
+    ∃ criticalPrice,
+      (∀ (report price : ℝ), offer report = some price → price = criticalPrice) ∧
+        (∀ report < criticalPrice, offer report = none) ∧
+          ∀ (report : ℝ), criticalPrice < report → offer report = some criticalPrice
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def DeterministicOfferBidIndependent (offer : ℝ → Option ℝ) : Prop :=
+  (∀ report, offer report = none) ∨
+    ∃ criticalPrice,
+      (∀ report price, offer report = some price → price = criticalPrice) ∧
+      (∀ report, report < criticalPrice → offer report = none) ∧
+      (∀ report, criticalPrice < report → offer report = some criticalPrice)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-2c40bbb5598d1a85}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}DigitalGoodsAuction}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+Type u_1 → Type u_1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+structure DigitalGoodsAuction (Agent : Type*) where
+  allocation : (Agent → ℝ) → Agent → ℝ
+  payment : (Agent → ℝ) → Agent → ℝ
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-d904dd5b0f1471b3}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}DigitalGoodsAuction.\allowbreak{}allocation}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} →
+  (self : EconCSLib.Auction.DigitalGoodsAuction Agent) → (a : Agent → ℝ) → (a_1 : Agent) → self.1 a a_1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-76d477754469d363}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}DigitalGoodsAuction.\allowbreak{}BinaryAllocation}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} (M : EconCSLib.Auction.DigitalGoodsAuction Agent) (bids : Agent → ℝ) (i : Agent),
+  M.allocation bids i = 0 ∨ M.allocation bids i = 1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def BinaryAllocation (M : DigitalGoodsAuction Agent) : Prop :=
+  ∀ bids i, M.allocation bids i = 0 ∨ M.allocation bids i = 1
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-2c1f6189bbb30ece}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}DigitalGoodsAuction.\allowbreak{}payment}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} →
+  (self : EconCSLib.Auction.DigitalGoodsAuction Agent) → (a : Agent → ℝ) → (a_1 : Agent) → self.2 a a_1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-23ca3998864e8e27}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}DigitalGoodsAuction.\allowbreak{}utility}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} →
+  (M : EconCSLib.Auction.DigitalGoodsAuction Agent) →
+    (values : Agent → ℝ) → (i : Agent) → (bids : Agent → ℝ) → values i * M.allocation bids i - M.payment bids i
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def utility (M : DigitalGoodsAuction Agent)
+    (values : Agent → ℝ) (i : Agent) (bids : Agent → ℝ) : ℝ :=
+  values i * M.allocation bids i - M.payment bids i
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-7d4e9c39b7817429}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}DigitalGoodsAuction.\allowbreak{}IndividuallyRational}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} (M : EconCSLib.Auction.DigitalGoodsAuction Agent) (values : Agent → ℝ) (i : Agent),
+  0 ≤ M.utility values i values
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def IndividuallyRational (M : DigitalGoodsAuction Agent) : Prop :=
+  ∀ (values : Agent → ℝ) (i : Agent), 0 ≤ M.utility values i values
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-de1b10a865ffeb8c}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}DigitalGoodsAuction.\allowbreak{}NoPositiveTransfers}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} (M : EconCSLib.Auction.DigitalGoodsAuction Agent) (bids : Agent → ℝ) (i : Agent),
+  0 ≤ M.payment bids i
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def NoPositiveTransfers (M : DigitalGoodsAuction Agent) : Prop :=
+  ∀ (bids : Agent → ℝ) (i : Agent), 0 ≤ M.payment bids i
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-2bd7cf5ef107f1c4}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}DigitalGoodsAuction.\allowbreak{}mk}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} → ((Agent → ℝ) → Agent → ℝ) → ((Agent → ℝ) → Agent → ℝ) → EconCSLib.Auction.DigitalGoodsAuction Agent
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-605b1618dff75e78}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}GhwTightLowerAgent}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(k : ℕ) → (r : Fin (k - 1)) × Fin (2 ^ (k - (↑r + 1)))
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-ea6fcf3a24ab4ad3}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}GhwTightAgent}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(k s : ℕ) → EconCSLib.Auction.GhwTightLowerAgent k ⊕ Fin s
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-0ffec39ee2901bb9}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}TwoValueAgent}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(highCount lowCount : ℕ) → Fin highCount ⊕ Fin lowCount
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+abbrev TwoValueAgent (highCount lowCount : ℕ) :=
+  Fin highCount ⊕ Fin lowCount
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-c46e5d821b494572}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}saleCount}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} → [inst : Fintype Agent] → (values : Agent → ℝ) → (p : ℝ) → {i | p ≤ values i}.card
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def saleCount [Fintype Agent] (values : Agent → ℝ) (p : ℝ) : ℕ :=
+  ((Finset.univ : Finset Agent).filter fun i => p ≤ values i).card
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-42acfd497692c3c6}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}singlePriceRevenue}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} → [inst : Fintype Agent] → (values : Agent → ℝ) → (p : ℝ) → ∑ i, if p ≤ values i then p else 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def singlePriceRevenue [Fintype Agent]
+    (values : Agent → ℝ) (p : ℝ) : ℝ :=
+  ∑ i : Agent, if p ≤ values i then p else 0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-0ad3f8cc830197ef}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}candidateFixedPriceRevenue}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} →
+  [inst : Fintype Agent] →
+    (values : Agent → ℝ) →
+      (minWinners : ℕ) →
+        (i : Agent) →
+          if 0 ≤ values i ∧ minWinners ≤ EconCSLib.Auction.saleCount values (values i) then
+            EconCSLib.Auction.singlePriceRevenue values (values i)
+          else 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def candidateFixedPriceRevenue [Fintype Agent]
+    (values : Agent → ℝ) (minWinners : ℕ) (i : Agent) : ℝ :=
+  if 0 ≤ values i ∧ minWinners ≤ saleCount values (values i) then
+    singlePriceRevenue values (values i)
+  else 0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-13bd8295eba9f252}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}deterministicAuctionOffer}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} →
+  [inst : DecidableEq Agent] →
+    (M : EconCSLib.Auction.DigitalGoodsAuction Agent) →
+      (bids : Agent → ℝ) →
+        (i : Agent) →
+          (a : ℝ) →
+            have profile := Function.update bids i a;
+            if M.allocation profile i = 1 then some (M.payment profile i) else none
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def deterministicAuctionOffer [DecidableEq Agent]
+    (M : DigitalGoodsAuction Agent) (bids : Agent → ℝ) (i : Agent) :
+    ℝ → Option ℝ :=
+  fun report =>
+    let profile := Function.update bids i report
+    if M.allocation profile i = 1 then
+      some (M.payment profile i)
+    else
+      none
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-93bfbf28000c81fe}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}finiteCandidateFixedPriceBenchmark}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} →
+  [inst : Fintype Agent] →
+    [inst_1 : Nonempty Agent] →
+      (values : Agent → ℝ) →
+        (minWinners : ℕ) → Finset.univ.sup' ⋯ (EconCSLib.Auction.candidateFixedPriceRevenue values minWinners)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def finiteCandidateFixedPriceBenchmark [Fintype Agent]
+    [Nonempty Agent] (values : Agent → ℝ) (minWinners : ℕ) : ℝ :=
+  (Finset.univ : Finset Agent).sup'
+    (by
+      obtain ⟨i⟩ := (inferInstance : Nonempty Agent)
+      exact ⟨i, by simp⟩)
+    (candidateFixedPriceRevenue values minWinners)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-a9f91a7bc3820e14}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}exists\_\allowbreak{}candidateFixedPriceRevenue\_\allowbreak{}eq\_\allowbreak{}finiteCandidateFixedPriceBenchmark}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] [inst_1 : Nonempty Agent] (values : Agent → ℝ) (minWinners : ℕ),
+  ∃ i,
+    EconCSLib.Auction.finiteCandidateFixedPriceBenchmark values minWinners =
+      EconCSLib.Auction.candidateFixedPriceRevenue values minWinners i
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+theorem exists_candidateFixedPriceRevenue_eq_finiteCandidateFixedPriceBenchmark
+    [Fintype Agent] [Nonempty Agent]
+    (values : Agent → ℝ) (minWinners : ℕ) :
+    ∃ i : Agent,
+      finiteCandidateFixedPriceBenchmark values minWinners =
+        candidateFixedPriceRevenue values minWinners i
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-63fbbdf8f5d20895}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}finiteCandidateBenchmarkBidder}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} →
+  [inst : Fintype Agent] → [inst_1 : Nonempty Agent] → (values : Agent → ℝ) → (minWinners : ℕ) → Classical.choose ⋯
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def finiteCandidateBenchmarkBidder [Fintype Agent]
+    [Nonempty Agent] (values : Agent → ℝ) (minWinners : ℕ) : Agent :=
+  Classical.choose
+    (exists_candidateFixedPriceRevenue_eq_finiteCandidateFixedPriceBenchmark
+      values minWinners)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-4a020bcdd1308d1b}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}finiteCandidateOfferPrice}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} →
+  [inst : Fintype Agent] →
+    [inst_1 : Nonempty Agent] →
+      (values : Agent → ℝ) →
+        (minWinners : ℕ) →
+          have i := EconCSLib.Auction.finiteCandidateBenchmarkBidder values minWinners;
+          if 0 ≤ values i ∧ minWinners ≤ EconCSLib.Auction.saleCount values (values i) then values i else 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def finiteCandidateOfferPrice [Fintype Agent]
+    [Nonempty Agent] (values : Agent → ℝ) (minWinners : ℕ) : ℝ :=
+  let i := finiteCandidateBenchmarkBidder values minWinners
+  if 0 ≤ values i ∧ minWinners ≤ saleCount values (values i) then
+    values i
+  else
+    0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-0e562ec650930ad9}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}finiteCandidatePriceSet}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} → [inst : Fintype Agent] → (values : Agent → ℝ) → insert 0 (Finset.image values Finset.univ)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def finiteCandidatePriceSet [Fintype Agent]
+    (values : Agent → ℝ) : Finset ℝ :=
+  insert 0 ((Finset.univ : Finset Agent).image values)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-599eb5c29226e7e5}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}ghwTightValue}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(k s : ℕ) →
+  (a : EconCSLib.Auction.GhwTightAgent k s) →
+    match a with
+    | Sum.inl a => 2 ^ (↑a.fst + 1)
+    | Sum.inr val => 2 ^ k
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e5c7eedc40c11b7a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfExp}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} → [inst : Fintype α] → [DecidableEq α] → (μ : PMF α) → (f : α → ℝ) → ∑ a, (μ a).toReal * f a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfExp {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (f : α → ℝ) : ℝ :=
+  ∑ a, (μ a).toReal * f a
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-0011949331b54595}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}paper\_\allowbreak{}theorem8\_\allowbreak{}2\_\allowbreak{}raw\_\allowbreak{}cdf\_\allowbreak{}expected\_\allowbreak{}revenue}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} →
+  {Price : Type u_2} →
+    [inst : Fintype Agent] →
+      [inst_1 : Fintype Price] →
+        [inst_2 : DecidableEq Price] →
+          (values : Agent → ℝ) →
+            (price : Price → ℝ) →
+              (offerLaw : Agent → PMF Price) →
+                ∑ i, EconCSLib.pmfExp (offerLaw i) fun p => if price p ≤ values i then price p else 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e0fd2b2fb7cd7939}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}restrictBidsBySide}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} →
+  (side : Agent → Bool) → (keep : Bool) → (bids : Agent → ℝ) → (a : Agent) → if side a = keep then bids a else 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def restrictBidsBySide (side : Agent → Bool) (keep : Bool)
+    (bids : Agent → ℝ) : Agent → ℝ :=
+  fun j => if side j = keep then bids j else 0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-dfc0f9ca8d4d3bc5}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}thresholdPriceAuction}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} →
+  [DecidableEq Agent] →
+    (threshold : (Agent → ℝ) → Agent → ℝ) →
+      { allocation := fun bids i => if threshold bids i ≤ bids i then 1 else 0,
+        payment := fun bids i => if threshold bids i ≤ bids i then threshold bids i else 0 }
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def thresholdPriceAuction [DecidableEq Agent]
+    (threshold : (Agent → ℝ) → Agent → ℝ) : DigitalGoodsAuction Agent where
+  allocation bids i := if threshold bids i ≤ bids i then 1 else 0
+  payment bids i := if threshold bids i ≤ bids i then threshold bids i else 0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-0ee10456e4e5d33e}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}totalBidValue}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} → [inst : Fintype Agent] → (values : Agent → ℝ) → ∑ i, values i
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def totalBidValue [Fintype Agent] (values : Agent → ℝ) : ℝ :=
+  ∑ i : Agent, values i
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-70c2329a88c3a04f}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}twoValueBidProfile}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(H highCount lowCount : ℕ) →
+  (a : EconCSLib.Auction.TwoValueAgent highCount lowCount) →
+    match a with
+    | Sum.inl val => ↑H
+    | Sum.inr val => 1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def twoValueBidProfile (H highCount lowCount : ℕ) :
+    TwoValueAgent highCount lowCount → ℝ
+  | Sum.inl _ => (H : ℝ)
+  | Sum.inr _ => 1
+
+theorem singlePriceRevenue_twoValueBidProfile_one
+    {H highCount lowCount : ℕ}
+    (hH_ge_one : 1 ≤ (H : ℝ)) :
+    singlePriceRevenue (twoValueBidProfile H highCount lowCount) 1 =
+      (highCount + lowCount : ℝ) := by
+  classical
+  unfold singlePriceRevenue
+  simp [twoValueBidProfile, hH_ge_one, Finset.sum_const, nsmul_eq_mul]
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-f9f944b0fdcb16b5}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}twoValueErasedBidList}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(H highCount lowCount : ℕ) → List.replicate highCount ↑H ++ List.replicate lowCount 1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def twoValueErasedBidList (H highCount lowCount : ℕ) : List ℝ :=
+  List.replicate highCount (H : ℝ) ++ List.replicate lowCount 1
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-6306d037c75cd8a9}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}twoValueFixedPriceBenchmark}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(H highCount lowCount : ℕ) →
+  if hzero : highCount + lowCount = 0 then 0
+  else
+    EconCSLib.Auction.finiteCandidateFixedPriceBenchmark (EconCSLib.Auction.twoValueBidProfile H highCount lowCount) 1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def twoValueFixedPriceBenchmark
+    (H highCount lowCount : ℕ) : ℝ :=
+  if hzero : highCount + lowCount = 0 then 0 else
+    @finiteCandidateFixedPriceBenchmark
+      (TwoValueAgent highCount lowCount) inferInstance
+      (by
+        have hsum_pos : 0 < highCount + lowCount :=
+          Nat.pos_of_ne_zero hzero
+        by_cases hhigh_pos : 0 < highCount
+        · exact ⟨Sum.inl ⟨0, hhigh_pos⟩⟩
+        · have hhigh_zero : highCount = 0 :=
+            Nat.eq_zero_of_not_pos hhigh_pos
+          have hlow_pos : 0 < lowCount := by
+            by_contra hlow_not
+            have hlow_zero : lowCount = 0 :=
+              Nat.eq_zero_of_not_pos hlow_not
+            simp [hhigh_zero, hlow_zero] at hsum_pos
+          exact ⟨Sum.inr ⟨0, hlow_pos⟩⟩)
+      (twoValueBidProfile H highCount lowCount) 1
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-dbb37afde855adc6}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}weightedPairingExpectedPayment}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} →
+  [inst : Fintype Agent] →
+    [inst_1 : DecidableEq Agent] →
+      (values : Agent → ℝ) →
+        (i : Agent) →
+          ∑ j,
+            if j ≠ i ∧ values j ≤ values i then values j ^ 2 / (EconCSLib.Auction.totalBidValue values - values i)
+            else 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def weightedPairingExpectedPayment
+    [Fintype Agent] [DecidableEq Agent]
+    (values : Agent → ℝ) (i : Agent) : ℝ :=
+  ∑ j : Agent,
+    if j ≠ i ∧ values j ≤ values i then
+      (values j) ^ 2 / (totalBidValue values - values i)
+    else
+      0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-53b1b7b2240a5658}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Auction.\allowbreak{}weightedPairingExpectedRevenue}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Agent : Type u_1} →
+  [inst : Fintype Agent] →
+    [inst_1 : DecidableEq Agent] → (values : Agent → ℝ) → ∑ i, EconCSLib.Auction.weightedPairingExpectedPayment values i
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def weightedPairingExpectedRevenue
+    [Fintype Agent] [DecidableEq Agent]
+    (values : Agent → ℝ) : ℝ :=
+  ∑ i : Agent, weightedPairingExpectedPayment values i
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-ed8d7c98cc166938}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FairCoin.\allowbreak{}fairMeasure}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(PMF.bernoulli (1 / 2) EconCSLib.FairCoin.fairMeasure._proof_2).toMeasure
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def fairMeasure : Measure Bool :=
+  ((PMF.bernoulli (1 / 2 : NNReal) (by norm_num)).toMeasure : Measure Bool)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-d7cbf48d2b17bb56}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FairCoin.\allowbreak{}productMeasure}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(ι : Type u_1) → MeasureTheory.Measure.infinitePi fun x => EconCSLib.FairCoin.fairMeasure
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def productMeasure (ι : Type*) : Measure (ι → Bool) :=
+  Measure.infinitePi (fun _ : ι => fairMeasure)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-b9805c0fe3b56f02}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfPi}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{ι : Type u_1} →
+  [inst : Fintype ι] →
+    [inst_1 : DecidableEq ι] →
+      {α : ι → Type u_2} →
+        [inst_2 : (i : ι) → Fintype (α i)] → (μ : (i : ι) → PMF (α i)) → PMF.ofFintype (fun f => ∏ i, (μ i) (f i)) ⋯
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfPi {ι : Type*} [Fintype ι] [DecidableEq ι]
+    {α : ι → Type*} [∀ i : ι, Fintype (α i)]
+    (μ : ∀ i : ι, PMF (α i)) : PMF ((i : ι) → α i) :=
+  PMF.ofFintype (fun f : (i : ι) → α i => ∏ i : ι, μ i (f i)) (by
+    classical
+    have hcoord : ∀ i : ι, ∑ a : α i, μ i a = 1 := by
+      intro i
+      rw [← PMF.tsum_coe (μ i), tsum_fintype]
+    calc
+      ∑ f : ((i : ι) → α i), ∏ i : ι, μ i (f i)
+          = ∑ f ∈ Fintype.piFinset
+              (fun i : ι => (Finset.univ : Finset (α i))),
+              ∏ i : ι, μ i (f i) := by
+            simp
+      _ = ∏ i : ι, ∑ a ∈ (Finset.univ : Finset (α i)), μ i a := by
+            symm
+            exact Finset.prod_univ_sum
+              (t := fun i : ι => (Finset.univ : Finset (α i)))
+              (f := fun i a => μ i a)
+      _ = 1 := by simp [hcoord])
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-7fec9dedef722fc8}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] →
+    [inst_1 : DecidableEq α] →
+      (μ : PMF α) → (p : α → Prop) → [inst_2 : DecidablePred p] → EconCSLib.pmfExp μ fun a => if p a then 1 else 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfProb {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (p : α → Prop) [DecidablePred p] : ℝ :=
+  pmfExp μ (fun a => if p a then 1 else 0)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-00a2add8d3a6edfc}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}uniformPMF}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(α : Type u_1) → [inst : Fintype α] → [inst_1 : Nonempty α] → PMF.ofFintype (fun x => (↑(Fintype.card α))⁻¹) ⋯
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def uniformPMF (α : Type*) [Fintype α] [Nonempty α] : PMF α :=
+  PMF.ofFintype (fun _ : α => ((Fintype.card α : ENNReal)⁻¹)) (by
+    rw [Finset.sum_const, Finset.card_univ]
+    have hcard : (Fintype.card α : ENNReal) ≠ 0 := by
+      exact_mod_cast (Fintype.card_pos_iff.mpr ‹Nonempty α›).ne'
+    simpa [nsmul_eq_mul] using
+      (ENNReal.mul_inv_cancel hcard (ENNReal.natCast_ne_top (Fintype.card α))))
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\clearpage
+\hypertarget{source-claim-92a5f1831a1a154c}{}
+\hypertarget{source-section-f10b5f68e4acf3dc}{}
+\section*{Source claims}
+\subsection*{Review row 1}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 211-\allowbreak{}214\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+outcomes. We use R to denote the auction revenue
+for a particular auction mechanism and set of bids. R
+is the sum of all sale prices. For randomized auctions,
+R is a random variable.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ {Agent : Type u_1} (outcome : GHW01DigitalGoods.ProofBridge.source_auctionOutcome Agent),
+    GHW01DigitalGoods.ProofBridge.source_outcomeRevenue outcome =
+      GHW01DigitalGoods.SourceDefinitions.AuctionOutcome.revenue outcome) ∧
+  (∀ {Agent : Type u_2} (auction : GHW01DigitalGoods.ProofBridge.source_deterministicAuction Agent)
+      (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent),
+      GHW01DigitalGoods.ProofBridge.source_deterministicRevenue auction bids =
+        GHW01DigitalGoods.SourceDefinitions.deterministicRevenue auction bids) ∧
+    ∀ {Agent : Type u_3} (auction : GHW01DigitalGoods.ProofBridge.source_randomizedAuction Agent)
+      (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent),
+      GHW01DigitalGoods.ProofBridge.source_randomizedRevenueLaw auction bids =
+        GHW01DigitalGoods.SourceDefinitions.randomizedRevenueLaw auction bids
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_revenue_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-fcc1c57101887a67}{}
+\section*{Review row 2}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 215-\allowbreak{}222\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+We say that an auction is truthful if bidding ui is
+a dominant strategy for bidder i. More specifically,
+let a bidder’s profit be the difference between the bidder’s utility value and the price the bidder pays if they
+win the auction, or zero if they lose. Then an auction
+is truthful if a bidder’s profit (or expected profit, for
+randomized auctions), as a function of the bidder’s
+bid, is maximized at the bidder’s utility value, for
+any fixed values of the other bidders’ bids. Truthful
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ {Agent : Type u_1} (auction : GHW01DigitalGoods.ProofBridge.source_deterministicAuction Agent),
+    GHW01DigitalGoods.ProofBridge.source_deterministicTruthful auction =
+      GHW01DigitalGoods.SourceDefinitions.DeterministicTruthful auction) ∧
+  ∀ {Agent : Type u_2} (auction : GHW01DigitalGoods.ProofBridge.source_randomizedAuction Agent),
+    GHW01DigitalGoods.ProofBridge.source_randomizedTruthful auction =
+      GHW01DigitalGoods.SourceDefinitions.RandomizedTruthful auction
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_truthfulness_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-12f62bc2b16a034f}{}
+\section*{Review row 3}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 134-\allowbreak{}138\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+that can be obtained from this set of bidders. Let F
+be the optimal fixed pricing revenue. Clearly F ≤
+T . F is an upper bound on the revenue that can be
+obtained by any fixed priced sale or any single-price
+auction. We want revenues of our truthful auctions
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] [inst_1 : Nonempty Agent]
+  (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent),
+  GHW01DigitalGoods.ProofBridge.source_optimalFixedPriceRevenue bids =
+    GHW01DigitalGoods.SourceDefinitions.optimalFixedPriceRevenue bids
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_fixed_price_benchmark_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-c629f252e7aba094}{}
+\section*{Review row 4}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 132-\allowbreak{}134\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+h. Let the total utility T be the sum of all bidders’
+utilities. T is an obvious upper bound on the revenue
+that can be obtained from this set of bidders. Let F
+
+[Next verbatim source excerpt]
+
+does not discourage bidders from bidding their utility value. When considering truthful auctions, we
+assume that bi = ui .
+To enable analysis of auction revenue we define several properties of an input set of bids. As stated in
+the introduction, T is the sum of all of the bids. An
+equivalent definition of T is the revenue due to the
+optimal multi-price untruthful auction, the one that
+satisfies all bids at their value. The revenue for optimal fixed pricing is F . Note that F can also be
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ {Agent : Type u_1} [inst : Fintype Agent] (values : Agent → ℝ),
+    GHW01DigitalGoods.ProofBridge.totalValue values = ∑ i, values i) ∧
+  ∀ {Agent : Type u_2} [inst : Fintype Agent] (input : GHW01DigitalGoods.ProofBridge.source_auctionInput Agent),
+    GHW01DigitalGoods.SourceDefinitions.TruthfulReports input →
+      GHW01DigitalGoods.ProofBridge.totalValue input.values =
+          GHW01DigitalGoods.SourceDefinitions.totalBidValue input.bids ∧
+        GHW01DigitalGoods.SourceDefinitions.totalBidValue input.bids =
+          (GHW01DigitalGoods.SourceDefinitions.fullValueOutcome input.bids).revenue
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_total_value_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-11a904f37ac25550}{}
+\section*{Review row 5}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 621-\allowbreak{}623\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+We use the following notation. We denote the expected revenue of the √
+wighted pairing auction by W ,
+let k = log h and s = log h First we give bound the
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ {Agent : Type u_1} [inst : Fintype Agent] (bids : Agent → ℝ) (hbid_ge_one : ∀ (i : Agent), 1 ≤ bids i)
+    (hdistinct : ∀ (i : Agent), ∃ j, j ≠ i),
+    GHW01DigitalGoods.ProofBridge.source_weightedPairingW bids hbid_ge_one hdistinct =
+      GHW01DigitalGoods.SourceDefinitions.weightedPairingW bids ⋯) ∧
+  (∀ {Agent : Type u_2} [inst : Fintype Agent] (bids : Agent → ℝ) (hbid_ge_one : ∀ (i : Agent), 1 ≤ bids i)
+      (hdistinct : ∀ (i : Agent), ∃ j, j ≠ i),
+      GHW01DigitalGoods.ProofBridge.source_weightedPairingOutcomeExpectedRevenue bids hbid_ge_one hdistinct =
+        GHW01DigitalGoods.SourceDefinitions.weightedPairingOutcomeExpectedRevenue bids ⋯) ∧
+    ∀ {Agent : Type u_3} [inst : Fintype Agent] (bids : Agent → ℝ) (hbid_ge_one : ∀ (i : Agent), 1 ≤ bids i)
+      (hdistinct : ∀ (i : Agent), ∃ j, j ≠ i),
+      GHW01DigitalGoods.ProofBridge.source_weightedPairingOutcomeExpectedRevenue bids hbid_ge_one hdistinct =
+        GHW01DigitalGoods.ProofBridge.source_weightedPairingW bids hbid_ge_one hdistinct
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_weighted_pairing_revenue_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-2bea065aff29fbec}{}
+\section*{Review row 6}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 359-\allowbreak{}370\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 4.1 F ≥ T /(2 log h).
+Proof. Divide the bids into log h bins by partitioning the bids at values of powers of two. Thus, each
+bid is less than a factor of two from any other bid
+in the same bin. Since the sum of the bids is T and
+there are log h bins, then some bin has a sum of at
+least T / log h. Note that the lowest bid in this bin is
+at least half of any other bid in the bin. If the optimal single-price auction chose, as its selling price, the
+price of the lowest bid in this bin, then the contribution of each bid in this bin to the revenue is at least
+half of the bid’s value. Since the bin sums to more
+than T / log h, this means that the revenue is greater
+than T /(2 log h). Thus the optimal fixed pricing can
+always achieve a revenue of at least T /(2 log h).
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+Let h >= 2. For a nonempty finite bid profile whose values all lie in [1, h], its total value T satisfies T <= (2 log_2 h) F, where F is the optimal fixed-price revenue.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 359-\allowbreak{}370\par}
+\paragraph{Recorded basis}
+User instruction 2026-\allowbreak{}07-\allowbreak{}25:\allowbreak{} assume whatever convention makes the result true, provided the convention is explicit and the archival claim is not represented as proved.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] (values : Agent → ℝ) {h : ℝ},
+  2 ≤ h →
+    (∀ (i : Agent), 1 ≤ values i) →
+      (∀ (i : Agent), values i ≤ h) →
+        ∀ (_hhighest : ∃ i, values i = h),
+          have x := ⋯;
+          GHW01DigitalGoods.ProofBridge.totalValue values ≤
+            2 * Real.logb 2 h * GHW01DigitalGoods.ProofBridge.fixedPriceBenchmark values
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.result_theorem4_1
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-c584c5cb21438e15}{}
+\section*{Review row 7}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 301-\allowbreak{}307\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Corollary 4.2 F ≥ T /(4 log n).
+Proof. Let p be the optimal price; clearly p ≥ h/n.
+If one drops all bids with values below p, F does not
+change and T decreases by at most a factor of two.
+After the bids are dropped, the ratio of the highest
+and the lowest bid values is at most n, yielding the
+desired result.
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+Let n >= 2 be the number of bidders. For a nonempty finite nonnegative bid profile with positive maximum value h and every value at most h, T <= (4 log_2 n) F, where F is the optimal fixed-price revenue.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 301-\allowbreak{}307\par}
+\paragraph{Recorded basis}
+User instruction 2026-\allowbreak{}07-\allowbreak{}25:\allowbreak{} assume whatever convention makes the result true, provided the convention is explicit and the archival claim is not represented as proved.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] (values : Agent → ℝ) {h : ℝ},
+  (∀ (i : Agent), 0 ≤ values i) →
+    0 < h →
+      ∀ (_hmax : ∃ i, values i = h),
+        (∀ (i : Agent), values i ≤ h) →
+          2 ≤ ↑(Fintype.card Agent) →
+            have x := ⋯;
+            GHW01DigitalGoods.ProofBridge.totalValue values ≤
+              4 * Real.logb 2 ↑(Fintype.card Agent) * GHW01DigitalGoods.ProofBridge.fixedPriceBenchmark values
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.result_corollary4_2
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-de03b129c03015d1}{}
+\section*{Review row 8}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 428-\allowbreak{}454\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 6.1 Consider a set A and its subset B ⊂ A.
+Suppose we pick an integer k such that 0 < k < |A|
+and a random subset (sample) S ⊂ A of size k. Then
+for 0 < δ ≤ 1 we have
+Pr[|S ∩ B| < (1 − δ)|B| · k/|A|] < exp(−|B|·kδ 2 /(2|A|)).
+Proof. We refer to elements of A as points. Note
+
+Random Sampling Optimal that |S ∩ B| is the number of sample points in B,
+and its expected value is |B| · k/|A|. Let p = k/|A|.
+Threshold Auction
+
+If instead of selecting a sample of size exactly k we
+choose each point to be in the sample independently
+with probability p then the Chernoff bound would
+yield the lemma.
+Let A = {a1 , . . . , an } and without loss of generality assume that B = {a1 , . . . , ak }. We can view
+the process of selecting S as follows. Consider the
+elements of A in the order induced by the indices.
+For each element ai considered, select the element
+with probability pi , where pi depends on the selections made up to this point.
+Let t be the number of points already selected when
+ai+1 is considered. Then i − t is the number of points
+considered but not selected. Suppose that t/i < p.
+Then pi+1 > p.
+We conclude that when we select the sample as a
+random subset of size k, the probability that the number of sample points in B is less than the expected
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} {A B : Finset α},
+  B ⊆ A →
+    ∀ {k : ℕ},
+      0 < k →
+        k < A.card →
+          ∀ {δ : ℝ},
+            0 < δ →
+              δ ≤ 1 →
+                (GHW01DigitalGoods.fixedSizeSampleProbability A k fun sample =>
+                    ↑(GHW01DigitalGoods.fixedSizeHitCount B sample) < (1 - δ) * ↑B.card * ↑k / ↑A.card) <
+                  Real.exp (-(↑B.card * ↑k * δ ^ 2 / (2 * ↑A.card)))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.result_lemma6_1_fixed_size_lower_tail
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-dbcf1d32b28d9965}{}
+\section*{Review row 9}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 455-\allowbreak{}547\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (m : ℕ) (_hm_pos : 0 < m),
+  have x := ⋯;
+  ∀ (values : Fin (m + m) → ℝ) {alpha : ℕ} {highValue : ℝ},
+    0 < highValue →
+      (∀ (i : Fin (m + m)), values i ≤ highValue) →
+        (∃ i, values i = highValue) →
+          ↑alpha * highValue ≤ GHW01DigitalGoods.ProofBridge.fixedPriceBenchmark values →
+            1 - Real.exp (-↑alpha / 36) - 40 * Real.exp (-↑alpha / 72) ≤
+              GHW01DigitalGoods.pmfEventProbability (GHW01DigitalGoods.uniformFixedSizeSampleLaw m ⋯) fun sample =>
+                GHW01DigitalGoods.ProofBridge.fixedPriceBenchmark values ≤
+                  6 *
+                    GHW01DigitalGoods.ProofBridge.revenue
+                      (GHW01DigitalGoods.randomSamplingOptimalThresholdAuction
+                        (GHW01DigitalGoods.sampledSideAssignment ↑sample) true 1)
+                      values
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.result_theorem6_2_random_sampling
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-f07b3322ac4a8773}{}
+\section*{Review row 10}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 563-\allowbreak{}607\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 7.1 If 4h ≤ T , then for the weighted pairing auction E[R] = Ω(T / log h).
+
+[U+0002 control character]
+[U+0002 control character] Sj2
+We are interested in E[R] ≥
+E[Rj ] ≥
+48T .
+Since Sj ’s sum up to T ′ , the sum is minimized when
+′
+Proof. Partition the n bids into log h bins as be- all log h of the Sj ’s are equal to T / log h. In this
+fore such that bin j contains only bids in the interval case,
+[2j−1 , 2j ]. Recall that an important property of these
+T ′ 2 (log h)
+bins is that bids in the same bin are within factor
+E[R] ≥
+48T log2 h
+of two from each other. Let Sj be the sum of the
+bids in bin j. Note that the sum of the contents of
+′
+bins
+contain only one bid is upper bounded by Since T > T /2, we have
+[U+0002 control character]log that
+h j
+j=1 2 = 2h − 1 < T /2. We will ignore such bins
+T
+in our analysis below. Consider all bins with two or
+E[R] ≥
+′
+192
+log h
+more bids, and let T be the sum of bids in these
+′
+bins. We have T > T /2.
+Thus, E[R] = Ω(T / log h).
+For each bin j, we look at pairings of bids that
+are both in j and we bound the expected revenue
+Note that the constant here is 1/192 which does
+due to such pairings. First, the probability that a
+not seem too good. However, the analysis was very
+bid i in bin j is paired with another bid in bin j is
+loose in contributions to R that it considered. In
+(Sj − bi )/(T − bi ) > Sj /(3T ), since bin j contains at
+practice, this auction has much better constants. See
+least two bids and Sj − bi ≥ Sj /3.
+Section 10 for details.
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+Let h >= 2. Under Theorem 7.1's normalized bid and large-market conditions, the operational weighted-pairing auction satisfies T <= 576 log_2(h) W.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 563-\allowbreak{}607\par}
+\paragraph{Recorded basis}
+User instruction 2026-\allowbreak{}07-\allowbreak{}25:\allowbreak{} assume whatever convention makes the result true, provided the convention is explicit and the archival claim is not represented as proved.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] (values : Agent → ℝ) {h total : ℝ},
+  total = GHW01DigitalGoods.ProofBridge.totalValue values →
+    2 ≤ h →
+      (∀ (i : Agent), 1 ≤ values i) →
+        (∀ (i : Agent), values i ≤ h) →
+          (∃ i, values i = h) →
+            4 * h ≤ total → total ≤ 576 * Real.logb 2 h * GHW01DigitalGoods.ProofBridge.weightedPairingRevenue values
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.result_theorem7_1_weighted_pairing
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-d2203fdcdcb5c29a}{}
+\section*{Review row 11}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 615-\allowbreak{}680\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+We show that the expected
+revenue of the weighted
+√
+pairing auction is Ω(F / log h), and that this bound
+is tight in the worst case. This implies that the
+wighted pairing auction is not competitive.
+We use the following notation. We denote the expected revenue of the √
+wighted pairing auction by W ,
+let k = log h and s = log h First we give bound the
+revenue from below.
+√
+Theorem 7.2 If F ≥ 2h, then W = Ω(F / log h)
+and this bound is tight.
+
+i−1
+i−1
+>
+.
+2(k − i) + (i − 1)
+2k
+This comes from assuming that all bids below bid i
+are at value 2j−1 and all bids above bid i are at value
+2j . This is the worst it could possibly be. The expected number of bids in bin j that win when paired
+with other bids from the bin is at least
+k
+[U+0001 control character]
+i−1
+i=1
+
+2k
+
+=
+
+k−1
+.
+4
+
+The smallest bid in bin j has the value of at least Proof. If F ≤ T /s, then since W = Ω(T /k) we have
+Sj /(2k). Let Rj be the revenue generated by bids in W = Ω(T /s).
+bin j being paired with other bids in bin j. We have:
+Assume F > T /s. Partition the bids over buckets,
+with bucket i containing bids in the range [2i , 2i+1 ).
+Sj Sj k − 1
+Let M be the set of bids in a bucket with the largest
+·
+·
+E[Rj ] ≥
+3T 2k
+4
+total bid value and assume that M is defined by the
+(k − 1)Sj2
+value range [t, 2t). We show that the revenue due
+≥
+24kT
+only to M is big. The assumption F ≥ 2h implies
+7
+
+
+[form-feed in source extraction]
+8
+
+that |M | ≥ 2. (If |M | = 1 than M = {h} and the
+previous bucket contains a single bid; in this case
+F < 2h.) Recall that |M |t = Ω(F ). Let M ′ be the
+highest ⌊|M |/2⌋ elements of M and let M ′′ = M \M ′.
+The probability that an item in M ′ is paired up
+with an item in M ′′ is Ω(T /F ) = Ω(1/s), and the
+expected revenue is Ω(|M ′ |t/s) = Ω(F /s).
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+Let h >= 2 and F >= 2h. Under Theorem 7.2's normalized bid conditions, the operational weighted-pairing auction satisfies F <= 2304 sqrt(log_2 h) W.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 615-\allowbreak{}680\par}
+\paragraph{Recorded basis}
+User instruction 2026-\allowbreak{}07-\allowbreak{}25:\allowbreak{} assume whatever convention makes the result true, provided the convention is explicit and the archival claim is not represented as proved.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] (values : Agent → ℝ) {h total : ℝ},
+  total = GHW01DigitalGoods.ProofBridge.totalValue values →
+    2 ≤ h →
+      (∀ (i : Agent), 1 ≤ values i) →
+        (∀ (i : Agent), values i ≤ h) →
+          ∀ (_hhighest : ∃ i, values i = h),
+            have x := ⋯;
+            2 * h ≤ GHW01DigitalGoods.ProofBridge.fixedPriceBenchmark values →
+              GHW01DigitalGoods.ProofBridge.fixedPriceBenchmark values ≤
+                2304 * √(Real.logb 2 h) * GHW01DigitalGoods.ProofBridge.weightedPairingRevenue values
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.result_theorem7_2_lower_bound
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-9c375a1b7af827ba}{}
+\section*{Review row 12}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 626-\allowbreak{}720\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 7.2 If F ≥ 2h, then W = Ω(F / log h)
+and this bound is tight.
+
+i−1
+i−1
+>
+.
+2(k − i) + (i − 1)
+2k
+This comes from assuming that all bids below bid i
+are at value 2j−1 and all bids above bid i are at value
+2j . This is the worst it could possibly be. The expected number of bids in bin j that win when paired
+with other bids from the bin is at least
+k
+[U+0001 control character]
+i−1
+i=1
+
+2k
+
+=
+
+k−1
+.
+4
+
+The smallest bid in bin j has the value of at least Proof. If F ≤ T /s, then since W = Ω(T /k) we have
+Sj /(2k). Let Rj be the revenue generated by bids in W = Ω(T /s).
+bin j being paired with other bids in bin j. We have:
+Assume F > T /s. Partition the bids over buckets,
+with bucket i containing bids in the range [2i , 2i+1 ).
+Sj Sj k − 1
+Let M be the set of bids in a bucket with the largest
+·
+·
+E[Rj ] ≥
+3T 2k
+4
+total bid value and assume that M is defined by the
+(k − 1)Sj2
+value range [t, 2t). We show that the revenue due
+≥
+24kT
+only to M is big. The assumption F ≥ 2h implies
+7
+
+
+[form-feed in source extraction]
+8
+
+that |M | ≥ 2. (If |M | = 1 than M = {h} and the
+previous bucket contains a single bid; in this case
+F < 2h.) Recall that |M |t = Ω(F ). Let M ′ be the
+highest ⌊|M |/2⌋ elements of M and let M ′′ = M \M ′.
+The probability that an item in M ′ is paired up
+with an item in M ′′ is Ω(T /F ) = Ω(1/s), and the
+expected revenue is Ω(|M ′ |t/s) = Ω(F /s).
+The above argument considers only contributions
+of items in M . Somewhat surprisingly, the resulting
+bound is tight up to a constant factor. We give an example where the expected revenue W of the weighted
+pairing auction is O(T /s). The bid values are 2i for
+i = 1, . . . , k. For each i = 1, . . . , k − 1 the number
+of bids of this value is 2k−i and the total value of
+such bids is 2k . For the last value, 2k , there are s
+bids of this value for the total of s2k = F . Note that
+T = 2k (s + k − 1).
+We show that W = O(2k ) by first showing that the
+expected contribution of all bids of value less then 2k
+to W is O(2k ) and then showing that the contribution
+of all bids of value 2k is O(2k ).
+For i < k, the probability that a bid of value 2i
+wins is less than
+i
+i2k
+i2k − 2i
+≤ .
+≤
+i
+T −2
+T
+k
+The expected contribution of a winning bid is less
+than
+i
+1[U+0001 control character] j
+1
+2 < 2i+1 .
+i j=1
+i
+
+An Upper Bound
+
+A natural question to ask is if the bound of Theorem 7.1 can be improved upon. We already know
+that no single-price auction can do better than F .
+In this section we prove that no truthful multi-price
+auction can have an expected revenue greater than
+F . This result contrasts that of Section 6. In that
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (s : ℕ) (hs_two : 2 ≤ s),
+  GHW01DigitalGoods.ProofBridge.weightedPairingRevenue (EconCSLib.Auction.ghwTightValue (s * s + 2) s) ≤
+    6 / √(Real.logb 2 (2 ^ (s * s + 2))) *
+      GHW01DigitalGoods.ProofBridge.ghwTightFixedPriceBenchmarkValue (s * s + 2) s hs_two
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.result_theorem7_2_tightness
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-16eee1e38ed670e7}{}
+\section*{Review row 13}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 746-\allowbreak{}795\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Now we show that in a truthful auction, probabilities of winning are monotone functions of bid values.
+Lemma 8.1 Suppose in a truthful auction bi < bj .
+Then pi ≤ pj .
+
+This all bids of value 2i contribute less than 2k+1 /k.
+Summing over i = 1, . . . , k − 1, we conclude that
+the expected contribution of the corresponding bids
+is less than 2 · 2k .
+Next we consider the bids of value 2k . The probability that such a bid wins is at least one and the
+expected revenue of a winning bid is at least
+
+Proof. Suppose that i and j have the same utility
+equal to bi . Since the auction is truthful, i’s gain is
+at least as big as j’s, thus
+pi (bi − ci ) ≥ pj (bi − cj ).
+Similarly, if both utilities are bj , we get
+
+k−1
+s
+s+1 k
+1 [U+0001 control character] i
+2k
+k
+2 +
+2 =
+.
+2 <
+k+s
+k + s i=1
+k+s
+s
+
+pj (bj − cj ) ≥ pi (bj − ci ).
+
+Thus the total contribution of such bids is less than Adding the above inequalities and simplifying, we get
+2k .
+p b +p b ≥p b +p b .
+i i
+
+j j
+
+j i
+
+i j
+
+Although the weighted pairing auction is not√com- Rearranging, we get
+petitive in the worst case, it is only a factor of log h
+pj (bj − bi ) ≥ pi (bj − bi ).
+away from being competitive, is quite different from
+our random sampling auctions, and performs rela- Since bj > bi , we have pj ≥ pi .
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For finite offer-price support, bidder values, prices, and bidder-specific offer laws satisfying the journal Definition 8.1 condition that b_i <= b_j and x <= b_i imply CDF_i(x) <= CDF_j(x), every strict inequality b_i < b_j implies that bidder i's probability of receiving an offer at most b_i is at most bidder j's probability of receiving an offer at most b_j.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 746-\allowbreak{}795\par}
+\paragraph{Recorded basis}
+Documented source correction 2026-\allowbreak{}08-\allowbreak{}02:\allowbreak{} retain archival SODA Lemma 8.\allowbreak{}1, replace the truthfulness-\allowbreak{}only route with the separately pinned journal Definition 8.\allowbreak{}1 monotone-\allowbreak{}offer target, and retain own-\allowbreak{}bid monotonicity as support;\allowbreak{} archival equivalence is not claimed.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} {Price : Type u_2} [inst : Fintype Price] (values : Agent → ℝ) (price : Price → ℝ)
+  (offerLaw : Agent → PMF Price),
+  (∀ (i j : Agent),
+      values i ≤ values j →
+        ∀ t ≤ values i,
+          (EconCSLib.pmfProb (offerLaw i) fun p => price p ≤ t) ≤ EconCSLib.pmfProb (offerLaw j) fun p => price p ≤ t) →
+    ∀ (i j : Agent),
+      values i < values j →
+        (EconCSLib.pmfProb (offerLaw i) fun p => price p ≤ values i) ≤
+          EconCSLib.pmfProb (offerLaw j) fun p => price p ≤ values j
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.result_lemma8_1_monotone_allocation
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-e7742b37ea94b834}{}
+\section*{Review row 14}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 833-\allowbreak{}971\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 8.2 For any truthful auction, E[R] ≤ F.
+
+j=1
+
+j=1
+
+gi ≥ pi−1 (bi − bi−1 + bi−1 − ci−1 )
+
+= pn b n +
+
+= pi−1 (bi − bi−1 ) + pi−1 (bi−1 − ci−1 )
+= pi−1 (bi − bi−1 ) + gi−1 .
+
+gi ≥
+
+pj [bj − (bj+1 − bj )(n − j)] .
+
+n−1
+[U+0001 control character]
+
+pj [bj (n − j + 1) − bj+1 (n − j)] .
+
+j=1
+
+Regrouping
+
+We can recursively expand gi−1 in the same way until
+we get to g1 which is 0 because all bids are satisfied
+at value at least 1, and get
+i−1
+[U+0001 control character]
+
+n−1
+[U+0001 control character]
+
+E[R] ≤ pn bn +
+
+j=1
+
+(3) Now, let Vj = bj (n − j + 1). Intuitively, this is the
+revenue attained by using bj as the sale price in fixed
+pricing. Note that Vj ≤ F.
+Now let Ri be the total expected revenue from bidder i. That is
+n−1
+[U+0001 control character]
+E[R] ≤ pn Vn +
+pj (Vj − Vj+1 ) .
+Ri = pi ci .
+j=1
+j=1
+
+pj (bj+1 − bj ).
+
+We can rearrange equation (1) as pi ci = pi bi − gi and Rearrange this sum to sum over Vj instead of pj and
+get
+for symmetry, define p0 = 0.
+Ri = pi bi − gi .
+
+E[R] ≤
+
+Using equation (3) we get
+
+Ri ≤ pi bi −
+
+i−1
+[U+0001 control character]
+j=1
+
+n
+[U+0001 control character]
+i=1
+
+≤
+
+n
+[U+0001 control character]
+
+pj (bj+1 − bj ).
+
+E[R] ≤ F
+
+i=1
+
+pi b i −
+
+i=1
+
+[U+F8EE private-use glyph]
+[U+F8F0 private-use glyph]
+
+i−1
+[U+0001 control character]
+j=1
+
+(pj − pj−1 ) Vj .
+
+n
+[U+0001 control character]
+j=1
+
+(pj − pj−1 )
+
+This sum telescopes to pn − p0 , but since p0 = 0, we
+have
+
+Ri
+n
+[U+0001 control character]
+
+j=1
+
+But, Vj ≤ F and by Lemma 8.1, pj − pj−1 is nonnegative.
+
+Looking at the sum of the Ri ’s, we see that the first
+term is mostly canceled by the summation term and
+we get a telescoping effect.
+E[R] =
+
+n
+[U+0001 control character]
+
+E[R] ≤ pn F ≤ F.
+
+[U+F8F9 private-use glyph]
+
+pj (bj+1 − bj )[U+F8FB private-use glyph] .
+9
+
+
+[form-feed in source extraction]
+9
+
+Deterministic Auctions
+
+optimal threshold auction on this input family has
+revenue of R = F /h.
+We have shown several randomized auctions with an
+Next we generalize this result.
+Ω(F ) expected performance under the assumption
+that αh ≤ F and α is big enough. In this section
+we study deterministic auctions.
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a finite randomized offer auction with nonnegative bid values and nonnegative prices, suppose that whenever b_i <= b_j and x <= b_i, the probability that bidder i wins at a price at most x is at most the corresponding probability for bidder j. Then its expected revenue on every bid vector is at most the optimal fixed-price revenue F of that vector.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 833-\allowbreak{}833\par}
+\paragraph{Recorded basis}
+Documented source correction 2026-\allowbreak{}07-\allowbreak{}26:\allowbreak{} replace the preliminary SODA Theorem 8.\allowbreak{}2 route with the separately pinned journal Definition 8.\allowbreak{}1/\allowbreak{}Theorem 8.\allowbreak{}2 target;\allowbreak{} archival equivalence is not claimed.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} {Price : Type u_2} [inst : Fintype Agent] [inst_1 : Nonempty Agent] [inst_2 : Fintype Price]
+  (values : Agent → ℝ) (price : Price → ℝ) (offerLaw : Agent → PMF Price),
+  (∀ (i : Agent), 0 ≤ values i) →
+    (∀ (p : Price), 0 ≤ price p) →
+      (∀ (i j : Agent),
+          values i ≤ values j →
+            ∀ t ≤ values i,
+              (EconCSLib.pmfProb (offerLaw i) fun p => price p ≤ t) ≤
+                EconCSLib.pmfProb (offerLaw j) fun p => price p ≤ t) →
+        EconCSLib.Auction.paper_theorem8_2_raw_cdf_expected_revenue values price offerLaw ≤
+          GHW01DigitalGoods.ProofBridge.fixedPriceBenchmark values
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.result_theorem8_2_journal_revenue_upper_bound
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-2aeebcaf889368d8}{}
+\section*{Review row 15}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 979-\allowbreak{}1090\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+truthful deterministic bid-independent auction has Theorem 9.1 For any truthful deterministic bidan O(F /h) worst-case performance even for αh ≤ F. independent auction and any constant α, there exists
+Then we show that any deterministic truthful auction an input for which R/F = O(1/h) and αh ≤ F.
+is bid-independent. This implies an upper bound on
+worst-case performance for all truthful deterministic Proof. Let f be the (deterministic) function that
+defines the auction. Consider an input with nh bids
+auctions.
+at value h and nell bids at value 1. Restricted to such
+inputs, f is a function of nh and nell . Note that we
+9.1 Deterministic Optimal Threshold can assume, without loss of generality, that f takes on
+Auction
+only two values: 1, in which case all bids are satisfied
+at the price of 1, and h, in which case the high bids
+The deterministic optimal threshold auction is the
+are satisfied at price h. Other values of f lead to
+bid-independent auction with f = opt, the optimal
+smaller revenues.
+threshold function defined in Section 4. The only difWe wish to find an input family such that the
+ference between the deterministic optimal threshold
+bid-independent
+auction with function f has revenue
+auction and the optimal fixed pricing mechanism is
+O(F
+/h).
+To
+obtain
+this family, we chose nh and nell in
+that the former uses threshold opt(Bi ) for bidder i
+such
+a
+way
+that
+f
+(n
+h − 1, nell ) = 1, f (nh , nell − 1) = h,
+and the latter uses opt(B). Recall that Bi and B
+>
+α
+(implying
+αh ≤ F). For such an input,
+and
+n
+h
+only differ in that bi is not in Bi . From this, we
+R
+=
+n
+and
+F
+≥
+hn
+so
+R/F ≤ 1/h. Our goal now
+h
+h
+might also expect that for large n with suitable conis,
+given
+a
+deterministic
+f
+, to find values of nh and
+straints on h, the the deterministic optimal threshold
+that
+have
+the
+above
+properties.
+n
+ell
+auction would perform to within a constant fraction
+Consider the nh , nell plane. For a fixed m look at
+of F . However, this is not the case as the following
+the line nh = k and nell = m − k, and consider the line
+example illustrates.
+The input that shows that the deterministic opti- segment connecting (0, m) and (m, 0). We need to
+mal threshold auction performance is O(F /h) is one find a value of k with k > α where, when k increases
+with r bids at value h and q = (h − 1)r − 1 bids by one, f changes from 1 to h.
+Set m = h2 α. Assume that f (α, m − α) = 1. As
+at value 1. On this input, the optimal single-price
+auction takes r high bids at price h for a revenue of we increase k from k = α the value of f (k, m − k)
+F = hr. Note that the second-best threshold would must change from 1 to h because for k = m we have
+take all n bids at price 1 for revenue of hr − 1. The f (k, m − k) = f (m, 0) = h. Thus it must be at some
+∗
+∗
+∗
+∗
+∗
+deterministic optimal threshold auction takes all the k that f (k , m−k ) = h and f (k −1, m−k +1) = 1.
+∗
+∗
+high bids at value 1 and none of the low bids. This If we now choose nh = k and nell = m − k + 1, we
+yields a revenue of R = r. None of the low bids are satisfy our criteria that nh > α and that f (nh −
+accepted because their threshold is still h (removing 1, nell ) = 1 and f (nh , nell − 1) = h. Thus, R/F =
+a low bid from the optimal threshold auction does O(1/h).
+not change the threshold). The high bids are taken
+Suppose now that our assumption that f (α, m −
+at value 1 because removing one h causes the opti- α) = 1 is false and instead it is h. Then for nh = k =
+mal threshold to switch to 1. Thus, the deterministic α and nell = m − k + 1 we have F = m + 1 = h2 α + 1
+10
+
+
+[form-feed in source extraction]
+value b′ would be better off bidding b′′ and paying only v. Since the auction is truthful, it must
+be that g(b′ ) = v.
+
+and R ≤ hα so
+R/F ≤ h2hα
+α+1
+≤ hhα
+2α
+
+= h1
+
+Thus for any bid-independent auction with deterministic function f there exists an input family such
+that R = O(F /h).
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (rule : GHW01DigitalGoods.PaperBidIndependentBoundaryRule) {highValue : ℕ} {alpha : ℝ},
+  2 ≤ highValue →
+    0 < alpha →
+      ∃ highCount lowCount,
+        0 < highCount ∧
+          GHW01DigitalGoods.twoValueBidIndependentBoundaryRevenue rule highValue highCount lowCount /
+                EconCSLib.Auction.twoValueFixedPriceBenchmark highValue highCount lowCount ≤
+              1 / ↑highValue ∧
+            ↑highValue * alpha ≤ EconCSLib.Auction.twoValueFixedPriceBenchmark highValue highCount lowCount
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.result_theorem9_1_bid_independent_lower_bound
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-60df12d3b02570ba}{}
+\section*{Review row 16}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1105-\allowbreak{}1128\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 9.2 Any truthful deterministic auction is
+bid-independent.
+Proof. Let Bi = B \ {i} as before, and let Bix be
+the set of bids with bi replaced with value x. Let
+A be a truthful deterministic auction. Let A(B) denote the result of running A on set B and let Ai (B)
+denote the result for bidder i (∞ if i is rejected).
+Consider function g defined as g(x) = Ai (Bix ). Here
+g is clearly a function of A and Bi . We show that
+g is ∞ everywhere except for some region (v, ∞),
+[v, ∞), or {} where it has value v. This would imply that A is bid-independent. If g(x) = ∞ for all x
+then we have the empty interval, {}. Otherwise, let
+b = inf{x : g(x) [U+0016 control character]= ∞} and let v = minx g(x). We
+now show that b = v and for all b′ > b, g(b′ ) = v.
+1. v = b
+First we show that v ≤ b. This is simple to see
+because g(x) is defined so that either g(x) is ∞
+(and a bid value of x will lose) or g(x) ≤ x (and
+a bid of value x will win at price g(x) which is
+necessarily at most x).
+Now we show that v ≥ b. Assume for a contradiction that there exists a b′ such that v < b′ < b.
+This auction is not truthful because a bidder
+with utility value b′ would be better off bidding
+greater than b, win the aucion and pay price v
+which is less than b′ . Thus, v = b.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} (M : EconCSLib.Auction.DigitalGoodsAuction Agent),
+  GHW01DigitalGoods.ProofBridge.truthful M →
+    M.IndividuallyRational →
+      M.NoPositiveTransfers →
+        M.BinaryAllocation →
+          ∀ (bids : Agent → ℝ) (i : Agent),
+            EconCSLib.Auction.DeterministicOfferBidIndependent (EconCSLib.Auction.deterministicAuctionOffer M bids i)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.result_lemma9_2_bid_independence
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-6ef8d3c17f2b5df3}{}
+\section*{Review row 17}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1100-\allowbreak{}1104\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Truthful Deterministic Auctions Theorem 9.3 For any truthful deterministic auction and any constant α, there exists an input for
+are Bid-Indepentent
+
+The following lemma allows us to extend the result
+of Theorem 9.1 to arbitrary deterministic auctions.
+
+[Next verbatim source excerpt]
+
+which R/F = O(1/h) and αh ≤ F.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {highValue : ℕ} {alpha : ℝ}
+  (model : GHW01DigitalGoods.assumption_theorem9_3_primitive_set_of_bids_deterministic_source_model highValue),
+  2 ≤ highValue →
+    0 < alpha →
+      ∃ highCount lowCount,
+        0 < highCount ∧
+          GHW01DigitalGoods.ProofBridge.revenue (model.auctionFamily highCount lowCount)
+                  (EconCSLib.Auction.twoValueBidProfile highValue highCount lowCount) /
+                EconCSLib.Auction.twoValueFixedPriceBenchmark highValue highCount lowCount ≤
+              1 / ↑highValue ∧
+            ↑highValue * alpha ≤ EconCSLib.Auction.twoValueFixedPriceBenchmark highValue highCount lowCount
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.result_theorem9_3_deterministic_lower_bound
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-5c6c825e7e742c65}{}
+\section*{Review row 18}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1599-\allowbreak{}1604\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+not selling all of the items. Note that the definitions of truthful and competitive auctions, which we
+stated for the unlimited supply case, also apply to the
+bounded supply case. We denote by Fk the revenue
+for optimal fixed pricing that sells at most k items,
+and it is this quantity that we wish to be competitive
+with.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] [inst_1 : Nonempty Agent] (bids : Agent → ℝ) (capacity : ℕ),
+  GHW01DigitalGoods.ProofBridge.source_boundedSupplyFk bids capacity =
+    GHW01DigitalGoods.SourceDefinitions.boundedSupplyFk bids capacity
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_bounded_supply_fixed_price_benchmark_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-804fa85d702dba6f}{}
+\section*{Review row 19}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1629-\allowbreak{}1631\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+to the optimal untruthful multi-price auction. Define
+Tk to be the revenue of the optimal multi-price auction restricted to only satisfying k bidders (i.e. the
+sum of the highest k bids) and Fk as above. Then
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] (bids : Agent → ℝ) (capacity : ℕ)
+  (hcapacity : capacity ≤ Fintype.card Agent),
+  GHW01DigitalGoods.ProofBridge.source_boundedSupplyTk bids capacity hcapacity =
+    GHW01DigitalGoods.SourceDefinitions.boundedSupplyTk bids capacity hcapacity
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_bounded_supply_top_k_total_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-ffcc097a398a48e7}{}
+\section*{Review row 20}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1680-\allowbreak{}1683\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Let optk be the function that, given a set of bids,
+For unlimited supply markets, our analysis asreturns the optimal threshold that sells k items or sumes that there is no cost for producing the items
+less. This function, on the entire set of bids, gives being auctioned. With the following modification we
+the threshold to use for Fk . The single-price sampling can also accommodate non-zero marginal costs. If
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] [inst_1 : Nonempty Agent] (bids : Agent → ℝ) (capacity : ℕ),
+  GHW01DigitalGoods.ProofBridge.source_boundedSupplyOptK bids capacity =
+    GHW01DigitalGoods.SourceDefinitions.boundedSupplyOptK bids capacity
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_bounded_supply_optimal_threshold_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-ec9d72942c947690}{}
+\section*{Review row 21}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1679-\allowbreak{}1690\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+We now show how to extend our optimal threshold simulations, we have argued that our auctions comsampling auctions to the k-item bounded supply case. pare favorably to fixed pricing with market analysis.
+Let optk be the function that, given a set of bids,
+For unlimited supply markets, our analysis asreturns the optimal threshold that sells k items or sumes that there is no cost for producing the items
+less. This function, on the entire set of bids, gives being auctioned. With the following modification we
+the threshold to use for Fk . The single-price sampling can also accommodate non-zero marginal costs. If
+optimal threshold mechanisms can now be modified the marginal cost is v per item, then first subtract v
+to use threshold function optmk/(n−m) on sample of from each bid and reject all negative value bids. After
+size m. If this results in too many bids being satisfied, running the auction, add v back to the selling price
+arbitrarily (e.g. at random) reject bids until there are of all winning bids. If the marginal cost of producing
+only k left. One can show that with high probability, k items is a more complicated function of k, we can
+the number of bids rejected this way will be small modify the opt function used in the sampling optimal
+and that this auction is competitive.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] [inst_1 : LinearOrder Agent] (sampleSize : ℕ) (hsample_pos : 0 < sampleSize)
+  (hsample_lt : sampleSize < Fintype.card Agent) (capacity : ℕ),
+  GHW01DigitalGoods.ProofBridge.source_boundedSinglePriceSampling sampleSize hsample_pos hsample_lt capacity =
+    GHW01DigitalGoods.SourceDefinitions.boundedSinglePriceFixedSizeOutcomeLaw sampleSize hsample_pos hsample_lt capacity
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.model_bounded_single_price_sampling_auction_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-cea76b79a41765be}{}
+\section*{Review row 22}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1692-\allowbreak{}1696\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+In the dual-price auction with the sample size of costs. In this case the opt function would, as above
+m = n/2, use optk/2 so that about k/2 bids are se- for bounded supply, need to be parameterized by the
+lected from each of the sample and the non-sample. ratio of the sample size and the non-sample size so as
+Once can show that the resulting auction is also to correctly use marginal cost information.
+truthful and competitive.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] [inst_1 : LinearOrder Agent] (sampleSize : ℕ) (hsample_pos : 0 < sampleSize)
+  (hhalf : Fintype.card Agent = sampleSize + sampleSize) (halfCapacity : ℕ),
+  GHW01DigitalGoods.ProofBridge.source_boundedDualPriceSampling sampleSize hsample_pos hhalf halfCapacity =
+    GHW01DigitalGoods.SourceDefinitions.boundedDualExactHalfOutcomeLaw sampleSize hsample_pos hhalf halfCapacity
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.model_bounded_dual_price_sampling_auction_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-4e4374900527b0f0}{}
+\section*{Review row 23}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 67-\allowbreak{}70\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+In this paper we study a class of truthful auctions for unlimited supply. We study both singleprice auctions, where every winning bidder pays the
+same price, and multi-price auctions, where the prices
+may differ. In addition to deterministic auctions, we
+study randomized auctions that use randomization to
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ {Agent : Type u_1} (outcome : GHW01DigitalGoods.ProofBridge.source_auctionOutcome Agent),
+    GHW01DigitalGoods.ProofBridge.source_singlePriceOutcome outcome =
+      GHW01DigitalGoods.SourceDefinitions.AuctionOutcome.IsSinglePrice outcome) ∧
+  (∀ {Agent : Type u_2} (auction : GHW01DigitalGoods.SourceDefinitions.DeterministicAuction Agent),
+      GHW01DigitalGoods.ProofBridge.source_deterministicIsSinglePrice auction =
+        GHW01DigitalGoods.SourceDefinitions.DeterministicIsSinglePrice auction) ∧
+    (∀ {Agent : Type u_3} (auction : GHW01DigitalGoods.SourceDefinitions.RandomizedAuction Agent),
+        GHW01DigitalGoods.ProofBridge.source_randomizedIsSinglePrice auction =
+          GHW01DigitalGoods.SourceDefinitions.RandomizedIsSinglePrice auction) ∧
+      (∀ (Agent : Type u_4),
+          GHW01DigitalGoods.ProofBridge.source_deterministicMultiPriceAuction Agent =
+            GHW01DigitalGoods.SourceDefinitions.DeterministicAuction Agent) ∧
+        ∀ (Agent : Type u_5),
+          GHW01DigitalGoods.ProofBridge.source_randomizedMultiPriceAuction Agent =
+            GHW01DigitalGoods.SourceDefinitions.RandomizedAuction Agent
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_price_classes_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-f5aa4c6369b51530}{}
+\section*{Review row 24}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 79-\allowbreak{}83\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+We view auctions as algorithms for deciding which
+input bids to fill, and at what price. As with any algorithm, one needs to address the issues of correctness,
+efficiency, and performance. In the context of this
+paper, an auction is correct if the auction is truthful
+and fills each winning bid at or below the bid value.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ {Agent : Type u_1} (auction : GHW01DigitalGoods.ProofBridge.source_deterministicAuction Agent),
+    GHW01DigitalGoods.ProofBridge.source_deterministicCorrect auction =
+      GHW01DigitalGoods.SourceDefinitions.DeterministicCorrect auction) ∧
+  ∀ {Agent : Type u_2} (auction : GHW01DigitalGoods.ProofBridge.source_randomizedAuction Agent),
+    GHW01DigitalGoods.ProofBridge.source_randomizedCorrect auction =
+      GHW01DigitalGoods.SourceDefinitions.RandomizedCorrect auction
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_auction_correctness_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-ce5033b86185a6e5}{}
+\section*{Review row 25}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 89-\allowbreak{}96\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Consider the problem of selling a number of identical
+items to consumers who each want a single item and
+the items are available in unlimited supply. By unlimited supply we mean that either the seller has at
+least as many items as there are consumers, or that
+the seller can reproduce items on demand at negligible marginal cost. Of particular interest are digital items such as downloadable audio files and payper-view movies. With unlimited supply, consumer
+utilities, the maximum amounts that consumers are
+willing to pay for the item, are the sole factor determining sale prices. The seller’s goal is to maximize
+their total revenue.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ (Agent : Type u_1),
+    GHW01DigitalGoods.ProofBridge.source_unlimitedSupplyDeterministicAuction Agent =
+      GHW01DigitalGoods.SourceDefinitions.UnlimitedSupplyDeterministicAuction Agent) ∧
+  ∀ (Agent : Type u_2),
+    GHW01DigitalGoods.ProofBridge.source_unlimitedSupplyRandomizedAuction Agent =
+      GHW01DigitalGoods.SourceDefinitions.UnlimitedSupplyRandomizedAuction Agent
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.model_unlimited_supply_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-c87f535bc9ad76c0}{}
+\section*{Review row 26}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 97-\allowbreak{}103\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+One way to set prices for items in unlimited supply
+is to estimate consumer utility via market analysis
+and then set a fixed price. We refer to this method
+as fixed pricing. Pay-per-view movies are an example of fixed pricing for an unlimited supply market.
+With perfect knowledge of consumer utilities, optimal
+fixed pricing maximizes fixed-price revenue by selecting the optimal price at which to sell items. Fixed
+pricing generally cannot achieve this ideal due to the
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ {Agent : Type u_1} [inst : Fintype Agent] (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent) (p : ℝ),
+    GHW01DigitalGoods.ProofBridge.source_fixedPriceOutcome bids p =
+      GHW01DigitalGoods.SourceDefinitions.fixedPriceOutcome bids p) ∧
+  (∀ {Agent : Type u_2} [inst : Fintype Agent] (p : ℝ),
+      GHW01DigitalGoods.ProofBridge.source_fixedPriceAuction p =
+        GHW01DigitalGoods.SourceDefinitions.fixedPriceAuction p) ∧
+    (∀ {Agent : Type u_3} [inst : Fintype Agent] (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent) (p : ℝ),
+        GHW01DigitalGoods.ProofBridge.source_fixedPriceRevenue bids p =
+          GHW01DigitalGoods.SourceDefinitions.fixedPriceRevenue bids p) ∧
+      (∀ {Agent : Type u_4} [inst : Fintype Agent] [inst_1 : Nonempty Agent]
+          (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent),
+          GHW01DigitalGoods.ProofBridge.source_optimalFixedPriceRevenue bids =
+            GHW01DigitalGoods.SourceDefinitions.optimalFixedPriceRevenue bids) ∧
+        ∀ {Agent : Type u_5} [inst : Fintype Agent] [inst_1 : Nonempty Agent]
+          (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent),
+          GHW01DigitalGoods.ProofBridge.source_optimalThresholdDefinition bids =
+            GHW01DigitalGoods.SourceDefinitions.optimalThreshold bids
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_fixed_pricing_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-71dcfd816163acb2}{}
+\section*{Review row 27}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 128-\allowbreak{}130\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+To state our results more formally, we introduce
+the following notation. Let n denote the number of
+bidders. Without loss of generality, we assume that
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (Agent : Type u_1) [inst : Fintype Agent],
+  GHW01DigitalGoods.ProofBridge.source_bidderCount Agent = GHW01DigitalGoods.SourceDefinitions.bidderCount Agent
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_bidder_count_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-df5235958b6d7ea9}{}
+\section*{Review row 28}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 130-\allowbreak{}132\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+bidders. Without loss of generality, we assume that
+the lowest bid is one and denote the highest bid by
+h. Let the total utility T be the sum of all bidders’
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ {Agent : Type u_1} [inst : Fintype Agent] [inst_1 : Nonempty Agent]
+    (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent),
+    GHW01DigitalGoods.ProofBridge.source_lowestBid bids = GHW01DigitalGoods.SourceDefinitions.lowestBid bids) ∧
+  (∀ {Agent : Type u_2} [inst : Fintype Agent] [inst_1 : Nonempty Agent]
+      (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent),
+      GHW01DigitalGoods.ProofBridge.source_highestBid bids = GHW01DigitalGoods.SourceDefinitions.highestBid bids) ∧
+    ∀ {Agent : Type u_3} [inst : Fintype Agent] [inst_1 : Nonempty Agent]
+      (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent),
+      GHW01DigitalGoods.ProofBridge.source_normalizedBidScale bids =
+        GHW01DigitalGoods.SourceDefinitions.NormalizedBidScale bids
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_bid_extrema_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-48593168ec07b0d9}{}
+\section*{Review row 29}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 195-\allowbreak{}196\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+We consider auctions with n bidders, each bidder i
+having a utility value ui and bidding bi . We also assume that the bids are ordered so that bi ≤ bi+1 . In
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ (Agent : Type u_1),
+    GHW01DigitalGoods.ProofBridge.source_bidValues Agent = GHW01DigitalGoods.SourceDefinitions.BidValues Agent) ∧
+  (∀ (Agent : Type u_2),
+      GHW01DigitalGoods.ProofBridge.source_bidProfile Agent = GHW01DigitalGoods.SourceDefinitions.BidProfile Agent) ∧
+    ∀ (Agent : Type u_3),
+      GHW01DigitalGoods.ProofBridge.source_auctionInput Agent = GHW01DigitalGoods.SourceDefinitions.AuctionInput Agent
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.model_bidder_values_and_bids_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-3bc5d96e39ab913a}{}
+\section*{Review row 30}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 196-\allowbreak{}199\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+having a utility value ui and bidding bi . We also assume that the bids are ordered so that bi ≤ bi+1 . In
+auctions where ties need to be broken, we can assume an arbitrary total order on the bid values that
+respects the partial order. That is, we can assume
+that the order given by the indices is strict. We assume that there is no collusion among the bidders.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile (Fin n)),
+  GHW01DigitalGoods.ProofBridge.source_sortedBidConvention bids = GHW01DigitalGoods.SourceDefinitions.SortedBids bids
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.model_sorted_bid_convention_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-6a520bdced8a8b28}{}
+\section*{Review row 31}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 200-\allowbreak{}203\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Given a set of bids, the outcome of an auction is the
+subset of bids that are satisfied and a corresponding
+set of sale prices such that, for each winning bid bi ,
+the associated sale price is at most bi . A deterministic auction mechanism maps sets of bids to auction
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ (Agent : Type u_1),
+    GHW01DigitalGoods.ProofBridge.source_auctionOutcome Agent =
+      GHW01DigitalGoods.SourceDefinitions.AuctionOutcome Agent) ∧
+  ∀ {Agent : Type u_2} (outcome : GHW01DigitalGoods.ProofBridge.source_auctionOutcome Agent)
+    (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent),
+    GHW01DigitalGoods.ProofBridge.source_outcomeFillsAtOrBelow outcome bids =
+      GHW01DigitalGoods.SourceDefinitions.AuctionOutcome.FillsAtOrBelow outcome bids
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_auction_outcome_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-3182def2fd3126fc}{}
+\section*{Review row 32}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 203-\allowbreak{}210\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+the associated sale price is at most bi . A deterministic auction mechanism maps sets of bids to auction
+outcomes. A randomized auction mechanism maps
+
+1 Some of our results hold under weaker assumptions.
+
+2
+
+
+[form-feed in source extraction]
+sets of bids to probability distributions on auction
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ (Agent : Type u_1),
+    GHW01DigitalGoods.ProofBridge.source_deterministicAuction Agent =
+      GHW01DigitalGoods.SourceDefinitions.DeterministicAuction Agent) ∧
+  ∀ (Agent : Type u_2),
+    GHW01DigitalGoods.ProofBridge.source_randomizedAuction Agent =
+      GHW01DigitalGoods.SourceDefinitions.RandomizedAuction Agent
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_auction_mechanisms_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-437a3f337df1e177}{}
+\section*{Review row 33}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 215-\allowbreak{}218\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+We say that an auction is truthful if bidding ui is
+a dominant strategy for bidder i. More specifically,
+let a bidder’s profit be the difference between the bidder’s utility value and the price the bidder pays if they
+win the auction, or zero if they lose. Then an auction
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} (outcome : GHW01DigitalGoods.ProofBridge.source_auctionOutcome Agent)
+  (values : GHW01DigitalGoods.ProofBridge.source_bidValues Agent) (i : Agent),
+  GHW01DigitalGoods.ProofBridge.source_profitDefinition outcome values i =
+    GHW01DigitalGoods.SourceDefinitions.AuctionOutcome.profit outcome values i
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_bidder_profit_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-3077d698b4080f2c}{}
+\section*{Review row 34}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 239-\allowbreak{}245\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Analogous to on-line algorithm theory, we express
+auction performance relative to that for optimal untruthful auctions, as ratios R/T or R/F . However,
+we solve a maximization problem while on-line algorithms solve minimization problems. Thus, positive
+results, which are lower bounds on R/T or R/F , are
+expressed using “Ω”. Impossibility results, which are
+upper bounds on R/T or R/F for any auction in a
+certain class, are expressed using “O”.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ (auctionRevenue benchmark : ℝ),
+    GHW01DigitalGoods.ProofBridge.source_performanceRatio auctionRevenue benchmark =
+      GHW01DigitalGoods.SourceDefinitions.performanceRatio auctionRevenue benchmark) ∧
+  (∀ {Instance : Type u_1} (auctionRevenue benchmark : Instance → ℝ),
+      GHW01DigitalGoods.ProofBridge.source_revenueBigOmega auctionRevenue benchmark =
+        GHW01DigitalGoods.SourceDefinitions.RevenueBigOmega auctionRevenue benchmark) ∧
+    ∀ {Instance : Type u_2} (auctionRevenue benchmark : Instance → ℝ),
+      GHW01DigitalGoods.ProofBridge.source_revenueBigO auctionRevenue benchmark =
+        GHW01DigitalGoods.SourceDefinitions.RevenueBigO auctionRevenue benchmark
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_performance_convention_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-063516640731ad8f}{}
+\section*{Review row 35}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 257-\allowbreak{}265\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+can make the assumption that the optimal revenue F
+is significantly larger than h, the highest bid. That
+is, for some constant α, we assume that αh ≤ F.
+With this assumption, optimal fixed pricing sells at
+least α items. In some cases α is a fixed constant. In
+other cases, success probability approaches 1 as α →
+∞. For some proofs, this assumption is stronger than
+what we need and we make the weaker assumption
+that αh ≤ T .
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ (alpha highest fixedPrice : ℝ),
+    GHW01DigitalGoods.ProofBridge.source_fixedPriceScaleCondition alpha highest fixedPrice =
+      GHW01DigitalGoods.SourceDefinitions.fixedPriceScaleCondition alpha highest fixedPrice) ∧
+  (∀ (alpha highest total : ℝ),
+      GHW01DigitalGoods.ProofBridge.source_totalValueScaleCondition alpha highest total =
+        GHW01DigitalGoods.SourceDefinitions.totalValueScaleCondition alpha highest total) ∧
+    ∀ (alpha : ℝ),
+      GHW01DigitalGoods.ProofBridge.source_positiveAlpha alpha = GHW01DigitalGoods.SourceDefinitions.PositiveAlpha alpha
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_scale_conditions_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-4ea45a9e13ad5c07}{}
+\section*{Review row 36}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 266-\allowbreak{}267\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+We say that an auction is competitive under certain
+assumptions if when the assumptions hold, the auction’s revenue is Ω(F ), or equivalently R/F = Ω(1).
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ {Instance : Type u_1} (admissible : Instance → Prop) (auctionRevenue benchmark : Instance → ℝ),
+    GHW01DigitalGoods.ProofBridge.source_competitiveDefinition admissible auctionRevenue benchmark =
+      GHW01DigitalGoods.SourceDefinitions.CompetitiveOn admissible auctionRevenue benchmark) ∧
+  ∀ {Instance : Type u_2} (admissible : Instance → Prop) (auctionRevenue benchmark : Instance → ℝ),
+    (∀ (x : Instance), admissible x → 0 < benchmark x) →
+      (GHW01DigitalGoods.ProofBridge.source_competitiveDefinition admissible auctionRevenue benchmark ↔
+        ∃ c,
+          0 < c ∧
+            ∀ (x : Instance),
+              admissible x → c ≤ GHW01DigitalGoods.ProofBridge.source_performanceRatio (auctionRevenue x) (benchmark x))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_competitive_auction_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-c2c1b6c0e860a69c}{}
+\section*{Review row 37}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 284-\allowbreak{}287\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+The k-item Vickrey auction [18] was a starting
+place for our work. The k-item Vickrey auction is a
+single-price auction that sells k items to the k highest bidders at the price equal to the k + 1 highest bid
+(bn−k−1 ). For generalizations of Vickrey auctions to
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] (auction : GHW01DigitalGoods.ProofBridge.source_deterministicAuction Agent)
+  (k : ℕ),
+  GHW01DigitalGoods.ProofBridge.source_kItemVickreyAuction auction k =
+    GHW01DigitalGoods.SourceDefinitions.IsKItemVickreyAuction auction k
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_k_item_vickrey_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-60e5eee461d50443}{}
+\section*{Review row 38}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 289-\allowbreak{}291\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+In the unlimited supply case, taking k = f (n)
+yields a truthful auction for any function f with
+1 ≤ f (n) < n. This auction mechanism is not
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (f : ℕ → ℕ),
+  GHW01DigitalGoods.ProofBridge.source_admissibleVickreySupplyRule f =
+    GHW01DigitalGoods.SourceDefinitions.AdmissibleVickreySupplyRule f
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_unlimited_vickrey_family_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-96bf38ca93d360a1}{}
+\section*{Review row 39}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 317-\allowbreak{}335\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+To get a better understanding of how the optimal single-price auction works, we define the optimal
+threshold function, opt(B). This function on a set of
+bids B returns the fixed price at which items should
+be sold to achieve revenue F . In the optimal singleprice auction, all bid values that are at least opt(B)
+will be satisfied at price opt(B). All other bids will
+be rejected. That is,
+
+5
+
+Generalized Truthful Auction Mechanisms
+
+By making observations about auctions that encourage utility value bids, in particular the Vickrey auction, we can design general auction mechanisms. We
+present two general auction mechanisms that facilitate the design of truthful auctions. The first, the bidindependent auction mechanism, is based on the observation that the price that a bid is satisfied at must
+be independent from that bid’s actual value. The
+second, the random sampling auction mechanism, is
+based on the observation that rejected bids can be
+used to set prices for bids that are to be satisfied.
+
+opt(B) = argmaxbi ∈B bi · (n − i + 1).
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ {Agent : Type u_1} [inst : Fintype Agent] [inst_1 : Nonempty Agent]
+    (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent) (p : ℝ),
+    GHW01DigitalGoods.ProofBridge.source_isOptimalThreshold bids p =
+      GHW01DigitalGoods.SourceDefinitions.IsOptimalThreshold bids p) ∧
+  (∀ {Agent : Type u_2} [inst : Fintype Agent] [inst_1 : Nonempty Agent]
+      (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent),
+      GHW01DigitalGoods.ProofBridge.source_optimalThresholdDefinition bids =
+        GHW01DigitalGoods.SourceDefinitions.optimalThreshold bids) ∧
+    (∀ {Agent : Type u_3} [inst : Fintype Agent] [inst_1 : Nonempty Agent]
+        (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent),
+        GHW01DigitalGoods.ProofBridge.source_optimalSinglePriceOutcome bids =
+          GHW01DigitalGoods.SourceDefinitions.optimalSinglePriceOutcome bids) ∧
+      ∀ {Agent : Type u_4} [inst : Fintype Agent] [inst_1 : Nonempty Agent],
+        GHW01DigitalGoods.ProofBridge.source_optimalSinglePriceAuction =
+          GHW01DigitalGoods.SourceDefinitions.optimalSinglePriceAuction
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_optimal_threshold_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-358ff71fbc93837d}{}
+\section*{Review row 40}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 351-\allowbreak{}357\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Let B be the set of all bids and let Bi be the set
+of bids without bidder i’s bid. A bid-independent
+auction uses a predetermined function, f , from sets
+of bid values to prices. The auction works as follows.
+Bidder i wins the auction at price f (Bi ) if bi ≥ f (Bi ).
+2
+Otherwise, the bidder loses.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+GHW01DigitalGoods.ProofBridge.source_thresholdOffer = GHW01DigitalGoods.SourceDefinitions.ThresholdOffer ∧
+  (∀ (offer : GHW01DigitalGoods.ProofBridge.source_thresholdOffer) (bid : ℝ),
+      GHW01DigitalGoods.ProofBridge.source_acceptsThreshold offer bid =
+        GHW01DigitalGoods.SourceDefinitions.accepts offer bid) ∧
+    (∀ {Agent : Type u_1} [inst : Fintype Agent] (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent)
+        (i : Agent),
+        GHW01DigitalGoods.ProofBridge.source_otherBids bids i = GHW01DigitalGoods.SourceDefinitions.otherBids bids i) ∧
+      GHW01DigitalGoods.ProofBridge.source_bidIndependentRule = GHW01DigitalGoods.SourceDefinitions.BidIndependentRule ∧
+        (∀ {Agent : Type u_2} [inst : Fintype Agent] (rule : GHW01DigitalGoods.ProofBridge.source_bidIndependentRule)
+            (bids : GHW01DigitalGoods.ProofBridge.source_bidProfile Agent),
+            GHW01DigitalGoods.ProofBridge.source_bidIndependentOutcome rule bids =
+              GHW01DigitalGoods.SourceDefinitions.bidIndependentOutcome rule bids) ∧
+          ∀ {Agent : Type u_3} [inst : Fintype Agent] (rule : GHW01DigitalGoods.ProofBridge.source_bidIndependentRule),
+            GHW01DigitalGoods.ProofBridge.source_bidIndependentAuction rule =
+              GHW01DigitalGoods.SourceDefinitions.bidIndependentAuction rule
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_bid_independent_auction_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-7602d03e98effe60}{}
+\section*{Review row 41}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 372-\allowbreak{}374\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+2 For maximum generality, we allow f to also return whether
+to use ≥ or > in this comparison. For the perpose of maximizing revenue we can allways just use ≥; however, to prove
+Lemma 9.2 we need the full generality.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+GHW01DigitalGoods.ProofBridge.source_thresholdBoundaryConvention = GHW01DigitalGoods.SourceDefinitions.ThresholdBoundary
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_threshold_boundary_convention_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-22cf85b32833d663}{}
+\section*{Review row 42}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 410-\allowbreak{}416\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Another general truthful auction mechanism is based
+on randomized sampling. We select a subset B ′ of B
+at random, independent of the bid values. Let m be
+the size of B ′ . We then compute a function on these
+sampled bids, f (B ′ ), and use this as a threshold value
+for the n−m bids in the non-sample, B\B ′ . Note that
+this auction mechanism is inherently single-price.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] (plan : GHW01DigitalGoods.ProofBridge.source_randomSamplingPlan Agent),
+  GHW01DigitalGoods.ProofBridge.source_randomSamplingAuction plan =
+    GHW01DigitalGoods.SourceDefinitions.RandomSamplingPlan.directionalOutcomeLaw plan
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_random_sampling_auction_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-b7128f52f54f33d4}{}
+\section*{Review row 43}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 417-\allowbreak{}422\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+If a multi-price auction is acceptable, then this auction can be modified to be dual-price with m ≈ n/2,
+by using f (B ′ ) to compute the threshold to use for
+bids in B \ B ′ and f (B \ B ′ ) as the threshold to use
+for bids in B ′ . This is a good way to avoid revenue
+loss due to the rejected bids in the sample; however,
+it is at the expense of making the auction dual-price.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] (plan : GHW01DigitalGoods.ProofBridge.source_randomSamplingPlan Agent),
+  GHW01DigitalGoods.ProofBridge.source_dualPriceRandomSamplingAuction plan =
+    GHW01DigitalGoods.SourceDefinitions.RandomSamplingPlan.dualPriceOutcomeLaw plan
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_dual_price_sampling_auction_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-58e846d929de7a05}{}
+\section*{Review row 44}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 455-\allowbreak{}465\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+The random sampling optimal threshold auction
+takes f = opt, the optimal threshold function, in
+the random sampling auction. Intuitively we use the
+sample to get an idea for a good threshold value,
+then we apply that threshold to the remaining bids.
+The auction samples m = n/2 bids at random, computes opt of this sample, and uses this value as a
+threshold for the non-sample, accepting all bids above
+this threshold at the threshold value. In this section
+we show that the expected revenue of this auction is
+within a constant factor of F , assuming F /h is not
+too small.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] (sampleSize : ℕ) (hsample_pos : 0 < sampleSize)
+  (hhalf : Fintype.card Agent = sampleSize + sampleSize)
+  (boundary : GHW01DigitalGoods.ProofBridge.source_thresholdBoundaryConvention),
+  GHW01DigitalGoods.ProofBridge.source_exactHalfOptimalThresholdAuction sampleSize hsample_pos hhalf boundary =
+    GHW01DigitalGoods.SourceDefinitions.exactHalfOptimalThresholdOutcomeLaw sampleSize hsample_pos hhalf boundary
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_exact_half_optimal_threshold_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-f58496f241e6c6f1}{}
+\section*{Review row 45}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 466-\allowbreak{}469\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+For the purpose of simplifying our analysis, we will
+be analyzing a different method of sampling, one that
+selects a bid to be in the sample independently at random with probability 1/2. This method of sampling
+is simpler to analyze, and it does worse than the for5
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (Agent : Type u_1),
+  GHW01DigitalGoods.ProofBridge.source_independentHalfSamplingAnalysisLaw Agent =
+    GHW01DigitalGoods.SourceDefinitions.independentHalfSamplingAnalysisLaw Agent
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_independent_half_analysis_model_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-e93feb6521b52515}{}
+\section*{Review row 46}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 495-\allowbreak{}508\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Let ks be the number of bids satisfied by optimal single-price or dual-price. In this section we describe
+fixed pricing on the sample (i.e. the number of bids a multi-price auction. The weighted pairing auction
+in the sample that are at least opt(B ′ )) and let kn we present is in the bid-independent class with the
+be the number of bids in the non-sample that are at function f defined as follows:
+least opt(B ′ ). If F ′ ≥ F/3 then ks ≥ α/3.
+f (B) = b ∈ B w.p. [U+0002 control character] ′ b b′
+Now, assuming that ks ≥ α/3, we show that the
+b ∈B
+probability that kn < ks /2 is small. Note that kn <
+ks /2 implies that among the top (3/2)ks bids, at least Thus, to determine if bidder i wins the auction and
+ks are in the sample. Note that the sample and the at what price, pick a bid b ∈ Bi with probability pronon-sample are symmetric: taking a random subset portional to the value of b, i.e., b/(T − bi ). This pairs
+containing half of the elements in A is equivalent to bi with b. If b ≤ bi , bidder i wins at cost b, othertaking a complement of a random subset of half of wise i loses. Note that the result of this selection for
+the elements. We apply Lemma 6.1 with S being i does not affect the auction outcome for the bidder
+the non-sample, B being the top i = (3/2)ks bids, who bid b.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] (bids : Agent → ℝ) (hbid_ge_one : ∀ (i : Agent), 1 ≤ bids i)
+  (hdistinct : ∀ (i : Agent), ∃ j, j ≠ i),
+  GHW01DigitalGoods.ProofBridge.source_weightedPairingAuction bids hbid_ge_one hdistinct =
+    GHW01DigitalGoods.SourceDefinitions.weightedPairingOutcomeLaw bids ⋯
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_weighted_pairing_auction_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-5f3388e17a33f6df}{}
+\section*{Review row 47}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 991-\allowbreak{}1013\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+The deterministic optimal threshold auction is the
+are satisfied at price h. Other values of f lead to
+bid-independent auction with f = opt, the optimal
+smaller revenues.
+threshold function defined in Section 4. The only difWe wish to find an input family such that the
+ference between the deterministic optimal threshold
+bid-independent
+auction with function f has revenue
+auction and the optimal fixed pricing mechanism is
+O(F
+/h).
+To
+obtain
+this family, we chose nh and nell in
+that the former uses threshold opt(Bi ) for bidder i
+such
+a
+way
+that
+f
+(n
+h − 1, nell ) = 1, f (nh , nell − 1) = h,
+and the latter uses opt(B). Recall that Bi and B
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] (hcard : 2 ≤ Fintype.card Agent),
+  GHW01DigitalGoods.ProofBridge.source_deterministicOptimalThresholdAuction hcard =
+    GHW01DigitalGoods.SourceDefinitions.deterministicOptimalThresholdAuction hcard
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_deterministic_optimal_threshold_auction_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-7bd2b87e23027c5a}{}
+\section*{Review row 48}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1595-\allowbreak{}1600\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Up to this point, we have studied the unlimited supply case which is motivated by the digital goods market where the cost of making a copy of an item is negligible. In this section we consider the case where the
+number of items available for sale is bounded. This
+case is typical of physical goods markets. We denote the number of items available by k. Here again,
+the seller wishes to maximize their revenue, possibly
+not selling all of the items. Note that the definitions of truthful and competitive auctions, which we
+stated for the unlimited supply case, also apply to the
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] (auction : EconCSLib.Auction.DigitalGoodsAuction Agent) (capacity : ℕ),
+  GHW01DigitalGoods.ProofBridge.source_boundedSupplyModel auction capacity =
+    GHW01DigitalGoods.SourceDefinitions.IsKItemBoundedSupplyAuction auction capacity
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.model_bounded_supply_capacity_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-2aae9bf386f351db}{}
+\section*{Review row 49}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1623-\allowbreak{}1625\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+4 Formally, items are in scarce supply if we have k items and
+all of the sample and the loss due to having a non- the optimal fixed pricing with k or k + 1 items would sell all
+of the items.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Agent : Type u_1} [inst : Fintype Agent] [inst_1 : Nonempty Agent] (bids : Agent → ℝ) (capacity : ℕ),
+  GHW01DigitalGoods.ProofBridge.source_scarceSupply bids capacity =
+    GHW01DigitalGoods.SourceDefinitions.scarceSupply bids capacity
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GHW01DigitalGoods.PaperInterface.definition_scarce_supply_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\end{document}

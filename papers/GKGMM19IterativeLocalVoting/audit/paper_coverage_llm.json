@@ -10,7 +10,7 @@
       "review_rows": [
         "algorithm1_local_neighborhood_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Algorithm 1 local-neighborhood source formula: a candidate is in the local query set exactly when it is feasible and its L_q/source-norm distance from the current point is at most r.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Algorithm 1 local-neighborhood source formula: a candidate is in the local query set exactly when it is feasible and its L_q/source-norm distance from the current point is at most r.",
       "source_grounded": true,
       "statement_sha256": "e45f9168b6d0fd364b0028b6a4a122d87d0dfb4204cba3903494ae7d897900fe",
       "support_declarations": [],
@@ -26,7 +26,7 @@
       "review_rows": [
         "algorithm1_norm_projection_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Algorithm 1 projection source formula: [y]_X is a selected feasible point minimizing source-norm distance to y over the solution space X.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Algorithm 1 projection source formula: [y]_X is a selected feasible point minimizing source-norm distance to y over the solution space X.",
       "source_grounded": true,
       "statement_sha256": "d885e631fe85fca55f2689637275f1e6a42777cc6806e8fdf773f5f5d7d62f5f",
       "support_declarations": [],
@@ -42,7 +42,7 @@
       "review_rows": [
         "algorithm1_projected_trajectory_feasible_of_normProjection"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Algorithm 1 projection consequence: if the initial iterate is feasible and each update is a projection onto the feasible solution space, every projected trajectory point remains feasible.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Algorithm 1 projection consequence: if the initial iterate is feasible and each update is a projection onto the feasible solution space, every projected trajectory point remains feasible.",
       "source_grounded": true,
       "statement_sha256": "1d536a19dcd2d0c8641112fa27994c7d2d1fd92702babf244c78d1769fbf9c81",
       "support_declarations": [],
@@ -58,7 +58,7 @@
       "review_rows": [
         "algorithm1_projected_update_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Algorithm 1 projected update source formula: the next iterate is the projection of the raw local response back to the feasible set.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Algorithm 1 projected update source formula: the next iterate is the projection of the raw local response back to the feasible set.",
       "source_grounded": true,
       "statement_sha256": "081f2fe5d0931475bd67f7ac3ba73e08ede69e066df9e074d06ebbd0a82eb0ee",
       "support_declarations": [],
@@ -74,7 +74,7 @@
       "review_rows": [
         "algorithm1_radius_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Algorithm 1 source formula: the local-neighborhood radius is r_t = r_0 / t.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Algorithm 1 source formula: the local-neighborhood radius is r_t = r_0 / t.",
       "source_grounded": true,
       "statement_sha256": "d3f71000f2cf72a1038f4764677d2d58217923a53c0b2e9c62f5dd3adec6d0ba",
       "support_declarations": [],
@@ -90,7 +90,7 @@
       "review_rows": [
         "algorithm1_radius_not_summable"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Algorithm 1 stochastic-approximation step-size subclaim: for r_0 > 0, the shifted radii r_0/(t+1) are not summable.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Algorithm 1 stochastic-approximation step-size subclaim: for r_0 > 0, the shifted radii r_0/(t+1) are not summable.",
       "source_grounded": true,
       "statement_sha256": "e3643976e272571b86362b8fa6e4459f9c3a06b16622e4fba761e2d9898939a6",
       "support_declarations": [],
@@ -106,7 +106,7 @@
       "review_rows": [
         "algorithm1_radius_sq_summable"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Algorithm 1 stochastic-approximation step-size subclaim: the shifted squared radii sum_t (r_0/(t+1))^2 are summable.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Algorithm 1 stochastic-approximation step-size subclaim: the shifted squared radii sum_t (r_0/(t+1))^2 are summable.",
       "source_grounded": true,
       "statement_sha256": "d559d1fd7e49b7d39ba614b1c9c4143215d34351a3eff3002022b6a463a03242",
       "support_declarations": [],
@@ -122,7 +122,7 @@
       "review_rows": [
         "algorithm1_radius_ssgm_step_size_conditions"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Algorithm 1/SSGM bridge subclaim: for r_0 > 0, the radius schedule r_t = r_0/t satisfies positivity, square summability, and divergent-sum SSGM step-size conditions.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Algorithm 1/SSGM bridge subclaim: for r_0 > 0, the radius schedule r_t = r_0/t satisfies positivity, square summability, and divergent-sum SSGM step-size conditions.",
       "source_grounded": true,
       "statement_sha256": "eab5f63bbd9e07dbe64714297d7b393391f5419020d424957f69d57f441779ad",
       "support_declarations": [],
@@ -138,7 +138,7 @@
       "review_rows": [
         "algorithm1_radius_sum_tendsto_atTop"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Algorithm 1 stochastic-approximation step-size subclaim: for r_0 > 0, shifted radius partial sums sum_{t<n} r_0/(t+1) diverge to infinity.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Algorithm 1 stochastic-approximation step-size subclaim: for r_0 > 0, shifted radius partial sums sum_{t<n} r_0/(t+1) diverge to infinity.",
       "source_grounded": true,
       "statement_sha256": "19199c8c5f2c38c7fabf9c2dc0881d57069980e6c97d2d46f50224d0c35cb380",
       "support_declarations": [],
@@ -154,7 +154,7 @@
       "review_rows": [
         "algorithm1_radius_tendsto_zero"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Algorithm 1 radius consequence: for fixed r_0, the schedule r_t = r_0/t tends to 0 as t tends to infinity.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Algorithm 1 radius consequence: for fixed r_0, the schedule r_t = r_0/t tends to 0 as t tends to infinity.",
       "source_grounded": true,
       "statement_sha256": "92e28a6b7f1c12e046365e37235730f0041a27b8222cf0b507a3b016df1b8787",
       "support_declarations": [],
@@ -170,7 +170,7 @@
       "review_rows": [
         "algorithm1_stop_condition_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Algorithm 1 stopping source formula: the algorithm stops at terminal time T or when the recent window is stable.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Algorithm 1 stopping source formula: the algorithm stops at terminal time T or when the recent window is stable.",
       "source_grounded": true,
       "statement_sha256": "0a2fe08e3426f5605fee33e4fd4cd8877edb1fdc7fb80e51a7dfb78874aa26b8",
       "support_declarations": [],
@@ -186,7 +186,7 @@
       "review_rows": [
         "algorithm1_window_stable_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Algorithm 1 stopping-window source formula: all iterates in the recent window [t-N,t] are pairwise within epsilon in the chosen movement norm.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Algorithm 1 stopping-window source formula: all iterates in the recent window [t-N,t] are pairwise within epsilon in the chosen movement norm.",
       "source_grounded": true,
       "statement_sha256": "0a0826ef5379aeb4916d8cedbdf808439ba2f9d94bb0e63da45d0000719e94ec",
       "support_declarations": [],
@@ -202,7 +202,7 @@
       "review_rows": [
         "assumption_conditions_c123"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Section 3 source assumptions C1-C3: nonempty bounded closed convex solution space, unique ideal points, and a bounded measurable density for independently drawn ideal points.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Section 3 source assumptions C1-C3: nonempty bounded closed convex solution space, unique ideal points, and a bounded measurable density for independently drawn ideal points.",
       "source_grounded": true,
       "statement_sha256": "9689895facfbb46f1ff736294d264ea3e539a4875e92110ebb6c8fbd0caf07e6",
       "support_declarations": [],
@@ -218,7 +218,7 @@
       "review_rows": [
         "assumption_ssgm_convergence_theorem"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Approved proof-boundary theorem, not a source assumption: a future stochastic subgradient method theorem should prove the finite-coordinate SSGM convergence bundle consumed by the formalized deterministic ILV source-model bridges.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Approved proof-boundary theorem, not a source assumption: a future stochastic subgradient method theorem should prove the finite-coordinate SSGM convergence bundle consumed by the formalized deterministic ILV source-model bridges.",
       "source_grounded": true,
       "statement_sha256": "5a460885042cdb2a00a6cfd4d44cbfd9a8ea7d076a437c4e4ac5af5960775b7b",
       "support_declarations": [],
@@ -234,7 +234,7 @@
       "review_rows": [
         "c3_product_density_coordinate_noncollision_ae"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Structured finite-coordinate C3 bridge: the product bounded-density ideal-point data supply the a.e. coordinate-noncollision condition needed for Lemma 3.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Structured finite-coordinate C3 bridge: the product bounded-density ideal-point data supply the a.e. coordinate-noncollision condition needed for Lemma 3.",
       "source_grounded": true,
       "statement_sha256": "897b980f835f8d710a803d8a364650956484a9e69a35e0918b3fd4fe07198574",
       "support_declarations": [],
@@ -250,7 +250,7 @@
       "review_rows": [
         "conditions_c123_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Section 3 assumptions C1-C3: the solution space is nonempty, bounded, closed, and convex; every voter has a unique ideal point; and ideal points are independently drawn from a distribution with bounded measurable density.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Section 3 assumptions C1-C3: the solution space is nonempty, bounded, closed, and convex; every voter has a unique ideal point; and ideal points are independently drawn from a distribution with bounded measurable density.",
       "source_grounded": true,
       "statement_sha256": "27398333dcc1993a43a88900701fd4d4e53463e05153e51c16d0a4e6e8462527",
       "support_declarations": [],
@@ -266,7 +266,7 @@
       "review_rows": [
         "definition1_finite_coordinate_l1_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Definition 1 finite-coordinate L1 specialization: f_v(x) = -||x - x_v||_1, represented as the finite-coordinate L1 norm of coordinate differences.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Definition 1 finite-coordinate L1 specialization: f_v(x) = -||x - x_v||_1, represented as the finite-coordinate L1 norm of coordinate differences.",
       "source_grounded": true,
       "statement_sha256": "675d9828dcb7e0df1c9c72d8d467b61fdedaf042f8e232ad2b2f5a5fe88f636b",
       "support_declarations": [],
@@ -282,7 +282,7 @@
       "review_rows": [
         "definition1_finite_coordinate_l2_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Definition 1 finite-coordinate L2 specialization: f_v(x) = -||x - x_v||_2, represented as the finite-coordinate L2 norm of coordinate differences.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Definition 1 finite-coordinate L2 specialization: f_v(x) = -||x - x_v||_2, represented as the finite-coordinate L2 norm of coordinate differences.",
       "source_grounded": true,
       "statement_sha256": "5e2e85051a077b2080792e87c853ee08c8143bd077a17089ca7e1037e73f6d84",
       "support_declarations": [],
@@ -298,7 +298,7 @@
       "review_rows": [
         "definition1_finite_coordinate_linf_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Definition 1 finite-coordinate L_infinity specialization: f_v(x) = -||x - x_v||_infinity, represented as the finite-coordinate Linf norm of coordinate differences.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Definition 1 finite-coordinate L_infinity specialization: f_v(x) = -||x - x_v||_infinity, represented as the finite-coordinate Linf norm of coordinate differences.",
       "source_grounded": true,
       "statement_sha256": "10aff5d324c51e6dcb8ce0cee8546aa8036336413e6f0172a4f02769fa6ffe6e",
       "support_declarations": [],
@@ -314,7 +314,7 @@
       "review_rows": [
         "definition1_finite_coordinate_lp_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Definition 1 finite-coordinate finite-Lp specialization: f_v(x) = -||x - x_v||_p, represented as the finite-coordinate Lp norm of coordinate differences.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Definition 1 finite-coordinate finite-Lp specialization: f_v(x) = -||x - x_v||_p, represented as the finite-coordinate Lp norm of coordinate differences.",
       "source_grounded": true,
       "statement_sha256": "51d163e154c51a3847c2859fe01ed0f420a54fd57847bd1ee2c58de4a38d5c15",
       "support_declarations": [],
@@ -330,7 +330,7 @@
       "review_rows": [
         "definition1_lp_normed_utilities_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Definition 1 source formula: Lp-normed utilities have f_v(x) = -||x - x_v||_p.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Definition 1 source formula: Lp-normed utilities have f_v(x) = -||x - x_v||_p.",
       "source_grounded": true,
       "statement_sha256": "b933fbf21825a3a12d2fc4bd15818e158ab0a29c74006f96005f27b967dca77e",
       "support_declarations": [],
@@ -346,7 +346,7 @@
       "review_rows": [
         "definition2_weighted_euclidean_utilities_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Definition 2 source formula: weighted-Euclidean utilities have f_v(x) = - sum_k (w_v^k / ||w_v||_2) * ||x^k - x_v^k||_2, with the paper's weight/ideal distribution condition.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Definition 2 source formula: weighted-Euclidean utilities have f_v(x) = - sum_k (w_v^k / ||w_v||_2) * ||x^k - x_v^k||_2, with the paper's weight/ideal distribution condition.",
       "source_grounded": true,
       "statement_sha256": "dcc99422025a3108c248f31381e18d33171f19a2ed3de2ff64f3bdebc1a9a42d",
       "support_declarations": [],
@@ -362,7 +362,7 @@
       "review_rows": [
         "definition3_decomposable_utilities_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Definition 3 source formula: decomposable utilities have f_v(x) = sum_m f_v^m(x^m), with concave coordinate utilities.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Definition 3 source formula: decomposable utilities have f_v(x) = sum_m f_v^m(x^m), with concave coordinate utilities.",
       "source_grounded": true,
       "statement_sha256": "f83e291ea2e2928252fa42ee0621da3767c97d8e9e6b4fb212881b9c135f70a9",
       "support_declarations": [],
@@ -378,7 +378,7 @@
       "review_rows": [
         "modelB_finite_response_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Concrete finite-coordinate source-model audit row: the deterministic non-SSGM source semantics are exactly a positive Algorithm 1 radius, concrete finite-coordinate norm semantics, finite-coordinate C3/product-density data, Model B trace semantics, weighted...",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Concrete finite-coordinate source-model audit row: the deterministic non-SSGM source semantics are exactly a positive Algorithm 1 radius, concrete finite-coordinate norm semantics, finite-coordinate C3/product-density data, Model B trace semantics, weighted...",
       "source_grounded": true,
       "statement_sha256": "27fe4b57de98b95b05ffa06f04cb9c38a12192f45ba4602f64e6d061049fa539",
       "support_declarations": [],
@@ -394,7 +394,7 @@
       "review_rows": [
         "lemma3_coordinate_equality_bad_event_null_from_boundedDensity"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Appendix C.4/C3 bad-event bridge: under bounded-density/absolute-continuity hypotheses, if each coordinate-equality hyperplane is null for the base measure then the finite coordinate-equality bad event is null for the ideal distribution.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Appendix C.4/C3 bad-event bridge: under bounded-density/absolute-continuity hypotheses, if each coordinate-equality hyperplane is null for the base measure then the finite coordinate-equality bad event is null for the ideal distribution.",
       "source_grounded": true,
       "statement_sha256": "197bfd866c0681d056aec5ee3b7c68bbe0a5f6f393fe3c453d5247fe29c71d95",
       "support_declarations": [],
@@ -410,7 +410,7 @@
       "review_rows": [
         "lemma3_coordinate_equality_bad_event_null_from_productMeasure"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Appendix C.4/C3 product-measure instance: if the ideal distribution has bounded density with respect to a finite product of sigma-finite atomless one-dimensional marginals, the coordinate-equality bad event is null.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Appendix C.4/C3 product-measure instance: if the ideal distribution has bounded density with respect to a finite product of sigma-finite atomless one-dimensional marginals, the coordinate-equality bad event is null.",
       "source_grounded": true,
       "statement_sha256": "6c4bb2acc4c1fe8c3a230c69feb7855238f90e6073c6fa120bd6df23f0ec40ac",
       "support_declarations": [],
@@ -426,7 +426,7 @@
       "review_rows": [
         "lemma3_coordinate_noncollision_ae_from_productMeasure"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Appendix C.4/C3 a.e. form: under the product bounded-density hypothesis, almost every ideal point avoids every coordinate equality with a fixed current point.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Appendix C.4/C3 a.e. form: under the product bounded-density hypothesis, almost every ideal point avoids every coordinate equality with a fixed current point.",
       "source_grounded": true,
       "statement_sha256": "27322f1481dad832d8c63b4b0a30939abe8ee6897216f9980fceed7eafc29d62",
       "support_declarations": [],
@@ -442,7 +442,7 @@
       "review_rows": [
         "lemma3_finite_holder_dual_gradient_candidate_norm_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Lemma 3 source norm claim: for p,q > 0 with 1/p + 1/q = 1 and away from coordinate equalities, the Lq norm of the gradient of ||x-x_v||_p is 1.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Lemma 3 source norm claim: for p,q > 0 with 1/p + 1/q = 1 and away from coordinate equalities, the Lq norm of the gradient of ||x-x_v||_p is 1.",
       "source_grounded": true,
       "statement_sha256": "d2f012ae8b3118daa2608128ae607bb6f9d2e13f41449a92c9d26161658e9639",
       "support_declarations": [],
@@ -458,7 +458,7 @@
       "review_rows": [
         "lemma3_gradient_candidate_hasFDerivAt_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Lemma 3 calculus bridge: away from coordinate equalities and for differentiable finite Lp (1 < p), the displayed candidate vector represents the Frechet derivative of y |-> ||y-ideal||_p.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Lemma 3 calculus bridge: away from coordinate equalities and for differentiable finite Lp (1 < p), the displayed candidate vector represents the Frechet derivative of y |-> ||y-ideal||_p.",
       "source_grounded": true,
       "statement_sha256": "a2b8dd993f50c120847bf0143069cd56e3fa0be0dd47424cc56aaee19c437b7e",
       "support_declarations": [],
@@ -474,7 +474,7 @@
       "review_rows": [
         "lemma3_gradient_candidate_source_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Appendix C.4 Lemma 3 displayed candidate-gradient formula: the coordinate i of the gradient candidate is (|d_i|^(p-1) * (d_i/|d_i|)) / ||d||_p^(p-1).",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Appendix C.4 Lemma 3 displayed candidate-gradient formula: the coordinate i of the gradient candidate is (|d_i|^(p-1) * (d_i/|d_i|)) / ||d||_p^(p-1).",
       "source_grounded": true,
       "statement_sha256": "603bd814b6923c0760a8e215cb9fe8ff1146925be82ea02d8991781e02eb765c",
       "support_declarations": [],
@@ -490,7 +490,7 @@
       "review_rows": [
         "modelA_response_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Model A source formula: the voter returns a favorite feasible point in the queried local neighborhood, maximizing utility over that neighborhood.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Model A source formula: the voter returns a favorite feasible point in the queried local neighborhood, maximizing utility over that neighborhood.",
       "source_grounded": true,
       "statement_sha256": "8d68c9a907bd539bf67839753feac157d7d1e8de095ee83b99048d1ff11fbffe",
       "support_declarations": [],
@@ -506,7 +506,7 @@
       "review_rows": [
         "modelA_response_isMaxOn_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Model A source-equivalent extrema formulation: the response is in the local neighborhood and is an IsMaxOn maximizer of voter utility over that neighborhood.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Model A source-equivalent extrema formulation: the response is in the local neighborhood and is an IsMaxOn maximizer of voter utility over that neighborhood.",
       "source_grounded": true,
       "statement_sha256": "4ea4ab1b16bbdcf0df264f17744f6694ac96fbcd7b66fa3a3726af8b5ef98439",
       "support_declarations": [],
@@ -522,7 +522,7 @@
       "review_rows": [
         "modelA_response_lp_normed_cost_minimizer_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Definition 1/Model A source bridge: maximizing f_v(x) = -||x-x_v||_p over the local neighborhood is equivalent to minimizing the p-distance to the voter ideal over that neighborhood.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Definition 1/Model A source bridge: maximizing f_v(x) = -||x-x_v||_p over the local neighborhood is equivalent to minimizing the p-distance to the voter ideal over that neighborhood.",
       "source_grounded": true,
       "statement_sha256": "d071f4cdd2c3dc949b354adcb64032216cf564a28f1fff5ae8d70973a2353c01",
       "support_declarations": [],
@@ -538,7 +538,7 @@
       "review_rows": [
         "modelB_finite_response_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Model B finite-coordinate source formula: the response moves from x in the supplied gradient direction by x' = x + r * g / ||g||_q.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Model B finite-coordinate source formula: the response moves from x in the supplied gradient direction by x' = x + r * g / ||g||_q.",
       "source_grounded": true,
       "statement_sha256": "1aad067337848a4bb414f82bad0075b6b9d784b8f9f1cbd3f1384065c32110f5",
       "support_declarations": [],
@@ -554,7 +554,7 @@
       "review_rows": [
         "modelB_finite_response_neg_lp_cost_gradient_formula"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Model B/Lemma 3 sign bridge subclaim: for Lp utilities and Holder-dual q, the sign-correct utility-gradient direction gives response x' = x - r * grad_cost when coordinate equalities are avoided.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Model B/Lemma 3 sign bridge subclaim: for Lp utilities and Holder-dual q, the sign-correct utility-gradient direction gives response x' = x - r * grad_cost when coordinate equalities are avoided.",
       "source_grounded": true,
       "statement_sha256": "2bb05ea374b820892e5c47de5e226deebc854c27f6fd045a0096698d5ece1bf8",
       "support_declarations": [],
@@ -570,7 +570,7 @@
       "review_rows": [
         "proposition1_weighted_euclidean_l2"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Proposition 1 source statement: under C1-C3, weighted-Euclidean utilities, and correct Model A or Model B responses, ILV with L2 neighborhoods converges almost surely to the societal optimal point.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Proposition 1 source statement: under C1-C3, weighted-Euclidean utilities, and correct Model A or Model B responses, ILV with L2 neighborhoods converges almost surely to the societal optimal point.",
       "source_grounded": true,
       "statement_sha256": "3c5d1bc1bd237fa539b4ebce72bb1d38f473a7dd60cbeeadd6ac7b5fb9947103",
       "support_declarations": [],
@@ -586,7 +586,7 @@
       "review_rows": [
         "proposition2_decomposable_linf_medians"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Proposition 2 source statement: under C1-C3, decomposable utilities, and Model A or Model B responses, ILV with L_infinity neighborhoods converges almost surely to a point in the set of medians.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Proposition 2 source statement: under C1-C3, decomposable utilities, and Model A or Model B responses, ILV with L_infinity neighborhoods converges almost surely to a point in the set of medians.",
       "source_grounded": true,
       "statement_sha256": "4a4ae7154c9a35f6e87318ccd5a21275198d08608acf4eaea354b54347cf5a88",
       "support_declarations": [],
@@ -600,7 +600,7 @@
       "dashboard_evidence": "No linked dashboard/support declaration recorded.",
       "reason": "These appendix lemmas are proof-support material rather than standalone public dashboard targets in the current formalization surface.",
       "review_rows": [],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Appendix Lemmas 1, 2, and 4 in source text; flagged by source-grounding audit.. Source Appendix Lemmas 1, 2, and 4 are visible but are not currently separate dashboard targets.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Appendix Lemmas 1, 2, and 4 in source text; flagged by source-grounding audit.. Source Appendix Lemmas 1, 2, and 4 are visible but are not currently separate dashboard targets.",
       "source_grounded": true,
       "statement_sha256": "2edd35ec966c93d25f72d631044d49249f5cb43a85d9aca24e0f82d973bbfa25",
       "support_declarations": [],
@@ -680,7 +680,7 @@
       "review_rows": [
         "theorem1_lp_normed_dual_cases"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Theorem 1 source statement: under C1-C3, Lp-normed utilities, Model A or Model B responses, and norm pairs (p,q) = (2,2), (1,infinity), or (infinity,1), ILV with Lq neighborhoods converges almost surely to the societal optimal point.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Theorem 1 source statement: under C1-C3, Lp-normed utilities, Model A or Model B responses, and norm pairs (p,q) = (2,2), (1,infinity), or (infinity,1), ILV with Lq neighborhoods converges almost surely to the societal optimal point.",
       "source_grounded": true,
       "statement_sha256": "6b000a0406053a6d95ec7f85195da802fea8385342190428fda1724202bdfd52",
       "support_declarations": [],
@@ -696,7 +696,7 @@
       "review_rows": [
         "theorem1_norm_pair_l1_linf"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Theorem 1 source subcase: one allowed norm pair is (p,q) = (1, infinity).",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Theorem 1 source subcase: one allowed norm pair is (p,q) = (1, infinity).",
       "source_grounded": true,
       "statement_sha256": "cfc146acb6fae81fe65efbc19a7548073e55b93a1d1eb55349bd33dc73eadd85",
       "support_declarations": [],
@@ -712,7 +712,7 @@
       "review_rows": [
         "theorem1_norm_pair_l2_l2"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Theorem 1 source subcase: one allowed norm pair is (p,q) = (2,2).",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Theorem 1 source subcase: one allowed norm pair is (p,q) = (2,2).",
       "source_grounded": true,
       "statement_sha256": "7ae1730f5d7a644b8cf153a3e576ad391d372dbe2c6cf3b386c7f093c0e69c04",
       "support_declarations": [],
@@ -728,7 +728,7 @@
       "review_rows": [
         "theorem1_norm_pair_linf_l1"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Theorem 1 source subcase: one allowed norm pair is (p,q) = (infinity,1).",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Theorem 1 source subcase: one allowed norm pair is (p,q) = (infinity,1).",
       "source_grounded": true,
       "statement_sha256": "bbe246c882f9707b54def687a2544f7c0d3e7883f67a7e1e621e5ae0d3517882",
       "support_declarations": [],
@@ -744,7 +744,7 @@
       "review_rows": [
         "theorem2_modelB_holder_dual_norms"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Theorem 2 source statement: under C1-C3, Lp-normed utilities, Model B responses, and p > 0, q > 0 with 1/p + 1/q = 1, ILV with Lq neighborhoods converges almost surely to the societal optimal point.",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Theorem 2 source statement: under C1-C3, Lp-normed utilities, Model B responses, and p > 0, q > 0 with 1/p + 1/q = 1, ILV with Lq neighborhoods converges almost surely to the societal optimal point.",
       "source_grounded": true,
       "statement_sha256": "129b0a8e6f8fd148068d3725c424768bbc79a461e24a68e6e1cf373eefafd470",
       "support_declarations": [],
@@ -760,7 +760,7 @@
       "review_rows": [
         "theorem3_statement_of_full_sampled_projected_source_semantics_univ"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Theorem 3 source statement: under C1-C3, G(x) = E_v[grad f_v(x)/||grad f_v(x)||_2] uniformly continuous, L2 movement norm constraints, and Model B responses, with probability 1 any convergent infinite ILV trajectory has a directional-equilibrium limit, i.e....",
+      "source_evidence": "Source basis: publication text, source-review record, and validation report. Source inventory item: Theorem 3 source statement: under C1-C3, G(x) = E_v[grad f_v(x)/||grad f_v(x)||_2] uniformly continuous, L2 movement norm constraints, and Model B responses, with probability 1 any convergent infinite ILV trajectory has a directional-equilibrium limit, i.e....",
       "source_grounded": true,
       "statement_sha256": "1d7bd58eae948e146c01af596601120d498419d8ad069e0d5ed73fbe198e04b8",
       "support_declarations": [],

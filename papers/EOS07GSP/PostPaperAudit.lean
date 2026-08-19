@@ -1,5 +1,5 @@
 import EOS07GSP.MainTheorems
-import EOS07GSP.ProofInterface
+import EOS07GSP.Implementation
 import EOS07GSP.Theorem8SourceBridges
 
 /-!

@@ -14,13 +14,13 @@
         {
           "line_end": 249,
           "line_start": 232,
-          "path": "source.txt",
+          "publication_locator": "cited publication",
           "quoted_text": "    4. Stable assignments and the admissions problem. The extension of our\n\"deferred-acceptance\"procedureto the problemofcollegeadmissionsis straight-\nforward.For conveniencewe will assume that ifa college is not willingto accept\na student underany circumstances,as describedin Section 2, then that student\nwill not even be permittedto apply to the college. With this understandingthe\nprocedure follows: First, all students apply to the college of their firstchoice.\nA college with a quota of q then places on its waiting list the q applicants who\nrank highest,or all applicants if there are fewerthan q, and rejects the rest.\nRejected applicants then apply to their second choice and again each college\nselects the top q fromamong the new applicants and those on its waiting list,\nputs these on its new waitinglist,and rejects the rest.The procedureterminates\nwhen every applicant is either on a waiting list or has been rejected by every\ncollege to which he is willingand permittedto apply. At this point each college\n\f14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January\n\nadmits everyoneon its waitinglist and the stable assignmenthas been achieved.\nThe proofthat the assignmentis stable is entirelyanalogous to the proofgiven\nforthe marriageproblemand is leftto the reader.",
           "quoted_text_sha256": "56b2cff43a0390ed87027adfe588c9477159142f221042d86892d36625545624"
         }
       ],
       "source_input_bundle_sha256": "6aefb52428cd4ac2ddda7fe164302891fc028f86728720462358b0f9b0bfae59",
-      "source_location": "source.txt:232-249",
+      "source_location": "cited publication:232-249",
       "validated_at": "2026-08-18T05:29:31+00:00",
       "validator": "independent semantic reviewer",
       "validator_type": "llm_as_judge"
@@ -38,13 +38,13 @@
         {
           "line_end": 249,
           "line_start": 232,
-          "path": "source.txt",
+          "publication_locator": "cited publication",
           "quoted_text": "    4. Stable assignments and the admissions problem. The extension of our\n\"deferred-acceptance\"procedureto the problemofcollegeadmissionsis straight-\nforward.For conveniencewe will assume that ifa college is not willingto accept\na student underany circumstances,as describedin Section 2, then that student\nwill not even be permittedto apply to the college. With this understandingthe\nprocedure follows: First, all students apply to the college of their firstchoice.\nA college with a quota of q then places on its waiting list the q applicants who\nrank highest,or all applicants if there are fewerthan q, and rejects the rest.\nRejected applicants then apply to their second choice and again each college\nselects the top q fromamong the new applicants and those on its waiting list,\nputs these on its new waitinglist,and rejects the rest.The procedureterminates\nwhen every applicant is either on a waiting list or has been rejected by every\ncollege to which he is willingand permittedto apply. At this point each college\n\f14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January\n\nadmits everyoneon its waitinglist and the stable assignmenthas been achieved.\nThe proofthat the assignmentis stable is entirelyanalogous to the proofgiven\nforthe marriageproblemand is leftto the reader.",
           "quoted_text_sha256": "56b2cff43a0390ed87027adfe588c9477159142f221042d86892d36625545624"
         }
       ],
       "source_input_bundle_sha256": "6aefb52428cd4ac2ddda7fe164302891fc028f86728720462358b0f9b0bfae59",
-      "source_location": "source.txt:232-249",
+      "source_location": "cited publication:232-249",
       "validated_at": "2026-08-18T05:29:31+00:00",
       "validator": "independent semantic reviewer",
       "validator_type": "llm_as_judge"
@@ -77,13 +77,13 @@
         {
           "line_end": 249,
           "line_start": 232,
-          "path": "source.txt",
+          "publication_locator": "cited publication",
           "quoted_text": "    4. Stable assignments and the admissions problem. The extension of our\n\"deferred-acceptance\"procedureto the problemofcollegeadmissionsis straight-\nforward.For conveniencewe will assume that ifa college is not willingto accept\na student underany circumstances,as describedin Section 2, then that student\nwill not even be permittedto apply to the college. With this understandingthe\nprocedure follows: First, all students apply to the college of their firstchoice.\nA college with a quota of q then places on its waiting list the q applicants who\nrank highest,or all applicants if there are fewerthan q, and rejects the rest.\nRejected applicants then apply to their second choice and again each college\nselects the top q fromamong the new applicants and those on its waiting list,\nputs these on its new waitinglist,and rejects the rest.The procedureterminates\nwhen every applicant is either on a waiting list or has been rejected by every\ncollege to which he is willingand permittedto apply. At this point each college\n\f14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January\n\nadmits everyoneon its waitinglist and the stable assignmenthas been achieved.\nThe proofthat the assignmentis stable is entirelyanalogous to the proofgiven\nforthe marriageproblemand is leftto the reader.",
           "quoted_text_sha256": "56b2cff43a0390ed87027adfe588c9477159142f221042d86892d36625545624"
         }
       ],
       "source_input_bundle_sha256": "6aefb52428cd4ac2ddda7fe164302891fc028f86728720462358b0f9b0bfae59",
-      "source_location": "source.txt:232-249",
+      "source_location": "cited publication:232-249",
       "validated_at": "2026-08-18T05:29:31+00:00",
       "validator": "independent semantic reviewer",
       "validator_type": "llm_as_judge"
@@ -191,13 +191,13 @@
         {
           "line_end": 249,
           "line_start": 232,
-          "path": "source.txt",
+          "publication_locator": "cited publication",
           "quoted_text": "    4. Stable assignments and the admissions problem. The extension of our\n\"deferred-acceptance\"procedureto the problemofcollegeadmissionsis straight-\nforward.For conveniencewe will assume that ifa college is not willingto accept\na student underany circumstances,as describedin Section 2, then that student\nwill not even be permittedto apply to the college. With this understandingthe\nprocedure follows: First, all students apply to the college of their firstchoice.\nA college with a quota of q then places on its waiting list the q applicants who\nrank highest,or all applicants if there are fewerthan q, and rejects the rest.\nRejected applicants then apply to their second choice and again each college\nselects the top q fromamong the new applicants and those on its waiting list,\nputs these on its new waitinglist,and rejects the rest.The procedureterminates\nwhen every applicant is either on a waiting list or has been rejected by every\ncollege to which he is willingand permittedto apply. At this point each college\n\f14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January\n\nadmits everyoneon its waitinglist and the stable assignmenthas been achieved.\nThe proofthat the assignmentis stable is entirelyanalogous to the proofgiven\nforthe marriageproblemand is leftto the reader.",
           "quoted_text_sha256": "56b2cff43a0390ed87027adfe588c9477159142f221042d86892d36625545624"
         }
       ],
       "source_input_bundle_sha256": "6aefb52428cd4ac2ddda7fe164302891fc028f86728720462358b0f9b0bfae59",
-      "source_location": "source.txt:232-249",
+      "source_location": "cited publication:232-249",
       "validated_at": "2026-08-18T05:29:31+00:00",
       "validator": "independent semantic reviewer",
       "validator_type": "llm_as_judge"

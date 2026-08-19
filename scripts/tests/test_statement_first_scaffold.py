@@ -772,6 +772,43 @@ class StatementFirstScaffoldTests(unittest.TestCase):
         self.assertIn("approved_corrected_target", summary)
         self.assertIn("archival_equivalence_claimed=false", summary)
 
+    def test_rendered_scaffold_includes_resumable_workflow_guidance(
+        self,
+    ) -> None:
+        args = argparse.Namespace(
+            title="Example",
+            authors="A. Author",
+            version="arXiv v2 (2025-01-01)",
+            official_url="https://example.test/paper",
+            url="https://example.test/paper.pdf",
+            pdf_url=None,
+        )
+        rendered = {
+            "README": NEW_PAPER.readme_text(args, "EX00Example"),
+            "planning document": NEW_PAPER.formalization_plan_text(
+                "Example", "EX00Example"
+            ),
+            "paper interface": NEW_PAPER.paper_interface_text(
+                "Example", "EX00Example", "EX00Example"
+            ),
+            "working notes": NEW_PAPER.notes_text(
+                "Example", "EX00Example", args
+            ),
+        }
+        disallowed = ("EconCSLib-private", "~/.codex", "/tmp/")
+        for label, text in rendered.items():
+            for phrase in disallowed:
+                with self.subTest(rendered=label, phrase=phrase):
+                    self.assertNotIn(phrase, text)
+        self.assertIn("`source.pdf`", rendered["README"])
+        self.assertIn("`source.txt`", rendered["README"])
+        self.assertIn("Private outside-Lean proof plan", rendered["README"])
+        self.assertIn("temporary private", rendered["README"])
+        self.assertIn("private draft", rendered["paper interface"])
+        self.assertIn("handoff", rendered["working notes"])
+        self.assertIn(".review_traces", rendered["planning document"])
+        self.assertIn("Legacy v10 evidence", rendered["planning document"])
+
     def test_source_record_scaffold_uses_semantic_result_component_prompt(self) -> None:
         sidecar = json.loads(NEW_PAPER.source_record_match_llm_text("EX00Example"))
         self.assertEqual(

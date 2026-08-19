@@ -1,1 +1,1 @@
-import DGD26AdmissionsPredictability.PaperInterface
+import DGD26AdmissionsPredictability.ProofInterface

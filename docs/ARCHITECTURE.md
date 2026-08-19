@@ -67,9 +67,9 @@ Social-choice and ranking papers should start with
 `EconCSLib.SocialChoice.Ranking` for finite full rankings, first/second choice
 projections, top-two swaps, rank lookup, best-remaining-after-one-removal facts,
 inversion finsets, Kendall tau distance, and deletion/relabeling formulas.
-The base Mallows law/weight layer also lives there. Paper folders should keep
-source-facing theorem names as wrappers where useful, while delegating generic
-ranking, Kendall, Mallows, and payoff algebra to the shared modules.
+The base Mallows law/weight layer also lives there. KR21 keeps paper names as
+wrappers where stable; its local `MallowsSpec` is still preserved for later
+field-rewrite-heavy proof files until an explicit adapter is installed.
 
 Optimization foundations currently include finite pointwise argmax/existence
 lemmas, abstract expected-objective wrappers, feasible-set optimality
@@ -80,6 +80,12 @@ witnesses, exchange arguments, binary best-response policies, threshold
 searches, or endpoint/current-bound optimality proofs should start with
 `EconCSLib.Foundations.Optimization`; the longer promotion plan lives in
 [`docs/OPTIMIZATION_LIBRARY_ROADMAP.md`](OPTIMIZATION_LIBRARY_ROADMAP.md).
+
+For cross-paper extraction candidates spanning probability, rankings,
+stochastic processes, continuous analysis, and design optimization, use
+[`ECONCSLIB_DOMAIN_INDEX.md`](ECONCSLIB_DOMAIN_INDEX.md) and its linked
+domain-specific roadmaps. Use their named entrypoints before adding
+paper-local variants while preserving paper-facing theorem names.
 
 ## Library Maintenance TODOs
 
@@ -92,7 +98,7 @@ searches, or endpoint/current-bound optimality proofs should start with
 - Build status: as of 2026-06-01, the public branch validates with
   `lake build EconCSLib`. Earlier auction-local theorem-name drift has been
   resolved on the public branch; future public commits should keep this
-  aggregate target green, even if private paper-development branches use
+  aggregate target green, even if focused paper-development branches use
   narrower targets while a paper thread is actively changing.
 
 ## Paper Folders

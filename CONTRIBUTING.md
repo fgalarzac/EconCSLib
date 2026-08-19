@@ -2,7 +2,7 @@
 
 EconCSLib accepts focused paper formalizations and reusable library, tooling,
 and documentation improvements. Start with the contributor landing page:
-[`docs/contributing/README.md`](docs/contributing/README.md).
+[`docs/NEW_CONTRIBUTOR_WORKFLOW.md`](docs/NEW_CONTRIBUTOR_WORKFLOW.md).
 
 The contribution process is provisional. Before substantial paper work,
 coordinate the intended source version and scope with Nikhil Garg at
@@ -21,18 +21,19 @@ python3 scripts/paper_contribution.py doctor
 ```
 
 For a new paper, first obtain the exact source version being formalized. Keep
-those bytes under the ignored `.scratch/` tree, not in Git. The example below
-assumes that you have copied or downloaded that artifact to
-`.scratch/$PAPER/source.pdf`; do not run `init-spec` until the `test` succeeds.
+those bytes outside the repository, not in Git. The example below assumes that
+you have copied or downloaded the artifact into a user-owned working directory;
+do not run `init-spec` until the `test` succeeds.
 
 ```bash
 PAPER=ABC24ShortTitle
 PAPER_URL=https://arxiv.org/abs/2401.01234
 SOURCE_VERSION='arXiv v1, 2024-01-03'
-SOURCE_ARTIFACT=".scratch/$PAPER/source.pdf"
-STATEMENT_SPEC=".scratch/$PAPER/statement-spec.json"
+WORK_DIR="${HOME}/econcslib-review/$PAPER"
+SOURCE_ARTIFACT="$WORK_DIR/paper.pdf"
+STATEMENT_SPEC="$WORK_DIR/statement-spec.json"
 
-mkdir -p ".scratch/$PAPER"
+mkdir -p "$WORK_DIR"
 # Put the exact source bytes at "$SOURCE_ARTIFACT" before continuing.
 test -f "$SOURCE_ARTIFACT"
 python3 scripts/paper_contribution.py init-spec \
@@ -61,8 +62,8 @@ python3 scripts/paper_contribution.py new "$PAPER_URL" \
   --statement-spec "$STATEMENT_SPEC"
 ```
 
-Do not stage either `$SOURCE_ARTIFACT` or `$STATEMENT_SPEC`; `.scratch/` is
-ignored for that reason. Without `--statement-spec`, the scaffold is still valid
+Do not stage either `$SOURCE_ARTIFACT` or `$STATEMENT_SPEC`. Without
+`--statement-spec`, the scaffold is still valid
 but `PaperInterface.lean` starts intentionally empty rather than making
 placeholder mathematical claims.
 
@@ -172,8 +173,8 @@ report; do not silently change the advertised theorem.
 
 Keep source PDFs, TeX archives, and extracted text out of a one-paper pull
 request. Publishing licensed source material is a separate integration
-decision. The paper scaffold ignores its local audited-source cache while
-recording the source version and SHA-256 identity needed by the audit evidence.
+decision. The paper scaffold keeps source material untracked while recording
+the source version and SHA-256 identity needed by the audit evidence.
 
 The full local `check <PaperName>` must run with the pinned source bytes
 present. That source-grounded closeout is the mathematical acceptance boundary.

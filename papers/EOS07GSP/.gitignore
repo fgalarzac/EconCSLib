@@ -1,6 +1,7 @@
 *.pdf
 !DependencyDAG.pdf
 !docs/DependencyDAG.pdf
+!docs/HUMAN_REVIEW_PACKET.pdf
 /source/
 /source_tex/
 /EOS07GSP.txt

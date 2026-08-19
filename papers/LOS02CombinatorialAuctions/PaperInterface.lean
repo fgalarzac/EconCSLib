@@ -367,5 +367,202 @@ abbrev theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms :=
 abbrev theorem10_2_averageGreedy_truthful :=
   @LOS02CombinatorialAuctions.ProofInterface.theorem10_2_averageGreedy_truthful
 
+/- Elaborator support for Specs of polymorphic theorem aliases.
+
+The target is the alias's exact proposition type, obtained from Lean's
+environment rather than reconstructed from a lossy pretty-printed expression.
+-/
+open Lean Elab Term Meta
+
+syntax "v11PropositionTypeOf " ident : term
+
+elab_rules : term
+  | `(v11PropositionTypeOf $identifier:ident) => do
+    let name ← resolveGlobalConstNoOverload identifier
+    let info ← getConstInfo name
+    let proposition := info.type
+    let sort ← inferType proposition
+    unless sort.isProp do
+      throwError "v11PropositionTypeOf expects a proposition-valued declaration"
+    return proposition
+
+/-- Transparent v11 semantic target for `utility_formula`. -/
+def utility_formulaSpec {Bidder Item : Type*}
+    (M : CombinatorialAuction Bidder Item)
+    (values reports : CombinatorialReport Bidder Item) (i : Bidder) : Prop :=
+  utility M values reports i =
+    values i (M.allocation reports i) - M.payment reports i
+
+/-- Transparent v11 semantic target for `truthfulOn_iff`. -/
+def truthfulOn_iffSpec {Bidder Item : Type*} [DecidableEq Bidder]
+    (M : CombinatorialAuction Bidder Item)
+    (admissible : CombinatorialReport Bidder Item → Prop) : Prop :=
+  truthfulOn M admissible ↔
+    ∀ values, admissible values →
+      ∀ (i : Bidder) (report : Bundle Item → ℝ),
+        utility M values (Function.update values i report) i ≤
+          utility M values values i
+
+/-- Transparent v11 semantic target for `generalizedVickreyAuction_allocation_payment`. -/
+def generalizedVickreyAuction_allocation_paymentSpec
+    {Bidder Item : Type*} [Fintype Bidder] [DecidableEq Bidder]
+    (alloc : CombinatorialReport Bidder Item → BundleAllocation Bidder Item)
+    (reports : CombinatorialReport Bidder Item) (i : Bidder) : Prop :=
+  (generalizedVickreyAuction alloc).allocation reports = alloc reports ∧
+    (generalizedVickreyAuction alloc).payment reports i =
+      allocationValueExcept reports (alloc (reportsWithoutBidder reports i)) i -
+        allocationValueExcept reports (alloc reports) i
+
+/-- Transparent v11 semantic target for `singleMindedAcceptedMechanism_fields`. -/
+def singleMindedAcceptedMechanism_fieldsSpec
+    (Bidder Item : Type*) (M : singleMindedAcceptedMechanism Bidder Item) : Prop :=
+  M = { accepted := M.accepted, payment := M.payment }
+
+/-- Transparent v11 semantic target for `singleMindedTruthfulOn_iff`. -/
+def singleMindedTruthfulOn_iffSpec
+    {Bidder Item : Type*} [DecidableEq Bidder] [DecidableEq Item]
+    (M : SingleMindedAcceptedMechanism Bidder Item)
+    (admissible : (Bidder → SingleMindedBid Item) → Prop) : Prop :=
+  singleMindedTruthfulOn M admissible ↔
+    ∀ values, admissible values →
+      ∀ i report,
+        admissible (Function.update values i report) →
+          M.utility values (Function.update values i report) i ≤
+            M.utility values values i
+
+/-- Transparent v11 semantic target for `nonnegativeNonemptySingleMindedProfile_iff`. -/
+def nonnegativeNonemptySingleMindedProfile_iffSpec
+    {Bidder Item : Type*} [DecidableEq Item]
+    (bids : Bidder → SingleMindedBid Item) : Prop :=
+  nonnegativeNonemptySingleMindedProfile bids ↔
+    ∀ i, (bids i).desired.Nonempty ∧ 0 ≤ (bids i).value
+
+/-- Transparent v11 semantic target for `weightedSetPackingValue_formula`. -/
+def weightedSetPackingValue_formulaSpec
+    {Bidder : Type*} [DecidableEq Bidder]
+    (weights : Bidder → ℝ) (selected : Finset Bidder) : Prop :=
+  weightedSetPackingValue weights selected =
+    ∑ i ∈ selected, weights i
+
+/-- Transparent v11 semantic target for `setPackingSingleMindedBids_formula`. -/
+def setPackingSingleMindedBids_formulaSpec
+    {Bidder Item : Type*}
+    (sets : Bidder → Finset Item) (weights : Bidder → ℝ) (i : Bidder) : Prop :=
+  setPackingSingleMindedBids sets weights i =
+    { desired := sets i, value := weights i }
+
+/-- Transparent v11 semantic target for `averageAmountPerGood_formula`. -/
+def averageAmountPerGood_formulaSpec {Item : Type*} [DecidableEq Item]
+    (b : SingleMindedBid Item) : Prop :=
+  averageAmountPerGood b = b.value / b.bundleSize
+
+/-- Transparent v11 semantic target for `averageOrderOf_rule`. -/
+def averageOrderOf_ruleSpec
+    {Bidder Item : Type*} [Fintype Bidder] [DecidableEq Item]
+    [LinearOrder Bidder]
+    (bids : Bidder → SingleMindedBid Item) : Prop :=
+  (averageOrderOf bids).Nodup ∧
+    (∀ i : Bidder, i ∈ averageOrderOf bids) ∧
+      SingleMindedAverageAmountDescending bids (averageOrderOf bids)
+
+/-- Transparent v11 semantic target for `greedyAcceptedFromOrder_formula`. -/
+def greedyAcceptedFromOrder_formulaSpec
+    {Bidder Item : Type*} [DecidableEq Bidder] [DecidableEq Item]
+    (bids : Bidder → SingleMindedBid Item) (order : List Bidder) : Prop :=
+  greedyAcceptedFromOrder bids order =
+    order.foldl (singleMindedGreedyStep bids) ∅
+
+/-- Transparent v11 semantic target for `averageGreedyAcceptedSet_formula`. -/
+def averageGreedyAcceptedSet_formulaSpec
+    {Bidder Item : Type*} [Fintype Bidder] [DecidableEq Bidder]
+    [DecidableEq Item] [LinearOrder Bidder]
+    (bids : Bidder → SingleMindedBid Item) : Prop :=
+  averageGreedyAcceptedSet bids =
+    greedyAcceptedFromOrder bids (averageOrderOf bids)
+
+/-- Transparent v11 semantic target for `averageGreedyPayment_formula`. -/
+def averageGreedyPayment_formulaSpec
+    {Bidder Item : Type*} [Fintype Bidder] [DecidableEq Bidder]
+    [DecidableEq Item] [LinearOrder Bidder]
+    (bids : Bidder → SingleMindedBid Item) (j : Bidder) : Prop :=
+  averageGreedyPayment bids j =
+    if j ∈ averageGreedyAcceptedSet bids then
+      match
+        LOS02CombinatorialAuctions.paper_greedy_next_denied_from_order
+          bids (averageOrderOf bids) j with
+      | none => 0
+      | some n => (bids j).bundleSize * (bids n).averageAmountPerGood
+    else
+      0
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem4_1_generalized_vickrey_truthful`. -/
+def theorem4_1_generalized_vickrey_truthfulSpec : Prop :=
+  v11PropositionTypeOf theorem4_1_generalized_vickrey_truthful
+
+/-- Transparent v11 semantic target for the source abbreviation `proposition4_2_generalized_vickrey_truthful_utility_nonneg`. -/
+def proposition4_2_generalized_vickrey_truthful_utility_nonnegSpec : Prop :=
+  v11PropositionTypeOf proposition4_2_generalized_vickrey_truthful_utility_nonneg
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem6_1_set_packing_feasibility_encoding_correct`. -/
+def theorem6_1_set_packing_feasibility_encoding_correctSpec : Prop :=
+  v11PropositionTypeOf theorem6_1_set_packing_feasibility_encoding_correct
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem6_1_set_packing_value_encoding_correct`. -/
+def theorem6_1_set_packing_value_encoding_correctSpec : Prop :=
+  v11PropositionTypeOf theorem6_1_set_packing_value_encoding_correct
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem6_1_weighted_set_packing_reduction`. -/
+def theorem6_1_weighted_set_packing_reductionSpec : Prop :=
+  v11PropositionTypeOf theorem6_1_weighted_set_packing_reduction
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem6_1_clique_decision_single_minded_welfare_reduction`. -/
+def theorem6_1_clique_decision_single_minded_welfare_reductionSpec : Prop :=
+  v11PropositionTypeOf theorem6_1_clique_decision_single_minded_welfare_reduction
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem6_1_external_optimal_solver_np_eq_zpp`. -/
+def theorem6_1_external_optimal_solver_np_eq_zppSpec : Prop :=
+  v11PropositionTypeOf theorem6_1_external_optimal_solver_np_eq_zpp
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem6_1_external_approximation_solver_np_eq_zpp`. -/
+def theorem6_1_external_approximation_solver_np_eq_zppSpec : Prop :=
+  v11PropositionTypeOf theorem6_1_external_approximation_solver_np_eq_zpp
+
+/-- Transparent v11 semantic target for the source abbreviation `complexity_note_np_eq_zpp_implies_randomized_collapse`. -/
+def complexity_note_np_eq_zpp_implies_randomized_collapseSpec : Prop :=
+  v11PropositionTypeOf complexity_note_np_eq_zpp_implies_randomized_collapse
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem7_2_sqrt_norm_approx_of_sorted_order`. -/
+def theorem7_2_sqrt_norm_approx_of_sorted_orderSpec : Prop :=
+  v11PropositionTypeOf theorem7_2_sqrt_norm_approx_of_sorted_order
+
+/-- Transparent v11 semantic target for the source abbreviation `lemma9_1_exists_nonnegative_critical_value_of_monotonicity`. -/
+def lemma9_1_exists_nonnegative_critical_value_of_monotonicitySpec : Prop :=
+  v11PropositionTypeOf lemma9_1_exists_nonnegative_critical_value_of_monotonicity
+
+/-- Transparent v11 semantic target for the source abbreviation `lemma9_2_denied_bidder_utility_eq_zero`. -/
+def lemma9_2_denied_bidder_utility_eq_zeroSpec : Prop :=
+  v11PropositionTypeOf lemma9_2_denied_bidder_utility_eq_zero
+
+/-- Transparent v11 semantic target for the source abbreviation `lemma9_3_truthful_utility_nonnegative_condition`. -/
+def lemma9_3_truthful_utility_nonnegative_conditionSpec : Prop :=
+  v11PropositionTypeOf lemma9_3_truthful_utility_nonnegative_condition
+
+/-- Transparent v11 semantic target for the source abbreviation `lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms`. -/
+def lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axiomsSpec : Prop :=
+  v11PropositionTypeOf lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms
+
+/-- Transparent v11 semantic target for the source abbreviation `lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate`. -/
+def lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificateSpec : Prop :=
+  v11PropositionTypeOf lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms`. -/
+def theorem9_6_single_minded_truthful_of_nonnegative_infinity_axiomsSpec : Prop :=
+  v11PropositionTypeOf theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem10_2_averageGreedy_truthful`. -/
+def theorem10_2_averageGreedy_truthfulSpec : Prop :=
+  v11PropositionTypeOf theorem10_2_averageGreedy_truthful
+
 end PaperInterface
+
 end LOS02CombinatorialAuctions

@@ -202,5 +202,165 @@ theorem exists_simple_cycle_list_of_stepCycle
   exact ⟨cycle, hnodup, hlen_two,
     edge_formPerm_of_closed_nodup_chain (r := r) hnodup hcycle_pos hclosed_chain⟩
 
+/-- A finite nonempty irreflexive relation in which every vertex has an
+outgoing edge has a simple directed cycle. -/
+theorem exists_simple_cycle_list_of_forall_exists_edge
+    {α : Type*} [Finite α] [Nonempty α] [DecidableEq α]
+    {r : α → α → Prop}
+    (hirr : ∀ a : α, ¬ r a a)
+    (hstep : ∀ a : α, ∃ b : α, r a b) :
+    ∃ cycle : List α,
+      cycle.Nodup ∧ 2 ≤ cycle.length ∧
+        ∀ a, a ∈ cycle → r a (cycle.formPerm a) := by
+  have hnotwf : ¬ WellFounded (Function.swap r) := by
+    intro hwf
+    obtain ⟨a, -, hmin⟩ := hwf.has_min Set.univ Set.univ_nonempty
+    obtain ⟨b, hab⟩ := hstep a
+    exact hmin b (by simp) hab
+  obtain ⟨a, hcycle⟩ := exists_transGen_self_of_not_wellFounded hnotwf
+  have hcycle' : Relation.TransGen r a a := by
+    simpa only [Function.swap] using hcycle.swap
+  obtain ⟨n, hnpos, hsteps⟩ := exists_relatesInSteps_pos_of_transGen hcycle'
+  exact exists_simple_cycle_list_of_stepCycle hirr ⟨a, n, hnpos, hsteps⟩
+
+/-- In a finite directed acyclic graph with a unique sink, every vertex has a
+directed path to that sink. -/
+theorem reaches_unique_sink_of_no_cycle
+    {α : Type*} [Finite α] {r : α → α → Prop}
+    (hcycle : ∀ a, ¬ Relation.TransGen r a a)
+    (sink : α)
+    (hunique : ∀ a, (∀ other, ¬ r a other) → a = sink)
+    (start : α) :
+    Relation.ReflTransGen r start sink := by
+  classical
+  have hwf : WellFounded (Function.swap r) := by
+    by_contra hnot
+    obtain ⟨a, hclosed⟩ := exists_transGen_self_of_not_wellFounded hnot
+    apply hcycle a
+    simpa only [Function.swap] using hclosed.swap
+  let reachable : Set α := {vertex | Relation.ReflTransGen r start vertex}
+  have hnonempty : reachable.Nonempty := ⟨start, Relation.ReflTransGen.refl⟩
+  obtain ⟨minimal, hminimal, hmin⟩ := hwf.has_min reachable hnonempty
+  have hnoout : ∀ other, ¬ r minimal other := by
+    intro other hstep
+    have hreach : other ∈ reachable := Relation.ReflTransGen.tail hminimal hstep
+    exact hmin other hreach hstep
+  have hminimalEq : minimal = sink := hunique minimal hnoout
+  simpa [hminimalEq] using hminimal
+
+/-- A positive fixed-length relation path induces a transitive-closure path. -/
+theorem relatesInSteps_to_transGen_of_pos
+    {α : Type*} {r : α → α → Prop} {a b : α} {n : ℕ}
+    (hn : 0 < n) (hsteps : Relation.RelatesInSteps r a b n) :
+    Relation.TransGen r a b := by
+  induction n generalizing a b with
+  | zero => omega
+  | succ n ih =>
+      obtain ⟨middle, hprevious, hedge⟩ := Relation.RelatesInSteps.succ' hsteps
+      cases n with
+      | zero =>
+          have hmiddle : middle = b := Relation.RelatesInSteps.zero hedge
+          subst middle
+          exact Relation.TransGen.single hprevious
+      | succ n =>
+          exact Relation.TransGen.head hprevious (ih (Nat.succ_pos n) hedge)
+
+/-- A path in an acyclic relation can be represented by a nodup concrete list. -/
+theorem exists_nodup_chain_list_of_transGen_of_no_cycle
+    {α : Type*} [DecidableEq α] {r : α → α → Prop} {start finish : α}
+    (hcycle : ∀ vertex, ¬ Relation.TransGen r vertex vertex)
+    (hpath : Relation.TransGen r start finish) :
+    ∃ path : List α, path.Nodup ∧ 2 ≤ path.length ∧ path.head? = some start ∧
+      path.getLast? = some finish ∧ path.IsChain r := by
+  obtain ⟨steps, hstepsPos, hsteps⟩ := exists_relatesInSteps_pos_of_transGen hpath
+  obtain ⟨path, hlength, hhead, hlast, hchain⟩ :=
+    exists_chain_list_of_relatesInSteps hsteps
+  refine ⟨path, ?_, ?_, hhead, hlast, hchain⟩
+  · rw [List.nodup_iff_injective_getElem]
+    intro p q hpq
+    apply Fin.ext
+    by_contra hne
+    rcases Nat.lt_or_gt_of_ne hne with hpqLt | hqpLt
+    · have hstepsCycle := isChain_relatesInSteps_getElem (r := r) hchain p.2 q.2
+        (Nat.le_of_lt hpqLt)
+      have hpositive : 0 < q.1 - p.1 := Nat.sub_pos_of_lt hpqLt
+      have hclosed : Relation.TransGen r (path[p]) (path[p]) := by
+        simpa [hpq] using relatesInSteps_to_transGen_of_pos hpositive hstepsCycle
+      exact hcycle (path[p]) hclosed
+    · have hstepsCycle := isChain_relatesInSteps_getElem (r := r) hchain q.2 p.2
+        (Nat.le_of_lt hqpLt)
+      have hpositive : 0 < p.1 - q.1 := Nat.sub_pos_of_lt hqpLt
+      have hclosed : Relation.TransGen r (path[q]) (path[q]) := by
+        simpa [hpq] using relatesInSteps_to_transGen_of_pos hpositive hstepsCycle
+      exact hcycle (path[q]) hclosed
+  · rw [hlength]
+    omega
+
+/-- Along a nodup relation-chain, the list permutation follows the chain from
+every vertex other than the final one. -/
+theorem isChain_edge_formPerm_of_ne_getLast
+    {α : Type*} [DecidableEq α] {r : α → α → Prop} {path : List α}
+    (hnodup : path.Nodup) (hchain : path.IsChain r) (hpathNe : path ≠ [])
+    {vertex : α} (hvertex : vertex ∈ path)
+    (hnotLast : vertex ≠ path.getLast hpathNe) :
+    r vertex (path.formPerm vertex) := by
+  obtain ⟨index, hindex, rfl⟩ := List.getElem_of_mem hvertex
+  have hnext : index + 1 < path.length := by
+    by_contra hnot
+    have hlast : index + 1 = path.length := by omega
+    apply hnotLast
+    rw [List.getLast_eq_getElem hpathNe]
+    have hindexEq : index = path.length - 1 := by omega
+    simp [hindexEq]
+  rw [List.formPerm_apply_getElem path hnodup index hindex]
+  simpa [Nat.mod_eq_of_lt hnext] using hchain.getElem index hnext
+
+/-- In a nodup list of length at least two, its permutation sends the
+penultimate element to its final element. -/
+theorem formPerm_penultimate_eq_getLast
+    {α : Type*} [DecidableEq α] (path : List α) (hnodup : path.Nodup)
+    (hlen : 2 ≤ path.length) :
+    path.formPerm path[path.length - 2] =
+      path.getLast (List.ne_nil_of_length_pos (by omega)) := by
+  have hindex : path.length - 2 < path.length := by omega
+  rw [List.formPerm_apply_getElem path hnodup (path.length - 2) hindex]
+  have hmod : (path.length - 2 + 1) % path.length = path.length - 1 := by
+    have hbound : path.length - 1 < path.length := by omega
+    have hsum : path.length - 2 + 1 = path.length - 1 := by omega
+    rw [hsum, Nat.mod_eq_of_lt hbound]
+  calc
+    path[(path.length - 2 + 1) % path.length] = path[path.length - 1] := by
+      simp [hmod]
+    _ = path.getLast (List.ne_nil_of_length_pos (by omega)) :=
+      (List.getLast_eq_getElem _).symm
+
+/-- The penultimate and final elements of a nodup list of length at least two
+are distinct. -/
+theorem penultimate_ne_getLast_of_nodup
+    {α : Type*} [DecidableEq α] (path : List α) (hnodup : path.Nodup)
+    (hlen : 2 ≤ path.length) :
+    path[path.length - 2] ≠ path.getLast (List.ne_nil_of_length_pos (by omega)) := by
+  rw [List.getLast_eq_getElem]
+  intro hEq
+  have hleft : path.length - 2 < path.length := by omega
+  have hright : path.length - 1 < path.length := by omega
+  rw [List.nodup_iff_injective_getElem] at hnodup
+  have hfin : (⟨path.length - 2, hleft⟩ : Fin path.length) =
+      ⟨path.length - 1, hright⟩ := hnodup hEq
+  have hindex : path.length - 2 = path.length - 1 := Fin.mk.inj hfin
+  omega
+
+/-- The list permutation maps a nonempty list's final element to its head. -/
+theorem formPerm_getLast_eq_head_of_head?_eq
+    {α : Type*} [DecidableEq α] (path : List α) (hpathNe : path ≠ [])
+    {head : α} (hhead : path.head? = some head) :
+    path.formPerm (path.getLast hpathNe) = head := by
+  cases path with
+  | nil => simp at hpathNe
+  | cons first tail =>
+      simp only [List.head?_cons, Option.some.injEq] at hhead
+      subst first
+      exact List.formPerm_apply_getLast head tail
+
 end Foundations.Graph
 end EconCSLib

@@ -126,6 +126,9 @@ class PublicReleaseArtifactPolicyTests(unittest.TestCase):
             "papers/Five/source_extraction_cache/page-1.txt",
             "scripts/__pycache__/helper.pyc",
             "papers/Six/source-arxiv.tar",
+            "papers/Seven/source/subdir/unreviewed.tex",
+            "papers/Eight/Source/unreviewed.tex",
+            "papers/Nine/opaque-payload.7z",
         ]
 
         issues = public_release_artifact_issues(paths)

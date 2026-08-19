@@ -1,0 +1,289 @@
+{
+  "generator": "python3 scripts/public_source_display_projection.py",
+  "paper_id": "Roth82StableMatching",
+  "private_source_map_sha256": "e12802b264e69f1b75182142997d9437c4c6428139189b7e0a39aced88b35d17",
+  "public_manifest_path": "papers/Roth82StableMatching/audit/public_source_display_projection.json",
+  "public_source_map_sha256": "6f4fcec3667df130eb40a4d9ad312e3c3ff8153c9ea4d10f1c18c763f9bff615",
+  "raw_source_artifact_included": false,
+  "raw_source_display_material": "selected_byte_pinned_source_anchor_quotes",
+  "schema": 1,
+  "selected_source_item_ids": [
+    "complete_marriage_outcome_definition",
+    "corollary5_1",
+    "dominant_truthfulness_definition",
+    "efficient_matching_procedure_definition",
+    "general_quota_outcome_definition",
+    "lemma1",
+    "lemma2",
+    "marriage_model_definition",
+    "matching_procedure_definition",
+    "preference_profile_definition",
+    "side_optimal_stable_outcome_definition",
+    "simple_misrepresentation_definition",
+    "stable_marriage_definition",
+    "stable_matching_procedure_definition",
+    "theorem1",
+    "theorem2",
+    "theorem3",
+    "theorem4",
+    "theorem5",
+    "theorem6",
+    "theorem7"
+  ],
+  "selected_source_items": {
+    "complete_marriage_outcome_definition": {
+      "source_anchors": [
+        {
+          "line_end": 145,
+          "line_start": 140,
+          "publication_locator": "cited publication",
+          "quoted_text": "An outcome of the (monogamous) marriage problem is a onemen and women, i.e., an invertible function x: M - W. An outco\n\nby x = [(ml,x(ml)),(m2,x(m2)),. .. , (mn,x(mM))] where x(mi\n\nmatched with man m,, and x- (wj) = mi is the man matched wit\nA matching x is stable if no man and no woman who are not m",
+          "quoted_text_sha256": "e49220fe8da85d1a90ae1694002816d85906e4996b281d6a658ca09f7b19452d"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "corollary5_1": {
+      "source_anchors": [
+        {
+          "line_end": 535,
+          "line_start": 477,
+          "publication_locator": "cited publication",
+          "quoted_text": "COROLLARY 5.1. In the matching procedure which always yields the optimal stable\noutcome for a given set of agents, the agents in the other set have no incentive to\nmisrepresent their first choice.\n\nNote that both results are phrased in terms of \"the\" matching procedure which\nyields a particular outcome. There are obviously different procedures which yield the\nsame outcome, but from the point of view of incentivies such procedures are equivalent, and can be regarded as a single procedure. Note also that Theorem 5 implies that,\nalthough an agent can in general change the set of stable outcomes by misrepresenting\nhis preferences, no agent can manipulate his preferences in such a way that he prefers\nhis best outcome in the altered set of stable outcomes to his best outcome in the\n\noriginal set of stable outcomes. The next section is devoted to the proof of thes\nresults, which is somewhat more complex than the proof of the earlier results.\npresents some additional results about the structure of the set of stable outcom\n\nwhich arise in the course of the proofs.\n\n5. Proofs of Theorem 5 and its corollary. In this section it will be shown that t\nrepeated proposal procedure G used in the proof of Theorem 1 has the propertie\nstated in Theorem 5 and Corollary 5.1. As discussed in section 2, to establish the\nresults for the general matching problem with strict preferences, it will be sufficient\n\ndemonstrate them for the marriage problem. Throughout this section, therefore, t\nsets of agents will be M = { m .. . . , m} and W = (w, . . . , w }, the true preferenc\nof the players will be given by the arbitrary preference profile P, and x = g(P) w\ndenote the outcome which results from the repeated proposal procedure when the true\npreferences are stated.\n\nTo prove Theorem 5, we need to show that truthful revelation is a dominant strategy\n\nfor each mi in M. Since the (true) preference profile P is arbitrary, it will be sufficien\nto show that, if P' is a preference profile which differs from P only in that P'(mi), say\n\nreplaces man m,'s true preferences P(mi), then man mi doesn't prefer the outco\ny = g(P') to x = g(P). That is, we need to show that no successful misrepresentati\n\nof preferences is possible, where a misrepresentation P'(mi) is defined to be\n\nsuccessful misrepresentation by man mi if y(mi)P(mi)x(mi). That is, a misrepres\ntation P'(mi) is successful if mi prefers (according to his true preferences) the partner\n\ny(m,) he's matched with when he misrepresents his preferences to the partner x(m\nhe's matched with when he states his true preferences. (Throughout this section\ny = g(P') will denote an outcome resulting from misrepresentation by mi.)\n\nWe first show that only a certain kind of simple misrepresentation need\n\nconsidered, since if any successful manipulation is possible, then it can be achieved\na simple misrepresentation. Specifically, if P'(mi) is an arbitrary misrepresentation\ndiscussed above, then an equivalent simple misrepresentation P\"(mi) is one in whic\n\ny(mi)P\"(mi)wj for all wj #y(mi). That is, P\"(mi) is a preference relation which ha\ny(m,) as the most preferred match of mi,. The justification for calling P\"(mi) an\nequivalent misrepresentation to P'(mi) is given by the following lemma, which sta\n\nthat mi will end up matched to the same partner, y(m), whether he misrepresents usin\n\nP'(mi) or P\"(mi). (The preference profile P\", of course, denotes the one which diffe\nfrom P only in that P\"(mi,) replaces P(mi).",
+          "quoted_text_sha256": "97427722aac7a33fb6ed6f9998e781d3054c862f37e5c362a8ef22c6ab3283fc"
+        }
+      ],
+      "source_kind": "corollary"
+    },
+    "dominant_truthfulness_definition": {
+      "source_anchors": [
+        {
+          "line_end": 351,
+          "line_start": 340,
+          "publication_locator": "cited publication",
+          "quoted_text": "Before proceeding further with this discussion, we need to make precise what is\nmeant by a procedure which gives agents an incentive to reveal their true preferences.\nOnce a given mechanism for aggregating stated preferences is adopted, the matching\nproblem becomes a noncooperative game among the agents, whose payoff consists of\nthe outcome which results, and whose strategy choices consist of what preferences to\nstate (or act according to, cf. footnote 9). Here we define a procedure which gives the\nagents the incentives to reveal their true preferences as one which aggregates stated\n\npreferences in a manner such that, in the resulting noncooperative game, it is a\ndominant strategy for each player to state his preferences honestly.10 In such a\nprocedure, no matter what preferences other players may state, a player who misrepresents his preferences can achieve no better outcome than if he had stated them\ncorrectly, and he may, of course, do worse.\"",
+          "quoted_text_sha256": "1111f7f610ef89a5d85d802e37052acf15c4b2e3ae4d607d5df85f89136bcc16"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "efficient_matching_procedure_definition": {
+      "source_anchors": [
+        {
+          "line_end": 435,
+          "line_start": 433,
+          "publication_locator": "cited publication",
+          "quoted_text": "To see the role played by stability in Theorem 3, observe that there are effici\nmatching procedures, i.e., procedures which always yield Pareto optimal (but not\nnecessarily stable) outcomes, which do not give players any incentive to misrepresent",
+          "quoted_text_sha256": "ab4c20e26a01c98c49a0daeece53336f06cb9cafb8e8116832a94348c9614b74"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "general_quota_outcome_definition": {
+      "source_anchors": [
+        {
+          "line_end": 175,
+          "line_start": 167,
+          "publication_locator": "cited publication",
+          "quoted_text": "The marriage problem as outlined above differs from the general matching problem\nin three principal respects. First, in the marriage problem, each agent is to be matched\n\nwith exactly one partner, but in the general matching problem, different agents may\nneed to be matched with different numbers of partners, so that each agent has a\n\"quota,\" and an outcome is a function which matches each agent with his quota of\npartners.6 For our purposes, this difference between the marriage problem and the\ngeneral matching problem turns out to be of no consequence, since all the arguments\nwhich will be used can be carried over virtually unchanged to the general case. Second,",
+          "quoted_text_sha256": "6e77ff39cbab944c485ac6c2ef54afe626e9c3f43759b08da0bf187a15c8fb02"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "lemma1": {
+      "source_anchors": [
+        {
+          "line_end": 537,
+          "line_start": 537,
+          "publication_locator": "cited publication",
+          "quoted_text": "LEMMA 1. If y = g(P') and z = g(P\") then z(mi) = y(mi).",
+          "quoted_text_sha256": "e3a8fbb9b53b90f4c234c91d88a5b9f3414881bdb13038be39905aff9c5b4c73"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "lemma2": {
+      "source_anchors": [
+        {
+          "line_end": 567,
+          "line_start": 564,
+          "publication_locator": "cited publication",
+          "quoted_text": "LEMMA 2. If P'(mi) is a simple misrepresentation such that y = g(P') and either\ny(m)P(mi)x(mi) or y(mi)= x(mi) then, for each mj in M, either y(mj)P(mj)x(mj) or\n\ny(mj) = x(mj).",
+          "quoted_text_sha256": "0a42cb5261f959c0a2a273cc09344f343218d238c3314a54e76bfe4c2e506473"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "marriage_model_definition": {
+      "source_anchors": [
+        {
+          "line_end": 197,
+          "line_start": 176,
+          "publication_locator": "cited publication",
+          "quoted_text": "the marriage problem was defined as having equal numbers of men and women, and\nwithout the possibility that a feasible outcome could leave any agent unmatched, while\nin the general matching problem, there may be an excess of one kind of agent, and an\n\noutcome need not make a match for every agent. This more general case can be\nhandled by adding suitable \"dummy\" agents corresponding to the option of being\nunmatched in the final outcome. The third respect in which the marriage problem as\ndescribed above is more restrictive than the general matching problem is that indiffer-\n\nence between potential partners has been ruled out by the assumption that all\npreferences are strict. Relaxing this assumption would actually complicate some of the\nresults. To avoid these complications, only strict preferences will be considered.\n\nThus the marriage problem will be used to represent the general matching problem\nwith strict preferences. This should not obscure the fact that much of the interest of the\n5That is, the preference relations P(m,) (or P(wi)) have the following properties:\n(1) transitivity: if WjPiWk and wkPiwI, then wjPiwl;\n\n(2) completeness: for all distinct wj, wk in W, exactly one of the relations wjPiWk or wkP,wj holds\nThe interpretation of the preference relations Pi as strict preference relations means that we are ruling out\nthe possibility that an agent will be indifferent between two potential partners. (Also, it is never the case that\nwjP.jW.) See the discussion at the end of this section.",
+          "quoted_text_sha256": "2123d65bf25a071b4a6b9aa3edfec487a86e7f1a19041fb732c3d18cb254d01f"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "matching_procedure_definition": {
+      "source_anchors": [
+        {
+          "line_end": 303,
+          "line_start": 300,
+          "publication_locator": "cited publication",
+          "quoted_text": "4. Incentives and stability. Since each agent alone knows his own preferences, any\nmatching procedure which depends on agents' preferences can be thought of as\nconsisting of two parts: a mechanism for eliciting the preferences of the agents, and a\nmechanism for aggregating these elicited preferences to determine an outcome. This",
+          "quoted_text_sha256": "63e113f7b30d0353dae5367908f91bc3f7077bf0fe7482eb257c85eeec190c66"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "preference_profile_definition": {
+      "source_anchors": [
+        {
+          "line_end": 138,
+          "line_start": 130,
+          "publication_locator": "cited publication",
+          "quoted_text": "defined on W. When no confusion will occur, P(mi) will sometim\n\nthus the statement \"wk is preferred by mi to w.\" can be written as w\n\nEach wi in W has a similar preference P(wi) defined on\n\n= (P(m,), . . ., P(wn)) the 2n-vector of all the agents' preferenc\n\ntimes be referred to as the preference profile.",
+          "quoted_text_sha256": "97c8c5c207a9697be53470790905b4f445b421625087f43fc0cb224baab27d54"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "side_optimal_stable_outcome_definition": {
+      "source_anchors": [
+        {
+          "line_end": 466,
+          "line_start": 463,
+          "publication_locator": "cited publication",
+          "quoted_text": "results, which make use of the fact that Theorem 1 permits us to identify, for each set\n\nof agents, a unique optimal stable outcome, which they each like at least as well as any\nother stable outcome.",
+          "quoted_text_sha256": "09747a4564c0c2ac4835865bfaf1072e77d591b62a958f985c0dc82f1e2a38fc"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "simple_misrepresentation_definition": {
+      "source_anchors": [
+        {
+          "line_end": 529,
+          "line_start": 522,
+          "publication_locator": "cited publication",
+          "quoted_text": "We first show that only a certain kind of simple misrepresentation need\n\nconsidered, since if any successful manipulation is possible, then it can be achieved\na simple misrepresentation. Specifically, if P'(mi) is an arbitrary misrepresentation\ndiscussed above, then an equivalent simple misrepresentation P\"(mi) is one in whic\n\ny(mi)P\"(mi)wj for all wj #y(mi). That is, P\"(mi) is a preference relation which ha\ny(m,) as the most preferred match of mi,. The justification for calling P\"(mi) an",
+          "quoted_text_sha256": "4a72e487b27f3bc8ba95cfcd080897ec726a5dfe93664aa8e816b50bb4577fba"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "stable_marriage_definition": {
+      "source_anchors": [
+        {
+          "line_end": 165,
+          "line_start": 145,
+          "publication_locator": "cited publication",
+          "quoted_text": "A matching x is stable if no man and no woman who are not m\n\nat x prefer each other to their partners at x. That is, x is stable if t\n\nand woman Wq such that both\n\n(i)\n\nand\n\nWqPkx(mk)\n\n(ii) mkPqX l(wq).\n\nIf a pair mk and wq do exist satisfying (i) a\n\nand wq. The motivation for this terminol\nthat the set of stable outcomes is equal\nresults if any man and woman may mar\nagent's preference for an outcome is dete\npartners).",
+          "quoted_text_sha256": "bbccd76cebc990c571a8b00596f851b845067c0b4bdef299c73a6fa4d1850505"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "stable_matching_procedure_definition": {
+      "source_anchors": [
+        {
+          "line_end": 323,
+          "line_start": 313,
+          "publication_locator": "cited publication",
+          "quoted_text": "A different kind of problem concerning incentives arises for matching procedures\nwhich do not result in stable outcomes, since such procedures give at least one pair of\nagents the incentive to disregard the matching procedure, and seek an alternative\noutcome. Of course, it may be possible to compel the agents to accept the outcome, in\nspite of these incentives. For instance, the procedure by which some high school\nathletes are matched with colleges involves signing \"letters of intent,\" after which\nathletes are effectively prohibited from further negotiating with other schools. (Professional athletes in several sports are matched with teams under an even more restrictive\ndraft, which prevents a player from negotiating with any team but the one which drafts\nhim.) However in situations in which compulsion plays no part, it is desirable for a\nmatching procedure to yield stable outcomes. A procedure which does so for arbitrary\npreference profiles will be called a stable matching procedure.",
+          "quoted_text_sha256": "1823bc6b49d139faa68db29f72fb0c8a457a704784764d94aa4d635892d0ff69"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "theorem1": {
+      "source_anchors": [
+        {
+          "line_end": 227,
+          "line_start": 227,
+          "publication_locator": "cited publication",
+          "quoted_text": "THEOREM 1. The set of stable outcomes is always nonempty.",
+          "quoted_text_sha256": "cc02cee890eb2da2d91d715a550278ccdbfe41f38d578a7f78ef048acb3b9095"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem2": {
+      "source_anchors": [
+        {
+          "line_end": 259,
+          "line_start": 258,
+          "publication_locator": "cited publication",
+          "quoted_text": "THEOREM 2. There is a stable outcome weakly preferred by every man to any other\nstable outcome, and one weakly preferred by every woman.",
+          "quoted_text_sha256": "17aeefb3b35642fc47227b7f8699824b0e25ee9ca2b1a8d90ddccb1c2b8e51e4"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem3": {
+      "source_anchors": [
+        {
+          "line_end": 357,
+          "line_start": 356,
+          "publication_locator": "cited publication",
+          "quoted_text": "THEOREM 3. No stable matching procedure for the general matching problem exists\nfor which truthful revelation of preferences is a dominant strategy for all agents.",
+          "quoted_text_sha256": "000927377c304d112bb085c4dcc61e726489b9eae5f1d53a261a80c9d45946e6"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem4": {
+      "source_anchors": [
+        {
+          "line_end": 439,
+          "line_start": 438,
+          "publication_locator": "cited publication",
+          "quoted_text": "THEOREM 4. Efficient matching procedures exist for which truthful revelation of\npreferences is a dominant strategy for every agent.",
+          "quoted_text_sha256": "f86039aad0d5e8e9a29f8d3655f3cec589f75530e80bcc0a21725a501689f504"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem5": {
+      "source_anchors": [
+        {
+          "line_end": 475,
+          "line_start": 468,
+          "publication_locator": "cited publication",
+          "quoted_text": "THEOREM 5. In the matching procedure which always yields the optimal stable\n\noutcome for a given one of the two sets of agents (i.e., for M or for W), truthful revelation\nis a dominant strategy for all the agents in that set.\n\n\f624\n\nALVIN E. ROTH",
+          "quoted_text_sha256": "4e5025471b70d7c12cd0c1dee460bc119e81d513870a1a68d8e2808708436f09"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem6": {
+      "source_anchors": [
+        {
+          "line_end": 684,
+          "line_start": 678,
+          "publication_locator": "cited publication",
+          "quoted_text": "THEOREM 6. No feasible outcome is strictly preferred by all mi in M to the outcome g(P).\n\nThe fact that no stable outcome is strictly preferred to g(P) isn't news: Theorem 2\ngives a stronger result. What Theorem 6 says is that in fact, g(P) is weakly Pareto\noptimal from the point of view of the men, with respect to any possible outcome. The\n\nexample above shows that this can't be strengthened to strong Pareto optimality.",
+          "quoted_text_sha256": "da2f73003ce7f2bd9595441b891e0da7fa769688766985f0922cb4e0c78e150f"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem7": {
+      "source_anchors": [
+        {
+          "line_end": 714,
+          "line_start": 713,
+          "publication_locator": "cited publication",
+          "quoted_text": "THEOREM 7. No stable matching procedure exists which never gives any agent an\nincentive to misrepresent his kth choice, for k -# 1.",
+          "quoted_text_sha256": "65564e5e45888b113fa81dc3ef03e8a8f240c16bdfe0d1b3f5a94775e8721dbd"
+        }
+      ],
+      "source_kind": "theorem"
+    }
+  },
+  "source_artifact_sha256": "55d2c35a8077a74dc9953dcb6f838fcd6e91edc9e77079a2419f185835a79fd4",
+  "source_coverage_mode": "named_theoretical_statements"
+}

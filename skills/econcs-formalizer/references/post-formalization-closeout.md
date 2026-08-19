@@ -31,7 +31,7 @@ closeout-complete or release-ready. The final validation report is the
 mathematical summary and all audit sidecars/ledgers are its evidence inputs; do
 not treat any of them as competing final receipts.
 
-Use [`../../../docs/FORMALIZATION_STATUS_POLICY.md`](../../../docs/FORMALIZATION_STATUS_POLICY.md)
+Use [`../../../docs/STATUS.md`](../../../docs/STATUS.md)
 for every status decision. In particular, reserve `formalized with caveat` for
 a substantial source-paper error with a fully proved corrected endpoint. A
 weaker Lean target or added non-source assumption is partial; a minor repair
@@ -161,6 +161,15 @@ sidecar before the effective raw surface is valid. A changed frozen input means
 return to the planner; an unchanged failure is an inspection result, not a
 reason to reissue the same raw receipt.
 
+When the current raw receipt schedules `review_current_source_record_delta`,
+generate the non-evidence manual complement only from that receipt and complete
+it through `source_record_manual_complement.py`'s descriptor- and ordered
+item-pin-bound template/fragment materialization path. Each generated group is
+a substantive review obligation: provide its source locator, semantic reason,
+Lean evidence, and every required closure attestation. Never bulk-fill a
+canonical sidecar from declaration names, queue counts, or a stale template;
+those are planning data, not current semantic evidence.
+
 Before retrying an unavailable source-record scan, run the read-only command
 below. Its owner metadata is diagnostic only because sandbox PID namespaces may
 hide a live worker. Never unlink, replace, or automatically reclaim the lock:
@@ -273,10 +282,9 @@ For completed papers whose paper-local status explicitly sets
 `audit_evidence_integrity.py`. That selector includes both `formalized` and the
 rare `formalized with caveat` status. It is a batch alarm surface only: every
 paper still needs its own source-first review and final `--paper-closeout`
-receipt. During the 2026-07-18 migration, use the frozen inventory and live
-dispositions in
-[`../../../docs/PUBLIC_COMPLETE_PROTOCOL_AUDIT_2026-07-18.md`](../../../docs/PUBLIC_COMPLETE_PROTOCOL_AUDIT_2026-07-18.md)
-so a paper reclassified as partial does not disappear silently from the audit.
+receipt. For a public release, follow
+[`../../../docs/PUBLIC_RELEASE_CHECKLIST.md`](../../../docs/PUBLIC_RELEASE_CHECKLIST.md)
+after that paper-local closeout; the selector alone is not release evidence.
 
 ### Preparation and execution checklist
 

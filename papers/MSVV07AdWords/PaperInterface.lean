@@ -1994,6 +1994,1242 @@ theorem theorem9_base_instance_balance_execution_fields (N : ℕ) :
   intro bidder
   exact SourceRunner.fluidBalance_finalSpend_eq_harmonicCap N bidder
 
+/-- Transparent v11 semantic target for `paperSlotsPerPageDistinct_iff`. -/
+def paperSlotsPerPageDistinct_iffSpec
+    {Advertiser Query : Type*} (Slot : Query → Type*)
+    (A : PaperAssignment Advertiser (Σ q : Query, Slot q)) : Prop :=
+  paperSlotsPerPageDistinct Slot A ↔
+    ∀ q s₁ s₂ a,
+      A ⟨q, s₁⟩ = some a →
+      A ⟨q, s₂⟩ = some a →
+      s₁ = s₂
+
+/-- Transparent v11 semantic target for `paperSpend_formula`. -/
+def paperSpend_formulaSpec
+    {Advertiser Query : Type*} [Fintype Query] [DecidableEq Advertiser]
+    (I : PaperInstance Advertiser Query)
+    (A : PaperAssignment Advertiser Query) (a : Advertiser) : Prop :=
+  paperSpend I A a =
+    ∑ q : Query,
+      match A q with
+      | none => 0
+      | some a' => if a' = a then I.bid a q else 0
+
+/-- Transparent v11 semantic target for `paperRevenue_formula`. -/
+def paperRevenue_formulaSpec
+    {Advertiser Query : Type*} [Fintype Query]
+    (I : PaperInstance Advertiser Query)
+    (A : PaperAssignment Advertiser Query) : Prop :=
+  paperRevenue I A =
+    ∑ q : Query,
+      match A q with
+      | none => 0
+      | some a => I.bid a q
+
+/-- Transparent v11 semantic target for `paperFeasible_iff`. -/
+def paperFeasible_iffSpec
+    {Advertiser Query : Type*} [Fintype Query] [DecidableEq Advertiser]
+    (I : PaperInstance Advertiser Query)
+    (A : PaperAssignment Advertiser Query) : Prop :=
+  paperFeasible I A ↔ ∀ a, paperSpend I A a ≤ I.budget a
+
+/-- Transparent v11 semantic target for `paperSmallBids_iff`. -/
+def paperSmallBids_iffSpec
+    {Advertiser Query : Type*}
+    (I : PaperInstance Advertiser Query) (epsilon : ℝ) : Prop :=
+  paperSmallBids I epsilon ↔ ∀ a q, I.bid a q ≤ epsilon * I.budget a
+
+/-- Transparent v11 semantic target for `paperTradeoff_formula`. -/
+def paperTradeoff_formulaSpec (s : ℝ) : Prop :=
+  paperTradeoff s = 1 - Real.exp (s - 1)
+
+/-- Transparent v11 semantic target for `section3_discrete_tradeoff_formula`. -/
+def section3_discrete_tradeoff_formulaSpec (k : ℕ) (i : Fin k) : Prop :=
+  paperDiscreteTradeoff k i =
+    1 - Real.exp
+      (-(1 - (((i.val + 1 : ℕ) : ℝ) / (k : ℝ))))
+
+/-- Transparent v11 semantic target for `paperMsvvRatio_formula`. -/
+def paperMsvvRatio_formulaSpec : Prop :=
+  paperMsvvRatio = 1 - 1 / Real.exp 1
+
+/-- Transparent v11 semantic target for `paperBalanceScore_formula`. -/
+def paperBalanceScore_formulaSpec
+    {Advertiser Query : Type*} [Fintype Query] [DecidableEq Advertiser]
+    (I : PaperInstance Advertiser Query)
+    (A : PaperAssignment Advertiser Query) (a : Advertiser) (q : Query) : Prop :=
+  paperBalanceScore I A a q =
+    I.bid a q * paperTradeoff (paperSpend I A a / I.budget a)
+
+/-- Transparent v11 semantic target for `paperCanAssign_iff`. -/
+def paperCanAssign_iffSpec
+    {Advertiser Query : Type*} [Fintype Query] [DecidableEq Advertiser]
+    (I : PaperInstance Advertiser Query)
+    (A : PaperAssignment Advertiser Query) (q : Query) (a : Advertiser) : Prop :=
+  paperCanAssign I A q a ↔
+    paperSpend I A a + I.bid a q ≤ I.budget a
+
+/-- Transparent v11 semantic target for `paperIsBalanceChoice_iff`. -/
+def paperIsBalanceChoice_iffSpec
+    {Advertiser Query : Type*}
+    [Fintype Advertiser] [Fintype Query] [DecidableEq Advertiser]
+    (I : PaperInstance Advertiser Query)
+    (A : PaperAssignment Advertiser Query) (q : Query) (a : Advertiser) : Prop :=
+  paperIsBalanceChoice I A q a ↔
+    paperCanAssign I A q a ∧
+      ∀ b, paperCanAssign I A q b →
+        paperBalanceScore I A b q ≤ paperBalanceScore I A a q
+
+/-- Transparent v11 semantic target for `section4_factor_revealing_primal_dual_lp_formulas`. -/
+def section4_factor_revealing_primal_dual_lp_formulasSpec
+    {m : ℕ} (N : ℝ) (x y : Fin m → ℝ) : Prop :=
+  (MSVV07SourceLemmas.factorRevealingLP m N).primalObjective x =
+      MSVV07SourceLemmas.paperRoutePrimalObjective x ∧
+    ((MSVV07SourceLemmas.factorRevealingLP m N).PrimalFeasible x ↔
+      MSVV07SourceLemmas.paperRoutePrimalFeasible N x) ∧
+    (MSVV07SourceLemmas.factorRevealingLP m N).dualObjective y =
+      MSVV07SourceLemmas.paperRouteDualObjective N y ∧
+    ((MSVV07SourceLemmas.factorRevealingLP m N).DualFeasible y ↔
+      MSVV07SourceLemmas.paperRouteDualFeasible y)
+
+/-- Transparent v11 semantic target for `section4_lemma3_displayed_primal_dual_witnesses_optimal`. -/
+def section4_lemma3_displayed_primal_dual_witnesses_optimalSpec
+    {m N : ℕ} : Prop :=
+  Optimization.IsMaximizerOn
+      (MSVV07SourceLemmas.paperRoutePrimalFeasible (m := m) (N : ℝ))
+      (MSVV07SourceLemmas.paperRoutePrimalObjective (m := m))
+      (MSVV07SourceLemmas.paperRoutePrimalCandidate (m := m) (N : ℝ)) ∧
+    Optimization.IsMinimizerOn
+      (MSVV07SourceLemmas.factorRevealingLP m (N : ℝ)).DualFeasible
+      (MSVV07SourceLemmas.factorRevealingLP m (N : ℝ)).dualObjective
+      (MSVV07SourceLemmas.paperRouteDualCandidate (m := m)) ∧
+    MSVV07SourceLemmas.paperRoutePrimalObjective
+        (MSVV07SourceLemmas.paperRoutePrimalCandidate (m := m) (N : ℝ)) =
+      MSVV07SourceLemmas.factorRevealingLPValue m (N : ℝ) ∧
+    MSVV07SourceLemmas.paperRouteDualObjective (N : ℝ)
+        (MSVV07SourceLemmas.paperRouteDualCandidate (m := m)) =
+      MSVV07SourceLemmas.factorRevealingLPValue m (N : ℝ)
+
+/-- Transparent v11 semantic target for `section4_lemma1_balance_pays_no_later_slab`. -/
+def section4_lemma1_balance_pays_no_later_slabSpec
+    {Slab : Type*} [LinearOrder Slab]
+    (psi : Slab → ℝ) {optType optCurrentSlab chosenSlab : Slab}
+    {bid chosenBid : ℝ}
+    (hoptCurrent_le_type : optCurrentSlab ≤ optType)
+    (hchoice :
+      bid * psi optCurrentSlab ≤ chosenBid * psi chosenSlab)
+    (hequal_bids : chosenBid = bid)
+    (hbid_pos : 0 < bid)
+    (hpsi_strictAnti : StrictAnti psi) : Prop :=
+  chosenSlab ≤ optType
+
+/-- Transparent v11 semantic target for `section4_lemma2_factor_revealing_lp_constraint`. -/
+def section4_lemma2_factor_revealing_lp_constraintSpec
+    {m : ℕ} (N : ℝ) (x beta : Fin m → ℝ) (i : Fin m)
+    (hprefix_cover :
+      (∑ j ∈ MSVV07SourceLemmas.paperRoutePrefix i, x j) ≤
+        ∑ j ∈ MSVV07SourceLemmas.paperRoutePrefix i, beta j)
+    (hbeta_prefix :
+      (∑ j ∈ MSVV07SourceLemmas.paperRoutePrefix i, beta j) =
+        MSVV07SourceLemmas.paperRouteRhs N i -
+          ∑ j ∈ MSVV07SourceLemmas.paperRoutePrefix i,
+            MSVV07SourceLemmas.paperRouteDeltaCoeff i j * x j) : Prop :=
+  MSVV07SourceLemmas.paperRouteLPRow x i ≤
+    MSVV07SourceLemmas.paperRouteRhs N i
+
+/-- Transparent v11 semantic target for `section4_lemma3_factor_revealing_lp_optimality`. -/
+def section4_lemma3_factor_revealing_lp_optimalitySpec (N : ℝ) : Prop :=
+  Sequence.SeqTendsTo
+    (fun k : ℕ => N * (1 - 1 / (k : ℝ)) ^ k)
+    (N / Real.exp 1)
+
+/-- Transparent v11 semantic target for `section5_tradeoff_revealing_primal_dual_lp_formulas`. -/
+def section5_tradeoff_revealing_primal_dual_lp_formulasSpec
+    {m : ℕ} (c l x y : Fin m → ℝ) : Prop :=
+  (MSVV07SourceLemmas.tradeoffRevealingLP c l).primalObjective x =
+      ∑ i : Fin m, c i * x i ∧
+    ((MSVV07SourceLemmas.tradeoffRevealingLP c l).PrimalFeasible x ↔
+      (∀ i, 0 ≤ x i) ∧
+        ∀ r, (∑ i : Fin m,
+          MSVV07SourceLemmas.paperRouteMatrixCoeff r i * x i) ≤ l r) ∧
+    (MSVV07SourceLemmas.tradeoffRevealingLP c l).dualObjective y =
+      ∑ r : Fin m, y r * l r ∧
+    ((MSVV07SourceLemmas.tradeoffRevealingLP c l).DualFeasible y ↔
+      (∀ r, 0 ≤ y r) ∧
+        ∀ i, c i ≤ ∑ r : Fin m,
+          MSVV07SourceLemmas.paperRouteMatrixCoeff r i * y r)
+
+/-- Transparent v11 semantic target for `theorem8_dual_induced_tradeoff_formula`. -/
+def theorem8_dual_induced_tradeoff_formulaSpec
+    {m : ℕ} (i : Fin m) : Prop :=
+  MSVV07SourceLemmas.paperRoutePsiCandidate i =
+    1 - (1 - 1 / (((m + 1 : ℕ) : ℝ))) ^ (m - i.val)
+
+/-- Transparent v11 semantic target for `theorem8_dual_induced_tradeoff_ne_printed_exponent_at_k2`. -/
+def theorem8_dual_induced_tradeoff_ne_printed_exponent_at_k2Spec : Prop :=
+  MSVV07SourceLemmas.paperRoutePsiCandidate (m := 1) 0 = (1 / 2 : ℝ) ∧
+    MSVV07SourceLemmas.paperRoutePsiCandidate (m := 1) 0 ≠
+      1 - (1 - 1 / (2 : ℝ)) ^ 2
+
+/-- Transparent v11 semantic target for `theorem8_corrected_unspent_fraction_formula`. -/
+def theorem8_corrected_unspent_fraction_formulaSpec
+    (k i : ℕ) (hk : 0 < k) : Prop :=
+  1 - (i : ℝ) / (k : ℝ) =
+    ((k : ℝ) - (i : ℝ)) / (k : ℝ)
+
+/-- Transparent v11 semantic target for `theorem8_unspent_fraction_ne_printed_at_k2`. -/
+def theorem8_unspent_fraction_ne_printed_at_k2Spec : Prop :=
+  1 - (1 : ℝ) / 2 = (1 / 2 : ℝ) ∧
+    1 - (1 : ℝ) / 2 ≠ ((2 : ℝ) - 1 + 1) / 2
+
+/-- Transparent v11 semantic target for `section5_lemma4_dual_optimal_from_primal_dual_match`. -/
+def section5_lemma4_dual_optimal_from_primal_dual_matchSpec
+    {Primal Dual : Type*}
+    (primalFeasible : Primal → Prop) (dualFeasible : Dual → Prop)
+    (primalObjective : Primal → ℝ) (dualObjective : Dual → ℝ)
+    (hweak :
+      ∀ primal dual,
+        primalFeasible primal → dualFeasible dual →
+          primalObjective primal ≤ dualObjective dual)
+    {a : Primal} {ystar : Dual}
+    (ha : primalFeasible a)
+    (hystar : dualFeasible ystar)
+    (hvalue : primalObjective a = dualObjective ystar) : Prop :=
+  ∀ y, dualFeasible y → dualObjective ystar ≤ dualObjective y
+
+/-- Transparent v11 semantic target for `section5_lemma5_tradeoff_rhs_eq_base_add_delta`. -/
+def section5_lemma5_tradeoff_rhs_eq_base_add_deltaSpec
+    {m : ℕ} (N : ℝ) (alpha beta : Fin m → ℝ) (i : Fin m)
+    (hbeta_prefix :
+      (∑ j ∈ MSVV07SourceLemmas.paperRoutePrefix i, beta j) =
+        MSVV07SourceLemmas.paperRouteRhs N i -
+          ∑ j ∈ MSVV07SourceLemmas.paperRoutePrefix i,
+            MSVV07SourceLemmas.paperRouteDeltaCoeff i j * alpha j) : Prop :=
+  MSVV07SourceLemmas.paperRouteLPRow alpha i =
+    MSVV07SourceLemmas.paperRouteRhs N i +
+      MSVV07SourceLemmas.paperRouteDelta alpha beta i
+
+/-- Transparent v11 semantic target for `section5_lemma6_per_query_tradeoff`. -/
+def section5_lemma6_per_query_tradeoffSpec
+    {Slab : Type*} [Preorder Slab]
+    (psi : Slab → ℝ) {queryType optCurrentSlab algSlab : Slab}
+    {optBid algBid : ℝ}
+    (hoptCurrent_le_type : optCurrentSlab ≤ queryType)
+    (hpsi_antitone : Antitone psi)
+    (hoptBid_nonneg : 0 ≤ optBid)
+    (hchoice : optBid * psi optCurrentSlab ≤ algBid * psi algSlab) : Prop :=
+  optBid * psi queryType ≤ algBid * psi algSlab
+
+/-- Transparent v11 semantic target for `section5_lemma7_weighted_perturbation_bound`. -/
+def section5_lemma7_weighted_perturbation_boundSpec
+    {m Query : Type*} [Fintype m] [Fintype Query]
+    (psi alpha beta : m → ℝ) (opt alg : Query → ℝ)
+    (queryType querySlab : Query → m) (finalSlabError : ℝ)
+    (htradeoff_sum :
+      (∑ q : Query,
+        (opt q * psi (queryType q) - alg q * psi (querySlab q))) ≤ 0)
+    (hopt_accounting :
+      (∑ q : Query, opt q * psi (queryType q)) =
+        ∑ i : m, psi i * alpha i)
+    (halg_accounting :
+      (∑ q : Query, alg q * psi (querySlab q)) ≤
+        (∑ i : m, psi i * beta i) + finalSlabError) : Prop :=
+  (∑ i : m, psi i * (alpha i - beta i)) ≤ finalSlabError
+
+/-- Transparent v11 semantic target for `theorem8_balance_msvv_competitive_of_small_bids_limit_family`. -/
+def theorem8_balance_msvv_competitive_of_small_bids_limit_familySpec
+    {Advertiser : Type*}
+    [Fintype Advertiser] [Nonempty Advertiser] [DecidableEq Advertiser]
+    (n : ℕ → ℕ)
+    (I : (k : ℕ) → PaperInstance Advertiser (Fin (n k)))
+    (epsilon : ℕ → ℝ)
+    (hbid : ∀ k, (I k).NonnegativeBids)
+    (hbudget : ∀ k, (I k).PositiveBudgets)
+    (hepsilon : ∀ k, 0 ≤ epsilon k)
+    (hepsilon_le_one : ∀ k, epsilon k ≤ 1)
+    (hsmall : ∀ k, paperSmallBids (I k) (epsilon k))
+    (herror_tendsTo_zero :
+      Sequence.SeqTendsTo
+        (fun k =>
+          epsilon k * (Real.exp 1 + 1) *
+            (∑ q : Fin (n k), (I k).maxBidForQuery q))
+        0) : Prop :=
+  ∀ delta : ℝ, 0 < delta →
+    ∃ N : ℕ, ∀ k : ℕ, N ≤ k →
+      paperMsvvRatio *
+          (I k).offlineOptimumValue (fun a => (hbudget k a).le) ≤
+        paperRevenue (I k)
+            ((I k).runAssignment (I k).balanceChoiceRule
+              (List.finRange (n k))) +
+          delta
+
+/-- Transparent v11 semantic target for `section6_different_budgets_and_nonexhaustive_optimum_theorem8_finite_explicit_error`. -/
+def section6_different_budgets_and_nonexhaustive_optimum_theorem8_finite_explicit_errorSpec
+    {Advertiser Query : Type*}
+    [Fintype Advertiser] [Nonempty Advertiser]
+    [Fintype Query] [DecidableEq Advertiser] [DecidableEq Query]
+    (I : PaperInstance Advertiser Query)
+    (hbid : I.NonnegativeBids)
+    (hbudget : I.PositiveBudgets)
+    (history : List Query)
+    (hnodup : history.Nodup)
+    (hcover : AdWordsInstance.historyFinset history = Finset.univ)
+    {epsilon : ℝ}
+    (hepsilon : 0 ≤ epsilon)
+    (hepsilon_le_one : epsilon ≤ 1)
+    (hsmall : paperSmallBids I epsilon) : Prop :=
+  paperMsvvRatio *
+      I.offlineOptimumValue (fun a => (hbudget a).le) ≤
+    paperRevenue I (I.runAssignment I.balanceChoiceRule history) +
+      epsilon * (Real.exp 1 + 1) *
+        (∑ q : Query, I.maxBidForQuery q)
+
+/-- Transparent v11 semantic target for `section6_next_highest_bid_all_formula`. -/
+def section6_next_highest_bid_all_formulaSpec
+    {Advertiser Query : Type*} [Fintype Advertiser] [DecidableEq Advertiser]
+    (I : PaperInstance Advertiser Query) (a : Advertiser) (q : Query) : Prop :=
+  section6_next_highest_bid_all I a q =
+    let others : Finset Advertiser := (Finset.univ : Finset Advertiser).erase a
+    if h : others.Nonempty then
+      max 0 (others.sup' h fun b => I.bid b q)
+    else
+      0
+
+/-- Transparent v11 semantic target for `section6_next_highest_bid_alive_formula`. -/
+def section6_next_highest_bid_alive_formulaSpec
+    {Advertiser Query : Type*} [Fintype Advertiser] [DecidableEq Advertiser]
+    (I : PaperInstance Advertiser Query)
+    (alive : Advertiser → Query → Prop) [∀ a q, Decidable (alive a q)]
+    (a : Advertiser) (q : Query) : Prop :=
+  section6_next_highest_bid_alive I alive a q =
+    let others : Finset Advertiser :=
+      ((Finset.univ : Finset Advertiser).erase a).filter fun b => alive b q
+    if h : others.Nonempty then
+      max 0 (others.sup' h fun b => I.bid b q)
+    else
+      0
+
+/-- Transparent v11 semantic target for `section6_next_highest_bid_all_theorem8_finite_explicit_error`. -/
+def section6_next_highest_bid_all_theorem8_finite_explicit_errorSpec
+    {Advertiser Query : Type*}
+    [Fintype Advertiser] [Nonempty Advertiser]
+    [Fintype Query] [DecidableEq Advertiser] [DecidableEq Query]
+    (I : PaperInstance Advertiser Query)
+    (hbudget : I.PositiveBudgets)
+    (history : List Query)
+    (hnodup : history.Nodup)
+    (hcover :
+      AdWordsInstance.historyFinset history = Finset.univ)
+    {epsilon : ℝ}
+    (hepsilon : 0 ≤ epsilon)
+    (hepsilon_le_one : epsilon ≤ 1)
+    (hunit : SourceRunner.EqualUnitBudgets I)
+    (hsmall : paperSmallBids I epsilon) : Prop :=
+  paperMsvvRatio *
+      (I.withEffectiveBids (section6_next_highest_bid_all I)).offlineOptimumValue
+        (fun a => (hbudget a).le) ≤
+    paperRevenue (I.withEffectiveBids (section6_next_highest_bid_all I))
+      ((I.withEffectiveBids (section6_next_highest_bid_all I)).runAssignment
+        (I.withEffectiveBids
+          (section6_next_highest_bid_all I)).balanceChoiceRule history) +
+      epsilon * (Real.exp 1 + 1) *
+        (∑ q : Query,
+          (I.withEffectiveBids
+            (section6_next_highest_bid_all I)).maxBidForQuery q)
+
+/-- Transparent v11 semantic target for `section6_next_highest_bid_alive_theorem8_finite_explicit_error`. -/
+def section6_next_highest_bid_alive_theorem8_finite_explicit_errorSpec
+    {Advertiser Query : Type*}
+    [Fintype Advertiser] [Nonempty Advertiser]
+    [Fintype Query] [DecidableEq Advertiser] [DecidableEq Query]
+    (I : PaperInstance Advertiser Query)
+    (alive : Advertiser → Query → Prop) [∀ a q, Decidable (alive a q)]
+    (hbudget : I.PositiveBudgets)
+    (history : List Query)
+    (hnodup : history.Nodup)
+    (hcover :
+      AdWordsInstance.historyFinset history = Finset.univ)
+    {epsilon : ℝ}
+    (hepsilon : 0 ≤ epsilon)
+    (hepsilon_le_one : epsilon ≤ 1)
+    (hunit : SourceRunner.EqualUnitBudgets I)
+    (hsmall : paperSmallBids I epsilon) : Prop :=
+  paperMsvvRatio *
+      (I.withEffectiveBids
+        (section6_next_highest_bid_alive I alive)).offlineOptimumValue
+        (fun a => (hbudget a).le) ≤
+    paperRevenue
+      (I.withEffectiveBids (section6_next_highest_bid_alive I alive))
+      ((I.withEffectiveBids
+        (section6_next_highest_bid_alive I alive)).runAssignment
+        (I.withEffectiveBids
+          (section6_next_highest_bid_alive I alive)).balanceChoiceRule history) +
+      epsilon * (Real.exp 1 + 1) *
+        (∑ q : Query,
+          (I.withEffectiveBids
+            (section6_next_highest_bid_alive I alive)).maxBidForQuery q)
+
+/-- Transparent v11 semantic target for `section6_click_through_rates_effective_bid_formula`. -/
+def section6_click_through_rates_effective_bid_formulaSpec
+    {Advertiser Query : Type*}
+    (I : PaperInstance Advertiser Query)
+    (ctr : Advertiser → Query → ℝ) (a : Advertiser) (q : Query) : Prop :=
+  (I.withClickThroughRates ctr).bid a q = ctr a q * I.bid a q
+
+/-- Transparent v11 semantic target for `section6_click_through_rates_theorem8_finite_explicit_error`. -/
+def section6_click_through_rates_theorem8_finite_explicit_errorSpec
+    {Advertiser Query : Type*}
+    [Fintype Advertiser] [Nonempty Advertiser]
+    [Fintype Query] [DecidableEq Advertiser] [DecidableEq Query]
+    (I : PaperInstance Advertiser Query)
+    (ctr : Advertiser → Query → ℝ)
+    (hctr_nonneg : ∀ a q, 0 ≤ ctr a q)
+    (hctr_le_one : ∀ a q, ctr a q ≤ 1)
+    (hbid : I.NonnegativeBids)
+    (hbudget : I.PositiveBudgets)
+    (history : List Query)
+    (hnodup : history.Nodup)
+    (hcover : AdWordsInstance.historyFinset history = Finset.univ)
+    {epsilon : ℝ}
+    (hepsilon : 0 ≤ epsilon)
+    (hepsilon_le_one : epsilon ≤ 1)
+    (hsmall : paperSmallBids I epsilon) : Prop :=
+  paperMsvvRatio *
+      (I.withClickThroughRates ctr).offlineOptimumValue
+        (fun a => (hbudget a).le) ≤
+    (I.withClickThroughRates ctr).revenue
+      ((I.withClickThroughRates ctr).runAssignment
+        (I.withClickThroughRates ctr).balanceChoiceRule history) +
+      epsilon * (Real.exp 1 + 1) *
+        (∑ q : Query, (I.withClickThroughRates ctr).maxBidForQuery q)
+
+/-- Transparent v11 semantic target for `section6_availability_theorem8_finite_explicit_error`. -/
+def section6_availability_theorem8_finite_explicit_errorSpec
+    {Advertiser Query : Type*}
+    [Fintype Advertiser] [Nonempty Advertiser]
+    [Fintype Query] [DecidableEq Advertiser] [DecidableEq Query]
+    (I : PaperInstance Advertiser Query)
+    (available : Advertiser → Query → Prop)
+    [∀ a q, Decidable (available a q)]
+    (hbid : I.NonnegativeBids)
+    (hbudget : I.PositiveBudgets)
+    (history : List Query)
+    (hnodup : history.Nodup)
+    (hcover : AdWordsInstance.historyFinset history = Finset.univ)
+    {epsilon : ℝ}
+    (hepsilon : 0 ≤ epsilon)
+    (hepsilon_le_one : epsilon ≤ 1)
+    (hsmall : paperSmallBids I epsilon) : Prop :=
+  paperMsvvRatio *
+      (I.withAvailability available).offlineOptimumValue
+        (fun a => (hbudget a).le) ≤
+    (I.withAvailability available).revenue
+      ((I.withAvailability available).runAssignment
+        (I.withAvailability available).balanceChoiceRule history) +
+      epsilon * (Real.exp 1 + 1) *
+        (∑ q : Query, (I.withAvailability available).maxBidForQuery q)
+
+/-- Transparent v11 semantic target for `section6_page_top_balance_theorem8_finite_explicit_error`. -/
+def section6_page_top_balance_theorem8_finite_explicit_errorSpec
+    {Advertiser Query : Type*}
+    [Fintype Advertiser] [Nonempty Advertiser]
+    [Fintype Query] [DecidableEq Advertiser] [DecidableEq Query]
+    (I : PaperInstance Advertiser Query)
+    (slots : Query → ℕ)
+    (hbid : I.NonnegativeBids)
+    (hbudget : I.PositiveBudgets)
+    (history : List Query)
+    (hnodup : history.Nodup)
+    (hcover : AdWordsInstance.historyFinset history = Finset.univ)
+    {epsilon : ℝ}
+    (hepsilon : 0 ≤ epsilon)
+    (hepsilon_le_one : epsilon ≤ 1)
+    (hsmall : paperSmallBids I epsilon) : Prop :=
+  paperMsvvRatio *
+      I.pageOfflineOptimumValue slots (fun a => (hbudget a).le) ≤
+    I.pageRevenue
+      (I.runPageAssignment slots (I.pageTopBalanceRule slots) history) +
+      epsilon * (Real.exp 1 + 1) *
+        I.pageHistoryMaxBidSum slots history
+
+/-- Transparent v11 semantic target for `section8_weighted_effective_bid_formula`. -/
+def section8_weighted_effective_bid_formulaSpec
+    {Advertiser Query : Type*}
+    (I : PaperInstance Advertiser Query)
+    (weight : Advertiser → ℝ) (a : Advertiser) (q : Query) : Prop :=
+  (I.withAdvertiserWeights weight).bid a q = weight a * I.bid a q
+
+/-- Transparent v11 semantic target for `appendix_highest_bid_phase_total_eq_three_fifths`. -/
+def appendix_highest_bid_phase_total_eq_three_fifthsSpec (N : ℝ) : Prop :=
+  appendixHighestBidPhaseOneRevenue N +
+      appendixHighestBidPhaseTwoRevenue N +
+      appendixHighestBidPhaseThreeRevenue N =
+    (3 / 5 : ℝ) * N
+
+/-- Transparent v11 semantic target for `appendix_highest_bid_phase_total_ne_printed_062`. -/
+def appendix_highest_bid_phase_total_ne_printed_062Spec
+    {N : ℝ} (hN : 0 < N) : Prop :=
+  appendixHighestBidPhaseOneRevenue N +
+      appendixHighestBidPhaseTwoRevenue N +
+      appendixHighestBidPhaseThreeRevenue N ≠
+    (31 / 50 : ℝ) * N
+
+/-- Transparent v11 semantic target for `appendix_three_fifths_lt_msvv_ratio`. -/
+def appendix_three_fifths_lt_msvv_ratioSpec : Prop :=
+  (3 / 5 : ℝ) < paperMsvvRatio
+
+/-- Transparent v11 semantic target for `theorem9HardDistribution_uniform`. -/
+def theorem9HardDistribution_uniformSpec (N : ℕ) : Prop :=
+  theorem9HardDistribution N = uniformPermutationDistribution N
+
+/-- Transparent v11 semantic target for `theorem9CappedNormalizedRevenue_formula`. -/
+def theorem9CappedNormalizedRevenue_formulaSpec
+    (N : ℕ)
+    (algorithm :
+      { choice : BMatchingIntegralPrefixChoice N //
+        BMatchingIntegralPrefixChoice.Feasible choice })
+    (permutation : Equiv.Perm (Fin N)) : Prop :=
+  theorem9CappedNormalizedRevenue N algorithm permutation =
+    (∑ bidder : Fin N,
+      min 1
+        (∑ round : Fin N,
+          BMatchingIntegralPrefixAlgorithm.prefixAllocation algorithm
+            (theorem9ObservedPrefix N permutation round)
+            round (permutation bidder))) /
+      (N : ℝ)
+
+/-- Transparent v11 semantic target for `theorem9_no_randomized_online_algorithm_beats_msvv_ratio`. -/
+def theorem9_no_randomized_online_algorithm_beats_msvv_ratioSpec : Prop :=
+  ∀ delta : ℝ, 0 < delta →
+    ∃ N0 : ℕ, ∀ N : ℕ, N0 ≤ N →
+      ∀ randomizedAlgorithm : theorem9RandomizedOnlineAlgorithm N,
+        ¬ ∀ permutation,
+          paperMsvvRatio + delta <
+            EconCSLib.pmfExp randomizedAlgorithm
+              (fun algorithm =>
+                theorem9CappedNormalizedRevenue N algorithm permutation)
+
+/-- Transparent v11 semantic target for `appendix_kappa_counterexample_family`. -/
+def appendix_kappa_counterexample_familySpec
+    {κ : ℝ} (hκ : 1 < κ) : Prop :=
+  MSVV07Appendix.derivedKappaContinuousOnlineValue κ =
+    MSVV07Appendix.derivedKappaRatio κ ∧
+  MSVV07Appendix.derivedKappaContinuousOfflineValue κ = 1 ∧
+  MSVV07Appendix.ContinuousUnitBudgetFeasible
+    (fun _bidder : ℝ => (1 : ℝ)) ∧
+  (∀ spend : ℝ → ℝ,
+    MSVV07Appendix.ContinuousUnitBudgetFeasible spend →
+      (∫ bidder in (0 : ℝ)..1, spend bidder) ≤
+        MSVV07Appendix.derivedKappaContinuousOfflineValue κ) ∧
+  MSVV07Appendix.derivedKappaContinuousOnlineValue κ /
+      MSVV07Appendix.derivedKappaContinuousOfflineValue κ <
+    paperMsvvRatio
+
+/-- Transparent v11 semantic target for `appendix_kappa_continuous_source_execution`. -/
+def appendix_kappa_continuous_source_executionSpec
+    {κ : ℝ} (hκ : 1 < κ) : Prop :=
+  (∀ progress : ℝ, 0 ≤ progress → progress ≤ MSVV07Appendix.derivedKappaB κ →
+    (∫ _bidder in
+        (MSVV07Appendix.derivedKappaX κ + progress)..1,
+      MSVV07Appendix.derivedKappaPhaseOneAllocationRate κ progress) = 1) ∧
+  (∀ progress bidder₁ bidder₂ : ℝ,
+    0 ≤ progress → progress ≤ MSVV07Appendix.derivedKappaB κ →
+    MSVV07Appendix.derivedKappaPhaseOneEligible κ progress bidder₁ →
+    MSVV07Appendix.derivedKappaPhaseOneEligible κ progress bidder₂ →
+      MSVV07Appendix.derivedKappaPhaseOneRawBid κ progress bidder₁ =
+          MSVV07Appendix.derivedKappaPhaseOneRawBid κ progress bidder₂ ∧
+        MSVV07Appendix.printedIndividualLeftover bidder₁
+            (MSVV07Appendix.derivedKappaPhaseOneSpentBefore κ progress bidder₁) =
+          MSVV07Appendix.printedIndividualLeftover bidder₂
+            (MSVV07Appendix.derivedKappaPhaseOneSpentBefore
+              κ progress bidder₂)) ∧
+  (∫ bidder in (1 - MSVV07Appendix.derivedKappaT κ)..1,
+    MSVV07Appendix.derivedKappaPhaseTwoAllocationDensity κ bidder) = 1 ∧
+  (∀ offset bidder competitor : ℝ,
+    0 < MSVV07Appendix.derivedKappaPhaseTwoAllocationDensity κ bidder →
+    (MSVV07Appendix.derivedKappaTail κ competitor ∨ competitor = offset) →
+      MSVV07Appendix.derivedKappaPhaseTwoRawBid κ offset competitor ≤
+        MSVV07Appendix.derivedKappaPhaseTwoRawBid κ offset bidder) ∧
+  (∀ offset bidder₁ bidder₂ : ℝ,
+    0 ≤ offset → offset ≤ MSVV07Appendix.derivedKappaX κ →
+    MSVV07Appendix.derivedKappaTail κ bidder₁ →
+    MSVV07Appendix.derivedKappaTail κ bidder₂ →
+      MSVV07Appendix.printedIndividualLeftover bidder₁
+          (MSVV07Appendix.derivedKappaPhaseTwoSpentBefore κ offset bidder₁) =
+        MSVV07Appendix.printedIndividualLeftover bidder₂
+          (MSVV07Appendix.derivedKappaPhaseTwoSpentBefore
+            κ offset bidder₂)) ∧
+  (∀ bidder : ℝ, MSVV07Appendix.derivedKappaTail κ bidder →
+    MSVV07Appendix.derivedKappaPhaseTwoSpentBefore
+      κ (MSVV07Appendix.derivedKappaX κ) bidder = 1) ∧
+  (∀ owner : ℝ, MSVV07Appendix.derivedKappaTail κ owner →
+    MSVV07Appendix.derivedKappaPhaseThreeAllocationRate owner owner +
+        MSVV07Appendix.derivedKappaPhaseThreeDiscardRate owner = 1 ∧
+      MSVV07Appendix.derivedKappaPhaseTwoSpentBefore
+          κ (MSVV07Appendix.derivedKappaX κ) owner = 1 ∧
+      ∀ bidder : ℝ,
+        0 < MSVV07Appendix.derivedKappaPhaseThreeRawBid owner bidder →
+          bidder = owner) ∧
+  MSVV07Appendix.derivedKappaContinuousOnlineValue κ =
+    MSVV07Appendix.derivedKappaRatio κ ∧
+  MSVV07Appendix.derivedKappaContinuousOfflineValue κ = 1
+
+/-- Transparent v11 semantic target for `appendix_kappa_ratio_limit_infinity`. -/
+def appendix_kappa_ratio_limit_infinitySpec : Prop :=
+  (∀ κ : ℝ, 1 < κ →
+    MSVV07Appendix.derivedKappaContinuousOnlineValue κ /
+        MSVV07Appendix.derivedKappaContinuousOfflineValue κ =
+      MSVV07Appendix.derivedKappaRatio κ) ∧
+  Filter.Tendsto MSVV07Appendix.derivedKappaRatio Filter.atTop
+    (nhds paperMsvvRatio)
+
+/-- Transparent v11 semantic target for `appendix_kappa_ratio_limit_one`. -/
+def appendix_kappa_ratio_limit_oneSpec : Prop :=
+  (∀ κ : ℝ, 1 < κ →
+    MSVV07Appendix.derivedKappaContinuousOnlineValue κ /
+        MSVV07Appendix.derivedKappaContinuousOfflineValue κ =
+      MSVV07Appendix.derivedKappaRatio κ) ∧
+  Filter.Tendsto MSVV07Appendix.derivedKappaRatio
+      (nhdsWithin (1 : ℝ) (Set.Ioi 1)) (nhds (1 / 2 : ℝ)) ∧
+  MSVV07Appendix.derivedKappaRatio 1 = 1 / 2 ∧
+  (1 / 2 : ℝ) ≠ paperMsvvRatio
+
+/-- Transparent v11 semantic target for `appendix_naive_algorithm_true_revenue_formula`. -/
+def appendix_naive_algorithm_true_revenue_formulaSpec : Prop :=
+  MSVV07Appendix.printedContinuousOnlineValue =
+    9 / 10 - 1 / 2 * Real.log (9 / 5) ∧
+  MSVV07Appendix.printedPhaseThreeServedMass =
+    3 / 10 - 1 / 2 * Real.log (9 / 5) ∧
+  0 < MSVV07Appendix.printedPhaseThreeServedMass ∧
+  (2 / 5 : ℝ) + 2 * (1 / 10) = 3 / 5 ∧
+  (3 / 5 : ℝ) ≠ 31 / 50
+
+/-- Transparent v11 semantic target for `appendix_naive_highest_bid_fluid_rule`. -/
+def appendix_naive_highest_bid_fluid_ruleSpec : Prop :=
+  (∀ r : ℝ, 0 ≤ r → r ≤ 2 / 5 →
+    (∫ _bidder in (1 / 10 + r)..1,
+      MSVV07Appendix.printedPhaseOneAllocationRate r) = 1) ∧
+  (∀ r bidder₁ bidder₂ : ℝ,
+    0 ≤ r → r ≤ 2 / 5 →
+    MSVV07Appendix.printedPhaseOneEligible r bidder₁ →
+    MSVV07Appendix.printedPhaseOneEligible r bidder₂ →
+      MSVV07Appendix.printedPhaseOneRawBid r bidder₁ =
+          MSVV07Appendix.printedPhaseOneRawBid r bidder₂ ∧
+        MSVV07Appendix.printedIndividualLeftover bidder₁
+            (MSVV07Appendix.printedPhaseOneSpentBefore r bidder₁) =
+          MSVV07Appendix.printedIndividualLeftover bidder₂
+            (MSVV07Appendix.printedPhaseOneSpentBefore r bidder₂)) ∧
+  (∫ bidder in (1 / 2 : ℝ)..1,
+    MSVV07Appendix.printedPhaseTwoAllocationDensity bidder) = 1 ∧
+  (∀ offset bidder competitor : ℝ,
+    0 < MSVV07Appendix.printedPhaseTwoAllocationDensity bidder →
+    ((1 / 2 ≤ competitor ∧ competitor ≤ 1) ∨ competitor = offset) →
+      MSVV07Appendix.printedPhaseTwoRawBid offset competitor ≤
+        MSVV07Appendix.printedPhaseTwoRawBid offset bidder) ∧
+  (∀ offset bidder₁ bidder₂ : ℝ,
+    0 ≤ offset → offset ≤ 1 / 10 →
+    (1 / 2 ≤ bidder₁ ∧ bidder₁ ≤ 1) →
+    (1 / 2 ≤ bidder₂ ∧ bidder₂ ≤ 1) →
+      MSVV07Appendix.printedIndividualLeftover bidder₁
+          (MSVV07Appendix.printedPhaseTwoSpentBefore offset bidder₁) =
+        MSVV07Appendix.printedIndividualLeftover bidder₂
+          (MSVV07Appendix.printedPhaseTwoSpentBefore offset bidder₂)) ∧
+  (∀ progress owner : ℝ, 0 ≤ progress →
+    MSVV07Appendix.printedPhaseThreeAllocationRate progress owner owner +
+      MSVV07Appendix.printedPhaseThreeDiscardRate progress = 1) ∧
+  ∀ progress owner : ℝ,
+    (1 / 2 ≤ owner ∧ owner ≤ 1) →
+    0 < MSVV07Appendix.printedPhaseThreeDiscardRate progress →
+      MSVV07Appendix.printedPhaseThreeSpentBefore
+        progress owner = 1
+
+/-- Transparent v11 semantic target for `appendix_naive_three_phase_fluid_construction`. -/
+def appendix_naive_three_phase_fluid_constructionSpec : Prop :=
+  0 < MSVV07Appendix.printedPhaseThreeResidualPerTail ∧
+  (∀ owner : ℝ, (1 / 2 ≤ owner ∧ owner ≤ 1) →
+    MSVV07Appendix.printedPhaseThreeSpentBefore
+      MSVV07Appendix.printedPhaseThreeResidualPerTail owner = 1) ∧
+  MSVV07Appendix.printedContinuousOnlineValue =
+    9 / 10 - 1 / 2 * Real.log (9 / 5) ∧
+  MSVV07Appendix.printedContinuousOfflineValue = 1
+
+/-- Transparent v11 semantic target for `appendix_naive_true_ratio_conclusion`. -/
+def appendix_naive_true_ratio_conclusionSpec : Prop :=
+  MSVV07Appendix.printedContinuousOnlineValue /
+      MSVV07Appendix.printedContinuousOfflineValue <
+    paperMsvvRatio
+
+/-- Transparent v11 semantic target for `appendix_optimum_revenue_formula`. -/
+def appendix_optimum_revenue_formulaSpec : Prop :=
+  ((∀ r : ℝ, 0 ≤ r → r ≤ 2 / 5 →
+      MSVV07Appendix.printedPhaseOneRawBid r (1 / 10 + r) = 1) ∧
+    (∀ offset : ℝ, 0 ≤ offset → offset ≤ 1 / 10 →
+      MSVV07Appendix.printedPhaseTwoRawBid offset offset = 1) ∧
+    (∀ owner : ℝ, 1 / 2 ≤ owner → owner ≤ 1 →
+      MSVV07Appendix.printedPhaseThreeRawBid owner owner = 1) ∧
+    (2 / 5 : ℝ) + 1 / 10 + 1 / 2 = 1) ∧
+  MSVV07Appendix.ContinuousUnitBudgetFeasible
+      (fun _bidder : ℝ => (1 : ℝ)) ∧
+  MSVV07Appendix.printedContinuousOfflineValue = 1 ∧
+  ∀ spend : ℝ → ℝ,
+    MSVV07Appendix.ContinuousUnitBudgetFeasible spend →
+      (∫ bidder in (0 : ℝ)..1, spend bidder) ≤
+        MSVV07Appendix.printedContinuousOfflineValue
+
+/-- Transparent v11 semantic target for `section2_competitive_ratio_definition`. -/
+def section2_competitive_ratio_definitionSpec
+    {Instance : Type*} (onlineRevenue offlineRevenue : Instance → ℝ) (α : ℝ) : Prop :=
+  SourceRunner.IsAlphaCompetitive onlineRevenue offlineRevenue α ↔
+    ∀ I, α ≤ onlineRevenue I / offlineRevenue I
+
+/-- Transparent v11 semantic target for `section3_balance_occurrence_runner_cost`. -/
+def section3_balance_occurrence_runner_costSpec
+    {Advertiser Query : Type*} [Fintype Advertiser] [DecidableEq Advertiser]
+    (I : PaperInstance Advertiser Query) (history : List Query) : Prop :=
+  (SourceRunner.runBalanceOccurrences I history).candidateTests =
+      history.length * Fintype.card Advertiser ∧
+    (SourceRunner.runBalanceOccurrences I history).scoreComparisons ≤
+      history.length * Fintype.card Advertiser
+
+/-- Transparent v11 semantic target for `section3_discrete_balance_algorithm`. -/
+def section3_discrete_balance_algorithmSpec
+    {Advertiser Query : Type*} [Fintype Advertiser] [DecidableEq Advertiser]
+    (k : ℕ) (hk : 0 < k) (I : PaperInstance Advertiser Query)
+    (history : List Query) : Prop :=
+  SourceRunner.runDiscreteBalanceOccurrences k hk I history =
+    SourceRunner.runOccurrencesFrom
+      (SourceRunner.discreteBalanceStep k hk I)
+      SourceRunner.initialOccurrenceState history
+
+/-- Transparent v11 semantic target for `section3_discrete_tradeoff_convergence`. -/
+def section3_discrete_tradeoff_convergenceSpec
+    (slab : ℕ → ℕ) (s : ℝ)
+    (hfraction :
+      Filter.Tendsto
+        (fun k : ℕ => ((slab k + 1 : ℕ) : ℝ) / ((k + 1 : ℕ) : ℝ))
+        Filter.atTop (nhds s)) : Prop :=
+  Sequence.SeqTendsTo
+    (fun k : ℕ =>
+      1 - Real.exp
+        (-(1 - (((slab k + 1 : ℕ) : ℝ) / ((k + 1 : ℕ) : ℝ)))))
+    (1 - Real.exp (-(1 - s)))
+
+/-- Transparent v11 semantic target for `section3_discrete_tradeoff_monotonicity`. -/
+def section3_discrete_tradeoff_monotonicitySpec (k : ℕ) : Prop :=
+  Antitone (paperDiscreteTradeoff k)
+
+/-- Transparent v11 semantic target for `section3_equal_bid_discrete_msvv_is_balance`. -/
+def section3_equal_bid_discrete_msvv_is_balanceSpec
+    {Advertiser Query : Type*} [Fintype Advertiser] [DecidableEq Advertiser]
+    (k : ℕ) (hk : 0 < k) (I : PaperInstance Advertiser Query)
+    (S : SourceRunner.OccurrenceState Advertiser Query) (q : Query)
+    (a : Advertiser) {commonBid : ℝ}
+    (hcommon : ∀ b, I.bid b q = commonBid) (hcommon_pos : 0 < commonBid)
+    (hchoice : (SourceRunner.discreteBalanceScan k hk I S q).winner = some a) : Prop :=
+  SourceRunner.occurrenceCanAssign I S q a ∧
+    ∀ b, SourceRunner.occurrenceCanAssign I S q b →
+      SourceRunner.activeBudgetSlab k hk (S.spent a) (I.budget a) ≤
+        SourceRunner.activeBudgetSlab k hk (S.spent b) (I.budget b)
+
+/-- Transparent v11 semantic target for `section3_greedy_tight_half_example`. -/
+def section3_greedy_tight_half_exampleSpec
+    {c : ℝ} (hc : 0 < c) : Prop :=
+  Filter.Tendsto (fun epsilon : ℝ => section3GreedyTwoWordRatio c epsilon)
+    (nhds 0) (nhds (1 / 2 : ℝ))
+
+/-- Transparent v11 semantic target for `section3_greedy_two_word_fluid_construction`. -/
+def section3_greedy_two_word_fluid_constructionSpec
+    {c epsilon : ℝ} (hc : 0 < c) (hepsilon : 0 < epsilon) : Prop :=
+  c < c + epsilon ∧
+    SourceRunner.greedyTwoWordOnlineRevenue c epsilon = 1 ∧
+    SourceRunner.greedyTwoWordOfflineRevenue c epsilon =
+      1 + c / (c + epsilon) ∧
+    c / (c + epsilon) ≤ 1 ∧
+    SourceRunner.greedyTwoWordOnlineRevenue c epsilon /
+        SourceRunner.greedyTwoWordOfflineRevenue c epsilon =
+      section3GreedyTwoWordRatio c epsilon
+
+/-- Transparent v11 semantic target for `section3_slab_and_current_slab_definition`. -/
+def section3_slab_and_current_slab_definitionSpec
+    (k : ℕ) (hk : 0 < k) (spentFraction : ℝ) : Prop :=
+  (SourceRunner.activeSlab k hk spentFraction).val =
+    min (Nat.floor (max 0 ((k : ℝ) * spentFraction))) (k - 1)
+
+/-- Transparent v11 semantic target for `section4_balance_exact_tightness_instance`. -/
+def section4_balance_exact_tightness_instanceSpec
+    (m : ℕ) (N : ℝ) (hN : 0 ≤ N) : Prop :=
+  let E := SourceRunner.factorLPTightFluidExecution m N
+  (∀ i, 0 ≤ E.typeMass i) ∧
+  (∀ i : Fin m,
+    E.activeMassBeforeSlab i.val - E.activeMassBeforeSlab (i.val + 1) =
+      E.typeMass i) ∧
+  (∀ stage, stage ≤ m →
+    E.spentBeforeSlab stage = (stage : ℝ) / ((m + 1 : ℕ) : ℝ) ∧
+    E.allocationPerActiveBidder stage =
+      1 / ((m + 1 : ℕ) : ℝ) ∧
+    E.queryMassAtSlab stage =
+      E.activeMassBeforeSlab stage / ((m + 1 : ℕ) : ℝ) ∧
+    (stage < m →
+      E.spentBeforeSlab (stage + 1) =
+        E.spentBeforeSlab stage + E.allocationPerActiveBidder stage) ∧
+    E.spentBeforeSlab stage + E.allocationPerActiveBidder stage ≤ 1 ∧
+    E.activeMassBeforeSlab stage * E.allocationPerActiveBidder stage =
+      E.queryMassAtSlab stage) ∧
+  (∑ i : Fin m, E.typeMass i) + E.fullMass = N ∧
+  (∀ i,
+    MSVV07SourceLemmas.paperRouteLPRow E.typeMass i =
+      MSVV07SourceLemmas.paperRouteRhs N i) ∧
+  E.revenue =
+    (∑ i : Fin m,
+      E.typeMass i * SourceRunner.factorLPTightFinalSpendFraction m i) +
+      E.fullMass ∧
+  E.revenue =
+    ∑ stage ∈ Finset.range (m + 1),
+      E.activeMassBeforeSlab stage * E.allocationPerActiveBidder stage ∧
+  E.revenue = N - MSVV07SourceLemmas.factorRevealingLPValue m N
+
+/-- Transparent v11 semantic target for `section4_balance_revenue_factor_lp_bridge_formula`. -/
+def section4_balance_revenue_factor_lp_bridge_formulaSpec
+    {k : ℕ} (N BAL Φ : ℝ)
+    (hBAL : N - BAL ≤ Φ + N / (k : ℝ)) : Prop :=
+  N - Φ - N / (k : ℝ) ≤ BAL
+
+/-- Transparent v11 semantic target for `section4_bidder_type_definition`. -/
+def section4_bidder_type_definitionSpec
+    (k : ℕ) (spentFraction : ℝ) (i : Fin k) : Prop :=
+  SourceRunner.IsFinalType k spentFraction i ↔
+    (spentFraction = 0 ∧ i.val = 0) ∨
+      ((i.val : ℝ) / (k : ℝ) < spentFraction ∧
+        spentFraction ≤ (((i.val + 1 : ℕ) : ℝ) / (k : ℝ)))
+
+/-- Transparent v11 semantic target for `section4_discretization_error_bound`. -/
+def section4_discretization_error_boundSpec
+    {Advertiser : Type*} [Fintype Advertiser]
+    {k : ℕ} (hk : 0 < k) (error : Advertiser → ℝ)
+    (herror_nonneg : ∀ a, 0 ≤ error a)
+    (herror : ∀ a, error a ≤ 1 / (k : ℝ)) : Prop :=
+  ∑ a : Advertiser, error a ≤
+    (Fintype.card Advertiser : ℝ) / (k : ℝ)
+
+/-- Transparent v11 semantic target for `section4_slab_spend_beta_formula`. -/
+def section4_slab_spend_beta_formulaSpec
+    {k : ℕ} (N : ℝ) (x : Fin k → ℝ) (i : Fin k) : Prop :=
+  SourceRunner.section4IdealizedSlabSpend N x i =
+    N / (k : ℝ) - (∑ j ∈ Finset.Iio i, x j) / (k : ℝ)
+
+/-- Transparent v11 semantic target for `section4_type_count_x_definition`. -/
+def section4_type_count_x_definitionSpec
+    {Advertiser : Type*} [Fintype Advertiser]
+    (k : ℕ) (finalSpentFraction : Advertiser → ℝ) (i : Fin k) : Prop :=
+  SourceRunner.section4TypeCount k finalSpentFraction i =
+    ∑ a : Advertiser,
+      if SourceRunner.IsFinalType k (finalSpentFraction a) i then 1 else 0
+
+/-- Transparent v11 semantic target for `section5_alg_query_revenue_definition`. -/
+def section5_alg_query_revenue_definitionSpec
+    (I : PaperInstance Advertiser Query)
+    (d : SourceRunner.OccurrenceDecision Advertiser Query) : Prop :=
+  SourceRunner.section5AlgQueryRevenue I d =
+    match d.winner with
+    | none => 0
+    | some a => I.bid a d.query
+
+/-- Transparent v11 semantic target for `section5_alpha_type_count_definition`. -/
+def section5_alpha_type_count_definitionSpec
+    {Advertiser : Type*} [Fintype Advertiser]
+    (k : ℕ) (finalSpentFraction : Advertiser → ℝ) (i : Fin k) : Prop :=
+  SourceRunner.section5AlphaTypeCount k finalSpentFraction i =
+    SourceRunner.section4TypeCount k finalSpentFraction i
+
+/-- Transparent v11 semantic target for `section5_beta_slab_spend_definition`. -/
+def section5_beta_slab_spend_definitionSpec
+    {k : ℕ} (N : ℝ) (alpha : Fin k → ℝ) (i : Fin k) : Prop :=
+  SourceRunner.section5IdealizedBeta N alpha i =
+    N / (k : ℝ) - (∑ j ∈ Finset.Iio i, alpha j) / (k : ℝ)
+
+/-- Transparent v11 semantic target for `section5_bidder_type_definition`. -/
+def section5_bidder_type_definitionSpec
+    (k : ℕ) (spentFraction : ℝ) (i : Fin k) : Prop :=
+  SourceRunner.IsFinalType k spentFraction i ↔
+    (spentFraction = 0 ∧ i.val = 0) ∨
+      ((i.val : ℝ) / (k : ℝ) < spentFraction ∧
+        spentFraction ≤ (((i.val + 1 : ℕ) : ℝ) / (k : ℝ)))
+
+/-- Transparent v11 semantic target for `section5_delta_prefix_definition`. -/
+def section5_delta_prefix_definitionSpec
+    {k : ℕ} (alpha beta : Fin k → ℝ) (i : Fin k) : Prop :=
+  SourceRunner.section5Delta alpha beta i =
+    ∑ j ∈ Finset.Iic i, (alpha j - beta j)
+
+/-- Transparent v11 semantic target for `section5_opt_query_revenue_definition`. -/
+def section5_opt_query_revenue_definitionSpec
+    (I : PaperInstance Advertiser Query) (history : List Query)
+    (opt : Fin history.length → Option Advertiser) (t : Fin history.length) : Prop :=
+  SourceRunner.section5OptQueryRevenue I history opt t =
+    match opt t with
+    | none => 0
+    | some a => I.bid a (history.get t)
+
+/-- Transparent v11 semantic target for `section5_query_slab_definition`. -/
+def section5_query_slab_definitionSpec
+    (k : ℕ) (hk : 0 < k) (I : PaperInstance Advertiser Query)
+    (d : SourceRunner.OccurrenceDecision Advertiser Query) : Prop :=
+  SourceRunner.section5QuerySlab k hk I d =
+    d.winner.map fun a =>
+      SourceRunner.activeBudgetSlab k hk (d.spentBefore a) (I.budget a)
+
+/-- Transparent v11 semantic target for `section5_query_type_definition`. -/
+def section5_query_type_definitionSpec
+    (optOwner : Option Advertiser) (finalType : Advertiser → Fin k) : Prop :=
+  SourceRunner.section5QueryType optOwner finalType = optOwner.map finalType
+
+/-- Transparent v11 semantic target for `section5_slab_fiber_beta_accounting_formula`. -/
+def section5_slab_fiber_beta_accounting_formulaSpec
+    (k : ℕ) (hk : 0 < k) (I : PaperInstance Advertiser Query)
+    (decisions : List (SourceRunner.OccurrenceDecision Advertiser Query))
+    (i : Fin k) : Prop :=
+  SourceRunner.section5AlgSlabFiberRevenue k hk I decisions i =
+    (decisions.map fun d =>
+      if SourceRunner.section5QuerySlab k hk I d = some i then
+        SourceRunner.section5AlgQueryRevenue I d
+      else 0).sum
+
+/-- Transparent v11 semantic target for `section5_type_fiber_alpha_accounting_formula`. -/
+def section5_type_fiber_alpha_accounting_formulaSpec
+    {Advertiser Query : Type*} [Fintype Advertiser] [DecidableEq Advertiser]
+    {k : ℕ} (I : PaperInstance Advertiser Query) (history : List Query)
+    (opt : Fin history.length → Option Advertiser)
+    (finalType : Advertiser → Fin k)
+    (hexhaust : ∀ a, SourceRunner.occurrenceSpend I history opt a = 1)
+    (i : Fin k) : Prop :=
+  SourceRunner.section5OptTypeFiberRevenue I history opt finalType i =
+    ∑ a : Advertiser, if finalType a = i then 1 else 0
+
+/-- Transparent v11 semantic target for `section6_alpha_i_definition`. -/
+def section6_alpha_i_definitionSpec
+    (I : PaperInstance Advertiser Query) (history : List Query)
+    (opt : Fin history.length → Option Advertiser)
+    (finalType : Advertiser → Fin k) (i : Fin k) : Prop :=
+  SourceRunner.section6OptRevenueByFinalType I history opt finalType i =
+    ∑ t : Fin history.length,
+      match opt t with
+      | none => 0
+      | some a => if finalType a = i then I.bid a (history.get t) else 0
+
+/-- Transparent v11 semantic target for `section6_alpha_total_definition`. -/
+def section6_alpha_total_definitionSpec
+    (I : PaperInstance Advertiser Query) (history : List Query)
+    (opt : Fin history.length → Option Advertiser)
+    (finalType : Advertiser → Fin k) : Prop :=
+  SourceRunner.section6OptRevenueTotalByType I history opt finalType =
+    SourceRunner.occurrenceRevenue I history opt
+
+/-- Transparent v11 semantic target for `section6_beta_i_aggregate_definition`. -/
+def section6_beta_i_aggregate_definitionSpec
+    {Advertiser Query : Type*} [Fintype Advertiser]
+    (k : ℕ) (I : PaperInstance Advertiser Query)
+    (finalSpend : Advertiser → ℝ)
+    (i : Fin k) : Prop :=
+  SourceRunner.section6AggregateSlabSpend k I finalSpend i =
+    ∑ a : Advertiser,
+      SourceRunner.section6BidderSlabSpend k I finalSpend i a
+
+/-- Transparent v11 semantic target for `section6_beta_ij_definition`. -/
+def section6_beta_ij_definitionSpec
+    {Advertiser Query : Type*}
+    (k : ℕ) (I : PaperInstance Advertiser Query)
+    (finalSpend : Advertiser → ℝ)
+    (i : Fin k) (a : Advertiser) : Prop :=
+  SourceRunner.section6BidderSlabSpend k I finalSpend i a =
+    min (finalSpend a) (SourceRunner.section6SlabUpper k I i a) -
+      min (finalSpend a) (SourceRunner.section6SlabLower k I i a)
+
+/-- Transparent v11 semantic target for `section6_beta_lower_bound_formula`. -/
+def section6_beta_lower_bound_formulaSpec
+    {Advertiser Query : Type*} [Fintype Advertiser] [DecidableEq Advertiser]
+    {k : ℕ} (hk : 0 < k) (I : PaperInstance Advertiser Query)
+    (history : List Query)
+    (opt : Fin history.length → Option Advertiser)
+    (finalType : Advertiser → Fin k)
+    (hbudget : I.PositiveBudgets)
+    (hoptFeasible : ∀ a,
+      SourceRunner.occurrenceSpend I history opt a ≤ I.budget a)
+    (hfinalType : ∀ a,
+      SourceRunner.IsFinalType k
+        ((SourceRunner.runDiscreteBalanceOccurrences k hk I history).spent a /
+          I.budget a)
+        (finalType a)) : Prop :=
+  section6BetaLowerBounds
+    (SourceRunner.section6OptRevenueTotalByType I history opt finalType)
+    (SourceRunner.section6OptRevenueByFinalType I history opt finalType)
+    (SourceRunner.section6AggregateSlabSpend k I
+      (SourceRunner.runDiscreteBalanceOccurrences k hk I history).spent)
+
+/-- Transparent v11 semantic target for `section6_current_type_definition`. -/
+def section6_current_type_definitionSpec
+    (k : ℕ) (hk : 0 < k) (spent budget : ℝ) : Prop :=
+  SourceRunner.section6CurrentType k hk spent budget =
+    SourceRunner.activeBudgetSlab k hk spent budget
+
+/-- Transparent v11 semantic target for `section6_generalized_current_type_balance_algorithm`. -/
+def section6_generalized_current_type_balance_algorithmSpec
+    {Advertiser Query : Type*} [Fintype Advertiser] [DecidableEq Advertiser]
+    (k : ℕ) (hk : 0 < k) (I : PaperInstance Advertiser Query)
+    (history : List Query) : Prop :=
+  SourceRunner.runDiscreteBalanceOccurrences k hk I history =
+    SourceRunner.runOccurrencesFrom
+      (SourceRunner.discreteBalanceStep k hk I)
+      SourceRunner.initialOccurrenceState history
+
+/-- Transparent v11 semantic target for `section6_next_highest_alive_keep_alive_reduction`. -/
+def section6_next_highest_alive_keep_alive_reductionSpec
+    {Advertiser Query : Type*} [Fintype Advertiser] [DecidableEq Advertiser]
+    (I : PaperInstance Advertiser Query) (a : Advertiser) (q : Query) : Prop :=
+  Proof.section6_next_highest_bid_alive I (fun _ _ => True) a q =
+    Proof.section6_next_highest_bid_all I a q
+
+/-- Transparent v11 semantic target for `section6_weighted_alpha_beta_inequality`. -/
+def section6_weighted_alpha_beta_inequalitySpec
+    {m Query : Type*} [Fintype m] [Fintype Query]
+    (psi alpha beta : m → ℝ) (opt alg : Query → ℝ)
+    (queryType querySlab : Query → m)
+    (htradeoff_sum :
+      (∑ q : Query,
+        (opt q * psi (queryType q) - alg q * psi (querySlab q))) ≤ 0)
+    (hopt_accounting :
+      (∑ q : Query, opt q * psi (queryType q)) =
+        ∑ i : m, psi i * alpha i)
+    (halg_accounting :
+      (∑ q : Query, alg q * psi (querySlab q)) ≤
+        ∑ i : m, psi i * beta i) : Prop :=
+  (∑ i : m, psi i * alpha i) ≤ ∑ i : m, psi i * beta i
+
+/-- Transparent v11 semantic target for `section8_online_weight_adjustment_heuristic`. -/
+def section8_online_weight_adjustment_heuristicSpec
+    (weight finalWeight : ℝ) (windows : List (ℝ × ℝ)) : Prop :=
+  SourceRunner.IsRepeatedWeightAdjustment weight windows finalWeight ↔
+    match windows with
+    | [] => finalWeight = weight
+    | (spent, fairShare) :: remaining =>
+        ∃ nextWeight,
+          SourceRunner.IsWeightAdjustment
+            weight spent fairShare nextWeight ∧
+            SourceRunner.IsRepeatedWeightAdjustment
+              nextWeight remaining finalWeight
+
+/-- Transparent v11 semantic target for `section8_replicated_ranking_algorithm_proposal`. -/
+def section8_replicated_ranking_algorithm_proposalSpec
+    {Advertiser Query : Type*} [Fintype Advertiser] [DecidableEq Advertiser]
+    (m : ℕ) (hm : 0 < m) (I : PaperInstance Advertiser Query)
+    (rankWeight : SourceRunner.Representative Advertiser m → ℝ)
+    (history : List Query) : Prop :=
+  (∀ r : SourceRunner.Representative Advertiser m,
+      (SourceRunner.replicatedInstance m I).budget r =
+        I.budget r.1 / (m : ℝ)) ∧
+    (∀ (r : SourceRunner.Representative Advertiser m) (q : Query),
+      (SourceRunner.replicatedInstance m I).bid r q = I.bid r.1 q ∧
+        SourceRunner.replicatedRankingScore I rankWeight r q =
+          I.bid r.1 q * rankWeight r) ∧
+    SourceRunner.runReplicatedRankingProposal m I rankWeight history =
+      SourceRunner.runOccurrencesFrom
+        (SourceRunner.replicatedRankingStep m I rankWeight)
+        SourceRunner.initialOccurrenceState history
+
+/-- Transparent v11 semantic target for `section8_switching_query_distribution_model`. -/
+def section8_switching_query_distribution_modelSpec
+    (M : SourceRunner.SwitchingQueryDistribution Time Regime Query)
+    (time : Time) : Prop :=
+  M.queryDistributionAt time = M.queryDistribution (M.regimeAt time) ∧
+    M = ⟨M.regimeAt, M.queryDistribution⟩
+
+/-- Transparent v11 semantic target for `section8_weighted_bid_algorithm_proposal`. -/
+def section8_weighted_bid_algorithm_proposalSpec
+    {Advertiser Query : Type*} [Fintype Advertiser] [DecidableEq Advertiser]
+    (I : PaperInstance Advertiser Query) (weight : Advertiser → ℝ)
+    (history : List Query) : Prop :=
+  SourceRunner.runWeightedBidProposal I weight history =
+    SourceRunner.runBalanceOccurrences (I.withAdvertiserWeights weight) history
+
+/-- Transparent v11 semantic target for `theorem8_delta_dual_suffix_identity`. -/
+def theorem8_delta_dual_suffix_identitySpec
+    {m : ℕ} (alpha beta y : Fin m → ℝ) : Prop :=
+  (∑ i : Fin m, y i * MSVV07SourceLemmas.paperRouteDelta alpha beta i) =
+    ∑ i : Fin m,
+      MSVV07SourceLemmas.paperRoutePsiFromDual y i * (alpha i - beta i)
+
+/-- Transparent v11 semantic target for `theorem8_simple_proof_beta_recurrence_formula`. -/
+def theorem8_simple_proof_beta_recurrence_formulaSpec
+    {k : ℕ} (N : ℝ) (alpha : Fin k → ℝ) (i : Fin k) : Prop :=
+  SourceRunner.section5IdealizedBeta N alpha i =
+    N / (k : ℝ) - (∑ j ∈ Finset.Iio i, alpha j) / (k : ℝ)
+
+/-- Transparent v11 semantic target for `theorem8_simple_proof_weighted_alpha_beta_inequality`. -/
+def theorem8_simple_proof_weighted_alpha_beta_inequalitySpec
+    {k : ℕ} (psi alpha beta : Fin k → ℝ) : Prop :=
+  theorem8WeightedAlphaBeta psi alpha beta ↔
+    (∑ i : Fin k, psi i * alpha i) ≤ ∑ i : Fin k, psi i * beta i
+
+/-- Transparent v11 semantic target for `theorem8_unspent_budget_bound_formula`. -/
+def theorem8_unspent_budget_bound_formulaSpec
+    (N revenue error : ℝ)
+    (hcompetitive : paperMsvvRatio * N ≤ revenue + error) : Prop :=
+  N - revenue ≤ N / Real.exp 1 + error
+
+/-- Transparent v11 semantic target for `theorem9_base_instance_balance_revenue_claim`. -/
+def theorem9_base_instance_balance_revenue_claimSpec : Prop :=
+  ∀ delta : ℝ, 0 < delta →
+    ∃ N0 : ℕ, ∀ N : ℕ, N0 ≤ N →
+      SourceRunner.theorem9BaseEqualSpreadBalanceRevenue N / (N : ℝ) ≤
+        paperMsvvRatio + delta
+
+/-- Transparent v11 semantic target for `theorem9_expected_round_allocation_bound`. -/
+def theorem9_expected_round_allocation_boundSpec
+    (N : ℕ) (algorithm : BMatchingIntegralPrefixAlgorithm N)
+    (round bidder : Fin N) : Prop :=
+  (SourceRunner.theorem9ExpectedRoundAllocation N algorithm round bidder ≤
+    if (round : ℕ) ≤ (bidder : ℕ) then
+      1 / ((N - (round : ℕ) : ℕ) : ℝ)
+    else 0) ∧
+    (¬ (round : ℕ) ≤ (bidder : ℕ) →
+      SourceRunner.theorem9ExpectedRoundAllocation
+        N algorithm round bidder = 0)
+
+/-- Transparent v11 semantic target for `theorem9_hard_instance_round_bids_and_optimum`. -/
+def theorem9_hard_instance_round_bids_and_optimumSpec
+    (N m : ℕ) (epsilon : ℝ) (permutation : Equiv.Perm (Fin N))
+    (hround : (m : ℝ) * epsilon = 1) : Prop :=
+  (∀ round bidder,
+    SourceRunner.theorem9RoundBid N epsilon permutation round bidder =
+      if (round : ℕ) ≤ (bidder : ℕ) then epsilon else 0) ∧
+    paperRevenue (SourceRunner.theorem9HardInstance N m epsilon permutation)
+        (SourceRunner.theorem9HardOfflineAssignment N m permutation) = (N : ℝ)
+
+/-- Transparent v11 semantic target for `theorem9_harmonic_spend_and_revenue_bound`. -/
+def theorem9_harmonic_spend_and_revenue_boundSpec
+    (N : ℕ) (algorithm : BMatchingIntegralPrefixAlgorithm N)
+    (bidder : Fin N) : Prop :=
+  theorem9BidderSpendUpperBound N bidder =
+      min 1
+        (∑ round : Fin N,
+          if (round : ℕ) ≤ (bidder : ℕ) then
+            1 / ((N - (round : ℕ) : ℕ) : ℝ)
+          else 0) ∧
+    min 1
+        (∑ round : Fin N,
+          SourceRunner.theorem9ExpectedRoundAllocation
+            N algorithm round bidder) ≤
+      theorem9BidderSpendUpperBound N bidder ∧
+    theorem9NormalizedRevenueUpperBound N =
+      (∑ b : Fin N, theorem9BidderSpendUpperBound N b) / (N : ℝ) ∧
+    pmfExp (uniformPermutationDistribution N)
+        (fun permutation =>
+          (SourceRunner.theorem9IntegralRoundCertificate N).normalizedRevenue
+            algorithm permutation) ≤
+      theorem9NormalizedRevenueUpperBound N ∧
+    ∀ delta : ℝ, 0 < delta →
+      ∃ N0 : ℕ, ∀ marketSize : ℕ, N0 ≤ marketSize →
+        theorem9NormalizedRevenueUpperBound marketSize ≤
+          paperMsvvRatio + delta
+
+/-- Transparent v11 source-item target for `section3_balance_choice_exists_with_finite_max_cost`. -/
+def section3_balance_choice_exists_with_finite_max_costSpec : Prop :=
+  (∀
+    {Advertiser Query : Type*} [Fintype Advertiser] [DecidableEq Advertiser]
+    (I : PaperInstance Advertiser Query) (history : List Query), (SourceRunner.runBalanceOccurrences I history).candidateTests =
+        history.length * Fintype.card Advertiser ∧
+      (SourceRunner.runBalanceOccurrences I history).scoreComparisons ≤
+        history.length * Fintype.card Advertiser)
+
+/-- Checked proof endpoint for the v11 source-item target `section3_balance_choice_exists_with_finite_max_cost`. -/
+theorem section3_balance_choice_exists_with_finite_max_costSpec_proof : section3_balance_choice_exists_with_finite_max_costSpec := by
+  unfold section3_balance_choice_exists_with_finite_max_costSpec
+  exact section3_balance_occurrence_runner_cost
+
+/-- Transparent v11 source-item target for `appendix_naive_highest_bid_rule`. -/
+def appendix_naive_highest_bid_ruleSpec : Prop :=
+  ((∀ r : ℝ, 0 ≤ r → r ≤ 2 / 5 →
+      (∫ _bidder in (1 / 10 + r)..1,
+        MSVV07Appendix.printedPhaseOneAllocationRate r) = 1) ∧
+    (∀ r bidder₁ bidder₂ : ℝ,
+      0 ≤ r → r ≤ 2 / 5 →
+      MSVV07Appendix.printedPhaseOneEligible r bidder₁ →
+      MSVV07Appendix.printedPhaseOneEligible r bidder₂ →
+        MSVV07Appendix.printedPhaseOneRawBid r bidder₁ =
+            MSVV07Appendix.printedPhaseOneRawBid r bidder₂ ∧
+          MSVV07Appendix.printedIndividualLeftover bidder₁
+              (MSVV07Appendix.printedPhaseOneSpentBefore r bidder₁) =
+            MSVV07Appendix.printedIndividualLeftover bidder₂
+              (MSVV07Appendix.printedPhaseOneSpentBefore r bidder₂)) ∧
+    (∫ bidder in (1 / 2 : ℝ)..1,
+      MSVV07Appendix.printedPhaseTwoAllocationDensity bidder) = 1 ∧
+    (∀ offset bidder competitor : ℝ,
+      0 < MSVV07Appendix.printedPhaseTwoAllocationDensity bidder →
+      ((1 / 2 ≤ competitor ∧ competitor ≤ 1) ∨ competitor = offset) →
+        MSVV07Appendix.printedPhaseTwoRawBid offset competitor ≤
+          MSVV07Appendix.printedPhaseTwoRawBid offset bidder) ∧
+    (∀ offset bidder₁ bidder₂ : ℝ,
+      0 ≤ offset → offset ≤ 1 / 10 →
+      (1 / 2 ≤ bidder₁ ∧ bidder₁ ≤ 1) →
+      (1 / 2 ≤ bidder₂ ∧ bidder₂ ≤ 1) →
+        MSVV07Appendix.printedIndividualLeftover bidder₁
+            (MSVV07Appendix.printedPhaseTwoSpentBefore offset bidder₁) =
+          MSVV07Appendix.printedIndividualLeftover bidder₂
+            (MSVV07Appendix.printedPhaseTwoSpentBefore offset bidder₂)) ∧
+    (∀ progress owner : ℝ, 0 ≤ progress →
+      MSVV07Appendix.printedPhaseThreeAllocationRate progress owner owner +
+        MSVV07Appendix.printedPhaseThreeDiscardRate progress = 1) ∧
+    ∀ progress owner : ℝ,
+      (1 / 2 ≤ owner ∧ owner ≤ 1) →
+      0 < MSVV07Appendix.printedPhaseThreeDiscardRate progress →
+        MSVV07Appendix.printedPhaseThreeSpentBefore
+          progress owner = 1)
+
+/-- Checked proof endpoint for the v11 source-item target `appendix_naive_highest_bid_rule`. -/
+theorem appendix_naive_highest_bid_ruleSpec_proof : appendix_naive_highest_bid_ruleSpec := by
+  unfold appendix_naive_highest_bid_ruleSpec
+  exact appendix_naive_highest_bid_fluid_rule
+
+/-- Transparent v11 source-item target for `appendix_naive_three_phase_construction`. -/
+def appendix_naive_three_phase_constructionSpec : Prop :=
+  (0 < MSVV07Appendix.printedPhaseThreeResidualPerTail ∧
+    (∀ owner : ℝ, (1 / 2 ≤ owner ∧ owner ≤ 1) →
+      MSVV07Appendix.printedPhaseThreeSpentBefore
+        MSVV07Appendix.printedPhaseThreeResidualPerTail owner = 1) ∧
+    MSVV07Appendix.printedContinuousOnlineValue =
+      9 / 10 - 1 / 2 * Real.log (9 / 5) ∧
+    MSVV07Appendix.printedContinuousOfflineValue = 1)
+
+/-- Checked proof endpoint for the v11 source-item target `appendix_naive_three_phase_construction`. -/
+theorem appendix_naive_three_phase_constructionSpec_proof : appendix_naive_three_phase_constructionSpec := by
+  unfold appendix_naive_three_phase_constructionSpec
+  exact appendix_naive_three_phase_fluid_construction
+
+/-- Transparent v11 source-item target for `appendix_naive_algorithm_revenue_formula`. -/
+def appendix_naive_algorithm_revenue_formulaSpec : Prop :=
+  (MSVV07Appendix.printedContinuousOnlineValue =
+      9 / 10 - 1 / 2 * Real.log (9 / 5) ∧
+    MSVV07Appendix.printedPhaseThreeServedMass =
+      3 / 10 - 1 / 2 * Real.log (9 / 5) ∧
+    0 < MSVV07Appendix.printedPhaseThreeServedMass ∧
+    (2 / 5 : ℝ) + 2 * (1 / 10) = 3 / 5 ∧
+    (3 / 5 : ℝ) ≠ 31 / 50)
+
+/-- Checked proof endpoint for the v11 source-item target `appendix_naive_algorithm_revenue_formula`. -/
+theorem appendix_naive_algorithm_revenue_formulaSpec_proof : appendix_naive_algorithm_revenue_formulaSpec := by
+  unfold appendix_naive_algorithm_revenue_formulaSpec
+  exact appendix_naive_algorithm_true_revenue_formula
+
+/-- Transparent v11 source-item target for `appendix_naive_strict_ratio_conclusion`. -/
+def appendix_naive_strict_ratio_conclusionSpec : Prop :=
+  (MSVV07Appendix.printedContinuousOnlineValue /
+        MSVV07Appendix.printedContinuousOfflineValue <
+      paperMsvvRatio)
+
+/-- Checked proof endpoint for the v11 source-item target `appendix_naive_strict_ratio_conclusion`. -/
+theorem appendix_naive_strict_ratio_conclusionSpec_proof : appendix_naive_strict_ratio_conclusionSpec := by
+  unfold appendix_naive_strict_ratio_conclusionSpec
+  exact appendix_naive_true_ratio_conclusion
+
 end
 
 end PaperInterface

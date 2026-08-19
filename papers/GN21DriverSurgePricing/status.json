@@ -8,11 +8,11 @@
     "human_review_packet_pdf": "papers/GN21DriverSurgePricing/docs/HUMAN_REVIEW_PACKET.pdf",
     "human_review_packet_tex": "papers/GN21DriverSurgePricing/docs/HUMAN_REVIEW_PACKET.tex",
     "library_semantic_review": "papers/GN21DriverSurgePricing/audit/library_semantic_review.json",
-    "paper_semantic_prerequisites": "papers/GN21DriverSurgePricing/audit/paper_semantic_prerequisites.json",
     "paper_interface": "papers/GN21DriverSurgePricing/PaperInterface.lean",
+    "paper_semantic_prerequisites": "papers/GN21DriverSurgePricing/audit/paper_semantic_prerequisites.json",
     "proof_interface": "papers/GN21DriverSurgePricing/ProofInterface.lean",
     "readme": "papers/GN21DriverSurgePricing/README.md",
-    "source_text": "papers/GN21DriverSurgePricing/source.txt",
+    "source_text": "papers/GN21DriverSurgePricing/cited publication",
     "theorem2_cutoff_attainment": "papers/GN21DriverSurgePricing/CutoffAttainment.lean",
     "theorem2_cutoff_canonicalization": "papers/GN21DriverSurgePricing/CutoffCanonicalization.lean",
     "theorem3_direct_verification": "papers/GN21DriverSurgePricing/CTMCVerification.lean",
@@ -21,17 +21,16 @@
   "authors": "Nikhil Garg and Hamid Nazerzadeh",
   "build_target": "lake build GN21DriverSurgePricing",
   "human_review": {
-    "reviewed_rows": 0,
-    "total_rows": 18,
-    "stale_rows": 0,
     "mismatch_rows": 0,
-    "uncertain_rows": 0,
-    "source": "v11 PaperInterface claim surface; human entries are recorded after direct review"
+    "reviewed_rows": 0,
+    "source": "v11 PaperInterface claim surface; human entries are recorded after direct review",
+    "stale_rows": 0,
+    "total_rows": 18,
+    "uncertain_rows": 0
   },
-  "id": "GN21DriverSurgePricing",
-  "repository_visibility": "public",
-  "main_caveat": "",
   "human_summary": "",
+  "id": "GN21DriverSurgePricing",
+  "main_caveat": "",
   "paper_interface": {
     "declaration_rows": 18,
     "line_count": 506,
@@ -42,6 +41,7 @@
     "proof_interface_path": "papers/GN21DriverSurgePricing/ProofInterface.lean",
     "review_rows": 18
   },
+  "repository_visibility": "public",
   "review_entrypoint": "papers/GN21DriverSurgePricing/FINAL_VALIDATION_REPORT.md",
   "review_surface": {
     "assumption_names": [
@@ -59,100 +59,6 @@
     ],
     "assumption_policy": "strict",
     "assumption_source_file": "papers/GN21DriverSurgePricing/Assumptions.lean",
-    "source_definition_names": [
-      "review_definition_incentive_compatible",
-      "review_definition_surge_state"
-    ],
-    "include_names": [
-      "review_definition_surge_stateSpec",
-      "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec",
-      "review_lemma1_measured_dynamic_reward_decompositionSpec",
-      "review_lemma2_switch_probability_formulaSpec",
-      "review_lemma3_measured_time_fraction_formulaSpec",
-      "review_lemma4_single_state_threshold_uniquenessSpec",
-      "review_lemma6_upper_endpoint_derivative_formulaSpec",
-      "review_lemma7_affine_positive_additive_response_quasi_convexSpec",
-      "review_lemma8_affine_negative_additive_response_quasi_concaveSpec",
-      "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec",
-      "review_proposition3_1_affine_single_state_icSpec",
-      "review_theorem1_single_state_threshold_best_responseSpec",
-      "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec",
-      "review_theorem4_full_structural_policy_forms_directSpec",
-      "review_theorem2_multiplicative_policy_shape_source_claimSpec",
-      "lemma5_full_variational_policy_formsSpec",
-      "review_definition_incentive_compatibleSpec",
-      "review_theorem3_structured_pricingSpec"
-    ],
-    "presentation_sections": [
-      {
-        "title": "Source-model definitions",
-        "names": [
-          "review_definition_incentive_compatibleSpec",
-          "review_definition_surge_stateSpec"
-        ]
-      },
-      {
-        "title": "Main-text source claims",
-        "names": [
-          "review_theorem1_single_state_threshold_best_responseSpec",
-          "review_proposition3_1_affine_single_state_icSpec",
-          "review_theorem2_multiplicative_policy_shape_source_claimSpec",
-          "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec",
-          "review_lemma1_measured_dynamic_reward_decompositionSpec",
-          "review_lemma2_switch_probability_formulaSpec",
-          "review_lemma3_measured_time_fraction_formulaSpec",
-          "review_theorem3_structured_pricingSpec"
-        ]
-      },
-      {
-        "title": "Appendix source claims",
-        "names": [
-          "review_lemma4_single_state_threshold_uniquenessSpec",
-          "lemma5_full_variational_policy_formsSpec",
-          "review_lemma6_upper_endpoint_derivative_formulaSpec",
-          "review_lemma7_affine_positive_additive_response_quasi_convexSpec",
-          "review_lemma8_affine_negative_additive_response_quasi_concaveSpec",
-          "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec",
-          "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec",
-          "review_theorem4_full_structural_policy_forms_directSpec"
-        ]
-      }
-    ],
-    "llm_assumption_review": {
-      "assumption_judgment_file": "papers/GN21DriverSurgePricing/audit/assumption_match_llm.json",
-      "policy": "Every visible Assumptions.lean premise is classified by source semantics. Source-model conventions are documented with their exact source anchors and never used to hide a missing theorem conclusion."
-    },
-    "slices": [
-      {
-        "id": "all",
-        "names": [
-          "review_definition_incentive_compatibleSpec",
-          "review_definition_surge_stateSpec",
-          "review_theorem1_single_state_threshold_best_responseSpec",
-          "review_proposition3_1_affine_single_state_icSpec",
-          "review_theorem2_multiplicative_policy_shape_source_claimSpec",
-          "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec",
-          "review_lemma1_measured_dynamic_reward_decompositionSpec",
-          "review_lemma2_switch_probability_formulaSpec",
-          "review_lemma3_measured_time_fraction_formulaSpec",
-          "review_theorem3_structured_pricingSpec",
-          "review_lemma4_single_state_threshold_uniquenessSpec",
-          "lemma5_full_variational_policy_formsSpec",
-          "review_lemma6_upper_endpoint_derivative_formulaSpec",
-          "review_lemma7_affine_positive_additive_response_quasi_convexSpec",
-          "review_lemma8_affine_negative_additive_response_quasi_concaveSpec",
-          "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec",
-          "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec",
-          "review_theorem4_full_structural_policy_forms_directSpec"
-        ],
-        "title": "All source-facing review rows"
-      }
-    ],
-    "source_file": "papers/GN21DriverSurgePricing/PaperInterface.lean",
-    "source_proof_fidelity_review": {
-      "ledger_file": "papers/GN21DriverSurgePricing/audit/source_proof_fidelity.json",
-      "policy": "Audit source proof steps by source locator and mathematical claim, not by Lean declaration name. Source-stated or author-verified implicit model regularities are recorded as model conventions; a missing theorem conclusion is never relabelled as a premise."
-    },
     "auxiliary_names": [
       "review_definition_threshold_policy",
       "review_definition_dynamic_defined_reward",
@@ -181,7 +87,98 @@
       "theorem4_full_structural_policy_forms_open_corrected_raw_endpoint_engine",
       "theorem4_full_structural_policy_forms_open_corrected"
     ],
+    "include_names": [
+      "review_definition_surge_stateSpec",
+      "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec",
+      "review_lemma1_measured_dynamic_reward_decompositionSpec",
+      "review_lemma2_switch_probability_formulaSpec",
+      "review_lemma3_measured_time_fraction_formulaSpec",
+      "review_lemma4_single_state_threshold_uniquenessSpec",
+      "review_lemma6_upper_endpoint_derivative_formulaSpec",
+      "review_lemma7_affine_positive_additive_response_quasi_convexSpec",
+      "review_lemma8_affine_negative_additive_response_quasi_concaveSpec",
+      "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec",
+      "review_proposition3_1_affine_single_state_icSpec",
+      "review_theorem1_single_state_threshold_best_responseSpec",
+      "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec",
+      "review_theorem4_full_structural_policy_forms_directSpec",
+      "review_theorem2_multiplicative_policy_shape_source_claimSpec",
+      "lemma5_full_variational_policy_formsSpec",
+      "review_definition_incentive_compatibleSpec",
+      "review_theorem3_structured_pricingSpec"
+    ],
+    "llm_assumption_review": {
+      "assumption_judgment_file": "papers/GN21DriverSurgePricing/audit/assumption_match_llm.json",
+      "policy": "Every visible Assumptions.lean premise is classified by source semantics. Source-model conventions are documented with their exact source anchors and never used to hide a missing theorem conclusion."
+    },
+    "llm_paper_coverage_review": {
+      "defect_support_judgment_file": "papers/GN21DriverSurgePricing/audit/defect_support_match_llm.json",
+      "paper_coverage_audit_file": "papers/GN21DriverSurgePricing/audit/paper_coverage_llm.json",
+      "policy": "Normal coverage follows source presentation: named theorems, lemmas, and propositions only. Remarks, unlabelled formulas, proof prose, figures, captions, and simulations remain deep-audit material unless a deep all-prose audit is requested.",
+      "required_prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins"
+    },
+    "llm_source_record_review": {
+      "policy": "Classify recursive record and boundary inputs by expanded semantic content, not declaration or function names. Non-propositional witness data does not receive theorem credit; proposition fields require exact source evidence or a Lean derivation.",
+      "required_prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "source_record_audit_file": "papers/GN21DriverSurgePricing/audit/source_record_audit.json",
+      "source_record_judgment_file": "papers/GN21DriverSurgePricing/audit/source_record_match_llm.json"
+    },
+    "llm_statement_review": {
+      "assumption_judgment_file": "papers/GN21DriverSurgePricing/audit/assumption_match_llm.json",
+      "defect_support_judgment_file": "papers/GN21DriverSurgePricing/audit/defect_support_match_llm.json",
+      "lean_to_tex_file": "papers/GN21DriverSurgePricing/audit/lean_to_tex_llm.json",
+      "library_semantic_review_file": "papers/GN21DriverSurgePricing/audit/library_semantic_review.json",
+      "match_judgment_file": "papers/GN21DriverSurgePricing/audit/statement_match_llm.json",
+      "paper_coverage_audit_file": "papers/GN21DriverSurgePricing/audit/paper_coverage_llm.json",
+      "paper_semantic_prerequisites_file": "papers/GN21DriverSurgePricing/audit/paper_semantic_prerequisites.json",
+      "policy": "For every selected source claim, compare only its exact byte-pinned raw source-anchor bundle and Lean's expanded transparent `...Spec : Prop` target. The paired proof endpoint receives separate Lean-Meta proof credit; a name, paraphrase, wrapper, or prior aggregate receipt is not a semantic match. Review every retained paper-local prerequisite and every material library prerequisite before the dependent claim.",
+      "require_explicit_source_routes": true,
+      "require_source_claim_atoms": true,
+      "required_prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
+      "review_surface_audit_file": "papers/GN21DriverSurgePricing/audit/review_surface_llm.json",
+      "surface_audit_threshold": 30,
+      "surface_warning_threshold": 120,
+      "v11_screening_file": "papers/GN21DriverSurgePricing/audit/v11_raw_source_spec_screening.json"
+    },
+    "paper_coverage_required": true,
+    "presentation_sections": [
+      {
+        "names": [
+          "review_definition_incentive_compatibleSpec",
+          "review_definition_surge_stateSpec"
+        ],
+        "title": "Source-model definitions"
+      },
+      {
+        "names": [
+          "review_theorem1_single_state_threshold_best_responseSpec",
+          "review_proposition3_1_affine_single_state_icSpec",
+          "review_theorem2_multiplicative_policy_shape_source_claimSpec",
+          "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec",
+          "review_lemma1_measured_dynamic_reward_decompositionSpec",
+          "review_lemma2_switch_probability_formulaSpec",
+          "review_lemma3_measured_time_fraction_formulaSpec",
+          "review_theorem3_structured_pricingSpec"
+        ],
+        "title": "Main-text source claims"
+      },
+      {
+        "names": [
+          "review_lemma4_single_state_threshold_uniquenessSpec",
+          "lemma5_full_variational_policy_formsSpec",
+          "review_lemma6_upper_endpoint_derivative_formulaSpec",
+          "review_lemma7_affine_positive_additive_response_quasi_convexSpec",
+          "review_lemma8_affine_negative_additive_response_quasi_concaveSpec",
+          "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec",
+          "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec",
+          "review_theorem4_full_structural_policy_forms_directSpec"
+        ],
+        "title": "Appendix source claims"
+      }
+    ],
     "proposition_spec_proofs": {
+      "lemma5_full_variational_policy_formsSpec": "lemma5_full_variational_policy_forms",
+      "review_definition_incentive_compatibleSpec": "review_definition_incentive_compatible_realizes_spec",
       "review_definition_surge_stateSpec": "review_definition_surge_state_realizes_spec",
       "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec": "review_lemma10_nonsurge_derivative_positive_of_acceptAll_bounds",
       "review_lemma1_measured_dynamic_reward_decompositionSpec": "review_lemma1_measured_dynamic_reward_decomposition",
@@ -194,44 +191,15 @@
       "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec": "review_lemma9_surge_derivative_positive_of_acceptAll_bounds",
       "review_proposition3_1_affine_single_state_icSpec": "review_proposition3_1_affine_single_state_ic",
       "review_theorem1_single_state_threshold_best_responseSpec": "review_theorem1_single_state_threshold_best_response",
-      "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec": "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_states",
-      "review_theorem4_full_structural_policy_forms_directSpec": "review_theorem4_full_structural_policy_forms_direct",
       "review_theorem2_multiplicative_policy_shape_source_claimSpec": "review_theorem2_multiplicative_policy_shape_source_claim",
-      "lemma5_full_variational_policy_formsSpec": "lemma5_full_variational_policy_forms",
-      "review_definition_incentive_compatibleSpec": "review_definition_incentive_compatible_realizes_spec",
-      "review_theorem3_structured_pricingSpec": "review_theorem3_structured_pricing"
+      "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec": "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_states",
+      "review_theorem3_structured_pricingSpec": "review_theorem3_structured_pricing",
+      "review_theorem4_full_structural_policy_forms_directSpec": "review_theorem4_full_structural_policy_forms_direct"
     },
-    "llm_statement_review": {
-      "lean_to_tex_file": "papers/GN21DriverSurgePricing/audit/lean_to_tex_llm.json",
-      "library_semantic_review_file": "papers/GN21DriverSurgePricing/audit/library_semantic_review.json",
-      "match_judgment_file": "papers/GN21DriverSurgePricing/audit/statement_match_llm.json",
-      "paper_semantic_prerequisites_file": "papers/GN21DriverSurgePricing/audit/paper_semantic_prerequisites.json",
-      "review_surface_audit_file": "papers/GN21DriverSurgePricing/audit/review_surface_llm.json",
-      "paper_coverage_audit_file": "papers/GN21DriverSurgePricing/audit/paper_coverage_llm.json",
-      "defect_support_judgment_file": "papers/GN21DriverSurgePricing/audit/defect_support_match_llm.json",
-      "assumption_judgment_file": "papers/GN21DriverSurgePricing/audit/assumption_match_llm.json",
-      "surface_audit_threshold": 30,
-      "surface_warning_threshold": 120,
-      "require_explicit_source_routes": true,
-      "require_source_claim_atoms": true,
-      "v11_screening_file": "papers/GN21DriverSurgePricing/audit/v11_raw_source_spec_screening.json",
-      "policy": "For every selected source claim, compare only its exact byte-pinned raw source-anchor bundle and Lean's expanded transparent `...Spec : Prop` target. The paired proof endpoint receives separate Lean-Meta proof credit; a name, paraphrase, wrapper, or prior aggregate receipt is not a semantic match. Review every retained paper-local prerequisite and every material library prerequisite before the dependent claim.",
-      "required_prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2"
-    },
-    "llm_paper_coverage_review": {
-      "paper_coverage_audit_file": "papers/GN21DriverSurgePricing/audit/paper_coverage_llm.json",
-      "defect_support_judgment_file": "papers/GN21DriverSurgePricing/audit/defect_support_match_llm.json",
-      "policy": "Normal coverage follows source presentation: named theorems, lemmas, and propositions only. Remarks, unlabelled formulas, proof prose, figures, captions, and simulations remain deep-audit material unless a deep all-prose audit is requested.",
-      "required_prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins"
-    },
-    "llm_source_record_review": {
-      "source_record_audit_file": "papers/GN21DriverSurgePricing/audit/source_record_audit.json",
-      "source_record_judgment_file": "papers/GN21DriverSurgePricing/audit/source_record_match_llm.json",
-      "policy": "Classify recursive record and boundary inputs by expanded semantic content, not declaration or function names. Non-propositional witness data does not receive theorem credit; proposition fields require exact source evidence or a Lean derivation.",
-      "required_prompt_version": "source-record-v10-semantic-conclusion-boundary-contract"
-    },
+    "require_source_spec_correspondence": true,
+    "require_v11_raw_source_spec_screening": true,
     "semantic_model_review": {
-      "schema": 2,
+      "policy": "Review the trip-length law, open-policy domain, CTMC state evolution, response/reward ratios, almost-everywhere quotient, and extended endpoint semantics against pinned source text. Names route review but are never semantic evidence.",
       "required_dimensions": [
         "expanded_binders_and_domain",
         "carrier_and_domain",
@@ -242,11 +210,43 @@
         "null_cell_totalization_and_partition_scope",
         "extended_rate_codomain"
       ],
-      "policy": "Review the trip-length law, open-policy domain, CTMC state evolution, response/reward ratios, almost-everywhere quotient, and extended endpoint semantics against pinned source text. Names route review but are never semantic evidence."
+      "schema": 2
     },
-    "paper_coverage_required": true,
-    "require_v11_raw_source_spec_screening": true,
-    "require_source_spec_correspondence": true
+    "slices": [
+      {
+        "id": "all",
+        "names": [
+          "review_definition_incentive_compatibleSpec",
+          "review_definition_surge_stateSpec",
+          "review_theorem1_single_state_threshold_best_responseSpec",
+          "review_proposition3_1_affine_single_state_icSpec",
+          "review_theorem2_multiplicative_policy_shape_source_claimSpec",
+          "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec",
+          "review_lemma1_measured_dynamic_reward_decompositionSpec",
+          "review_lemma2_switch_probability_formulaSpec",
+          "review_lemma3_measured_time_fraction_formulaSpec",
+          "review_theorem3_structured_pricingSpec",
+          "review_lemma4_single_state_threshold_uniquenessSpec",
+          "lemma5_full_variational_policy_formsSpec",
+          "review_lemma6_upper_endpoint_derivative_formulaSpec",
+          "review_lemma7_affine_positive_additive_response_quasi_convexSpec",
+          "review_lemma8_affine_negative_additive_response_quasi_concaveSpec",
+          "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec",
+          "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec",
+          "review_theorem4_full_structural_policy_forms_directSpec"
+        ],
+        "title": "All source-facing review rows"
+      }
+    ],
+    "source_definition_names": [
+      "review_definition_incentive_compatible",
+      "review_definition_surge_state"
+    ],
+    "source_file": "papers/GN21DriverSurgePricing/PaperInterface.lean",
+    "source_proof_fidelity_review": {
+      "ledger_file": "papers/GN21DriverSurgePricing/audit/source_proof_fidelity.json",
+      "policy": "Audit source proof steps by source locator and mathematical claim, not by Lean declaration name. Source-stated or author-verified implicit model regularities are recorded as model conventions; a missing theorem conclusion is never relabelled as a premise."
+    }
   },
   "schema": 1,
   "source_version": "Management Science 2022 / arXiv v4, 2021",

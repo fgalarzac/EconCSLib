@@ -1,212 +1,201 @@
 {
-  "schema": 2,
-  "paper": "GHW01DigitalGoods",
-  "source_artifact_path": "papers/GHW01DigitalGoods/GHW01DigitalGoods.txt",
-  "source_artifact_sha256": "16a8854d7e81a6d10168bb5559a71703d4c6d4cb52c7740aab747bc05c33e66a",
-  "review_status": "defects_recorded",
-  "reviewed_proof_scopes": [
+  "checked_proof_steps": [
     {
-      "source_locator": "GHW01DigitalGoods.txt:195-374",
-      "semantic_scope": "Auction outcome, revenue, truthfulness, benchmarks, optimal thresholds, and Section 4 logarithmic bounds.",
-      "outcome": "defect_recorded"
+      "checked_conclusion": "The Lean proof establishes that the uniform m-subset PMF is invariant under set complementation, applies fixed-cardinality concentration to the relevant top-prefix events, and derives the displayed exact-half market failure bound without invoking an independent fair-coin law.",
+      "id": "GHW01-THEOREM62-EXACT-HALF-COMPLEMENT-01",
+      "scope": "This checks the exact fixed-cardinality probability space and directional revenue event only; fair-coin theorems remain separately labeled support.",
+      "source_locator": "cited publication:503-547",
+      "source_step": "Apply the fixed-size lower-tail argument to the complementary half-sample and combine the sample and market failures by a union bound."
     },
     {
-      "source_locator": "GHW01DigitalGoods.txt:398-550",
-      "semantic_scope": "Random-sampling mechanisms, exact fixed-size Lemma 6.1, and Theorem 6.2. The source describes an exact-half auction before separately introducing independent p=1/2 analysis; the reviewed endpoint fixes the exact uniform-half law and proves the complement-symmetry argument directly.",
-      "outcome": "no_defect"
-    },
+      "checked_conclusion": "Lean proves the required non-strict fixed-size lower-tail bound for nonempty prefix sets and sums the finite family before the geometric 40 exp(-alpha/72) estimate. For alpha < 3 the displayed lower probability bound is nonpositive, so no unproved large-alpha premise is introduced.",
+      "id": "GHW01-THEOREM62-NONSTRICT-PREFIX-TAIL-01",
+      "scope": "The non-strict prefix bound is a proved strengthening used to discharge a rounding-sensitive proof step, not an additional source theorem premise.",
+      "source_locator": "cited publication:503-547",
+      "source_step": "Control the adaptive market-side failure by a finite union over top prefixes after the sample-good event."
+    }
+  ],
+  "deep_audit_observations": [
     {
-      "source_locator": "GHW01DigitalGoods.txt:554-720",
-      "semantic_scope": "Weighted-pairing Theorems 7.1 and 7.2, including the matching tightness construction.",
-      "outcome": "no_defect"
-    },
-    {
-      "source_locator": "GHW01DigitalGoods.txt:746-954",
-      "semantic_scope": "The preliminary SODA cross-bidder Lemma 8.1 and Theorem 8.2 wording, cross-checked against the declared journal monotone-offer refinement.",
-      "outcome": "defect_recorded"
-    },
-    {
-      "source_locator": "GHW01DigitalGoods.txt:961-1130",
-      "semantic_scope": "Deterministic/bid-independent lower bounds and critical-price representation.",
-      "outcome": "no_defect"
-    },
-    {
-      "source_locator": "GHW01DigitalGoods.txt:1591-1717",
-      "semantic_scope": "All Section 11 bounded-supply benchmarks, constructions, truthfulness and supply claims (including the strict-tie deterministic opt_k extension), and competitive/upper-bound claims. The source states a bounded-supply scale assumption alpha*h < F_k and directly asserts the single-price rejection, single-price competitiveness, and dual-price competitiveness outcomes; conditional event-transfer wrappers do not establish those endpoints.",
-      "outcome": "defect_recorded"
+      "affected_source_locators": [
+        "cited publication:1629-1632",
+        "cited publication:1675-1678",
+        "cited publication:1679-1690",
+        "cited publication:1692-1696"
+      ],
+      "finding": "These are not named theoretical presentations, so they are outside the normal named-theory closeout surface, but the deep audit found unresolved mathematical obligations. The existing combined guarantees take hcount_probability or hgood_probability as caller premises rather than deriving them from alpha*h < F_k. In particular, the numeric-threshold model does not control tied excess demand from that scale condition alone: with 1,000 bids all equal to 1, k = 100, and alpha = 99, F_k = 100 and alpha*h < F_k, yet a threshold of 1 can make 500 market bids eligible and require 400 cap rejections. Rank-aware static-cutoff accounting proves useful fixed-cutoff cardinality facts, but a cap ordered by reported bid rank is not itself a source-faithful dominant-strategy mechanism.",
+      "id": "GHW01-SECTION11-UNNUMBERED-PROSE-01",
+      "normal_scope_disposition": "unnumbered_prose_outside_named_theory",
+      "scope_note": "Do not give normal named-result credit for these prose claims. A future deep repair must first state a precise sampling distribution, tie policy, success event, and numerical high-probability/competitive constants. It must then either prove a strict-price or source-supported no-tie/zero-surplus condition that rules out excess tied demand, or replace the algorithm with a report-independent priority/tie mechanism and prove that its direct rejection and revenue bounds still hold. The proof needs uniform fixed-size concentration over every candidate cutoff used by the adaptive sample threshold, a transfer from that event to the market, and an explicit truthfulness argument for the implemented cap. Conditional event-transfer lemmas and static rank accounting may be reused only as support after those missing implications are proved.",
+      "source_claim": "Section 11's unnumbered prose generalizes the logarithmic benchmark, states that alpha*h < F_k is the only competitiveness condition, and advertises small capped-sampler rejection plus single-price and dual-price competitiveness.",
+      "source_locator": "cited publication:1629-1632; cited publication:1675-1696"
     }
   ],
   "defects": [
     {
-      "id": "GHW01-LEMMA8.1-CROSS-BIDDER-01",
-      "source_locator": "GHW01DigitalGoods.txt:746-795",
-      "source_claim": "The preliminary SODA text claims that truthfulness alone makes winning probabilities monotone across two bidders ordered by their bid values.",
-      "defect_kind": "logical_dependency",
-      "affected_source_locators": [
-        "GHW01DigitalGoods.txt:746-795"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The SODA proof compares bidder outcomes drawn from different counterfactual report profiles, which dominant-strategy truthfulness alone does not relate. The reviewed endpoint instead proves the same cross-bidder probability conclusion from the separately pinned journal Definition 8.1 monotone-offer condition. The valid same-bidder own-report monotonicity theorem remains support only.",
-      "repair_obligation": "Retain the SODA lemma as the archival statement and formalize the cross-bidder conclusion only under the complete later journal offer-CDF monotonicity condition; do not substitute the weaker own-bid monotonicity consequence of truthfulness.",
       "acceptance_condition": "The corrected-target record pins the SODA lemma and journal Definition 8.1, while the paper-facing Spec quantifies two bidders and concludes their acceptance-probability order from the cross-bidder offer-CDF premise.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "PaperInterface.lemma8_1_truthful_monotoneSpec states the cross-bidder journal condition and PaperInterface.lemma8_1_truthful_monotone proves its advertised probability comparison. PaperInterface.lemma8_1_own_bid_monotone_support is explicitly non-credit support. docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md records the archival/corrected distinction."
-    },
-    {
-      "id": "GHW01-THEOREM82-SODA-SOURCE-VERSION-01",
-      "source_locator": "GHW01DigitalGoods.txt:833-833",
-      "source_claim": "The preliminary SODA text states E[R] <= F for any truthful auction, while the proof uses a cross-bidder monotonicity step not implied by truthfulness alone.",
+      "affected_source_locators": [
+        "cited publication:746-795"
+      ],
       "defect_kind": "logical_dependency",
-      "affected_source_locators": [
-        "GHW01DigitalGoods.txt:833-833"
-      ],
+      "id": "GHW01-LEMMA8.1-CROSS-BIDDER-01",
+      "repair_obligation": "Retain the SODA lemma as the archival statement and formalize the cross-bidder conclusion only under the complete later journal offer-CDF monotonicity condition; do not substitute the weaker own-bid monotonicity consequence of truthfulness.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "PaperInterface.lemma8_1_truthful_monotoneSpec states the cross-bidder journal condition and PaperInterface.lemma8_1_truthful_monotone proves its advertised probability comparison. PaperInterface.lemma8_1_own_bid_monotone_support is explicitly non-credit support. docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md records the archival/corrected distinction.",
+      "source_claim": "The preliminary SODA text claims that truthfulness alone makes winning probabilities monotone across two bidders ordered by their bid values.",
+      "source_locator": "cited publication:746-795",
       "statement_impact": "source_statement",
       "status_impact": "formalized_note",
-      "status_impact_rationale": "The preliminary universal SODA endpoint is not credited. The separately pinned journal correction adds Definition 8.1's cross-bidder offer-CDF monotonicity condition, and the reviewed theorem proves exactly that corrected finite offer-auction endpoint. This is a source-version correction with an explicit archival/corrected distinction, not an equivalence claim.",
-      "repair_obligation": "Retain the SODA theorem as the archival statement and formalize only the later journal target with the complete offer-CDF monotonicity condition visible in the terminal theorem.",
+      "status_impact_rationale": "The SODA proof compares bidder outcomes drawn from different counterfactual report profiles, which dominant-strategy truthfulness alone does not relate. The reviewed endpoint instead proves the same cross-bidder probability conclusion from the separately pinned journal Definition 8.1 monotone-offer condition. The valid same-bidder own-report monotonicity theorem remains support only."
+    },
+    {
       "acceptance_condition": "The corrected-target record pins the SODA theorem text, the local journal PDF and transcript, and a paper-facing theorem whose hypotheses include the cross-bidder offer-CDF inequality and whose conclusion is expected revenue at most F.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "PaperInterface.theorem8_2_truthful_revenue_upper_bound assumes the journal offer-CDF monotonicity relation and proves expected revenue at most the finite fixed-price benchmark. docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md pins the archival SODA line, the journal PDF/text hashes, Definition 8.1 transcript lines 40-42, and Theorem 8.2 transcript lines 58-61."
-    },
-    {
-      "id": "GHW01-THEOREM4.1-LOG-DOMAIN-01",
-      "source_locator": "GHW01DigitalGoods.txt:359-370",
-      "source_claim": "Theorem 4.1 states F >= T/(2 log h) without an explicit nondegenerate logarithmic domain.",
-      "defect_kind": "domain_or_endpoint",
       "affected_source_locators": [
-        "GHW01DigitalGoods.txt:359-370"
+        "cited publication:833-833"
       ],
+      "defect_kind": "logical_dependency",
+      "id": "GHW01-THEOREM82-SODA-SOURCE-VERSION-01",
+      "repair_obligation": "Retain the SODA theorem as the archival statement and formalize only the later journal target with the complete offer-CDF monotonicity condition visible in the terminal theorem.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "PaperInterface.theorem8_2_truthful_revenue_upper_bound assumes the journal offer-CDF monotonicity relation and proves expected revenue at most the finite fixed-price benchmark. docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md pins the archival SODA line, the journal PDF/text hashes, Definition 8.1 transcript lines 40-42, and Theorem 8.2 transcript lines 58-61.",
+      "source_claim": "The preliminary SODA text states E[R] <= F for any truthful auction, while the proof uses a cross-bidder monotonicity step not implied by truthfulness alone.",
+      "source_locator": "cited publication:833-833",
       "statement_impact": "source_statement",
       "status_impact": "formalized_note",
-      "status_impact_rationale": "The literal real-log endpoint is false for some 1 <= h < 2 profiles. The approved corrected target visibly requires h >= 2 and retains the exact base-two factor, so the formal proof is credited only for that stated correction and never for the archival theorem.",
-      "repair_obligation": "Keep h >= 2 visible in the theorem type and in the corrected-target record; do not derive it from the archival wording or round the displayed factor.",
+      "status_impact_rationale": "The preliminary universal SODA endpoint is not credited. The separately pinned journal correction adds Definition 8.1's cross-bidder offer-CDF monotonicity condition, and the reviewed theorem proves exactly that corrected finite offer-auction endpoint. This is a source-version correction with an explicit archival/corrected distinction, not an equivalence claim."
+    },
+    {
       "acceptance_condition": "A sole paper-facing endpoint proves T <= (2 log_2 h) F under h >= 2 and values in [1,h], while the source map retains the different archival statement and a byte-pinned source quote.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "PaperInterface.theorem4_1_high_value explicitly assumes 2 <= h, all values at least 1, and all values at most h, and proves the exact base-two factor. docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md records the user-approved explicit-domain correction and the archival/corrected distinction."
-    },
-    {
-      "id": "GHW01-COROLLARY4.2-LOG-DOMAIN-01",
-      "source_locator": "GHW01DigitalGoods.txt:301-307",
-      "source_claim": "Corollary 4.2 states F >= T/(4 log n) without excluding the one-bidder case.",
-      "defect_kind": "domain_or_endpoint",
       "affected_source_locators": [
-        "GHW01DigitalGoods.txt:301-307"
+        "cited publication:359-370"
       ],
+      "defect_kind": "domain_or_endpoint",
+      "id": "GHW01-THEOREM4.1-LOG-DOMAIN-01",
+      "repair_obligation": "Keep h >= 2 visible in the theorem type and in the corrected-target record; do not derive it from the archival wording or round the displayed factor.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "PaperInterface.theorem4_1_high_value explicitly assumes 2 <= h, all values at least 1, and all values at most h, and proves the exact base-two factor. docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md records the user-approved explicit-domain correction and the archival/corrected distinction.",
+      "source_claim": "Theorem 4.1 states F >= T/(2 log h) without an explicit nondegenerate logarithmic domain.",
+      "source_locator": "cited publication:359-370",
       "statement_impact": "source_statement",
       "status_impact": "formalized_note",
-      "status_impact_rationale": "The printed real-log denominator is zero at n = 1. The approved corrected target visibly requires n >= 2 and retains the exact base-two factor, so the formal proof is credited only for that stated correction and never for the archival corollary.",
-      "repair_obligation": "Keep n >= 2 visible in the theorem type and in the corrected-target record; do not infer it from the archival wording or replace the exact factor with a weaker bound.",
+      "status_impact_rationale": "The literal real-log endpoint is false for some 1 <= h < 2 profiles. The approved corrected target visibly requires h >= 2 and retains the exact base-two factor, so the formal proof is credited only for that stated correction and never for the archival theorem."
+    },
+    {
       "acceptance_condition": "A sole paper-facing endpoint proves T <= (4 log_2 n) F under n >= 2, a positive maximum bid, nonnegative bids, and the finite profile conditions, while the source map retains the different archival statement and a byte-pinned source quote.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "PaperInterface.corollary4_2_fixed_price_lower_bound explicitly assumes 2 <= Fintype.card Agent, a positive attained maximum, nonnegative values, and the upper value bound, and proves the exact base-two factor. docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md records the user-approved explicit-domain correction and the archival/corrected distinction."
-    },
-    {
-      "id": "GHW01-THEOREM7-LOG-DOMAIN-01",
-      "source_locator": "GHW01DigitalGoods.txt:563-680",
-      "source_claim": "Theorems 7.1 and 7.2 use logarithmic and square-root-logarithmic asymptotic denominators without excluding the normalized boundary h = 1.",
-      "defect_kind": "domain_or_endpoint",
       "affected_source_locators": [
-        "GHW01DigitalGoods.txt:563-607",
-        "GHW01DigitalGoods.txt:615-680"
+        "cited publication:301-307"
       ],
+      "defect_kind": "domain_or_endpoint",
+      "id": "GHW01-COROLLARY4.2-LOG-DOMAIN-01",
+      "repair_obligation": "Keep n >= 2 visible in the theorem type and in the corrected-target record; do not infer it from the archival wording or replace the exact factor with a weaker bound.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "PaperInterface.corollary4_2_fixed_price_lower_bound explicitly assumes 2 <= Fintype.card Agent, a positive attained maximum, nonnegative values, and the upper value bound, and proves the exact base-two factor. docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md records the user-approved explicit-domain correction and the archival/corrected distinction.",
+      "source_claim": "Corollary 4.2 states F >= T/(4 log n) without excluding the one-bidder case.",
+      "source_locator": "cited publication:301-307",
       "statement_impact": "source_statement",
       "status_impact": "formalized_note",
-      "status_impact_rationale": "At h = 1 the displayed logarithmic denominators vanish even though the source side conditions can hold. The approved targets visibly require h >= 2, derive the operational weighted-pairing probability domain rather than use a totalized quotient, and retain the advertised logarithmic and square-root-logarithmic rates. They are not credited as literal archival endpoints.",
-      "repair_obligation": "Keep h >= 2 visible in the two terminal theorem types and record the archival/corrected distinction; do not infer the domain from the source wording or leave an arbitrary scale parameter as the claimed square-root rate.",
+      "status_impact_rationale": "The printed real-log denominator is zero at n = 1. The approved corrected target visibly requires n >= 2 and retains the exact base-two factor, so the formal proof is credited only for that stated correction and never for the archival corollary."
+    },
+    {
       "acceptance_condition": "PaperInterface.theorem7_1_weighted_pairing proves T <= 576 log_2(h) W for operational W under h >= 2, and PaperInterface.theorem7_2_weighted_pairing_benchmark proves F <= 2304 sqrt(log_2 h) W under h >= 2 and F >= 2h. The selected tightness family proves the matching operational-W upper rate.",
+      "affected_source_locators": [
+        "cited publication:563-607",
+        "cited publication:615-680"
+      ],
+      "defect_kind": "domain_or_endpoint",
+      "id": "GHW01-THEOREM7-LOG-DOMAIN-01",
+      "repair_obligation": "Keep h >= 2 visible in the two terminal theorem types and record the archival/corrected distinction; do not infer the domain from the source wording or leave an arbitrary scale parameter as the claimed square-root rate.",
       "resolution": "corrected_source_statement",
-      "resolution_evidence": "PaperInterface.theorem7_1_weighted_pairing, theorem7_2_weighted_pairing_benchmark, and theorem7_2_weighted_pairing_tightness_selected_sqrt_log compile. docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md records the user-approved visible-domain correction and the no-archival-equivalence boundary."
+      "resolution_evidence": "PaperInterface.theorem7_1_weighted_pairing, theorem7_2_weighted_pairing_benchmark, and theorem7_2_weighted_pairing_tightness_selected_sqrt_log compile. docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md records the user-approved visible-domain correction and the no-archival-equivalence boundary.",
+      "source_claim": "Theorems 7.1 and 7.2 use logarithmic and square-root-logarithmic asymptotic denominators without excluding the normalized boundary h = 1.",
+      "source_locator": "cited publication:563-680",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "At h = 1 the displayed logarithmic denominators vanish even though the source side conditions can hold. The approved targets visibly require h >= 2, derive the operational weighted-pairing probability domain rather than use a totalized quotient, and retain the advertised logarithmic and square-root-logarithmic rates. They are not credited as literal archival endpoints."
     }
   ],
   "model_conventions": [
     {
-      "id": "GHW01-NORMALIZED-BID-DOMAIN-01",
-      "source_locator": "GHW01DigitalGoods.txt:128-148; GHW01DigitalGoods.txt:228-238; GHW01DigitalGoods.txt:317-335; GHW01DigitalGoods.txt:1679-1686",
+      "checked_scope": "PaperInterface.optimalThreshold_attains_fixedPriceBenchmark and boundedOptimalThreshold_attains_boundedBenchmark prove attainment by an input bid under the displayed lower-bound premise. The source maps retain raw benchmark/threshold definitions only as support vocabulary.",
       "classification": "source_text_model_convention",
       "formal_meaning": "The paper's normalized bid model has no bid below one. The direct opt(B) and opt_k endpoints therefore state the visible premise forall i, 1 <= bid_i; this excludes the library's totalized zero-price fallback from the source argmax-over-input-bids interpretation.",
-      "why_needed": "The library's candidate-price construction is total on arbitrary real profiles and can choose a synthetic zero candidate when its benchmark is zero. The source normalizes the least bid to one and defines opt over input bid values, so the review route must make that source domain explicit rather than silently identifying the totalized fallback with a source threshold.",
-      "checked_scope": "PaperInterface.optimalThreshold_attains_fixedPriceBenchmark and boundedOptimalThreshold_attains_boundedBenchmark prove attainment by an input bid under the displayed lower-bound premise. The source maps retain raw benchmark/threshold definitions only as support vocabulary."
+      "id": "GHW01-NORMALIZED-BID-DOMAIN-01",
+      "source_locator": "cited publication:128-148; cited publication:228-238; cited publication:317-335; cited publication:1679-1686",
+      "why_needed": "The library's candidate-price construction is total on arbitrary real profiles and can choose a synthetic zero candidate when its benchmark is zero. The source normalizes the least bid to one and defines opt over input bid values, so the review route must make that source domain explicit rather than silently identifying the totalized fallback with a source threshold."
     },
     {
-      "id": "GHW01-HIGHEST-BID-PARAMETER-01",
-      "source_locator": "GHW01DigitalGoods.txt:128-148; GHW01DigitalGoods.txt:228-238",
+      "checked_scope": "PaperInterface.theorem4_1_high_value, theorem6_2_random_sampling, theorem7_1_weighted_pairing, and theorem7_2_weighted_pairing_benchmark expose the attained-maximality premise alongside their existing upper-bound premise. Corollary 4.2 already did so.",
       "classification": "source_text_model_convention",
       "formal_meaning": "The paper defines h to be the highest bid value. Whenever a paper-facing endpoint uses h as a profile parameter, Lean states both forall i, bid_i <= h and exists i, bid_i = h; h is not merely an arbitrary upper bound.",
-      "why_needed": "A theorem over an arbitrary upper bound can be mathematically stronger while failing to formalize the source parameter relation. The attained-maximum witness keeps the source's h semantics visible in theorem signatures and prevents a generalized support statement from receiving literal source-route credit.",
-      "checked_scope": "PaperInterface.theorem4_1_high_value, theorem6_2_random_sampling, theorem7_1_weighted_pairing, and theorem7_2_weighted_pairing_benchmark expose the attained-maximality premise alongside their existing upper-bound premise. Corollary 4.2 already did so."
+      "id": "GHW01-HIGHEST-BID-PARAMETER-01",
+      "source_locator": "cited publication:128-148; cited publication:228-238",
+      "why_needed": "A theorem over an arbitrary upper bound can be mathematically stronger while failing to formalize the source parameter relation. The attained-maximum witness keeps the source's h semantics visible in theorem signatures and prevents a generalized support statement from receiving literal source-route credit."
     },
     {
-      "id": "GHW01-TOTAL-VALUE-TRUTHFUL-BIDDING-01",
-      "source_locator": "GHW01DigitalGoods.txt:215-227; GHW01DigitalGoods.txt:228-234",
+      "checked_scope": "The convention governs only PaperInterface.source_truthfulReports_totalValue_bridge through its visible TruthfulReports premise. It does not govern the bare totalValue definition or the unconditional fullValueOutcome_revenue identity.",
       "classification": "source_text_model_convention",
       "formal_meaning": "PaperInterface.totalValue values is the finite sum of the supplied utility-value profile. When the paper considers truthful auctions it assumes bids = values; only under that source convention does the utility total equal SourceDefinitions.totalBidValue bids. SourceDefinitions.fullValueOutcome_revenue identifies full-value outcome revenue with the bid sum unconditionally.",
-      "why_needed": "The repeated source presentation moves between utility values, submitted bids, and full-value outcome revenue. Recording bids = utilities prevents that bridge from becoming an implicit equality while leaving the isolated utility-sum definition unconditional.",
-      "checked_scope": "The convention governs only PaperInterface.source_truthfulReports_totalValue_bridge through its visible TruthfulReports premise. It does not govern the bare totalValue definition or the unconditional fullValueOutcome_revenue identity."
+      "id": "GHW01-TOTAL-VALUE-TRUTHFUL-BIDDING-01",
+      "source_locator": "cited publication:215-227; cited publication:228-234",
+      "why_needed": "The repeated source presentation moves between utility values, submitted bids, and full-value outcome revenue. Recording bids = utilities prevents that bridge from becoming an implicit equality while leaving the isolated utility-sum definition unconditional."
     },
     {
-      "id": "GHW01-BOUNDED-OPT-CAP-SEMANTICS-01",
-      "source_locator": "GHW01DigitalGoods.txt:1591-1604; GHW01DigitalGoods.txt:1679-1690",
+      "checked_scope": "PaperInterface.boundedOptimalThreshold_attains_boundedBenchmark proves equality with boundedBenchmark through boundedSupplySinglePriceRevenue, whose min(k, saleCount) cap carries the at-most-k allocation semantics.",
       "classification": "source_text_model_convention",
       "formal_meaning": "For a threshold used with supply k, 'sells k items or less' is represented by capped sales min(k, number of bids meeting the threshold). The source-facing opt_k theorem asserts optimal capped revenue, not the stronger claim that the numerical threshold has at most k eligible bids in every tied profile.",
-      "why_needed": "A numerical threshold can have more than k equal-or-higher bids. Conflating eligibility with allocated sales would smuggle an unstated no-tie or priority rule into the definition theorem.",
-      "checked_scope": "PaperInterface.boundedOptimalThreshold_attains_boundedBenchmark proves equality with boundedBenchmark through boundedSupplySinglePriceRevenue, whose min(k, saleCount) cap carries the at-most-k allocation semantics."
+      "id": "GHW01-BOUNDED-OPT-CAP-SEMANTICS-01",
+      "source_locator": "cited publication:1591-1604; cited publication:1679-1690",
+      "why_needed": "A numerical threshold can have more than k equal-or-higher bids. Conflating eligibility with allocated sales would smuggle an unstated no-tie or priority rule into the definition theorem."
     },
     {
-      "id": "GHW01-BOUNDED-TOP-K-EXACT-CARDINALITY-01",
-      "source_locator": "GHW01DigitalGoods.txt:1629-1632",
+      "checked_scope": "PaperInterface.boundedTopKValue_source_definition invokes BoundedSupply.boundedSupplyTopKTotal_eq_exact_cardinality_of_nonneg and displays both k <= Fintype.card Agent and bid nonnegativity. The raw boundedTopKValue definition is support vocabulary only.",
       "classification": "source_text_model_convention",
       "formal_meaning": "The source T_k is the optimal multi-price revenue with exactly k satisfied bidders, equivalently the sum of the highest k bids. On the source domain k <= n and nonnegative bids, the reusable at-most-k finite maximum equals that exact-cardinality maximum.",
-      "why_needed": "The generic library implementation deliberately allows subsets of cardinality at most k, including the empty set. Without the domain bridge, treating that totalized implementation as the source exact-k definition would change the result on profiles containing negative bids or an infeasible k.",
-      "checked_scope": "PaperInterface.boundedTopKValue_source_definition invokes BoundedSupply.boundedSupplyTopKTotal_eq_exact_cardinality_of_nonneg and displays both k <= Fintype.card Agent and bid nonnegativity. The raw boundedTopKValue definition is support vocabulary only."
+      "id": "GHW01-BOUNDED-TOP-K-EXACT-CARDINALITY-01",
+      "source_locator": "cited publication:1629-1632",
+      "why_needed": "The generic library implementation deliberately allows subsets of cardinality at most k, including the empty set. Without the domain bridge, treating that totalized implementation as the source exact-k definition would change the result on profiles containing negative bids or an infeasible k."
     },
     {
-      "id": "GHW01-BID-INDEPENDENT-BOUNDARY-01",
-      "source_locator": "GHW01DigitalGoods.txt:344-375",
+      "checked_scope": "PaperBidIndependentBoundaryRule carries the per-multiset choice. BidIndependentBoundary.twoValueBidIndependentBoundaryRevenue models its binary-profile revenue, proves it is no greater than the weak counterpart on nonnegative values, and PaperInterface.theorem9_1_bid_independent_lower_bound quantifies that source rule directly.",
       "classification": "source_text_model_convention",
       "formal_meaning": "A deterministic bid-independent rule returns both a price and, for each erased multiset of bid values, whether equality with that price is accepted. The true branch is bid >= price and the false branch is bid > price. The multiset preserves repeated bids while excluding accidental dependence on a presentation order.",
-      "why_needed": "The Section 5.1 footnote explicitly permits the boundary choice and says weak acceptance is revenue-maximizing but full generality is needed for Lemma 9.2. A weak-only price function is therefore not the literal theorem model for Theorem 9.1.",
-      "checked_scope": "PaperBidIndependentBoundaryRule carries the per-multiset choice. BidIndependentBoundary.twoValueBidIndependentBoundaryRevenue models its binary-profile revenue, proves it is no greater than the weak counterpart on nonnegative values, and PaperInterface.theorem9_1_bid_independent_lower_bound quantifies that source rule directly."
+      "id": "GHW01-BID-INDEPENDENT-BOUNDARY-01",
+      "source_locator": "cited publication:344-375",
+      "why_needed": "The Section 5.1 footnote explicitly permits the boundary choice and says weak acceptance is revenue-maximizing but full generality is needed for Lemma 9.2. A weak-only price function is therefore not the literal theorem model for Theorem 9.1."
     },
     {
-      "id": "GHW01-RANDOMIZED-EXPECTED-PROFIT-FINITENESS-01",
-      "source_locator": "GHW01DigitalGoods.txt:203-226",
+      "checked_scope": "SourceDefinitions.HasFiniteExpectedProfits and RandomizedTruthful expose summability together with the expected-profit dominance inequality. PaperInterface.source_randomizedTruthful routes that complete definition, and PaperInterface.source_randomizedCorrect inherits the same finite-expectation requirement through its randomized-truthfulness conjunct. Deterministic truthfulness and correctness have no expectation-definedness premise.",
       "classification": "source_text_model_convention",
       "formal_meaning": "For randomized truthfulness, every expected profit compared by the dominant-strategy condition is a finite real expectation. Lean represents this by summability of the outcome-PMF weighted profit series before stating the maximization inequality.",
-      "why_needed": "The paper uses expected profit as an ordinary real quantity. Lean's unrestricted tsum is total even for a nonsummable real series, so omitting definedness could silently assign a value outside the source's intended expectation semantics. The concrete finite random-sampling mechanisms have finite support; the generic definition keeps the same regularity visible.",
-      "checked_scope": "SourceDefinitions.HasFiniteExpectedProfits and RandomizedTruthful expose summability together with the expected-profit dominance inequality. PaperInterface.source_randomizedTruthful routes that complete definition, and PaperInterface.source_randomizedCorrect inherits the same finite-expectation requirement through its randomized-truthfulness conjunct. Deterministic truthfulness and correctness have no expectation-definedness premise."
+      "id": "GHW01-RANDOMIZED-EXPECTED-PROFIT-FINITENESS-01",
+      "source_locator": "cited publication:203-226",
+      "why_needed": "The paper uses expected profit as an ordinary real quantity. Lean's unrestricted tsum is total even for a nonsummable real series, so omitting definedness could silently assign a value outside the source's intended expectation semantics. The concrete finite random-sampling mechanisms have finite support; the generic definition keeps the same regularity visible."
     },
     {
-      "id": "GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01",
-      "source_locator": "GHW01DigitalGoods.txt:203-210",
+      "checked_scope": "SourceDefinitions.RandomizedAuction and the generic randomized outcome, revenue, single-price, truthfulness, and correctness interfaces use this convention. The paper's concrete random-sampling, dual-price, exact-half, weighted-pairing, and bounded-sampling mechanisms have finite support and remain exact. PaperInterface.theorem8_2_truthful_revenue_upper_bound remains governed separately by the already approved finite corrected target GHW01-THEOREM82-SODA-SOURCE-VERSION-01.",
       "classification": "documented_additional_assumption",
       "formal_meaning": "The generic randomized-auction carrier is restricted to discrete, countably supported probability laws, represented in Lean by BidProfile Agent -> PMF (AuctionOutcome Agent). It does not claim to represent every continuous probability law on the real-price outcome space allowed by the source's unrestricted phrase 'probability distributions on auction outcomes'.",
-      "why_needed": "A PMF assigns point masses and therefore cannot represent a general atomless outcome distribution. The source's generic definition does not impose discreteness, and the later journal Theorem 8.2 proof explicitly uses a continuous uniform random variable. Calling the PMF carrier unqualifiedly equivalent to the source definition would silently narrow the randomized-auction domain.",
-      "checked_scope": "SourceDefinitions.RandomizedAuction and the generic randomized outcome, revenue, single-price, truthfulness, and correctness interfaces use this convention. The paper's concrete random-sampling, dual-price, exact-half, weighted-pairing, and bounded-sampling mechanisms have finite support and remain exact. PaperInterface.theorem8_2_truthful_revenue_upper_bound remains governed separately by the already approved finite corrected target GHW01-THEOREM82-SODA-SOURCE-VERSION-01."
+      "id": "GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01",
+      "source_locator": "cited publication:203-210",
+      "why_needed": "A PMF assigns point masses and therefore cannot represent a general atomless outcome distribution. The source's generic definition does not impose discreteness, and the later journal Theorem 8.2 proof explicitly uses a continuous uniform random variable. Calling the PMF carrier unqualifiedly equivalent to the source definition would silently narrow the randomized-auction domain."
     },
     {
-      "id": "GHW01-NONEMPTY-OTHER-BID-DOMAIN-01",
-      "source_locator": "GHW01DigitalGoods.txt:351-355; GHW01DigitalGoods.txt:991-1013",
+      "checked_scope": "PaperInterface.source_deterministicOptimalThresholdAuction takes 2 <= Fintype.card Agent. The exact-half and bounded sampling interfaces require positive sample size, and their selectors compute opt on the actual nonempty Finset subtype rather than a zero-filled ambient profile.",
       "classification": "source_text_model_convention",
       "formal_meaning": "A deterministic optimal-threshold offer opt(B_i) is used only when every bidder has at least one other bid, represented by 2 <= n. Sampling variants likewise expose a positive sampled-side cardinality before applying opt to that sample.",
-      "why_needed": "The source defines opt on a nonempty normalized set of input bids and does not define opt of the empty set. A singleton bidder population or empty sample would otherwise enter a Lean-only totalized threshold branch.",
-      "checked_scope": "PaperInterface.source_deterministicOptimalThresholdAuction takes 2 <= Fintype.card Agent. The exact-half and bounded sampling interfaces require positive sample size, and their selectors compute opt on the actual nonempty Finset subtype rather than a zero-filled ambient profile."
+      "id": "GHW01-NONEMPTY-OTHER-BID-DOMAIN-01",
+      "source_locator": "cited publication:351-355; cited publication:991-1013",
+      "why_needed": "The source defines opt on a nonempty normalized set of input bids and does not define opt of the empty set. A singleton bidder population or empty sample would otherwise enter a Lean-only totalized threshold branch."
     },
     {
-      "id": "GHW01-THEOREM93-SET-OF-BIDS-ERASED-MULTISET-01",
-      "source_locator": "GHW01DigitalGoods.txt:195-204; GHW01DigitalGoods.txt:351-355; GHW01DigitalGoods.txt:1105-1117",
+      "checked_scope": "AuctionMainTheorems.lean defines PaperTheorem93PrimitiveSetOfBidsDeterministicSourceModel with a Multiset-valued focused offer, then derives a weaker canonical-list relabeling only for the internal count proof; PaperInterface.theorem9_3_deterministic_truthful_lower_bound exposes the multiset model. No threshold or price rule is supplied as a caller premise.",
       "classification": "documented_additional_assumption",
       "formal_meaning": "The source's set-of-bids convention is represented by one focused offer function whose counterfactual bidder slices factor through the erased multiset of the other bid values. The multiset retains repeated equal bids but excludes dependence on a presentation order or bidder labels. Canonical Lists are used only as an internal enumeration for the count proof.",
-      "why_needed": "Sections 5.1 and 9.2 use a function of the other bids as a set. The identity-aware Lean auction family needs an explicit bridge from each fixed-bidder counterfactual slice to an erased-multiset representation before the count-based two-value lower-bound construction can be applied.",
-      "checked_scope": "AuctionMainTheorems.lean defines PaperTheorem93PrimitiveSetOfBidsDeterministicSourceModel with a Multiset-valued focused offer, then derives a weaker canonical-list relabeling only for the internal count proof; PaperInterface.theorem9_3_deterministic_truthful_lower_bound exposes the multiset model. No threshold or price rule is supplied as a caller premise."
+      "id": "GHW01-THEOREM93-SET-OF-BIDS-ERASED-MULTISET-01",
+      "source_locator": "cited publication:195-204; cited publication:351-355; cited publication:1105-1117",
+      "why_needed": "Sections 5.1 and 9.2 use a function of the other bids as a set. The identity-aware Lean auction family needs an explicit bridge from each fixed-bidder counterfactual slice to an erased-multiset representation before the count-based two-value lower-bound construction can be applied."
     },
     {
-      "id": "GHW01-THEOREM93-SALE-PRICE-CONVENTION-01",
-      "source_locator": "GHW01DigitalGoods.txt:200-218; GHW01DigitalGoods.txt:1105-1128",
-      "classification": "user_approved_source_model_convention",
-      "formal_meaning": "A deterministic auction selects a subset of bids, charges rejected bids zero, charges each selected bid a sale price no greater than its bid, and uses nonnegative sale prices. In Lean this gives binary allocation, individual rationality, loser-zero behavior, and no positive transfers for the deterministic offer slices.",
-      "why_needed": "The paper states subset allocation and upper-bounded winning prices, but it does not separately spell out nonnegative sale prices. The checked critical-price theorem uses that ordinary sale-price convention to derive the nonnegative offer threshold; it must remain visible rather than being silently folded into the word truthful.",
-      "checked_scope": "PaperInterface.lemma9_2_bid_independence and theorem9_3_deterministic_truthful_lower_bound expose binary allocation, individual rationality, and no-positive-transfers. AuctionMainTheorems.lean proves the full critical-offer characterization and the lower-bound witness from those explicit fields.",
       "approval": {
         "approval_kind": "explicit_user_instruction",
         "approval_reference": "User instruction on 2026-07-25: assume whatever convention makes the result true, provided it is explicit and the archival claim is not represented as proved.",
@@ -216,31 +205,31 @@
           "selected bids pay nonnegative sale prices",
           "selected prices do not exceed the selected bid"
         ]
-      }
+      },
+      "checked_scope": "PaperInterface.lemma9_2_bid_independence and theorem9_3_deterministic_truthful_lower_bound expose binary allocation, individual rationality, and no-positive-transfers. AuctionMainTheorems.lean proves the full critical-offer characterization and the lower-bound witness from those explicit fields.",
+      "classification": "user_approved_source_model_convention",
+      "formal_meaning": "A deterministic auction selects a subset of bids, charges rejected bids zero, charges each selected bid a sale price no greater than its bid, and uses nonnegative sale prices. In Lean this gives binary allocation, individual rationality, loser-zero behavior, and no positive transfers for the deterministic offer slices.",
+      "id": "GHW01-THEOREM93-SALE-PRICE-CONVENTION-01",
+      "source_locator": "cited publication:200-218; cited publication:1105-1128",
+      "why_needed": "The paper states subset allocation and upper-bounded winning prices, but it does not separately spell out nonnegative sale prices. The checked critical-price theorem uses that ordinary sale-price convention to derive the nonnegative offer threshold; it must remain visible rather than being silently folded into the word truthful."
     },
     {
-      "id": "GHW01-THEOREM93-HIGH-VALUE-DISCRETIZATION-01",
-      "source_locator": "GHW01DigitalGoods.txt:235-238; GHW01DigitalGoods.txt:979-990; GHW01DigitalGoods.txt:1100-1130",
+      "checked_scope": "PaperInterface.theorem9_1_bid_independent_lower_boundSpec and theorem9_3_deterministic_truthful_lower_boundSpec state H : Nat, 2 <= H, 0 < alpha, and return 0 < highCount together with the explicit 1/H ratio and alpha*H <= F. The natural ceiling used internally for real alpha preserves positivity.",
       "classification": "source_text_model_convention",
       "formal_meaning": "The checked lower-bound family is stated for an integer high value H >= 2 and a positive real source constant alpha, with binary profiles containing at least one bid at H and all remaining bids at 1. It proves the ordinary positive-denominator ratio R/F <= 1/H together with alpha H <= F.",
-      "why_needed": "The source proof chooses integer bidder multiplicities, uses alpha as a positive lower bound on the number of high bids, and defines h as the attained highest bid. Recording positive alpha and a positive high-bid count prevents a zero-benchmark or absent-high-value witness from satisfying the displayed ratio only through totalized division.",
-      "checked_scope": "PaperInterface.theorem9_1_bid_independent_lower_boundSpec and theorem9_3_deterministic_truthful_lower_boundSpec state H : Nat, 2 <= H, 0 < alpha, and return 0 < highCount together with the explicit 1/H ratio and alpha*H <= F. The natural ceiling used internally for real alpha preserves positivity."
+      "id": "GHW01-THEOREM93-HIGH-VALUE-DISCRETIZATION-01",
+      "source_locator": "cited publication:235-238; cited publication:979-990; cited publication:1100-1130",
+      "why_needed": "The source proof chooses integer bidder multiplicities, uses alpha as a positive lower bound on the number of high bids, and defines h as the attained highest bid. Recording positive alpha and a positive high-bid count prevents a zero-benchmark or absent-high-value witness from satisfying the displayed ratio only through totalized division."
     },
     {
-      "id": "GHW01-THEOREM62-EXACT-HALF-SAMPLING-01",
-      "source_locator": "GHW01DigitalGoods.txt:455-474; GHW01DigitalGoods.txt:503-508",
+      "checked_scope": "PaperInterface.theorem6_2_random_sampling exposes the exact uniform-half PMF and directional auction. RandomSamplingDirectional proves complement symmetry and the exact fixed-cardinality revenue bound without a product-measure transfer.",
       "classification": "source_text_model_convention",
       "formal_meaning": "The checked mechanism has a population of 2m bidders with m > 0, samples a uniform m-element subset, computes the threshold from that subset, and offers it only to the complementary market. The exact-half law is invariant under complementation.",
-      "why_needed": "The source first specifies m=n/2 sampling and then announces an independent p=1/2 analysis. The probability space, even finite carrier, and complementary-market direction must be explicit; a fair-coin support theorem cannot silently stand in for the source mechanism.",
-      "checked_scope": "PaperInterface.theorem6_2_random_sampling exposes the exact uniform-half PMF and directional auction. RandomSamplingDirectional proves complement symmetry and the exact fixed-cardinality revenue bound without a product-measure transfer."
+      "id": "GHW01-THEOREM62-EXACT-HALF-SAMPLING-01",
+      "source_locator": "cited publication:455-474; cited publication:503-508",
+      "why_needed": "The source first specifies m=n/2 sampling and then announces an independent p=1/2 analysis. The probability space, even finite carrier, and complementary-market direction must be explicit; a fair-coin support theorem cannot silently stand in for the source mechanism."
     },
     {
-      "id": "GHW01-THEOREM62-DISCRETE-ALPHA-01",
-      "source_locator": "GHW01DigitalGoods.txt:479-547",
-      "classification": "user_approved_source_model_convention",
-      "formal_meaning": "The audited probability statement treats alpha as a natural-number count parameter and casts it into the displayed real exponentials. It asserts no unstated rounding theorem for an arbitrary real alpha.",
-      "why_needed": "The source calls alpha a constant but its top-prefix and geometric-tail proof uses alpha-indexed counts without declaring a real-to-integer convention. The integral parameter is therefore visible in the theorem statement rather than hidden in its proof.",
-      "checked_scope": "PaperInterface.theorem6_2_random_sampling states alpha : Nat directly. The exact fixed-half proof handles alpha < 3 by showing the displayed lower probability bound is nonpositive and proves the nontrivial prefix argument for the remaining natural values.",
       "approval": {
         "approval_kind": "explicit_user_instruction",
         "approval_reference": "User instruction on 2026-07-26: assume the convention that makes the result true, record it as an additional assumption, and do not represent an archival real-alpha statement as proved.",
@@ -250,31 +239,31 @@
           "the convention remains visible in the paper interface and audit record",
           "no real-alpha rounding or equivalence claim is made"
         ]
-      }
+      },
+      "checked_scope": "PaperInterface.theorem6_2_random_sampling states alpha : Nat directly. The exact fixed-half proof handles alpha < 3 by showing the displayed lower probability bound is nonpositive and proves the nontrivial prefix argument for the remaining natural values.",
+      "classification": "user_approved_source_model_convention",
+      "formal_meaning": "The audited probability statement treats alpha as a natural-number count parameter and casts it into the displayed real exponentials. It asserts no unstated rounding theorem for an arbitrary real alpha.",
+      "id": "GHW01-THEOREM62-DISCRETE-ALPHA-01",
+      "source_locator": "cited publication:479-547",
+      "why_needed": "The source calls alpha a constant but its top-prefix and geometric-tail proof uses alpha-indexed counts without declaring a real-to-integer convention. The integral parameter is therefore visible in the theorem statement rather than hidden in its proof."
     },
     {
-      "id": "GHW01-WEIGHTED-PAIRING-PROBABILITY-DOMAIN-01",
-      "source_locator": "GHW01DigitalGoods.txt:128-148; GHW01DigitalGoods.txt:489-550",
+      "checked_scope": "PaperInterface.weightedPairingRevenue_source_definition visibly takes the normalized-bid and other-bidder primitives, invokes weightedPairingSourceProfile_of_unit_lower_bound_and_distinct, proves nonnegative weights, zero self-selection, and unit total mass, and identifies operational expected revenue with weightedPairingRevenue. The convention is a domain clarification, not a claim that the generic formula formalizes the source mechanism on zero-mass profiles.",
       "classification": "documented_additional_assumption",
       "formal_meaning": "The source's normalization is represented by the visible premise forall i, 1 <= bid_i. The source instruction to pick a bid from B_i is represented by the visible premise that every bidder has a distinct other bidder. Lean proves from those two primitives that bids are nonnegative and totalBidValue(bids)-bid_i is strictly positive, then constructs the internal WeightedPairingSourceProfile used to establish the normalized finite selection law b/(T-b_i).",
-      "why_needed": "The source says to choose another bid with probability proportional to its value, b/(T-b_i), but does not print a singleton or division-domain condition. A caller-supplied profile certificate could hide those facts. The direct endpoint instead derives them from the normalized-bid source convention and the explicit non-singleton operational domain, excluding singleton, all-zero, and other zero-denominator inputs rather than treating Lean's totalized quotient as source behavior.",
-      "checked_scope": "PaperInterface.weightedPairingRevenue_source_definition visibly takes the normalized-bid and other-bidder primitives, invokes weightedPairingSourceProfile_of_unit_lower_bound_and_distinct, proves nonnegative weights, zero self-selection, and unit total mass, and identifies operational expected revenue with weightedPairingRevenue. The convention is a domain clarification, not a claim that the generic formula formalizes the source mechanism on zero-mass profiles."
+      "id": "GHW01-WEIGHTED-PAIRING-PROBABILITY-DOMAIN-01",
+      "source_locator": "cited publication:128-148; cited publication:489-550",
+      "why_needed": "The source says to choose another bid with probability proportional to its value, b/(T-b_i), but does not print a singleton or division-domain condition. A caller-supplied profile certificate could hide those facts. The direct endpoint instead derives them from the normalized-bid source convention and the explicit non-singleton operational domain, excluding singleton, all-zero, and other zero-denominator inputs rather than treating Lean's totalized quotient as source behavior."
     },
     {
-      "id": "GHW01-WEIGHTED-PAIRING-JOINT-LAW-01",
-      "source_locator": "GHW01DigitalGoods.txt:489-508",
+      "checked_scope": "SourceDefinitions.weightedPairingOfferPMF proves every coordinate law is normalized, weightedPairingOfferFunctionLaw forms the finite independent product, and weightedPairingOutcomeLaw maps it to source outcomes. weightedPairingOutcomeExpectedRevenue_eq_W proves the joint law's finite expected revenue is exactly the paper's W.",
       "classification": "source_text_model_convention",
       "formal_meaning": "For each bidder i, the auction independently draws one other bidder with the source probability b_j/(T-b_i). The vector of bidderwise draws is pushed forward to the joint winner-set and sale-price outcome: i wins exactly when the drawn bid is at most b_i and then pays that drawn bid.",
-      "why_needed": "The source specifies a separate randomized selection for each bidder and states that i's selection does not affect the outcome of the bidder whose bid was selected, but it does not write a joint PMF formula. The finite product law is the canonical noninteracting realization of those bidderwise instructions and makes the randomized-auction object explicit.",
-      "checked_scope": "SourceDefinitions.weightedPairingOfferPMF proves every coordinate law is normalized, weightedPairingOfferFunctionLaw forms the finite independent product, and weightedPairingOutcomeLaw maps it to source outcomes. weightedPairingOutcomeExpectedRevenue_eq_W proves the joint law's finite expected revenue is exactly the paper's W."
+      "id": "GHW01-WEIGHTED-PAIRING-JOINT-LAW-01",
+      "source_locator": "cited publication:489-508",
+      "why_needed": "The source specifies a separate randomized selection for each bidder and states that i's selection does not affect the outcome of the bidder whose bid was selected, but it does not write a joint PMF formula. The finite product law is the canonical noninteracting realization of those bidderwise instructions and makes the randomized-auction object explicit."
     },
     {
-      "id": "GHW01-BOUNDED-SAMPLE-CAPACITY-FLOOR-01",
-      "source_locator": "GHW01DigitalGoods.txt:1679-1690",
-      "classification": "user_approved_source_model_convention",
-      "formal_meaning": "For a partition with positive sample size m and positive market size n-m, the integral sample capacity used by opt is floor(m*k/(n-m)). Both cardinalities are derived from the actual sampled side rather than supplied independently.",
-      "why_needed": "The source writes mk/(n-m) as a capacity subscript but does not specify how a nonintegral quotient is rounded. An executable finite-capacity auction must choose an integer. The paper-facing definition exposes natural-number floor and proves its defining inequalities instead of hiding Lean's totalized division or an unrelated cardinality parameter.",
-      "checked_scope": "SourceDefinitions.boundedSampleCapacityFloor derives both cardinalities from the side partition; boundedSampleCapacityFloor_spec proves the floor bounds under positive market size. PaperInterface.source_boundedSinglePriceSampling also requires positive sample size, so its visible domain is 0 < m < n.",
       "approval": {
         "approval_kind": "explicit_user_instruction",
         "approval_reference": "User instruction on 2026-07-25: assume whatever convention makes the result true, keep the convention explicit, and record it in the post-formalization report.",
@@ -284,23 +273,23 @@
           "both sides are nonempty",
           "the quotient uses visible natural-number floor semantics"
         ]
-      }
+      },
+      "checked_scope": "SourceDefinitions.boundedSampleCapacityFloor derives both cardinalities from the side partition; boundedSampleCapacityFloor_spec proves the floor bounds under positive market size. PaperInterface.source_boundedSinglePriceSampling also requires positive sample size, so its visible domain is 0 < m < n.",
+      "classification": "user_approved_source_model_convention",
+      "formal_meaning": "For a partition with positive sample size m and positive market size n-m, the integral sample capacity used by opt is floor(m*k/(n-m)). Both cardinalities are derived from the actual sampled side rather than supplied independently.",
+      "id": "GHW01-BOUNDED-SAMPLE-CAPACITY-FLOOR-01",
+      "source_locator": "cited publication:1679-1690",
+      "why_needed": "The source writes mk/(n-m) as a capacity subscript but does not specify how a nonintegral quotient is rounded. An executable finite-capacity auction must choose an integer. The paper-facing definition exposes natural-number floor and proves its defining inequalities instead of hiding Lean's totalized division or an unrelated cardinality parameter."
     },
     {
-      "id": "GHW01-BOUNDED-REJECTION-PRIORITY-01",
-      "source_locator": "GHW01DigitalGoods.txt:1679-1690",
+      "checked_scope": "PaperInterface.source_boundedSinglePriceSampling and source_boundedDualPriceSampling expose LinearOrder Agent. SourceDefinitions.boundedSinglePriceFixedSizeOutcomeLaw and boundedDualExactHalfOutcomeLaw use that order only to select among excess threshold acceptors; the order is fixed independently of submitted bids. No theorem claims that every arbitrary or randomized rejection rule induces the same outcome law.",
       "classification": "source_text_model_convention",
       "formal_meaning": "When more than k bids satisfy the bounded-sampling threshold, the source permits an arbitrary rejection rule. The formal model instantiates that choice with one fixed exogenous linear priority order on bidder labels and retains the first k accepted bidders in that order.",
-      "why_needed": "The source explicitly says to reject excess accepted bids arbitrarily, for example at random. An executable deterministic representative must choose one such rule. Making the label order a visible parameter prevents the implementation from hiding report-dependent tie breaking or claiming invariance across rejection rules.",
-      "checked_scope": "PaperInterface.source_boundedSinglePriceSampling and source_boundedDualPriceSampling expose LinearOrder Agent. SourceDefinitions.boundedSinglePriceFixedSizeOutcomeLaw and boundedDualExactHalfOutcomeLaw use that order only to select among excess threshold acceptors; the order is fixed independently of submitted bids. No theorem claims that every arbitrary or randomized rejection rule induces the same outcome law."
+      "id": "GHW01-BOUNDED-REJECTION-PRIORITY-01",
+      "source_locator": "cited publication:1679-1690",
+      "why_needed": "The source explicitly says to reject excess accepted bids arbitrarily, for example at random. An executable deterministic representative must choose one such rule. Making the label order a visible parameter prevents the implementation from hiding report-dependent tie breaking or claiming invariance across rejection rules."
     },
     {
-      "id": "GHW01-BOUNDED-DUAL-EVEN-CAPACITY-01",
-      "source_locator": "GHW01DigitalGoods.txt:1692-1696",
-      "classification": "user_approved_source_model_convention",
-      "formal_meaning": "The bounded dual-price source mechanism is formalized on an exact equal-half bidder partition with total supply 2q, giving each side capacity q and using the opposite side's opt_q threshold.",
-      "why_needed": "The source writes k/2 for both integer side capacities without specifying an odd-k rounding convention. Requiring an explicitly even total capacity prevents silently discarding one unit through floor/floor division and makes the selected exact model visible.",
-      "checked_scope": "SourceDefinitions.boundedDualPriceSampling takes a positive exact-half sample and a halfCapacity parameter; its total source capacity is halfCapacity + halfCapacity. PaperInterface.source_boundedDualPriceSampling exposes the same parameters and makes no claim about odd-capacity equivalence.",
       "approval": {
         "approval_kind": "explicit_user_instruction",
         "approval_reference": "User instruction on 2026-07-25: assume whatever convention makes the result true, keep the convention explicit, and record it in the post-formalization report.",
@@ -310,47 +299,57 @@
           "the total capacity is explicitly even",
           "no odd-capacity equivalence is claimed"
         ]
-      }
+      },
+      "checked_scope": "SourceDefinitions.boundedDualPriceSampling takes a positive exact-half sample and a halfCapacity parameter; its total source capacity is halfCapacity + halfCapacity. PaperInterface.source_boundedDualPriceSampling exposes the same parameters and makes no claim about odd-capacity equivalence.",
+      "classification": "user_approved_source_model_convention",
+      "formal_meaning": "The bounded dual-price source mechanism is formalized on an exact equal-half bidder partition with total supply 2q, giving each side capacity q and using the opposite side's opt_q threshold.",
+      "id": "GHW01-BOUNDED-DUAL-EVEN-CAPACITY-01",
+      "source_locator": "cited publication:1692-1696",
+      "why_needed": "The source writes k/2 for both integer side capacities without specifying an odd-k rounding convention. Requiring an explicitly even total capacity prevents silently discarding one unit through floor/floor division and makes the selected exact model visible."
     },
     {
-      "id": "GHW01-SECTION11-STRICT-THRESHOLD-TIE-01",
-      "source_locator": "GHW01DigitalGoods.txt:455-465; GHW01DigitalGoods.txt:1679-1714",
+      "checked_scope": "PaperInterface.section11_deterministicOptimalThresholdAuction and its truthfulness and supply-feasibility theorems use the strict rule. The theorem has no caller-supplied tie certificate or ranking priority.",
       "classification": "source_text_model_convention",
       "formal_meaning": "At an optimal threshold, bids equal to the threshold are rejected and only bids strictly above it are allocated. This deterministic tie rule is carried into the own-erased bounded-supply threshold mechanism.",
-      "why_needed": "The source's original random-sampling mechanism says to accept bids above the threshold, while its bounded-supply extension does not restate a tie rule. The executable mechanism must select one rule in order to establish truthful own-erased offers and a capacity bound.",
-      "checked_scope": "PaperInterface.section11_deterministicOptimalThresholdAuction and its truthfulness and supply-feasibility theorems use the strict rule. The theorem has no caller-supplied tie certificate or ranking priority."
+      "id": "GHW01-SECTION11-STRICT-THRESHOLD-TIE-01",
+      "source_locator": "cited publication:455-465; cited publication:1679-1714",
+      "why_needed": "The source's original random-sampling mechanism says to accept bids above the threshold, while its bounded-supply extension does not restate a tie rule. The executable mechanism must select one rule in order to establish truthful own-erased offers and a capacity bound."
     }
   ],
-  "checked_proof_steps": [
+  "paper": "GHW01DigitalGoods",
+  "review_status": "defects_recorded",
+  "reviewed_proof_scopes": [
     {
-      "id": "GHW01-THEOREM62-EXACT-HALF-COMPLEMENT-01",
-      "source_locator": "GHW01DigitalGoods.txt:503-547",
-      "source_step": "Apply the fixed-size lower-tail argument to the complementary half-sample and combine the sample and market failures by a union bound.",
-      "checked_conclusion": "The Lean proof establishes that the uniform m-subset PMF is invariant under set complementation, applies fixed-cardinality concentration to the relevant top-prefix events, and derives the displayed exact-half market failure bound without invoking an independent fair-coin law.",
-      "scope": "This checks the exact fixed-cardinality probability space and directional revenue event only; fair-coin theorems remain separately labeled support."
+      "outcome": "defect_recorded",
+      "semantic_scope": "Auction outcome, revenue, truthfulness, benchmarks, optimal thresholds, and Section 4 logarithmic bounds.",
+      "source_locator": "cited publication:195-374"
     },
     {
-      "id": "GHW01-THEOREM62-NONSTRICT-PREFIX-TAIL-01",
-      "source_locator": "GHW01DigitalGoods.txt:503-547",
-      "source_step": "Control the adaptive market-side failure by a finite union over top prefixes after the sample-good event.",
-      "checked_conclusion": "Lean proves the required non-strict fixed-size lower-tail bound for nonempty prefix sets and sums the finite family before the geometric 40 exp(-alpha/72) estimate. For alpha < 3 the displayed lower probability bound is nonpositive, so no unproved large-alpha premise is introduced.",
-      "scope": "The non-strict prefix bound is a proved strengthening used to discharge a rounding-sensitive proof step, not an additional source theorem premise."
+      "outcome": "no_defect",
+      "semantic_scope": "Random-sampling mechanisms, exact fixed-size Lemma 6.1, and Theorem 6.2. The source describes an exact-half auction before separately introducing independent p=1/2 analysis; the reviewed endpoint fixes the exact uniform-half law and proves the complement-symmetry argument directly.",
+      "source_locator": "cited publication:398-550"
+    },
+    {
+      "outcome": "no_defect",
+      "semantic_scope": "Weighted-pairing Theorems 7.1 and 7.2, including the matching tightness construction.",
+      "source_locator": "cited publication:554-720"
+    },
+    {
+      "outcome": "defect_recorded",
+      "semantic_scope": "The preliminary SODA cross-bidder Lemma 8.1 and Theorem 8.2 wording, cross-checked against the declared journal monotone-offer refinement.",
+      "source_locator": "cited publication:746-954"
+    },
+    {
+      "outcome": "no_defect",
+      "semantic_scope": "Deterministic/bid-independent lower bounds and critical-price representation.",
+      "source_locator": "cited publication:961-1130"
+    },
+    {
+      "outcome": "defect_recorded",
+      "semantic_scope": "All Section 11 bounded-supply benchmarks, constructions, truthfulness and supply claims (including the strict-tie deterministic opt_k extension), and competitive/upper-bound claims. The source states a bounded-supply scale assumption alpha*h < F_k and directly asserts the single-price rejection, single-price competitiveness, and dual-price competitiveness outcomes; conditional event-transfer wrappers do not establish those endpoints.",
+      "source_locator": "cited publication:1591-1717"
     }
   ],
-  "deep_audit_observations": [
-    {
-      "id": "GHW01-SECTION11-UNNUMBERED-PROSE-01",
-      "source_locator": "GHW01DigitalGoods.txt:1629-1632; GHW01DigitalGoods.txt:1675-1696",
-      "source_claim": "Section 11's unnumbered prose generalizes the logarithmic benchmark, states that alpha*h < F_k is the only competitiveness condition, and advertises small capped-sampler rejection plus single-price and dual-price competitiveness.",
-      "finding": "These are not named theoretical presentations, so they are outside the normal named-theory closeout surface, but the deep audit found unresolved mathematical obligations. The existing combined guarantees take hcount_probability or hgood_probability as caller premises rather than deriving them from alpha*h < F_k. In particular, the numeric-threshold model does not control tied excess demand from that scale condition alone: with 1,000 bids all equal to 1, k = 100, and alpha = 99, F_k = 100 and alpha*h < F_k, yet a threshold of 1 can make 500 market bids eligible and require 400 cap rejections. Rank-aware static-cutoff accounting proves useful fixed-cutoff cardinality facts, but a cap ordered by reported bid rank is not itself a source-faithful dominant-strategy mechanism.",
-      "repair_handoff": "Do not give normal named-result credit for these prose claims. A future deep repair must first state a precise sampling distribution, tie policy, success event, and numerical high-probability/competitive constants. It must then either prove a strict-price or source-supported no-tie/zero-surplus condition that rules out excess tied demand, or replace the algorithm with a report-independent priority/tie mechanism and prove that its direct rejection and revenue bounds still hold. The proof needs uniform fixed-size concentration over every candidate cutoff used by the adaptive sample threshold, a transfer from that event to the market, and an explicit truthfulness argument for the implemented cap. Conditional event-transfer lemmas and static rank accounting may be reused only as support after those missing implications are proved.",
-      "normal_scope_disposition": "unnumbered_prose_outside_named_theory",
-      "affected_source_locators": [
-        "GHW01DigitalGoods.txt:1629-1632",
-        "GHW01DigitalGoods.txt:1675-1678",
-        "GHW01DigitalGoods.txt:1679-1690",
-        "GHW01DigitalGoods.txt:1692-1696"
-      ]
-    }
-  ]
+  "schema": 2,
+  "source_artifact_sha256": "16a8854d7e81a6d10168bb5559a71703d4c6d4cb52c7740aab747bc05c33e66a"
 }

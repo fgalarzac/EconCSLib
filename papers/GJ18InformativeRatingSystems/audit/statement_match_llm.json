@@ -299,50 +299,49 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "conclusion",
           "source_item": "author_approved_corrected_model_theorem1_finite_real_rate",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "source_statement_sha256": "8340a74a9c1fa01f097381146a9805f97ff51d39e26949b9e0ef765c3573c0be",
           "statement": "For the author-approved corrected finite ordinal IID model with at least two uniformly distributed seller types, positive at-most-one-per-period match rates, a nontrivial ordinal rating scale, and valid adjacent pairs 0 <= i <= M-2, one minus the state-level W_k objective has a finite real exponential rate equal to the finite representative of the support-safe adjacent-pair rate."
         }
@@ -367,7 +366,7 @@
           "route_kind": "approved_corrected_target",
           "semantic_relation": "proves_approved_corrected_target",
           "source_item": "author_approved_corrected_model_theorem1_finite_real_rate",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "source_statement_sha256": "8340a74a9c1fa01f097381146a9805f97ff51d39e26949b9e0ef765c3573c0be"
         }
       ],
@@ -678,50 +677,49 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-716",
+          "source_location": "cited publication:683; cited publication:710-716",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-716",
+          "source_location": "cited publication:683; cited publication:710-716",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-716",
+          "source_location": "cited publication:683; cited publication:710-716",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-716",
+          "source_location": "cited publication:683; cited publication:710-716",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-716",
+          "source_location": "cited publication:683; cited publication:710-716",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-716",
+          "source_location": "cited publication:683; cited publication:710-716",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "conclusion",
           "source_item": "author_confirmed_clarified_iid_state_law",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-716",
+          "source_location": "cited publication:683; cited publication:710-716",
           "source_statement_sha256": "7c78a9604dfd2a2071a9c3107d163d393d80563339f2dd97519eb0dbc399daed",
           "statement": "Author-confirmed clarified-model row: at every horizon k, the recorded state law equals the finite product law of conditionally IID ratings given seller type and independent seller histories."
         }
@@ -731,7 +729,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "author_confirmed_clarified_iid_state_law",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-716",
+          "source_location": "cited publication:683; cited publication:710-716",
           "source_statement_sha256": "7c78a9604dfd2a2071a9c3107d163d393d80563339f2dd97519eb0dbc399daed"
         }
       ],
@@ -1042,50 +1040,49 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "conclusion",
           "source_item": "author_confirmed_clarified_model_theorem1_state_rate",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "source_statement_sha256": "cdc638ac53f1505e6df7e2cd18e7d590eb1a2057fa6b4dcfe782c27e2a3aef79",
           "statement": "Author-approved corrected-model Theorem 1, extended-rate form: the literal finite state-level W_k under the record's IID state law has the exact support-safe extended exponential rate given by the minimum adjacent threshold rate."
         }
@@ -1095,7 +1092,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "author_confirmed_clarified_model_theorem1_state_rate",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "source_statement_sha256": "cdc638ac53f1505e6df7e2cd18e7d590eb1a2057fa6b4dcfe782c27e2a3aef79"
         }
       ],
@@ -1386,44 +1383,43 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:665",
+          "source_location": "cited publication:665",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:665",
+          "source_location": "cited publication:665",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:665",
+          "source_location": "cited publication:665",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:665",
+          "source_location": "cited publication:665",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:665",
+          "source_location": "cited publication:665",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "conclusion",
           "source_item": "author_confirmed_clarified_uniform_type_prior",
-          "source_location": "sources/arxiv.tex:665",
+          "source_location": "cited publication:665",
           "source_statement_sha256": "1412f184f39f40593c0a4cb4cca054eb92636f6b7d01ebd32e742e0cd0824d08",
           "statement": "Author-confirmed clarified-model row: the record's finite seller-type prior equals the explicit uniform PMF on the nonempty ordered carrier Fin n."
         }
@@ -1433,7 +1429,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "author_confirmed_clarified_uniform_type_prior",
-          "source_location": "sources/arxiv.tex:665",
+          "source_location": "cited publication:665",
           "source_statement_sha256": "1412f184f39f40593c0a4cb4cca054eb92636f6b7d01ebd32e742e0cd0824d08"
         }
       ],
@@ -1804,68 +1800,67 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:1670-1681",
+          "source_location": "cited publication:1670-1681",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:1670-1681",
+          "source_location": "cited publication:1670-1681",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:1670-1681",
+          "source_location": "cited publication:1670-1681",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:1670-1681",
+          "source_location": "cited publication:1670-1681",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:1670-1681",
+          "source_location": "cited publication:1670-1681",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:1670-1681",
+          "source_location": "cited publication:1670-1681",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:1670-1681",
+          "source_location": "cited publication:1670-1681",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 6 of the expanded proposition."
         },
         {
           "id": "source_7",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:1670-1681",
+          "source_location": "cited publication:1670-1681",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 7 of the expanded proposition."
         },
         {
           "id": "source_8",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:1670-1681",
+          "source_location": "cited publication:1670-1681",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 8 of the expanded proposition."
         },
         {
           "id": "source_9",
           "kind": "conclusion",
           "source_item": "source_appendix_pk_ld_complement_rate_iid_completion",
-          "source_location": "sources/arxiv.tex:1670-1681",
+          "source_location": "cited publication:1670-1681",
           "source_statement_sha256": "5f257a64fac6a0c1bf23030f17d195f5da1b9366503a88838bace033af0a907b",
           "statement": "For every ordered high/low seller pair in the author-approved finite ordinal IID model, with positive match rates, a nontrivial rating scale, corrected ordinal tails, and an extended-real rate convention, one minus the source-state P_k objective has an exponential-rate certificate with the same finite real representative of the support-safe pairwise threshold rate."
         }
@@ -1888,7 +1883,7 @@
           "route_kind": "approved_corrected_target",
           "semantic_relation": "proves_approved_corrected_target",
           "source_item": "source_appendix_pk_ld_complement_rate_iid_completion",
-          "source_location": "sources/arxiv.tex:1670-1681",
+          "source_location": "cited publication:1670-1681",
           "source_statement_sha256": "5f257a64fac6a0c1bf23030f17d195f5da1b9366503a88838bace033af0a907b"
         }
       ],
@@ -2259,68 +2254,67 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:1633-1635",
+          "source_location": "cited publication:1633-1635",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:1633-1635",
+          "source_location": "cited publication:1633-1635",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:1633-1635",
+          "source_location": "cited publication:1633-1635",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:1633-1635",
+          "source_location": "cited publication:1633-1635",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:1633-1635",
+          "source_location": "cited publication:1633-1635",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:1633-1635",
+          "source_location": "cited publication:1633-1635",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:1633-1635",
+          "source_location": "cited publication:1633-1635",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 6 of the expanded proposition."
         },
         {
           "id": "source_7",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:1633-1635",
+          "source_location": "cited publication:1633-1635",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 7 of the expanded proposition."
         },
         {
           "id": "source_8",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:1633-1635",
+          "source_location": "cited publication:1633-1635",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 8 of the expanded proposition."
         },
         {
           "id": "source_9",
           "kind": "conclusion",
           "source_item": "source_appendix_problessthan_score_gap_rate_iid_completion",
-          "source_location": "sources/arxiv.tex:1633-1635",
+          "source_location": "cited publication:1633-1635",
           "source_statement_sha256": "0f68b491501a30e2e10c887ed2a00c53ae6dbdf0060e9f202a1f4d6230f99ee3",
           "statement": "For every ordered high/low seller pair in the author-approved finite ordinal IID model, with positive match rates, a nontrivial rating scale, corrected ordinal tails, and an extended-real rate convention, the source-state weak-inversion probability has an exponential-rate certificate with a finite real representative of the support-safe pairwise threshold rate."
         }
@@ -2343,7 +2337,7 @@
           "route_kind": "approved_corrected_target",
           "semantic_relation": "proves_approved_corrected_target",
           "source_item": "source_appendix_problessthan_score_gap_rate_iid_completion",
-          "source_location": "sources/arxiv.tex:1633-1635",
+          "source_location": "cited publication:1633-1635",
           "source_statement_sha256": "0f68b491501a30e2e10c887ed2a00c53ae6dbdf0060e9f202a1f4d6230f99ee3"
         }
       ],
@@ -2714,68 +2708,67 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:697-702",
+          "source_location": "cited publication:697-702",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:697-702",
+          "source_location": "cited publication:697-702",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:697-702",
+          "source_location": "cited publication:697-702",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:697-702",
+          "source_location": "cited publication:697-702",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:697-702",
+          "source_location": "cited publication:697-702",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:697-702",
+          "source_location": "cited publication:697-702",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:697-702",
+          "source_location": "cited publication:697-702",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 6 of the expanded proposition."
         },
         {
           "id": "source_7",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:697-702",
+          "source_location": "cited publication:697-702",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 7 of the expanded proposition."
         },
         {
           "id": "source_8",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:697-702",
+          "source_location": "cited publication:697-702",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 8 of the expanded proposition."
         },
         {
           "id": "source_9",
           "kind": "conclusion",
           "source_item": "source_definition_aggregate_score_formula",
-          "source_location": "sources/arxiv.tex:697-702",
+          "source_location": "cited publication:697-702",
           "source_statement_sha256": "f86fe14564a5c059385b082313735a85bd321444630928126f09718265deb8dc",
           "statement": "For each seller type theta and horizon k, if n_k(theta) = floor(k g(theta)), the aggregate score averages exactly n_k(theta) rating scores over a finite family indexed by Fin n_k(theta); the zero-sample convention remains explicit."
         }
@@ -2793,7 +2786,7 @@
           "route_kind": "approved_corrected_target",
           "semantic_relation": "proves_approved_corrected_target",
           "source_item": "source_definition_aggregate_score_formula",
-          "source_location": "sources/arxiv.tex:697-702",
+          "source_location": "cited publication:697-702",
           "source_statement_sha256": "f86fe14564a5c059385b082313735a85bd321444630928126f09718265deb8dc"
         }
       ],
@@ -3124,56 +3117,55 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 6 of the expanded proposition."
         },
         {
           "id": "source_7",
           "kind": "conclusion",
           "source_item": "source_definition_extended_rate_function_formula",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "source_statement_sha256": "0757bacd2a88e707a179269eb856198b5a158050cbdb21505a3dd2ae163757a1",
           "statement": "The corrected support-safe rate is the extended-real supremum of z a minus Lambda(z|theta), so thresholds outside finite score support may have infinite cost."
         }
@@ -3183,7 +3175,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "source_definition_extended_rate_function_formula",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "source_statement_sha256": "0757bacd2a88e707a179269eb856198b5a158050cbdb21505a3dd2ae163757a1"
         }
       ],
@@ -3454,38 +3446,37 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:669-670",
+          "source_location": "cited publication:669-670",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:669-670",
+          "source_location": "cited publication:669-670",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:669-670",
+          "source_location": "cited publication:669-670",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:669-670",
+          "source_location": "cited publication:669-670",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "conclusion",
           "source_item": "source_definition_floor_sample_count_formula",
-          "source_location": "sources/arxiv.tex:669-670",
+          "source_location": "cited publication:669-670",
           "source_statement_sha256": "0ba36c958ef7586b203034bc70425c20c3112e8397a315c6635ed8933def0341",
           "statement": "The source defines the number of matches/ratings received by seller type theta by time k as n_k(theta)=floor(k g(theta))."
         }
@@ -3495,7 +3486,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "source_definition_floor_sample_count_formula",
-          "source_location": "sources/arxiv.tex:669-670",
+          "source_location": "cited publication:669-670",
           "source_statement_sha256": "0ba36c958ef7586b203034bc70425c20c3112e8397a315c6635ed8933def0341"
         }
       ],
@@ -3826,56 +3817,55 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 6 of the expanded proposition."
         },
         {
           "id": "source_7",
           "kind": "conclusion",
           "source_item": "source_definition_log_mgf_formula",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "source_statement_sha256": "8d3039d4292afa7282134fe72b5ef49f034add267132803473131d03f05054e4",
           "statement": "Lambda(z|theta) is the logarithm of the finite sum over rating levels of rho(theta,y|Y) exp(z phi(y))."
         }
@@ -3885,7 +3875,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "source_definition_log_mgf_formula",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "source_statement_sha256": "8d3039d4292afa7282134fe72b5ef49f034add267132803473131d03f05054e4"
         }
       ],
@@ -4216,56 +4206,55 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:721-725",
+          "source_location": "cited publication:721-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:721-725",
+          "source_location": "cited publication:721-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:721-725",
+          "source_location": "cited publication:721-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:721-725",
+          "source_location": "cited publication:721-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:721-725",
+          "source_location": "cited publication:721-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:721-725",
+          "source_location": "cited publication:721-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:721-725",
+          "source_location": "cited publication:721-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 6 of the expanded proposition."
         },
         {
           "id": "source_7",
           "kind": "conclusion",
           "source_item": "source_definition_pairwise_objective_formula",
-          "source_location": "sources/arxiv.tex:721-725",
+          "source_location": "cited publication:721-725",
           "source_statement_sha256": "c176068a4454c1c051f74481ad7927506c98688454a56a984bb25be2005f11f5",
           "statement": "For theta_hi>theta_lo, P_k(theta_hi,theta_lo) is the conditional probability of a strict correct aggregate-score ordering minus the conditional probability of a strict reversed ordering."
         }
@@ -4275,7 +4264,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "source_definition_pairwise_objective_formula",
-          "source_location": "sources/arxiv.tex:721-725",
+          "source_location": "cited publication:721-725",
           "source_statement_sha256": "c176068a4454c1c051f74481ad7927506c98688454a56a984bb25be2005f11f5"
         }
       ],
@@ -4606,56 +4595,55 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 6 of the expanded proposition."
         },
         {
           "id": "source_7",
           "kind": "conclusion",
           "source_item": "source_definition_rate_function_formula",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "source_statement_sha256": "a02a9e412b67a8bc0c35a0458834ba87a15ed9acf325a82b2d4db30dfe27649c",
           "statement": "The paper displays I(a|theta) as the real supremum over z of z a minus Lambda(z|theta)."
         }
@@ -4665,7 +4653,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "source_definition_rate_function_formula",
-          "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "source_statement_sha256": "a02a9e412b67a8bc0c35a0458834ba87a15ed9acf325a82b2d4db30dfe27649c"
         }
       ],
@@ -4996,56 +4984,55 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:729-733",
+          "source_location": "cited publication:729-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:729-733",
+          "source_location": "cited publication:729-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:729-733",
+          "source_location": "cited publication:729-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:729-733",
+          "source_location": "cited publication:729-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:729-733",
+          "source_location": "cited publication:729-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:729-733",
+          "source_location": "cited publication:729-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:729-733",
+          "source_location": "cited publication:729-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 6 of the expanded proposition."
         },
         {
           "id": "source_7",
           "kind": "conclusion",
           "source_item": "source_definition_uniform_ranking_normalization",
-          "source_location": "sources/arxiv.tex:729-733",
+          "source_location": "cited publication:729-733",
           "source_statement_sha256": "1bf35de839010896f91d5419fa5209d33dfded5b447d6830d45d27d0e926651f",
           "statement": "For at least two seller types, the source coefficient 2/(M(M-1)) equals the inverse cardinality of the strict ordered comparison-pair carrier."
         }
@@ -5055,7 +5042,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "source_definition_uniform_ranking_normalization",
-          "source_location": "sources/arxiv.tex:729-733",
+          "source_location": "cited publication:729-733",
           "source_statement_sha256": "1bf35de839010896f91d5419fa5209d33dfded5b447d6830d45d27d0e926651f"
         }
       ],
@@ -5366,50 +5353,49 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:728-733",
+          "source_location": "cited publication:728-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:728-733",
+          "source_location": "cited publication:728-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:728-733",
+          "source_location": "cited publication:728-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:728-733",
+          "source_location": "cited publication:728-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:728-733",
+          "source_location": "cited publication:728-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:728-733",
+          "source_location": "cited publication:728-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "conclusion",
           "source_item": "source_definition_uniform_ranking_objective_formula",
-          "source_location": "sources/arxiv.tex:728-733",
+          "source_location": "cited publication:728-733",
           "source_statement_sha256": "0403d658e54b621cc6f8b6e4dd43fdcf1bce74e10238161cff9e328fafa24e8a",
           "statement": "W_k is 2/(M(M-1)) times the sum of P_k over strict ordered seller-quality pairs."
         }
@@ -5419,7 +5405,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "source_definition_uniform_ranking_objective_formula",
-          "source_location": "sources/arxiv.tex:728-733",
+          "source_location": "cited publication:728-733",
           "source_statement_sha256": "0403d658e54b621cc6f8b6e4dd43fdcf1bce74e10238161cff9e328fafa24e8a"
         }
       ],
@@ -5790,68 +5776,67 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:679-683; sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:679-683; cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:679-683; sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:679-683; cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:679-683; sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:679-683; cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:679-683; sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:679-683; cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:679-683; sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:679-683; cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:679-683; sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:679-683; cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:679-683; sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:679-683; cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 6 of the expanded proposition."
         },
         {
           "id": "source_7",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:679-683; sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:679-683; cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 7 of the expanded proposition."
         },
         {
           "id": "source_8",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:679-683; sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:679-683; cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 8 of the expanded proposition."
         },
         {
           "id": "source_9",
           "kind": "conclusion",
           "source_item": "source_fidelity_diagnostic_unrestricted_real_pairwise_rate_mismatch",
-          "source_location": "sources/arxiv.tex:679-683; sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:679-683; cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "source_statement_sha256": "03ddb9de572e974b6395cdb5e1ad90383128e3d92e04f9a2175c71d98f78b711",
           "statement": "Source-fidelity diagnostic, not an advertised source theorem: under the finite ordinal source primitives, positive match rates, and a nontrivial scale, the legacy unrestricted Real pairwise threshold rate is zero while the support-safe WithTop pairwise threshold rate is strictly positive."
         }
@@ -5861,7 +5846,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "source_fidelity_diagnostic_unrestricted_real_pairwise_rate_mismatch",
-          "source_location": "sources/arxiv.tex:679-683; sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
+          "source_location": "cited publication:679-683; cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
           "source_statement_sha256": "03ddb9de572e974b6395cdb5e1ad90383128e3d92e04f9a2175c71d98f78b711"
         }
       ],
@@ -6232,68 +6217,67 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-725",
+          "source_location": "cited publication:683; cited publication:710-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-725",
+          "source_location": "cited publication:683; cited publication:710-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-725",
+          "source_location": "cited publication:683; cited publication:710-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-725",
+          "source_location": "cited publication:683; cited publication:710-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-725",
+          "source_location": "cited publication:683; cited publication:710-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-725",
+          "source_location": "cited publication:683; cited publication:710-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-725",
+          "source_location": "cited publication:683; cited publication:710-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 6 of the expanded proposition."
         },
         {
           "id": "source_7",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-725",
+          "source_location": "cited publication:683; cited publication:710-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 7 of the expanded proposition."
         },
         {
           "id": "source_8",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-725",
+          "source_location": "cited publication:683; cited publication:710-725",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 8 of the expanded proposition."
         },
         {
           "id": "source_9",
           "kind": "conclusion",
           "source_item": "source_iid_completion_pairwise_objective_bridge",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-725",
+          "source_location": "cited publication:683; cited publication:710-725",
           "source_statement_sha256": "21351f549b0604fa31dfc2ddf227ff7afc453c1402faaf807fd877e7f11c946e",
           "statement": "Under an explicitly defined finite IID completion at horizon k, the literal state-level P_k equals the existing two-seller floor-sample P_k objective for the same ordered pair."
         }
@@ -6303,7 +6287,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "source_iid_completion_pairwise_objective_bridge",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-725",
+          "source_location": "cited publication:683; cited publication:710-725",
           "source_statement_sha256": "21351f549b0604fa31dfc2ddf227ff7afc453c1402faaf807fd877e7f11c946e"
         }
       ],
@@ -6674,68 +6658,67 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:665; sources/arxiv.tex:683; sources/arxiv.tex:710-733",
+          "source_location": "cited publication:665; cited publication:683; cited publication:710-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:665; sources/arxiv.tex:683; sources/arxiv.tex:710-733",
+          "source_location": "cited publication:665; cited publication:683; cited publication:710-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:665; sources/arxiv.tex:683; sources/arxiv.tex:710-733",
+          "source_location": "cited publication:665; cited publication:683; cited publication:710-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:665; sources/arxiv.tex:683; sources/arxiv.tex:710-733",
+          "source_location": "cited publication:665; cited publication:683; cited publication:710-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:665; sources/arxiv.tex:683; sources/arxiv.tex:710-733",
+          "source_location": "cited publication:665; cited publication:683; cited publication:710-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:665; sources/arxiv.tex:683; sources/arxiv.tex:710-733",
+          "source_location": "cited publication:665; cited publication:683; cited publication:710-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:665; sources/arxiv.tex:683; sources/arxiv.tex:710-733",
+          "source_location": "cited publication:665; cited publication:683; cited publication:710-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 6 of the expanded proposition."
         },
         {
           "id": "source_7",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:665; sources/arxiv.tex:683; sources/arxiv.tex:710-733",
+          "source_location": "cited publication:665; cited publication:683; cited publication:710-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 7 of the expanded proposition."
         },
         {
           "id": "source_8",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:665; sources/arxiv.tex:683; sources/arxiv.tex:710-733",
+          "source_location": "cited publication:665; cited publication:683; cited publication:710-733",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 8 of the expanded proposition."
         },
         {
           "id": "source_9",
           "kind": "conclusion",
           "source_item": "source_iid_completion_uniform_ranking_objective_bridge",
-          "source_location": "sources/arxiv.tex:665; sources/arxiv.tex:683; sources/arxiv.tex:710-733",
+          "source_location": "cited publication:665; cited publication:683; cited publication:710-733",
           "source_statement_sha256": "84cb399f78f6baf7828efad9bc2b889915071633580da4c618efe3cb04cec4df",
           "statement": "Under the explicit finite IID completion and at least two seller types, the literal state-level W_k equals the finite uniform floor-count ranking objective."
         }
@@ -6745,7 +6728,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "source_iid_completion_uniform_ranking_objective_bridge",
-          "source_location": "sources/arxiv.tex:665; sources/arxiv.tex:683; sources/arxiv.tex:710-733",
+          "source_location": "cited publication:665; cited publication:683; cited publication:710-733",
           "source_statement_sha256": "84cb399f78f6baf7828efad9bc2b889915071633580da4c618efe3cb04cec4df"
         }
       ],
@@ -7116,68 +7099,67 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:721-725; sources/arxiv.tex:1633-1646",
+          "source_location": "cited publication:683; cited publication:721-725; cited publication:1633-1646",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:721-725; sources/arxiv.tex:1633-1646",
+          "source_location": "cited publication:683; cited publication:721-725; cited publication:1633-1646",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:721-725; sources/arxiv.tex:1633-1646",
+          "source_location": "cited publication:683; cited publication:721-725; cited publication:1633-1646",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:721-725; sources/arxiv.tex:1633-1646",
+          "source_location": "cited publication:683; cited publication:721-725; cited publication:1633-1646",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:721-725; sources/arxiv.tex:1633-1646",
+          "source_location": "cited publication:683; cited publication:721-725; cited publication:1633-1646",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:721-725; sources/arxiv.tex:1633-1646",
+          "source_location": "cited publication:683; cited publication:721-725; cited publication:1633-1646",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:721-725; sources/arxiv.tex:1633-1646",
+          "source_location": "cited publication:683; cited publication:721-725; cited publication:1633-1646",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 6 of the expanded proposition."
         },
         {
           "id": "source_7",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:721-725; sources/arxiv.tex:1633-1646",
+          "source_location": "cited publication:683; cited publication:721-725; cited publication:1633-1646",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 7 of the expanded proposition."
         },
         {
           "id": "source_8",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:721-725; sources/arxiv.tex:1633-1646",
+          "source_location": "cited publication:683; cited publication:721-725; cited publication:1633-1646",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 8 of the expanded proposition."
         },
         {
           "id": "source_9",
           "kind": "conclusion",
           "source_item": "source_iid_completion_weak_inversion_bridge",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:721-725; sources/arxiv.tex:1633-1646",
+          "source_location": "cited publication:683; cited publication:721-725; cited publication:1633-1646",
           "source_statement_sha256": "bf38884dd32b16cea576f7cf2af831667a4442869c2e371d1e61605c4e1a3fbf",
           "statement": "Under the explicit finite IID completion, the source-state non-strict score-gap event equals the two-seller floor-sample weak-inversion probability used in the Appendix rate argument."
         }
@@ -7187,7 +7169,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "source_iid_completion_weak_inversion_bridge",
-          "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:721-725; sources/arxiv.tex:1633-1646",
+          "source_location": "cited publication:683; cited publication:721-725; cited publication:1633-1646",
           "source_statement_sha256": "bf38884dd32b16cea576f7cf2af831667a4442869c2e371d1e61605c4e1a3fbf"
         }
       ],
@@ -7598,80 +7580,79 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 6 of the expanded proposition."
         },
         {
           "id": "source_7",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 7 of the expanded proposition."
         },
         {
           "id": "source_8",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 8 of the expanded proposition."
         },
         {
           "id": "source_9",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 9 of the expanded proposition."
         },
         {
           "id": "source_10",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 10 of the expanded proposition."
         },
         {
           "id": "source_11",
           "kind": "conclusion",
           "source_item": "source_pairwise_objective_tendsto_one_iid_completion",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "source_statement_sha256": "0cab19014d7099a8b5392383694ba3892d0a866d952a3776e74b49e1fe348273",
           "statement": "Corrected form of the source convergence prose: under the explicit finite IID completion, literal ordinal-tail primitives, positive match rates, and at least two rating levels, P_k for every ordered seller pair tends to one."
         }
@@ -7681,7 +7662,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "source_pairwise_objective_tendsto_one_iid_completion",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "source_statement_sha256": "0cab19014d7099a8b5392383694ba3892d0a866d952a3776e74b49e1fe348273"
         }
       ],
@@ -8052,68 +8033,67 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 6 of the expanded proposition."
         },
         {
           "id": "source_7",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 7 of the expanded proposition."
         },
         {
           "id": "source_8",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 8 of the expanded proposition."
         },
         {
           "id": "source_9",
           "kind": "conclusion",
           "source_item": "source_theorem1_informative_rating_system_rate_iid_completion",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "source_statement_sha256": "75e033db9439eaacd4693721d144117603914f4e9ccda2156a3ff0df645aa10e",
           "statement": "Corrected Theorem 1: for the explicit finite IID completion of the finite ordinal source model, with positive match rates, at least two rating levels, and at least one adjacent seller pair, one minus the finite uniform ranking objective has the exact support-safe extended exponential rate given by the minimum adjacent threshold rate."
         }
@@ -8123,7 +8103,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "source_theorem1_informative_rating_system_rate_iid_completion",
-          "source_location": "sources/arxiv.tex:754-764",
+          "source_location": "cited publication:754-764",
           "source_statement_sha256": "75e033db9439eaacd4693721d144117603914f4e9ccda2156a3ff0df645aa10e"
         }
       ],
@@ -8534,80 +8514,79 @@
         "source_quantification_basis": "The source claim ranges over the finite seller, rating, probability, and time parameters stated in its formula; it is not a strategic-profile claim.",
         "world_bridges": []
       },
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
       "source_obligations": [
         {
           "id": "source_0",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 0 of the expanded proposition."
         },
         {
           "id": "source_1",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 1 of the expanded proposition."
         },
         {
           "id": "source_2",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 2 of the expanded proposition."
         },
         {
           "id": "source_3",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 3 of the expanded proposition."
         },
         {
           "id": "source_4",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 4 of the expanded proposition."
         },
         {
           "id": "source_5",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 5 of the expanded proposition."
         },
         {
           "id": "source_6",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 6 of the expanded proposition."
         },
         {
           "id": "source_7",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 7 of the expanded proposition."
         },
         {
           "id": "source_8",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 8 of the expanded proposition."
         },
         {
           "id": "source_9",
           "kind": "parameter",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 9 of the expanded proposition."
         },
         {
           "id": "source_10",
           "kind": "assumption",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "statement": "The source-side semantic context quantifies the finite carriers, probability law, time horizon, rate parameters, and ordering data needed for the displayed mathematical claim; this is obligation 10 of the expanded proposition."
         },
         {
           "id": "source_11",
           "kind": "conclusion",
           "source_item": "source_uniform_ranking_objective_tendsto_one_iid_completion",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "source_statement_sha256": "dd5dd21e5894fcb11ec8e4c84c3f7936206f0586fa4d4e069ede6913caf79daa",
           "statement": "Corrected form of the source convergence prose: under the explicit finite IID completion, literal ordinal-tail primitives, positive match rates, at least two rating levels, and a nonempty adjacent seller carrier, W_k tends to one."
         }
@@ -8617,7 +8596,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "source_uniform_ranking_objective_tendsto_one_iid_completion",
-          "source_location": "sources/arxiv.tex:744-745",
+          "source_location": "cited publication:744-745",
           "source_statement_sha256": "dd5dd21e5894fcb11ec8e4c84c3f7936206f0586fa4d4e069ede6913caf79daa"
         }
       ],

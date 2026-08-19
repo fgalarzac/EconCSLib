@@ -62,15 +62,26 @@ startup status.
 
 ## Markup-Friendly Review Packet
 
-Generate a paper-local TeX/PDF packet when a reviewer prefers to compare and
-annotate a stable document rather than use the browser:
+For public review, the checked-in `docs/HUMAN_REVIEW_PACKET.tex` and rendered
+`docs/HUMAN_REVIEW_PACKET.pdf` are the reviewer artifacts. They retain the
+approved display of source excerpts and semantic Lean material prepared during
+the source-grounded audit.
+
+A clean public clone does not contain the audit workspace or cache needed to
+recompute those semantic Lean displays. Its supported presentation-only rebuild
+works from the existing checked-in TeX packet:
 
 ```bash
-python3 scripts/review_dashboard_packet.py --paper ABC24ShortTitle --write --compile
+python3 scripts/review_dashboard_packet.py --paper ABC24ShortTitle --sanitize-existing --compile
 ```
 
-This writes `docs/HUMAN_REVIEW_PACKET.tex` and
-`docs/HUMAN_REVIEW_PACKET.pdf`. It first presents recursively retained
+This command rewrites only public presentation locators in the existing TeX
+and compiles the PDF. It does not recompute or change the source excerpts,
+semantic Lean displays, audit evidence, or saved reviewer judgments. A semantic
+packet update must be prepared in the audit workspace/cache before the
+checked-in reviewer artifact is replaced.
+
+The packet presents recursively retained
 paper-local model cards and material library prerequisites used by the selected
 Specs. Every card shows its byte-pinned paper-source connection, Lean-owned
 semantic target, exact Lean declaration, screening status, and reviewer
@@ -86,11 +97,11 @@ returning an annotated PDF or TeX, reconcile the reviewer decisions into the
 dashboard so that `paper_theorem_validations.jsonl` records the actual human
 judgments.
 
-The packet follows the paper's source-artifact publication policy. Do not copy
-private source excerpts into a public export merely because they appear in a
-local review packet. When an official arXiv TeX source is explicitly approved
-for publication, its source map remains the authority for that separate export
-decision.
+The packet follows the paper's source-artifact publication policy. Preserve its
+approved source excerpts; do not add source excerpts to a public export merely
+because they appear in a local review packet. When an official arXiv TeX source
+is explicitly approved for publication, its source map remains the authority
+for that separate export decision.
 
 ## Reviewer Workflow
 
@@ -112,7 +123,7 @@ machine-readable source of truth for curated review rows and slices.
 The Lean-to-TeX draft column can be overridden by a paper-local
 `audit/lean_to_tex_llm.json` file. Use this for stable,
 context-free drafts generated from `PaperInterface.lean` alone, without reading
-the source paper. The legacy paper-root and `.review_traces/lean_to_tex_llm.json`
+the source paper. The legacy paper-root and `reviewer-owned review storage/lean_to_tex_llm.json`
 locations are still read when no tracked `audit/` draft exists.
 
 Lean-to-TeX is a display aid only. It is never shown to, or used by, the
@@ -685,7 +696,7 @@ rg -c '^(noncomputable\s+|private\s+|protected\s+)*(theorem|lemma|def|abbrev) ' 
 By default, reviews are written under each paper folder:
 
 ```text
-papers/<PaperName>/.review_traces/paper_theorem_validations.jsonl
+reviewer-owned review record
 ```
 
 Each row stores the reviewer handle, UTC timestamp, match decision, notes,
@@ -708,7 +719,7 @@ numbered-result summary as the source statement for multiple displayed
 formulas.
 
 The repository is configured so that `paper_theorem_validations.jsonl` is
-commit-eligible, while other `.review_traces` files such as local dashboard
+commit-eligible, while other `reviewer-owned review storage` files such as local dashboard
 logs, rendered statement caches, generated HTML, and parser caches remain
 ignored. After a human review pass, inspect and commit the paper-local
 `paper_theorem_validations.jsonl` file if those judgments should become part of
@@ -717,7 +728,7 @@ the repository history.
 The dashboard's `Reviewed` count means rows in this review log. Treat it as
 human review only when the rows were saved by a human reviewer. Agent source
 audits should be kept in tracked paper docs such as `SOURCE_AUDIT.md` and
-should not be written to `.review_traces/paper_theorem_validations.jsonl` just
+should not be written to `reviewer-owned review storage/paper_theorem_validations.jsonl` just
 to clear the dashboard counter.
 
 The reviewer field is editable in the browser. By default it is prefilled from

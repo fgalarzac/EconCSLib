@@ -1,116 +1,50 @@
 {
-  "schema": 1,
-  "id": "GS62CollegeAdmissions",
-  "repository_visibility": "public",
-  "title": "College Admissions and the Stability of Marriage",
-  "authors": "D. Gale and L. S. Shapley",
-  "source_version": "American Mathematical Monthly, 1962",
-  "build_target": "lake build GS62CollegeAdmissions",
-  "status": "formalized",
-  "main_caveat": "No theorem-level formalization boundary is recorded. The Section 4--5 operational reading of stability is documented as a source clarification while the page-10 replacement-pair definition remains literal.",
-  "human_summary": "",
-  "human_summary_review": {
-    "status": "agent_draft",
-    "note": "Machine-checked proof and automated semantic-audit evidence do not constitute human approval. Do not mark this summary human-approved without explicit review."
-  },
-  "review_entrypoint": "papers/GS62CollegeAdmissions/FINAL_VALIDATION_REPORT.md",
-  "human_review": {
-    "reviewed_rows": 0,
-    "total_rows": 5,
-    "stale_rows": 0,
-    "mismatch_rows": 0,
-    "surface": "normal_source_presentations_v1",
-    "source": "paper-local status.json counts the five normal source presentations: three definitions and two theorems. The paired specification/proof interface remains agent/audit evidence; reviewed_rows remains zero because no independent human-review certification is claimed"
-  },
-  "paper_interface": {
-    "path": "papers/GS62CollegeAdmissions/PaperInterface.lean",
-    "line_count": 698,
-    "declaration_rows": 44,
-    "review_rows": 5,
-    "oversized": false,
-    "maintainability_issue": null
-  },
-  "source_inventory": {
-    "path": "papers/GS62CollegeAdmissions/audit/paper_statement_map.json",
-    "map_sha256": "c48ddc877a39cb440bb78b3c4e6bc98c98bfde4ac508f9acf077057d1adaabbd",
-    "source_artifact_path": "papers/GS62CollegeAdmissions/source.pdf",
-    "source_artifact_sha256": "953a8123e8120a86b17ae3de92cb51abb5aed420fe11b97fe2a666a8e637d09b",
-    "item_count": 5,
-    "normal_named_theory_items": 5,
-    "normal_definition_items": 3,
-    "normal_named_result_items": 2,
-    "deep_audit_items": 0,
-    "support_only_items": 0
-  },
   "artifacts": {
-    "readme": "papers/GS62CollegeAdmissions/README.md",
-    "paper_interface": "papers/GS62CollegeAdmissions/PaperInterface.lean",
-    "proof_interface": "papers/GS62CollegeAdmissions/ProofInterface.lean",
+    "dependency_dag_pdf": "papers/GS62CollegeAdmissions/docs/DependencyDAG.pdf",
+    "dependency_dag_tex": "papers/GS62CollegeAdmissions/docs/DependencyDAG.tex",
     "final_closure_receipt": "papers/GS62CollegeAdmissions/FINAL_CLOSURE_RECEIPT.md",
     "final_validation_report": "papers/GS62CollegeAdmissions/FINAL_VALIDATION_REPORT.md",
     "focused_build_receipt": "papers/GS62CollegeAdmissions/audit/FOCUSED_BUILD_RECEIPT.json",
     "human_review_packet_pdf": "papers/GS62CollegeAdmissions/docs/HUMAN_REVIEW_PACKET.pdf",
     "human_review_packet_tex": "papers/GS62CollegeAdmissions/docs/HUMAN_REVIEW_PACKET.tex",
-    "dependency_dag_tex": "papers/GS62CollegeAdmissions/docs/DependencyDAG.tex",
-    "dependency_dag_pdf": "papers/GS62CollegeAdmissions/docs/DependencyDAG.pdf",
     "library_semantic_review": "papers/GS62CollegeAdmissions/audit/library_semantic_review.json",
+    "paper_interface": "papers/GS62CollegeAdmissions/PaperInterface.lean",
     "paper_semantic_prerequisites": "papers/GS62CollegeAdmissions/audit/paper_semantic_prerequisites.json",
+    "proof_interface": "papers/GS62CollegeAdmissions/ProofInterface.lean",
+    "readme": "papers/GS62CollegeAdmissions/README.md",
     "v11_raw_source_spec_screening": "papers/GS62CollegeAdmissions/audit/v11_raw_source_spec_screening.json"
   },
+  "authors": "D. Gale and L. S. Shapley",
+  "build_target": "lake build GS62CollegeAdmissions",
+  "human_review": {
+    "mismatch_rows": 0,
+    "reviewed_rows": 0,
+    "source": "paper-local status.json counts the five normal source presentations: three definitions and two theorems. The paired specification/proof interface remains agent/audit evidence; reviewed_rows remains zero because no independent human-review certification is claimed",
+    "stale_rows": 0,
+    "surface": "normal_source_presentations_v1",
+    "total_rows": 5
+  },
+  "human_summary": "",
+  "human_summary_review": {
+    "note": "Machine-checked proof and automated semantic-audit evidence do not constitute human approval. Do not mark this summary human-approved without explicit review.",
+    "status": "agent_draft"
+  },
+  "id": "GS62CollegeAdmissions",
+  "main_caveat": "No theorem-level formalization boundary is recorded. The Section 4--5 operational reading of stability is documented as a source clarification while the page-10 replacement-pair definition remains literal.",
+  "open_source_boundaries": [],
+  "paper_interface": {
+    "declaration_rows": 44,
+    "line_count": 698,
+    "maintainability_issue": null,
+    "oversized": false,
+    "path": "papers/GS62CollegeAdmissions/PaperInterface.lean",
+    "review_rows": 5
+  },
+  "repository_visibility": "public",
+  "review_entrypoint": "papers/GS62CollegeAdmissions/FINAL_VALIDATION_REPORT.md",
   "review_surface": {
-    "source_file": "papers/GS62CollegeAdmissions/PaperInterface.lean",
-    "proof_file": "papers/GS62CollegeAdmissions/ProofInterface.lean",
-    "proof_module": "GS62CollegeAdmissions.ProofInterface",
-    "require_v11_raw_source_spec_screening": true,
-    "llm_statement_review": {
-      "lean_to_tex_file": "papers/GS62CollegeAdmissions/audit/lean_to_tex_llm.json",
-      "match_judgment_file": "papers/GS62CollegeAdmissions/audit/statement_match_llm.json",
-      "library_semantic_review_file": "papers/GS62CollegeAdmissions/audit/library_semantic_review.json",
-      "paper_semantic_prerequisites_file": "papers/GS62CollegeAdmissions/audit/paper_semantic_prerequisites.json",
-      "v11_screening_file": "papers/GS62CollegeAdmissions/audit/v11_raw_source_spec_screening.json",
-      "review_surface_audit_file": "papers/GS62CollegeAdmissions/audit/review_surface_llm.json",
-      "paper_coverage_audit_file": "papers/GS62CollegeAdmissions/audit/paper_coverage_llm.json",
-      "defect_support_judgment_file": "papers/GS62CollegeAdmissions/audit/defect_support_match_llm.json",
-      "assumption_judgment_file": "papers/GS62CollegeAdmissions/audit/assumption_match_llm.json",
-      "surface_audit_threshold": 30,
-      "surface_warning_threshold": 120,
-      "require_explicit_source_routes": true,
-      "require_source_claim_atoms": true,
-      "required_prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
-      "policy": "Compare only raw byte-pinned source-anchor bundles with one transparent PaperInterface Spec per source claim. Lean opens that Spec and retains each material paper-local model/procedure declaration and reusable EconCSLib declaration as its own exact-code, source-anchored prerequisite card. Paired theorem endpoints live in ProofInterface.lean and supply proof evidence, not a duplicate semantic judgment. The canonical v11 screening ledger is the source-to-Spec evidence bound by a direct final closure receipt; Lean elaboration separately checks the paired proof endpoint and its transitive dependencies."
-    },
-    "llm_paper_coverage_review": {
-      "paper_coverage_audit_file": "papers/GS62CollegeAdmissions/audit/paper_coverage_llm.json",
-      "defect_support_judgment_file": "papers/GS62CollegeAdmissions/audit/defect_support_match_llm.json",
-      "required_prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins",
-      "policy": "Use the byte-pinned source-first normal named-theory inventory: the two displayed college definitions, the Section 3 prose definition of unstable marriage, Theorem 1, and Theorem 2. Examples, proof-local terminology, standalone algorithm claims, and ordinary prose require deep-paper review and cannot receive normal source-coverage credit. Section 4 procedure semantics remain a required semantic component of Theorem 2."
-    },
-    "llm_assumption_review": {
-      "assumption_judgment_file": "papers/GS62CollegeAdmissions/audit/assumption_match_llm.json",
-      "policy": "Every paper-facing theorem premise not derived from prior Lean declarations must be declared in Assumptions.lean, listed in assumption_names, and judged as an exact paper/source model condition rather than a proof assumption. GS62 has no configured assumption declarations."
-    },
-    "llm_source_record_review": {
-      "source_record_audit_file": "papers/GS62CollegeAdmissions/audit/source_record_audit.json",
-      "source_record_judgment_file": "papers/GS62CollegeAdmissions/audit/source_record_match_llm.json",
-      "required_prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "policy": "Classify every boundary-shaped input and recursive procedure field from expanded semantic content. Bare carrier data are witness data; proposition-valued fields require exact source evidence or a checked Lean derivation. Do not infer source fidelity from record, field, theorem, or function names."
-    },
-    "semantic_model_review": {
-      "schema": 2,
-      "required_dimensions": [
-        "expanded_binders_and_domain",
-        "carrier_and_domain",
-        "probability_support_endpoints",
-        "joint_law_and_state_evolution",
-        "conditioning_and_calibration_semantics",
-        "expectation_definedness",
-        "null_cell_totalization_and_partition_scope",
-        "extended_rate_codomain"
-      ],
-      "policy": "Review every expanded paper-facing model and procedure surface semantically against the pinned source. In particular, inspect mutual application eligibility, batched top-q roster updates, termination, quota feasibility, and the literal-versus-completed stability boundary. Record not-applicable only after inspecting each requested dimension; names are routing only."
-    },
-    "assumption_policy": "strict",
     "assumption_names": [],
+    "assumption_policy": "strict",
     "auxiliary_names": [
       "strictMarriageDomain",
       "strictMarriageDomain_iff_source_definition",
@@ -151,6 +85,68 @@
       "college_waiting_list_procedure_literal_stable",
       "inverted_college_proposing_unique_responsive_college_optimal"
     ],
+    "include_names": [
+      "unstableCollegeAssignment_iff_source_definitionSpec",
+      "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec",
+      "unstableMarriage_iff_source_definitionSpec",
+      "theorem1_stable_marriage_existsSpec",
+      "theorem2_applicant_optimalitySpec"
+    ],
+    "llm_assumption_review": {
+      "assumption_judgment_file": "papers/GS62CollegeAdmissions/audit/assumption_match_llm.json",
+      "policy": "Every paper-facing theorem premise not derived from prior Lean declarations must be declared in Assumptions.lean, listed in assumption_names, and judged as an exact paper/source model condition rather than a proof assumption. GS62 has no configured assumption declarations."
+    },
+    "llm_paper_coverage_review": {
+      "defect_support_judgment_file": "papers/GS62CollegeAdmissions/audit/defect_support_match_llm.json",
+      "paper_coverage_audit_file": "papers/GS62CollegeAdmissions/audit/paper_coverage_llm.json",
+      "policy": "Use the byte-pinned source-first normal named-theory inventory: the two displayed college definitions, the Section 3 prose definition of unstable marriage, Theorem 1, and Theorem 2. Examples, proof-local terminology, standalone algorithm claims, and ordinary prose require deep-paper review and cannot receive normal source-coverage credit. Section 4 procedure semantics remain a required semantic component of Theorem 2.",
+      "required_prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins"
+    },
+    "llm_source_record_review": {
+      "policy": "Classify every boundary-shaped input and recursive procedure field from expanded semantic content. Bare carrier data are witness data; proposition-valued fields require exact source evidence or a checked Lean derivation. Do not infer source fidelity from record, field, theorem, or function names.",
+      "required_prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "source_record_audit_file": "papers/GS62CollegeAdmissions/audit/source_record_audit.json",
+      "source_record_judgment_file": "papers/GS62CollegeAdmissions/audit/source_record_match_llm.json"
+    },
+    "llm_statement_review": {
+      "assumption_judgment_file": "papers/GS62CollegeAdmissions/audit/assumption_match_llm.json",
+      "defect_support_judgment_file": "papers/GS62CollegeAdmissions/audit/defect_support_match_llm.json",
+      "lean_to_tex_file": "papers/GS62CollegeAdmissions/audit/lean_to_tex_llm.json",
+      "library_semantic_review_file": "papers/GS62CollegeAdmissions/audit/library_semantic_review.json",
+      "match_judgment_file": "papers/GS62CollegeAdmissions/audit/statement_match_llm.json",
+      "paper_coverage_audit_file": "papers/GS62CollegeAdmissions/audit/paper_coverage_llm.json",
+      "paper_semantic_prerequisites_file": "papers/GS62CollegeAdmissions/audit/paper_semantic_prerequisites.json",
+      "policy": "Compare only raw byte-pinned source-anchor bundles with one transparent PaperInterface Spec per source claim. Lean opens that Spec and retains each material paper-local model/procedure declaration and reusable EconCSLib declaration as its own exact-code, source-anchored prerequisite card. Paired theorem endpoints live in ProofInterface.lean and supply proof evidence, not a duplicate semantic judgment. The canonical v11 screening ledger is the source-to-Spec evidence bound by a direct final closure receipt; Lean elaboration separately checks the paired proof endpoint and its transitive dependencies.",
+      "require_explicit_source_routes": true,
+      "require_source_claim_atoms": true,
+      "required_prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
+      "review_surface_audit_file": "papers/GS62CollegeAdmissions/audit/review_surface_llm.json",
+      "surface_audit_threshold": 30,
+      "surface_warning_threshold": 120,
+      "v11_screening_file": "papers/GS62CollegeAdmissions/audit/v11_raw_source_spec_screening.json"
+    },
+    "paper_coverage_required": true,
+    "presentation_sections": [
+      {
+        "names": [
+          "unstableCollegeAssignment_iff_source_definitionSpec",
+          "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec",
+          "unstableMarriage_iff_source_definitionSpec",
+          "theorem1_stable_marriage_existsSpec",
+          "theorem2_applicant_optimalitySpec"
+        ],
+        "title": "Main-text source claims"
+      }
+    ],
+    "proof_file": "papers/GS62CollegeAdmissions/ProofInterface.lean",
+    "proof_module": "GS62CollegeAdmissions.ProofInterface",
+    "proposition_spec_proofs": {
+      "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec": "literalApplicantOptimalCollegeAssignment_iff_source_definition",
+      "theorem1_stable_marriage_existsSpec": "theorem1_stable_marriage_exists",
+      "theorem2_applicant_optimalitySpec": "theorem2_applicant_optimality",
+      "unstableCollegeAssignment_iff_source_definitionSpec": "unstableCollegeAssignment_iff_source_definition",
+      "unstableMarriage_iff_source_definitionSpec": "unstableMarriage_iff_source_definition"
+    },
     "quarantined_auxiliary_names": [
       "applicantOptimalCollegeAssignment",
       "completeMarriage",
@@ -175,52 +171,55 @@
       "GS62CollegeAdmissions.PaperInterface.unstableCollegeAssignment": "Transparent predicate whose exact unfolding is the selected displayed unstable-college-assignment definition. The selected Spec/proof pair carries the source route.",
       "GS62CollegeAdmissions.PaperInterface.unstableMarriage": "Transparent predicate whose exact unfolding is the selected Section 3 marriage-instability definition. The selected Spec/proof pair carries the source route."
     },
-    "paper_coverage_required": true,
-  "include_names": [
-    "unstableCollegeAssignment_iff_source_definitionSpec",
-    "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec",
-    "unstableMarriage_iff_source_definitionSpec",
-    "theorem1_stable_marriage_existsSpec",
-    "theorem2_applicant_optimalitySpec"
-  ],
-    "presentation_sections": [
-      {
-        "title": "Main-text source claims",
-        "names": [
-          "unstableCollegeAssignment_iff_source_definitionSpec",
-          "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec",
-          "unstableMarriage_iff_source_definitionSpec",
-          "theorem1_stable_marriage_existsSpec",
-          "theorem2_applicant_optimalitySpec"
-        ]
-      }
-    ],
+    "require_source_spec_correspondence": true,
+    "require_v11_raw_source_spec_screening": true,
+    "semantic_model_review": {
+      "policy": "Review every expanded paper-facing model and procedure surface semantically against the pinned source. In particular, inspect mutual application eligibility, batched top-q roster updates, termination, quota feasibility, and the literal-versus-completed stability boundary. Record not-applicable only after inspecting each requested dimension; names are routing only.",
+      "required_dimensions": [
+        "expanded_binders_and_domain",
+        "carrier_and_domain",
+        "probability_support_endpoints",
+        "joint_law_and_state_evolution",
+        "conditioning_and_calibration_semantics",
+        "expectation_definedness",
+        "null_cell_totalization_and_partition_scope",
+        "extended_rate_codomain"
+      ],
+      "schema": 2
+    },
     "slices": [
       {
         "id": "all",
-        "title": "Five normal source items as one semantic Spec each",
         "names": [
           "unstableCollegeAssignment_iff_source_definitionSpec",
           "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec",
           "unstableMarriage_iff_source_definitionSpec",
           "theorem1_stable_marriage_existsSpec",
           "theorem2_applicant_optimalitySpec"
-        ]
+        ],
+        "title": "Five normal source items as one semantic Spec each"
       }
     ],
     "source_definition_names": [],
-    "proposition_spec_proofs": {
-      "unstableCollegeAssignment_iff_source_definitionSpec": "unstableCollegeAssignment_iff_source_definition",
-      "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec": "literalApplicantOptimalCollegeAssignment_iff_source_definition",
-      "unstableMarriage_iff_source_definitionSpec": "unstableMarriage_iff_source_definition",
-      "theorem1_stable_marriage_existsSpec": "theorem1_stable_marriage_exists",
-      "theorem2_applicant_optimalitySpec": "theorem2_applicant_optimality"
-    },
-    "require_source_spec_correspondence": true,
+    "source_file": "papers/GS62CollegeAdmissions/PaperInterface.lean",
     "source_proof_fidelity_review": {
       "ledger_file": "papers/GS62CollegeAdmissions/audit/source_proof_fidelity.json",
-    "policy": "Schema 2 records source-proof defects separately from formalization gaps. The literal page-10 stability definition, the completed Sections 4--5 operational reading, and the exact Section 4 procedure semantics are reviewed by source locator and mathematical content, not by Lean declaration names."
+      "policy": "Schema 2 records source-proof defects separately from formalization gaps. The literal page-10 stability definition, the completed Sections 4--5 operational reading, and the exact Section 4 procedure semantics are reviewed by source locator and mathematical content, not by Lean declaration names."
     }
   },
-  "open_source_boundaries": []
+  "schema": 1,
+  "source_inventory": {
+    "deep_audit_items": 0,
+    "item_count": 5,
+    "map_sha256": "583de2606736c14e43c91ea220045e7ddb8da850e6e9d613e5c4ce9d2fc85ba6",
+    "normal_definition_items": 3,
+    "normal_named_result_items": 2,
+    "normal_named_theory_items": 5,
+    "path": "papers/GS62CollegeAdmissions/audit/paper_statement_map.json",
+    "source_artifact_sha256": "953a8123e8120a86b17ae3de92cb51abb5aed420fe11b97fe2a666a8e637d09b",
+    "support_only_items": 0
+  },
+  "source_version": "American Mathematical Monthly, 1962",
+  "status": "formalized",
+  "title": "College Admissions and the Stability of Marriage"
 }

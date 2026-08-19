@@ -336,44 +336,44 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+          "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
           "statement": "The source quantifies the first participant-side carrier used by this matching claim."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+          "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
           "statement": "The source quantifies the second participant-side carrier used by this matching claim."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+          "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
           "statement": "The source fixes an arbitrary natural-valued admission quota for every college."
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+          "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
           "statement": "The source fixes the first side's strict ordinal ranking profile, represented by real scores whose comparisons preserve that order."
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+          "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
           "statement": "The source fixes the second side's strict ordinal ranking profile, represented by real scores whose comparisons preserve that order."
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+          "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
           "statement": "The source evaluates the claim on one internally consistent matching assignment."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "displayed_optimal_assignment_definition",
-          "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+          "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
           "source_statement_sha256": "a08d88cb9f550cbe75e3c62e54468e9e91170914836ffa111f472f15a7a76b96",
           "statement": "Displayed Definition: within the fixed-quota feasible domain, a literally stable assignment is optimal when every applicant is at least as well off under it as under every other literally stable feasible assignment."
         }
@@ -386,7 +386,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "displayed_optimal_assignment_definition",
-          "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+          "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
           "source_statement_sha256": "a08d88cb9f550cbe75e3c62e54468e9e91170914836ffa111f472f15a7a76b96",
           "source_support_scope": "This route binds the complete pinned source definition or theorem, including every domain condition, quantifier, assignment component, preference comparison, procedure state or terminal output, and conclusion clause exposed by recursive expansion."
         }
@@ -603,7 +603,7 @@
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "displayed_optimal_assignment_definition",
-          "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+          "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
           "source_statement_sha256": "a08d88cb9f550cbe75e3c62e54468e9e91170914836ffa111f472f15a7a76b96",
           "statement": "Displayed Definition: within the fixed-quota feasible domain, a literally stable assignment is optimal when every applicant is at least as well off under it as under every other literally stable feasible assignment."
         }
@@ -616,7 +616,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "displayed_optimal_assignment_definition",
-          "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+          "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
           "source_statement_sha256": "a08d88cb9f550cbe75e3c62e54468e9e91170914836ffa111f472f15a7a76b96",
           "source_support_scope": "This route binds the complete pinned source definition or theorem, including every domain condition, quantifier, assignment component, preference comparison, procedure state or terminal output, and conclusion clause exposed by recursive expansion."
         }
@@ -1013,68 +1013,68 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+          "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
           "statement": "The source quantifies the first participant-side carrier used by this matching claim."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+          "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
           "statement": "The source quantifies the second participant-side carrier used by this matching claim."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+          "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
           "statement": "The source explicitly restricts this participant side to a finite community."
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+          "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
           "statement": "The source explicitly restricts this participant side to a finite community."
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+          "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
           "statement": "The finite source community has decidable participant identity for finite enumeration; this is representational data and does not restrict the mathematical market."
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+          "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
           "statement": "The finite source community has decidable participant identity for finite enumeration; this is representational data and does not restrict the mathematical market."
         },
         {
           "id": "s_b_6",
           "kind": "parameter",
-          "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+          "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
           "statement": "The source fixes the first side's strict ordinal ranking profile, represented by real scores whose comparisons preserve that order."
         },
         {
           "id": "s_b_7",
           "kind": "parameter",
-          "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+          "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
           "statement": "The source fixes the second side's strict ordinal ranking profile, represented by real scores whose comparisons preserve that order."
         },
         {
           "id": "s_b_8",
           "kind": "assumption",
-          "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+          "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
           "statement": "The source explicitly restricts this participant side to a finite community."
         },
         {
           "id": "s_b_9",
           "kind": "assumption",
-          "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+          "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
           "statement": "Theorem 1 assumes strict complete rankings: no ties and every cross-side partner is acceptable."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "theorem1_stable_marriage_exists",
-          "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+          "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
           "source_statement_sha256": "80a5126fc2d2ff9d82178f97cdc3ebb95817b96f675c4a7c602119cb369d5182",
           "statement": "Theorem 1: for two finite equally sized communities in which every participant strictly ranks every member of the opposite side, there exists a complete set of marriages with no mutually preferable unmatched pair."
         }
@@ -1087,7 +1087,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "theorem1_stable_marriage_exists",
-          "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+          "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
           "source_statement_sha256": "80a5126fc2d2ff9d82178f97cdc3ebb95817b96f675c4a7c602119cb369d5182",
           "source_support_scope": "This route binds the complete pinned source definition or theorem, including every domain condition, quantifier, assignment component, preference comparison, procedure state or terminal output, and conclusion clause exposed by recursive expansion."
         }
@@ -1284,7 +1284,7 @@
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "theorem1_stable_marriage_exists",
-          "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+          "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
           "source_statement_sha256": "80a5126fc2d2ff9d82178f97cdc3ebb95817b96f675c4a7c602119cb369d5182",
           "statement": "Theorem 1: for two finite equally sized communities in which every participant strictly ranks every member of the opposite side, there exists a complete set of marriages with no mutually preferable unmatched pair."
         }
@@ -1297,7 +1297,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "theorem1_stable_marriage_exists",
-          "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+          "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
           "source_statement_sha256": "80a5126fc2d2ff9d82178f97cdc3ebb95817b96f675c4a7c602119cb369d5182",
           "source_support_scope": "This route binds the complete pinned source definition or theorem, including every domain condition, quantifier, assignment component, preference comparison, procedure state or terminal output, and conclusion clause exposed by recursive expansion."
         }
@@ -1746,68 +1746,68 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+          "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
           "statement": "The source quantifies the first participant-side carrier used by this matching claim."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+          "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
           "statement": "The source quantifies the second participant-side carrier used by this matching claim."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+          "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
           "statement": "The source explicitly restricts this participant side to a finite community."
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+          "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
           "statement": "The source explicitly restricts this participant side to a finite community."
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+          "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
           "statement": "The finite source community has decidable participant identity for finite enumeration; this is representational data and does not restrict the mathematical market."
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+          "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
           "statement": "The finite source community has decidable participant identity for finite enumeration; this is representational data and does not restrict the mathematical market."
         },
         {
           "id": "s_b_6",
           "kind": "parameter",
-          "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+          "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
           "statement": "The source fixes an arbitrary natural-valued admission quota for every college."
         },
         {
           "id": "s_b_7",
           "kind": "parameter",
-          "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+          "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
           "statement": "The source fixes the first side's strict ordinal ranking profile, represented by real scores whose comparisons preserve that order."
         },
         {
           "id": "s_b_8",
           "kind": "parameter",
-          "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+          "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
           "statement": "The source fixes the second side's strict ordinal ranking profile, represented by real scores whose comparisons preserve that order."
         },
         {
           "id": "s_b_9",
           "kind": "assumption",
-          "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+          "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
           "statement": "Theorem 2 assumes the source no-ties college-admissions domain; scores encode the two strict lists and omitted alternatives remain procedure-ineligible."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "theorem2_applicant_optimality",
-          "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+          "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
           "source_statement_sha256": "d1353777ac87df62b71e1520e6f5c1f124b21ec6e82c6f0ba98bf8bb20e3c8b3",
           "statement": "Theorem 2: the Section 4 arbitrary-quota applicant-proposing waiting-list procedure returns a completed-standard stable assignment under which every applicant is at least as well off as under every other completed-standard stable assignment."
         }
@@ -1820,7 +1820,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "theorem2_applicant_optimality",
-          "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+          "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
           "source_statement_sha256": "d1353777ac87df62b71e1520e6f5c1f124b21ec6e82c6f0ba98bf8bb20e3c8b3",
           "source_support_scope": "This route binds the complete pinned source definition or theorem, including every domain condition, quantifier, assignment component, preference comparison, procedure state or terminal output, and conclusion clause exposed by recursive expansion."
         }
@@ -2049,7 +2049,7 @@
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "theorem2_applicant_optimality",
-          "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+          "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
           "source_statement_sha256": "d1353777ac87df62b71e1520e6f5c1f124b21ec6e82c6f0ba98bf8bb20e3c8b3",
           "statement": "Theorem 2: the Section 4 arbitrary-quota applicant-proposing waiting-list procedure returns a completed-standard stable assignment under which every applicant is at least as well off as under every other completed-standard stable assignment."
         }
@@ -2062,7 +2062,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "theorem2_applicant_optimality",
-          "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+          "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
           "source_statement_sha256": "d1353777ac87df62b71e1520e6f5c1f124b21ec6e82c6f0ba98bf8bb20e3c8b3",
           "source_support_scope": "This route binds the complete pinned source definition or theorem, including every domain condition, quantifier, assignment component, preference comparison, procedure state or terminal output, and conclusion clause exposed by recursive expansion."
         }
@@ -2389,38 +2389,38 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+          "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
           "statement": "The source quantifies the first participant-side carrier used by this matching claim."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+          "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
           "statement": "The source quantifies the second participant-side carrier used by this matching claim."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+          "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
           "statement": "The source fixes the first side's strict ordinal ranking profile, represented by real scores whose comparisons preserve that order."
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+          "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
           "statement": "The source fixes the second side's strict ordinal ranking profile, represented by real scores whose comparisons preserve that order."
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+          "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
           "statement": "The source evaluates the claim on one internally consistent matching assignment."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "displayed_unstable_college_assignment_definition",
-          "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+          "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
           "source_statement_sha256": "d2af04bb48a475396eb967fe673fc45192285f72b03dde7fb141aa31e94bf255",
           "statement": "Displayed Definition: an assignment is unstable when applicants alpha and beta are assigned to colleges A and B, respectively, beta prefers A to B, and A prefers beta to alpha."
         }
@@ -2433,7 +2433,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "displayed_unstable_college_assignment_definition",
-          "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+          "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
           "source_statement_sha256": "d2af04bb48a475396eb967fe673fc45192285f72b03dde7fb141aa31e94bf255",
           "source_support_scope": "This route binds the complete pinned source definition or theorem, including every domain condition, quantifier, assignment component, preference comparison, procedure state or terminal output, and conclusion clause exposed by recursive expansion."
         }
@@ -2650,7 +2650,7 @@
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "displayed_unstable_college_assignment_definition",
-          "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+          "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
           "source_statement_sha256": "d2af04bb48a475396eb967fe673fc45192285f72b03dde7fb141aa31e94bf255",
           "statement": "Displayed Definition: an assignment is unstable when applicants alpha and beta are assigned to colleges A and B, respectively, beta prefers A to B, and A prefers beta to alpha."
         }
@@ -2663,7 +2663,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "displayed_unstable_college_assignment_definition",
-          "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+          "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
           "source_statement_sha256": "d2af04bb48a475396eb967fe673fc45192285f72b03dde7fb141aa31e94bf255",
           "source_support_scope": "This route binds the complete pinned source definition or theorem, including every domain condition, quantifier, assignment component, preference comparison, procedure state or terminal output, and conclusion clause exposed by recursive expansion."
         }
@@ -2990,38 +2990,38 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:121-127; printed page 11, Section 3",
+          "source_location": "cited publication:121-127; printed page 11, Section 3",
           "statement": "The source quantifies the first participant-side carrier used by this matching claim."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:121-127; printed page 11, Section 3",
+          "source_location": "cited publication:121-127; printed page 11, Section 3",
           "statement": "The source quantifies the second participant-side carrier used by this matching claim."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:121-127; printed page 11, Section 3",
+          "source_location": "cited publication:121-127; printed page 11, Section 3",
           "statement": "The source fixes the first side's strict ordinal ranking profile, represented by real scores whose comparisons preserve that order."
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source.txt:121-127; printed page 11, Section 3",
+          "source_location": "cited publication:121-127; printed page 11, Section 3",
           "statement": "The source fixes the second side's strict ordinal ranking profile, represented by real scores whose comparisons preserve that order."
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source.txt:121-127; printed page 11, Section 3",
+          "source_location": "cited publication:121-127; printed page 11, Section 3",
           "statement": "The source evaluates the claim on one internally consistent matching assignment."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "section3_marriage_instability_definition",
-          "source_location": "source.txt:121-127; printed page 11, Section 3",
+          "source_location": "cited publication:121-127; printed page 11, Section 3",
           "source_statement_sha256": "995882c12ee74cebb3c44178712ead56c12a59ee8563f779e1cb3ce7844c0307",
           "statement": "Section 3 prose Definition: a set of marriages is unstable when some man and woman are not married to each other but both prefer each other to their actual mates."
         }
@@ -3034,7 +3034,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "section3_marriage_instability_definition",
-          "source_location": "source.txt:121-127; printed page 11, Section 3",
+          "source_location": "cited publication:121-127; printed page 11, Section 3",
           "source_statement_sha256": "995882c12ee74cebb3c44178712ead56c12a59ee8563f779e1cb3ce7844c0307",
           "source_support_scope": "This route binds the complete pinned source definition or theorem, including every domain condition, quantifier, assignment component, preference comparison, procedure state or terminal output, and conclusion clause exposed by recursive expansion."
         }
@@ -3251,7 +3251,7 @@
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "section3_marriage_instability_definition",
-          "source_location": "source.txt:121-127; printed page 11, Section 3",
+          "source_location": "cited publication:121-127; printed page 11, Section 3",
           "source_statement_sha256": "995882c12ee74cebb3c44178712ead56c12a59ee8563f779e1cb3ce7844c0307",
           "statement": "Section 3 prose Definition: a set of marriages is unstable when some man and woman are not married to each other but both prefer each other to their actual mates."
         }
@@ -3264,7 +3264,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "section3_marriage_instability_definition",
-          "source_location": "source.txt:121-127; printed page 11, Section 3",
+          "source_location": "cited publication:121-127; printed page 11, Section 3",
           "source_statement_sha256": "995882c12ee74cebb3c44178712ead56c12a59ee8563f779e1cb3ce7844c0307",
           "source_support_scope": "This route binds the complete pinned source definition or theorem, including every domain condition, quantifier, assignment component, preference comparison, procedure state or terminal output, and conclusion clause exposed by recursive expansion."
         }

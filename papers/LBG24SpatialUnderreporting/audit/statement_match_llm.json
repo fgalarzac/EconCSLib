@@ -578,44 +578,44 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:4402-4420",
+          "source_location": "cited publication:4402-4420",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:4402-4420",
+          "source_location": "cited publication:4402-4420",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "assumption",
-          "source_location": "source.txt:4402-4420",
+          "source_location": "cited publication:4402-4420",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source.txt:4402-4420",
+          "source_location": "cited publication:4402-4420",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source.txt:4402-4420",
+          "source_location": "cited publication:4402-4420",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source.txt:4402-4420",
+          "source_location": "cited publication:4402-4420",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "appendix_shifted_poisson_after_first_jump",
-          "source_location": "source.txt:4402-4420",
+          "source_location": "cited publication:4402-4420",
           "source_statement_sha256": "7a3dbdbb59b49fae88838e62af2af6e57099335bfc59455f73c2c2e36d6cc655",
           "statement": "Appendix D.8.2 states that after splitting a homogeneous Poisson process at its first jump, the post-first-jump counting process remains a Poisson process with the same rate; consequently the method may start after the second report."
         }
@@ -628,7 +628,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "appendix_shifted_poisson_after_first_jump",
-          "source_location": "source.txt:4402-4420",
+          "source_location": "cited publication:4402-4420",
           "source_statement_sha256": "7a3dbdbb59b49fae88838e62af2af6e57099335bfc59455f73c2c2e36d6cc655",
           "source_support_scope": "The appendix source claim says the post-first-jump Poisson tail retains the same rate; Lean states equality almost everywhere of the conditional tail law with the exponential interarrival kernel."
         }
@@ -1177,44 +1177,44 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:1839-1842; source.txt:1858-1868",
+          "source_location": "cited publication:1839-1842; cited publication:1858-1868",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:1839-1842; source.txt:1858-1868",
+          "source_location": "cited publication:1839-1842; cited publication:1858-1868",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:1839-1842; source.txt:1858-1868",
+          "source_location": "cited publication:1839-1842; cited publication:1858-1868",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source.txt:1839-1842; source.txt:1858-1868",
+          "source_location": "cited publication:1839-1842; cited publication:1858-1868",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source.txt:1839-1842; source.txt:1858-1868",
+          "source_location": "cited publication:1839-1842; cited publication:1858-1868",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_5",
           "kind": "assumption",
-          "source_location": "source.txt:1839-1842; source.txt:1858-1868",
+          "source_location": "cited publication:1839-1842; cited publication:1858-1868",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "theorem1_theorem2_likelihood_decomposition",
-          "source_location": "source.txt:1839-1842; source.txt:1858-1868",
+          "source_location": "cited publication:1839-1842; cited publication:1858-1868",
           "source_statement_sha256": "779483b15f6fca62a10776d89f5b35545d0cc0d2f38f31d2c6a2c690e7c9fd2d",
           "statement": "Theorem 2: under the homogeneous Poisson report process and Conditions 1 and 2, the likelihood of the observed interval data factors as a Poisson count PMF with mean lambda(e-s) times a factor independent of lambda."
         }
@@ -1227,7 +1227,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "theorem1_theorem2_likelihood_decomposition",
-          "source_location": "source.txt:1839-1842; source.txt:1858-1868",
+          "source_location": "cited publication:1839-1842; cited publication:1858-1868",
           "source_statement_sha256": "779483b15f6fca62a10776d89f5b35545d0cc0d2f38f31d2c6a2c690e7c9fd2d",
           "source_support_scope": "Theorem 2 factors the observed interval likelihood into a Poisson count PMF and a lambda-independent factor under the stated source conditions. Lean states the factorization for one causal realized endpoint and positive rate/exposure."
         }
@@ -1837,50 +1837,50 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:1843-1847",
+          "source_location": "cited publication:1843-1847",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:1843-1847",
+          "source_location": "cited publication:1843-1847",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "assumption",
-          "source_location": "source.txt:1843-1847",
+          "source_location": "cited publication:1843-1847",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source.txt:1843-1847",
+          "source_location": "cited publication:1843-1847",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source.txt:1843-1847",
+          "source_location": "cited publication:1843-1847",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source.txt:1843-1847",
+          "source_location": "cited publication:1843-1847",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_6",
           "kind": "parameter",
-          "source_location": "source.txt:1843-1847",
+          "source_location": "cited publication:1843-1847",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "condition1_selected_start",
-          "source_location": "source.txt:1843-1847",
+          "source_location": "cited publication:1843-1847",
           "source_statement_sha256": "1c6b307c08e22adc248cc8fff3e418fbcdb5889c1b675a47ac02584fe4d42c09",
           "statement": "The cited source component/model supplies the row-local mathematical conclusion described in the review, with the same conditional, rate, count, or endpoint semantics stated in the route support scope."
         }
@@ -1893,12 +1893,551 @@
           "route_kind": "source_model_convention",
           "semantic_relation": "shared_model_convention",
           "source_item": "condition1_selected_start",
-          "source_location": "source.txt:1843-1847",
+          "source_location": "cited publication:1843-1847",
           "source_statement_sha256": "1c6b307c08e22adc248cc8fff3e418fbcdb5889c1b675a47ac02584fe4d42c09",
           "source_support_scope": "Condition 1 is a source model premise about selected-start density and post-first-report tail independence. Lean records it as a regular conditional selection-kernel convention."
         }
       ],
       "tex_statement_sha256": "a120d47a9f7d620b897f51a0a56b9a5c872edcfc9081579429882879a36496ec",
+      "unjustified_lean_inputs": [],
+      "unmatched_lean_conclusions": [],
+      "unmatched_source_conclusions": [],
+      "unmatched_source_inputs": [],
+      "validated_at": "2026-07-28T17:00:00Z",
+      "validator": "Codex LBG24 current v10 semantic rebind",
+      "validator_type": "agent"
+    },
+    "assumption_lemma2_forward_source_model": {
+      "boundary_names": [],
+      "boundary_type": "",
+      "conditional_premises": [],
+      "judgment": "matches",
+      "lean_obligations": [
+        {
+          "id": "l_b_0",
+          "kind": "parameter",
+          "signature_atom_sha256": "651e689ff01f632caceef3beb079fe52b7b02584f2bfcfbd6a9d151b4d7203da",
+          "signature_ref": "b/0"
+        },
+        {
+          "id": "l_b_1",
+          "kind": "parameter",
+          "signature_atom_sha256": "966eb270223bc9a3c57dfdc4d353c65c5e523639b84a2862a78fdbc9ff375428",
+          "signature_ref": "b/1"
+        },
+        {
+          "id": "l_b_2",
+          "kind": "assumption",
+          "signature_atom_sha256": "9390544ebe108488db762588ba36d7ee4bd43e8962da1821ca834002177475b2",
+          "signature_ref": "b/2"
+        },
+        {
+          "id": "l_b_3",
+          "kind": "parameter",
+          "signature_atom_sha256": "9838db678fa943f665d22a37a410857c136269fbfd4c0c7f8203ac61f1fe3af9",
+          "signature_ref": "b/3"
+        },
+        {
+          "id": "l_b_4",
+          "kind": "assumption",
+          "signature_atom_sha256": "e57a08f5a2feb11e6af096814b99928fe26c800e95574485399e64bda3abf15c",
+          "signature_ref": "b/4"
+        },
+        {
+          "id": "l_result",
+          "kind": "conclusion",
+          "signature_atom_sha256": "fdeeda3636dbb1e0eb4c9fe0cc9bcdbf574949b6a6916db3a7cffeb7483c8176",
+          "signature_ref": "result"
+        }
+      ],
+      "lean_signature_sha256": "4520d7fa2130135a92e255c5878e0acb75e187fecf7ddd469414832eb6de09a5",
+      "lean_statement_sha256": "bc5205888d74b76d4aa0aaa80aabc8531073c5217b5c7d2f5963584d7b1e51ac",
+      "obligation_alignment": [
+        {
+          "bridge_statement": "Both sides use one carrier for the stochastic experiment rather than a syntactic theorem label; the source path and selection randomness are jointly modeled on that carrier.",
+          "lean_id": "l_b_0",
+          "relation": "equivalent",
+          "semantic_basis": "Both sides use one carrier for the stochastic experiment rather than a syntactic theorem label; the source path and selection randomness are jointly modeled on that carrier.",
+          "source_id": "s_b_0"
+        },
+        {
+          "bridge_statement": "The source treats report times and the selected start as random variables; Lean realizes that requirement through an explicit measurable-space carrier.",
+          "lean_id": "l_b_1",
+          "relation": "equivalent",
+          "semantic_basis": "The source treats report times and the selected start as random variables; Lean realizes that requirement through an explicit measurable-space carrier.",
+          "source_id": "s_b_1"
+        },
+        {
+          "bridge_statement": "The source's continuous conditional law requires a regular conditional version in Lean; Standard-Borel structure is the declared formal convention for that representation.",
+          "lean_id": "l_b_2",
+          "relation": "equivalent",
+          "semantic_basis": "The source's continuous conditional law requires a regular conditional version in Lean; Standard-Borel structure is the declared formal convention for that representation.",
+          "source_id": "s_b_2"
+        },
+        {
+          "bridge_statement": "Both sides evaluate the Poisson report path and conditional selection under the probability law of the same experiment.",
+          "lean_id": "l_b_3",
+          "relation": "equivalent",
+          "semantic_basis": "Both sides evaluate the Poisson report path and conditional selection under the probability law of the same experiment.",
+          "source_id": "s_b_3"
+        },
+        {
+          "bridge_statement": "Both sides use a probability-law interpretation rather than an arbitrary measure when stating the report-process model.",
+          "lean_id": "l_b_4",
+          "relation": "equivalent",
+          "semantic_basis": "Both sides use a probability-law interpretation rather than an arbitrary measure when stating the report-process model.",
+          "source_id": "s_b_4"
+        },
+        {
+          "bridge_statement": "The Lean record exposes the source model primitives: positive Poisson rate, an iid exponential interarrival path, Condition-1 selection, and the identifications of the first report and future tail; it does not package the Lemma 2 conclusion.",
+          "lean_id": "l_result",
+          "relation": "equivalent",
+          "semantic_basis": "The Lean record exposes the source model primitives: positive Poisson rate, an iid exponential interarrival path, Condition-1 selection, and the identifications of the first report and future tail; it does not package the Lemma 2 conclusion.",
+          "source_id": "s_result"
+        }
+      ],
+      "paper_statement_sha256": "71c3a83fdf0803b0f34d38561a72b64a074fda2b52eb8dd3f54ceffd76821e79",
+      "prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
+      "reason": "The source model for the Lemma-2 bridge combines the positive-rate Poisson report path with Condition 1's selected-start convention. Lean makes the path, conditional-selection, and coordinate-identification primitives explicit; it does not treat the exponential-tail conclusion as a premise.",
+      "resolution": "",
+      "resolution_reason": "",
+      "semantic_scope_review": {
+        "algorithm_review": {
+          "lean_claim_basis": "This row is a mathematical model, formula, existence statement, or theorem endpoint; it does not claim an executable algorithm, runtime bound, quota computation, or implementation cost.",
+          "lean_claim_level": "not_algorithmic",
+          "result_provenance": "not_applicable",
+          "runner_provenance": "not_applicable",
+          "source_claim_basis": "This row is a mathematical model, formula, existence statement, or theorem endpoint; it does not claim an executable algorithm, runtime bound, quota computation, or implementation cost.",
+          "source_claim_level": "not_algorithmic"
+        },
+        "discrete_semantics_review": {
+          "items": [
+            {
+              "id": "discrete_l_b_0",
+              "lean_domain": "Lean uses the corresponding natural-count, finite-index, or inductive case domain exposed by the atom.",
+              "lean_expression": "Type u_1",
+              "lean_obligation_ids": [
+                "l_b_0"
+              ],
+              "lean_operation": "The Lean operation preserves the same finite case, count, or ordered-prefix semantics.",
+              "lean_order_sensitivity": "Lean uses ordered timelines or explicit finite cases where the source order matters.",
+              "relation": "definitionally_equal",
+              "relation_basis": "The finite Lean operation formalizes the same source count, case, or ordered-prefix operation.",
+              "source_domain": "The source finite operation ranges over the displayed count, ordered report-time list, or zero/one/multi case.",
+              "source_expression": "The source atom uses a finite count, finite case split, or ordered report-prefix component at the displayed granularity.",
+              "source_obligation_ids": [
+                "s_b_0"
+              ],
+              "source_operation": "The source operation preserves the order and membership of the observed report prefix or count case.",
+              "source_order_sensitivity": "The source is order-sensitive exactly where Appendix B.2 orders the observed jumps."
+            },
+            {
+              "id": "discrete_l_b_1",
+              "lean_domain": "Lean uses the corresponding natural-count, finite-index, or inductive case domain exposed by the atom.",
+              "lean_expression": "MeasurableSpace Ω",
+              "lean_obligation_ids": [
+                "l_b_1"
+              ],
+              "lean_operation": "The Lean operation preserves the same finite case, count, or ordered-prefix semantics.",
+              "lean_order_sensitivity": "Lean uses ordered timelines or explicit finite cases where the source order matters.",
+              "relation": "definitionally_equal",
+              "relation_basis": "The finite Lean operation formalizes the same source count, case, or ordered-prefix operation.",
+              "source_domain": "The source finite operation ranges over the displayed count, ordered report-time list, or zero/one/multi case.",
+              "source_expression": "The source atom uses a finite count, finite case split, or ordered report-prefix component at the displayed granularity.",
+              "source_obligation_ids": [
+                "s_b_1"
+              ],
+              "source_operation": "The source operation preserves the order and membership of the observed report prefix or count case.",
+              "source_order_sensitivity": "The source is order-sensitive exactly where Appendix B.2 orders the observed jumps."
+            },
+            {
+              "id": "discrete_l_b_2",
+              "lean_domain": "Lean uses the corresponding natural-count, finite-index, or inductive case domain exposed by the atom.",
+              "lean_expression": "StandardBorelSpace Ω",
+              "lean_obligation_ids": [
+                "l_b_2"
+              ],
+              "lean_operation": "The Lean operation preserves the same finite case, count, or ordered-prefix semantics.",
+              "lean_order_sensitivity": "Lean uses ordered timelines or explicit finite cases where the source order matters.",
+              "relation": "definitionally_equal",
+              "relation_basis": "The finite Lean operation formalizes the same source count, case, or ordered-prefix operation.",
+              "source_domain": "The source finite operation ranges over the displayed count, ordered report-time list, or zero/one/multi case.",
+              "source_expression": "The source atom uses a finite count, finite case split, or ordered report-prefix component at the displayed granularity.",
+              "source_obligation_ids": [
+                "s_b_2"
+              ],
+              "source_operation": "The source operation preserves the order and membership of the observed report prefix or count case.",
+              "source_order_sensitivity": "The source is order-sensitive exactly where Appendix B.2 orders the observed jumps."
+            },
+            {
+              "id": "discrete_l_b_3",
+              "lean_domain": "Lean uses the corresponding natural-count, finite-index, or inductive case domain exposed by the atom.",
+              "lean_expression": "MeasureTheory.Measure Ω",
+              "lean_obligation_ids": [
+                "l_b_3"
+              ],
+              "lean_operation": "The Lean operation preserves the same finite case, count, or ordered-prefix semantics.",
+              "lean_order_sensitivity": "Lean uses ordered timelines or explicit finite cases where the source order matters.",
+              "relation": "definitionally_equal",
+              "relation_basis": "The finite Lean operation formalizes the same source count, case, or ordered-prefix operation.",
+              "source_domain": "The source finite operation ranges over the displayed count, ordered report-time list, or zero/one/multi case.",
+              "source_expression": "The source atom uses a finite count, finite case split, or ordered report-prefix component at the displayed granularity.",
+              "source_obligation_ids": [
+                "s_b_3"
+              ],
+              "source_operation": "The source operation preserves the order and membership of the observed report prefix or count case.",
+              "source_order_sensitivity": "The source is order-sensitive exactly where Appendix B.2 orders the observed jumps."
+            },
+            {
+              "id": "discrete_l_b_4",
+              "lean_domain": "Lean uses the corresponding natural-count, finite-index, or inductive case domain exposed by the atom.",
+              "lean_expression": "MeasureTheory.IsProbabilityMeasure P",
+              "lean_obligation_ids": [
+                "l_b_4"
+              ],
+              "lean_operation": "The Lean operation preserves the same finite case, count, or ordered-prefix semantics.",
+              "lean_order_sensitivity": "Lean uses ordered timelines or explicit finite cases where the source order matters.",
+              "relation": "definitionally_equal",
+              "relation_basis": "The finite Lean operation formalizes the same source count, case, or ordered-prefix operation.",
+              "source_domain": "The source finite operation ranges over the displayed count, ordered report-time list, or zero/one/multi case.",
+              "source_expression": "The source atom uses a finite count, finite case split, or ordered report-prefix component at the displayed granularity.",
+              "source_obligation_ids": [
+                "s_b_4"
+              ],
+              "source_operation": "The source operation preserves the order and membership of the observed report prefix or count case.",
+              "source_order_sensitivity": "The source is order-sensitive exactly where Appendix B.2 orders the observed jumps."
+            },
+            {
+              "id": "discrete_l_result",
+              "lean_domain": "Lean uses the corresponding natural-count, finite-index, or inductive case domain exposed by the atom.",
+              "lean_expression": "Type u_1 := LBG24SpatialUnderreporting.Lemma2ForwardSourceModel Ω P",
+              "lean_obligation_ids": [
+                "l_result"
+              ],
+              "lean_operation": "The Lean operation preserves the same finite case, count, or ordered-prefix semantics.",
+              "lean_order_sensitivity": "Lean uses ordered timelines or explicit finite cases where the source order matters.",
+              "relation": "definitionally_equal",
+              "relation_basis": "The finite Lean operation formalizes the same source count, case, or ordered-prefix operation.",
+              "source_domain": "The source finite operation ranges over the displayed count, ordered report-time list, or zero/one/multi case.",
+              "source_expression": "The source atom uses a finite count, finite case split, or ordered report-prefix component at the displayed granularity.",
+              "source_obligation_ids": [
+                "s_result"
+              ],
+              "source_operation": "The source operation preserves the order and membership of the observed report prefix or count case.",
+              "source_order_sensitivity": "The source is order-sensitive exactly where Appendix B.2 orders the observed jumps."
+            }
+          ],
+          "non_discrete_lean_obligation_ids": [],
+          "non_discrete_source_obligation_ids": [],
+          "operations_present": true
+        },
+        "fidelity_risk_review": {
+          "dimensions": {
+            "adversarial_action_space": {
+              "absence_basis": "The paper row has no adversarial action family, validity filter, duplicate-action issue, or strategic action enumeration.",
+              "applicable": false
+            },
+            "cardinality_fibers": {
+              "absence_basis": "The row makes no syntactic-family versus realized-fiber cardinality claim.",
+              "applicable": false
+            },
+            "coherent_extrema_witness": {
+              "absence_basis": "The row does not combine coordinatewise extrema or separate witnesses into one claimed optimal object.",
+              "applicable": false
+            },
+            "execution_claim_scope": {
+              "absence_basis": "The row states non-executable probability, density, rate, stopping-time, or existence mathematics and no runtime claim.",
+              "applicable": false
+            },
+            "output_shape": {
+              "absence_basis": "The row exposes its complete mathematical conclusion directly rather than projecting a hidden trace or result record.",
+              "applicable": false
+            }
+          },
+          "schema_version": "fidelity-risk-review-v2-shape-action-witness-count-execution"
+        },
+        "lean_quantification": "not_profile_based",
+        "lean_quantification_basis": "The Lean row quantifies over the same stochastic-process rates, times, counts, densities, intervals, endpoint clocks, or model data.",
+        "named_definition_review": {
+          "definitions_present": true,
+          "items": [
+            {
+              "classification": "routing_only",
+              "expansion_basis": "The expansion basis is the current Lean signature manifest generated from the frozen dashboard cache.",
+              "lean_obligation_ids": [
+                "l_result"
+              ],
+              "recursive_expansion_complete": true,
+              "recursive_result_dependencies": [],
+              "surface_expression": "Type u_1 := LBG24SpatialUnderreporting.Lemma2ForwardSourceModel Ω P",
+              "unfolded_semantics": "The current manifest expands the paper-facing forward source-model abbreviation to the record of Poisson-path and Condition-1 primitives; the record contains no Lemma-2 tail conclusion.",
+              "used_as_source_conclusion_evidence": false
+            }
+          ],
+          "non_definition_lean_obligation_ids": [
+            "l_b_0",
+            "l_b_1",
+            "l_b_2",
+            "l_b_3",
+            "l_b_4"
+          ]
+        },
+        "numeric_semantics_review": {
+          "formulas_present": true,
+          "items": [
+            {
+              "id": "numeric_l_b_0",
+              "lean_coercions": "Lean exposes natural-to-real coercions and exact real arithmetic where the formal statement crosses domains.",
+              "lean_division": "Lean uses exact real division and exposes the corresponding positive or nonzero premises when the formula needs them.",
+              "lean_domain": "Lean uses exact real numbers, natural numbers, measures, finite indices, and propositions as exposed in the signature.",
+              "lean_expression": "Type u_1",
+              "lean_normalization": "Lean states the same normalization through exact equality or the reviewed source-model wrapper.",
+              "lean_obligation_ids": [
+                "l_b_0"
+              ],
+              "lean_operations": "The Lean atom exposes the corresponding exact mathematical operations in the generated declaration signature.",
+              "lean_rounding": "The Lean atom performs no floor, truncation, or integer division.",
+              "lean_strictness": "Strict and weak inequalities in Lean are visible with the same direction.",
+              "lean_zero_denominator": "Lean exposes matching positive or nonzero premises, or the row is only a definitional formula rather than an evaluation claim.",
+              "relation": "definitionally_equal",
+              "relation_basis": "The source and Lean atoms use the same exact arithmetic and comparison semantics after expanding notation.",
+              "source_coercions": "Natural counts and factorials are interpreted in the displayed real probability formula where applicable.",
+              "source_division": "The source uses real division only in displayed likelihood, mean, MLE, or residual formulas with positive or nonzero domain conditions when needed.",
+              "source_domain": "The source domain is the real-valued, natural-count, finite-index, or proposition domain stated in the cited row.",
+              "source_expression": "The source expression uses the displayed exact probability, density, rate, count, equality, or inequality semantics for this atom.",
+              "source_normalization": "The source normalization is the displayed probability, Poisson PMF, integral, density, or rate-free residual normalization.",
+              "source_obligation_ids": [
+                "s_b_0"
+              ],
+              "source_operations": "The source operations are the displayed arithmetic, exponential, factorial, equality, implication, and comparison operations.",
+              "source_rounding": "The source performs no floor, truncation, or integer division.",
+              "source_strictness": "Strict and weak inequalities keep their displayed source direction.",
+              "source_zero_denominator": "Source formulas that divide by exposure or rate are read on their positive or nonzero source domains."
+            },
+            {
+              "id": "numeric_l_b_1",
+              "lean_coercions": "Lean exposes natural-to-real coercions and exact real arithmetic where the formal statement crosses domains.",
+              "lean_division": "Lean uses exact real division and exposes the corresponding positive or nonzero premises when the formula needs them.",
+              "lean_domain": "Lean uses exact real numbers, natural numbers, measures, finite indices, and propositions as exposed in the signature.",
+              "lean_expression": "MeasurableSpace Ω",
+              "lean_normalization": "Lean states the same normalization through exact equality or the reviewed source-model wrapper.",
+              "lean_obligation_ids": [
+                "l_b_1"
+              ],
+              "lean_operations": "The Lean atom exposes the corresponding exact mathematical operations in the generated declaration signature.",
+              "lean_rounding": "The Lean atom performs no floor, truncation, or integer division.",
+              "lean_strictness": "Strict and weak inequalities in Lean are visible with the same direction.",
+              "lean_zero_denominator": "Lean exposes matching positive or nonzero premises, or the row is only a definitional formula rather than an evaluation claim.",
+              "relation": "definitionally_equal",
+              "relation_basis": "The source and Lean atoms use the same exact arithmetic and comparison semantics after expanding notation.",
+              "source_coercions": "Natural counts and factorials are interpreted in the displayed real probability formula where applicable.",
+              "source_division": "The source uses real division only in displayed likelihood, mean, MLE, or residual formulas with positive or nonzero domain conditions when needed.",
+              "source_domain": "The source domain is the real-valued, natural-count, finite-index, or proposition domain stated in the cited row.",
+              "source_expression": "The source expression uses the displayed exact probability, density, rate, count, equality, or inequality semantics for this atom.",
+              "source_normalization": "The source normalization is the displayed probability, Poisson PMF, integral, density, or rate-free residual normalization.",
+              "source_obligation_ids": [
+                "s_b_1"
+              ],
+              "source_operations": "The source operations are the displayed arithmetic, exponential, factorial, equality, implication, and comparison operations.",
+              "source_rounding": "The source performs no floor, truncation, or integer division.",
+              "source_strictness": "Strict and weak inequalities keep their displayed source direction.",
+              "source_zero_denominator": "Source formulas that divide by exposure or rate are read on their positive or nonzero source domains."
+            },
+            {
+              "id": "numeric_l_b_2",
+              "lean_coercions": "Lean exposes natural-to-real coercions and exact real arithmetic where the formal statement crosses domains.",
+              "lean_division": "Lean uses exact real division and exposes the corresponding positive or nonzero premises when the formula needs them.",
+              "lean_domain": "Lean uses exact real numbers, natural numbers, measures, finite indices, and propositions as exposed in the signature.",
+              "lean_expression": "StandardBorelSpace Ω",
+              "lean_normalization": "Lean states the same normalization through exact equality or the reviewed source-model wrapper.",
+              "lean_obligation_ids": [
+                "l_b_2"
+              ],
+              "lean_operations": "The Lean atom exposes the corresponding exact mathematical operations in the generated declaration signature.",
+              "lean_rounding": "The Lean atom performs no floor, truncation, or integer division.",
+              "lean_strictness": "Strict and weak inequalities in Lean are visible with the same direction.",
+              "lean_zero_denominator": "Lean exposes matching positive or nonzero premises, or the row is only a definitional formula rather than an evaluation claim.",
+              "relation": "definitionally_equal",
+              "relation_basis": "The source and Lean atoms use the same exact arithmetic and comparison semantics after expanding notation.",
+              "source_coercions": "Natural counts and factorials are interpreted in the displayed real probability formula where applicable.",
+              "source_division": "The source uses real division only in displayed likelihood, mean, MLE, or residual formulas with positive or nonzero domain conditions when needed.",
+              "source_domain": "The source domain is the real-valued, natural-count, finite-index, or proposition domain stated in the cited row.",
+              "source_expression": "The source expression uses the displayed exact probability, density, rate, count, equality, or inequality semantics for this atom.",
+              "source_normalization": "The source normalization is the displayed probability, Poisson PMF, integral, density, or rate-free residual normalization.",
+              "source_obligation_ids": [
+                "s_b_2"
+              ],
+              "source_operations": "The source operations are the displayed arithmetic, exponential, factorial, equality, implication, and comparison operations.",
+              "source_rounding": "The source performs no floor, truncation, or integer division.",
+              "source_strictness": "Strict and weak inequalities keep their displayed source direction.",
+              "source_zero_denominator": "Source formulas that divide by exposure or rate are read on their positive or nonzero source domains."
+            },
+            {
+              "id": "numeric_l_b_3",
+              "lean_coercions": "Lean exposes natural-to-real coercions and exact real arithmetic where the formal statement crosses domains.",
+              "lean_division": "Lean uses exact real division and exposes the corresponding positive or nonzero premises when the formula needs them.",
+              "lean_domain": "Lean uses exact real numbers, natural numbers, measures, finite indices, and propositions as exposed in the signature.",
+              "lean_expression": "MeasureTheory.Measure Ω",
+              "lean_normalization": "Lean states the same normalization through exact equality or the reviewed source-model wrapper.",
+              "lean_obligation_ids": [
+                "l_b_3"
+              ],
+              "lean_operations": "The Lean atom exposes the corresponding exact mathematical operations in the generated declaration signature.",
+              "lean_rounding": "The Lean atom performs no floor, truncation, or integer division.",
+              "lean_strictness": "Strict and weak inequalities in Lean are visible with the same direction.",
+              "lean_zero_denominator": "Lean exposes matching positive or nonzero premises, or the row is only a definitional formula rather than an evaluation claim.",
+              "relation": "definitionally_equal",
+              "relation_basis": "The source and Lean atoms use the same exact arithmetic and comparison semantics after expanding notation.",
+              "source_coercions": "Natural counts and factorials are interpreted in the displayed real probability formula where applicable.",
+              "source_division": "The source uses real division only in displayed likelihood, mean, MLE, or residual formulas with positive or nonzero domain conditions when needed.",
+              "source_domain": "The source domain is the real-valued, natural-count, finite-index, or proposition domain stated in the cited row.",
+              "source_expression": "The source expression uses the displayed exact probability, density, rate, count, equality, or inequality semantics for this atom.",
+              "source_normalization": "The source normalization is the displayed probability, Poisson PMF, integral, density, or rate-free residual normalization.",
+              "source_obligation_ids": [
+                "s_b_3"
+              ],
+              "source_operations": "The source operations are the displayed arithmetic, exponential, factorial, equality, implication, and comparison operations.",
+              "source_rounding": "The source performs no floor, truncation, or integer division.",
+              "source_strictness": "Strict and weak inequalities keep their displayed source direction.",
+              "source_zero_denominator": "Source formulas that divide by exposure or rate are read on their positive or nonzero source domains."
+            },
+            {
+              "id": "numeric_l_b_4",
+              "lean_coercions": "Lean exposes natural-to-real coercions and exact real arithmetic where the formal statement crosses domains.",
+              "lean_division": "Lean uses exact real division and exposes the corresponding positive or nonzero premises when the formula needs them.",
+              "lean_domain": "Lean uses exact real numbers, natural numbers, measures, finite indices, and propositions as exposed in the signature.",
+              "lean_expression": "MeasureTheory.IsProbabilityMeasure P",
+              "lean_normalization": "Lean states the same normalization through exact equality or the reviewed source-model wrapper.",
+              "lean_obligation_ids": [
+                "l_b_4"
+              ],
+              "lean_operations": "The Lean atom exposes the corresponding exact mathematical operations in the generated declaration signature.",
+              "lean_rounding": "The Lean atom performs no floor, truncation, or integer division.",
+              "lean_strictness": "Strict and weak inequalities in Lean are visible with the same direction.",
+              "lean_zero_denominator": "Lean exposes matching positive or nonzero premises, or the row is only a definitional formula rather than an evaluation claim.",
+              "relation": "definitionally_equal",
+              "relation_basis": "The source and Lean atoms use the same exact arithmetic and comparison semantics after expanding notation.",
+              "source_coercions": "Natural counts and factorials are interpreted in the displayed real probability formula where applicable.",
+              "source_division": "The source uses real division only in displayed likelihood, mean, MLE, or residual formulas with positive or nonzero domain conditions when needed.",
+              "source_domain": "The source domain is the real-valued, natural-count, finite-index, or proposition domain stated in the cited row.",
+              "source_expression": "The source expression uses the displayed exact probability, density, rate, count, equality, or inequality semantics for this atom.",
+              "source_normalization": "The source normalization is the displayed probability, Poisson PMF, integral, density, or rate-free residual normalization.",
+              "source_obligation_ids": [
+                "s_b_4"
+              ],
+              "source_operations": "The source operations are the displayed arithmetic, exponential, factorial, equality, implication, and comparison operations.",
+              "source_rounding": "The source performs no floor, truncation, or integer division.",
+              "source_strictness": "Strict and weak inequalities keep their displayed source direction.",
+              "source_zero_denominator": "Source formulas that divide by exposure or rate are read on their positive or nonzero source domains."
+            },
+            {
+              "id": "numeric_l_result",
+              "lean_coercions": "Lean exposes natural-to-real coercions and exact real arithmetic where the formal statement crosses domains.",
+              "lean_division": "Lean uses exact real division and exposes the corresponding positive or nonzero premises when the formula needs them.",
+              "lean_domain": "Lean uses exact real numbers, natural numbers, measures, finite indices, and propositions as exposed in the signature.",
+              "lean_expression": "Type u_1 := LBG24SpatialUnderreporting.Lemma2ForwardSourceModel Ω P",
+              "lean_normalization": "Lean states the same normalization through exact equality or the reviewed source-model wrapper.",
+              "lean_obligation_ids": [
+                "l_result"
+              ],
+              "lean_operations": "The Lean atom exposes the corresponding exact mathematical operations in the generated declaration signature.",
+              "lean_rounding": "The Lean atom performs no floor, truncation, or integer division.",
+              "lean_strictness": "Strict and weak inequalities in Lean are visible with the same direction.",
+              "lean_zero_denominator": "Lean exposes matching positive or nonzero premises, or the row is only a definitional formula rather than an evaluation claim.",
+              "relation": "definitionally_equal",
+              "relation_basis": "The source and Lean atoms use the same exact arithmetic and comparison semantics after expanding notation.",
+              "source_coercions": "Natural counts and factorials are interpreted in the displayed real probability formula where applicable.",
+              "source_division": "The source uses real division only in displayed likelihood, mean, MLE, or residual formulas with positive or nonzero domain conditions when needed.",
+              "source_domain": "The source domain is the real-valued, natural-count, finite-index, or proposition domain stated in the cited row.",
+              "source_expression": "The source expression uses the displayed exact probability, density, rate, count, equality, or inequality semantics for this atom.",
+              "source_normalization": "The source normalization is the displayed probability, Poisson PMF, integral, density, or rate-free residual normalization.",
+              "source_obligation_ids": [
+                "s_result"
+              ],
+              "source_operations": "The source operations are the displayed arithmetic, exponential, factorial, equality, implication, and comparison operations.",
+              "source_rounding": "The source performs no floor, truncation, or integer division.",
+              "source_strictness": "Strict and weak inequalities keep their displayed source direction.",
+              "source_zero_denominator": "Source formulas that divide by exposure or rate are read on their positive or nonzero source domains."
+            }
+          ],
+          "non_numeric_lean_obligation_ids": [],
+          "non_numeric_source_obligation_ids": []
+        },
+        "quantification_relation": "equivalent",
+        "semantic_worlds": [
+          {
+            "id": "source_probability_model",
+            "role": "shared",
+            "semantics": "The source and Lean rows are compared in the same stochastic process, likelihood, and endpoint-censoring mathematical world."
+          }
+        ],
+        "source_quantification": "not_profile_based",
+        "source_quantification_basis": "The cited source row quantifies over stochastic-process rates, times, counts, densities, intervals, endpoint clocks, or model data.",
+        "world_bridges": []
+      },
+      "source_obligations": [
+        {
+          "id": "s_b_0",
+          "kind": "parameter",
+          "source_location": "cited publication:228-230; cited publication:1843-1847; cited publication:1873-1877",
+          "statement": "The source stochastic model is carried by a probability space containing the Poisson report path and any auxiliary randomness used to choose the selected start."
+        },
+        {
+          "id": "s_b_1",
+          "kind": "parameter",
+          "source_location": "cited publication:228-230; cited publication:1843-1847; cited publication:1873-1877",
+          "statement": "The formal measurable carrier realizes the source random experiment and is needed to state the report path and conditional selection kernel; it is implementation regularity, not a claimed paper conclusion."
+        },
+        {
+          "id": "s_b_2",
+          "kind": "assumption",
+          "source_location": "cited publication:228-230; cited publication:1843-1847; cited publication:1873-1877",
+          "statement": "Standard-Borel regularity is the explicit formal convention used to represent the source's continuously conditioned selected-start law by a regular conditional kernel."
+        },
+        {
+          "id": "s_b_3",
+          "kind": "parameter",
+          "source_location": "cited publication:228-230; cited publication:1843-1847; cited publication:1873-1877",
+          "statement": "The source probability model supplies the measure governing the report-path and selected-start experiment."
+        },
+        {
+          "id": "s_b_4",
+          "kind": "assumption",
+          "source_location": "cited publication:228-230; cited publication:1843-1847; cited publication:1873-1877",
+          "statement": "The formal experiment is evaluated under a probability measure, matching the source's probability-law interpretation of the Poisson path and conditional selection."
+        },
+        {
+          "id": "s_result",
+          "kind": "conclusion",
+          "source_location": "cited publication:228-230; cited publication:1843-1847; cited publication:1873-1877",
+          "statement": "Together, the source Poisson report model and Condition 1 describe a positive-rate forward Poisson path with a selected start after the first report and independent of the post-first-report tail; the Lean record makes those source primitives explicit."
+        }
+      ],
+      "source_routes": [
+        {
+          "lean_evidence_ids": [
+            "l_result"
+          ],
+          "route_kind": "source_model_convention",
+          "semantic_relation": "shared_model_convention",
+          "source_item": "source_reporting_process_model",
+          "source_location": "cited publication:228-230",
+          "source_statement_sha256": "f88c2f62995b3392ab113603bfeab14b19204e7e7f093453a40ad775756c94db",
+          "source_support_scope": "Model part 2 supplies the positive-rate homogeneous Poisson report-path component. The Lean source-model record realizes this component as a measurable iid exponential-interarrival path, while keeping any selection randomness on the same carrier."
+        },
+        {
+          "lean_evidence_ids": [
+            "l_result"
+          ],
+          "route_kind": "source_model_convention",
+          "semantic_relation": "shared_model_convention",
+          "source_item": "condition1_selected_start",
+          "source_location": "cited publication:1843-1847",
+          "source_statement_sha256": "1c6b307c08e22adc248cc8fff3e418fbcdb5889c1b675a47ac02584fe4d42c09",
+          "source_support_scope": "Condition 1 supplies the selected-start-after-first-report and post-first-report-tail independence component. The Lean record stores that selection convention explicitly and only identifies its first-report and tail coordinates with the forward path."
+        }
+      ],
+      "tex_statement_sha256": "26ebc1153fceccd0b276b8cd8e08ddd041fda2ac35e08517ac919e3de5d6a4a2",
       "unjustified_lean_inputs": [],
       "unmatched_lean_conclusions": [],
       "unmatched_source_conclusions": [],
@@ -2069,7 +2608,7 @@
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "condition2_endpoint_selection",
-          "source_location": "source.txt:1848-1871",
+          "source_location": "cited publication:1848-1871",
           "source_statement_sha256": "c24cf8982647c820e2e04723fad569a4e9e4713c8e97289eac783ae758b98fe1",
           "statement": "The cited source component/model supplies the row-local mathematical conclusion described in the review, with the same conditional, rate, count, or endpoint semantics stated in the route support scope."
         }
@@ -2082,7 +2621,7 @@
           "route_kind": "source_model_convention",
           "semantic_relation": "shared_model_convention",
           "source_item": "condition2_endpoint_selection",
-          "source_location": "source.txt:1848-1871",
+          "source_location": "cited publication:1848-1871",
           "source_statement_sha256": "c24cf8982647c820e2e04723fad569a4e9e4713c8e97289eac783ae758b98fe1",
           "source_support_scope": "Condition 2 is a source model premise about a rate-independent endpoint law and independence from the selected-start realization. Lean records that condition as a kernel/density source model convention."
         }
@@ -2470,26 +3009,26 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:294-316; source.txt:321-323",
+          "source_location": "cited publication:294-316; cited publication:321-323",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:294-316; source.txt:321-323",
+          "source_location": "cited publication:294-316; cited publication:321-323",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:294-316; source.txt:321-323",
+          "source_location": "cited publication:294-316; cited publication:321-323",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "equation2_poisson_count_pmf_formula",
-          "source_location": "source.txt:294-316; source.txt:321-323",
+          "source_location": "cited publication:294-316; cited publication:321-323",
           "source_statement_sha256": "5811bd982eea02f6a8f08dd2f7345e728a0f677ded60951e9534f038b18ba6c8",
           "statement": "Equation (2) defines p(M;lambda(e-s)) as exp(-lambda(e-s))[lambda(e-s)]^M/M!."
         }
@@ -2502,7 +3041,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "equation2_poisson_count_pmf_formula",
-          "source_location": "source.txt:294-316; source.txt:321-323",
+          "source_location": "cited publication:294-316; cited publication:321-323",
           "source_statement_sha256": "5811bd982eea02f6a8f08dd2f7345e728a0f677ded60951e9534f038b18ba6c8",
           "source_support_scope": "The source equation gives the Poisson probability mass for the count over the selected interval; Lean states the same mass formula."
         }
@@ -2890,26 +3429,26 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "equation33_nyc_observation_end",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "source_statement_sha256": "fed87a48da3f1d3eebc0bc37cc4aac99a8790dd174a20f325c8e1092a07e7a2d",
           "statement": "Equation (33) sets the NYC observation endpoint to min(S_i+100 days,t_i^INSP,t_i^WO); the surrounding text requires inspection and work-order endpoints to be stopping times."
         }
@@ -2922,7 +3461,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "equation33_nyc_observation_end",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "source_statement_sha256": "fed87a48da3f1d3eebc0bc37cc4aac99a8790dd174a20f325c8e1092a07e7a2d",
           "source_support_scope": "The source Equation (33) defines the NYC endpoint as the minimum of start plus 100 days, inspection time, and work-order time; Lean defines the same nested minimum."
         }
@@ -3707,68 +4246,68 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_6",
           "kind": "assumption",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_7",
           "kind": "assumption",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_8",
           "kind": "assumption",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_9",
           "kind": "parameter",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "equation33_nyc_observation_end",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "source_statement_sha256": "fed87a48da3f1d3eebc0bc37cc4aac99a8790dd174a20f325c8e1092a07e7a2d",
           "statement": "The cited source component/model supplies the row-local mathematical conclusion described in the review, with the same conditional, rate, count, or endpoint semantics stated in the route support scope."
         }
@@ -3781,7 +4320,7 @@
           "route_kind": "proof_support",
           "semantic_relation": "proof_component_support",
           "source_item": "equation33_nyc_observation_end",
-          "source_location": "source.txt:2437-2467",
+          "source_location": "cited publication:2437-2467",
           "source_statement_sha256": "fed87a48da3f1d3eebc0bc37cc4aac99a8790dd174a20f325c8e1092a07e7a2d",
           "source_support_scope": "The source’s Equation (33) requires the constituent endpoint times to be stopping times. Lean proves the standard closure fact that their finite minimum after the 100-day shift is again a stopping time; this is proof support, not a separate empirical source claim."
         }
@@ -4169,26 +4708,26 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:5610-5628",
+          "source_location": "cited publication:5610-5628",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:5610-5628",
+          "source_location": "cited publication:5610-5628",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:5610-5628",
+          "source_location": "cited publication:5610-5628",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "equation34_chicago_observation_end",
-          "source_location": "source.txt:5610-5628",
+          "source_location": "cited publication:5610-5628",
           "source_statement_sha256": "1dbffe43155e386c0ce8e1b1a7d809dcb0e99c8f373612403fa1e17ab1995d59",
           "statement": "Equation (34) sets the Chicago observation endpoint to the minimum of first-report time plus 100 days, incident closed time, and dataset retrieval/update time."
         }
@@ -4201,7 +4740,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "equation34_chicago_observation_end",
-          "source_location": "source.txt:5610-5628",
+          "source_location": "cited publication:5610-5628",
           "source_statement_sha256": "1dbffe43155e386c0ce8e1b1a7d809dcb0e99c8f373612403fa1e17ab1995d59",
           "source_support_scope": "The source Equation (34) defines the Chicago endpoint as the minimum of first report plus 100 days, closed time, and retrieval time; Lean defines the same nested minimum."
         }
@@ -4589,26 +5128,26 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "assumption",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "equation3_mle_formula_and_maximum_likelihood_claim",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "source_statement_sha256": "330361aae20819c7f12725603797546e59b5fe503d5e94f29c81cdae80acd4aa",
           "statement": "Equation (3) gives lambda-hat_MLE=sum_i M-tilde_i / sum_i(e_i-s_i), described by the source as the maximum-likelihood estimate."
         }
@@ -4621,7 +5160,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "equation3_mle_formula_and_maximum_likelihood_claim",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "source_statement_sha256": "330361aae20819c7f12725603797546e59b5fe503d5e94f29c81cdae80acd4aa",
           "source_support_scope": "Equation (3) displays the total-count divided by total-exposure estimator; Lean gives that exact equality when total exposure is nonzero."
         }
@@ -5201,44 +5740,44 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_3",
           "kind": "assumption",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_5",
           "kind": "assumption",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "equation3_mle_formula_and_maximum_likelihood_claim",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "source_statement_sha256": "330361aae20819c7f12725603797546e59b5fe503d5e94f29c81cdae80acd4aa",
           "statement": "Equation (3) gives lambda-hat_MLE=sum_i M-tilde_i / sum_i(e_i-s_i), described by the source as the maximum-likelihood estimate."
         }
@@ -5251,7 +5790,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "equation3_mle_formula_and_maximum_likelihood_claim",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "source_statement_sha256": "330361aae20819c7f12725603797546e59b5fe503d5e94f29c81cdae80acd4aa",
           "source_support_scope": "Under the recorded positive exposure and positive rate convention, Lean proves the displayed Equation (3) estimator globally maximizes the rate-dependent Poisson log-likelihood kernel."
         }
@@ -5703,32 +6242,32 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "assumption",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_3",
           "kind": "assumption",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "equation3_mle_formula_and_maximum_likelihood_claim",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "source_statement_sha256": "330361aae20819c7f12725603797546e59b5fe503d5e94f29c81cdae80acd4aa",
           "statement": "Equation (3) gives lambda-hat_MLE=sum_i M-tilde_i / sum_i(e_i-s_i), described by the source as the maximum-likelihood estimate."
         }
@@ -5741,7 +6280,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "equation3_mle_formula_and_maximum_likelihood_claim",
-          "source_location": "source.txt:325-339",
+          "source_location": "cited publication:325-339",
           "source_statement_sha256": "330361aae20819c7f12725603797546e59b5fe503d5e94f29c81cdae80acd4aa",
           "source_support_scope": "Under the recorded nonnegative zero-count boundary convention, Lean proves the Equation (3) estimator zero maximizes the rate-dependent log-likelihood kernel."
         }
@@ -6257,38 +6796,38 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:352-359; source.txt:920-928",
+          "source_location": "cited publication:352-359; cited publication:920-928",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:352-359; source.txt:920-928",
+          "source_location": "cited publication:352-359; cited publication:920-928",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:352-359; source.txt:920-928",
+          "source_location": "cited publication:352-359; cited publication:920-928",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source.txt:352-359; source.txt:920-928",
+          "source_location": "cited publication:352-359; cited publication:920-928",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source.txt:352-359; source.txt:920-928",
+          "source_location": "cited publication:352-359; cited publication:920-928",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "equation4_equation5_poisson_regression_rate_formula",
-          "source_location": "source.txt:352-359; source.txt:920-928",
+          "source_location": "cited publication:352-359; cited publication:920-928",
           "source_statement_sha256": "a124cd28d5adc4fdda711e31d57b5843e7eff5e09bd9c2183a051210c3941874",
           "statement": "Equations (4) and (5) are the same Poisson-regression log link lambda_theta=exp(alpha+beta^T theta)."
         }
@@ -6301,7 +6840,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "equation4_equation5_poisson_regression_rate_formula",
-          "source_location": "source.txt:352-359; source.txt:920-928",
+          "source_location": "cited publication:352-359; cited publication:920-928",
           "source_statement_sha256": "a124cd28d5adc4fdda711e31d57b5843e7eff5e09bd9c2183a051210c3941874",
           "source_support_scope": "The source Equations (4)-(5) define the log-link rate as exp(alpha plus beta transpose theta); Lean states the same finite-coordinate expression."
         }
@@ -7011,62 +7550,62 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:930-944",
+          "source_location": "cited publication:930-944",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:930-944",
+          "source_location": "cited publication:930-944",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:930-944",
+          "source_location": "cited publication:930-944",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source.txt:930-944",
+          "source_location": "cited publication:930-944",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source.txt:930-944",
+          "source_location": "cited publication:930-944",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source.txt:930-944",
+          "source_location": "cited publication:930-944",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_6",
           "kind": "parameter",
-          "source_location": "source.txt:930-944",
+          "source_location": "cited publication:930-944",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_7",
           "kind": "parameter",
-          "source_location": "source.txt:930-944",
+          "source_location": "cited publication:930-944",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_8",
           "kind": "assumption",
-          "source_location": "source.txt:930-944",
+          "source_location": "cited publication:930-944",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "equation6_poisson_regression_likelihood_formula",
-          "source_location": "source.txt:930-944",
+          "source_location": "cited publication:930-944",
           "source_statement_sha256": "09b43df9eaccad8301f24ae0b90e787fb2ce907f1dd0071e681395a7f896aa12",
           "statement": "Equation (6) substitutes the Poisson-regression rate into the incident likelihood, leaving the Poisson PMF factor up to a rate-independent proportionality factor."
         }
@@ -7079,7 +7618,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "equation6_poisson_regression_likelihood_formula",
-          "source_location": "source.txt:930-944",
+          "source_location": "cited publication:930-944",
           "source_statement_sha256": "09b43df9eaccad8301f24ae0b90e787fb2ce907f1dd0071e681395a7f896aa12",
           "source_support_scope": "The source Equation (6) substitutes the log-link rate into the causal observation likelihood and factors a rate-independent residual times the Poisson count mass; Lean states that exact substitution on positive exposure."
         }
@@ -7595,38 +8134,38 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:945-974",
+          "source_location": "cited publication:945-974",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:945-974",
+          "source_location": "cited publication:945-974",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:945-974",
+          "source_location": "cited publication:945-974",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source.txt:945-974",
+          "source_location": "cited publication:945-974",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source.txt:945-974",
+          "source_location": "cited publication:945-974",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "equation7_zero_inflated_extension_and_likelihood",
-          "source_location": "source.txt:945-974",
+          "source_location": "cited publication:945-974",
           "source_statement_sha256": "6164da819bac977df60ffd94e1b15b0cf124e08b338eb31a3a7f86d0bfb42eb8",
           "statement": "The paper states that Theorem 1 extends to a zero-inflated model in which, independently for each incident, only one report can be generated with probability gamma, hence there are zero duplicate reports; Equation (7) gives the zero-duplicate and positive-duplicate likelihood branches."
         }
@@ -7639,7 +8178,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "equation7_zero_inflated_extension_and_likelihood",
-          "source_location": "source.txt:945-974",
+          "source_location": "cited publication:945-974",
           "source_statement_sha256": "6164da819bac977df60ffd94e1b15b0cf124e08b338eb31a3a7f86d0bfb42eb8",
           "source_support_scope": "The source Equation (7) gives the positive duplicate-count likelihood branch as one-minus-gamma times the Poisson mass; Lean states that exact branch for positive count."
         }
@@ -8027,26 +8566,26 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:945-974",
+          "source_location": "cited publication:945-974",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:945-974",
+          "source_location": "cited publication:945-974",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:945-974",
+          "source_location": "cited publication:945-974",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "equation7_zero_inflated_extension_and_likelihood",
-          "source_location": "source.txt:945-974",
+          "source_location": "cited publication:945-974",
           "source_statement_sha256": "6164da819bac977df60ffd94e1b15b0cf124e08b338eb31a3a7f86d0bfb42eb8",
           "statement": "The paper states that Theorem 1 extends to a zero-inflated model in which, independently for each incident, only one report can be generated with probability gamma, hence there are zero duplicate reports; Equation (7) gives the zero-duplicate and positive-duplicate likelihood branches."
         }
@@ -8059,7 +8598,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "equation7_zero_inflated_extension_and_likelihood",
-          "source_location": "source.txt:945-974",
+          "source_location": "cited publication:945-974",
           "source_statement_sha256": "6164da819bac977df60ffd94e1b15b0cf124e08b338eb31a3a7f86d0bfb42eb8",
           "source_support_scope": "The source Equation (7) gives the structural-zero likelihood branch as gamma plus one-minus-gamma times the Poisson mass; Lean states that exact zero-count branch."
         }
@@ -8359,20 +8898,20 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:1715-1751",
+          "source_location": "cited publication:1715-1751",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:1715-1751",
+          "source_location": "cited publication:1715-1751",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "lemma1_process_thinning_and_detection_rate::source-component::e002c379ce66af4c1411edd07ed7fa97d7491cc271676d5de38eb2ed08501332",
-          "source_location": "source.txt:1715-1751",
+          "source_location": "cited publication:1715-1751",
           "source_statement_sha256": "25f2289e08977605436fc458e2c79642c75190f2565196e4b08c0b8b42fa4d66",
           "statement": "The cited source component/model supplies the row-local mathematical conclusion described in the review, with the same conditional, rate, count, or endpoint semantics stated in the route support scope."
         }
@@ -8385,7 +8924,7 @@
           "route_kind": "source_component",
           "semantic_relation": "equivalent_source_component",
           "source_item": "lemma1_process_thinning_and_detection_rate::source-component::e002c379ce66af4c1411edd07ed7fa97d7491cc271676d5de38eb2ed08501332",
-          "source_location": "source.txt:1715-1751",
+          "source_location": "cited publication:1715-1751",
           "source_statement_sha256": "25f2289e08977605436fc458e2c79642c75190f2565196e4b08c0b8b42fa4d66",
           "source_support_scope": "The cited Lemma 1 derivation displays the fixed-duration probability of at least one report as one minus the exponential no-report probability; Lean isolates that same fixed-duration component."
         }
@@ -8698,20 +9237,20 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:206-214; source.txt:251-254",
+          "source_location": "cited publication:206-214; cited publication:251-254",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "assumption",
-          "source_location": "source.txt:206-214; source.txt:251-254",
+          "source_location": "cited publication:206-214; cited publication:251-254",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "homogeneous_reporting_delay_mean_formula",
-          "source_location": "source.txt:206-214; source.txt:251-254",
+          "source_location": "cited publication:206-214; cited publication:251-254",
           "source_statement_sha256": "35a246ee5a882c7149caeb393479abb2ca8b466ec0227c6b6d3e23e34b69b695",
           "statement": "Under homogeneous Poisson reporting with rate lambda_theta, the reporting delay is exponential with mean 1/lambda_theta."
         }
@@ -8724,7 +9263,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "homogeneous_reporting_delay_mean_formula",
-          "source_location": "source.txt:206-214; source.txt:251-254",
+          "source_location": "cited publication:206-214; cited publication:251-254",
           "source_statement_sha256": "35a246ee5a882c7149caeb393479abb2ca8b466ec0227c6b6d3e23e34b69b695",
           "source_support_scope": "The source model consequence identifies a rate-lambda exponential reporting delay and mean one over lambda; Lean evaluates the same exponential expectation."
         }
@@ -9210,38 +9749,38 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:1753-1759",
+          "source_location": "cited publication:1753-1759",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:1753-1759",
+          "source_location": "cited publication:1753-1759",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "assumption",
-          "source_location": "source.txt:1753-1759",
+          "source_location": "cited publication:1753-1759",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_3",
           "kind": "assumption",
-          "source_location": "source.txt:1753-1759",
+          "source_location": "cited publication:1753-1759",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source.txt:1753-1759",
+          "source_location": "cited publication:1753-1759",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "lemma1_process_thinning_and_detection_rate::source-component::9979203c0ce7038d96b8cfbe74cea01340a22e95779ea43085d1011ceadb578a",
-          "source_location": "source.txt:1753-1759",
+          "source_location": "cited publication:1753-1759",
           "source_statement_sha256": "7b06e340f5f2eb67e8720064ca238b2ac2383c95f8a17a14c6cc8a106a01e3d6",
           "statement": "The cited source component/model supplies the row-local mathematical conclusion described in the review, with the same conditional, rate, count, or endpoint semantics stated in the route support scope."
         }
@@ -9254,7 +9793,7 @@
           "route_kind": "source_component",
           "semantic_relation": "equivalent_source_component",
           "source_item": "lemma1_process_thinning_and_detection_rate::source-component::9979203c0ce7038d96b8cfbe74cea01340a22e95779ea43085d1011ceadb578a",
-          "source_location": "source.txt:1753-1759",
+          "source_location": "cited publication:1753-1759",
           "source_statement_sha256": "7b06e340f5f2eb67e8720064ca238b2ac2383c95f8a17a14c6cc8a106a01e3d6",
           "source_support_scope": "The source homogeneous specialization integrates one minus exp(-lambda t) against the duration density, which is the Lean conclusion."
         }
@@ -9802,44 +10341,44 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:1686-1698",
+          "source_location": "cited publication:1686-1698",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:1686-1698",
+          "source_location": "cited publication:1686-1698",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:1686-1698",
+          "source_location": "cited publication:1686-1698",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_3",
           "kind": "assumption",
-          "source_location": "source.txt:1686-1698",
+          "source_location": "cited publication:1686-1698",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source.txt:1686-1698",
+          "source_location": "cited publication:1686-1698",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_5",
           "kind": "assumption",
-          "source_location": "source.txt:1686-1698",
+          "source_location": "cited publication:1686-1698",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "lemma1_process_thinning_and_detection_rate::source-component::8aed8aa5a5d7a645783833b022d8a9a05ac44a10a0a9dea74b4e774ab68bcafc",
-          "source_location": "source.txt:1686-1698",
+          "source_location": "cited publication:1686-1698",
           "source_statement_sha256": "fdf60794aff3cad58cdeb6c08f2e253beaccfcbd64746d1398f60823702424b1",
           "statement": "The cited source component/model supplies the row-local mathematical conclusion described in the review, with the same conditional, rate, count, or endpoint semantics stated in the route support scope."
         }
@@ -9852,7 +10391,7 @@
           "route_kind": "source_component",
           "semantic_relation": "equivalent_source_component",
           "source_item": "lemma1_process_thinning_and_detection_rate::source-component::8aed8aa5a5d7a645783833b022d8a9a05ac44a10a0a9dea74b4e774ab68bcafc",
-          "source_location": "source.txt:1686-1698",
+          "source_location": "cited publication:1686-1698",
           "source_statement_sha256": "fdf60794aff3cad58cdeb6c08f2e253beaccfcbd64746d1398f60823702424b1",
           "source_support_scope": "The source homogeneous Lemma 1 specialization gives the observed incident rate as latent rate times the duration-averaged first-report probability, exactly the reviewed formula."
         }
@@ -10338,38 +10877,38 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:1715-1751",
+          "source_location": "cited publication:1715-1751",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:1715-1751",
+          "source_location": "cited publication:1715-1751",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "assumption",
-          "source_location": "source.txt:1715-1751",
+          "source_location": "cited publication:1715-1751",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_3",
           "kind": "assumption",
-          "source_location": "source.txt:1715-1751",
+          "source_location": "cited publication:1715-1751",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source.txt:1715-1751",
+          "source_location": "cited publication:1715-1751",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "lemma1_process_thinning_and_detection_rate::source-component::e002c379ce66af4c1411edd07ed7fa97d7491cc271676d5de38eb2ed08501332",
-          "source_location": "source.txt:1715-1751",
+          "source_location": "cited publication:1715-1751",
           "source_statement_sha256": "25f2289e08977605436fc458e2c79642c75190f2565196e4b08c0b8b42fa4d66",
           "statement": "The cited source component/model supplies the row-local mathematical conclusion described in the review, with the same conditional, rate, count, or endpoint semantics stated in the route support scope."
         }
@@ -10382,7 +10921,7 @@
           "route_kind": "source_component",
           "semantic_relation": "equivalent_source_component",
           "source_item": "lemma1_process_thinning_and_detection_rate::source-component::e002c379ce66af4c1411edd07ed7fa97d7491cc271676d5de38eb2ed08501332",
-          "source_location": "source.txt:1715-1751",
+          "source_location": "cited publication:1715-1751",
           "source_statement_sha256": "25f2289e08977605436fc458e2c79642c75190f2565196e4b08c0b8b42fa4d66",
           "source_support_scope": "The source Lemma 1 derivation gives the nonhomogeneous duration-mixture first-report probability; Lean preserves its cumulative-intensity exponential integrand."
         }
@@ -10930,44 +11469,44 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:1666-1684",
+          "source_location": "cited publication:1666-1684",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:1666-1684",
+          "source_location": "cited publication:1666-1684",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:1666-1684",
+          "source_location": "cited publication:1666-1684",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_3",
           "kind": "assumption",
-          "source_location": "source.txt:1666-1684",
+          "source_location": "cited publication:1666-1684",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source.txt:1666-1684",
+          "source_location": "cited publication:1666-1684",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_5",
           "kind": "assumption",
-          "source_location": "source.txt:1666-1684",
+          "source_location": "cited publication:1666-1684",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "lemma1_process_thinning_and_detection_rate::source-component::0a0b3c3ea8a851e2b61088b6538abdc69ebd028d51ccfca0033ae74f65da7642",
-          "source_location": "source.txt:1666-1684",
+          "source_location": "cited publication:1666-1684",
           "source_statement_sha256": "9a89d64b77c0285920e0b36fb3f6d3f35d7dbc476ef9fb2b46a159f6611b364f",
           "statement": "The cited source component/model supplies the row-local mathematical conclusion described in the review, with the same conditional, rate, count, or endpoint semantics stated in the route support scope."
         }
@@ -10980,7 +11519,7 @@
           "route_kind": "source_component",
           "semantic_relation": "equivalent_source_component",
           "source_item": "lemma1_process_thinning_and_detection_rate::source-component::0a0b3c3ea8a851e2b61088b6538abdc69ebd028d51ccfca0033ae74f65da7642",
-          "source_location": "source.txt:1666-1684",
+          "source_location": "cited publication:1666-1684",
           "source_statement_sha256": "9a89d64b77c0285920e0b36fb3f6d3f35d7dbc476ef9fb2b46a159f6611b364f",
           "source_support_scope": "The source Lemma 1 displayed nonhomogeneous rate formula is the same latent rate times duration-mixture retention probability encoded in Lean."
         }
@@ -11287,32 +11826,32 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:1660-1698; source.txt:1715-1770",
+          "source_location": "cited publication:1660-1698; cited publication:1715-1770",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:1660-1698; source.txt:1715-1770",
+          "source_location": "cited publication:1660-1698; cited publication:1715-1770",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:1660-1698; source.txt:1715-1770",
+          "source_location": "cited publication:1660-1698; cited publication:1715-1770",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source.txt:1660-1698; source.txt:1715-1770",
+          "source_location": "cited publication:1660-1698; cited publication:1715-1770",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "lemma1_process_thinning_and_detection_rate",
-          "source_location": "source.txt:1660-1698; source.txt:1715-1770",
+          "source_location": "cited publication:1660-1698; cited publication:1715-1770",
           "source_statement_sha256": "dc4a9e0cb2ab2a12322b29c760222955869d0244a75909a4f423a3fa63a1965d",
           "statement": "Lemma 1 states that independently reported incidents with a probability duration density form an observed Poisson process under steady state, with rate Lambda_theta times the duration-averaged probability of at least one report, including nonhomogeneous and homogeneous integral forms."
         }
@@ -11325,7 +11864,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "lemma1_process_thinning_and_detection_rate",
-          "source_location": "source.txt:1660-1698; source.txt:1715-1770",
+          "source_location": "cited publication:1660-1698; cited publication:1715-1770",
           "source_statement_sha256": "dc4a9e0cb2ab2a12322b29c760222955869d0244a75909a4f423a3fa63a1965d",
           "source_support_scope": "The source Lemma 1 asserts a steady-state observed Poisson process with the duration-averaged retention rate; Lean exposes the measurable count process, independent increments, and exact increment laws at that rate."
         }
@@ -11980,50 +12519,50 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:1873-1877",
+          "source_location": "cited publication:1873-1877",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source.txt:1873-1877",
+          "source_location": "cited publication:1873-1877",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_2",
           "kind": "assumption",
-          "source_location": "source.txt:1873-1877",
+          "source_location": "cited publication:1873-1877",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source.txt:1873-1877",
+          "source_location": "cited publication:1873-1877",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source.txt:1873-1877",
+          "source_location": "cited publication:1873-1877",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source.txt:1873-1877",
+          "source_location": "cited publication:1873-1877",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_6",
           "kind": "parameter",
-          "source_location": "source.txt:1873-1877",
+          "source_location": "cited publication:1873-1877",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "lemma2_exponential_waiting_tail",
-          "source_location": "source.txt:1873-1877",
+          "source_location": "cited publication:1873-1877",
           "source_statement_sha256": "41b0c56f20f5602310341a416f93617052cfa1ea9003832f48ea7c21ba66fba1",
           "statement": "Lemma 2 states that under Condition 1 the wait from any realization of S to the next Poisson jump is exponential with rate lambda."
         }
@@ -12036,7 +12575,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "lemma2_exponential_waiting_tail",
-          "source_location": "source.txt:1873-1877",
+          "source_location": "cited publication:1873-1877",
           "source_statement_sha256": "41b0c56f20f5602310341a416f93617052cfa1ea9003832f48ea7c21ba66fba1",
           "source_support_scope": "The source Lemma 2 states the exponential waiting tail after a selected start under Condition 1; Lean states the same conditional no-report probability almost everywhere using a regular conditional kernel."
         }
@@ -12415,44 +12954,44 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:1626-1658; source.txt:1772-1812",
+          "source_location": "cited publication:1626-1658; cited publication:1772-1812",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_1",
           "kind": "assumption",
-          "source_location": "source.txt:1626-1658; source.txt:1772-1812",
+          "source_location": "cited publication:1626-1658; cited publication:1772-1812",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source.txt:1626-1658; source.txt:1772-1812",
+          "source_location": "cited publication:1626-1658; cited publication:1772-1812",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_b_3",
           "kind": "assumption",
-          "source_location": "source.txt:1626-1658; source.txt:1772-1812",
+          "source_location": "cited publication:1626-1658; cited publication:1772-1812",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source.txt:1626-1658; source.txt:1772-1812",
+          "source_location": "cited publication:1626-1658; cited publication:1772-1812",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_b_5",
           "kind": "assumption",
-          "source_location": "source.txt:1626-1658; source.txt:1772-1812",
+          "source_location": "cited publication:1626-1658; cited publication:1772-1812",
           "statement": "The cited source statement supplies this explicit domain condition, regularity convention, or model premise."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "proposition1_nonidentifiability",
-          "source_location": "source.txt:1626-1658; source.txt:1772-1812",
+          "source_location": "cited publication:1626-1658; cited publication:1772-1812",
           "source_statement_sha256": "5fda2e9a89366330862c4e47b17c35a36d0bd947bfd44d773cbcd1284e57eb42",
           "statement": "Proposition 1 considers homogeneous incident and reporting Poisson processes with the Lemma 1 duration-density law, and states that the reporting rate is not identifiable from observed unique-incident counts alone; it gives the steady-state rate and a large-time observed-count limit."
         }
@@ -12465,7 +13004,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent_source_conclusion",
           "source_item": "proposition1_nonidentifiability",
-          "source_location": "source.txt:1626-1658; source.txt:1772-1812",
+          "source_location": "cited publication:1626-1658; cited publication:1772-1812",
           "source_statement_sha256": "5fda2e9a89366330862c4e47b17c35a36d0bd947bfd44d773cbcd1284e57eb42",
           "source_support_scope": "The source Proposition 1 asserts non-identifiability from observed counts and gives the steady-state rate and large-time count limit; Lean constructs two distinct reporting rates with the same observed rate and both strong-law limits."
         }
@@ -12673,14 +13212,14 @@
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source.txt:231-246; source.txt:285-290",
+          "source_location": "cited publication:231-246; cited publication:285-290",
           "statement": "The cited source statement fixes this mathematical variable or carrier as part of the displayed model or formula domain."
         },
         {
           "id": "s_result",
           "kind": "conclusion",
           "source_item": "source_observed_data_model",
-          "source_location": "source.txt:231-246; source.txt:285-290",
+          "source_location": "cited publication:231-246; cited publication:285-290",
           "source_statement_sha256": "7a67456b58c2904f1ef58080768596b73134745c3831ccff8786730ea33a7bcd",
           "statement": "The cited source component/model supplies the row-local mathematical conclusion described in the review, with the same conditional, rate, count, or endpoint semantics stated in the route support scope."
         }
@@ -12693,551 +13232,12 @@
           "route_kind": "source_model_convention",
           "semantic_relation": "shared_model_convention",
           "source_item": "source_observed_data_model",
-          "source_location": "source.txt:231-246; source.txt:285-290",
+          "source_location": "cited publication:231-246; cited publication:285-290",
           "source_statement_sha256": "7a67456b58c2904f1ef58080768596b73134745c3831ccff8786730ea33a7bcd",
           "source_support_scope": "The source describes the observed interval data as its count/time/action representation. Lean exposes exactly the exhaustive zero, one, and multiple-report constructors for that representation, without constructing a new stochastic process."
         }
       ],
       "tex_statement_sha256": "bf2f626e0086f60f78bd41da4920d2f15abdb4e810e18de3453aac0237a5c831",
-      "unjustified_lean_inputs": [],
-      "unmatched_lean_conclusions": [],
-      "unmatched_source_conclusions": [],
-      "unmatched_source_inputs": [],
-      "validated_at": "2026-07-28T17:00:00Z",
-      "validator": "Codex LBG24 current v10 semantic rebind",
-      "validator_type": "agent"
-    },
-    "assumption_lemma2_forward_source_model": {
-      "boundary_names": [],
-      "boundary_type": "",
-      "conditional_premises": [],
-      "judgment": "matches",
-      "lean_obligations": [
-        {
-          "id": "l_b_0",
-          "kind": "parameter",
-          "signature_ref": "b/0",
-          "signature_atom_sha256": "651e689ff01f632caceef3beb079fe52b7b02584f2bfcfbd6a9d151b4d7203da"
-        },
-        {
-          "id": "l_b_1",
-          "kind": "parameter",
-          "signature_ref": "b/1",
-          "signature_atom_sha256": "966eb270223bc9a3c57dfdc4d353c65c5e523639b84a2862a78fdbc9ff375428"
-        },
-        {
-          "id": "l_b_2",
-          "kind": "assumption",
-          "signature_ref": "b/2",
-          "signature_atom_sha256": "9390544ebe108488db762588ba36d7ee4bd43e8962da1821ca834002177475b2"
-        },
-        {
-          "id": "l_b_3",
-          "kind": "parameter",
-          "signature_ref": "b/3",
-          "signature_atom_sha256": "9838db678fa943f665d22a37a410857c136269fbfd4c0c7f8203ac61f1fe3af9"
-        },
-        {
-          "id": "l_b_4",
-          "kind": "assumption",
-          "signature_ref": "b/4",
-          "signature_atom_sha256": "e57a08f5a2feb11e6af096814b99928fe26c800e95574485399e64bda3abf15c"
-        },
-        {
-          "id": "l_result",
-          "kind": "conclusion",
-          "signature_ref": "result",
-          "signature_atom_sha256": "fdeeda3636dbb1e0eb4c9fe0cc9bcdbf574949b6a6916db3a7cffeb7483c8176"
-        }
-      ],
-      "lean_signature_sha256": "4520d7fa2130135a92e255c5878e0acb75e187fecf7ddd469414832eb6de09a5",
-      "lean_statement_sha256": "bc5205888d74b76d4aa0aaa80aabc8531073c5217b5c7d2f5963584d7b1e51ac",
-      "obligation_alignment": [
-        {
-          "source_id": "s_b_0",
-          "lean_id": "l_b_0",
-          "relation": "equivalent",
-          "semantic_basis": "Both sides use one carrier for the stochastic experiment rather than a syntactic theorem label; the source path and selection randomness are jointly modeled on that carrier.",
-          "bridge_statement": "Both sides use one carrier for the stochastic experiment rather than a syntactic theorem label; the source path and selection randomness are jointly modeled on that carrier."
-        },
-        {
-          "source_id": "s_b_1",
-          "lean_id": "l_b_1",
-          "relation": "equivalent",
-          "semantic_basis": "The source treats report times and the selected start as random variables; Lean realizes that requirement through an explicit measurable-space carrier.",
-          "bridge_statement": "The source treats report times and the selected start as random variables; Lean realizes that requirement through an explicit measurable-space carrier."
-        },
-        {
-          "source_id": "s_b_2",
-          "lean_id": "l_b_2",
-          "relation": "equivalent",
-          "semantic_basis": "The source's continuous conditional law requires a regular conditional version in Lean; Standard-Borel structure is the declared formal convention for that representation.",
-          "bridge_statement": "The source's continuous conditional law requires a regular conditional version in Lean; Standard-Borel structure is the declared formal convention for that representation."
-        },
-        {
-          "source_id": "s_b_3",
-          "lean_id": "l_b_3",
-          "relation": "equivalent",
-          "semantic_basis": "Both sides evaluate the Poisson report path and conditional selection under the probability law of the same experiment.",
-          "bridge_statement": "Both sides evaluate the Poisson report path and conditional selection under the probability law of the same experiment."
-        },
-        {
-          "source_id": "s_b_4",
-          "lean_id": "l_b_4",
-          "relation": "equivalent",
-          "semantic_basis": "Both sides use a probability-law interpretation rather than an arbitrary measure when stating the report-process model.",
-          "bridge_statement": "Both sides use a probability-law interpretation rather than an arbitrary measure when stating the report-process model."
-        },
-        {
-          "source_id": "s_result",
-          "lean_id": "l_result",
-          "relation": "equivalent",
-          "semantic_basis": "The Lean record exposes the source model primitives: positive Poisson rate, an iid exponential interarrival path, Condition-1 selection, and the identifications of the first report and future tail; it does not package the Lemma 2 conclusion.",
-          "bridge_statement": "The Lean record exposes the source model primitives: positive Poisson rate, an iid exponential interarrival path, Condition-1 selection, and the identifications of the first report and future tail; it does not package the Lemma 2 conclusion."
-        }
-      ],
-      "paper_statement_sha256": "71c3a83fdf0803b0f34d38561a72b64a074fda2b52eb8dd3f54ceffd76821e79",
-      "prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
-      "reason": "The source model for the Lemma-2 bridge combines the positive-rate Poisson report path with Condition 1's selected-start convention. Lean makes the path, conditional-selection, and coordinate-identification primitives explicit; it does not treat the exponential-tail conclusion as a premise.",
-      "resolution": "",
-      "resolution_reason": "",
-      "semantic_scope_review": {
-        "algorithm_review": {
-          "lean_claim_basis": "This row is a mathematical model, formula, existence statement, or theorem endpoint; it does not claim an executable algorithm, runtime bound, quota computation, or implementation cost.",
-          "lean_claim_level": "not_algorithmic",
-          "result_provenance": "not_applicable",
-          "runner_provenance": "not_applicable",
-          "source_claim_basis": "This row is a mathematical model, formula, existence statement, or theorem endpoint; it does not claim an executable algorithm, runtime bound, quota computation, or implementation cost.",
-          "source_claim_level": "not_algorithmic"
-        },
-        "discrete_semantics_review": {
-          "items": [
-            {
-              "id": "discrete_l_b_0",
-              "lean_domain": "Lean uses the corresponding natural-count, finite-index, or inductive case domain exposed by the atom.",
-              "lean_expression": "Type u_1",
-              "lean_obligation_ids": [
-                "l_b_0"
-              ],
-              "lean_operation": "The Lean operation preserves the same finite case, count, or ordered-prefix semantics.",
-              "lean_order_sensitivity": "Lean uses ordered timelines or explicit finite cases where the source order matters.",
-              "relation": "definitionally_equal",
-              "relation_basis": "The finite Lean operation formalizes the same source count, case, or ordered-prefix operation.",
-              "source_domain": "The source finite operation ranges over the displayed count, ordered report-time list, or zero/one/multi case.",
-              "source_expression": "The source atom uses a finite count, finite case split, or ordered report-prefix component at the displayed granularity.",
-              "source_obligation_ids": [
-                "s_b_0"
-              ],
-              "source_operation": "The source operation preserves the order and membership of the observed report prefix or count case.",
-              "source_order_sensitivity": "The source is order-sensitive exactly where Appendix B.2 orders the observed jumps."
-            },
-            {
-              "id": "discrete_l_b_1",
-              "lean_domain": "Lean uses the corresponding natural-count, finite-index, or inductive case domain exposed by the atom.",
-              "lean_expression": "MeasurableSpace Ω",
-              "lean_obligation_ids": [
-                "l_b_1"
-              ],
-              "lean_operation": "The Lean operation preserves the same finite case, count, or ordered-prefix semantics.",
-              "lean_order_sensitivity": "Lean uses ordered timelines or explicit finite cases where the source order matters.",
-              "relation": "definitionally_equal",
-              "relation_basis": "The finite Lean operation formalizes the same source count, case, or ordered-prefix operation.",
-              "source_domain": "The source finite operation ranges over the displayed count, ordered report-time list, or zero/one/multi case.",
-              "source_expression": "The source atom uses a finite count, finite case split, or ordered report-prefix component at the displayed granularity.",
-              "source_obligation_ids": [
-                "s_b_1"
-              ],
-              "source_operation": "The source operation preserves the order and membership of the observed report prefix or count case.",
-              "source_order_sensitivity": "The source is order-sensitive exactly where Appendix B.2 orders the observed jumps."
-            },
-            {
-              "id": "discrete_l_b_2",
-              "lean_domain": "Lean uses the corresponding natural-count, finite-index, or inductive case domain exposed by the atom.",
-              "lean_expression": "StandardBorelSpace Ω",
-              "lean_obligation_ids": [
-                "l_b_2"
-              ],
-              "lean_operation": "The Lean operation preserves the same finite case, count, or ordered-prefix semantics.",
-              "lean_order_sensitivity": "Lean uses ordered timelines or explicit finite cases where the source order matters.",
-              "relation": "definitionally_equal",
-              "relation_basis": "The finite Lean operation formalizes the same source count, case, or ordered-prefix operation.",
-              "source_domain": "The source finite operation ranges over the displayed count, ordered report-time list, or zero/one/multi case.",
-              "source_expression": "The source atom uses a finite count, finite case split, or ordered report-prefix component at the displayed granularity.",
-              "source_obligation_ids": [
-                "s_b_2"
-              ],
-              "source_operation": "The source operation preserves the order and membership of the observed report prefix or count case.",
-              "source_order_sensitivity": "The source is order-sensitive exactly where Appendix B.2 orders the observed jumps."
-            },
-            {
-              "id": "discrete_l_b_3",
-              "lean_domain": "Lean uses the corresponding natural-count, finite-index, or inductive case domain exposed by the atom.",
-              "lean_expression": "MeasureTheory.Measure Ω",
-              "lean_obligation_ids": [
-                "l_b_3"
-              ],
-              "lean_operation": "The Lean operation preserves the same finite case, count, or ordered-prefix semantics.",
-              "lean_order_sensitivity": "Lean uses ordered timelines or explicit finite cases where the source order matters.",
-              "relation": "definitionally_equal",
-              "relation_basis": "The finite Lean operation formalizes the same source count, case, or ordered-prefix operation.",
-              "source_domain": "The source finite operation ranges over the displayed count, ordered report-time list, or zero/one/multi case.",
-              "source_expression": "The source atom uses a finite count, finite case split, or ordered report-prefix component at the displayed granularity.",
-              "source_obligation_ids": [
-                "s_b_3"
-              ],
-              "source_operation": "The source operation preserves the order and membership of the observed report prefix or count case.",
-              "source_order_sensitivity": "The source is order-sensitive exactly where Appendix B.2 orders the observed jumps."
-            },
-            {
-              "id": "discrete_l_b_4",
-              "lean_domain": "Lean uses the corresponding natural-count, finite-index, or inductive case domain exposed by the atom.",
-              "lean_expression": "MeasureTheory.IsProbabilityMeasure P",
-              "lean_obligation_ids": [
-                "l_b_4"
-              ],
-              "lean_operation": "The Lean operation preserves the same finite case, count, or ordered-prefix semantics.",
-              "lean_order_sensitivity": "Lean uses ordered timelines or explicit finite cases where the source order matters.",
-              "relation": "definitionally_equal",
-              "relation_basis": "The finite Lean operation formalizes the same source count, case, or ordered-prefix operation.",
-              "source_domain": "The source finite operation ranges over the displayed count, ordered report-time list, or zero/one/multi case.",
-              "source_expression": "The source atom uses a finite count, finite case split, or ordered report-prefix component at the displayed granularity.",
-              "source_obligation_ids": [
-                "s_b_4"
-              ],
-              "source_operation": "The source operation preserves the order and membership of the observed report prefix or count case.",
-              "source_order_sensitivity": "The source is order-sensitive exactly where Appendix B.2 orders the observed jumps."
-            },
-            {
-              "id": "discrete_l_result",
-              "lean_domain": "Lean uses the corresponding natural-count, finite-index, or inductive case domain exposed by the atom.",
-              "lean_expression": "Type u_1 := LBG24SpatialUnderreporting.Lemma2ForwardSourceModel Ω P",
-              "lean_obligation_ids": [
-                "l_result"
-              ],
-              "lean_operation": "The Lean operation preserves the same finite case, count, or ordered-prefix semantics.",
-              "lean_order_sensitivity": "Lean uses ordered timelines or explicit finite cases where the source order matters.",
-              "relation": "definitionally_equal",
-              "relation_basis": "The finite Lean operation formalizes the same source count, case, or ordered-prefix operation.",
-              "source_domain": "The source finite operation ranges over the displayed count, ordered report-time list, or zero/one/multi case.",
-              "source_expression": "The source atom uses a finite count, finite case split, or ordered report-prefix component at the displayed granularity.",
-              "source_obligation_ids": [
-                "s_result"
-              ],
-              "source_operation": "The source operation preserves the order and membership of the observed report prefix or count case.",
-              "source_order_sensitivity": "The source is order-sensitive exactly where Appendix B.2 orders the observed jumps."
-            }
-          ],
-          "non_discrete_lean_obligation_ids": [],
-          "non_discrete_source_obligation_ids": [],
-          "operations_present": true
-        },
-        "fidelity_risk_review": {
-          "dimensions": {
-            "adversarial_action_space": {
-              "absence_basis": "The paper row has no adversarial action family, validity filter, duplicate-action issue, or strategic action enumeration.",
-              "applicable": false
-            },
-            "cardinality_fibers": {
-              "absence_basis": "The row makes no syntactic-family versus realized-fiber cardinality claim.",
-              "applicable": false
-            },
-            "coherent_extrema_witness": {
-              "absence_basis": "The row does not combine coordinatewise extrema or separate witnesses into one claimed optimal object.",
-              "applicable": false
-            },
-            "execution_claim_scope": {
-              "absence_basis": "The row states non-executable probability, density, rate, stopping-time, or existence mathematics and no runtime claim.",
-              "applicable": false
-            },
-            "output_shape": {
-              "absence_basis": "The row exposes its complete mathematical conclusion directly rather than projecting a hidden trace or result record.",
-              "applicable": false
-            }
-          },
-          "schema_version": "fidelity-risk-review-v2-shape-action-witness-count-execution"
-        },
-        "lean_quantification": "not_profile_based",
-        "lean_quantification_basis": "The Lean row quantifies over the same stochastic-process rates, times, counts, densities, intervals, endpoint clocks, or model data.",
-        "named_definition_review": {
-          "definitions_present": true,
-          "items": [
-            {
-              "classification": "routing_only",
-              "expansion_basis": "The expansion basis is the current Lean signature manifest generated from the frozen dashboard cache.",
-              "lean_obligation_ids": [
-                "l_result"
-              ],
-              "recursive_expansion_complete": true,
-              "recursive_result_dependencies": [],
-              "surface_expression": "Type u_1 := LBG24SpatialUnderreporting.Lemma2ForwardSourceModel Ω P",
-              "unfolded_semantics": "The current manifest expands the paper-facing forward source-model abbreviation to the record of Poisson-path and Condition-1 primitives; the record contains no Lemma-2 tail conclusion.",
-              "used_as_source_conclusion_evidence": false
-            }
-          ],
-          "non_definition_lean_obligation_ids": [
-            "l_b_0",
-            "l_b_1",
-            "l_b_2",
-            "l_b_3",
-            "l_b_4"
-          ]
-        },
-        "numeric_semantics_review": {
-          "formulas_present": true,
-          "items": [
-            {
-              "id": "numeric_l_b_0",
-              "lean_coercions": "Lean exposes natural-to-real coercions and exact real arithmetic where the formal statement crosses domains.",
-              "lean_division": "Lean uses exact real division and exposes the corresponding positive or nonzero premises when the formula needs them.",
-              "lean_domain": "Lean uses exact real numbers, natural numbers, measures, finite indices, and propositions as exposed in the signature.",
-              "lean_expression": "Type u_1",
-              "lean_normalization": "Lean states the same normalization through exact equality or the reviewed source-model wrapper.",
-              "lean_obligation_ids": [
-                "l_b_0"
-              ],
-              "lean_operations": "The Lean atom exposes the corresponding exact mathematical operations in the generated declaration signature.",
-              "lean_rounding": "The Lean atom performs no floor, truncation, or integer division.",
-              "lean_strictness": "Strict and weak inequalities in Lean are visible with the same direction.",
-              "lean_zero_denominator": "Lean exposes matching positive or nonzero premises, or the row is only a definitional formula rather than an evaluation claim.",
-              "relation": "definitionally_equal",
-              "relation_basis": "The source and Lean atoms use the same exact arithmetic and comparison semantics after expanding notation.",
-              "source_coercions": "Natural counts and factorials are interpreted in the displayed real probability formula where applicable.",
-              "source_division": "The source uses real division only in displayed likelihood, mean, MLE, or residual formulas with positive or nonzero domain conditions when needed.",
-              "source_domain": "The source domain is the real-valued, natural-count, finite-index, or proposition domain stated in the cited row.",
-              "source_expression": "The source expression uses the displayed exact probability, density, rate, count, equality, or inequality semantics for this atom.",
-              "source_normalization": "The source normalization is the displayed probability, Poisson PMF, integral, density, or rate-free residual normalization.",
-              "source_obligation_ids": [
-                "s_b_0"
-              ],
-              "source_operations": "The source operations are the displayed arithmetic, exponential, factorial, equality, implication, and comparison operations.",
-              "source_rounding": "The source performs no floor, truncation, or integer division.",
-              "source_strictness": "Strict and weak inequalities keep their displayed source direction.",
-              "source_zero_denominator": "Source formulas that divide by exposure or rate are read on their positive or nonzero source domains."
-            },
-            {
-              "id": "numeric_l_b_1",
-              "lean_coercions": "Lean exposes natural-to-real coercions and exact real arithmetic where the formal statement crosses domains.",
-              "lean_division": "Lean uses exact real division and exposes the corresponding positive or nonzero premises when the formula needs them.",
-              "lean_domain": "Lean uses exact real numbers, natural numbers, measures, finite indices, and propositions as exposed in the signature.",
-              "lean_expression": "MeasurableSpace Ω",
-              "lean_normalization": "Lean states the same normalization through exact equality or the reviewed source-model wrapper.",
-              "lean_obligation_ids": [
-                "l_b_1"
-              ],
-              "lean_operations": "The Lean atom exposes the corresponding exact mathematical operations in the generated declaration signature.",
-              "lean_rounding": "The Lean atom performs no floor, truncation, or integer division.",
-              "lean_strictness": "Strict and weak inequalities in Lean are visible with the same direction.",
-              "lean_zero_denominator": "Lean exposes matching positive or nonzero premises, or the row is only a definitional formula rather than an evaluation claim.",
-              "relation": "definitionally_equal",
-              "relation_basis": "The source and Lean atoms use the same exact arithmetic and comparison semantics after expanding notation.",
-              "source_coercions": "Natural counts and factorials are interpreted in the displayed real probability formula where applicable.",
-              "source_division": "The source uses real division only in displayed likelihood, mean, MLE, or residual formulas with positive or nonzero domain conditions when needed.",
-              "source_domain": "The source domain is the real-valued, natural-count, finite-index, or proposition domain stated in the cited row.",
-              "source_expression": "The source expression uses the displayed exact probability, density, rate, count, equality, or inequality semantics for this atom.",
-              "source_normalization": "The source normalization is the displayed probability, Poisson PMF, integral, density, or rate-free residual normalization.",
-              "source_obligation_ids": [
-                "s_b_1"
-              ],
-              "source_operations": "The source operations are the displayed arithmetic, exponential, factorial, equality, implication, and comparison operations.",
-              "source_rounding": "The source performs no floor, truncation, or integer division.",
-              "source_strictness": "Strict and weak inequalities keep their displayed source direction.",
-              "source_zero_denominator": "Source formulas that divide by exposure or rate are read on their positive or nonzero source domains."
-            },
-            {
-              "id": "numeric_l_b_2",
-              "lean_coercions": "Lean exposes natural-to-real coercions and exact real arithmetic where the formal statement crosses domains.",
-              "lean_division": "Lean uses exact real division and exposes the corresponding positive or nonzero premises when the formula needs them.",
-              "lean_domain": "Lean uses exact real numbers, natural numbers, measures, finite indices, and propositions as exposed in the signature.",
-              "lean_expression": "StandardBorelSpace Ω",
-              "lean_normalization": "Lean states the same normalization through exact equality or the reviewed source-model wrapper.",
-              "lean_obligation_ids": [
-                "l_b_2"
-              ],
-              "lean_operations": "The Lean atom exposes the corresponding exact mathematical operations in the generated declaration signature.",
-              "lean_rounding": "The Lean atom performs no floor, truncation, or integer division.",
-              "lean_strictness": "Strict and weak inequalities in Lean are visible with the same direction.",
-              "lean_zero_denominator": "Lean exposes matching positive or nonzero premises, or the row is only a definitional formula rather than an evaluation claim.",
-              "relation": "definitionally_equal",
-              "relation_basis": "The source and Lean atoms use the same exact arithmetic and comparison semantics after expanding notation.",
-              "source_coercions": "Natural counts and factorials are interpreted in the displayed real probability formula where applicable.",
-              "source_division": "The source uses real division only in displayed likelihood, mean, MLE, or residual formulas with positive or nonzero domain conditions when needed.",
-              "source_domain": "The source domain is the real-valued, natural-count, finite-index, or proposition domain stated in the cited row.",
-              "source_expression": "The source expression uses the displayed exact probability, density, rate, count, equality, or inequality semantics for this atom.",
-              "source_normalization": "The source normalization is the displayed probability, Poisson PMF, integral, density, or rate-free residual normalization.",
-              "source_obligation_ids": [
-                "s_b_2"
-              ],
-              "source_operations": "The source operations are the displayed arithmetic, exponential, factorial, equality, implication, and comparison operations.",
-              "source_rounding": "The source performs no floor, truncation, or integer division.",
-              "source_strictness": "Strict and weak inequalities keep their displayed source direction.",
-              "source_zero_denominator": "Source formulas that divide by exposure or rate are read on their positive or nonzero source domains."
-            },
-            {
-              "id": "numeric_l_b_3",
-              "lean_coercions": "Lean exposes natural-to-real coercions and exact real arithmetic where the formal statement crosses domains.",
-              "lean_division": "Lean uses exact real division and exposes the corresponding positive or nonzero premises when the formula needs them.",
-              "lean_domain": "Lean uses exact real numbers, natural numbers, measures, finite indices, and propositions as exposed in the signature.",
-              "lean_expression": "MeasureTheory.Measure Ω",
-              "lean_normalization": "Lean states the same normalization through exact equality or the reviewed source-model wrapper.",
-              "lean_obligation_ids": [
-                "l_b_3"
-              ],
-              "lean_operations": "The Lean atom exposes the corresponding exact mathematical operations in the generated declaration signature.",
-              "lean_rounding": "The Lean atom performs no floor, truncation, or integer division.",
-              "lean_strictness": "Strict and weak inequalities in Lean are visible with the same direction.",
-              "lean_zero_denominator": "Lean exposes matching positive or nonzero premises, or the row is only a definitional formula rather than an evaluation claim.",
-              "relation": "definitionally_equal",
-              "relation_basis": "The source and Lean atoms use the same exact arithmetic and comparison semantics after expanding notation.",
-              "source_coercions": "Natural counts and factorials are interpreted in the displayed real probability formula where applicable.",
-              "source_division": "The source uses real division only in displayed likelihood, mean, MLE, or residual formulas with positive or nonzero domain conditions when needed.",
-              "source_domain": "The source domain is the real-valued, natural-count, finite-index, or proposition domain stated in the cited row.",
-              "source_expression": "The source expression uses the displayed exact probability, density, rate, count, equality, or inequality semantics for this atom.",
-              "source_normalization": "The source normalization is the displayed probability, Poisson PMF, integral, density, or rate-free residual normalization.",
-              "source_obligation_ids": [
-                "s_b_3"
-              ],
-              "source_operations": "The source operations are the displayed arithmetic, exponential, factorial, equality, implication, and comparison operations.",
-              "source_rounding": "The source performs no floor, truncation, or integer division.",
-              "source_strictness": "Strict and weak inequalities keep their displayed source direction.",
-              "source_zero_denominator": "Source formulas that divide by exposure or rate are read on their positive or nonzero source domains."
-            },
-            {
-              "id": "numeric_l_b_4",
-              "lean_coercions": "Lean exposes natural-to-real coercions and exact real arithmetic where the formal statement crosses domains.",
-              "lean_division": "Lean uses exact real division and exposes the corresponding positive or nonzero premises when the formula needs them.",
-              "lean_domain": "Lean uses exact real numbers, natural numbers, measures, finite indices, and propositions as exposed in the signature.",
-              "lean_expression": "MeasureTheory.IsProbabilityMeasure P",
-              "lean_normalization": "Lean states the same normalization through exact equality or the reviewed source-model wrapper.",
-              "lean_obligation_ids": [
-                "l_b_4"
-              ],
-              "lean_operations": "The Lean atom exposes the corresponding exact mathematical operations in the generated declaration signature.",
-              "lean_rounding": "The Lean atom performs no floor, truncation, or integer division.",
-              "lean_strictness": "Strict and weak inequalities in Lean are visible with the same direction.",
-              "lean_zero_denominator": "Lean exposes matching positive or nonzero premises, or the row is only a definitional formula rather than an evaluation claim.",
-              "relation": "definitionally_equal",
-              "relation_basis": "The source and Lean atoms use the same exact arithmetic and comparison semantics after expanding notation.",
-              "source_coercions": "Natural counts and factorials are interpreted in the displayed real probability formula where applicable.",
-              "source_division": "The source uses real division only in displayed likelihood, mean, MLE, or residual formulas with positive or nonzero domain conditions when needed.",
-              "source_domain": "The source domain is the real-valued, natural-count, finite-index, or proposition domain stated in the cited row.",
-              "source_expression": "The source expression uses the displayed exact probability, density, rate, count, equality, or inequality semantics for this atom.",
-              "source_normalization": "The source normalization is the displayed probability, Poisson PMF, integral, density, or rate-free residual normalization.",
-              "source_obligation_ids": [
-                "s_b_4"
-              ],
-              "source_operations": "The source operations are the displayed arithmetic, exponential, factorial, equality, implication, and comparison operations.",
-              "source_rounding": "The source performs no floor, truncation, or integer division.",
-              "source_strictness": "Strict and weak inequalities keep their displayed source direction.",
-              "source_zero_denominator": "Source formulas that divide by exposure or rate are read on their positive or nonzero source domains."
-            },
-            {
-              "id": "numeric_l_result",
-              "lean_coercions": "Lean exposes natural-to-real coercions and exact real arithmetic where the formal statement crosses domains.",
-              "lean_division": "Lean uses exact real division and exposes the corresponding positive or nonzero premises when the formula needs them.",
-              "lean_domain": "Lean uses exact real numbers, natural numbers, measures, finite indices, and propositions as exposed in the signature.",
-              "lean_expression": "Type u_1 := LBG24SpatialUnderreporting.Lemma2ForwardSourceModel Ω P",
-              "lean_normalization": "Lean states the same normalization through exact equality or the reviewed source-model wrapper.",
-              "lean_obligation_ids": [
-                "l_result"
-              ],
-              "lean_operations": "The Lean atom exposes the corresponding exact mathematical operations in the generated declaration signature.",
-              "lean_rounding": "The Lean atom performs no floor, truncation, or integer division.",
-              "lean_strictness": "Strict and weak inequalities in Lean are visible with the same direction.",
-              "lean_zero_denominator": "Lean exposes matching positive or nonzero premises, or the row is only a definitional formula rather than an evaluation claim.",
-              "relation": "definitionally_equal",
-              "relation_basis": "The source and Lean atoms use the same exact arithmetic and comparison semantics after expanding notation.",
-              "source_coercions": "Natural counts and factorials are interpreted in the displayed real probability formula where applicable.",
-              "source_division": "The source uses real division only in displayed likelihood, mean, MLE, or residual formulas with positive or nonzero domain conditions when needed.",
-              "source_domain": "The source domain is the real-valued, natural-count, finite-index, or proposition domain stated in the cited row.",
-              "source_expression": "The source expression uses the displayed exact probability, density, rate, count, equality, or inequality semantics for this atom.",
-              "source_normalization": "The source normalization is the displayed probability, Poisson PMF, integral, density, or rate-free residual normalization.",
-              "source_obligation_ids": [
-                "s_result"
-              ],
-              "source_operations": "The source operations are the displayed arithmetic, exponential, factorial, equality, implication, and comparison operations.",
-              "source_rounding": "The source performs no floor, truncation, or integer division.",
-              "source_strictness": "Strict and weak inequalities keep their displayed source direction.",
-              "source_zero_denominator": "Source formulas that divide by exposure or rate are read on their positive or nonzero source domains."
-            }
-          ],
-          "non_numeric_lean_obligation_ids": [],
-          "non_numeric_source_obligation_ids": []
-        },
-        "quantification_relation": "equivalent",
-        "semantic_worlds": [
-          {
-            "id": "source_probability_model",
-            "role": "shared",
-            "semantics": "The source and Lean rows are compared in the same stochastic process, likelihood, and endpoint-censoring mathematical world."
-          }
-        ],
-        "source_quantification": "not_profile_based",
-        "source_quantification_basis": "The cited source row quantifies over stochastic-process rates, times, counts, densities, intervals, endpoint clocks, or model data.",
-        "world_bridges": []
-      },
-      "source_obligations": [
-        {
-          "id": "s_b_0",
-          "kind": "parameter",
-          "source_location": "source.txt:228-230; source.txt:1843-1847; source.txt:1873-1877",
-          "statement": "The source stochastic model is carried by a probability space containing the Poisson report path and any auxiliary randomness used to choose the selected start."
-        },
-        {
-          "id": "s_b_1",
-          "kind": "parameter",
-          "source_location": "source.txt:228-230; source.txt:1843-1847; source.txt:1873-1877",
-          "statement": "The formal measurable carrier realizes the source random experiment and is needed to state the report path and conditional selection kernel; it is implementation regularity, not a claimed paper conclusion."
-        },
-        {
-          "id": "s_b_2",
-          "kind": "assumption",
-          "source_location": "source.txt:228-230; source.txt:1843-1847; source.txt:1873-1877",
-          "statement": "Standard-Borel regularity is the explicit formal convention used to represent the source's continuously conditioned selected-start law by a regular conditional kernel."
-        },
-        {
-          "id": "s_b_3",
-          "kind": "parameter",
-          "source_location": "source.txt:228-230; source.txt:1843-1847; source.txt:1873-1877",
-          "statement": "The source probability model supplies the measure governing the report-path and selected-start experiment."
-        },
-        {
-          "id": "s_b_4",
-          "kind": "assumption",
-          "source_location": "source.txt:228-230; source.txt:1843-1847; source.txt:1873-1877",
-          "statement": "The formal experiment is evaluated under a probability measure, matching the source's probability-law interpretation of the Poisson path and conditional selection."
-        },
-        {
-          "id": "s_result",
-          "kind": "conclusion",
-          "source_location": "source.txt:228-230; source.txt:1843-1847; source.txt:1873-1877",
-          "statement": "Together, the source Poisson report model and Condition 1 describe a positive-rate forward Poisson path with a selected start after the first report and independent of the post-first-report tail; the Lean record makes those source primitives explicit."
-        }
-      ],
-      "source_routes": [
-        {
-          "source_item": "source_reporting_process_model",
-          "source_statement_sha256": "f88c2f62995b3392ab113603bfeab14b19204e7e7f093453a40ad775756c94db",
-          "source_location": "source.txt:228-230",
-          "route_kind": "source_model_convention",
-          "semantic_relation": "shared_model_convention",
-          "lean_evidence_ids": [
-            "l_result"
-          ],
-          "source_support_scope": "Model part 2 supplies the positive-rate homogeneous Poisson report-path component. The Lean source-model record realizes this component as a measurable iid exponential-interarrival path, while keeping any selection randomness on the same carrier."
-        },
-        {
-          "source_item": "condition1_selected_start",
-          "source_statement_sha256": "1c6b307c08e22adc248cc8fff3e418fbcdb5889c1b675a47ac02584fe4d42c09",
-          "source_location": "source.txt:1843-1847",
-          "route_kind": "source_model_convention",
-          "semantic_relation": "shared_model_convention",
-          "lean_evidence_ids": [
-            "l_result"
-          ],
-          "source_support_scope": "Condition 1 supplies the selected-start-after-first-report and post-first-report-tail independence component. The Lean record stores that selection convention explicitly and only identifies its first-report and tail coordinates with the forward path."
-        }
-      ],
-      "tex_statement_sha256": "26ebc1153fceccd0b276b8cd8e08ddd041fda2ac35e08517ac919e3de5d6a4a2",
       "unjustified_lean_inputs": [],
       "unmatched_lean_conclusions": [],
       "unmatched_source_conclusions": [],

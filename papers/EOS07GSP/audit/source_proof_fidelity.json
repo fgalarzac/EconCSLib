@@ -1,25 +1,24 @@
 {
-  "schema": 2,
+  "defects": [],
   "paper": "EOS07GSP",
-  "source_artifact_path": "EOS07GSP.txt",
-  "source_artifact_sha256": "9094a9c8cd917b728cf872b7741a4de9b5636c5cdadd08b7bfcc4b7c64df9cbc",
   "review_status": "reviewed_no_defects",
   "reviewed_proof_scopes": [
     {
-      "source_locator": "EOS07GSP.txt:94-275, Sections 2.2-2.3 and Remarks 1-3",
+      "outcome": "no_defect",
       "semantic_scope": "The first-price and GSP/VCG running examples, truthful and nontruthful bidding claims, displayed payments, utilities, and revenue comparisons.",
-      "outcome": "no_defect"
+      "source_locator": "cited publication:94-275, Sections 2.2-2.3 and Remarks 1-3"
     },
     {
-      "source_locator": "EOS07GSP.txt:276-518 and 672-800, Definition 4, Lemmas 5-6, Theorem 7 and appendix proofs",
+      "outcome": "no_defect",
       "semantic_scope": "Locally envy-free GSP outcomes, stable assignments, the converse implementation, the B-star equilibrium, VCG-equivalent positions and payments, and seller-revenue minimality.",
-      "outcome": "no_defect"
+      "source_locator": "cited publication:276-518 and 672-800, Definition 4, Lemmas 5-6, Theorem 7 and appendix proofs"
     },
     {
-      "source_locator": "EOS07GSP.txt:519-607 and 801-933, Theorem 8 and proof",
+      "outcome": "no_defect",
       "semantic_scope": "Continuous positive-density private values, the full public dropout-price history, stopped-clock tie handling, the displayed indifference threshold, legal surviving histories, continuous-strategy PBE existence and effective-action uniqueness, arbitrary-continuation ex-post optimality, and the VCG-equivalent outcome.",
-      "outcome": "no_defect"
+      "source_locator": "cited publication:519-607 and 801-933, Theorem 8 and proof"
     }
   ],
-  "defects": []
+  "schema": 2,
+  "source_artifact_sha256": "9094a9c8cd917b728cf872b7741a4de9b5636c5cdadd08b7bfcc4b7c64df9cbc"
 }

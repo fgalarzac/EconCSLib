@@ -1212,6 +1212,139 @@ theorem pmfPairExp_indicator_and_eq_mul_pmfProb
           rw [pmfExp_mul_const]
           rfl
 
+/--
+In a finite iid product, the event that every coordinate other than `i`
+satisfies `p`, while coordinate `i` fails `p`, factors into the corresponding
+one-coordinate probabilities.
+-/
+theorem pmfProduct_prob_forall_ne_and_not
+    {ι α : Type*} [Fintype ι] [DecidableEq ι] [Fintype α] [DecidableEq α]
+    (μ : PMF α) (p : α → Prop) [DecidablePred p] (i : ι) :
+    pmfProb (pmfProduct ι α μ)
+        (fun sample => (∀ j : ι, j ≠ i → p (sample j)) ∧ ¬ p (sample i)) =
+      (pmfProb μ p) ^ (Fintype.card ι - 1) * (1 - pmfProb μ p) := by
+  classical
+  let Rest := {j : ι // j ≠ i}
+  let e : Option Rest ≃ ι := Equiv.optionSubtypeNe i
+  let event : (ι → α) → Prop :=
+    fun sample => (∀ j : ι, j ≠ i → p (sample j)) ∧ ¬ p (sample i)
+  let optionEvent : (Option Rest → α) → Prop :=
+    fun sample => (∀ j : Rest, p (sample (some j))) ∧ ¬ p (sample none)
+  have hevent (sample : Option Rest → α) :
+      event (fun j : ι => sample (e.symm j)) ↔ optionEvent sample := by
+    constructor
+    · intro h
+      refine ⟨?_, ?_⟩
+      · intro j
+        have hsymm : e.symm j.1 = some j := by
+          simpa [e, Rest] using Equiv.optionSubtypeNe_symm_of_ne j.2
+        simpa [hsymm] using h.1 j.1 j.2
+      · have hsymm : e.symm i = none := by
+          change (Equiv.optionSubtypeNe i).symm i = none
+          exact Equiv.optionSubtypeNe_symm_self i
+        simpa [hsymm] using h.2
+    · rintro ⟨hforall, hnot⟩
+      refine ⟨?_, ?_⟩
+      · intro j hji
+        have hsymm : e.symm j = some ⟨j, hji⟩ := by
+          simpa [e, Rest] using Equiv.optionSubtypeNe_symm_of_ne hji
+        simpa [hsymm] using hforall ⟨j, hji⟩
+      · have hsymm : e.symm i = none := by
+          change (Equiv.optionSubtypeNe i).symm i = none
+          exact Equiv.optionSubtypeNe_symm_self i
+        simpa [hsymm] using hnot
+  have hprob_transport :
+      pmfProb (pmfProduct ι α μ) event =
+        pmfProb (pmfProduct (Option Rest) α μ) optionEvent := by
+    unfold pmfProb
+    calc
+      pmfExp (pmfProduct ι α μ) (fun sample => if event sample then (1 : ℝ) else 0) =
+          pmfExp (pmfProduct (Option Rest) α μ)
+            (fun sample => if event (fun j : ι => sample (e.symm j)) then (1 : ℝ) else 0) := by
+              symm
+              exact pmfExp_pmfProduct_equiv e μ
+                (fun sample => if event sample then (1 : ℝ) else 0)
+      _ = pmfExp (pmfProduct (Option Rest) α μ)
+            (fun sample => if optionEvent sample then (1 : ℝ) else 0) := by
+              refine pmfExp_congr _ ?_
+              intro sample
+              by_cases h : event (fun j : ι => sample (e.symm j))
+              · have hoption : optionEvent sample := (hevent sample).mp h
+                simp [h, hoption]
+              · have hoption : ¬ optionEvent sample := by
+                  intro hoption
+                  exact h ((hevent sample).mpr hoption)
+                simp [h, hoption]
+  have hprob_option :
+      pmfProb (pmfProduct (Option Rest) α μ) optionEvent =
+        (pmfProb μ p) ^ Fintype.card Rest * (1 - pmfProb μ p) := by
+    unfold pmfProb
+    rw [pmfExp_pmfProduct_option_eq_pairExp]
+    calc
+      pmfPairExp (pmfProduct Rest α μ) μ
+          (fun sample newItem =>
+            if optionEvent (extendDraw sample newItem) then (1 : ℝ) else 0) =
+          pmfPairExp (pmfProduct Rest α μ) μ
+            (fun sample newItem =>
+              if (∀ j : Rest, p (sample j)) ∧ ¬ p newItem then (1 : ℝ) else 0) := by
+            unfold pmfPairExp
+            refine pmfExp_congr _ ?_
+            intro sample
+            refine pmfExp_congr _ ?_
+            intro newItem
+            have hextend :
+                optionEvent (extendDraw sample newItem) ↔
+                  (∀ j : Rest, p (sample j)) ∧ ¬ p newItem := by
+              unfold optionEvent
+              constructor
+              · rintro ⟨hforall, hnot⟩
+                refine ⟨?_, ?_⟩
+                · intro j
+                  simpa [extendDraw] using hforall j
+                · simpa [extendDraw] using hnot
+              · rintro ⟨hforall, hnot⟩
+                refine ⟨?_, ?_⟩
+                · intro j
+                  cases j <;> simp [extendDraw, hforall]
+                · simpa [extendDraw] using hnot
+            by_cases h : optionEvent (extendDraw sample newItem)
+            · have hright : (∀ j : Rest, p (sample j)) ∧ ¬ p newItem :=
+                hextend.mp h
+              simp [h, hright]
+            · have hright : ¬ ((∀ j : Rest, p (sample j)) ∧ ¬ p newItem) := by
+                intro hright
+                exact h (hextend.mpr hright)
+              simp [h, hright]
+      _ = pmfProb (pmfProduct Rest α μ) (fun sample => ∀ j : Rest, p (sample j)) *
+            pmfProb μ (fun x => ¬ p x) := by
+            exact pmfPairExp_indicator_and_eq_mul_pmfProb
+              (pmfProduct Rest α μ) μ
+              (fun sample => ∀ j : Rest, p (sample j)) (fun x => ¬ p x)
+      _ = (pmfProb μ p) ^ Fintype.card Rest * (1 - pmfProb μ p) := by
+            rw [pmfProduct_prob_forall]
+            have hcompl : pmfProb μ (fun x => ¬ p x) = 1 - pmfProb μ p := by
+              unfold pmfProb pmfExp
+              calc
+                ∑ x : α, (μ x).toReal * (if ¬ p x then (1 : ℝ) else 0) =
+                    ∑ x : α, ((μ x).toReal * 1 -
+                      (μ x).toReal * (if p x then (1 : ℝ) else 0)) := by
+                      refine Finset.sum_congr rfl ?_
+                      intro x _
+                      by_cases hp : p x <;> simp [hp]
+                _ = (∑ x : α, (μ x).toReal * 1) -
+                      ∑ x : α, (μ x).toReal * (if p x then (1 : ℝ) else 0) := by
+                      rw [Finset.sum_sub_distrib]
+                _ = 1 - ∑ x : α, (μ x).toReal * (if p x then (1 : ℝ) else 0) := by
+                      simp [pmfToRealSum μ]
+            rw [hcompl]
+  have hcard : Fintype.card Rest = Fintype.card ι - 1 := by
+    calc
+      Fintype.card Rest = Fintype.card ι - Fintype.card {j : ι // j = i} := by
+        simpa [Rest] using (Fintype.card_subtype_compl (fun j : ι => j = i))
+      _ = Fintype.card ι - 1 := by rw [Fintype.card_subtype_eq]
+  change pmfProb (pmfProduct ι α μ) event = _
+  rw [hprob_transport, hprob_option, hcard]
+
 /-- Expectation of the reciprocal successor of a natural-valued finite random variable. -/
 noncomputable def pmfExpReciprocalSucc {α : Type*} [Fintype α] [DecidableEq α]
     (μ : PMF α) (X : α → ℕ) : ℝ :=
@@ -4061,6 +4194,111 @@ theorem pmfPairExp_swap {α β : Type*}
           refine Finset.sum_congr rfl ?_
           intro b _
           rw [Finset.mul_sum]
+
+/--
+Variance as half the expected squared difference of two independent copies.
+This finite identity is the base algebra for Efron--Stein/resampling bounds.
+-/
+theorem pmfVariance_eq_half_pmfPairExp_sq_sub
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (f : α → ℝ) :
+    pmfVariance μ f =
+      (1 / 2 : ℝ) * pmfPairExp μ μ (fun a b => (f a - f b) ^ 2) := by
+  have hcross :
+      pmfPairExp μ μ (fun a b => f a * f b) =
+        pmfExp μ f * pmfExp μ f := by
+    unfold pmfPairExp
+    calc
+      pmfExp μ (fun a => pmfExp μ (fun b => f a * f b)) =
+          pmfExp μ (fun a => f a * pmfExp μ f) := by
+            refine pmfExp_congr μ ?_
+            intro a
+            simpa [mul_comm] using pmfExp_const_mul μ (f a) f
+      _ = pmfExp μ f * pmfExp μ f := by
+            exact pmfExp_mul_const μ f (pmfExp μ f)
+  have hpairsq :
+      pmfPairExp μ μ (fun a b => (f a - f b) ^ 2) =
+        2 * pmfExp μ (fun a => f a ^ 2) -
+          2 * (pmfExp μ f) ^ 2 := by
+    calc
+      pmfPairExp μ μ (fun a b => (f a - f b) ^ 2) =
+          pmfPairExp μ μ
+            (fun a b => (f a ^ 2 - 2 * (f a * f b)) + f b ^ 2) := by
+              unfold pmfPairExp
+              refine pmfExp_congr μ ?_
+              intro a
+              refine pmfExp_congr μ ?_
+              intro b
+              ring
+      _ =
+          pmfPairExp μ μ (fun a b => f a ^ 2) -
+            2 * pmfPairExp μ μ (fun a b => f a * f b) +
+              pmfPairExp μ μ (fun a b => f b ^ 2) := by
+              have hscale :
+                  pmfPairExp μ μ (fun a b => 2 * (f a * f b)) =
+                    2 * pmfPairExp μ μ (fun a b => f a * f b) := by
+                unfold pmfPairExp
+                calc
+                  pmfExp μ
+                      (fun a => pmfExp μ (fun b => 2 * (f a * f b))) =
+                      pmfExp μ
+                        (fun a => 2 * pmfExp μ (fun b => f a * f b)) := by
+                          refine pmfExp_congr μ ?_
+                          intro a
+                          rw [pmfExp_const_mul]
+                  _ = 2 * pmfExp μ
+                      (fun a => pmfExp μ (fun b => f a * f b)) := by
+                        rw [pmfExp_const_mul]
+              rw [pmfPairExp_add, pmfPairExp_sub, hscale]
+      _ =
+          pmfExp μ (fun a => f a ^ 2) -
+            2 * (pmfExp μ f * pmfExp μ f) +
+              pmfExp μ (fun a => f a ^ 2) := by
+              rw [pmfPairExp_ignore_right, pmfPairExp_ignore_left, hcross]
+      _ = 2 * pmfExp μ (fun a => f a ^ 2) -
+          2 * (pmfExp μ f) ^ 2 := by ring
+  rw [pmfVariance_eq_exp_sq_sub_sq_exp, hpairsq]
+  ring
+
+/-- The square of a finite PMF expectation is at most the expected square. -/
+theorem pmfExp_sq_le_pmfExp_sq
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (f : α → ℝ) :
+    (pmfExp μ f) ^ 2 ≤ pmfExp μ (fun a => f a ^ 2) := by
+  have hvar : 0 ≤ pmfVariance μ f := pmfVariance_nonneg μ f
+  rw [pmfVariance_eq_exp_sq_sub_sq_exp] at hvar
+  linarith
+
+/-- Reindexing iid finite-product samples by an equivalence preserves variance. -/
+theorem pmfVariance_pmfProduct_equiv
+    {ι κ α : Type*} [Fintype ι] [DecidableEq ι]
+    [Fintype κ] [DecidableEq κ] [Fintype α] [DecidableEq α]
+    (e : ι ≃ κ) (μ : PMF α) (F : (κ → α) → ℝ) :
+    pmfVariance (pmfProduct ι α μ)
+        (fun sample : ι → α => F (fun j : κ => sample (e.symm j))) =
+      pmfVariance (pmfProduct κ α μ) F := by
+  have hsecond :
+      pmfExp (pmfProduct ι α μ)
+          (fun sample : ι → α => (F (fun j : κ => sample (e.symm j))) ^ 2) =
+        pmfExp (pmfProduct κ α μ) (fun sample => (F sample) ^ 2) :=
+    pmfExp_pmfProduct_equiv e μ (fun sample => (F sample) ^ 2)
+  have hmean :
+      pmfExp (pmfProduct ι α μ)
+          (fun sample : ι → α => F (fun j : κ => sample (e.symm j))) =
+        pmfExp (pmfProduct κ α μ) F :=
+    pmfExp_pmfProduct_equiv e μ F
+  calc
+    pmfVariance (pmfProduct ι α μ)
+        (fun sample : ι → α => F (fun j : κ => sample (e.symm j))) =
+        pmfExp (pmfProduct ι α μ)
+          (fun sample : ι → α => (F (fun j : κ => sample (e.symm j))) ^ 2) -
+          (pmfExp (pmfProduct ι α μ)
+            (fun sample : ι → α => F (fun j : κ => sample (e.symm j)))) ^ 2 :=
+          pmfVariance_eq_exp_sq_sub_sq_exp _ _
+    _ = pmfExp (pmfProduct κ α μ) (fun sample => (F sample) ^ 2) -
+          (pmfExp (pmfProduct κ α μ) F) ^ 2 := by rw [hsecond, hmean]
+    _ = pmfVariance (pmfProduct κ α μ) F :=
+          (pmfVariance_eq_exp_sq_sub_sq_exp _ _).symm
 
 @[simp] theorem pmfPairExp_zero {α β : Type*}
     [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]

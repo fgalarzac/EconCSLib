@@ -4772,12 +4772,17 @@ def source_record_status_control_projection(
             if isinstance(review_surface, Mapping)
             else None
         ),
-        "configured_rows": parse_status_rows(status_path),
+        "configured_rows": parse_status_machine_rows(status_path),
+        # The raw producer must bind the human semantic Specs and their
+        # machine-only theorem endpoints.  Keep the two roles separate in the
+        # receipt so an endpoint cannot inflate paper-review counts.
+        "human_semantic_rows": parse_status_rows(status_path),
+        "machine_proof_endpoint_rows": parse_status_proof_endpoint_rows(status_path),
         # ``parse_status_rows`` intentionally merges include and assumption
-        # rows for declaration routing.  The raw generator separately treats
-        # an assumption-listed row as an independently selected semantic-model
-        # obligation, so retain that role bit even when the merged row list is
-        # unchanged.
+        # rows for semantic declaration routing.  The raw generator separately
+        # treats an assumption-listed row as an independently selected
+        # semantic-model obligation, so retain that role bit even when the
+        # merged row list is unchanged.
         "assumption_rows": parse_status_review_surface_names(
             status_path, ("assumption_names",)
         ),
@@ -6463,7 +6468,7 @@ def preprime_source_record_manifest_resume_cache(
         row_namespace = first_declaration_namespace(
             interface_path, source_text=interface_text
         )
-        configured_rows = parse_status_rows(status_path)
+        configured_rows = parse_status_machine_rows(status_path)
         interface_declarations = parse_declarations(
             interface_path, source_text=interface_text
         )
@@ -7313,11 +7318,22 @@ def source_record_lean_import_closure_for_paper(
     status_path = paper_dir / "status.json"
     try:
         interface_path = review_source_path(root, paper_dir, status_path)
+        proof_path = proof_endpoint_source_path(
+            root, paper_dir, status_path, interface_path=interface_path
+        )
     except (OSError, ValueError) as exc:
         return None, f"review interface is unavailable: {exc}"
+    # A proof endpoint is machine-only evidence, but its module must be in
+    # the Lean-owned closure for exact Spec/proof verification.  It imports
+    # PaperInterface, which remains available for semantic source review.
+    closure_entry = (
+        proof_path
+        if proof_path is not None and parse_status_proof_endpoint_rows(status_path)
+        else interface_path
+    )
     return acquire_source_record_lean_import_closure(
         root,
-        interface_path,
+        closure_entry,
         provider=provider,
         saved_closure=saved_source_record_lean_import_closure(saved_payload),
         allow_live_lean_graph=allow_live_lean_graph,
@@ -10286,6 +10302,13 @@ def split_leading_forall(text: str) -> tuple[str, str] | None:
     """Split a leading result-level `forall`/`∀` binder from its body."""
 
     stripped = text.strip()
+    # `∀ᵐ` and `∀ᶠ` are notation for an almost-everywhere/eventually
+    # proposition, respectively—not outer Lean Pi binders.  Treating their
+    # displayed bound variable as a caller-supplied/result telescope binder
+    # creates a false arity mismatch against Lean's elaborated signature.
+    # Their complete proposition remains in the terminal result surface.
+    if stripped.startswith(("∀ᵐ", "∀ᶠ")):
+        return None
     if stripped.startswith("∀"):
         binder_start = 1
     elif re.match(r"^forall\b", stripped):
@@ -10968,8 +10991,51 @@ def parse_status_review_surface_names(status_path: Path, keys: tuple[str, ...]) 
 
 
 def parse_status_rows(status_path: Path) -> list[str]:
+    """Return the human semantic-review rows, never proof endpoints.
+
+    A paper may store exact-type theorem endpoints in ``ProofInterface.lean``.
+    They are machine proof evidence for the Specs below, not second paper
+    claims and therefore do not belong in the human review denominator.
+    """
+
     return parse_status_review_surface_names(
         status_path, ("include_names", "assumption_names")
+    )
+
+
+def parse_status_proof_endpoint_rows(status_path: Path) -> list[str]:
+    """Return the separately configured machine-only Spec proof endpoints."""
+
+    if not status_path.exists():
+        return []
+    payload = load_json_object(status_path)
+    review_surface = payload.get("review_surface")
+    if not isinstance(review_surface, Mapping):
+        return []
+    raw = review_surface.get("proposition_spec_proofs")
+    if not isinstance(raw, Mapping):
+        return []
+    return list(
+        dict.fromkeys(
+            str(proof).strip()
+            for proof in raw.values()
+            if isinstance(proof, str) and proof.strip()
+        )
+    )
+
+
+def parse_status_machine_rows(status_path: Path) -> list[str]:
+    """Return semantic rows plus their machine-only proof endpoints.
+
+    This is intentionally internal to the source-record producer.  Consumers
+    that render or count human paper claims continue to use
+    :func:`parse_status_rows`.
+    """
+
+    return list(
+        dict.fromkeys(
+            [*parse_status_rows(status_path), *parse_status_proof_endpoint_rows(status_path)]
+        )
     )
 
 
@@ -11165,6 +11231,46 @@ def review_source_path(root: Path, paper_dir: Path, status_path: Path) -> Path:
                         f"{display_path(canonical)}; got {display_path(resolved)}"
                     )
     return canonical
+
+
+def proof_endpoint_source_path(
+    root: Path,
+    paper_dir: Path,
+    status_path: Path,
+    *,
+    interface_path: Path | None = None,
+) -> Path | None:
+    """Return the optional machine-only theorem-endpoint source.
+
+    ``PaperInterface.lean`` remains the only semantic review surface.  A
+    distinct ``ProofInterface.lean`` supplies exact-type proof endpoints, so
+    raw audit tooling must read it without converting its theorems into extra
+    source-review rows.
+    """
+
+    resolved = paper_dir / "ProofInterface.lean"
+    configured = False
+    if status_path.exists():
+        payload = load_json_object(status_path)
+        review_surface = payload.get("review_surface")
+        if isinstance(review_surface, Mapping):
+            raw = review_surface.get("proof_file")
+            if isinstance(raw, str) and raw.strip():
+                configured = True
+                path = Path(raw.strip())
+                if path.is_absolute():
+                    resolved = path
+                elif len(path.parts) == 1:
+                    resolved = paper_dir / path
+                else:
+                    resolved = root / path
+    if interface_path is not None and resolved.resolve() == interface_path.resolve():
+        return None
+    if configured and not resolved.is_file():
+        raise ValueError(
+            f"{status_path}: review_surface.proof_file is missing at {resolved}"
+        )
+    return resolved if resolved.is_file() else None
 
 
 def assumption_source_path(
@@ -15872,10 +15978,21 @@ def source_claim_atom_authoritative_for_item(
     separately required before an atom route can gain a Spec companion.
     """
 
+    # The normal atom obligation remains theorem-like: a plain source
+    # definition does not become a theorem-realization obligation merely
+    # because another item enabled the map-wide atom schema.  A source map may
+    # nevertheless explicitly bind a definition-level atom to a transparent
+    # Spec (for example, when that definition supplies material nodes of a
+    # strict v11 occurrence closure).  Honor that explicit source-first
+    # binding, including malformed payloads that must fail closed below.
+    source_kind = str(source_item.get("source_kind") or "").strip().lower()
+    explicitly_atomized = SOURCE_CLAIM_ATOMS_KEY in source_item
     return bool(
         source_claim_atoms_contract_present(statement_map)
-        and str(source_item.get("source_kind") or "").strip().lower()
-        in SOURCE_CLAIM_ATOM_THEOREM_LIKE_KINDS
+        and (
+            source_kind in SOURCE_CLAIM_ATOM_THEOREM_LIKE_KINDS
+            or explicitly_atomized
+        )
     )
 
 
@@ -25660,7 +25777,20 @@ _RECURSIVE_FIELD_SELECTOR_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_']*")
 _RECURSIVE_FIELD_PARENT_ASSOCIATION_FIELDS = (
     "source_statement_association",
     "semantic_contract_source_association",
+    SOURCE_CLAIM_ATOM_ASSOCIATION_FIELD,
 )
+# A single semantic-model judgment can carry complementary receipts for the
+# same source presentation: the complete direct/Spec route and an atom route
+# for a clause inside that presentation.  They are not competing parent
+# theorems.  When both validate against the exact same one-item source
+# contract, select the canonical complete route deterministically.  Distinct
+# semantic-model judgments still remain distinct candidates and therefore
+# fail closed as ambiguous below.
+_RECURSIVE_FIELD_PARENT_ASSOCIATION_PRECEDENCE = {
+    "semantic_contract_source_association": 0,
+    "source_statement_association": 1,
+    SOURCE_CLAIM_ATOM_ASSOCIATION_FIELD: 2,
+}
 _RECURSIVE_FIELD_SEMANTIC_CONTRACT_PARENT_ROLES = frozenset(
     {"direct_evidence", "transparent_spec"}
 )
@@ -26088,13 +26218,14 @@ def _recursive_field_direct_parent_route_candidates(
             )
         if len(matching_bindings) != 1:
             continue
+        semantic_item_candidates: list[dict[str, Any]] = []
         for association_field in _RECURSIVE_FIELD_PARENT_ASSOCIATION_FIELDS:
             association = semantic_item.get(association_field)
             if not isinstance(association, Mapping):
                 continue
-            if association.get("schema") != 2:
-                continue
             if association_field == "source_statement_association":
+                if association.get("schema") != 2:
+                    continue
                 if (
                     str(association.get("association_origin") or "").strip()
                     != EXPLICIT_DIRECT_SOURCE_ROUTE_ORIGIN
@@ -26102,7 +26233,9 @@ def _recursive_field_direct_parent_route_candidates(
                     != EXPLICIT_DIRECT_SOURCE_ROUTE_ROLE
                 ):
                     continue
-            else:
+            elif association_field == "semantic_contract_source_association":
+                if association.get("schema") != 2:
+                    continue
                 # A semantic-contract association identifies either endpoint
                 # of one explicit direct/transparent-Spec pair.  Helper,
                 # support, or future route roles are not source-producing
@@ -26112,6 +26245,56 @@ def _recursive_field_direct_parent_route_candidates(
                     str(association.get("role") or "").strip()
                     not in _RECURSIVE_FIELD_SEMANTIC_CONTRACT_PARENT_ROLES
                     or str(association.get("association_origin") or "").strip()
+                ):
+                    continue
+            else:
+                # Atom routes are the direct, source-first provenance lane
+                # for one clause of a compound presentation.  They do not
+                # fall back to a declaration name: require the generator's
+                # exact source item, quote/atom receipt, and route record
+                # before they can parent a convention-scoped record field.
+                if (
+                    association.get("schema") != SOURCE_CLAIM_ATOM_ASSOCIATION_SCHEMA
+                    or str(association.get("association_origin") or "").strip()
+                    != SOURCE_CLAIM_ATOM_ROUTE_ORIGIN
+                    or str(association.get("role") or "").strip()
+                    != SOURCE_CLAIM_ATOM_ROUTE_ROLE
+                ):
+                    continue
+                association_payload = dict(association)
+                supplied_full_digest = str(
+                    association_payload.pop("association_sha256", "") or ""
+                ).strip().lower()
+                if (
+                    not SHA256_RE.fullmatch(supplied_full_digest)
+                    or supplied_full_digest != stable_digest(association_payload)
+                ):
+                    continue
+                _atom_identities, atom_errors, atom_route_present = (
+                    source_record_item_claim_atom_semantic_identities(semantic_item)
+                )
+                if atom_errors or not atom_route_present:
+                    continue
+                raw_atom_routes = association.get("source_claim_atom_routes")
+                if not isinstance(raw_atom_routes, list) or not any(
+                    isinstance(raw_atom_route, Mapping)
+                    and str(raw_atom_route.get("source_key") or "").strip()
+                    == source_item_key
+                    and semantic_contract_fully_qualified_identity(
+                        raw_atom_route.get("reviewed_lean_route")
+                    )
+                    == parent_identity_key[0]
+                    and SHA256_RE.fullmatch(
+                        str(
+                            raw_atom_route.get(
+                                "source_claim_atom_semantic_sha256"
+                            )
+                            or ""
+                        )
+                        .strip()
+                        .lower()
+                    )
+                    for raw_atom_route in raw_atom_routes
                 ):
                     continue
             association_identity = association.get("reviewed_declaration_identity")
@@ -26155,14 +26338,17 @@ def _recursive_field_direct_parent_route_candidates(
                 != expected_source_semantic_digest
             ):
                 continue
-            association_digest = str(
-                association.get("semantic_association_sha256") or ""
-            ).strip().lower()
-            if association_digest != semantic_source_association_digest(
+            expected_association_digest = semantic_source_association_digest(
                 source_identities, signature
-            ):
+            )
+            association_digest = (
+                expected_association_digest
+                if association_field == SOURCE_CLAIM_ATOM_ASSOCIATION_FIELD
+                else str(association.get("semantic_association_sha256") or "").strip().lower()
+            )
+            if association_digest != expected_association_digest:
                 continue
-            candidates.append(
+            semantic_item_candidates.append(
                 {
                     "association_field": association_field,
                     "parent_semantic_model_judgment_key": semantic_judgment_key,
@@ -26179,6 +26365,18 @@ def _recursive_field_direct_parent_route_candidates(
                     **matching_bindings[0],
                 }
             )
+        if semantic_item_candidates:
+            # Multiple valid lanes attached to *this same semantic-model
+            # item* are redundant descriptions of one reviewed parent.  This
+            # is deliberately scoped per item: duplicated semantic items,
+            # even if byte-identical, are still separate parent candidates
+            # and are rejected by the caller's exact-cardinality check.
+            semantic_item_candidates.sort(
+                key=lambda candidate: _RECURSIVE_FIELD_PARENT_ASSOCIATION_PRECEDENCE[
+                    str(candidate["association_field"])
+                ]
+            )
+            candidates.append(semantic_item_candidates[0])
     return candidates
 
 
@@ -30146,6 +30344,7 @@ def lean_check(
     max_output_chars: int,
     diagnose_failed_rows: bool = False,
     assumption_path: Path | None = None,
+    proof_source_path: Path | None = None,
 ) -> dict[str, Any]:
     requested_checked_rows = [
         {
@@ -30179,6 +30378,34 @@ def lean_check(
     except ValueError:
         interface_display = str(interface_path)
     interface_sha256 = hashlib.sha256(interface_path.read_bytes()).hexdigest()
+    interface_module = lean_module_name(root, interface_path)
+    proof_module = ""
+    proof_display = ""
+    proof_sha256 = ""
+    if proof_source_path is not None:
+        if not proof_source_path.exists():
+            return {
+                "command": "source-record current-proof-endpoint elaboration",
+                "returncode": 1,
+                "truncated": False,
+                "output": f"missing configured ProofInterface source at {proof_source_path}",
+            }
+        proof_module = lean_module_name(root, proof_source_path)
+        try:
+            proof_display = str(proof_source_path.relative_to(root))
+        except ValueError:
+            proof_display = str(proof_source_path)
+        proof_sha256 = hashlib.sha256(proof_source_path.read_bytes()).hexdigest()
+        if proof_module != import_module:
+            return {
+                "command": "source-record current-proof-endpoint elaboration",
+                "returncode": 1,
+                "truncated": False,
+                "output": (
+                    "configured proof endpoint module does not equal the generated "
+                    f"check import module: {proof_module} != {import_module}"
+                ),
+            }
 
     build_target = import_module
     build_proc = run_source_record_subprocess(
@@ -30208,6 +30435,7 @@ def lean_check(
     # script imports the overlay before the ordinary build directory.
     artifact_library = root / ".lake" / "build" / "lib" / "lean"
     module_parts = [part for part in import_module.split(".") if part]
+    interface_module_parts = [part for part in interface_module.split(".") if part]
     if not module_parts:
         return {
             "command": "source-record current-interface elaboration",
@@ -30331,8 +30559,8 @@ def lean_check(
                 ),
             }
 
-        overlay_artifact = overlay_root.joinpath(*module_parts)
-        overlay_artifact.parent.mkdir(parents=True, exist_ok=True)
+        interface_artifact = overlay_root.joinpath(*interface_module_parts)
+        interface_artifact.parent.mkdir(parents=True, exist_ok=True)
         def remove_overlay_artifact(artifact: Path) -> None:
             """Ensure a failed fresh source pass cannot fall back to copied output."""
 
@@ -30421,7 +30649,7 @@ def lean_check(
 
         # A failed fresh elaboration must never leave a copied stale interface
         # artifact available for the following import check.
-        remove_overlay_artifact(overlay_artifact)
+        remove_overlay_artifact(interface_artifact)
 
         fresh_source_proc = run_source_record_subprocess(
             [
@@ -30433,9 +30661,9 @@ def lean_check(
                 "--root",
                 str(root),
                 "-o",
-                str(overlay_artifact.with_suffix(".olean")),
+                str(interface_artifact.with_suffix(".olean")),
                 "-i",
-                str(overlay_artifact.with_suffix(".ilean")),
+                str(interface_artifact.with_suffix(".ilean")),
                 str(interface_path),
             ],
             cwd=root,
@@ -30446,7 +30674,7 @@ def lean_check(
             "mode": "isolated_temp_overlay",
             "source_file": interface_display,
             "source_sha256": interface_sha256,
-            "isolated_artifact": f"{import_module}.olean",
+            "isolated_artifact": f"{interface_module}.olean",
             "artifact_path_mode": "temporary_overlay_precedes_lake_build",
             "selected_assumption_sources": fresh_assumption_sources,
             "returncode": fresh_source_proc.returncode,
@@ -30468,18 +30696,68 @@ def lean_check(
                 "source_elaboration": fresh_source_metadata,
                 "fresh_source_elaboration": fresh_source_metadata,
             }
-        if not overlay_artifact.with_suffix(".olean").is_file():
+        if not interface_artifact.with_suffix(".olean").is_file():
             return {
                 "command": "source-record current-interface elaboration",
                 "returncode": 1,
                 "truncated": False,
                 "output": (
                     "current PaperInterface elaboration returned success without producing "
-                    f"isolated artifact {import_module}.olean"
+                    f"isolated artifact {interface_module}.olean"
                 ),
                 "source_elaboration": fresh_source_metadata,
                 "fresh_source_elaboration": fresh_source_metadata,
             }
+
+        fresh_proof_sources: list[dict[str, Any]] = []
+        if proof_source_path is not None:
+            proof_artifact = overlay_root.joinpath(*module_parts)
+            proof_artifact.parent.mkdir(parents=True, exist_ok=True)
+            remove_overlay_artifact(proof_artifact)
+            proof_proc = run_source_record_subprocess(
+                [
+                    "lake",
+                    "env",
+                    "env",
+                    f"LEAN_PATH={overlay_root}{os.pathsep}{base_lean_path}",
+                    "lean",
+                    "--root",
+                    str(root),
+                    "-o",
+                    str(proof_artifact.with_suffix(".olean")),
+                    "-i",
+                    str(proof_artifact.with_suffix(".ilean")),
+                    str(proof_source_path),
+                ],
+                cwd=root,
+                phase="fresh ProofInterface.lean elaboration",
+                timeout_seconds=SOURCE_RECORD_LEAN_ELABORATION_TIMEOUT_SECONDS,
+            )
+            proof_metadata = {
+                "source_file": proof_display,
+                "source_sha256": proof_sha256,
+                "isolated_artifact": f"{proof_module}.olean",
+                "returncode": proof_proc.returncode,
+            }
+            fresh_proof_sources.append(proof_metadata)
+            fresh_source_metadata["selected_proof_endpoint_sources"] = fresh_proof_sources
+            proof_output = proof_proc.stdout
+            proof_truncated = len(proof_output) > max_output_chars
+            if proof_truncated:
+                proof_output = proof_output[:max_output_chars] + "\n[truncated]\n"
+            if proof_proc.returncode != 0 or not proof_artifact.with_suffix(".olean").is_file():
+                return {
+                    "command": (
+                        f"lake build {build_target} && lake env lean --root "
+                        f"<repository-root> -o <isolated {proof_module}.olean> "
+                        f"{proof_display}"
+                    ),
+                    "returncode": proof_proc.returncode or 1,
+                    "truncated": proof_truncated,
+                    "output": proof_output,
+                    "source_elaboration": fresh_source_metadata,
+                    "fresh_source_elaboration": fresh_source_metadata,
+                }
 
         script_path = overlay_root / "source_record_check.lean"
         script_path.write_text(script, encoding="utf-8")
@@ -30613,6 +30891,7 @@ def configured_review_reference_preflight(
     resolution_failures: list[dict[str, str]],
     no_lean: bool,
     max_output_chars: int,
+    proof_source_path: Path | None = None,
 ) -> dict[str, Any]:
     """Validate configured review references before recursive semantic scans.
 
@@ -30670,6 +30949,7 @@ def configured_review_reference_preflight(
         max_output_chars=max_output_chars,
         diagnose_failed_rows=True,
         assumption_path=assumption_path,
+        proof_source_path=proof_source_path,
     )
     preflight["lean_check"] = check
     if check.get("returncode") == 0:
@@ -30713,7 +30993,7 @@ def configured_review_reference_static_preflight(
     }
     status_path = paper_dir / "status.json"
     try:
-        configured_rows = parse_status_rows(status_path)
+        configured_rows = parse_status_machine_rows(status_path)
     except (OSError, RuntimeError, UnicodeError, ValueError, json.JSONDecodeError) as exc:
         preflight["status"] = "failed"
         preflight["diagnostic_error"] = (
@@ -30734,6 +31014,14 @@ def configured_review_reference_static_preflight(
             return preflight
         row_namespace = first_declaration_namespace(interface_path)
         interface_declarations = parse_declarations(interface_path)
+        proof_path = proof_endpoint_source_path(
+            root, paper_dir, status_path, interface_path=interface_path
+        )
+        proof_namespace = ""
+        proof_declarations: dict[str, str] = {}
+        if proof_path is not None:
+            proof_namespace = first_declaration_namespace(proof_path)
+            proof_declarations = parse_declarations(proof_path)
         assumptions_path = assumption_source_path(
             root, paper_dir, status_path, interface_path=interface_path
         )
@@ -30754,6 +31042,9 @@ def configured_review_reference_static_preflight(
             interface_match = resolve_declaration_reference(
                 row, interface_declarations, preferred_namespace=row_namespace
             )
+            proof_match = resolve_declaration_reference(
+                row, proof_declarations, preferred_namespace=proof_namespace
+            )
             assumption_match = resolve_declaration_reference(
                 row, assumption_declarations, preferred_namespace=assumption_namespace
             )
@@ -30766,19 +31057,9 @@ def configured_review_reference_static_preflight(
                 }
             )
             continue
-        if interface_match is not None and assumption_match is not None:
-            preflight["failed_configured_review_rows"].append(
-                {
-                    "row": row,
-                    "configured_reference": row,
-                    "reason": (
-                        "declared in both current review files: "
-                        f"{interface_match}, {assumption_match}"
-                    ),
-                }
-            )
-            continue
-        matches = [name for name in (interface_match, assumption_match) if name]
+        matches = [
+            name for name in (interface_match, proof_match, assumption_match) if name
+        ]
         if len(set(matches)) > 1:
             preflight["failed_configured_review_rows"].append(
                 {
@@ -31711,12 +31992,35 @@ def _run_audit(args: argparse.Namespace, root: Path) -> int:
         interface_path,
         content=authenticated_lean_source_bytes[interface_path.resolve()],
     )
-    import_module = lean_module_name(root, interface_path)
+    proof_path = proof_endpoint_source_path(
+        root, paper_dir, status_path, interface_path=interface_path
+    )
+    proof_text = ""
+    proof_source_identity: dict[str, str] | None = None
+    proof_namespace = ""
+    proof_declarations: dict[str, str] = {}
+    if proof_path is not None:
+        proof_text = authenticated_lean_source_text.get(proof_path.resolve(), "")
+        if not proof_text:
+            raise SystemExit(
+                "configured proof endpoint source is absent from the Lean-owned "
+                f"import closure: {proof_path}"
+            )
+        proof_source_identity = source_artifact_identity(
+            root,
+            proof_path,
+            content=authenticated_lean_source_bytes[proof_path.resolve()],
+        )
+        proof_namespace = first_declaration_namespace(
+            proof_path, source_text=proof_text
+        )
+        proof_declarations = parse_declarations(proof_path, source_text=proof_text)
+    import_module = lean_module_name(root, proof_path or interface_path)
 
     row_namespace = first_declaration_namespace(
         interface_path, source_text=interface_text
     )
-    configured_rows = parse_status_rows(status_path)
+    configured_rows = parse_status_machine_rows(status_path)
     auxiliary_rows = parse_status_auxiliary_rows(status_path)
     quarantined_auxiliary_rows = parse_status_quarantined_auxiliary_rows(status_path)
     interface_declarations = parse_declarations(
@@ -31757,6 +32061,9 @@ def _run_audit(args: argparse.Namespace, root: Path) -> int:
             interface_match = resolve_declaration_reference(
                 row, interface_declarations, preferred_namespace=row_namespace
             )
+            proof_match = resolve_declaration_reference(
+                row, proof_declarations, preferred_namespace=proof_namespace
+            )
             assumption_match = resolve_declaration_reference(
                 row, assumption_declarations, preferred_namespace=assumption_namespace
             )
@@ -31769,19 +32076,9 @@ def _run_audit(args: argparse.Namespace, root: Path) -> int:
                 }
             )
             continue
-        if interface_match is not None and assumption_match is not None:
-            configured_reference_resolution_failures.append(
-                {
-                    "row": row,
-                    "configured_reference": row,
-                    "reason": (
-                        "declared in both current review files: "
-                        f"{interface_match}, {assumption_match}"
-                    ),
-                }
-            )
-            continue
-        matches = [name for name in (interface_match, assumption_match) if name]
+        matches = [
+            name for name in (interface_match, proof_match, assumption_match) if name
+        ]
         if len(set(matches)) > 1:
             configured_reference_resolution_failures.append(
                 {
@@ -31799,6 +32096,7 @@ def _run_audit(args: argparse.Namespace, root: Path) -> int:
         qualified = matches[0]
         source = (
             interface_declarations.get(qualified)
+            or proof_declarations.get(qualified)
             or assumption_declarations[qualified]
         )
         declarations[row] = source
@@ -31807,6 +32105,9 @@ def _run_audit(args: argparse.Namespace, root: Path) -> int:
         if qualified in assumption_declarations:
             assumption_row_names.add(row)
             selected_row_source_paths[row] = assumptions_path
+        elif qualified in proof_declarations:
+            assert proof_path is not None
+            selected_row_source_paths[row] = proof_path
         else:
             selected_row_source_paths[row] = interface_path
 
@@ -31833,6 +32134,7 @@ def _run_audit(args: argparse.Namespace, root: Path) -> int:
         resolution_failures=configured_reference_resolution_failures,
         no_lean=bool(args.no_lean),
         max_output_chars=args.max_lean_output_chars,
+        proof_source_path=proof_path,
     )
     if configured_review_preflight.get("status") == "failed":
         return emit_configured_review_reference_preflight_failure(
@@ -32492,6 +32794,8 @@ def _run_audit(args: argparse.Namespace, root: Path) -> int:
     source_identities_by_path = {
         interface_path.resolve(): interface_source_identity,
     }
+    if proof_source_identity is not None and proof_path is not None:
+        source_identities_by_path[proof_path.resolve()] = proof_source_identity
     if assumption_source_identity is not None:
         source_identities_by_path[assumptions_path.resolve()] = assumption_source_identity
     configured_review_rows: list[dict[str, Any]] = []
@@ -34895,13 +35199,28 @@ def fast_saved_source_record_identity_payload(
     status_path = paper_dir / "status.json"
     try:
         interface_path = review_source_path(root, paper_dir, status_path)
+        proof_path = proof_endpoint_source_path(
+            root, paper_dir, status_path, interface_path=interface_path
+        )
     except (OSError, ValueError) as exc:
         return failure("review interface is unavailable: " + str(exc))
+
+    # The raw audit may enter through a separately configured proof endpoint
+    # so Lean can check the exact Spec-to-theorem route.  That endpoint imports
+    # the one semantic PaperInterface surface.  Fast reuse must validate the
+    # saved closure against the same entrypoint as fresh raw generation; using
+    # PaperInterface here would falsely classify a valid proof-interface
+    # receipt as a foreign interface.
+    closure_entry = (
+        proof_path
+        if proof_path is not None and parse_status_proof_endpoint_rows(status_path)
+        else interface_path
+    )
 
     try:
         closure = source_record_lean_import_closure_from_record(
             root,
-            interface_path,
+            closure_entry,
             payload.get(SOURCE_RECORD_LEAN_IMPORT_CLOSURE_FIELD),
         )
     except SourceRecordLeanImportClosureStaleError as exc:

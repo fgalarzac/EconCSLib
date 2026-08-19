@@ -1,0 +1,1142 @@
+% Generated human-review packet template.  Source records, Lean statements,
+% and raw-source-to-Spec screening fields are substituted by
+% scripts/review_dashboard_packet.py.
+% Do not hand-edit generated packets; annotate the PDF or reconcile notes into
+% the paper-local human-review log.
+\documentclass[10pt]{article}
+\usepackage[margin=0.43in]{geometry}
+\usepackage{fontspec}
+\setmainfont{Latin Modern Roman}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{fvextra}
+\usepackage{enumitem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.15em}
+\linespread{0.92}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+\DefineVerbatimEnvironment{ReviewVerbatim}{Verbatim}{breaklines=true,breakanywhere=true,fontsize=\scriptsize}
+\newcommand{\reviewerbox}{%
+  \par\noindent\fbox{\parbox{0.96\linewidth}{\rule{0pt}{0.38in}}}\par
+}
+\newcommand{\reviewmatch}[1]{%
+  \par\noindent\textbf{Reviewer check:} $\square$\; #1\par
+  \noindent\emph{If left unchecked, explain the discrepancy or uncertainty below.}\par
+}
+
+\begin{document}
+\fontsize{9}{10}\selectfont
+
+\begin{center}
+{\LARGE Human review packet: DSWG24DiscretizationBias}\\[0.35em]
+\small Generated from byte-pinned source excerpts, the expanded PaperInterface
+specifications, and hash-bound raw-source-to-Spec screening records.
+\end{center}
+
+\noindent\textbf{Paper:} DSWG24DiscretizationBias\\
+\textbf{Paper id:} \texttt{DSWG24DiscretizationBias}\\
+\textbf{Source version:} arXiv:2405.16762; byte-pinned publication source record\\
+\textbf{Source record:} \texttt{audit/paper\_statement\_map.json}\\
+\textbf{Rows:} 17\\
+\textbf{Generated:} 2026-08-19\\
+\textbf{Source URL:} \href{https://arxiv.org/pdf/2405.16762}{official source}
+
+\noindent\fbox{\parbox{0.96\linewidth}{\textbf{Review status:} 0/17 source-claim screens; 0/9 library prerequisite screens. This is a review worksheet while those direct checks remain pending; it is not a final validation receipt.}}\par
+
+
+
+\section*{How to use this packet}
+For each source claim, compare the exact source excerpts with the expanded
+PaperInterface specification. Mark up this PDF or fill the blank reviewer box in the TeX source;
+return the annotated file for reconciliation into the paper-local human-review
+log.
+
+\section*{Open the interactive dashboard}
+The interactive dashboard is an optional alternative to using this PDF; it
+presents the same review surface rather than an additional review requirement.
+After forking and cloning (or pulling) EconCSLib, run the following from the
+repository root. The cache command is needed only the first time in a new clone.
+\begin{ReviewVerbatim}
+cd <your-EconCSLib-checkout>
+lake exe cache get
+python3 scripts/review_dashboard.py --paper DSWG24DiscretizationBias --serve
+\end{ReviewVerbatim}
+Open \url{http://127.0.0.1:8765/} in a browser and keep that terminal running
+while reviewing. The dashboard records saved annotations in this paper's
+reviewer-owned review record.
+
+\section*{Contents}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-section-62111921f3668458}{Semantic library prerequisites (9; not paper claims)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-prerequisite-1ba21d6a145843fe}{EconCSLib.Decision.MonotoneExpectation}
+\item \hyperlink{library-prerequisite-d23d58c11a4ba279}{EconCSLib.Decision.FiniteLinearExpectation}
+\item \hyperlink{library-prerequisite-cf8d30fbaa7eab2a}{EconCSLib.Decision.IsPointwiseMax}
+\item \hyperlink{library-prerequisite-aeeb723ddae150e9}{EconCSLib.Decision.averageScore}
+\item \hyperlink{library-prerequisite-d8de4d5952ae79e0}{EconCSLib.Decision.datasetAccuracy}
+\item \hyperlink{library-prerequisite-e0ab839a0c73984a}{EconCSLib.Decision.expectedDecisionAccuracy}
+\item \hyperlink{library-prerequisite-5f9b15d72189cab5}{EconCSLib.Decision.expectedObjective}
+\item \hyperlink{library-prerequisite-e5c7eedc40c11b7a}{EconCSLib.pmfExp}
+\item \hyperlink{library-prerequisite-7fec9dedef722fc8}{EconCSLib.pmfProb}
+\end{itemize}
+\item \hyperlink{source-section-f10b5f68e4acf3dc}{Source claims (17)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-1966e78967344232}{theorem1ii\_perfect\_classifier\_zero\_biasSpec}
+\item \hyperlink{source-claim-94d82572ce30633e}{theorem2iii\_non\_argmax\_not\_paretoSpec}
+\item \hyperlink{source-claim-9ffb824c48c4cf97}{theorem2iii\_weighted\_objective\_maximizer\_agrees\_argmaxSpec}
+\item \hyperlink{source-claim-e99b78e6cf17d423}{tie\_broken\_argmax\_definitionSpec}
+\item \hyperlink{source-claim-4bfc3aed59b0dc06}{thompson\_sampling\_definitionSpec}
+\item \hyperlink{source-claim-4822dab29e865f72}{independent\_rule\_definitionSpec}
+\item \hyperlink{source-claim-39ae869114aca78a}{integer\_optimization\_rule\_definitionSpec}
+\item \hyperlink{source-claim-ec32b7cd29afa460}{bayes\_optimal\_definitionSpec}
+\item \hyperlink{source-claim-7d95c2576dd31d3f}{pareto\_optimality\_definitionSpec}
+\item \hyperlink{source-claim-4662dc8e8bb960d7}{nontrivial\_reference\_family\_definitionSpec}
+\item \hyperlink{source-claim-d69492a6cc9555ec}{posterior\_simplex\_definitionSpec}
+\item \hyperlink{source-claim-54a3ee9bbb8f086b}{calibration\_definitionSpec}
+\item \hyperlink{source-claim-861b407dcf52f582}{theorem1i\_no\_information\_biasSpec}
+\item \hyperlink{source-claim-d8ad786b7cc58022}{theorem1iii\_argmax\_bias\_le\_maeSpec}
+\item \hyperlink{source-claim-d6b9878258465151}{theorem1iii\_tight\_binary\_exampleSpec}
+\item \hyperlink{source-claim-82ddd45159ec7ca3}{theorem2i\_joint\_rule\_existsSpec}
+\item \hyperlink{source-claim-cc8ba41c41752422}{theorem2ii\_argmax\_accuracy\_maximizingSpec}
+\end{itemize}
+\end{itemize}
+
+\clearpage
+\hypertarget{library-section-62111921f3668458}{}
+\section*{Material library prerequisites}
+\hypertarget{library-prerequisite-1ba21d6a145843fe}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Decision.\allowbreak{}MonotoneExpectation}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {ω : Type u_1} (expect : (ω → ℝ) → ℝ) (f g : ω → ℝ), (∀ (x : ω), f x ≤ g x) → expect f ≤ expect g
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def MonotoneExpectation {ω : Type*} (expect : (ω → ℝ) → ℝ) : Prop :=
+  ∀ f g, (∀ x, f x ≤ g x) → expect f ≤ expect g
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-d23d58c11a4ba279}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Decision.\allowbreak{}FiniteLinearExpectation}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {ω : Type u_1} (expect : (ω → ℝ) → ℝ),
+  EconCSLib.Decision.MonotoneExpectation expect ∧
+    (∀ (c : ℝ) (f : ω → ℝ), (expect fun x => c * f x) = c * expect f) ∧
+      ∀ (f g : ω → ℝ), (expect fun x => f x + g x) = expect f + expect g
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def FiniteLinearExpectation {ω : Type*} (expect : (ω → ℝ) → ℝ) : Prop :=
+  MonotoneExpectation expect ∧
+    (∀ c f, expect (fun x => c * f x) = c * expect f) ∧
+    (∀ f g, expect (fun x => f x + g x) = expect f + expect g)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-cf8d30fbaa7eab2a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Decision.\allowbreak{}IsPointwiseMax}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {ι : Type u_1} {α : Type u_2} (score : ι → α → ℝ) (choose : ι → α) (i : ι) (a : α), score i a ≤ score i (choose i)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def IsPointwiseMax {ι α : Type*} (score : ι → α → ℝ) (choose : ι → α) : Prop :=
+  ∀ i a, score i a ≤ score i (choose i)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-aeeb723ddae150e9}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Decision.\allowbreak{}averageScore}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{ι : Type u_1} →
+  {α : Type u_2} →
+    [inst : Fintype ι] → (score : ι → α → ℝ) → (choose : ι → α) → (∑ i, score i (choose i)) / ↑(Fintype.card ι)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def averageScore {ι α : Type*} [Fintype ι]
+    (score : ι → α → ℝ) (choose : ι → α) : ℝ :=
+  (∑ i : ι, score i (choose i)) / (Fintype.card ι : ℝ)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-d8de4d5952ae79e0}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Decision.\allowbreak{}datasetAccuracy}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{ι : Type u_1} →
+  {α : Type u_2} →
+    [inst : Fintype ι] →
+      [inst_1 : DecidableEq α] →
+        (truth decision : ι → α) → EconCSLib.Decision.averageScore (fun i a => if a = truth i then 1 else 0) decision
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def datasetAccuracy {ι α : Type*} [Fintype ι] [DecidableEq α]
+    (truth decision : ι → α) : ℝ :=
+  averageScore (fun i a => if a = truth i then (1 : ℝ) else 0) decision
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e0ab839a0c73984a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Decision.\allowbreak{}expectedDecisionAccuracy}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{ω : Type u_1} →
+  {σ : Type u_2} →
+    {ι : Type u_3} →
+      {α : Type u_4} →
+        [inst : Fintype ι] →
+          [inst_1 : DecidableEq α] →
+            (expect : (ω → ℝ) → ℝ) →
+              (obs : ω → σ) →
+                (truth : ω → ι → α) →
+                  (rule : σ → ι → α) → expect fun x => EconCSLib.Decision.datasetAccuracy (truth x) (rule (obs x))
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def expectedDecisionAccuracy {ω σ ι α : Type*}
+    [Fintype ι] [DecidableEq α]
+    (expect : (ω → ℝ) → ℝ) (obs : ω → σ)
+    (truth : ω → ι → α) (rule : σ → ι → α) : ℝ :=
+  expect (fun x => datasetAccuracy (truth x) (rule (obs x)))
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-5f9b15d72189cab5}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Decision.\allowbreak{}expectedObjective}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{ω : Type u_1} →
+  {σ : Type u_2} →
+    {β : Type u_3} →
+      (expect : (ω → ℝ) → ℝ) →
+        (obs : ω → σ) → (objective : σ → β → ℝ) → (rule : σ → β) → expect fun x => objective (obs x) (rule (obs x))
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def expectedObjective {ω σ β : Type*}
+    (expect : (ω → ℝ) → ℝ) (obs : ω → σ)
+    (objective : σ → β → ℝ) (rule : σ → β) : ℝ :=
+  expect (fun x => objective (obs x) (rule (obs x)))
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e5c7eedc40c11b7a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfExp}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} → [inst : Fintype α] → [DecidableEq α] → (μ : PMF α) → (f : α → ℝ) → ∑ a, (μ a).toReal * f a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfExp {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (f : α → ℝ) : ℝ :=
+  ∑ a, (μ a).toReal * f a
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-7fec9dedef722fc8}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] →
+    [inst_1 : DecidableEq α] →
+      (μ : PMF α) → (p : α → Prop) → [inst_2 : DecidablePred p] → EconCSLib.pmfExp μ fun a => if p a then 1 else 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfProb {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (p : α → Prop) [DecidablePred p] : ℝ :=
+  pmfExp μ (fun a => if p a then 1 else 0)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\clearpage
+\hypertarget{source-claim-1966e78967344232}{}
+\hypertarget{source-section-f10b5f68e4acf3dc}{}
+\section*{Source claims}
+\subsection*{Review row 1}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 642-\allowbreak{}666\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 1. Argmax bias depends on predictive uncertainty, i.e., how much information features x provide
+about the true class label. Consider calibrated classifier q and the argmax decision rule Dargmax . Let N > K
+and consider a reference distribution of either the aggregate posterior or the prior. Then,
+  (i). Suppose x provides no information and q(y, x) = Pr(y) for all x, y. Then, amplification bias is
+       maximized and all data points are classified as a plurality class:
+                                                  (
+                                                    1 − Pr(y), if y = arg maxw p(w),
+                            BIAS(y, Dargmax ) =
+                                                    − Pr(y),      otherwise.
+   9 Note that, though related, mean average error of the continuous predictor q(y, x) is not equivalent to expected zero-one
+
+loss of the discrete decisions. The latter, our measure of decision accuracy, also depends on how the continuous predictor is
+discretized.                                n                                           o
+  10 For all c of non-zero measure: ∀c ∈
+                                                 R
+                                             c : (x,y) I[q(y, x) = c]f (x, y)d(y, x) > 0 . Further note that calibration implies
+Bayesian consistency, i.e., the continuous model cumulatively assigns the proper mass to each class y: EX [q(y, x)] = Pr(y).
+
+
+                                                              11
+
+[form-feed in source extraction]
+                                                                                   (
+                                                                                    1,                                                                        if z = y,
+  (ii). Suppose the classifier is perfect, i.e., ∀(x, y) ∼ FXY , we have q(z, x) =                                                                                       Then, there
+                                                                                    0,                                                                        otherwise.
+        is no amplification bias, BIAS(y, Dargmax ) = 0.
+
+[Next verbatim source excerpt]
+
+Theorem 1. Argmax bias depends on predictive uncertainty, i.e., how much information features x provide
+about the true class label. Consider calibrated classifier q and the argmax decision rule Dargmax . Let N > K
+and consider a reference distribution of either the aggregate posterior or the prior. Then,
+  (i). Suppose x provides no information and q(y, x) = Pr(y) for all x, y. Then, amplification bias is
+       maximized and all data points are classified as a plurality class:
+                                                  (
+                                                    1 − Pr(y), if y = arg maxw p(w),
+                            BIAS(y, Dargmax ) =
+                                                    − Pr(y),      otherwise.
+   9 Note that, though related, mean average error of the continuous predictor q(y, x) is not equivalent to expected zero-one
+
+loss of the discrete decisions. The latter, our measure of decision accuracy, also depends on how the continuous predictor is
+discretized.                                n                                           o
+  10 For all c of non-zero measure: ∀c ∈
+                                                 R
+                                             c : (x,y) I[q(y, x) = c]f (x, y)d(y, x) > 0 . Further note that calibration implies
+Bayesian consistency, i.e., the continuous model cumulatively assigns the proper mass to each class y: EX [q(y, x)] = Pr(y).
+
+
+                                                              11
+
+[form-feed in source extraction]
+                                                                                   (
+                                                                                    1,                                                                        if z = y,
+  (ii). Suppose the classifier is perfect, i.e., ∀(x, y) ∼ FXY , we have q(z, x) =                                                                                       Then, there
+                                                                                    0,                                                                        otherwise.
+        is no amplification bias, BIAS(y, Dargmax ) = 0.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {X : Type u_1} {Y : Type u_2} [inst : Fintype X] [inst_1 : DecidableEq X] [inst_2 : Fintype Y]
+  [inst_3 : DecidableEq Y] (μ : PMF (X × Y)) (q : X → Y → ℝ) (rule : X → Y) (y : Y),
+  DSWG24DiscretizationBias.ProofBridge.perfectClassifierOnSupport μ q rule →
+    DSWG24DiscretizationBias.Finite.paperBias μ rule (DSWG24DiscretizationBias.ProofBridge.prior μ) y = 0 ∧
+      DSWG24DiscretizationBias.Finite.paperBias μ rule (DSWG24DiscretizationBias.Finite.paperAggregatePosterior μ q) y =
+        0
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.theorem1ii_perfect_classifier_zero_bias
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-94d82572ce30633e}{}
+\section*{Review row 2}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 756-\allowbreak{}763\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 2. Consider Bayes optimal q, and N > K. For all F :
+   (i). For every γ, pref there exists a joint decision-making rule that maximizes Oγ (D, q, pref ) in Equa-
+        tion (3).
+
+  (ii). The argmax decision rule Dargmax maximizes O1 (D, q, pref ), i.e., is accuracy maximizing.
+ (iii). Dargmax is the only Pareto optimal independent decision rule for non-trivial pref ∈ P. No independent
+        decision rule D maximizes objective Oγ for any γ, unless γ = 1 and D agrees with Dargmax with
+        probability 1.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {X : Type u_1} [inst : Fintype X] [inst_1 : DecidableEq X] {N K : ℕ} (μ : PMF X) (posterior : X → Fin K → ℝ)
+  (rule argmaxRule : X → Fin K) (aggregateArgmax : (Fin N → X) → Fin K) (prefAt : (Fin N → X) → Fin K → ℝ),
+  (∀ (x : X), DSWG24DiscretizationBias.ProofBridge.isFirstArgmax (posterior x) (argmaxRule x)) →
+    DSWG24DiscretizationBias.ProofBridge.sourcePNq
+        (fun sample => DSWG24DiscretizationBias.Theorem2iii.sampledPosterior posterior sample) aggregateArgmax prefAt →
+      0 < N →
+        (DSWG24DiscretizationBias.Pareto.ParetoOptimal
+            (DSWG24DiscretizationBias.Theorem2iii.expectedDatasetAccuracy
+              (DSWG24DiscretizationBias.Theorem2iii.iidSamplePMF μ N) fun sample =>
+              DSWG24DiscretizationBias.Theorem2iii.sampledPosterior posterior sample)
+            (DSWG24DiscretizationBias.Theorem2iii.expectedDatasetFidelityAt
+              (DSWG24DiscretizationBias.Theorem2iii.iidSamplePMF μ N) prefAt)
+            fun sample => DSWG24DiscretizationBias.Theorem2iii.sampledDecision rule sample) →
+          (EconCSLib.pmfProb μ fun x => rule x ≠ argmaxRule x) = 0
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.theorem2iii_non_argmax_not_pareto
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-9ffb824c48c4cf97}{}
+\section*{Review row 3}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 756-\allowbreak{}763\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 2. Consider Bayes optimal q, and N > K. For all F :
+   (i). For every γ, pref there exists a joint decision-making rule that maximizes Oγ (D, q, pref ) in Equa-
+        tion (3).
+
+  (ii). The argmax decision rule Dargmax maximizes O1 (D, q, pref ), i.e., is accuracy maximizing.
+ (iii). Dargmax is the only Pareto optimal independent decision rule for non-trivial pref ∈ P. No independent
+        decision rule D maximizes objective Oγ for any γ, unless γ = 1 and D agrees with Dargmax with
+        probability 1.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {X : Type u_1} [inst : Fintype X] [inst_1 : DecidableEq X] {N K : ℕ} (μ : PMF X) (posterior : X → Fin K → ℝ)
+  (rule argmaxRule : X → Fin K) (aggregateArgmax : (Fin N → X) → Fin K) (prefAt : (Fin N → X) → Fin K → ℝ) (γ : ℝ),
+  (∀ (x : X), DSWG24DiscretizationBias.ProofBridge.isFirstArgmax (posterior x) (argmaxRule x)) →
+    DSWG24DiscretizationBias.ProofBridge.sourcePNq
+        (fun sample => DSWG24DiscretizationBias.Theorem2iii.sampledPosterior posterior sample) aggregateArgmax prefAt →
+      0 ≤ γ →
+        γ < 1 →
+          0 < N →
+            (∀ (other : (Fin N → X) → Fin N → Fin K),
+                DSWG24DiscretizationBias.Pareto.weightedObjective γ
+                    (DSWG24DiscretizationBias.Theorem2iii.expectedDatasetAccuracy
+                      (DSWG24DiscretizationBias.Theorem2iii.iidSamplePMF μ N) fun sample =>
+                      DSWG24DiscretizationBias.Theorem2iii.sampledPosterior posterior sample)
+                    (DSWG24DiscretizationBias.Theorem2iii.expectedDatasetFidelityAt
+                      (DSWG24DiscretizationBias.Theorem2iii.iidSamplePMF μ N) prefAt)
+                    other ≤
+                  DSWG24DiscretizationBias.Pareto.weightedObjective γ
+                    (DSWG24DiscretizationBias.Theorem2iii.expectedDatasetAccuracy
+                      (DSWG24DiscretizationBias.Theorem2iii.iidSamplePMF μ N) fun sample =>
+                      DSWG24DiscretizationBias.Theorem2iii.sampledPosterior posterior sample)
+                    (DSWG24DiscretizationBias.Theorem2iii.expectedDatasetFidelityAt
+                      (DSWG24DiscretizationBias.Theorem2iii.iidSamplePMF μ N) prefAt)
+                    fun sample => DSWG24DiscretizationBias.Theorem2iii.sampledDecision rule sample) →
+              (EconCSLib.pmfProb μ fun x => rule x ≠ argmaxRule x) = 0
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.theorem2iii_weighted_objective_maximizer_agrees_argmax
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-e99b78e6cf17d423}{}
+\section*{Review row 4}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 215-\allowbreak{}231\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+1.1.2    Overview of decision rules
+Several rules are used in academia and in practice:
+
+Argmax rule assigns, for each data point, the most likely2 class: Dargmax ({q(xi }) ≜ {ŷi = arg maxy q(y, xi )}.
+Threshold at t rule assigns a label only if the argmax class has a probability of at least t, i.e., ŷi =
+    arg maxy q(y, xi ) if maxy q(y, xi ) ≥ t, otherwise i is left uncoded.
+
+Thompson sampling for each data point i, samples a class y based on the probabilities q(y, xi ), i.e., ŷi = y
+    with probability q(y, xi ), and so in expectation will have labels matching the aggregate posterior.
+
+    These rules are all independent: the assigned label for a data point i depends on q(xi ) but not on other
+data points or their probability vectors {q(xj )}j̸=i .
+    In contrast, our proposed approach also includes joint decision optimization rules, which depend on the
+entire set of data points, as a solution to discretization bias.
+   2 Suppose ties are broken according to some consistent ordering over the classes.      In the event of ties, we will use
+arg maxy q(y, x) to denote the single class that is in the argmax set and is first in the consistent ordering among classes
+in the argmax set.
+
+[Next verbatim source excerpt]
+
+Argmax rule assigns, for each data point, the most likely2 class: Dargmax ({q(xi }) ≜ {ŷi = arg maxy q(y, xi )}.
+Threshold at t rule assigns a label only if the argmax class has a probability of at least t, i.e., ŷi =
+    arg maxy q(y, xi ) if maxy q(y, xi ) ≥ t, otherwise i is left uncoded.
+
+Thompson sampling for each data point i, samples a class y based on the probabilities q(y, xi ), i.e., ŷi = y
+    with probability q(y, xi ), and so in expectation will have labels matching the aggregate posterior.
+
+    These rules are all independent: the assigned label for a data point i depends on q(xi ) but not on other
+data points or their probability vectors {q(xj )}j̸=i .
+    In contrast, our proposed approach also includes joint decision optimization rules, which depend on the
+entire set of data points, as a solution to discretization bias.
+   2 Suppose ties are broken according to some consistent ordering over the classes.      In the event of ties, we will use
+arg maxy q(y, x) to denote the single class that is in the argmax set and is first in the consistent ordering among classes
+in the argmax set.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {N K : ℕ} (q : Fin N → Fin K → ℝ) (rule : Fin N → Fin K),
+  DSWG24DiscretizationBias.ProofBridge.isTieBrokenArgmaxRule q rule ↔
+    ∀ (i : Fin N), DSWG24DiscretizationBias.ProofBridge.isFirstArgmax (q i) (rule i)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.tie_broken_argmax_definition
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-4bfc3aed59b0dc06}{}
+\section*{Review row 5}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 222-\allowbreak{}223\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Thompson sampling for each data point i, samples a class y based on the probabilities q(y, xi ), i.e., ŷi = y
+    with probability q(y, xi ), and so in expectation will have labels matching the aggregate posterior.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {N K : ℕ} (q selectionProbability : Fin N → Fin K → ℝ),
+  DSWG24DiscretizationBias.ProofBridge.isThompsonSamplingRule q selectionProbability ↔
+    ∀ (i : Fin N) (y : Fin K), selectionProbability i y = q i y
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.thompson_sampling_definition
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-4822dab29e865f72}{}
+\section*{Review row 6}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 225-\allowbreak{}228\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+These rules are all independent: the assigned label for a data point i depends on q(xi ) but not on other
+data points or their probability vectors {q(xj )}j̸=i .
+    In contrast, our proposed approach also includes joint decision optimization rules, which depend on the
+entire set of data points, as a solution to discretization bias.
+
+[Next verbatim source excerpt]
+
+data point xi . A (potentially randomized) decision (discretization) rule D : △NY →Y
+                                                                                      N
+                                                                                         is a rule that, given a
+                                   N
+set of probability vectors {q(xi )}i=1 associated with N data points, assigns each data point i a label ŷi ∈ Y.
+
+[Next verbatim source excerpt]
+
+    Decision (discretization) rules are as defined in Section 1.1. Our theoretical results distinguish between
+independent (e.g., argmax, threhsolding, Thompson sampling) and joint (e.g., our optimization approach)
+rules. Formally, with independent rules, there exists a (potentially randomized) function d such that
+Dd ({q(xi )}) = {ŷi = d(q(y, xi ))}.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {X : Type u_1} {N K : ℕ} (rule : (Fin N → X) → Fin N → Fin K),
+  DSWG24DiscretizationBias.ProofBridge.isIndependentRule rule ↔
+    ∃ d, ∀ (xs : Fin N → X) (i : Fin N), rule xs i = d (xs i)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.independent_rule_definition
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-39ae869114aca78a}{}
+\section*{Review row 7}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 252-\allowbreak{}264\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Integer optimization rules directly optimize given objectives. We consider the rule that corresponds to
+     solving the following optimization problem, for a given γ, data points {xi }, and reference pref :
+                                                            N
+                                                                           !
+                      γ                                  1 X
+                   D ({q(xi )}, pref ) = arg max{ŷi } γ       q(ŷi , xi ) + (1 − γ)fid(pref , ŷ1:N ). (1)
+                                                         N i=1
+
+     The rule balances, parameterized by γ ∈ [0, 1], row-level scores (accuracy as measured by q) and
+     distributional fidelity.
+Aggregate posterior matching A special case of the joint optimization decision rules defined in Equa-
+    tion (1) is as γ → 0, leading to a rule that maximizes accuracy subject to the constraint that distri-
+    butional fidelity be as high as possible. We call such rules matching solutions, e.g., aggregate posterior
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {N K : ℕ} (γ : ℝ) (q : Fin N → Fin K → ℝ) (pref : Fin K → ℝ) (decision : Fin N → Fin K),
+  DSWG24DiscretizationBias.ProofBridge.maximizesEquation1 γ q pref decision ↔
+    ∀ (other : Fin N → Fin K),
+      DSWG24DiscretizationBias.ProofBridge.equation1Objective γ q pref other ≤
+        DSWG24DiscretizationBias.ProofBridge.equation1Objective γ q pref decision
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.integer_optimization_rule_definition
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-ec32b7cd29afa460}{}
+\section*{Review row 8}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 597-\allowbreak{}607\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+3.1.1    Continuous classifier and discretization rules
+Suppose we have a machine learning classifier q (e.g., trained on some other dataset) that makes continuous
+probability predictions for each class, given the data. Let q(y, x) denote the probability placed on class y
+
+
+
+                                                       10
+
+[form-feed in source extraction]
+given data x. For example, the Bayes optimal classifier is
+                                               q ∗ (y, x) ≜ Pr(Y = y|X = x).
+We will refer to p as the prior and q as our learned posterior. Let the simplex of possible probability vectors
+over the support Y be △Y , and let q(x) ∈ △Y be the vector of probabilities (q(y, x))y .
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Ω : Type u_1} {σ : Type u_2} [inst : Fintype Ω] [inst_1 : DecidableEq Ω] [inst_2 : Fintype σ]
+  [inst_3 : DecidableEq σ] {N K : ℕ} (μ : PMF Ω) (observedDataset : Ω → σ) (trueLabels : Ω → Fin N → Fin K)
+  (posterior : σ → Fin N → Fin K → ℝ),
+  DSWG24DiscretizationBias.ProofBridge.bayesOptimal μ observedDataset trueLabels posterior ↔
+    ∀ (xs : σ) (i : Fin N) (y : Fin K),
+      (EconCSLib.pmfProb μ fun w => observedDataset w = xs ∧ trueLabels w i = y) =
+        posterior xs i y * EconCSLib.pmfProb μ fun w => observedDataset w = xs
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.bayes_optimal_definition
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-7d95c2576dd31d3f}{}
+\section*{Review row 9}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 620-\allowbreak{}633\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+3.1.2    Formal metrics and Pareto optimal decision-making
+For our theoretical results, we consider the expectations of our accuracy, fidelity, and bias metrics, calculated
+over the joint distribution of the data FXY over datasets of size N (and any randomness in the decision
+rule). The expected accuracy of a decision rule D together with continuous predictor q is thus
+                                     ACCN (D, q) = EFXY [acc(y1:N , D({q(xi )}))] .                                            (2)
+Analogously FIDN (D, q, pref ) is the expectation of fidelity and BIASN (y, D, q, pref ) is the expectation of bias.
+   For a given data distribution F , continuous classifier q, reference distribution pref , and dataset size, we
+want to make effective decisions. Given the multiple desiderata, we thus want Pareto optimal decision-
+making, i.e., to adopt a rule D that maximizes, for some γ ∈ (0, 1],
+                              γ
+                             ON (D, q, pref ) = γACCN (D, q) + (1 − γ)FIDN (D, q, pref ).                                      (3)
+The weight γ is task-dependent, set by a practitioner’s expertise for whether accuracy or distributional
+fidelity is more important.
+    When clear from context, we omit q, pref , and N from the arguments for BIAS, Oγ , ACC, and FID.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Rule : Type u_1} (accuracyMetric fidelityMetric : Rule → ℝ) (rule : Rule),
+  DSWG24DiscretizationBias.ProofBridge.paretoOptimal accuracyMetric fidelityMetric rule ↔
+    DSWG24DiscretizationBias.Pareto.ParetoOptimal accuracyMetric fidelityMetric rule
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.pareto_optimality_definition
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-4662dc8e8bb960d7}{}
+\section*{Review row 10}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 744-\allowbreak{}755\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+3.3     Results: Individual discretization versus joint optimization
+Above, we study how the continuous classifier’s properties induce discretization bias, when using the argmax
+rule. We now study discrete decision-making: given an imperfect but Bayes optimal classifier, how can
+we make unbiased decisions? We show that joint decision-making, as in the program in Equation (1), is
+necessary for Pareto optimality.
+                                                                                     q
+    For the result, we define the notion of non-trivial reference distributions PN     : a reference distribution
+                                                       1
+pq : {xi } → △NY is in P N if it assigns mass at least N to the most likely class in the  dataset, i.e., at least 1
+data point would be discretized to the most likely class arg maxy i q(y, xi ).13
+                                                                   P
+
+
+[Next verbatim source excerpt]
+
+3.3     Results: Individual discretization versus joint optimization
+Above, we study how the continuous classifier’s properties induce discretization bias, when using the argmax
+rule. We now study discrete decision-making: given an imperfect but Bayes optimal classifier, how can
+we make unbiased decisions? We show that joint decision-making, as in the program in Equation (1), is
+necessary for Pareto optimality.
+                                                                                     q
+    For the result, we define the notion of non-trivial reference distributions PN     : a reference distribution
+                                                       1
+pq : {xi } → △NY is in P N if it assigns mass at least N to the most likely class in the  dataset, i.e., at least 1
+data point would be discretized to the most likely class arg maxy i q(y, xi ).13
+                                                                   P
+
+
+[Next verbatim source excerpt]
+
+                                                                                     q
+    For the result, we define the notion of non-trivial reference distributions PN     : a reference distribution
+                                                       1
+pq : {xi } → △NY is in P N if it assigns mass at least N to the most likely class in the  dataset, i.e., at least 1
+data point would be discretized to the most likely class arg maxy i q(y, xi ).13
+                                                                   P
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Sample : Type u_1} {N K : ℕ} (posterior : Sample → Fin N → Fin K → ℝ) (aggregateArgmax : Sample → Fin K)
+  (prefAt : Sample → Fin K → ℝ),
+  DSWG24DiscretizationBias.ProofBridge.sourcePNq posterior aggregateArgmax prefAt ↔
+    DSWG24DiscretizationBias.ProofBridge.referenceSimplexAt prefAt ∧
+      (∀ (sample : Sample),
+          DSWG24DiscretizationBias.ProofBridge.isAggregateFirstArgmax (posterior sample) (aggregateArgmax sample)) ∧
+        ∀ (sample : Sample), 1 / ↑N ≤ prefAt sample (aggregateArgmax sample)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.nontrivial_reference_family_definition
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-d69492a6cc9555ec}{}
+\section*{Review row 11}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 597-\allowbreak{}607\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+3.1.1    Continuous classifier and discretization rules
+Suppose we have a machine learning classifier q (e.g., trained on some other dataset) that makes continuous
+probability predictions for each class, given the data. Let q(y, x) denote the probability placed on class y
+
+
+
+                                                       10
+
+[form-feed in source extraction]
+given data x. For example, the Bayes optimal classifier is
+                                               q ∗ (y, x) ≜ Pr(Y = y|X = x).
+We will refer to p as the prior and q as our learned posterior. Let the simplex of possible probability vectors
+over the support Y be △Y , and let q(x) ∈ △Y be the vector of probabilities (q(y, x))y .
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {X : Type u_1} {Y : Type u_2} [inst : Fintype Y] (q : X → Y → ℝ),
+  DSWG24DiscretizationBias.ProofBridge.posteriorSimplex q ↔
+    (∀ (x : X), ∑ y, q x y = 1) ∧ (∀ (x : X) (y : Y), 0 ≤ q x y) ∧ ∀ (x : X) (y : Y), q x y ≤ 1
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.posterior_simplex_definition
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-54a3ee9bbb8f086b}{}
+\section*{Review row 12}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 635-\allowbreak{}658\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+3.2     Theoretical Results: Argmax bias and continuous classifier
+We first study the relationship between argmax bias and the properties of the continuous classifier. We show
+that discretization bias can occur even with unbiased (calibrated) continuous classifiers q, as long as it is
+uncertain (has non-zero error).
+    The following result holds for all calibrated classifiers. A given classifier q is calibrated when its contin-
+uous predictions are correct on average, Pr(Y = y|q(y, x) = c) = c.10 Note that the Bayes optimal classifier
+is calibrated.
+Theorem 1. Argmax bias depends on predictive uncertainty, i.e., how much information features x provide
+about the true class label. Consider calibrated classifier q and the argmax decision rule Dargmax . Let N > K
+and consider a reference distribution of either the aggregate posterior or the prior. Then,
+  (i). Suppose x provides no information and q(y, x) = Pr(y) for all x, y. Then, amplification bias is
+       maximized and all data points are classified as a plurality class:
+                                                  (
+                                                    1 − Pr(y), if y = arg maxw p(w),
+                            BIAS(y, Dargmax ) =
+                                                    − Pr(y),      otherwise.
+   9 Note that, though related, mean average error of the continuous predictor q(y, x) is not equivalent to expected zero-one
+
+loss of the discrete decisions. The latter, our measure of decision accuracy, also depends on how the continuous predictor is
+discretized.                                n                                           o
+  10 For all c of non-zero measure: ∀c ∈
+                                                 R
+                                             c : (x,y) I[q(y, x) = c]f (x, y)d(y, x) > 0 . Further note that calibration implies
+Bayesian consistency, i.e., the continuous model cumulatively assigns the proper mass to each class y: EX [q(y, x)] = Pr(y).
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {X : Type u_1} {Y : Type u_2} [inst : MeasurableSpace (X × Y)] [inst_1 : DecidableEq Y]
+  (μ : MeasureTheory.Measure (X × Y)) (q : X → Y → ℝ),
+  DSWG24DiscretizationBias.ProofBridge.calibrated μ q ↔
+    ∀ (y : Y) (s : Set ℝ),
+      MeasurableSet s →
+        ∫ (xy : X × Y), if q xy.1 y ∈ s then if xy.2 = y then 1 else 0 else 0 ∂μ =
+          ∫ (xy : X × Y), if q xy.1 y ∈ s then q xy.1 y else 0 ∂μ
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.calibration_definition
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-861b407dcf52f582}{}
+\section*{Review row 13}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 642-\allowbreak{}650\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 1. Argmax bias depends on predictive uncertainty, i.e., how much information features x provide
+about the true class label. Consider calibrated classifier q and the argmax decision rule Dargmax . Let N > K
+and consider a reference distribution of either the aggregate posterior or the prior. Then,
+  (i). Suppose x provides no information and q(y, x) = Pr(y) for all x, y. Then, amplification bias is
+       maximized and all data points are classified as a plurality class:
+                                                  (
+                                                    1 − Pr(y), if y = arg maxw p(w),
+                            BIAS(y, Dargmax ) =
+                                                    − Pr(y),      otherwise.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {X : Type u_1} {Y : Type u_2} [inst : Fintype X] [inst_1 : DecidableEq X] [Nonempty X] [inst_3 : Fintype Y]
+  [inst_4 : DecidableEq Y] (μ : PMF (X × Y)) (q : X → Y → ℝ) (z y : Y),
+  (∀ (x : X) (a : Y), q x a = DSWG24DiscretizationBias.ProofBridge.prior μ a) →
+    (∀ (a : Y), DSWG24DiscretizationBias.ProofBridge.prior μ a ≤ DSWG24DiscretizationBias.ProofBridge.prior μ z) →
+      (DSWG24DiscretizationBias.Finite.paperBias μ (fun x => z) (DSWG24DiscretizationBias.ProofBridge.prior μ) y =
+          if z = y then 1 - DSWG24DiscretizationBias.ProofBridge.prior μ y
+          else -DSWG24DiscretizationBias.ProofBridge.prior μ y) ∧
+        DSWG24DiscretizationBias.Finite.paperBias μ (fun x => z)
+            (DSWG24DiscretizationBias.Finite.paperAggregatePosterior μ q) y =
+          if z = y then 1 - DSWG24DiscretizationBias.ProofBridge.prior μ y
+          else -DSWG24DiscretizationBias.ProofBridge.prior μ y
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.theorem1i_no_information_bias
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-d8ad786b7cc58022}{}
+\section*{Review row 14}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 667-\allowbreak{}673\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+(iii). More generally, in the intermediate regime, argmax bias is upper bounded by the predictive error of
+        the classifier q:
+
+                                                                                                   BIAS(y, Dargmax ) ≤ MAE(q).                                                         (4)
+
+       The bound is tight: there exist FXY and q such that Equation (4) holds with equality for the plurality
+       class.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {X : Type u_1} {Y : Type u_2} [inst : MeasurableSpace X] [inst_1 : MeasurableSpace Y] [MeasurableSingletonClass Y]
+  [inst_3 : Fintype Y] [inst_4 : DecidableEq Y] (μ : MeasureTheory.Measure (X × Y)) [MeasureTheory.IsFiniteMeasure μ]
+  (q : X → Y → ℝ) (argmaxRule : X → Y) (y : Y),
+  Measurable argmaxRule →
+    DSWG24DiscretizationBias.ProofBridge.isArgmaxRule q argmaxRule →
+      DSWG24DiscretizationBias.ProofBridge.posteriorSimplex q →
+        (∀ (y : Y), Measurable fun xy => q xy.1 y) →
+          DSWG24DiscretizationBias.ProofBridge.calibrated μ q →
+            DSWG24DiscretizationBias.ProofBridge.continuousJointPriorBias μ argmaxRule y ≤
+              DSWG24DiscretizationBias.ProofBridge.continuousJointClassifierMAE μ q
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.theorem1iii_argmax_bias_le_mae
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-d6b9878258465151}{}
+\section*{Review row 15}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 667-\allowbreak{}673\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+(iii). More generally, in the intermediate regime, argmax bias is upper bounded by the predictive error of
+        the classifier q:
+
+                                                                                                   BIAS(y, Dargmax ) ≤ MAE(q).                                                         (4)
+
+       The bound is tight: there exist FXY and q such that Equation (4) holds with equality for the plurality
+       class.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.Finite.paperAggregateBias DSWG24DiscretizationBias.Finite.paperTheorem1TightMu
+    DSWG24DiscretizationBias.Finite.paperTheorem1TightQ DSWG24DiscretizationBias.Finite.paperTheorem1TightArgmax 0 =
+  DSWG24DiscretizationBias.ProofBridge.classifierMAE DSWG24DiscretizationBias.Finite.paperTheorem1TightMu
+    DSWG24DiscretizationBias.Finite.paperTheorem1TightQ
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.theorem1iii_tight_binary_example
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-82ddd45159ec7ca3}{}
+\section*{Review row 16}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 756-\allowbreak{}758\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 2. Consider Bayes optimal q, and N > K. For all F :
+   (i). For every γ, pref there exists a joint decision-making rule that maximizes Oγ (D, q, pref ) in Equa-
+        tion (3).
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {ω : Type u_1} {σ : Type u_2} {N K : ℕ} [inst : NeZero K],
+  2 ≤ K →
+    K < N →
+      ∀ (expect : (ω → ℝ) → ℝ),
+        EconCSLib.Decision.FiniteLinearExpectation expect →
+          ∀ (observedDataset : ω → σ) (trueLabels : ω → Fin N → Fin K) (γ : ℝ) (posterior : σ → Fin N → Fin K → ℝ)
+            (fidelityTerm : σ → (Fin N → Fin K) → ℝ),
+            (∀ (i : Fin N) (choose : σ → Fin K),
+                (expect fun x => if choose (observedDataset x) = trueLabels x i then 1 else 0) =
+                  expect fun x => posterior (observedDataset x) i (choose (observedDataset x))) →
+              ∃ optRule,
+                ∀ (rule : σ → Fin N → Fin K),
+                  DSWG24DiscretizationBias.ProofBridge.expectedObjective expect observedDataset trueLabels γ
+                      fidelityTerm rule ≤
+                    DSWG24DiscretizationBias.ProofBridge.expectedObjective expect observedDataset trueLabels γ
+                      fidelityTerm optRule
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.theorem2i_joint_rule_exists
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-cc8ba41c41752422}{}
+\section*{Review row 17}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 760\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+(ii). The argmax decision rule Dargmax maximizes O1 (D, q, pref ), i.e., is accuracy maximizing.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {ω : Type u_1} {σ : Type u_2} {N K : ℕ} [NeZero K],
+  2 ≤ K →
+    K < N →
+      ∀ (expect : (ω → ℝ) → ℝ),
+        EconCSLib.Decision.FiniteLinearExpectation expect →
+          ∀ (observedDataset : ω → σ) (trueLabels : ω → Fin N → Fin K) (posterior : σ → Fin N → Fin K → ℝ)
+            {decisionRule argmaxRule : σ → Fin N → Fin K},
+            (∀ (xs : σ), EconCSLib.Decision.IsPointwiseMax (posterior xs) (argmaxRule xs)) →
+              (∀ (i : Fin N) (choose : σ → Fin K),
+                  (expect fun x => if choose (observedDataset x) = trueLabels x i then 1 else 0) =
+                    expect fun x => posterior (observedDataset x) i (choose (observedDataset x))) →
+                EconCSLib.Decision.expectedDecisionAccuracy expect observedDataset trueLabels decisionRule ≤
+                  EconCSLib.Decision.expectedDecisionAccuracy expect observedDataset trueLabels argmaxRule
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DSWG24DiscretizationBias.PaperInterface.theorem2ii_argmax_accuracy_maximizing
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\end{document}

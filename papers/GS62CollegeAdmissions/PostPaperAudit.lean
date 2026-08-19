@@ -10,7 +10,7 @@ Every endpoint below delegates to the proved paper route imported by
 `PaperInterface.lean`. This file is an auxiliary compile receipt, not the
 paper's review surface; the review surface is `PaperInterface.lean` itself.
 
-The pinned ignored scan is `source.pdf`, SHA-256
+The pinned ignored scan is `cited publication`, SHA-256
 `953a8123e8120a86b17ae3de92cb51abb5aed420fe11b97fe2a666a8e637d09b`.
 All printed pages 9--15 were inspected directly.  Normal coverage consists of
 the two displayed college definitions, the prose marriage-instability

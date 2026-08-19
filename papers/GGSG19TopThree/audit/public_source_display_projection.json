@@ -1,0 +1,441 @@
+{
+  "generator": "python3 scripts/public_source_display_projection.py",
+  "paper_id": "GGSG19TopThree",
+  "private_source_map_sha256": "f8ccf5ec13d1cfe532409b571057689ca362b7d0a21b5338899969f7b6feaca0",
+  "public_manifest_path": "papers/GGSG19TopThree/audit/public_source_display_projection.json",
+  "public_source_map_sha256": "c4346ec4085c41651ed3f6b6fd4c2d6e826db020b950019323aa026e5d0e307d",
+  "raw_source_artifact_included": false,
+  "raw_source_display_material": "selected_byte_pinned_source_anchor_quotes",
+  "schema": 1,
+  "selected_source_item_ids": [
+    "assumption_mallows_nontrivial_winner_and_parameter_domain",
+    "assumption_nontrivial_k_approval_cutoffs",
+    "assumption_pairwise_approval_ternary_gap_domain",
+    "formula_approval_one_sided_probabilities",
+    "model_cumulative_scores_ranking_and_outcome",
+    "model_k_approval_score",
+    "model_k_ranking_score",
+    "model_reasonable_positional_scoring_rules",
+    "proof_mallows_common_pivotal_pair",
+    "source_corollary_mallows_randomization_no_improvement_positive_noise",
+    "source_corollary_mallows_randomization_no_improvement_zero_noise",
+    "source_definition1_design_invariance",
+    "source_definition2_large_deviation_rate",
+    "source_definition3_rate_optimality",
+    "source_proposition1_design_invariance_iff_strict_prefix_separation",
+    "source_proposition2_pairwise_learning_rate_and_bound",
+    "source_proposition3_k_approval_closed_pairwise_rate",
+    "source_proposition4_finite_sample_M_sq_bound",
+    "source_proposition4_outcome_exact_minimum_rate",
+    "source_theorem1_randomized_scoring_no_improvement",
+    "source_theorem2_randomized_k_approval_fixed_pair_no_improvement",
+    "source_theorem_mallows_W_approval_not_rate_optimal",
+    "source_theorem_randomized_approval_can_help_W_selection"
+  ],
+  "selected_source_items": {
+    "assumption_mallows_nontrivial_winner_and_parameter_domain": {
+      "source_anchors": [
+        {
+          "line_end": 296,
+          "line_start": 292,
+          "publication_locator": "cited publication",
+          "quoted_text": "A special case for $F$ is the \\textit{Mallows} model \\cite{mallows1957non}, in which there is a ``true'' societal preference $\\sigma^*$ from which each voter's ranking is a noisy sample. In particular, \n\\[\nF_\\text{Mallows}(\\sigma) \\propto {\\phi^{d(\\sigma, \\sigma^*)}}\n\\]\nWhere $d(\\sigma, \\sigma^*)$ is the Kendall's $\\tau$ distance between rankings $\\sigma, \\sigma^*$, and $\\phi \\in [0,1]$ is the noise parameter: the smaller it is, the more concentrated $F$ is around $\\sigma^*$. ",
+          "quoted_text_sha256": "f4dd336c5d33efe47a29596ddbc50cc7364f8fed1b7c91aa630f18733ad8b91f"
+        },
+        {
+          "line_end": 734,
+          "line_start": 728,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{corollary}{lemmallowsnorando}\n\t\\label{lem:mallowsnorando}\n\t\t\tRandomization among $K$-Approval mechanisms does not improve the learning rate for selecting $W$ winners from the Mallows model. For any randomized $K$-Approval mechanism $(B,D)$, where $\\beta_p\\in B$ corresponds to $p$-Approval, for selecting $W$ winners from the Mallows model, there exists an Approval rate optimal mechanism $K^*$-Approval such that $r(K^*) \\geq r(B,D)$.\n\t\n\\end{restatable}\n\nThe proof simply notes that under the Mallows model with this goal, the candidate pair $W, W+1$ (when candidates are indexed according to reference distribution $\\sigma^*$) is pivotal regardless of the $K$-Approval mechanism used. ",
+          "quoted_text_sha256": "3476de829bdc9f743916df5f0cb770f0ec6bca2e1387a3ce30b2d2b22bd6a5d4"
+        },
+        {
+          "line_end": 756,
+          "line_start": 756,
+          "publication_locator": "cited publication",
+          "quoted_text": "Recall that in a Mallows model, each voter's ranking is a noisy sample from a reference distribution $\\sigma^*$. With this symmetric model, one may believe that setting $K=W$ is always optimal. For example, when noise parameter $\\phi = 0$ and so each voter's ranking is exactly $\\sigma^*$, $K=W$ is optimal; in fact, any other design $K \\neq W$ fails to correctly identify the set of winners even asymptotically: it would not distinguish among the first $K$ candidates in $\\sigma^*$ or among the last $M-K$ candidates. However, our next result establishes that the cases with $\\phi > 0$ are different. ",
+          "quoted_text_sha256": "fc3705da248bfe7bacd251a3d138b5c366800e1061c1e4e986f96be10e25d36b"
+        }
+      ],
+      "source_kind": "assumption"
+    },
+    "assumption_nontrivial_k_approval_cutoffs": {
+      "source_anchors": [
+        {
+          "line_end": 342,
+          "line_start": 339,
+          "publication_locator": "cited publication",
+          "quoted_text": "$\\beta$ encodes both elicitation and aggregation. For example, $K$-Approval is equivalent to $K$-ranking with score function $\\beta(k) = \\bbI[k \\leq K]$.  Furthermore, note that given $K$-ranking data, one can simulate $K'$-ranking elicitation for $K'\\leq K$ with a $\\beta$ s.t. $\\beta(k) = 0$ for $k>K'$. %\n\n\nThe scoring rule $\\beta$ is a design choice made by the election organizer, and so we will refer to $\\beta$ as the election's \\textit{design}. We restrict ourselves to non-constant, non-increasing scoring rules, i.e.,  $\\beta \\in \\mB = \\{\\beta : \\forall k<\\ell \\in {1,\\dots,M}, \\beta(k)\\geq \\beta(\\ell), \\text{ and } \\exists k<\\ell, \\beta(k)> \\beta(\\ell) \\}$.",
+          "quoted_text_sha256": "f440f374d963e2442f4e77b755ddf6aec322e490ac601a0dd87350b3b905e2b6"
+        },
+        {
+          "line_end": 722,
+          "line_start": 708,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{theorem}{lemrandomizenotbetterapproval}\n\t\\label{lem:randomizenotbetterapproval}\n\t\n\t\tRandomization amongst $K$-Approval mechanisms does not improve the learning rate for separating a given pair of candidates $i,j$ for any asymptotically design-invariant noise model $F$ or goal $G$. For any randomized $K$-Approval mechanism $(B,D)$, where $\\beta_p\\in B$ corresponds to $p$-Approval, for any $F$, $G$, there exists a mechanism $K_{ij}^*$-Approval such that $r_{ij}(K_{ij}^*) \\geq r_{ij}(B,D)$.\n\t\t\n\t\t\n%\n\t\t \n\t\t \n%\n\t\n%\n%\n%\n\\end{restatable}",
+          "quoted_text_sha256": "70081d1e1abc9999a2211de9a980520ba65d61cec7bc000d035b43699fa197f5"
+        },
+        {
+          "line_end": 1522,
+          "line_start": 1514,
+          "publication_locator": "cited publication",
+          "quoted_text": "\tThe result follows by convexity. Consider a randomization of $K$-Approval mechanisms for $K\\in\\{1, \\dots, M-1\\}$, where $K$-Approval is used with probability $d^K$. \n\t\n%\n\t\n\tThe resulting approval probabilities are: $t^i_{ij} = \\sum_{K=1}^{M-1} d^K t^i_{ij}(K), t^j_{ij} = \\sum_{K=1}^{M-1} d^K t^j_{ij}(K)$. By convexity:\n\t\\begin{align*}\n\tr\\left(\\sum_{K=1}^{M-1} d^K t^i_{ij}(K), \\sum_{K=1}^{M-1} d^K t^j_{ij}(K)\\right) &\\leq \\sum_{K=1}^{M-1} d^K r\\left(t^i_{ij}(K), t^j_{ij}(K)\\right)\\\\\n\t&= \\sum_{K=1}^{M-1} d^K  r_{ij}(K)\\\\\n\t&\\leq \\max_K r_{ij}(K)",
+          "quoted_text_sha256": "c2a1db5eb6a57a5a70fb81f17aecb180ca8f308df626a6e2d741388ab2e917f3"
+        }
+      ],
+      "source_kind": "assumption"
+    },
+    "assumption_pairwise_approval_ternary_gap_domain": {
+      "source_anchors": [
+        {
+          "line_end": 516,
+          "line_start": 508,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{proposition}{lempairwiseapproval}\n\t\\label{lem:pairwiselearning_approval}\n\tConsider $\\beta$ consistent with $K$-Approval voting for some fixed $K$, and candidates $i,j$ such that $s_i > s_j$. Then the large deviation rate $r_{ij}(\\beta)$ in Proposition~\\ref{thm:pairwiselearning} is\n\t\\begin{align*}\n\tr_{ij}(K) &= -\\log\\left( 2\\sqrt{t_{ij}^i(K)t_{ij}^j(K)} + 1 - t_{ij}^i(K) - t_{ij}^j(K) \\right)\n\t\\end{align*}\n\tWhere $t^i_{ij}(K) \\triangleq \\pr_F(\\sigma_v(i) \\leq K, \\sigma_v(j) > K)$, i.e., the probability that a voter approves $i$ but not $j$.\n%\n\\end{restatable}",
+          "quoted_text_sha256": "444e9e30ced70178bb49d831045023659ff83fc093a3b5a66a6aec811ed48ce5"
+        },
+        {
+          "line_end": 1318,
+          "line_start": 1309,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\lempairwiseapproval*\n\\begin{proof}\n\tWith $K$-approval voting, $A^{ij}_v$ becomes\n\t\\begin{align*}\n\tA_v = \\begin{cases}\n\t1 & \\text{w.p. } t^i_{ij}, \\text{ i.e., when candidate $i$ approved but $j$ not approved}\\\\\n\t0 & \\text{w.p. } 1-t^i_{ij} - t^j_{ij}, \\text{ i.e., when both approved, or neither approved}\\\\\n\t-1 & \\text{w.p. } t^j_{ij}, \\text{ i.e., when candidate $j$ approved but $i$ not approved}\n\t\\end{cases}\n\t\\end{align*}",
+          "quoted_text_sha256": "323080cdcd6fc0fe86173849e4a84857c6a4ac9c3be7e647d17f1e588cf18420"
+        }
+      ],
+      "source_kind": "assumption"
+    },
+    "formula_approval_one_sided_probabilities": {
+      "source_anchors": [
+        {
+          "line_end": 516,
+          "line_start": 508,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{proposition}{lempairwiseapproval}\n\t\\label{lem:pairwiselearning_approval}\n\tConsider $\\beta$ consistent with $K$-Approval voting for some fixed $K$, and candidates $i,j$ such that $s_i > s_j$. Then the large deviation rate $r_{ij}(\\beta)$ in Proposition~\\ref{thm:pairwiselearning} is\n\t\\begin{align*}\n\tr_{ij}(K) &= -\\log\\left( 2\\sqrt{t_{ij}^i(K)t_{ij}^j(K)} + 1 - t_{ij}^i(K) - t_{ij}^j(K) \\right)\n\t\\end{align*}\n\tWhere $t^i_{ij}(K) \\triangleq \\pr_F(\\sigma_v(i) \\leq K, \\sigma_v(j) > K)$, i.e., the probability that a voter approves $i$ but not $j$.\n%\n\\end{restatable}",
+          "quoted_text_sha256": "444e9e30ced70178bb49d831045023659ff83fc093a3b5a66a6aec811ed48ce5"
+        },
+        {
+          "line_end": 1247,
+          "line_start": 1245,
+          "publication_locator": "cited publication",
+          "quoted_text": "\n$t_{ij}^i(K)$ is the probability that $i$ is approved but $j$ is not, using $K$-Approval.\n",
+          "quoted_text_sha256": "f20251a57b9e551a630e6c35667b220d9442c1b448b9a1f6ed5213671fb1d9d3"
+        }
+      ],
+      "source_kind": "formula"
+    },
+    "model_cumulative_scores_ranking_and_outcome": {
+      "source_anchors": [
+        {
+          "line_end": 345,
+          "line_start": 345,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\parbold{Outcome} After $N$ voters, candidate $i$'s cumulative score is $s_i^N = \\frac{1}{N} \\sum_{v=1}^N s_{iv}$. Candidates are ranked in descending order of score, to form ranking ${\\sigma}^N$, with ties broken uniformly at random. We denote the \\textit{outcome} after $N$ voters, corresponding to the goal $G$, as $O^N(M, F, \\beta, G)$. For example, for the goal of selecting $W$ winners, $O^N(M, F, \\beta, G)$ is simply the top $W$ candidates in ${\\sigma}^N$. When $(M, F, \\beta, G)$ is clear from context, we will refer to the outcome as $O^N$. ",
+          "quoted_text_sha256": "9943a3352fea7c8f32fe5a3d84f7d401ff8472edfd7fbbcd0dc1e3dfe1a57685"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "model_k_approval_score": {
+      "source_anchors": [
+        {
+          "line_end": 339,
+          "line_start": 330,
+          "publication_locator": "cited publication",
+          "quoted_text": "\t\\item [$K$-Approval] Voter $v$ selects her favorite $K$ candidates, i.e., reveals $\\{i \\,:\\, {\\sigma_v}(i) \\leq K \\}$. A candidate receives a score $s_{iv} = 1$ for being selected, $0$ otherwise. \n%\n\t\t\n%\n\t%\n\t\n\n\\end{description}\n\n$\\beta$ encodes both elicitation and aggregation. For example, $K$-Approval is equivalent to $K$-ranking with score function $\\beta(k) = \\bbI[k \\leq K]$.  Furthermore, note that given $K$-ranking data, one can simulate $K'$-ranking elicitation for $K'\\leq K$ with a $\\beta$ s.t. $\\beta(k) = 0$ for $k>K'$. %",
+          "quoted_text_sha256": "dd785a696254fe771fe34633ed118f3d4ff976d274bf9f790c2a7d77610d77d3"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "model_k_ranking_score": {
+      "source_anchors": [
+        {
+          "line_end": 329,
+          "line_start": 325,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\parbold{Elicitation and Aggregation}\nVoters vote using an elicitation mechanism. Their votes are then aggregated using a positional scoring rule, parameterized as $\\beta: \\{1,\\dots,M\\} \\mapsto \\bbR$. We consider the following mechanisms:\n\\begin{description}\n\t\\item [$K$-Ranking] Voter $v$ ranks her favorite $K$ candidates, i.e., reveals $\\{(i, {\\sigma_v}(i)) \\,:\\, {\\sigma_v}(i) \\leq K \\}$. Candidate $i$ then receives a score $s_{iv} = \\beta({\\sigma_v}(i))$ if ranked, $0$ otherwise. For example, $\\beta(k) = M-k$ for the Borda count.\\footnote{In Borda, candidates not ranked receive a score $(M-K-1)/2$, consistent with assuming they are all tied in position $(K + 1)$.}\n\t",
+          "quoted_text_sha256": "d76508734756454603ccebb3b9bc83c815308cb20a273b56d6f3d441335f17df"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "model_reasonable_positional_scoring_rules": {
+      "source_anchors": [
+        {
+          "line_end": 342,
+          "line_start": 339,
+          "publication_locator": "cited publication",
+          "quoted_text": "$\\beta$ encodes both elicitation and aggregation. For example, $K$-Approval is equivalent to $K$-ranking with score function $\\beta(k) = \\bbI[k \\leq K]$.  Furthermore, note that given $K$-ranking data, one can simulate $K'$-ranking elicitation for $K'\\leq K$ with a $\\beta$ s.t. $\\beta(k) = 0$ for $k>K'$. %\n\n\nThe scoring rule $\\beta$ is a design choice made by the election organizer, and so we will refer to $\\beta$ as the election's \\textit{design}. We restrict ourselves to non-constant, non-increasing scoring rules, i.e.,  $\\beta \\in \\mB = \\{\\beta : \\forall k<\\ell \\in {1,\\dots,M}, \\beta(k)\\geq \\beta(\\ell), \\text{ and } \\exists k<\\ell, \\beta(k)> \\beta(\\ell) \\}$.",
+          "quoted_text_sha256": "f440f374d963e2442f4e77b755ddf6aec322e490ac601a0dd87350b3b905e2b6"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "proof_mallows_common_pivotal_pair": {
+      "source_anchors": [
+        {
+          "line_end": 734,
+          "line_start": 728,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{corollary}{lemmallowsnorando}\n\t\\label{lem:mallowsnorando}\n\t\t\tRandomization among $K$-Approval mechanisms does not improve the learning rate for selecting $W$ winners from the Mallows model. For any randomized $K$-Approval mechanism $(B,D)$, where $\\beta_p\\in B$ corresponds to $p$-Approval, for selecting $W$ winners from the Mallows model, there exists an Approval rate optimal mechanism $K^*$-Approval such that $r(K^*) \\geq r(B,D)$.\n\t\n\\end{restatable}\n\nThe proof simply notes that under the Mallows model with this goal, the candidate pair $W, W+1$ (when candidates are indexed according to reference distribution $\\sigma^*$) is pivotal regardless of the $K$-Approval mechanism used. ",
+          "quoted_text_sha256": "3476de829bdc9f743916df5f0cb770f0ec6bca2e1387a3ce30b2d2b22bd6a5d4"
+        },
+        {
+          "line_end": 1535,
+          "line_start": 1532,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\lemmallowsnorando*\n\\begin{proof}\n\tWhen selecting $W$ winners out of $M$ candidates, we need to separate candidates $1 \\dots W$ from candidates $W + 1 \\dots M$. It is easy to show that the pivotal pair, regardless of which $K$ is used in $K$-Approval, is $W$,$W+1$. Applying Theorem~\\ref{lem:randomizenotbetterapproval}, then, randomization cannot help the overall rate.\n\\end{proof}",
+          "quoted_text_sha256": "a9e2b29304a69a5704868a312d1ced1125f7121df1f6bba82074c69d9d802aa3"
+        }
+      ],
+      "source_kind": "formula"
+    },
+    "source_corollary_mallows_randomization_no_improvement_positive_noise": {
+      "source_anchors": [
+        {
+          "line_end": 734,
+          "line_start": 726,
+          "publication_locator": "cited publication",
+          "quoted_text": "This theorem directly implies that, for the Mallows model, randomization among $K$-Approval voting cannot speed up learning when the goal is to identify a set of $W$ winners, as opposed to when the goal is to rank. \n\n\\begin{restatable}{corollary}{lemmallowsnorando}\n\t\\label{lem:mallowsnorando}\n\t\t\tRandomization among $K$-Approval mechanisms does not improve the learning rate for selecting $W$ winners from the Mallows model. For any randomized $K$-Approval mechanism $(B,D)$, where $\\beta_p\\in B$ corresponds to $p$-Approval, for selecting $W$ winners from the Mallows model, there exists an Approval rate optimal mechanism $K^*$-Approval such that $r(K^*) \\geq r(B,D)$.\n\t\n\\end{restatable}\n\nThe proof simply notes that under the Mallows model with this goal, the candidate pair $W, W+1$ (when candidates are indexed according to reference distribution $\\sigma^*$) is pivotal regardless of the $K$-Approval mechanism used. ",
+          "quoted_text_sha256": "016e2db3eb71e355328c972e90a44b5deb47b24d07a9f2072105f25de6af114f"
+        },
+        {
+          "line_end": 1535,
+          "line_start": 1532,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\lemmallowsnorando*\n\\begin{proof}\n\tWhen selecting $W$ winners out of $M$ candidates, we need to separate candidates $1 \\dots W$ from candidates $W + 1 \\dots M$. It is easy to show that the pivotal pair, regardless of which $K$ is used in $K$-Approval, is $W$,$W+1$. Applying Theorem~\\ref{lem:randomizenotbetterapproval}, then, randomization cannot help the overall rate.\n\\end{proof}",
+          "quoted_text_sha256": "a9e2b29304a69a5704868a312d1ced1125f7121df1f6bba82074c69d9d802aa3"
+        }
+      ],
+      "source_kind": "corollary"
+    },
+    "source_corollary_mallows_randomization_no_improvement_zero_noise": {
+      "source_anchors": [
+        {
+          "line_end": 734,
+          "line_start": 726,
+          "publication_locator": "cited publication",
+          "quoted_text": "This theorem directly implies that, for the Mallows model, randomization among $K$-Approval voting cannot speed up learning when the goal is to identify a set of $W$ winners, as opposed to when the goal is to rank. \n\n\\begin{restatable}{corollary}{lemmallowsnorando}\n\t\\label{lem:mallowsnorando}\n\t\t\tRandomization among $K$-Approval mechanisms does not improve the learning rate for selecting $W$ winners from the Mallows model. For any randomized $K$-Approval mechanism $(B,D)$, where $\\beta_p\\in B$ corresponds to $p$-Approval, for selecting $W$ winners from the Mallows model, there exists an Approval rate optimal mechanism $K^*$-Approval such that $r(K^*) \\geq r(B,D)$.\n\t\n\\end{restatable}\n\nThe proof simply notes that under the Mallows model with this goal, the candidate pair $W, W+1$ (when candidates are indexed according to reference distribution $\\sigma^*$) is pivotal regardless of the $K$-Approval mechanism used. ",
+          "quoted_text_sha256": "016e2db3eb71e355328c972e90a44b5deb47b24d07a9f2072105f25de6af114f"
+        },
+        {
+          "line_end": 1535,
+          "line_start": 1532,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\lemmallowsnorando*\n\\begin{proof}\n\tWhen selecting $W$ winners out of $M$ candidates, we need to separate candidates $1 \\dots W$ from candidates $W + 1 \\dots M$. It is easy to show that the pivotal pair, regardless of which $K$ is used in $K$-Approval, is $W$,$W+1$. Applying Theorem~\\ref{lem:randomizenotbetterapproval}, then, randomization cannot help the overall rate.\n\\end{proof}",
+          "quoted_text_sha256": "a9e2b29304a69a5704868a312d1ced1125f7121df1f6bba82074c69d9d802aa3"
+        }
+      ],
+      "source_kind": "corollary"
+    },
+    "source_definition1_design_invariance": {
+      "source_anchors": [
+        {
+          "line_end": 384,
+          "line_start": 376,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Asymptotic design invariance}\n\\label{sec:consistency}\nThe asymptotic outcome $O^*$ of an election may vary with the scoring rule $\\beta$. For example, there may be a different winner if voters are asked to identify their favorite two candidates than if they identify their single favorite candidate, if the winner in the latter case is a polarizing candidate. As an axiomatic comparison between outcomes is out of the scope of this paper, we restrict our attention to cases where all ``reasonable'' choices of different $\\beta$ asymptotically result in the same outcome (where ``reasonable'' corresponds to the set of scoring rules $\\mB$ defined above).\n\n\n\\begin{definition}\n\tA setting $(M, F)$ is \\textit{asymptotically design-invariant} for goal $G$ if any reasonable $\\beta$ induces the same outcome asymptotically. $\\exists O^*: \\forall \\beta \\in \\mB,$\n\t\\[ \\lim_{N \\to \\infty} O^N(M, F, \\beta, G) = O^*, \\text{ with probability } 1 \\]\n\\end{definition}",
+          "quoted_text_sha256": "a7cf2adcacf73a145aaf7411677181dd68593e2e374c4e9583dac10315aeec00"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "source_definition2_large_deviation_rate": {
+      "source_anchors": [
+        {
+          "line_end": 458,
+          "line_start": 449,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Learning rates}\n\nWe begin by deriving rates for how quickly a given positional scoring rule $\\beta$ learns its asymptotic outcome $O^*$ (given it exists), as a function of the voter preference model $F$. %\nIn particular, we use \\textit{large deviation rates} at which a scoring rule learns~\\cite{dembo_large_2010}. \n\\begin{definition}\n\tConsider a sequence $\\{A_N \\geq 0\\}_{N \\in \\bbN}$, where $A_N \\to 0$ . Value $r>0$ is the \\textit{large deviation rate} for $A_N$ if\n\t\\begin{align*}\n\tr = -\\lim_{N\\to\\infty}\\frac{1}{N} \\log A_N\n\t\\end{align*}\n\\end{definition} When $r>0$ exists, $A_N \\to 0$ exponentially fast, with exponent $r$ asymptotically, i.e., $A_N$ is $e^{-rN \\pm o(N)}$. These rates provide us both upper and lower bounds for the probability of an error or the number of errors in an outcome after $N$ voters, up to polynomial factors. In particular, in the propositions below, we will calculate the large deviation rate of errors in the outcome. We will also then provide (loose) upper bounds for such errors after $N$ voters that hold without any missing polynomial factors, for any $N$. These upper bounds are equivalent to Chernoff bounds. ",
+          "quoted_text_sha256": "7056215ecab4f9d7875c8f1b024aba6d1a7b731784a9cbfd31021bc86435f6d5"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "source_definition3_rate_optimality": {
+      "source_anchors": [
+        {
+          "line_end": 553,
+          "line_start": 542,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Optimal design and discussion}\nNow that we can quantify how quickly a given scoring rule $\\beta$ learns its asymptotic outcome, we apply our framework to \\textit{designing} elections, i.e., choosing an optimal scoring rule $\\beta$. For the rest of this work, we assume that the setting $(M,F)$ is asymptotically design-invariant for the goal $G$, i.e., there exists an outcome that is asymptotically induced by every reasonable scoring rule. Then, the design of an election $\\beta$ only affects the \\textit{rate} at which the election converges to the asymptotic outcome $O^*$, as calculated above. With no other constraints, then, the design challenge is simple: find the rate optimal $\\beta$.\n\\begin{definition}\n\tA scoring rule $\\beta^* \\in \\mB$ is \\textit{rate optimal} if it maximizes the rate in Proposition~\\ref{thm:goal_learning}. %\n\t%\n\t%\n\t%\n\t$K^*$-Approval is \\textit{Approval rate optimal} if it maximizes the rate among $K$-Approval mechanisms.\n\t%\n\t%\n\t%\n\\end{definition}",
+          "quoted_text_sha256": "969ace6b7339f926086a679bb710bdfb9247690737a7a00a2a8beda7538325ef"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "source_proposition1_design_invariance_iff_strict_prefix_separation": {
+      "source_anchors": [
+        {
+          "line_end": 391,
+          "line_start": 386,
+          "publication_locator": "cited publication",
+          "quoted_text": "Such design invariance only occurs under a fairly strong condition on the voter preference distribution: that the candidates can be separated into tiers (according to goal $G$) such that candidates in higher tiers are \\textit{strictly} more likely to be ranked by a voter in the top $k$ positions, for all $k<M$, than are candidates in lower tiers. \n\n\\begin{restatable}{proposition}{thmconsistency}\n\t\\label{thm:consistency} \n\tA setting $(M, F)$ for goal $G$ is asymptotically design-invariant if and only if there exist candidate tiers $O^* = \\{C_1^*\\dots C_T^*\\}$ (corresponding to $G$) s.t. $\\forall s<t$: $i \\in C^*_s, j\\in C^*_t \\implies$ $\\pr_F(\\sigma_v(i) \\leq k) > \\pr_F(\\sigma_v(j) \\leq k)$, $\\forall k\\in\\{1 \\dots M-1 \\}$. \n\\end{restatable}",
+          "quoted_text_sha256": "768979fd106d5e218266057801691063c05855ea7bc58a522d9ec9a028e3c206"
+        },
+        {
+          "line_end": 1219,
+          "line_start": 1194,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\thmconsistency*\n%\n\\begin{proof}\n\t\\begin{align*}\n\t%\n\t\\forall i \\in C: \\bbE[s_{iv}]\n\t&= \\sum_{m = 1}^M \\beta(m) \\pr_F(\\sigma_v(i) = m)\\\\\n\t&= \\sum_{m = 1}^M \\beta(m) \\pr_F(\\sigma_v(i) \\leq m) - \\sum_{m = 2}^M \\beta(m) \\pr_F(\\sigma_v(i) < m) \\\\\n\t&= \\sum_{m = 1}^M \\beta(m) \\pr_F(\\sigma_v(i) \\leq m) - \\sum_{m = 1}^{M-1} \\beta(m+1) \\pr_F(\\sigma_v(i) \\leq m) \\\\\n\t&= \\beta(M) + \\sum_{m = 1}^{M-1} \\left[ \\beta(m)- \\beta(m+1)\\right] \\pr_F(\\sigma_v(i) \\leq m)  \n\t\\end{align*}\n\t~\\\\\\\\\t$\\implies$. By the definition of asymptotically design-invariant, \t$$ \\exists O^*: \\forall \\beta \\in \\mB, \\lim_{N \\to \\infty} \\mO(M, N, F, \\beta, G) = O^*, \\text{ with probability } 1 $$\n\tFor this $O^* = \\{C_1^*, \\dots, C_T^*\\}$, we show by contradiction that $\\forall s<t$: $i \\in C^*_s, j\\in C^*_t \\implies$ $\\pr_F(\\sigma_v(i) \\leq k) > \\pr_F(\\sigma_v(j) \\leq k)$, $\\forall k\\in\\{1 \\dots M-1 \\}$: Suppose $\\exists i \\in C^*_s, j\\in C^*_t, s<t, k \\in \\{1 \\dots M-1 \\}$ such that $\\pr_F(\\sigma_v(i)\\leq k) \\leq \\pr_F(\\sigma_v(j)\\leq k)$. Then, let \n\t$$\\beta(m) = \\begin{cases} 1 & m \\leq k \\\\\n\t0 & m > k\t\n\t\\end{cases}$$\n\tThen, $\\bbE[s_{iv}] = \\beta(M) + \\beta(k)\\pr_F(\\sigma_v(i)\\leq k) \\leq \\bbE[s_{jv}]$. Then, with positive probability, $$\\lim_{N \\to \\infty} \\mO(M, N, F, \\beta, G) \\neq O^*$$. \n\t%\n\t\n\t~\\\\$\\impliedby$. Suppose there exists such a  $O^*$. Then, $\\forall \\beta \\in \\mB = \\{\\beta : \\forall k<\\ell \\in {1 \\dots M}, \\beta(k)\\geq \\beta(\\ell), \\text{ and } \\exists k<\\ell, \\beta(k)> \\beta(\\ell) \\}$:\n\tSuppose $i\\in C_s^*, j \\in C_t^*, s < t$:\n\t\\begin{align*}\n\t\\bbE[s_{iv}] &= \\beta(M) + \\sum_{m = 1}^{M-1} \\left[ \\beta(m)- \\beta(m+1)\\right] \\pr_F(\\sigma_v(i) \\leq m)\\\\\n\t&> \\bbE[s_{jv}]\n\t\\end{align*}\n\tWhere the strict inequality follows as $\\exists m: \\beta(m) - \\beta(m+1)>0$. Then, for all candidates $i\\in C_s^*, j \\in C_t^*, s < t$, by the strong law of large numbers $\\lim_{N\\to\\infty} s_i^N > \\lim_{N\\to\\infty} s_j^N$ w.p. $1$. Thus, $\\lim_{N \\to \\infty} \\mO(M, N, F, \\beta, G) = O^*$ w.p. $1$. ",
+          "quoted_text_sha256": "fa511aa2466963f9f83e877184dcced36269fbd608b432477cc01679c8ee0c0b"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "source_proposition2_pairwise_learning_rate_and_bound": {
+      "source_anchors": [
+        {
+          "line_end": 485,
+          "line_start": 471,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\parbold{Rates for separating two candidates} We now derive the large deviation learning rates for recovering the true ordering between a pair of candidates $i,j$, given noise model $F$. These rates will directly translate to the learning rate for the overall election, given some goal $G$. \n\n\n%\n\n\\begin{restatable}{proposition}{thmpairwiselearning}\n\t\\label{thm:pairwiselearning}\n\tFix scoring rule $\\beta\\in\\mB$, voter distribution $F$, and consider candidates $i,j$ such that $s_i > s_j$. Then, the probability of making a mistake in ranking these two candidates after $N$ voters, $\\pr(\\sigma^N(i)>\\sigma^N(j))$, goes to zero with large deviation rate\n\t\\[r_{ij}(\\beta) = -\\inf_{z\\in\\bbR} \\log \\bbE_F\\left[\\exp\\left(z\\left(\\beta(\\sigma_v(i)) - \\beta(\\sigma_v(j))\\right)\\right)\\right]\\] \n\tFurther, the following upper bound holds for any $N$. \n\t\\[\\pr(\\sigma^N(i)>\\sigma^N(j)) \\leq \\exp(-r_{ij}(\\beta)N)\\]\n%\n%\n%\n\\end{restatable}",
+          "quoted_text_sha256": "c7847e3788b3c532d33b1aadb61ebb4ac524502dbab710eb02ccefe05ade8e6f"
+        },
+        {
+          "line_end": 1305,
+          "line_start": 1268,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\thmpairwiselearning*\n\\begin{proof}\n\t\n\tDefine the following random variable for each voter $v \\sim F$: \n\t\\begin{align*}\n\tA_v = \\beta(\\sigma_v(i)) - \\beta(\\sigma_v(j))\n\t\\end{align*}\n\tThen, $\\sigma^N(i) < \\sigma^N(j)$ when $A^N = \\sum_{v=1}^N A_v > 0$, and $\\bbE[A_v]>0$ by supposition. \n\tLet\n\t\\begin{align*}\n\t\tr_{ij}(\\beta) &= -\\inf_{z\\in\\bbR}{\\Lambda(z)}\\\\\n\t\\Lambda(z) &= \\log \\left[\\sum_{m=1}^M \\sum_{\\ell\\neq m} \\pr(\\sigma_v(i) = m, \\sigma_v(j)=\\ell) \\exp[ z(\\beta(\\sigma_v(i)) - \\beta(\\sigma_v(j)))]   \\right]\n\t\\end{align*}\n\t\n\tThen, by basic large deviation bounds (see, e.g.~\\citet{dembo_large_2010}):\n\t\\begin{align*}\n\t-\\lim_{N\\to \\infty} \\frac{1}{N} \\log \\pr(A^N \\leq 0) &= r_{ij}(\\beta)\\\\\n%\n\t\\end{align*}\n\t\n\t\n\tAnd, applying Chernoff bounds, we get the standard relationship to the large deviation rate, giving an upper bound for the probability of error directly, including any polynomial factors out front:\n\t\t\\begin{align*}\n\t\\pr(\\sigma^N(i) > \\sigma^N(j)) &\\leq \\pr(A^N \\leq 0) \\\\\n\t&< \\left[\\inf_{z>0}\\bbE[\\exp[-zA_v]]\\right]^N\\\\\n%\n\t&= \\left[\\inf_{z<0}\\left[\\sum_{m=1}^M \\sum_{\\ell\\neq m} \\pr(\\sigma_v(i) = m, \\sigma_v(j)=\\ell) \\exp[ z(\\beta(\\sigma_v(i)) - \\beta(\\sigma_v(j)))]\\right]\\right]^N\\\\\n\t\t&= \\left[\\inf_{z<0} \\exp[\\Lambda(z)]\\right]^N\\\\\n\t\t&= \\exp[-r_{ij}(\\beta)N]\n\t\\end{align*}\n\t\nThen, $\\pr(\\sigma^N(i) < \\sigma^N(j)) > 1-\\epsilon$ when\n\\begin{align*}\n\\exp[-r_{ij}N] &< \\epsilon\\\\\n\\iff N&> \\frac{1}{r_{ij}}\\log\\left(\\frac{1}{\\epsilon}\\right)\n\\end{align*}\n\t\n\\end{proof}",
+          "quoted_text_sha256": "b82ff53a3b1ed5b7c8572a380ac8a1dcc49178d326b6cb2d5677dbf1f898547d"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "source_proposition3_k_approval_closed_pairwise_rate": {
+      "source_anchors": [
+        {
+          "line_end": 516,
+          "line_start": 498,
+          "publication_locator": "cited publication",
+          "quoted_text": "  For $K$-Approval voting, further, the rate simplifies. \n \n \n\n \n \n%\n \n\n\n\\begin{restatable}{proposition}{lempairwiseapproval}\n\t\\label{lem:pairwiselearning_approval}\n\tConsider $\\beta$ consistent with $K$-Approval voting for some fixed $K$, and candidates $i,j$ such that $s_i > s_j$. Then the large deviation rate $r_{ij}(\\beta)$ in Proposition~\\ref{thm:pairwiselearning} is\n\t\\begin{align*}\n\tr_{ij}(K) &= -\\log\\left( 2\\sqrt{t_{ij}^i(K)t_{ij}^j(K)} + 1 - t_{ij}^i(K) - t_{ij}^j(K) \\right)\n\t\\end{align*}\n\tWhere $t^i_{ij}(K) \\triangleq \\pr_F(\\sigma_v(i) \\leq K, \\sigma_v(j) > K)$, i.e., the probability that a voter approves $i$ but not $j$.\n%\n\\end{restatable}",
+          "quoted_text_sha256": "62b8a73922ac86f745aa3d8c6b6c62c276fa1b91ba17d0097773b7424315a76c"
+        },
+        {
+          "line_end": 1331,
+          "line_start": 1309,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\lempairwiseapproval*\n\\begin{proof}\n\tWith $K$-approval voting, $A^{ij}_v$ becomes\n\t\\begin{align*}\n\tA_v = \\begin{cases}\n\t1 & \\text{w.p. } t^i_{ij}, \\text{ i.e., when candidate $i$ approved but $j$ not approved}\\\\\n\t0 & \\text{w.p. } 1-t^i_{ij} - t^j_{ij}, \\text{ i.e., when both approved, or neither approved}\\\\\n\t-1 & \\text{w.p. } t^j_{ij}, \\text{ i.e., when candidate $j$ approved but $i$ not approved}\n\t\\end{cases}\n\t\\end{align*}\nThen,\n\t\\begin{align*}\nr_{ij} &= -\\inf_{z\\in\\bbR}{\\Lambda(z)}\\\\\n\\Lambda(z) &= \\log \\left[\\sum_{m=1}^M \\sum_{\\ell\\neq m} \\pr(\\sigma_v(i) = m, \\sigma_v(j)=\\ell) \\exp[ z(\\beta(\\sigma_v(i)) - \\beta(\\sigma_v(j)))]   \\right]\\\\\n &= \\log \\left[t_{ij}^i \\exp(z) + t_{ij}^j \\exp(-z) + (1 - t_{ij}^i - t_{ij}^j)\\right]\n\\end{align*}\nThe $\\inf(\\Lambda)$ is attained at $z = \\frac{1}{2} \\log\\frac{t_{ij}^j}{t_{ij}^i}$ ($\\Lambda$ is convex in $z$, and so setting the first derivative to zero finds the $\\inf$). \nAnd so\n\\begin{align*}\nr_{ij} &= -\\log\\left[ t_{ij}^i \\exp\\left(\\frac{1}{2} \\log\\frac{t_{ij}^j}{t_{ij}^i}\\right) + t_{ij}^j \\exp\\left(-\\frac{1}{2} \\log\\frac{t_{ij}^j}{t_{ij}^i}\\right) + (1 - t_{ij}^i - t_{ij}^j) \\right]\\\\\n&= -\\log\\left[ 2\\sqrt{t_{ij}^it_{ij}^j} + 1 - t_{ij}^i - t_{ij}^j \\right]\n\t\\end{align*}\n\\end{proof}",
+          "quoted_text_sha256": "c3ab8a20f2d56d73a77e59b7a3354b8238511c86579e6b7a4fb8f42c872751a8"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "source_proposition4_finite_sample_M_sq_bound": {
+      "source_anchors": [
+        {
+          "line_end": 538,
+          "line_start": 522,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\parbold{Rates for learning the outcome}\nIn general, the rates at which one learns each pair of candidates immediately translate to rates for learning the entire outcome $O^*$. \n\n\\begin{restatable}{proposition}{thmgoallearning}\n\t\\label{thm:goal_learning}\n\tConsider goal $G$ and $\\beta\\in\\mB$ such that $O^N \\to O^*$. Let $Q^N$ be the expected number of errors in the outcome after $N$ voters, $\\sum_{i\\in C_s^*,j\\in C_t^*, s < t} \\pr(\\sigma^N(i)>\\sigma^N(j))$. Then $Q^N$ goes to zero with large deviation rate\n%\n\t\\[\n\tr(\\beta) = \\min_{i\\in C_s^*,j\\in C_t^*, s < t} r_{ij}(\\beta) \\label{eqnpart:outcomerate}\n\t\\]\n\tFurther, the following upper bound holds for any $N$. \\[Q^N \\leq M^2 \\exp(-rN)\\] %\n%\n%\n%\n\t\n%\n\\end{restatable}",
+          "quoted_text_sha256": "7a9c00299d31372b9f78dbe6fea7e803fb887f50782ec079b016517a417366ef"
+        },
+        {
+          "line_end": 1374,
+          "line_start": 1333,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\thmgoallearning*\n\\begin{proof}\n%\n%\n\nBy the Union bound\n\\begin{align*}\n%\nQ^N &= \\sum_{i\\in C_s^*,j\\in C_t^*, s < t} \\pr(\\sigma^N(i) > \\sigma^N(j)) \\\\\n%\n&\\leq \\sum_{i\\in C_s^*,j\\in C_t^*, s < t} \\exp[-r_{ij}N] & \\text{Proposition }~\\ref{thm:pairwiselearning}\\\\\n&\\leq M^2  \\exp[-rN]\\\\\n%\n%\n%\n%\n%\n%\n\\end{align*}\n\n%\nNow, using large deviation properties:\n\n%\nBy supposition, $Q^N \\to 0$, and so $-Q^N$ approaches $0$ from below.\n%\nThen,\n\\begin{align}\n%\n-\\lim_{N\\to\\infty} \\frac{1}{N}\\log(Q^N)\n&=  -\\lim_{N\\to\\infty} \\frac{1}{N}\\log \\sum_{i\\in C_s^*,j\\in C_t^*, s < t} \\pr(\\sigma^N(i) > \\sigma^N(j))\\nonumber\\\\\n&= -\\max_{i\\in C_s^*,j\\in C_t^*, s < t}\\left(\\lim_{N\\to\\infty} \\frac{1}{N}\\log \\pr(\\sigma^N(i) > \\sigma^N(j))\\right)\\label{eqnstep:ldpproperty}\\\\\n&= \\min_{i\\in C_s^*,j\\in C_t^*, s < t}-\\left(\\lim_{N\\to\\infty} \\frac{1}{N}\\log \\pr(\\sigma^N(i) > \\sigma^N(j))\\right)\\nonumber\\\\\n&= \\min_{i\\in C_s^*,j\\in C_t^*, s < t} r_{ij} = r\\nonumber\n\\end{align}\n\nLine~\\eqref{eqnstep:ldpproperty} follows from: $\\forall a^\\epsilon_i \\geq 0$, ${\\lim \\sup}_{\\epsilon \\to 0} \\left[\\epsilon\\log\\left(\\sum_i^N a^\\epsilon_i\\right)\\right] = \\max^N_i {\\lim \\sup}_{\\epsilon \\to 0} \\epsilon \\log(a^\\epsilon_i)$.\nSee, e.g., Lemma 1.2.15 in~\\cite{dembo_large_2010} for a proof of this property. \n\nThus $r$ is the large deviation rate for $Q^N$. \n\n\\end{proof}",
+          "quoted_text_sha256": "adce03cffb29a18dccd06d66c8df9b7fffbf28cb4f193770ecad289da822f237"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "source_proposition4_outcome_exact_minimum_rate": {
+      "source_anchors": [
+        {
+          "line_end": 538,
+          "line_start": 522,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\parbold{Rates for learning the outcome}\nIn general, the rates at which one learns each pair of candidates immediately translate to rates for learning the entire outcome $O^*$. \n\n\\begin{restatable}{proposition}{thmgoallearning}\n\t\\label{thm:goal_learning}\n\tConsider goal $G$ and $\\beta\\in\\mB$ such that $O^N \\to O^*$. Let $Q^N$ be the expected number of errors in the outcome after $N$ voters, $\\sum_{i\\in C_s^*,j\\in C_t^*, s < t} \\pr(\\sigma^N(i)>\\sigma^N(j))$. Then $Q^N$ goes to zero with large deviation rate\n%\n\t\\[\n\tr(\\beta) = \\min_{i\\in C_s^*,j\\in C_t^*, s < t} r_{ij}(\\beta) \\label{eqnpart:outcomerate}\n\t\\]\n\tFurther, the following upper bound holds for any $N$. \\[Q^N \\leq M^2 \\exp(-rN)\\] %\n%\n%\n%\n\t\n%\n\\end{restatable}",
+          "quoted_text_sha256": "7a9c00299d31372b9f78dbe6fea7e803fb887f50782ec079b016517a417366ef"
+        },
+        {
+          "line_end": 1374,
+          "line_start": 1333,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\thmgoallearning*\n\\begin{proof}\n%\n%\n\nBy the Union bound\n\\begin{align*}\n%\nQ^N &= \\sum_{i\\in C_s^*,j\\in C_t^*, s < t} \\pr(\\sigma^N(i) > \\sigma^N(j)) \\\\\n%\n&\\leq \\sum_{i\\in C_s^*,j\\in C_t^*, s < t} \\exp[-r_{ij}N] & \\text{Proposition }~\\ref{thm:pairwiselearning}\\\\\n&\\leq M^2  \\exp[-rN]\\\\\n%\n%\n%\n%\n%\n%\n\\end{align*}\n\n%\nNow, using large deviation properties:\n\n%\nBy supposition, $Q^N \\to 0$, and so $-Q^N$ approaches $0$ from below.\n%\nThen,\n\\begin{align}\n%\n-\\lim_{N\\to\\infty} \\frac{1}{N}\\log(Q^N)\n&=  -\\lim_{N\\to\\infty} \\frac{1}{N}\\log \\sum_{i\\in C_s^*,j\\in C_t^*, s < t} \\pr(\\sigma^N(i) > \\sigma^N(j))\\nonumber\\\\\n&= -\\max_{i\\in C_s^*,j\\in C_t^*, s < t}\\left(\\lim_{N\\to\\infty} \\frac{1}{N}\\log \\pr(\\sigma^N(i) > \\sigma^N(j))\\right)\\label{eqnstep:ldpproperty}\\\\\n&= \\min_{i\\in C_s^*,j\\in C_t^*, s < t}-\\left(\\lim_{N\\to\\infty} \\frac{1}{N}\\log \\pr(\\sigma^N(i) > \\sigma^N(j))\\right)\\nonumber\\\\\n&= \\min_{i\\in C_s^*,j\\in C_t^*, s < t} r_{ij} = r\\nonumber\n\\end{align}\n\nLine~\\eqref{eqnstep:ldpproperty} follows from: $\\forall a^\\epsilon_i \\geq 0$, ${\\lim \\sup}_{\\epsilon \\to 0} \\left[\\epsilon\\log\\left(\\sum_i^N a^\\epsilon_i\\right)\\right] = \\max^N_i {\\lim \\sup}_{\\epsilon \\to 0} \\epsilon \\log(a^\\epsilon_i)$.\nSee, e.g., Lemma 1.2.15 in~\\cite{dembo_large_2010} for a proof of this property. \n\nThus $r$ is the large deviation rate for $Q^N$. \n\n\\end{proof}",
+          "quoted_text_sha256": "adce03cffb29a18dccd06d66c8df9b7fffbf28cb4f193770ecad289da822f237"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "source_theorem1_randomized_scoring_no_improvement": {
+      "source_anchors": [
+        {
+          "line_end": 690,
+          "line_start": 680,
+          "publication_locator": "cited publication",
+          "quoted_text": "Our first result is that randomizing between scoring rules does not help, for \\textit{any} voter noise model, in contrast to the case when restricted to approval votes. \n\n\n\\begin{restatable}{theorem}{lemrandomizebetterscoring}\n\t\\label{lem:randomizebetterscoring}\n\tRandomization does not improve the outcome learning rate for any asymptotically design-invariant noise model $F$ or goal $G$.  For any randomized scoring rule mechanism $(B,D)$, where $B\\subset \\mB$, for any $F$, $G$, the scoring rule $\\beta^*(k) = \\sum_{p} d_p \\beta_p(k)$ satisfies $r(\\beta^*) \\geq r(B,D)$. \n\t\n\t\n%\n%\n\\end{restatable}",
+          "quoted_text_sha256": "d6016a1b54506aa6b4d21f26601083e022b6533fafc5f027fc3dea18f56e2071"
+        },
+        {
+          "line_end": 1491,
+          "line_start": 1398,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\lemrandomizebetterscoring*\n\\begin{proof}\n\tFrom Proposition~\\ref{thm:pairwiselearning}, for a given scoring rule $\\beta$ and pair of candidates $i,j$, the learning rate is\n\t\\begin{align*}\n\tr_{ij}(\\beta) &= -\\inf_{z\\in\\bbR} \\log \\bbE_F\\left[\\exp\\left[z\\left[\\beta(\\sigma_v(i)) - \\beta(\\sigma_v(j))\\right]\\right]\\right]\\\\\n\t&= - \\log \\inf_{z\\in\\bbR} \\bbE_F\\left[\\exp\\left[z\\left[\\beta(\\sigma_v(i)) - \\beta(\\sigma_v(j))\\right]\\right]\\right]\n\t\\end{align*}\n\t\n\tSimilarly, if we use scoring rules $\\{\\beta^u\\}_{u=1}^P$, each with probability $d^u$, then, \n\t\\begin{align*}\n\tr_{ij}(\\{\\beta^u\\}_{u=1}^P) &= - \\log \\inf_{z\\in\\bbR} \\bbE_{F,\\{d^u,\\beta^u\\}}\\left[\\exp\\left[z\\left[\\beta^u(\\sigma_v(i)) - \\beta^u(\\sigma_v(j))\\right]\\right]\\right]\\\\\n\t&= - \\log \\inf_{z\\in\\bbR} \\sum_u d^u  \\bbE_{F}\\left[\\exp\\left[z\\left[\\beta^u(\\sigma_v(i)) - \\beta^u(\\sigma_v(j))\\right]\\right]\\right]\n\t\\end{align*}\n\t\n\t\n\tNow, for a single scoring rule $\\beta(\\cdot)$, let \\[\\gamma(\\beta(1) , \\dots, \\beta(M)) \\triangleq  \\bbE_F\\left[\\exp\\left[z\\left[\\beta(\\sigma_v(i)) - \\beta(\\sigma_v(j))\\right]\\right]\\right]\\]\n\t\n\t\n\tBelow, we show that $\\gamma(\\beta(1) , \\dots, \\beta(M))$  is convex in $\\beta(k), \\forall k, z$. Then, by convexity, $\\forall z$\n\t\\begin{align*}\n\t\\sum_{u=1}^{P} d^u \\gamma(\\beta^u(1), \\dots, \\beta^u(M))& \\geq\n\t\\gamma\\left(\\sum_{u=1}^{P} d^u\\beta^u(1) , \\dots, \\sum_{u=1}^{P} d^u\\beta^u(M)\\right)\n\t%\n\t%\n\t\\end{align*}\n\tand so\n\t\\begin{align*}\n\t\\inf_z\\left[\\sum_{u=1}^{P} d^u \\gamma(\\beta^u(1), \\dots, \\beta^u(M))\\right]& \\geq\n\t\\inf_z \\gamma\\left(\\sum_{u=1}^{P} d^u\\beta^u(1) , \\dots, \\sum_{u=1}^{P} d^u\\beta^u(M)\\right)\n\t\\end{align*}\n\t\n\tThe left hand side is equal to the argument inside the $-\\log(\\cdot)$ for the rate function for randomizing between scoring rules $\\{\\beta^u\\}_{u=1}^P$, each with probability $d^u$, and the right hand side is the argument inside for the rate function for instead using the single scoring rule $\\beta^*$ defined as the convex combination of $\\{\\beta^u\\}_{u=1}^P$. Then, as $-\\log(x)$ is decreasing in $x$, we have that \\[r_{ij}(\\beta^*) \\geq r_{ij}(\\{\\beta^u\\}_{u=1}^P)\\].\n\t\n\tAs this holds for each pair of candidates $i,j$ simultaneously, we are done.\n\t\n\t\n\t\n\t\n\t\\parbold{Proof that  $\\gamma(\\beta(1) , \\dots, \\beta(M)) \\triangleq  \\bbE_F\\left[\\exp\\left[z\\left[\\beta(\\sigma_v(i)) - \\beta(\\sigma_v(j))\\right]\\right]\\right]$ is convex in $\\beta(k), \\forall k$}\n\t\n\tWe directly calculate the Hessian of $\\gamma$ and note that it is diagonally dominant and thus positive semidefinite. For notational convenience, we let $\\beta_k = \\beta(k)$, and $\\sigma(k,\\ell) = \\pr_F(\\sigma_v(i) = k, \\sigma_v(j) = \\ell)$. Of course, $\\sigma(k,k)=0$, as we assume each voter has a strict ranking as her preference.\n\t\\begin{align*}\n\t\\gamma(\\beta_1,\\dots,\\beta_M) &=   \\bbE_F\\left[\\exp\\left[z\\left[\\beta(\\sigma_v(i)) - \\beta(\\sigma_v(j))\\right]\\right]\\right]\\\\\n\t&= \\sum_{k=1}^{M}\\sum_{\\ell = 1}^M \\sigma(k,\\ell) \\exp\\left[z \\left[\\beta_k - \\beta_\\ell \\right]\\right]\\\\\n\t\\frac{\\partial}{\\partial \\beta_k} \\gamma(\\beta_1,\\dots,\\beta_M)\t&= z\\exp\\left[z \\beta_k\\right]\\sum_{\\ell\\neq k}\\exp\\left[-z \\beta_\\ell\\right]\\sigma(k,\\ell) - z\\exp\\left[-z \\beta_k\\right]\\sum_{\\ell\\neq k}\\exp\\left[z \\beta_\\ell\\right]\\sigma(\\ell,k)\\\\\n\t\\frac{\\partial^2}{\\partial \\left(\\beta_k\\right)^2} \\gamma(\\beta_1,\\dots,\\beta_M)\t&= z^2\\exp\\left[z \\beta_k\\right]\\sum_{\\ell\\neq k}\\exp\\left[-z \\beta_\\ell\\right]\\sigma(k,\\ell) + z^2\\exp\\left[-z \\beta_k\\right]\\sum_{\\ell\\neq k}\\exp\\left[z \\beta_\\ell\\right]\\sigma(\\ell,k)\\\\\n\t&= z^2 \\left[\\left[\\exp\\left[z \\beta_k\\right]\\sum_{\\ell\\neq k}\\exp\\left[-z \\beta_\\ell\\right]\\sigma(k,\\ell)\\right] + \\left[\\exp\\left[-z \\beta_k\\right]\\sum_{\\ell\\neq k}\\exp\\left[z \\beta_\\ell\\right]\\sigma(\\ell,k)\\right]\\right]\\\\\n\t\\frac{\\partial^2}{\\partial \\beta_k\\beta_\\ell}\\gamma(\\beta_1,\\dots,\\beta_M)&= -z^2\\left[\\exp\\left[z \\beta_k\\right]\\exp\\left[-z \\beta_\\ell\\right]\\sigma(k,\\ell) + \\exp\\left[-z \\beta_k\\right]\\exp\\left[z \\beta_\\ell\\right]\\sigma(\\ell,k)\\right]\n\t\\end{align*}\n\tThus, the Hessian of $\\gamma$ is diagonally dominant with non-negative diagonal elements: $\\forall k$,\n\t$$ \\left|\\frac{\\partial^2 \\gamma}{\\partial \\left(\\beta_k\\right)^2}  \\right| \\geq \\sum_{\\ell\\neq k}\\left|\\frac{\\partial^2 \\gamma}{\\partial \\beta_k\\beta_\\ell}  \\right|$$\n\tand so the Hessian is positive semi-definite. Thus, $\\gamma$ is convex in $\\beta_k$. \n\t\n\t%\n\t%\n\t%\n\t%\n\t\n\t\n\t\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t%\n\t\n\t\n\t%\n\t%\n\t%\n\t%\n\t%\n\\end{proof}",
+          "quoted_text_sha256": "d11f46f39a0169cda0bebd55a30b9320d244f92dec5e86012a148f4f38825b74"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "source_theorem2_randomized_k_approval_fixed_pair_no_improvement": {
+      "source_anchors": [
+        {
+          "line_end": 722,
+          "line_start": 702,
+          "publication_locator": "cited publication",
+          "quoted_text": "Next, we further refine the result of~\\citet{caragiannis_learning_2017}, by showing that the ``pivotal pair'' feature of their example -- where different pairs of candidates dominate the learning rate for different mechanisms -- is key. In particular, our next result establishes, again for any noise model, that randomization amongst $K$-Approval mechanisms cannot help separate any \\textit{given} pair of candidates. \n\n\n%\n\n\n\\begin{restatable}{theorem}{lemrandomizenotbetterapproval}\n\t\\label{lem:randomizenotbetterapproval}\n\t\n\t\tRandomization amongst $K$-Approval mechanisms does not improve the learning rate for separating a given pair of candidates $i,j$ for any asymptotically design-invariant noise model $F$ or goal $G$. For any randomized $K$-Approval mechanism $(B,D)$, where $\\beta_p\\in B$ corresponds to $p$-Approval, for any $F$, $G$, there exists a mechanism $K_{ij}^*$-Approval such that $r_{ij}(K_{ij}^*) \\geq r_{ij}(B,D)$.\n\t\t\n\t\t\n%\n\t\t \n\t\t \n%\n\t\n%\n%\n%\n\\end{restatable}",
+          "quoted_text_sha256": "bae654bcd65160efe9c2c2945ecad0e2950ca33ed40c1a30689b1419de3901cc"
+        },
+        {
+          "line_end": 1527,
+          "line_start": 1498,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\lemrandomizenotbetterapproval*\n\\begin{proof}\n\tFrom Proposition~\\ref{lem:pairwiselearning_approval}, for $k$-Approval, \n\t\\begin{align*}\n\t\tr_{ij}(t^i_{ij}, t^j_{ij}) &= -\\log\\left[ 2\\sqrt{t_{ij}^it_{ij}^j} + 1 - t_{ij}^i - t_{ij}^j \\right]\n\t\\end{align*}\n\tWhere $t^i_{ij}$ is the probability that $i$ is approved but $j$ is not.\n\t\n\tThis rate function is convex in $t^i_{ij}, t^j_{ij}$:\n\t\\begin{itemize}\n\t\t\\item $r_{ij}(a,b) = h(g(a, b))$, where $h(x) = -\\log(x)$, $g(a, b) = 2\\sqrt{ab} + 1 - a - b$. \n\t\t\\item $g(a, b)$ is concave in $a, b$\n\t\t\\item $h$ is convex, and $\\tilde{h}$ is non-increasing, where $\\tilde{h}(x) =  \\begin{cases} h(x) & x > 0 \\\\ \\infty & x \\leq 0 \\end{cases}$ is the extended value function of $h$. \n\t\t\\item By convex composition rules, $r_{ij}(a,b)$ is convex (see, e.g., page 84 of~\\citet{boyd_convex_2004}). \n\t\\end{itemize}\n\t\n\tThe result follows by convexity. Consider a randomization of $K$-Approval mechanisms for $K\\in\\{1, \\dots, M-1\\}$, where $K$-Approval is used with probability $d^K$. \n\t\n%\n\t\n\tThe resulting approval probabilities are: $t^i_{ij} = \\sum_{K=1}^{M-1} d^K t^i_{ij}(K), t^j_{ij} = \\sum_{K=1}^{M-1} d^K t^j_{ij}(K)$. By convexity:\n\t\\begin{align*}\n\tr\\left(\\sum_{K=1}^{M-1} d^K t^i_{ij}(K), \\sum_{K=1}^{M-1} d^K t^j_{ij}(K)\\right) &\\leq \\sum_{K=1}^{M-1} d^K r\\left(t^i_{ij}(K), t^j_{ij}(K)\\right)\\\\\n\t&= \\sum_{K=1}^{M-1} d^K  r_{ij}(K)\\\\\n\t&\\leq \\max_K r_{ij}(K)\n\t\\end{align*}\n\nWe note that, unlike the previous proof, we cannot conclude in general that randomization cannot improve the rates at which the outcome is learned (in fact, Theorem~\\ref{lem:randomizebetterapproval_Wselection} establishes otherwise). That is because while the same $\\beta^*$ could be said to be rate optimal (compared to the randomized mechanism) for every pair of candidates simultaneously in that proof, in this proof $\\arg\\max_K r_{ij}(K)$ may change based on the pair $i,j$.\n\n\\end{proof}",
+          "quoted_text_sha256": "0dd327873c72704d2b073e972965df869f2e0f3ddf8eb435507ce260bf433b0b"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "source_theorem_mallows_W_approval_not_rate_optimal": {
+      "source_anchors": [
+        {
+          "line_end": 761,
+          "line_start": 751,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{$K$-Approval for selecting $W$ winners}\n\\label{sec:approvaltheory}\nOne of the most common voting settings is identifying a set of $W$ winners using $K$-Approval, whether in representative democracy elections (typically $K=W=1$), polling for such elections (where the goal often is to identify the top few candidates out of many, especially in primary races), or crowd-sourcing labels (where one wants one or a few labels for an item out of many possible ones). Here, we study how to design such elections, i.e., how to choose the best $K$, i.e., the one that maximizes the learning rate. For simplicity, we work with the Mallows model, extending the resulting insights to real-world data in the next section. \n\n\nRecall that in a Mallows model, each voter's ranking is a noisy sample from a reference distribution $\\sigma^*$. With this symmetric model, one may believe that setting $K=W$ is always optimal. For example, when noise parameter $\\phi = 0$ and so each voter's ranking is exactly $\\sigma^*$, $K=W$ is optimal; in fact, any other design $K \\neq W$ fails to correctly identify the set of winners even asymptotically: it would not distinguish among the first $K$ candidates in $\\sigma^*$ or among the last $M-K$ candidates. However, our next result establishes that the cases with $\\phi > 0$ are different. \n\n\\begin{restatable}{theorem}{lemmallowsnotWK}\n\t\\label{lem:mallowsnotWK}\n\tUnder the Mallows model and the goal of selecting $W$ winners, $W$-Approval may not be Approval rate optimal.\n\\end{restatable}",
+          "quoted_text_sha256": "d4376b21b02c88f4ad5e741fadffb8b1b649014acb6c44d5bffc4699079d0c62"
+        },
+        {
+          "line_end": 1603,
+          "line_start": 1538,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\lemmallowsnotWK*\n\\begin{proof}\n\t\n\tWe prove the result by providing an example where it is not optimal. Suppose there are 4 candidates, and we wish to select $3$ winners, i.e., separate the first three items from the last item. \n\n\nLet the items in the reference ranking be, in order, $i=1, 2, 3, 4$, respectively.\n\nA Mallows model (with parameter $\\phi = \\frac{p}{1-p}$, where $p$ is the probability of flipping a given pair of candidates) can be sampled by repeated insertion \\citep{lu14a,diaconis_group_nodate}: starting from the first item in the reference ranking, there exists probability $\\tilde{p}_{ij} = \\frac{\\phi^{i-j}}{1 + \\phi^1 + \\dots + \\phi^{i-1}}$ at which item $i$ can be inserted into position $j\\leq i$, \\textit{independently} of how items above it were inserted, such that the resulting ranking distribution matches the Mallows model.\n\nUsing this repeated insertion property for our example, we can derive $p_{\\ell k}$, the probability at which item $3$ is in position $\\ell$ and item $4$ is in position $k$ after sampling from a Mallows model with parameter $\\phi$. \n\nIn particular, if $\\ell < k$, $p_{\\ell k}$ is exactly the probability that item $3$ is inserted in position $\\ell$ and item $4$ is inserted in position $k$. If $k>\\ell$, however, it is the probability that item $3$ is inserted in position $\\ell - 1$ and then pushed down when item $4$ is inserted in position $k$. (More generally, it turns out, the exact probability for an item appearing in a given position in the Mallows model can be calculated using a simple dynamic program, a fact that does not appear to be documented  elsewhere but may be independently useful. We used this dynamic program to find this given example). \n\nThen, for our example\n\\begin{align*}\nN_i &\\triangleq 1 + \\phi^1 + \\dots + \\phi^{i-1} \\\\\np_{\\ell k} &= \\begin{bmatrix}\n0 & \\frac{\\phi^2}{N_3}\\frac{\\phi^2}{N_4} & \\frac{\\phi^2}{N_3}\\frac{\\phi^1}{N_4} & \\frac{\\phi^2}{N_3}\\frac{\\phi^0}{N_4}\\\\\n\\frac{\\phi^2}{N_3}\\frac{\\phi^3}{N_4} & 0 & \\frac{\\phi^1}{N_3}\\frac{\\phi^1}{N_4} & \\frac{\\phi^1}{N_3}\\frac{\\phi^0}{N_4}\\\\\n\\frac{\\phi^1}{N_3}\\frac{\\phi^3}{N_4} & \\frac{\\phi^1}{N_3}\\frac{\\phi^2}{N_4} & 0 & \\frac{\\phi^0}{N_3}\\frac{\\phi^0}{N_4}\\\\\n\\frac{\\phi^0}{N_3}\\frac{\\phi^3}{N_4} & \\frac{\\phi^0}{N_3}\\frac{\\phi^2}{N_4} & \\frac{\\phi^0}{N_3}\\frac{\\phi^1}{N_4} & 0\\\\\n\\end{bmatrix}_{\\ell k}\n=\n\\frac{1}{N_3N_4}\\begin{bmatrix}\n0 & \\phi^4 & \\phi^3 & {\\phi^2}\\\\\n\\phi^5 & 0 & \\phi^2 & {\\phi^1}\\\\\n\\phi^4 & \\phi^3 & 0 & 1\\\\\n{\\phi^3} & {\\phi^2} & {\\phi^1} & 0\\\\\n\\end{bmatrix}_{\\ell k}\n\\end{align*}\n\nRecall that $t_{ij}^i(K)$ is the probability that $i$ is approved but $j$ is not, using $K$-Approval. Then, if we use $3$-approval and $2$-approval, respectively:\n\\begin{align*}\nN_3 &= 1 + \\phi + \\phi^2\\\\\nN_4 &= 1 + \\phi + \\phi^2+ \\phi^3\\\\\nt_{34}^3(3) &= p_{14} + p_{24} + p_{34}= \\frac{\\phi^2  + \\phi^1 + 1}{N_3N_4}= \\frac{1}{N_4}\\\\\nt_{34}^4(3) &= p_{41} + p_{42} + p_{43} = \\frac{\\phi^3  + \\phi^2 + \\phi^1}{N_3N_4} = \\frac{\\phi}{N_4}\\\\\nt_{34}^3(2) &= p_{14} + p_{24} + p_{13} + p_{23} = \\frac{\\phi^2  + \\phi^1 + \\phi^3 + \\phi^2}{N_3N_4}\\\\\nt_{34}^4(2) &= p_{41} + p_{42} + p_{31} + p_{32} = \\frac{\\phi^3  + \\phi^2 + \\phi^4 + \\phi^3}{N_3N_4}\\\\\n\\end{align*}\n\nThen, recall the rate between items $i,j$ using $K$ approval is\n\\begin{align*}\n\tr_{ij}(K) &= -\\log\\left[ 2\\sqrt{t_{ij}^i(K)t_{ij}^j(K)} + 1 - t_{ij}^i(K) - t_{ij}^j(K) \\right]\\\\\n\t r_{34}(3) &= \t-\\log\\left[ 2\\sqrt{\\frac{1}{N_4}\\frac{\\phi}{N_4}} + 1 - \\frac{1}{N_4} - \\frac{\\phi}{N_4} \\right]\\\\\n%\n\t r_{34}(2) &= \t-\\log\\left[ 2\\sqrt{\\frac{\\phi^2  + \\phi^1 + \\phi^3 + \\phi^2}{N_3N_4}\\frac{\\phi^3  + \\phi^2 + \\phi^4 + \\phi^3}{N_3N_4}} + 1 - \\frac{\\phi^2  + \\phi^1 + \\phi^3 + \\phi^2}{N_3N_4} - \\frac{\\phi^3  + \\phi^2 + \\phi^4 + \\phi^3}{N_3N_4} \\right]\n\\end{align*}\n\nWhen there is low noise, e.g., $\\phi = .1$ ($p = .091$):\n\\begin{align*}\nr_{34}(3) &= .5462\\\\\nr_{34}(2) &= .04696 < r_{34}(3)\n\\end{align*}\n\nBut when there is high noise, e.g., $\\phi = .8$ ($p=.44$):\n\\begin{align*}\nr_{34}(3) &= .00378\\\\\nr_{34}(2) &= .00402 > r_{34}(3)\n\\end{align*}\n\n\nNote that the same example works for selecting 1 winner out of the 4 candidates, as the repeated insertion model can be run in reverse.\n\n\\end{proof}",
+          "quoted_text_sha256": "3100baee1f348419a55cf44fc74306dbc025c52e92cc470c7114a18cfed2bf48"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "source_theorem_randomized_approval_can_help_W_selection": {
+      "source_anchors": [
+        {
+          "line_end": 748,
+          "line_start": 739,
+          "publication_locator": "cited publication",
+          "quoted_text": " This corollary does not extend to arbitrary noise models, where randomization amongst $K$-approval mechanisms may improve the learning rate.\n\n\\begin{restatable}{theorem}{lemrandomizebetterapprovalWselection}\n\t\\label{lem:randomizebetterapproval_Wselection}\n\t\t\tRandomization among $K$-Approval mechanisms may improve the learning rate for the goal of selecting $W$ winners. There exist asymptotically design-invariant settings $(M,F)$ for the goal of selecting $W$ winners such that a randomized $K$-Approval mechanism $(B,D)$, where $\\beta_p\\in B$ corresponds to $p$-Approval, satisfies \\[r(B,D) > \\max_K r(K) \\] \n%\n%\n\\end{restatable}\n\nWe prove the result two ways: (1) we construct an example in which candidate $h$ is asymptotically selected, and candidates $i,j$ are not. Which of $h \\succ i$ or $h \\succ j$ is the pivotal pair (determines the overall rate function) depends on the $K$-Approval mechanism used, and randomizing between two mechanisms improves the overall rate; (2) perhaps more interestingly, we find many examples in our real PB elections and other ranking data in which randomization would have sped up learning for the task of selecting a set of winning candidates (see Section~\\ref{sec:randomizationpractice}). ",
+          "quoted_text_sha256": "8c388e30d7920b5ac7ffc25ad622c1131a60b8b697f25c8643f9a51a1d625e27"
+        },
+        {
+          "line_end": 1863,
+          "line_start": 1606,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\lemrandomizebetterapprovalWselection*\n\\begin{proof}\nWe provide two proofs: a numeric example from a real-world election, and a contrived, constructed example.\n\n\\parbold{Numeric example found in a real election} In Durham Ward 1, to select 2 winners, randomizing between 3 and 4-Approval is better than either individually, even though asymptotically the mechanisms pick the same set of winners. The critical pair with $2$-Approval is with the candidate asymptotically ranked 1st, and the best item not selected. With $3$-Approval, it is with the candidate asymptotically ranked 2nd, and the same best item not selected.\n\nWe will call these items $h$, $i,j$ (the one not selected) respectively. The respective probabilities of being selected alone:\n\n%\n%\n%\n%\n%\n%\n%\n%\n%\n%\n%\n\n\\begin{align*}\nt_{hj}^h(3)&= 0.277 \\\\\nt_{hj}^h(4)&= 0.266\t\\\\\nt_{hj}^j(3)&= 0.200\t\\\\\nt_{hj}^j(4)&= 0.188\t\\\\\nt_{ij}^i(3)&= 0.255\t\\\\\nt_{ij}^i(4)&= 0.295\t\\\\\nt_{ij}^j(3)&= 0.160\\\\\nt_{ij}^j(4)&= 0.217\\\\\\\\\n%\nt_{hj}^h(\\{3, 4\\})&= 0.271\t \\\\\nt_{hj}^j(\\{3, 4\\})&= 0.194\t\\\\\nt_{ij}^i(\\{3, 4\\})&= 0.275\t\\\\\nt_{ij}^j(\\{3, 4\\})&= 0.189\\\\\n\\end{align*}\n\nAnd the resulting rates (using the formula in Proposition~\\ref{lem:pairwiselearning_approval}) are:\n\n\\begin{align*}\nr_{hj}(3) &= .00616932\\\\\nr_{ij}(3) &= .01114061\\\\\nr_{hj}(4) &= .00677352\\\\\nr_{ij}(4) &= .00592327\\\\\nr_{hj}(\\{3, 4\\}) &= .00642839\\\\\nr_{ij}(\\{3, 4\\}) &= .00815633\\\\\nr(3) &= \\min(r_{hj}(3), r_{ij}(3)) = .00616932\\\\\nr(4) &= \\min(r_{hj}(4), r_{ij}(4)) = .00592327\\\\\nr(\\{3, 4\\}) &= \\min(r_{hj}(\\{3, 4\\}), r_{ij}(\\{3, 4\\})) = .00642839 > \\max(r(3), r(4))\n\\end{align*}\n\nThus randomization improves learning.\n\n%\n%\n%\n%\n%\n%\n%\n%\n%\n%\n%\n\n\\parbold{Constructed example with design invariance}\n\tWe now construct a fully design-invariant example with the same flavor as the numeric example, where which pair is critical changes with the mechanism.\n\t\n\tConsider three candidates $h,i,j$, such that $h$ is asymptotically in the set of $W$ winners and $i,j$ are not. Thus, we need the rates at which $h$ is separated from both $i,j$. Let $W=K < L=K+1$.\n\t\n\tWe prove the result by giving an example where: it is easier to separate $h$ from $i$ using $K$-Approval, and easier to separate $h$ from $j$ using $L$-Approval. Using $K$-Approval, $r_{hj}$ asymptotically dominates the rate at which the overall outcome is learned, and using $L$-Approval, $r_{hi}$ does. Further, randomizing between the two mechanisms improves the two rates that dominate enough such that the overall rate is improved. \n\t\n\tWe need to show the following hold for our example: one of the rates between candidates $h$ and $i,j$ are smaller than other rates, i.e., dominate the overall learning rate when $K$ and/or $L$ approval is used; randomization between $K$ and $L$ approval helps the minimum rate between candidates $h$ and $i,j$; $K'$-Approval ($K'\\neq K, K' \\neq L$) produces a worse rate than either $K$ or $L$ approval; and this example is asymptotically design-invariant.\n\t\n\tWe prove each of these conditions in turn after specifying the example.\n\t\n\tRecall that $t_{ij}^i(k)$ is the probability that $i$ is approved but $j$ is not, using $k$-Approval. Here, we will use:\t $$t_{hi}^i(K),t_{hi}^i(L),t_{hi}^h(K),t_{hi}^h(L),\n\tt_{hj}^j(K),t_{hj}^j(L),t_{hj}^h(K),t_{hj}^h(L)$$. The end row labeled ``Total value'' then sums up these values. \n\t\n\n%\n\t\n%\n\t\n\t\\parbold{Example Specification}\n\tConsider $F$ such according to the following table, where the first column is the probabilities of the positions in the second set of columns. The third set of columns indicates whether those set of positions contribute to the given probabilities, for easy accounting. \n%\n%\n%\n%\n%\n%\n%\n%\n%\n%\n%\n%\n%\n%\n\\FloatBarrier\n\t\\begin{table}[h]\n\t\t\\hspace*{-1cm}\n\t\t\\begin{tabular}{c|c|ccc||cccccccc}\n%\n\t\t\t& & \\multicolumn{3}{c||}{Positions of $h,i,j$} & \\multicolumn{8}{c}{Contributes to? (Y = Yes)}\\\\\n\t\t\tRow& $Pr_F(\\cdot)$ & $\\sigma(h)$          & $\\sigma(i)$          & $\\sigma(j)$          &$t_{hi}^h(K)$ & $t_{hi}^i(K)$ & $t_{hi}^h(L)$ & $t_{hi}^i(L)$ & $t_{hj}^h(K)$ & $t_{hj}^j(K)$ & $t_{hj}^h(L)$ & $t_{hj}^j(L)$\\\\ \\hline\n\t\t1&\t$a $   &  $K$    &   $L+1$    & $L$    &Y&&Y&&Y&&&\\\\ %\n\t\t2&\t$a$   &  $K-1$    &   $K$    &  $L$   &&&&&Y&&&\\\\\n\t\t3&\t$T_1 - {a} - \\epsilon$   &  $K$    &   $L+1$    &    $L+2$     &Y&&Y&&Y&&Y&\\\\\n\t\t4&\t$T_2-2a$ & $L+1$   &    $L+2$     &   $K$  &&&&&&Y&&Y\\\\\n\t\t5&\t$T_2-2a$ & $L+1$   &    $K$     &   $L+2$  &&Y&&Y&&&&\\\\\n\t\t6&\t$a$\t&   $L+1$      &     {$K$}       &   $L$  &&Y&&Y&&&&{Y}\\\\\n\t\t7&\t $a$\t&   $L$      &    $K-1$    &    {$K$}     &&Y&&&&Y&&\\\\\n\t\t8&\t $a$\t&   $L$      &   $L+1$ & $L+2$       &&&Y&&&&{Y}&\\\\ %\n\t\t9&\t $a$\t&   $L+1$      &    $L+2$    &  {L}       &&&&&&&&Y\\\\\n\t\t10&\t$\\epsilon$ & \\multicolumn{3}{c||}{See caption} &Y&&Y&&Y&&{Y}&\\\\\n%\n\t\t11&\t $0$ & \\multicolumn{3}{c||}{Otherwise}&&&&&&&&\\\\ \\hline\n\t\t\t \\multicolumn{5}{r}{\\textbf{Total value:}}&$T_1$&$T_2$&$T_1+a$&$T_2-a$&$T_1+a$&$T_2-a$&$T_1$&$T_2$\n\t\t\\end{tabular} %\n\\caption{Where the constants such that  $0<\\epsilon<a<\\frac{T_2}{2}<T_2 < T_1<T_1 + 2T_2 + a=1$, i.e., the table describes a valid probability distribution.%\n\tRow 10 is as follows: The first $K$ candidates (the asymptotic winners) occupy the first $K$ spots, in an order drawn uniformly at random. Similarly, The bottom $M-K$ candidates occupy the bottom $M-K$ spots, in an order drawn uniformly at random. This randomization ensures asymptotically design invariance.\n}\n\t\\end{table}\n\\FloatBarrier\n\n\n%\n\n\nThe table does not specify the probabilities of other candidates appearing in any position, so it is possible that they dominate the learning rate (are hardest to learn). (In particular, if the same, asymptotically non-winning candidate $q$ is always in position $L$ in the case in row $3$, then it may be hard to separate it from candidate $h$ using $L$ approval). However, we can specify the example further to ensure this does not happen.\n\n%\n%\n\nSuppose candidates are indexed by their order in some strict ranking $\\sigma^*$. Then, candidates $h=K, i = L=K+1, j = K+2$. Further suppose that candidates in $\\{1 \\dots K-1 \\}$ always occupy, in order except in case of row 10, the best positions in a voter's ranking that are not reserved for candidates $h,i,j$ in the table above. %\n\n%\n\nFor candidates $q\\in\\{K+3 \\dots M \\}$, we have to be more careful to avoid the case in parenthesis above. Suppose these $Q = M-K+2$ candidates fill up the bottom spots in a voter's ranking in a uniform at random order. In other words, they occupy spots $L+3 \\dots M$, and the worst spot among whichever of $K, L, L+1,L+2$ is missing in each row in the table above.\n\n\n\n\\parbold{Rates between the $h$ and $i,j$ dominate the overall learning rate using $K$ or $L$ approval} \n\nWe are now ready to show the first claim that learning between candidates $h$ and $i,j$ is hardest (when using either $K$ or $L$ approval).\n\nBy the specification above, candidates in $\\{1 \\dots K-2 \\}$ are always approved, and so learning between those candidates and any non-winning candidate is faster than any large deviations rate. Similarly, candidate $K-1$ always is ranked higher than candidates $q\\in\\{K+3 \\dots M \\}$, and it is approved alone with high enough probability. %\n\n%\n\n\n\n%\n%\n\nThen, the other candidates who may dominate the learning rate are candidate $K-1$ (in separation from $i, j$), or $q\\in\\{K+3 \\dots M \\}$ (in separation from $h$). From the above table:\n\t\\begin{align*}\n\tt_{hq}^{h}(K) &= T_1+a\t& \\text{Rows 1,2,3,10}\\\\\n\tt_{hq}^{q}(K) &= \\frac{2a}{Q}\t& \\text{Rows 8,9} \\\\\n\tt_{hq}^{h}(L) &= \\frac{Q-1}{Q}\\left[T_1 - \\epsilon \\right] + 3a + \\epsilon\t& \\text{Rows 1,2,7,10; and 3,8 w.p. } \\frac{Q-1}{Q} \\\\ \n\tt_{hq}^{q}(L) &= \\frac{2T_2 - 3a}{Q}\t& \\text{Rows 4,5,9 w.p.}  \\frac{1}{Q}\\\\\n%\n%\n%\nt_{(K-1)i}^{K-1}(K) &= T_1+T_2 & \\text{Rows } 1,3,4,8,9,10\\\\%\\text{Rows } 1,3,8,9 \\text{Rows 1,3,4,5,6,10} \\\\\nt_{(K-1)i}^{i}(K) &= 2a\t& \\text{Rows } 2,7\\\\\nt_{(K-1)j}^{K-1}(K) &= T_1 + T_2+a\t& \\text{Rows } 1,3,5,6,8,9,10\\\\\nt_{(K-1)j}^{j}(K) &= a\t& \\text{Rows } 7\\\\\nt_{(K-1)i}^{K-1}(L) &= T_1+T_2 & \\text{Rows } 1,3,4,8,9,10\\\\\nt_{(K-1)i}^{i}(L) &= 2a\t& \\text{Rows } 2,7\\\\\nt_{(K-1)j}^{K-1}(L) &= T_1 + T_2 - 2a\t& \\text{Rows } 3,5,8,10\\\\\nt_{(K-1)j}^{j}(L) &= 2a\t& \\text{Rows } 2,7\n\t\\end{align*}\nNow, suppose $3a > \\frac{T_1}{Q}$ and $Q>2$. (Both conditions occur for $Q$ large enough). Then, applying Remark~\\ref{rem:tminusaplusa} regarding learning rates being larger when the arguments are farther away from one another (holding one fixed), the resulting rates with these candidates are dominated by (larger than) the rates between candidates $h$ and $i,j$, discussed next.\n\n%\n\n%\n\n\\parbold{Randomizing improves the minimum rate between candidates $h$ and $i,j$}\nBy Remark~\\ref{rem:tminusaplusa}, \n\\begin{align*}\nr(T_1+a,T_2-a) >r(T_1,T_2)\n%\n%\n\\end{align*} \n\nUsing $K$-Approval:\n\\begin{align*}\n\\text{Rate between $h,i$: }\\,\\,\\,\\,\\,\\,\\,\\,\\,\\,\\ &r_{hi}(K) = r(T_1,T_2)\\\\\n\\text{Rate between $h,j$: }\\,\\,\\,\\,\\,\\,\\,\\,\\,\\,\\ &r_{hj}(K) = r(T_1+a,T_2-a)\\\\\n\\text{Overall rate: }\\,\\,\\,\\,\\,\\,\\,\\,\\,\\,\\ &r(K) = \\min(r_{hi}(K),r_{hj}(K)) = r(T_1,T_2)\n\\end{align*}\n\nUsing $L$-Approval:\n\\begin{align*}\n\\text{Rate between $h,i$: }\\,\\,\\,\\,\\,\\,\\,\\,\\,\\,\\ &r_{hi}(L) = r(T_1+a,T_2-a)\\\\\n\\text{Rate between $h,j$: }\\,\\,\\,\\,\\,\\,\\,\\,\\,\\,\\ &r_{hj}(L) = r(T_1,T_2)\\\\\n\\text{Overall rate: }\\,\\,\\,\\,\\,\\,\\,\\,\\,\\,\\ &r(K) = \\min(r_{hi}(L),r_{hj}(L)) = r(T_1,T_2)\n\\end{align*}\n\nRandomizing -- For any $0<p<1$, eliciting $K$-Approval with probability $p$, and $L$-Approval otherwise:\n\\begin{align*}\n\\text{Rate between $h,i$: }\\,\\,\\,\\,\\,\\,\\,\\,\\,\\,\\ & r(T_1+(1-p)a,T_2-(1-p)a)\\\\\n\\text{Rate between $h,j$: }\\,\\,\\,\\,\\,\\,\\,\\,\\,\\,\\  & r(T_1+pa,T_2-pa)\\\\\n\\text{Overall rate: }\\,\\,\\,\\,\\,\\,\\,\\,\\,\\,\\ r(K) &= r(T_1 + \\phi a,T_2 - \\phi a) & \\phi =\\min(p,1-p)\\\\ %\n&>r(T_1,T_2)  & \\text{Remark }~\\ref{rem:tminusaplusa}\n\\end{align*}\n%\n%\n%\n%\n\\parbold{$K'$-Approval ($K'\\neq K, K' \\neq L$) produces a worse rate than either $K$ or $L$ approval}\n\nFor any $K' < K-1$, $h$ is approved with probability $\\epsilon_2 < \\epsilon$, and $i,j$ are never approved. Then, the rate between $h$ and $i,j$ is $-\\log(1 - \\epsilon_2) \\to 0$ as $\\epsilon\\to 0$. Identically, for $K'\\geq L+2=K+3$, both $h$ and $i,j$ are approved except with some probability $\\epsilon_2 < \\epsilon$. \n\nFor $K' = K-1$, $h$ is approved without $i$ with probability $a + \\epsilon_2$ (for some $\\epsilon_2 < \\epsilon$), and $i$ is approved without $h$ with probability $a$. Then, the rate between $h$ and $i$ is $-\\log(2\\sqrt{(a + \\epsilon_2)a} + 1 - 2a - \\epsilon_2) \\to 0$ as $\\epsilon\\to 0$.\n\nFor $K' = K+2 = L+1$, $h$ is approved without $i$ with probability $T_2 - a + \\epsilon_2$, and $i$ is approved without $h$ with probability $0$. Then, the rate between them is $-\\log(1 - T_2 + a - \\epsilon_2)$. For $T_2$ small enough, this is a worse rate than using $K$ or $L$ approval. \n\n\\parbold{The example described is asymptotically design-invariant}\nFrom the above table, the probability that candidate $c\\in\\{1\\dots M\\}$ is in position $k$ or better, i.e., $\\sigma(c)\\leq k$ is:\n\\FloatBarrier\n\\begin{table}[h]\n\t\\begin{tabular}{l|ccccccc}\n\t\tCandidate              & $k<K-1$ & $K-1$ & $K$ & $L=K+1$ & $K+2$ & $K+3$ & $M>k>K+3$ \\\\ \\hline\n\t$w\\in \\{1 \\dots K-2\\}$\t\t &  $>0$       &   $>1-\\epsilon$    & $1$    &  $1$       &   $1$    &   $1$    &    $1$     \\\\\n\t$ K-1$                 &   $>0$      &  $1-2a$     &  $1-2a$   &   $1-2a$      &   $1$    &   $1$    &    $1$     \\\\\n\t$K$                  &   $>0$      &  $>a$     &  $T_1 + a$   &     $T_1 + 3a$    &    $1$   &   $1$    &    $1$     \\\\\\hline\n\t$L=K+1$                &    $0$     &  $a$     & $T_2$    &  $<T_2+\\epsilon$      &   $<1$   &   $<1$    &    $<1$      \\\\\n\t$K+2$                  &    $0$     &   $0$    &   $T_2-a$  &    $<T_2+3a+\\epsilon$     &   $<1$   &   $<1$    &    $<1$         \\\\\n\t$q\\in\\{K+3 \\dots M\\} $    &    $0$     &   $0$    &   $\\frac{2a}{Q}$  &     $\\frac{T_1 + 2T_2 -3a -\\epsilon}{Q}$    &    $<1$   &   $<1$    &    $<1$    \n\\end{tabular}\n\\end{table}\n\\FloatBarrier\n\\parbold{Conditions on constants in problem}\nFor the above claims to hold, we set conditions on the constants in the problem. They are\n\\begin{align*}\n0<\\epsilon<a<\\frac{T_2}{2}<T_2 &< T_1<T_1 + 2T_2 + a=1\\\\\n%\n1 - \\epsilon &>2\\sqrt{T_1T_2} + 1 - T_1 - T_2\\\\\n\\frac{T_1 + 2T_2 -3a -\\epsilon}{Q} &< T_1 + 3a\\\\\n3a &> \\frac{T_1}{Q}\\\\\nQ&>2\\\\\n1 - T_2 + a - \\epsilon &> 2\\sqrt{T_1T_2} + 1 - T_1 - T_2\n\\end{align*}\n\nThis is a feasible set of constraints: $Q$ can be set large enough to meet conditions 3,4,5 for any fixed $T_1, a, T_2$ that meet condition 1. Condition 2 is weaker than the last condition. That leaves the last condition along with the first one. \n\\begin{align*}\n1 - T_2 + a - \\epsilon &> 2\\sqrt{T_1T_2} + 1 - T_1 - T_2\\\\\n\\iff a - \\epsilon &> 2\\sqrt{T_1T_2} - T_1 \\\\\n\\iff \\frac{T_2}{2} - 2\\epsilon &> 2\\sqrt{T_1T_2} - T_1 & \\text{set } \\frac{T_2}{2}-\\epsilon = a \\\\\n\\iff \\frac{T_2}{2} + T_1 &> 2\\epsilon + 2\\sqrt{T_1T_2}\n\\end{align*}\nwhich holds for $T_1$ large enough, and $T_2,\\epsilon$ small enough. \n\n\\end{proof}",
+          "quoted_text_sha256": "9da80b3c999959dace03619b12d0e8754a2becf6db703d802cc50a843266e574"
+        }
+      ],
+      "source_kind": "theorem"
+    }
+  },
+  "source_artifact_sha256": "a8032b5c1b9bb4015edaf92f7b2a76cdc66643ff5bc27ea39f8f5b7c48f29f1a",
+  "source_coverage_mode": "named_theoretical_statements"
+}

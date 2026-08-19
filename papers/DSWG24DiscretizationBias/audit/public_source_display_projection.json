@@ -1,0 +1,330 @@
+{
+  "generator": "python3 scripts/public_source_display_projection.py",
+  "paper_id": "DSWG24DiscretizationBias",
+  "private_source_map_sha256": "ec3c2d9b2b961e4bbe5af91e52067ee789144c5058bcee49982a1216539dbe32",
+  "public_manifest_path": "papers/DSWG24DiscretizationBias/audit/public_source_display_projection.json",
+  "public_source_map_sha256": "3252802396141bc8fd48ee6084d3cb9670e4798a3fd640d29a10ca549603d46b",
+  "raw_source_artifact_included": false,
+  "raw_source_display_material": "selected_byte_pinned_source_anchor_quotes",
+  "schema": 1,
+  "selected_source_item_ids": [
+    "assumption_theorem1_perfect_classifier",
+    "bayesOptimal",
+    "calibrated",
+    "datasetMostLikelyClass",
+    "formalIndependentRule",
+    "isArgmaxRule",
+    "isIndependentRule",
+    "isThompsonSamplingRule",
+    "isTieBrokenArgmaxRule",
+    "maximizesEquation1",
+    "paretoOptimal",
+    "perfectClassifierOnSupport",
+    "posteriorSimplex",
+    "referenceDistribution",
+    "theorem1i_no_information_bias",
+    "theorem1ii_prior_reference_zero_bias",
+    "theorem1iii_argmax_bias_le_mae",
+    "theorem1iii_tight_binary_example",
+    "theorem2i_joint_rule_exists",
+    "theorem2ii_argmax_accuracy_maximizing",
+    "theorem2iii_non_argmax_not_pareto",
+    "theorem2iii_weighted_objective_maximizer_agrees_argmax"
+  ],
+  "selected_source_items": {
+    "assumption_theorem1_perfect_classifier": {
+      "source_anchors": [
+        {
+          "line_end": 666,
+          "line_start": 662,
+          "publication_locator": "cited publication",
+          "quoted_text": "\f                                                                                   (\n                                                                                    1,                                                                        if z = y,\n  (ii). Suppose the classifier is perfect, i.e., ∀(x, y) ∼ FXY , we have q(z, x) =                                                                                       Then, there\n                                                                                    0,                                                                        otherwise.\n        is no amplification bias, BIAS(y, Dargmax ) = 0.",
+          "quoted_text_sha256": "5cb0d9d00e8e12b932752232f8dce1a375134cc121a16e5933359856e36c6af2"
+        }
+      ],
+      "source_kind": "assumption"
+    },
+    "bayesOptimal": {
+      "source_anchors": [
+        {
+          "line_end": 607,
+          "line_start": 597,
+          "publication_locator": "cited publication",
+          "quoted_text": "3.1.1    Continuous classifier and discretization rules\nSuppose we have a machine learning classifier q (e.g., trained on some other dataset) that makes continuous\nprobability predictions for each class, given the data. Let q(y, x) denote the probability placed on class y\n\n\n\n                                                       10\n\fgiven data x. For example, the Bayes optimal classifier is\n                                               q ∗ (y, x) ≜ Pr(Y = y|X = x).\nWe will refer to p as the prior and q as our learned posterior. Let the simplex of possible probability vectors\nover the support Y be △Y , and let q(x) ∈ △Y be the vector of probabilities (q(y, x))y .",
+          "quoted_text_sha256": "a4118b4e4ac147b126002764fd2b55faf37383a2fbc324ea7e5d4fcb4aac05d2"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "calibrated": {
+      "source_anchors": [
+        {
+          "line_end": 658,
+          "line_start": 635,
+          "publication_locator": "cited publication",
+          "quoted_text": "3.2     Theoretical Results: Argmax bias and continuous classifier\nWe first study the relationship between argmax bias and the properties of the continuous classifier. We show\nthat discretization bias can occur even with unbiased (calibrated) continuous classifiers q, as long as it is\nuncertain (has non-zero error).\n    The following result holds for all calibrated classifiers. A given classifier q is calibrated when its contin-\nuous predictions are correct on average, Pr(Y = y|q(y, x) = c) = c.10 Note that the Bayes optimal classifier\nis calibrated.\nTheorem 1. Argmax bias depends on predictive uncertainty, i.e., how much information features x provide\nabout the true class label. Consider calibrated classifier q and the argmax decision rule Dargmax . Let N > K\nand consider a reference distribution of either the aggregate posterior or the prior. Then,\n  (i). Suppose x provides no information and q(y, x) = Pr(y) for all x, y. Then, amplification bias is\n       maximized and all data points are classified as a plurality class:\n                                                  (\n                                                    1 − Pr(y), if y = arg maxw p(w),\n                            BIAS(y, Dargmax ) =\n                                                    − Pr(y),      otherwise.\n   9 Note that, though related, mean average error of the continuous predictor q(y, x) is not equivalent to expected zero-one\n\nloss of the discrete decisions. The latter, our measure of decision accuracy, also depends on how the continuous predictor is\ndiscretized.                                n                                           o\n  10 For all c of non-zero measure: ∀c ∈\n                                                 R\n                                             c : (x,y) I[q(y, x) = c]f (x, y)d(y, x) > 0 . Further note that calibration implies\nBayesian consistency, i.e., the continuous model cumulatively assigns the proper mass to each class y: EX [q(y, x)] = Pr(y).",
+          "quoted_text_sha256": "8f09518bf0e46f9fd26158aec040d20d553a6a74dbb912c5cfe1d4a4c7943590"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "datasetMostLikelyClass": {
+      "source_anchors": [
+        {
+          "line_end": 755,
+          "line_start": 749,
+          "publication_locator": "cited publication",
+          "quoted_text": "                                                                                     q\n    For the result, we define the notion of non-trivial reference distributions PN     : a reference distribution\n                                                       1\npq : {xi } → △NY is in P N if it assigns mass at least N to the most likely class in the  dataset, i.e., at least 1\ndata point would be discretized to the most likely class arg maxy i q(y, xi ).13\n                                                                   P\n",
+          "quoted_text_sha256": "48016c59a05e17b2de877c61c84ccf12311aa20c4ce16624db4dc7c832bc1c66"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "formalIndependentRule": {
+      "source_anchors": [
+        {
+          "line_end": 618,
+          "line_start": 615,
+          "publication_locator": "cited publication",
+          "quoted_text": "    Decision (discretization) rules are as defined in Section 1.1. Our theoretical results distinguish between\nindependent (e.g., argmax, threhsolding, Thompson sampling) and joint (e.g., our optimization approach)\nrules. Formally, with independent rules, there exists a (potentially randomized) function d such that\nDd ({q(xi )}) = {ŷi = d(q(y, xi ))}.",
+          "quoted_text_sha256": "1b0f25ba091f45e480457b3a62f9e5232b6b9a5b889b84782ee626ed65b92b9b"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "isArgmaxRule": {
+      "source_anchors": [
+        {
+          "line_end": 218,
+          "line_start": 218,
+          "publication_locator": "cited publication",
+          "quoted_text": "Argmax rule assigns, for each data point, the most likely2 class: Dargmax ({q(xi }) ≜ {ŷi = arg maxy q(y, xi )}.",
+          "quoted_text_sha256": "362862c72ceb75798643d67974a656c68180d4c282bb2ed2a8129085701077a9"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "isIndependentRule": {
+      "source_anchors": [
+        {
+          "line_end": 228,
+          "line_start": 225,
+          "publication_locator": "cited publication",
+          "quoted_text": "    These rules are all independent: the assigned label for a data point i depends on q(xi ) but not on other\ndata points or their probability vectors {q(xj )}j̸=i .\n    In contrast, our proposed approach also includes joint decision optimization rules, which depend on the\nentire set of data points, as a solution to discretization bias.",
+          "quoted_text_sha256": "ae5ec72ccb9a36f87f38218d00df07614fd087871dd5e39651cc30313b2aede6"
+        },
+        {
+          "line_end": 162,
+          "line_start": 158,
+          "publication_locator": "cited publication",
+          "quoted_text": "data point xi . A (potentially randomized) decision (discretization) rule D : △NY →Y\n                                                                                      N\n                                                                                         is a rule that, given a\n                                   N\nset of probability vectors {q(xi )}i=1 associated with N data points, assigns each data point i a label ŷi ∈ Y.",
+          "quoted_text_sha256": "a01b69d7eb22bd0e2a686219d852dabd97c00a9581cb12aa0617db6dd4776645"
+        },
+        {
+          "line_end": 618,
+          "line_start": 615,
+          "publication_locator": "cited publication",
+          "quoted_text": "    Decision (discretization) rules are as defined in Section 1.1. Our theoretical results distinguish between\nindependent (e.g., argmax, threhsolding, Thompson sampling) and joint (e.g., our optimization approach)\nrules. Formally, with independent rules, there exists a (potentially randomized) function d such that\nDd ({q(xi )}) = {ŷi = d(q(y, xi ))}.",
+          "quoted_text_sha256": "1b0f25ba091f45e480457b3a62f9e5232b6b9a5b889b84782ee626ed65b92b9b"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "isThompsonSamplingRule": {
+      "source_anchors": [
+        {
+          "line_end": 223,
+          "line_start": 222,
+          "publication_locator": "cited publication",
+          "quoted_text": "Thompson sampling for each data point i, samples a class y based on the probabilities q(y, xi ), i.e., ŷi = y\n    with probability q(y, xi ), and so in expectation will have labels matching the aggregate posterior.",
+          "quoted_text_sha256": "aee172aeb5cfb838ec3e165a129242bca6c8d8f6ffb3f072c1e36d378026e64d"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "isTieBrokenArgmaxRule": {
+      "source_anchors": [
+        {
+          "line_end": 231,
+          "line_start": 215,
+          "publication_locator": "cited publication",
+          "quoted_text": "1.1.2    Overview of decision rules\nSeveral rules are used in academia and in practice:\n\nArgmax rule assigns, for each data point, the most likely2 class: Dargmax ({q(xi }) ≜ {ŷi = arg maxy q(y, xi )}.\nThreshold at t rule assigns a label only if the argmax class has a probability of at least t, i.e., ŷi =\n    arg maxy q(y, xi ) if maxy q(y, xi ) ≥ t, otherwise i is left uncoded.\n\nThompson sampling for each data point i, samples a class y based on the probabilities q(y, xi ), i.e., ŷi = y\n    with probability q(y, xi ), and so in expectation will have labels matching the aggregate posterior.\n\n    These rules are all independent: the assigned label for a data point i depends on q(xi ) but not on other\ndata points or their probability vectors {q(xj )}j̸=i .\n    In contrast, our proposed approach also includes joint decision optimization rules, which depend on the\nentire set of data points, as a solution to discretization bias.\n   2 Suppose ties are broken according to some consistent ordering over the classes.      In the event of ties, we will use\narg maxy q(y, x) to denote the single class that is in the argmax set and is first in the consistent ordering among classes\nin the argmax set.",
+          "quoted_text_sha256": "920837a5a95f805b511ad970d5e6f668e1f6450f05475c859304c2717725fda8"
+        },
+        {
+          "line_end": 231,
+          "line_start": 218,
+          "publication_locator": "cited publication",
+          "quoted_text": "Argmax rule assigns, for each data point, the most likely2 class: Dargmax ({q(xi }) ≜ {ŷi = arg maxy q(y, xi )}.\nThreshold at t rule assigns a label only if the argmax class has a probability of at least t, i.e., ŷi =\n    arg maxy q(y, xi ) if maxy q(y, xi ) ≥ t, otherwise i is left uncoded.\n\nThompson sampling for each data point i, samples a class y based on the probabilities q(y, xi ), i.e., ŷi = y\n    with probability q(y, xi ), and so in expectation will have labels matching the aggregate posterior.\n\n    These rules are all independent: the assigned label for a data point i depends on q(xi ) but not on other\ndata points or their probability vectors {q(xj )}j̸=i .\n    In contrast, our proposed approach also includes joint decision optimization rules, which depend on the\nentire set of data points, as a solution to discretization bias.\n   2 Suppose ties are broken according to some consistent ordering over the classes.      In the event of ties, we will use\narg maxy q(y, x) to denote the single class that is in the argmax set and is first in the consistent ordering among classes\nin the argmax set.",
+          "quoted_text_sha256": "374d195b8603d903100f02c9c464cd4a20700c4cc6e4d4c23a2a4fe17ba6aa35"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "maximizesEquation1": {
+      "source_anchors": [
+        {
+          "line_end": 264,
+          "line_start": 252,
+          "publication_locator": "cited publication",
+          "quoted_text": "Integer optimization rules directly optimize given objectives. We consider the rule that corresponds to\n     solving the following optimization problem, for a given γ, data points {xi }, and reference pref :\n                                                            N\n                                                                           !\n                      γ                                  1 X\n                   D ({q(xi )}, pref ) = arg max{ŷi } γ       q(ŷi , xi ) + (1 − γ)fid(pref , ŷ1:N ). (1)\n                                                         N i=1\n\n     The rule balances, parameterized by γ ∈ [0, 1], row-level scores (accuracy as measured by q) and\n     distributional fidelity.\nAggregate posterior matching A special case of the joint optimization decision rules defined in Equa-\n    tion (1) is as γ → 0, leading to a rule that maximizes accuracy subject to the constraint that distri-\n    butional fidelity be as high as possible. We call such rules matching solutions, e.g., aggregate posterior",
+          "quoted_text_sha256": "ef2be0d6378c52aa1b4d8a181ffa749cbace4782c9d4bbee41b574234d12a08b"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "paretoOptimal": {
+      "source_anchors": [
+        {
+          "line_end": 633,
+          "line_start": 620,
+          "publication_locator": "cited publication",
+          "quoted_text": "3.1.2    Formal metrics and Pareto optimal decision-making\nFor our theoretical results, we consider the expectations of our accuracy, fidelity, and bias metrics, calculated\nover the joint distribution of the data FXY over datasets of size N (and any randomness in the decision\nrule). The expected accuracy of a decision rule D together with continuous predictor q is thus\n                                     ACCN (D, q) = EFXY [acc(y1:N , D({q(xi )}))] .                                            (2)\nAnalogously FIDN (D, q, pref ) is the expectation of fidelity and BIASN (y, D, q, pref ) is the expectation of bias.\n   For a given data distribution F , continuous classifier q, reference distribution pref , and dataset size, we\nwant to make effective decisions. Given the multiple desiderata, we thus want Pareto optimal decision-\nmaking, i.e., to adopt a rule D that maximizes, for some γ ∈ (0, 1],\n                              γ\n                             ON (D, q, pref ) = γACCN (D, q) + (1 − γ)FIDN (D, q, pref ).                                      (3)\nThe weight γ is task-dependent, set by a practitioner’s expertise for whether accuracy or distributional\nfidelity is more important.\n    When clear from context, we omit q, pref , and N from the arguments for BIAS, Oγ , ACC, and FID.",
+          "quoted_text_sha256": "8bbda6afd40457d8383a1fd20048adea79c624b54a109b39b404aa3c48e2749c"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "perfectClassifierOnSupport": {
+      "source_anchors": [
+        {
+          "line_end": 666,
+          "line_start": 662,
+          "publication_locator": "cited publication",
+          "quoted_text": "\f                                                                                   (\n                                                                                    1,                                                                        if z = y,\n  (ii). Suppose the classifier is perfect, i.e., ∀(x, y) ∼ FXY , we have q(z, x) =                                                                                       Then, there\n                                                                                    0,                                                                        otherwise.\n        is no amplification bias, BIAS(y, Dargmax ) = 0.",
+          "quoted_text_sha256": "5cb0d9d00e8e12b932752232f8dce1a375134cc121a16e5933359856e36c6af2"
+        }
+      ],
+      "source_kind": "formula"
+    },
+    "posteriorSimplex": {
+      "source_anchors": [
+        {
+          "line_end": 607,
+          "line_start": 597,
+          "publication_locator": "cited publication",
+          "quoted_text": "3.1.1    Continuous classifier and discretization rules\nSuppose we have a machine learning classifier q (e.g., trained on some other dataset) that makes continuous\nprobability predictions for each class, given the data. Let q(y, x) denote the probability placed on class y\n\n\n\n                                                       10\n\fgiven data x. For example, the Bayes optimal classifier is\n                                               q ∗ (y, x) ≜ Pr(Y = y|X = x).\nWe will refer to p as the prior and q as our learned posterior. Let the simplex of possible probability vectors\nover the support Y be △Y , and let q(x) ∈ △Y be the vector of probabilities (q(y, x))y .",
+          "quoted_text_sha256": "a4118b4e4ac147b126002764fd2b55faf37383a2fbc324ea7e5d4fcb4aac05d2"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "referenceDistribution": {
+      "source_anchors": [
+        {
+          "line_end": 755,
+          "line_start": 749,
+          "publication_locator": "cited publication",
+          "quoted_text": "                                                                                     q\n    For the result, we define the notion of non-trivial reference distributions PN     : a reference distribution\n                                                       1\npq : {xi } → △NY is in P N if it assigns mass at least N to the most likely class in the  dataset, i.e., at least 1\ndata point would be discretized to the most likely class arg maxy i q(y, xi ).13\n                                                                   P\n",
+          "quoted_text_sha256": "48016c59a05e17b2de877c61c84ccf12311aa20c4ce16624db4dc7c832bc1c66"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "theorem1i_no_information_bias": {
+      "source_anchors": [
+        {
+          "line_end": 650,
+          "line_start": 642,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 1. Argmax bias depends on predictive uncertainty, i.e., how much information features x provide\nabout the true class label. Consider calibrated classifier q and the argmax decision rule Dargmax . Let N > K\nand consider a reference distribution of either the aggregate posterior or the prior. Then,\n  (i). Suppose x provides no information and q(y, x) = Pr(y) for all x, y. Then, amplification bias is\n       maximized and all data points are classified as a plurality class:\n                                                  (\n                                                    1 − Pr(y), if y = arg maxw p(w),\n                            BIAS(y, Dargmax ) =\n                                                    − Pr(y),      otherwise.",
+          "quoted_text_sha256": "c32dfce72aacba36c61938fb30025708892bc0afa61ad37653366d09e40949f6"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem1ii_prior_reference_zero_bias": {
+      "source_anchors": [
+        {
+          "line_end": 666,
+          "line_start": 642,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 1. Argmax bias depends on predictive uncertainty, i.e., how much information features x provide\nabout the true class label. Consider calibrated classifier q and the argmax decision rule Dargmax . Let N > K\nand consider a reference distribution of either the aggregate posterior or the prior. Then,\n  (i). Suppose x provides no information and q(y, x) = Pr(y) for all x, y. Then, amplification bias is\n       maximized and all data points are classified as a plurality class:\n                                                  (\n                                                    1 − Pr(y), if y = arg maxw p(w),\n                            BIAS(y, Dargmax ) =\n                                                    − Pr(y),      otherwise.\n   9 Note that, though related, mean average error of the continuous predictor q(y, x) is not equivalent to expected zero-one\n\nloss of the discrete decisions. The latter, our measure of decision accuracy, also depends on how the continuous predictor is\ndiscretized.                                n                                           o\n  10 For all c of non-zero measure: ∀c ∈\n                                                 R\n                                             c : (x,y) I[q(y, x) = c]f (x, y)d(y, x) > 0 . Further note that calibration implies\nBayesian consistency, i.e., the continuous model cumulatively assigns the proper mass to each class y: EX [q(y, x)] = Pr(y).\n\n\n                                                              11\n\f                                                                                   (\n                                                                                    1,                                                                        if z = y,\n  (ii). Suppose the classifier is perfect, i.e., ∀(x, y) ∼ FXY , we have q(z, x) =                                                                                       Then, there\n                                                                                    0,                                                                        otherwise.\n        is no amplification bias, BIAS(y, Dargmax ) = 0.",
+          "quoted_text_sha256": "c0307970d6f62640531898383138c5e542aa3943e07a1adb7c7306651f849c81"
+        },
+        {
+          "line_end": 666,
+          "line_start": 642,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 1. Argmax bias depends on predictive uncertainty, i.e., how much information features x provide\nabout the true class label. Consider calibrated classifier q and the argmax decision rule Dargmax . Let N > K\nand consider a reference distribution of either the aggregate posterior or the prior. Then,\n  (i). Suppose x provides no information and q(y, x) = Pr(y) for all x, y. Then, amplification bias is\n       maximized and all data points are classified as a plurality class:\n                                                  (\n                                                    1 − Pr(y), if y = arg maxw p(w),\n                            BIAS(y, Dargmax ) =\n                                                    − Pr(y),      otherwise.\n   9 Note that, though related, mean average error of the continuous predictor q(y, x) is not equivalent to expected zero-one\n\nloss of the discrete decisions. The latter, our measure of decision accuracy, also depends on how the continuous predictor is\ndiscretized.                                n                                           o\n  10 For all c of non-zero measure: ∀c ∈\n                                                 R\n                                             c : (x,y) I[q(y, x) = c]f (x, y)d(y, x) > 0 . Further note that calibration implies\nBayesian consistency, i.e., the continuous model cumulatively assigns the proper mass to each class y: EX [q(y, x)] = Pr(y).\n\n\n                                                              11\n\f                                                                                   (\n                                                                                    1,                                                                        if z = y,\n  (ii). Suppose the classifier is perfect, i.e., ∀(x, y) ∼ FXY , we have q(z, x) =                                                                                       Then, there\n                                                                                    0,                                                                        otherwise.\n        is no amplification bias, BIAS(y, Dargmax ) = 0.",
+          "quoted_text_sha256": "c0307970d6f62640531898383138c5e542aa3943e07a1adb7c7306651f849c81"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem1iii_argmax_bias_le_mae": {
+      "source_anchors": [
+        {
+          "line_end": 673,
+          "line_start": 667,
+          "publication_locator": "cited publication",
+          "quoted_text": " (iii). More generally, in the intermediate regime, argmax bias is upper bounded by the predictive error of\n        the classifier q:\n\n                                                                                                   BIAS(y, Dargmax ) ≤ MAE(q).                                                         (4)\n\n       The bound is tight: there exist FXY and q such that Equation (4) holds with equality for the plurality\n       class.",
+          "quoted_text_sha256": "5558f4fcc12583b185c50c08b34e751417c35cfc598b3c4ef122ab79b54ac336"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem1iii_tight_binary_example": {
+      "source_anchors": [
+        {
+          "line_end": 673,
+          "line_start": 667,
+          "publication_locator": "cited publication",
+          "quoted_text": " (iii). More generally, in the intermediate regime, argmax bias is upper bounded by the predictive error of\n        the classifier q:\n\n                                                                                                   BIAS(y, Dargmax ) ≤ MAE(q).                                                         (4)\n\n       The bound is tight: there exist FXY and q such that Equation (4) holds with equality for the plurality\n       class.",
+          "quoted_text_sha256": "5558f4fcc12583b185c50c08b34e751417c35cfc598b3c4ef122ab79b54ac336"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem2i_joint_rule_exists": {
+      "source_anchors": [
+        {
+          "line_end": 758,
+          "line_start": 756,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 2. Consider Bayes optimal q, and N > K. For all F :\n   (i). For every γ, pref there exists a joint decision-making rule that maximizes Oγ (D, q, pref ) in Equa-\n        tion (3).",
+          "quoted_text_sha256": "cdefd90ee3f45b2076adbe8ace27e5b5a044a657970b25db4c4c755ce497ed9f"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem2ii_argmax_accuracy_maximizing": {
+      "source_anchors": [
+        {
+          "line_end": 760,
+          "line_start": 760,
+          "publication_locator": "cited publication",
+          "quoted_text": "  (ii). The argmax decision rule Dargmax maximizes O1 (D, q, pref ), i.e., is accuracy maximizing.",
+          "quoted_text_sha256": "2f931f2b62700232c45b3d5353839127c8e641a2208605d6eff48c0216890a32"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem2iii_non_argmax_not_pareto": {
+      "source_anchors": [
+        {
+          "line_end": 763,
+          "line_start": 756,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 2. Consider Bayes optimal q, and N > K. For all F :\n   (i). For every γ, pref there exists a joint decision-making rule that maximizes Oγ (D, q, pref ) in Equa-\n        tion (3).\n\n  (ii). The argmax decision rule Dargmax maximizes O1 (D, q, pref ), i.e., is accuracy maximizing.\n (iii). Dargmax is the only Pareto optimal independent decision rule for non-trivial pref ∈ P. No independent\n        decision rule D maximizes objective Oγ for any γ, unless γ = 1 and D agrees with Dargmax with\n        probability 1.",
+          "quoted_text_sha256": "07c585148344eac5db82e91f6540ad438890463610edb399fbd60f0c3fc9eed0"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem2iii_weighted_objective_maximizer_agrees_argmax": {
+      "source_anchors": [
+        {
+          "line_end": 763,
+          "line_start": 756,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 2. Consider Bayes optimal q, and N > K. For all F :\n   (i). For every γ, pref there exists a joint decision-making rule that maximizes Oγ (D, q, pref ) in Equa-\n        tion (3).\n\n  (ii). The argmax decision rule Dargmax maximizes O1 (D, q, pref ), i.e., is accuracy maximizing.\n (iii). Dargmax is the only Pareto optimal independent decision rule for non-trivial pref ∈ P. No independent\n        decision rule D maximizes objective Oγ for any γ, unless γ = 1 and D agrees with Dargmax with\n        probability 1.",
+          "quoted_text_sha256": "07c585148344eac5db82e91f6540ad438890463610edb399fbd60f0c3fc9eed0"
+        }
+      ],
+      "source_kind": "theorem"
+    }
+  },
+  "source_artifact_sha256": "2370832850d19fc3e0b74c5471316b099bcab9f958c268ffcd9de9d38ef55295",
+  "source_coverage_mode": "named_theoretical_statements"
+}

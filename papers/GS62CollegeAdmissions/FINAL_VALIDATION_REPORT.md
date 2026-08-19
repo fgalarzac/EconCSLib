@@ -113,11 +113,11 @@ to using the PDF.
 
 ## 13. Source and Assumption Provenance
 
-The two college definitions are anchored to `source.txt:93--98` and
-`source.txt:115--117` (printed page 10). The marriage definition and Theorem 1
-are anchored to `source.txt:133--139` and `source.txt:185` (printed pages
+The two college definitions are anchored to `cited publication:93--98` and
+`cited publication:115--117` (printed page 10). The marriage definition and Theorem 1
+are anchored to `cited publication:133--139` and `cited publication:185` (printed pages
 11--12). Theorem 2 is anchored to the Sections 4--5 procedure and comparison
-at `source.txt:232--249` and `source.txt:253--255` (printed pages 13--14).
+at `cited publication:232--249` and `cited publication:253--255` (printed pages 13--14).
 The [statement map](audit/paper_statement_map.json) records these locations
 and the selected source bundle.
 

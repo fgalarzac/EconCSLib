@@ -6,7 +6,7 @@ evidence_lane = "direct-source-row-review"
 closed_at = "2026-08-18"
 
 [source_artifact]
-path = "papers/HT26EFXChores/source/EFXadditivechores.tex"
+path = "papers/HT26EFXChores/cited publication"
 sha256 = "d6bb00d52184df636e5b690f5baa9da36aac2795b114cae10a113b5f32da9ba1"
 
 [statement_map]

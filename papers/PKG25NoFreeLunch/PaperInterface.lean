@@ -1023,4 +1023,723 @@ theorem source_proposition9_explicit_final_mixture_strict_counterexample
     (proposition9FinalMixture_strategyAccuracy_lt_agentAccuracy
       (C := C) (k := k) (p := p) (q := q) hk hp hq hpk hqk hCp hCq i)
 
+/-- Transparent v11 semantic target for `source_accuracy_loss_correction`. -/
+def source_accuracy_loss_correctionSpec (prediction : Label) (eta : ℝ) : Prop :=
+  pointAccuracy prediction eta = 1 - pointZeroOneLoss prediction eta
+
+/-- Transparent v11 semantic target for the source definition `source_definition_probability_collaboration_setting`. -/
+def source_definition_probability_collaboration_settingSpec (n : ℕ) : Prop :=
+  source_definition_probability_collaboration_setting n = (JointLawCollaborationSetting n)
+
+/-- Transparent v11 semantic target for `source_formula_probability_predictor_range`. -/
+def source_formula_probability_predictor_rangeSpec {n : ℕ}
+    (S : JointLawCollaborationSetting n)
+    (i : Fin n) (x : S.X) : Prop :=
+  0 ≤ S.pred i x ∧ S.pred i x ≤ 1
+
+/-- Transparent v11 semantic target for `source_formula_probability_calibration`. -/
+def source_formula_probability_calibrationSpec {n : ℕ}
+    (S : JointLawCollaborationSetting n)
+    (i : Fin n) (A : Set ℝ) (hA : MeasurableSet A) : Prop :=
+  (∫ z : S.X × Label,
+      ({z | S.pred i z.1 ∈ A ∧ z.2 = true}.indicator fun _ => (1 : ℝ)) z
+        ∂S.joint) =
+      ∫ z : S.X × Label,
+        ({z | S.pred i z.1 ∈ A}.indicator fun z => S.pred i z.1) z
+          ∂S.joint
+
+/-- Transparent v11 semantic target for the source definition `source_definition_rounding_convention`. -/
+def source_definition_rounding_conventionSpec : Prop :=
+  source_definition_rounding_convention = (roundProb)
+
+/-- Transparent v11 semantic target for `source_formula_probability_agent_classifier`. -/
+def source_formula_probability_agent_classifierSpec {n : ℕ}
+    (S : JointLawCollaborationSetting n)
+    (i : Fin n) (x : S.X) : Prop :=
+  S.agentClassifier i x = roundProb (S.pred i x)
+
+/-- Transparent v11 semantic target for `source_formula_probability_agent_accuracy`. -/
+def source_formula_probability_agent_accuracySpec {n : ℕ}
+    (S : JointLawCollaborationSetting n)
+    (i : Fin n) : Prop :=
+  S.agentAccuracy i =
+      ∫ z : S.X × Label,
+        max (S.pred i z.1) (1 - S.pred i z.1) ∂S.joint
+
+/-- Transparent v11 semantic target for the source definition `source_definition_collaboration_strategy`. -/
+def source_definition_collaboration_strategySpec (n : ℕ) : Prop :=
+  source_definition_collaboration_strategy n = (CollaborationStrategy n)
+
+/-- Transparent v11 semantic target for `source_formula_probability_strategy_classifier`. -/
+def source_formula_probability_strategy_classifierSpec {n : ℕ}
+    (S : JointLawCollaborationSetting n)
+    (C : CollaborationStrategy n)
+    (x : S.X) : Prop :=
+  S.strategyClassifier C x = C (fun i => S.pred i x)
+
+/-- Transparent v11 semantic target for `source_formula_probability_strategy_accuracy`. -/
+def source_formula_probability_strategy_accuracySpec {n : ℕ}
+    (S : JointLawCollaborationSetting n) (C : CollaborationStrategy n)
+    (_hwell : source_assumption_strategy_expectation_well_formed S C) : Prop :=
+  S.strategyAccuracy C =
+      ∫ z : S.X × Label,
+        if S.strategyClassifier C z.1 = z.2 then (1 : ℝ) else 0 ∂S.joint
+
+/-- Transparent v11 semantic target for `source_formula_probability_partition_induced_predictor`. -/
+def source_formula_probability_partition_induced_predictorSpec
+    {X Cell : Type*} [MeasurableSpace X]
+    [MeasurableSpace Cell] [MeasurableSingletonClass Cell]
+    (joint : Measure (X × Label)) [IsProbabilityMeasure joint]
+    (cell : X → Cell) (hcell : Measurable cell) (x : X)
+    (hpositive : 0 < jointLawPartitionCellMass joint cell (cell x)) : Prop :=
+  jointLawPartitionPredictor joint cell x =
+      jointLawPartitionCellTrueMass joint cell (cell x) /
+        jointLawPartitionCellMass joint cell (cell x)
+
+/-- Transparent v11 semantic target for `source_convention_probability_partition_zero_mass_prediction`. -/
+def source_convention_probability_partition_zero_mass_predictionSpec
+    {X Cell : Type*} [MeasurableSpace X]
+    [MeasurableSpace Cell] [MeasurableSingletonClass Cell]
+    (joint : Measure (X × Label)) [IsProbabilityMeasure joint]
+    (cell : X → Cell) (hcell : Measurable cell) (x : X)
+    (hzero : jointLawPartitionCellMass joint cell (cell x) = 0) : Prop :=
+  jointLawPartitionPredictor joint cell x = 0
+
+/-- Transparent v11 semantic target for `source_probability_partition_predictor_calibrated_events`. -/
+def source_probability_partition_predictor_calibrated_eventsSpec
+    {X Cell : Type*} [MeasurableSpace X]
+    [Fintype Cell] [MeasurableSpace Cell] [MeasurableSingletonClass Cell]
+    (joint : Measure (X × Label)) [IsProbabilityMeasure joint]
+    (cell : X → Cell) (hcell : Measurable cell)
+    (A : Set ℝ) (hA : MeasurableSet A) : Prop :=
+  (∫ z : X × Label,
+      ({z | jointLawPartitionPredictor joint cell z.1 ∈ A ∧ z.2 = true}.indicator
+        fun _ => (1 : ℝ)) z ∂joint) =
+      ∫ z : X × Label,
+        ({z | jointLawPartitionPredictor joint cell z.1 ∈ A}.indicator
+          fun z => jointLawPartitionPredictor joint cell z.1) z ∂joint
+
+/-- Transparent v11 semantic target for the source definition `source_probability_partition_collaboration_setting`. -/
+def source_probability_partition_collaboration_settingSpec : Prop :=
+  ∀ {n : ℕ} {Cell : Fin n → Type*}
+    [(i : Fin n) → Fintype (Cell i)]
+    [(i : Fin n) → MeasurableSpace (Cell i)]
+    [∀ i : Fin n, MeasurableSingletonClass (Cell i)]
+    {X : Type} [MeasurableSpace X]
+    (joint : Measure (X × Label)) [IsProbabilityMeasure joint]
+    (cell : (i : Fin n) → X → Cell i)
+    (hcell : ∀ i : Fin n, Measurable (cell i)),
+    source_probability_partition_collaboration_setting (n := n) (Cell := Cell) (X := X)
+      joint cell hcell =
+      jointLawDependentPartitionSetting (n := n) (Cell := Cell) (X := X)
+        joint cell hcell
+
+/-- Transparent v11 semantic target for `source_formula_reliable_probability_iff`. -/
+def source_formula_reliable_probability_iffSpec {n : ℕ}
+    [Nonempty (Fin n)] (C : CollaborationStrategy n) : Prop :=
+  ReliableJointLaw C ↔
+      ∀ S : JointLawCollaborationSetting n,
+        source_assumption_strategy_expectation_well_formed S C →
+        ∃ i : Fin n, S.agentAccuracy i ≤ S.strategyAccuracy C
+
+/-- Transparent v11 semantic target for `source_finite_embedding_preserves_agent_accuracy`. -/
+def source_finite_embedding_preserves_agent_accuracySpec {n : ℕ}
+    (S : FiniteCollaborationSetting n)
+    (i : Fin n) : Prop :=
+  (JointLawCollaborationSetting.ofFinite S).agentAccuracy i =
+      S.agentAccuracy i
+
+/-- Transparent v11 semantic target for `source_finite_embedding_preserves_strategy_accuracy`. -/
+def source_finite_embedding_preserves_strategy_accuracySpec {n : ℕ}
+    (C : CollaborationStrategy n) (S : FiniteCollaborationSetting n) : Prop :=
+  (JointLawCollaborationSetting.ofFinite S).strategyAccuracy C =
+      S.strategyAccuracy C
+
+/-- Transparent v11 semantic target for `source_bridge_probability_reliability_to_finite`. -/
+def source_bridge_probability_reliability_to_finiteSpec {n : ℕ}
+    {C : CollaborationStrategy n} (hrel : ReliableJointLaw C) : Prop :=
+  ReliableFinite C
+
+/-- Transparent v11 semantic target for `source_formula_interior_prediction_profile_iff`. -/
+def source_formula_interior_prediction_profile_iffSpec {n : ℕ}
+    (p : Fin n → ℝ) : Prop :=
+  Interior p ↔ ∀ i : Fin n, 0 < p i ∧ p i < 1
+
+/-- Transparent v11 semantic target for `source_formula_non_collaborative_iff`. -/
+def source_formula_non_collaborative_iffSpec {n : ℕ}
+    (C : CollaborationStrategy n) : Prop :=
+  NonCollaborative C ↔
+      ∃ k : Fin n, ∃ α : Label,
+        DefersAwayFromHalf C k ∧ ConstantOnHalfSlice C k α
+
+/-- Transparent v11 semantic target for `source_formula_correct_on_iff`. -/
+def source_formula_correct_on_iffSpec (prediction : Label) (eta : ℝ) : Prop :=
+  source_definition_correct_on prediction eta ↔
+      prediction = roundProb eta
+
+/-- Transparent v11 semantic target for `source_formula_incorrect_on_iff`. -/
+def source_formula_incorrect_on_iffSpec (prediction : Label) (eta : ℝ) : Prop :=
+  source_definition_incorrect_on prediction eta ↔
+      prediction ≠ roundProb eta
+
+/-- Transparent v11 semantic target for `source_formula_agree_on_iff`. -/
+def source_formula_agree_on_iffSpec (prediction1 prediction2 : Label) : Prop :=
+  source_definition_agree_on prediction1 prediction2 ↔
+      prediction1 = prediction2
+
+/-- Transparent v11 semantic target for `source_formula_disagree_on_iff`. -/
+def source_formula_disagree_on_iffSpec (prediction1 prediction2 : Label) : Prop :=
+  source_definition_disagree_on prediction1 prediction2 ↔
+      prediction1 ≠ prediction2
+
+/-- Transparent v11 semantic target for `source_correctness_strict_gap_half_tie_counterexample`. -/
+def source_correctness_strict_gap_half_tie_counterexampleSpec : Prop :=
+  roundProb ((1 : ℝ) / 2) = true ∧
+      false ≠ roundProb ((1 : ℝ) / 2) ∧
+      pointAccuracy true ((1 : ℝ) / 2) =
+        pointAccuracy false ((1 : ℝ) / 2)
+
+/-- Transparent v11 semantic target for `source_correctness_strict_gap_corrected`. -/
+def source_correctness_strict_gap_correctedSpec
+    {good bad : Label} {eta : ℝ}
+    (hgood : source_definition_correct_on good eta)
+    (hbad : source_definition_incorrect_on bad eta)
+    (hne : eta ≠ (1 : ℝ) / 2) : Prop :=
+  pointAccuracy bad eta < pointAccuracy good eta
+
+/-- Transparent v11 semantic target for `source_formula_mixture_components`. -/
+def source_formula_mixture_componentsSpec
+    {n ell : ℕ} (S : Fin ell → JointLawCollaborationSetting n)
+    (w : Fin ell → ℝ)
+    (hw_nonneg : ∀ r, 0 ≤ w r) (hw_sum : ∑ r, w r = 1)
+    (r : Fin ell) (A : Set ((S r).X × Label)) (hA : MeasurableSet A)
+    (z : Sigma fun r : Fin ell => (S r).X) : Prop :=
+  (JointLawCollaborationSetting.mix S w hw_nonneg hw_sum).joint
+        ((jointLawMixtureEmbedding S r) '' A) =
+        ENNReal.ofReal (w r) * (S r).joint A ∧
+    (∀ i : Fin n,
+      (JointLawCollaborationSetting.mix S w hw_nonneg hw_sum).pred i z =
+        (S z.1).pred i z.2)
+
+/-- Transparent v11 semantic target for `source_proposition6_linear_combination_settings`. -/
+def source_proposition6_linear_combination_settingsSpec
+    {n ell : ℕ} (S : Fin ell → JointLawCollaborationSetting n)
+    (w : Fin ell → ℝ)
+    (hw_nonneg : ∀ r : Fin ell, 0 ≤ w r)
+    (hw_sum : ∑ r : Fin ell, w r = 1) : Prop :=
+  ∃ Smix : JointLawCollaborationSetting n,
+      (∀ i : Fin n,
+        Smix.agentAccuracy i = ∑ r : Fin ell, w r * (S r).agentAccuracy i) ∧
+      (∀ C : CollaborationStrategy n,
+        (∀ r : Fin ell,
+          source_assumption_strategy_expectation_well_formed (S r) C) →
+        source_assumption_strategy_expectation_well_formed Smix C ∧
+          Smix.strategyAccuracy C =
+            ∑ r : Fin ell, w r * (S r).strategyAccuracy C)
+
+/-- Transparent v11 semantic target for `source_theorem1_no_free_lunch`. -/
+def source_theorem1_no_free_lunchSpec {n : ℕ} [Nonempty (Fin n)]
+    (C : CollaborationStrategy n) : Prop :=
+  ReliableJointLaw C → NonCollaborative C
+
+/-- Transparent v11 semantic target for `source_iff_converse_boundary_counterexample`. -/
+def source_iff_converse_boundary_counterexampleSpec : Prop :=
+  NonCollaborative boundaryFlipStrategy ∧
+      ¬ ReliableJointLaw boundaryFlipStrategy
+
+/-- Transparent v11 semantic target for `source_proposition7_reliability_forces_fixed_deferral`. -/
+def source_proposition7_reliability_forces_fixed_deferralSpec
+    {n : ℕ} [Nonempty (Fin n)] (C : CollaborationStrategy n) : Prop :=
+  ReliableJointLaw C → ∃ k : Fin n, DefersAwayFromHalf C k
+
+/-- Transparent v11 semantic target for `source_proposition7_uniform_mixture_strict_counterexample`. -/
+def source_proposition7_uniform_mixture_strict_counterexampleSpec
+    {n : ℕ} [Nonempty (Fin n)] (C : CollaborationStrategy n)
+    (hno_fixed_deferral : ¬ ∃ k : Fin n, DefersAwayFromHalf C k) : Prop :=
+  ∃ S : JointLawCollaborationSetting n,
+      source_assumption_strategy_expectation_well_formed S C ∧
+        ∀ i : Fin n, S.strategyAccuracy C < S.agentAccuracy i
+
+/-- Transparent v11 semantic target for `source_lemma8_bad_tuple_counterexample_setting`. -/
+def source_lemma8_bad_tuple_counterexample_settingSpec
+    {n : ℕ} {C : CollaborationStrategy n} {p : Fin n → ℝ} (hp : Interior p)
+    {k : Fin n} (hhalf_ne : p k ≠ (1 : ℝ) / 2)
+    (hbad : C p ≠ roundProb (p k)) : Prop :=
+  ∃ S : JointLawCollaborationSetting n,
+      source_assumption_strategy_expectation_well_formed S C ∧
+        S.strategyAccuracy C < S.agentAccuracy k ∧
+          ∀ i : Fin n, S.strategyAccuracy C ≤ S.agentAccuracy i
+
+/-- Transparent v11 semantic target for `source_formula_lemma8_masses`. -/
+def source_formula_lemma8_massesSpec
+    {n : ℕ} (b : Label) (p : Fin n → ℝ) (i : Fin n) : Prop :=
+  part1Odds false (p i) = (1 - p i) / p i ∧
+      part1Odds true (p i) = p i / (1 - p i) ∧
+      part1Mass b p none = 1 / part1Denom b p ∧
+      part1Mass b p (some i) = part1Odds b (p i) / part1Denom b p ∧
+      part1Denom b p = 1 + ∑ j : Fin n, part1Odds b (p j)
+
+/-- Transparent v11 semantic target for `source_formula_lemma8_labels_and_predictions`. -/
+def source_formula_lemma8_labels_and_predictionsSpec
+    {n : ℕ} (b : Label) (p : Fin n → ℝ) (i j : Fin n) : Prop :=
+  part1Eta b (none : Part1Point n) = labelReal (!b) ∧
+      part1Eta b (some j) = labelReal b ∧
+      part1Pred b p i none = p i ∧
+      part1Pred b p i (some j) = if j = i then p i else labelReal b
+
+/-- Transparent v11 semantic target for `source_lemma8_partition_realization`. -/
+def source_lemma8_partition_realizationSpec {n : ℕ} (b : Label)
+    (p : Fin n → ℝ) (hp : Interior p) : Prop :=
+  ∀ (i : Fin n) (x : Part1Point n),
+      (finiteJointLawPartitionCollaborationSetting
+        (finiteJointLawPMF (part1Setting b p hp))
+        (fun j : Fin n => part1SourceCell j)).pred i x =
+          part1Pred b p i x
+
+/-- Transparent v11 semantic target for `source_lemma8_witness_calibrated`. -/
+def source_lemma8_witness_calibratedSpec {n : ℕ} (b : Label)
+    (p : Fin n → ℝ) (hp : Interior p) : Prop :=
+  ∀ i : Fin n, ∀ r : ℝ,
+      eventLabelMass (part1Mass b p) (part1Eta b)
+          (fun x : Part1Point n => part1Pred b p i x = r) =
+        r * eventMass (part1Mass b p)
+          (fun x : Part1Point n => part1Pred b p i x = r)
+
+/-- Transparent v11 semantic target for `source_formula_proposition9_s1_family`. -/
+def source_formula_proposition9_s1_familySpec {n : ℕ} {ε : ℝ}
+    (hεhalf : ε < (1 : ℝ) / 2) (k : Fin n) : Prop :=
+  part2S1ParamMass false = (1 : ℝ) / 3 ∧
+      part2S1ParamMass true = (2 : ℝ) / 3 ∧
+      part2S1ParamEta ε false = ε ∧
+      part2S1ParamEta ε true = 1 - ε ∧
+      part2S1ParamKPred ε = (2 : ℝ) / 3 - ε / 3 ∧
+      (∀ (i : Fin n) (x : Part2S1ParamPoint),
+        part2S1ParamPred ε k i x =
+          if i = k then part2S1ParamKPred ε else part2S1ParamEta ε x) ∧
+      (∀ (i : Fin n) (r : ℝ),
+        eventMass part2S1ParamMass
+            (fun x : Part2S1ParamPoint => part2S1ParamPred ε k i x = r) > 0 →
+          eventLabelMass part2S1ParamMass (part2S1ParamEta ε)
+              (fun x : Part2S1ParamPoint => part2S1ParamPred ε k i x = r) =
+            r * eventMass part2S1ParamMass
+              (fun x : Part2S1ParamPoint =>
+                part2S1ParamPred ε k i x = r))
+
+/-- Transparent v11 semantic target for `source_proposition9_s1_positive_parameter_validity`. -/
+def source_proposition9_s1_positive_parameter_validitySpec
+    {n : ℕ} {ε : ℝ} (hε0 : 0 < ε) (hεhalf : ε < (1 : ℝ) / 2)
+    (k : Fin n) : Prop :=
+  (∀ x : Part2S1ParamPoint,
+      0 ≤ part2S1ParamEta ε x ∧ part2S1ParamEta ε x ≤ 1) ∧
+      (∀ (i : Fin n) (x : Part2S1ParamPoint),
+        0 ≤ part2S1ParamPred ε k i x ∧ part2S1ParamPred ε k i x ≤ 1) ∧
+      ∀ x : Part2S1ParamPoint,
+        Interior (fun i : Fin n => part2S1ParamPred ε k i x)
+
+/-- Transparent v11 semantic target for `source_proposition9_s1_partition_realization`. -/
+def source_proposition9_s1_partition_realizationSpec {n : ℕ} {ε : ℝ}
+    (hε0 : 0 < ε) (hεhalf : ε < (1 : ℝ) / 2) (k : Fin n) : Prop :=
+  ∀ (i : Fin n) (x : Part2S1ParamPoint),
+      (finiteJointLawPartitionCollaborationSetting
+        (finiteJointLawPMF (part2S1ParamSetting ε hε0 hεhalf k))
+        (fun j : Fin n => part2S1ParamSourceCell k j)).pred i x =
+          part2S1ParamPred ε k i x
+
+/-- Transparent v11 semantic target for `source_proposition9_s1_parameterized_accuracy_gap`. -/
+def source_proposition9_s1_parameterized_accuracy_gapSpec {n : ℕ} {ε : ℝ}
+    (hε0 : 0 < ε) (hεhalf : ε < (1 : ℝ) / 2)
+    {C : CollaborationStrategy n} {k : Fin n}
+    (hk : DefersAwayFromHalf C k) : Prop :=
+  (part2S1ParamSetting ε hε0 hεhalf k).strategyAccuracy C =
+        (2 : ℝ) / 3 - ε / 3 ∧
+      (part2S1ParamSetting ε hε0 hεhalf k).agentAccuracy k =
+        (2 : ℝ) / 3 - ε / 3 ∧
+      (∀ i : Fin n, i ≠ k →
+        (part2S1ParamSetting ε hε0 hεhalf k).agentAccuracy i = 1 - ε ∧
+        (part2S1ParamSetting ε hε0 hεhalf k).strategyAccuracy C <
+          (part2S1ParamSetting ε hε0 hεhalf k).agentAccuracy i)
+
+/-- Transparent v11 semantic target for `source_formula_proposition9_s2_repaired_normalizer`. -/
+def source_formula_proposition9_s2_repaired_normalizerSpec
+    {n : ℕ} (p q : Fin n → ℝ) : Prop :=
+  part2S2Denom p q =
+      (2 : ℝ) + ∑ j : Fin n,
+        (p j / (1 - p j) + (1 - q j) / q j)
+
+/-- Transparent v11 semantic target for `source_proposition9_s2_repaired_mass_normalized`. -/
+def source_proposition9_s2_repaired_mass_normalizedSpec
+    {n : ℕ} {p q : Fin n → ℝ} (hp : Interior p) (hq : Interior q) : Prop :=
+  (∑ x : Part2S2Point n, part2S2Mass p q x) = 1
+
+/-- Transparent v11 semantic target for `source_formula_proposition9_s2_construction`. -/
+def source_formula_proposition9_s2_constructionSpec
+    {n : ℕ} (k : Fin n) (p q : Fin n → ℝ) (i : Fin n)
+    (x : Part1Point n) : Prop :=
+  part2S2WeightP p q =
+        part1Denom true p / (part1Denom true p + part1Denom false q) ∧
+      part2S2WeightQ p q =
+        part1Denom false q / (part1Denom true p + part1Denom false q) ∧
+      part2S2Mass p q (false, x) = part2S2WeightP p q * part1Mass true p x ∧
+      part2S2Mass p q (true, x) = part2S2WeightQ p q * part1Mass false q x ∧
+      part2S2Eta (false, x) = part1Eta true x ∧
+      part2S2Eta (true, x) = part1Eta false x ∧
+      part2S2Pred k p q i (false, x) =
+        (if i = k then
+          match x with
+          | none => (1 : ℝ) / 2
+          | some _ => part1Eta true x
+        else part1Pred true p i x) ∧
+      part2S2Pred k p q i (true, x) =
+        (if i = k then
+          match x with
+          | none => (1 : ℝ) / 2
+          | some _ => part1Eta false x
+        else part1Pred false q i x)
+
+/-- Transparent v11 semantic target for `source_proposition9_s2_partition_realization`. -/
+def source_proposition9_s2_partition_realizationSpec {n : ℕ}
+    {p q : Fin n → ℝ} (hp : Interior p) (hq : Interior q) (k : Fin n) : Prop :=
+  ∀ (i : Fin n) (x : Part2S2Point n),
+      (finiteJointLawPartitionCollaborationSetting
+        (finiteJointLawPMF (part2S2Setting k p q hp hq))
+        (fun j : Fin n => part2S2SourceCell k j)).pred i x =
+          part2S2Pred k p q i x
+
+/-- Transparent v11 semantic target for `source_proposition9_s2_calibrated`. -/
+def source_proposition9_s2_calibratedSpec {n : ℕ}
+    {p q : Fin n → ℝ} (hp : Interior p) (hq : Interior q) (k : Fin n) : Prop :=
+  ∀ i : Fin n, ∀ r : ℝ,
+      eventLabelMass (part2S2Mass p q) part2S2Eta
+          (fun x : Part2S2Point n => part2S2Pred k p q i x = r) =
+        r * eventMass (part2S2Mass p q)
+          (fun x : Part2S2Point n => part2S2Pred k p q i x = r)
+
+/-- Transparent v11 semantic target for `source_proposition9_s2_strict_gap`. -/
+def source_proposition9_s2_strict_gapSpec {n : ℕ}
+    {C : CollaborationStrategy n} {k : Fin n} {p q : Fin n → ℝ}
+    (hp : Interior p) (hq : Interior q)
+    (hpk : p k = (1 : ℝ) / 2) (hqk : q k = (1 : ℝ) / 2)
+    (hCp : C p = true) (hCq : C q = false) : Prop :=
+  (fun i : Fin n =>
+        part2S2Pred k p q i (false, (none : Part1Point n))) = p ∧
+      (fun i : Fin n =>
+        part2S2Pred k p q i (true, (none : Part1Point n))) = q ∧
+      (part2S2Setting k p q hp hq).strategyAccuracy C <
+        (part2S2Setting k p q hp hq).agentAccuracy k
+
+/-- Transparent v11 semantic target for `source_proposition9_reliability_forces_fixed_tie_label`. -/
+def source_proposition9_reliability_forces_fixed_tie_labelSpec
+    {n : ℕ} [Nonempty (Fin n)] (C : CollaborationStrategy n) (k : Fin n)
+    (hrel : ReliableJointLaw C) (hk : DefersAwayFromHalf C k) : Prop :=
+  ∃ alpha : Label, ConstantOnHalfSlice C k alpha
+
+/-- Transparent v11 semantic target for `source_formula_proposition9_explicit_final_mixture`. -/
+def source_formula_proposition9_explicit_final_mixtureSpec {n : ℕ}
+    (S1 S2 : FiniteCollaborationSetting n) : Prop :=
+  ∃ Smix : JointLawCollaborationSetting n,
+      (∀ i : Fin n,
+        Smix.agentAccuracy i =
+          (7 : ℝ) / 8 * S1.agentAccuracy i +
+            (1 : ℝ) / 8 * S2.agentAccuracy i) ∧
+      (∀ C : CollaborationStrategy n,
+        source_assumption_strategy_expectation_well_formed Smix C ∧
+          Smix.strategyAccuracy C =
+            (7 : ℝ) / 8 * S1.strategyAccuracy C +
+              (1 : ℝ) / 8 * S2.strategyAccuracy C)
+
+/-- Transparent v11 semantic target for `source_proposition9_explicit_final_mixture_strict_counterexample`. -/
+def source_proposition9_explicit_final_mixture_strict_counterexampleSpec
+    {n : ℕ} [Nonempty (Fin n)] {C : CollaborationStrategy n} {k : Fin n}
+    {p q : Fin n → ℝ} (hk : DefersAwayFromHalf C k)
+    (hp : Interior p) (hq : Interior q)
+    (hpk : p k = (1 : ℝ) / 2) (hqk : q k = (1 : ℝ) / 2)
+    (hCp : C p = true) (hCq : C q = false) : Prop :=
+  ∃ Smix : JointLawCollaborationSetting n,
+      source_assumption_strategy_expectation_well_formed Smix C ∧
+        ∀ i : Fin n, Smix.strategyAccuracy C < Smix.agentAccuracy i
+
+/-- Lean proof endpoint for the source collaboration-setting definition Spec. -/
+theorem source_definition_probability_collaboration_settingSpec_proof (n : ℕ) :
+    source_definition_probability_collaboration_settingSpec n := by
+  rfl
+
+/-- Lean proof endpoint for the source rounding-convention definition Spec. -/
+theorem source_definition_rounding_conventionSpec_proof :
+    source_definition_rounding_conventionSpec := by
+  rfl
+
+/-- Lean proof endpoint for the source collaboration-strategy definition Spec. -/
+theorem source_definition_collaboration_strategySpec_proof (n : ℕ) :
+    source_definition_collaboration_strategySpec n := by
+  rfl
+
+/-- Lean proof endpoint for the source dependent-partition construction Spec. -/
+theorem source_probability_partition_collaboration_settingSpec_proof :
+    source_probability_partition_collaboration_settingSpec := by
+  intro n Cell instFintype instMeasurable instSingleton X instX joint instProbability cell hcell
+  rfl
+
+/-- Transparent v11 source-item target for `source_definition_predictor`. -/
+def source_definition_predictorSpec : Prop :=
+  (∀  {n : ℕ}
+    (S : JointLawCollaborationSetting n)
+    (i : Fin n) (x : S.X), 0 ≤ S.pred i x ∧ S.pred i x ≤ 1)
+
+/-- Checked proof endpoint for the v11 source-item target `source_definition_predictor`. -/
+theorem source_definition_predictorSpec_proof : source_definition_predictorSpec := by
+  unfold source_definition_predictorSpec
+  exact source_formula_probability_predictor_range
+
+/-- Transparent v11 source-item target for `source_model_event_calibration_convention`. -/
+def source_model_event_calibration_conventionSpec : Prop :=
+  (∀  {n : ℕ}
+    (S : JointLawCollaborationSetting n)
+    (i : Fin n) (A : Set ℝ) (hA : MeasurableSet A), (∫ z : S.X × Label,
+      ({z | S.pred i z.1 ∈ A ∧ z.2 = true}.indicator fun _ => (1 : ℝ)) z
+        ∂S.joint) =
+      ∫ z : S.X × Label,
+        ({z | S.pred i z.1 ∈ A}.indicator fun z => S.pred i z.1) z
+          ∂S.joint)
+
+/-- Checked proof endpoint for the v11 source-item target `source_model_event_calibration_convention`. -/
+theorem source_model_event_calibration_conventionSpec_proof : source_model_event_calibration_conventionSpec := by
+  unfold source_model_event_calibration_conventionSpec
+  exact source_formula_probability_calibration
+
+/-- Transparent v11 source-item target for `source_definition_collaboration_setting`. -/
+def source_definition_collaboration_settingSpec : Prop :=
+  (∀  (n : ℕ), source_definition_probability_collaboration_settingSpec (n := n))
+
+/-- Checked proof endpoint for the v11 source-item target `source_definition_collaboration_setting`. -/
+theorem source_definition_collaboration_settingSpec_proof : source_definition_collaboration_settingSpec := by
+  unfold source_definition_collaboration_settingSpec
+  exact by
+    intro n
+    exact source_definition_probability_collaboration_settingSpec_proof n
+
+/-- Transparent v11 source-item target for `source_definition_rounding_classifier`. -/
+def source_definition_rounding_classifierSpec : Prop :=
+  (source_definition_rounding_conventionSpec) ∧
+    (∀  {n : ℕ}
+    (S : JointLawCollaborationSetting n)
+    (i : Fin n) (x : S.X), S.agentClassifier i x = roundProb (S.pred i x))
+
+/-- Checked proof endpoint for the v11 source-item target `source_definition_rounding_classifier`. -/
+theorem source_definition_rounding_classifierSpec_proof : source_definition_rounding_classifierSpec := by
+  unfold source_definition_rounding_classifierSpec
+  exact ⟨source_definition_rounding_conventionSpec_proof, source_formula_probability_agent_classifier⟩
+
+/-- Transparent v11 source-item target for `source_formula_individual_accuracy`. -/
+def source_formula_individual_accuracySpec : Prop :=
+  (∀  {n : ℕ}
+    (S : JointLawCollaborationSetting n)
+    (i : Fin n), S.agentAccuracy i =
+      ∫ z : S.X × Label,
+        max (S.pred i z.1) (1 - S.pred i z.1) ∂S.joint)
+
+/-- Checked proof endpoint for the v11 source-item target `source_formula_individual_accuracy`. -/
+theorem source_formula_individual_accuracySpec_proof : source_formula_individual_accuracySpec := by
+  unfold source_formula_individual_accuracySpec
+  exact source_formula_probability_agent_accuracy
+
+/-- Transparent v11 source-item target for `source_formula_induced_collaboration_classifier`. -/
+def source_formula_induced_collaboration_classifierSpec : Prop :=
+  (∀  {n : ℕ}
+    (S : JointLawCollaborationSetting n)
+    (C : CollaborationStrategy n)
+    (x : S.X), S.strategyClassifier C x = C (fun i => S.pred i x))
+
+/-- Checked proof endpoint for the v11 source-item target `source_formula_induced_collaboration_classifier`. -/
+theorem source_formula_induced_collaboration_classifierSpec_proof : source_formula_induced_collaboration_classifierSpec := by
+  unfold source_formula_induced_collaboration_classifierSpec
+  exact source_formula_probability_strategy_classifier
+
+/-- Transparent v11 source-item target for `source_definition_strategy_accuracy`. -/
+def source_definition_strategy_accuracySpec : Prop :=
+  (∀  {n : ℕ}
+    (S : JointLawCollaborationSetting n) (C : CollaborationStrategy n)
+    (_hwell : source_assumption_strategy_expectation_well_formed S C), S.strategyAccuracy C =
+      ∫ z : S.X × Label,
+        if S.strategyClassifier C z.1 = z.2 then (1 : ℝ) else 0 ∂S.joint)
+
+/-- Checked proof endpoint for the v11 source-item target `source_definition_strategy_accuracy`. -/
+theorem source_definition_strategy_accuracySpec_proof : source_definition_strategy_accuracySpec := by
+  unfold source_definition_strategy_accuracySpec
+  exact source_formula_probability_strategy_accuracy
+
+/-- Transparent v11 source-item target for `source_definition_non_collaboration`. -/
+def source_definition_non_collaborationSpec : Prop :=
+  (∀  {n : ℕ}
+    (C : CollaborationStrategy n), NonCollaborative C ↔
+      ∃ k : Fin n, ∃ α : Label,
+        DefersAwayFromHalf C k ∧ ConstantOnHalfSlice C k α)
+
+/-- Checked proof endpoint for the v11 source-item target `source_definition_non_collaboration`. -/
+theorem source_definition_non_collaborationSpec_proof : source_definition_non_collaborationSpec := by
+  unfold source_definition_non_collaborationSpec
+  exact source_formula_non_collaborative_iff
+
+/-- Transparent v11 source-item target for `source_definition_correct`. -/
+def source_definition_correctSpec : Prop :=
+  (∀  (prediction : Label) (eta : ℝ), source_definition_correct_on prediction eta ↔
+      prediction = roundProb eta)
+
+/-- Checked proof endpoint for the v11 source-item target `source_definition_correct`. -/
+theorem source_definition_correctSpec_proof : source_definition_correctSpec := by
+  unfold source_definition_correctSpec
+  exact source_formula_correct_on_iff
+
+/-- Transparent v11 source-item target for `source_definition_incorrect`. -/
+def source_definition_incorrectSpec : Prop :=
+  (∀  (prediction : Label) (eta : ℝ), source_definition_incorrect_on prediction eta ↔
+      prediction ≠ roundProb eta)
+
+/-- Checked proof endpoint for the v11 source-item target `source_definition_incorrect`. -/
+theorem source_definition_incorrectSpec_proof : source_definition_incorrectSpec := by
+  unfold source_definition_incorrectSpec
+  exact source_formula_incorrect_on_iff
+
+/-- Transparent v11 source-item target for `source_definition_agree`. -/
+def source_definition_agreeSpec : Prop :=
+  (∀  (prediction1 prediction2 : Label), source_definition_agree_on prediction1 prediction2 ↔
+      prediction1 = prediction2)
+
+/-- Checked proof endpoint for the v11 source-item target `source_definition_agree`. -/
+theorem source_definition_agreeSpec_proof : source_definition_agreeSpec := by
+  unfold source_definition_agreeSpec
+  exact source_formula_agree_on_iff
+
+/-- Transparent v11 source-item target for `source_definition_disagree`. -/
+def source_definition_disagreeSpec : Prop :=
+  (∀  (prediction1 prediction2 : Label), source_definition_disagree_on prediction1 prediction2 ↔
+      prediction1 ≠ prediction2)
+
+/-- Checked proof endpoint for the v11 source-item target `source_definition_disagree`. -/
+theorem source_definition_disagreeSpec_proof : source_definition_disagreeSpec := by
+  unfold source_definition_disagreeSpec
+  exact source_formula_disagree_on_iff
+
+/-- Transparent v11 source-item target for `source_proposition6_linear_combination`. -/
+def source_proposition6_linear_combinationSpec : Prop :=
+  (∀
+    {n ell : ℕ} (S : Fin ell → JointLawCollaborationSetting n)
+    (w : Fin ell → ℝ)
+    (hw_nonneg : ∀ r : Fin ell, 0 ≤ w r)
+    (hw_sum : ∑ r : Fin ell, w r = 1), ∃ Smix : JointLawCollaborationSetting n,
+      (∀ i : Fin n,
+        Smix.agentAccuracy i = ∑ r : Fin ell, w r * (S r).agentAccuracy i) ∧
+      (∀ C : CollaborationStrategy n,
+        (∀ r : Fin ell,
+          source_assumption_strategy_expectation_well_formed (S r) C) →
+        source_assumption_strategy_expectation_well_formed Smix C ∧
+          Smix.strategyAccuracy C =
+            ∑ r : Fin ell, w r * (S r).strategyAccuracy C))
+
+/-- Checked proof endpoint for the v11 source-item target `source_proposition6_linear_combination`. -/
+theorem source_proposition6_linear_combinationSpec_proof : source_proposition6_linear_combinationSpec := by
+  unfold source_proposition6_linear_combinationSpec
+  exact source_proposition6_linear_combination_settings
+
+/-- Transparent v11 source-item target for `source_partition_finite_measurable_repair`. -/
+def source_partition_finite_measurable_repairSpec : Prop :=
+  (∀
+    {X Cell : Type*} [MeasurableSpace X]
+    [MeasurableSpace Cell] [MeasurableSingletonClass Cell]
+    (joint : Measure (X × Label)) [IsProbabilityMeasure joint]
+    (cell : X → Cell) (hcell : Measurable cell) (x : X)
+    (hpositive : 0 < jointLawPartitionCellMass joint cell (cell x)), jointLawPartitionPredictor joint cell x =
+      jointLawPartitionCellTrueMass joint cell (cell x) /
+        jointLawPartitionCellMass joint cell (cell x)) ∧
+    (∀
+    {X Cell : Type*} [MeasurableSpace X]
+    [MeasurableSpace Cell] [MeasurableSingletonClass Cell]
+    (joint : Measure (X × Label)) [IsProbabilityMeasure joint]
+    (cell : X → Cell) (hcell : Measurable cell) (x : X)
+    (hzero : jointLawPartitionCellMass joint cell (cell x) = 0), jointLawPartitionPredictor joint cell x = 0) ∧
+    (∀
+    {X Cell : Type*} [MeasurableSpace X]
+    [Fintype Cell] [MeasurableSpace Cell] [MeasurableSingletonClass Cell]
+    (joint : Measure (X × Label)) [IsProbabilityMeasure joint]
+    (cell : X → Cell) (hcell : Measurable cell)
+    (A : Set ℝ) (hA : MeasurableSet A), (∫ z : X × Label,
+      ({z | jointLawPartitionPredictor joint cell z.1 ∈ A ∧ z.2 = true}.indicator
+        fun _ => (1 : ℝ)) z ∂joint) =
+      ∫ z : X × Label,
+        ({z | jointLawPartitionPredictor joint cell z.1 ∈ A}.indicator
+          fun z => jointLawPartitionPredictor joint cell z.1) z ∂joint)
+
+/-- Checked proof endpoint for the v11 source-item target `source_partition_finite_measurable_repair`. -/
+theorem source_partition_finite_measurable_repairSpec_proof : source_partition_finite_measurable_repairSpec := by
+  unfold source_partition_finite_measurable_repairSpec
+  exact ⟨source_formula_probability_partition_induced_predictor, source_convention_probability_partition_zero_mass_prediction, source_probability_partition_predictor_calibrated_events⟩
+
+/-- Transparent v11 source-item target for `source_unnumbered_iff_restatement`. -/
+def source_unnumbered_iff_restatementSpec : Prop :=
+  (NonCollaborative boundaryFlipStrategy ∧
+      ¬ ReliableJointLaw boundaryFlipStrategy)
+
+/-- Checked proof endpoint for the v11 source-item target `source_unnumbered_iff_restatement`. -/
+theorem source_unnumbered_iff_restatementSpec_proof : source_unnumbered_iff_restatementSpec := by
+  unfold source_unnumbered_iff_restatementSpec
+  exact source_iff_converse_boundary_counterexample
+
+/-- Transparent v11 source-item target for `source_formula_proposition7_average_mixture`. -/
+def source_formula_proposition7_average_mixtureSpec : Prop :=
+  (∀
+    {n : ℕ} [Nonempty (Fin n)] (C : CollaborationStrategy n)
+    (hno_fixed_deferral : ¬ ∃ k : Fin n, DefersAwayFromHalf C k), ∃ S : JointLawCollaborationSetting n,
+      source_assumption_strategy_expectation_well_formed S C ∧
+        ∀ i : Fin n, S.strategyAccuracy C < S.agentAccuracy i)
+
+/-- Checked proof endpoint for the v11 source-item target `source_formula_proposition7_average_mixture`. -/
+theorem source_formula_proposition7_average_mixtureSpec_proof : source_formula_proposition7_average_mixtureSpec := by
+  unfold source_formula_proposition7_average_mixtureSpec
+  exact source_proposition7_uniform_mixture_strict_counterexample
+
+/-- Transparent v11 source-item target for `source_formula_proposition9_s1_accuracies`. -/
+def source_formula_proposition9_s1_accuraciesSpec : Prop :=
+  (∀  {n : ℕ} {ε : ℝ}
+    (hε0 : 0 < ε) (hεhalf : ε < (1 : ℝ) / 2)
+    {C : CollaborationStrategy n} {k : Fin n}
+    (hk : DefersAwayFromHalf C k), (part2S1ParamSetting ε hε0 hεhalf k).strategyAccuracy C =
+        (2 : ℝ) / 3 - ε / 3 ∧
+      (part2S1ParamSetting ε hε0 hεhalf k).agentAccuracy k =
+        (2 : ℝ) / 3 - ε / 3 ∧
+      (∀ i : Fin n, i ≠ k →
+        (part2S1ParamSetting ε hε0 hεhalf k).agentAccuracy i = 1 - ε ∧
+        (part2S1ParamSetting ε hε0 hεhalf k).strategyAccuracy C <
+          (part2S1ParamSetting ε hε0 hεhalf k).agentAccuracy i))
+
+/-- Checked proof endpoint for the v11 source-item target `source_formula_proposition9_s1_accuracies`. -/
+theorem source_formula_proposition9_s1_accuraciesSpec_proof : source_formula_proposition9_s1_accuraciesSpec := by
+  unfold source_formula_proposition9_s1_accuraciesSpec
+  exact source_proposition9_s1_parameterized_accuracy_gap
+
+/-- Transparent v11 source-item target for `source_formula_proposition9_final_mixture`. -/
+def source_formula_proposition9_final_mixtureSpec : Prop :=
+  (∀  {n : ℕ}
+    (S1 S2 : FiniteCollaborationSetting n), ∃ Smix : JointLawCollaborationSetting n,
+      (∀ i : Fin n,
+        Smix.agentAccuracy i =
+          (7 : ℝ) / 8 * S1.agentAccuracy i +
+            (1 : ℝ) / 8 * S2.agentAccuracy i) ∧
+      (∀ C : CollaborationStrategy n,
+        source_assumption_strategy_expectation_well_formed Smix C ∧
+          Smix.strategyAccuracy C =
+            (7 : ℝ) / 8 * S1.strategyAccuracy C +
+              (1 : ℝ) / 8 * S2.strategyAccuracy C)) ∧
+    (∀
+    {n : ℕ} [Nonempty (Fin n)] {C : CollaborationStrategy n} {k : Fin n}
+    {p q : Fin n → ℝ} (hk : DefersAwayFromHalf C k)
+    (hp : Interior p) (hq : Interior q)
+    (hpk : p k = (1 : ℝ) / 2) (hqk : q k = (1 : ℝ) / 2)
+    (hCp : C p = true) (hCq : C q = false), ∃ Smix : JointLawCollaborationSetting n,
+      source_assumption_strategy_expectation_well_formed Smix C ∧
+        ∀ i : Fin n, Smix.strategyAccuracy C < Smix.agentAccuracy i)
+
+/-- Checked proof endpoint for the v11 source-item target `source_formula_proposition9_final_mixture`. -/
+theorem source_formula_proposition9_final_mixtureSpec_proof : source_formula_proposition9_final_mixtureSpec := by
+  unfold source_formula_proposition9_final_mixtureSpec
+  exact ⟨source_formula_proposition9_explicit_final_mixture, source_proposition9_explicit_final_mixture_strict_counterexample⟩
+
 end PKG25NoFreeLunch

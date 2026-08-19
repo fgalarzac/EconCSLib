@@ -655,6 +655,65 @@ class ScopedDashboardAuditTests(unittest.TestCase):
                     3,
                 )
 
+    def test_normal_source_inventory_accepts_only_bound_public_display_projection(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            folder = root / "papers" / "ProjectedPublicPaper"
+            audit = folder / "audit"
+            audit.mkdir(parents=True)
+            source_sha256 = "a" * 64
+            private_map_sha256 = "b" * 64
+            source_map_path = audit / "paper_statement_map.json"
+            write_json(
+                source_map_path,
+                {
+                    "source_artifact_sha256": source_sha256,
+                    "publication_source_display_projection": {
+                        "schema": 1,
+                        "manifest": "audit/public_source_display_projection.json",
+                        "raw_source_bytes_included": False,
+                    },
+                },
+            )
+            public_map_sha256 = sha256_text(source_map_path.read_text(encoding="utf-8"))
+            manifest_path = audit / "public_source_display_projection.json"
+            write_json(
+                manifest_path,
+                {
+                    "schema": 1,
+                    "private_source_map_sha256": private_map_sha256,
+                    "public_source_map_sha256": public_map_sha256,
+                    "public_manifest_path": manifest_path.relative_to(root).as_posix(),
+                    "raw_source_artifact_included": False,
+                    "source_artifact_sha256": source_sha256,
+                },
+            )
+            payload = paper_status(folder.name)
+            payload["review_surface"] = {"include_names": ["claim"]}
+            payload["human_review"] = {
+                "reviewed_rows": 0,
+                "total_rows": 1,
+                "surface": "normal_source_presentations_v1",
+            }
+            payload["source_inventory"] = {
+                "path": source_map_path.relative_to(root).as_posix(),
+                "map_sha256": private_map_sha256,
+                "normal_named_theory_items": 1,
+                "normal_definition_items": 0,
+                "normal_named_result_items": 1,
+            }
+            with mock.patch.object(sync_paper_status, "ROOT", root):
+                self.assertEqual(
+                    sync_paper_status.paper_facing_human_review_total(folder, payload),
+                    1,
+                )
+
+                projected_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+                projected_manifest["public_source_map_sha256"] = "c" * 64
+                write_json(manifest_path, projected_manifest)
+                with self.assertRaisesRegex(ValueError, "inventory is stale"):
+                    sync_paper_status.paper_facing_human_review_total(folder, payload)
+
     def test_default_does_not_reuse_counts_when_trusted_material_changed(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
@@ -1243,6 +1302,26 @@ class ScopedDashboardAuditTests(unittest.TestCase):
 
         self.assertEqual(rows[0]["lean_loc"], 123)
         self.assertIn("| Lines of Code | 123 |", readme)
+
+    def test_template_readme_links_the_public_formalization_plan(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            folder = root / "papers" / "TEMPLATE"
+            (folder / "docs").mkdir(parents=True)
+            (folder / "docs" / "FORMALIZATION_PLAN.md").write_text(
+                "# Plan\n", encoding="utf-8"
+            )
+            payload = paper_status("TEMPLATE")
+            with mock.patch.object(sync_paper_status, "ROOT", root):
+                readme = sync_paper_status.generated_paper_readme_block(
+                    folder, payload, lean_line_count=0
+                )
+
+        self.assertIn(
+            "- Formalization plan: [FORMALIZATION_PLAN.md](docs/FORMALIZATION_PLAN.md)",
+            readme,
+        )
+        self.assertNotIn("FORMALIZATION_NOTES.md", readme)
 
     def test_generated_output_write_skips_identical_text(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -2132,12 +2211,26 @@ class AggregateSidecarFreshnessTests(unittest.TestCase):
             sync_paper_status.human_note(payload),
             "Draft wording that is not user-approved.",
         )
-
         payload["human_summary_review"] = {"status": "human_written"}
         self.assertEqual(
             sync_paper_status.human_note(payload),
             "Draft wording that is not user-approved.",
         )
+
+    def test_site_artifact_anchor_uses_neutral_local_preview_route(self) -> None:
+        anchor = sync_paper_status.artifact_anchor(
+            "Review packet", "papers/Fixture/docs/HUMAN_REVIEW_PACKET.pdf"
+        )
+        self.assertIn('data-local-artifact-href="/artifacts/papers/Fixture/', anchor)
+        self.assertNotIn("private-artifacts", anchor)
+        self.assertNotIn("data-private-local-href", anchor)
+
+    def test_site_uses_a_preview_capability_before_rewriting_artifact_links(self) -> None:
+        site_text = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+        self.assertIn('fetch("/.econcslib-local-artifacts"', site_text)
+        self.assertIn('data-local-artifact-href', site_text)
+        self.assertNotIn('data-private-local-href', site_text)
+        self.assertNotIn('/private-artifacts/', site_text)
 
 
 if __name__ == "__main__":

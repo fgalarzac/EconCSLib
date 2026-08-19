@@ -1,324 +1,1025 @@
 {
-  "schema": 1,
-  "paper": "LOS02CombinatorialAuctions",
-  "title": "Truth Revelation in Approximately Efficient Combinatorial Auctions",
   "generated_at": "2026-06-29T00:41:38Z",
-  "source_inventory_policy": "Source basis: arXiv cs/0202017 source inventory from prior source audit and validation report. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
-  "source_url": "https://arxiv.org/pdf/cs/0202017v1; https://doi.org/10.1145/585265.585266",
   "items": {
-    "utility_formula": {
-      "statement": "-\nUtility is value for the allocated bundle minus the bidder's payment.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source formula",
+    "assumption_admissible_combinatorial_report_domain": {
       "aliases": [
-        "utility_formula"
-      ]
+        "assumption_admissible_combinatorial_report_domain"
+      ],
+      "claim_bearing": false,
+      "inventory_role": "pending_source_anchor_inventory",
+      "scope_disposition": "requires_byte_pinned_source_anchor_and_dedicated_spec_mapping",
+      "scope_disposition_note": "This source-inventory item predates the v11 byte-pinned source-anchor migration and is retained explicitly until its exact source excerpt and one-to-one Spec route are prepared.",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- Truthfulness is stated relative to an admissible declaration domain."
     },
-    "truthfulOn_iff": {
-      "statement": "-\nTruthfulness means every admissible value profile weakly prefers reporting\ntruthfully to replacing bidder `i`'s report by any alternative bundle valuation.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source definition",
+    "assumption_external_approximation_set_packing_complexity_boundary": {
       "aliases": [
-        "truthfulOn_iff"
-      ]
+        "assumption_external_approximation_set_packing_complexity_boundary"
+      ],
+      "claim_bearing": true,
+      "inventory_role": "pending_source_anchor_inventory",
+      "scope_disposition": "requires_byte_pinned_source_anchor_and_dedicated_spec_mapping",
+      "scope_disposition_note": "This source-inventory item predates the v11 byte-pinned source-anchor migration and is retained explicitly until its exact source excerpt and one-to-one Spec route are prepared.",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nExternal set-packing inapproximability and polynomial-time transfer facts for\nthe paper's Theorem 6.1 approximation consequence."
     },
-    "generalizedVickreyAuction_allocation_payment": {
-      "statement": "-\nThe generalized Vickrey auction uses the supplied allocation rule and Clarke\npivot payments.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source formula",
+    "assumption_external_exact_set_packing_complexity_boundary": {
       "aliases": [
-        "generalizedVickreyAuction_allocation_payment"
-      ]
+        "assumption_external_exact_set_packing_complexity_boundary"
+      ],
+      "claim_bearing": true,
+      "inventory_role": "pending_source_anchor_inventory",
+      "scope_disposition": "requires_byte_pinned_source_anchor_and_dedicated_spec_mapping",
+      "scope_disposition_note": "This source-inventory item predates the v11 byte-pinned source-anchor migration and is retained explicitly until its exact source excerpt and one-to-one Spec route are prepared.",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nExternal exact set-packing hardness and polynomial-time transfer facts for the\npaper's Theorem 6.1 complexity consequence."
     },
-    "singleMindedAcceptedMechanism_fields": {
-      "statement": "-\nA single-minded accepted-set mechanism consists of an accepted-bidder rule and\na payment rule.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source definition",
+    "assumption_lemma9_denied_bidder_case": {
       "aliases": [
-        "singleMindedAcceptedMechanism_fields"
-      ]
+        "assumption_lemma9_denied_bidder_case"
+      ],
+      "claim_bearing": true,
+      "inventory_role": "pending_source_anchor_inventory",
+      "scope_disposition": "requires_byte_pinned_source_anchor_and_dedicated_spec_mapping",
+      "scope_disposition_note": "This source-inventory item predates the v11 byte-pinned source-anchor migration and is retained explicitly until its exact source excerpt and one-to-one Spec route are prepared.",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- Lemma 9.2 is the denied-bidder case."
     },
-    "singleMindedTruthfulOn_iff": {
-      "statement": "-\nSingle-minded truthfulness allows no admissible single-bidder deviation to\nraise the true single-minded utility.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source definition",
+    "assumption_lemma9_finite_large_threshold": {
       "aliases": [
-        "singleMindedTruthfulOn_iff"
-      ]
+        "assumption_lemma9_finite_large_threshold"
+      ],
+      "claim_bearing": true,
+      "inventory_role": "pending_source_anchor_inventory",
+      "scope_disposition": "requires_byte_pinned_source_anchor_and_dedicated_spec_mapping",
+      "scope_disposition_note": "This source-inventory item predates the v11 byte-pinned source-anchor migration and is retained explicitly until its exact source excerpt and one-to-one Spec route are prepared.",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- Lemma 9.5 is the finite-threshold case for the larger desired set."
     },
-    "nonnegativeNonemptySingleMindedProfile_iff": {
-      "statement": "-\nEvery single-minded bid has a nonempty desired bundle and nonnegative value.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source condition",
+    "assumption_lemma9_nonnegative_critical_value_axioms": {
       "aliases": [
-        "nonnegativeNonemptySingleMindedProfile_iff"
-      ]
+        "assumption_lemma9_nonnegative_critical_value_axioms"
+      ],
+      "claim_bearing": true,
+      "inventory_role": "pending_source_anchor_inventory",
+      "scope_disposition": "requires_byte_pinned_source_anchor_and_dedicated_spec_mapping",
+      "scope_disposition_note": "This source-inventory item predates the v11 byte-pinned source-anchor migration and is retained explicitly until its exact source excerpt and one-to-one Spec route are prepared.",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nThe Lemma 9.3--9.6 critical-price rows are stated relative to the paper's\ncritical-value axioms on the nonnegative single-minded declaration domain."
     },
-    "weightedSetPackingValue_formula": {
-      "statement": "-\nThe weighted set-packing objective sums the selected bidders' weights.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source formula",
+    "assumption_lemma9_nonnegative_value_deviation": {
       "aliases": [
-        "weightedSetPackingValue_formula"
-      ]
+        "assumption_lemma9_nonnegative_value_deviation"
+      ],
+      "claim_bearing": true,
+      "inventory_role": "pending_source_anchor_inventory",
+      "scope_disposition": "requires_byte_pinned_source_anchor_and_dedicated_spec_mapping",
+      "scope_disposition_note": "This source-inventory item predates the v11 byte-pinned source-anchor migration and is retained explicitly until its exact source excerpt and one-to-one Spec route are prepared.",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- Lemma 9.4 ranges over nonnegative single-minded value declarations."
     },
-    "setPackingSingleMindedBids_formula": {
-      "statement": "-\nThe set-packing encoding gives bidder `i` desired set `sets i` and value\n`weights i`.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source formula",
+    "assumption_theorem7_optimal_allocation_feasible": {
       "aliases": [
-        "setPackingSingleMindedBids_formula"
-      ]
+        "assumption_theorem7_optimal_allocation_feasible"
+      ],
+      "claim_bearing": true,
+      "inventory_role": "pending_source_anchor_inventory",
+      "scope_disposition": "requires_byte_pinned_source_anchor_and_dedicated_spec_mapping",
+      "scope_disposition_note": "This source-inventory item predates the v11 byte-pinned source-anchor migration and is retained explicitly until its exact source excerpt and one-to-one Spec route are prepared.",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- The optimal allocation considered in Theorem 7.2 is feasible."
+    },
+    "assumption_theorem7_optimal_bidders_in_order": {
+      "aliases": [
+        "assumption_theorem7_optimal_bidders_in_order"
+      ],
+      "claim_bearing": false,
+      "inventory_role": "pending_source_anchor_inventory",
+      "scope_disposition": "requires_byte_pinned_source_anchor_and_dedicated_spec_mapping",
+      "scope_disposition_note": "This source-inventory item predates the v11 byte-pinned source-anchor migration and is retained explicitly until its exact source excerpt and one-to-one Spec route are prepared.",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- The fixed greedy order contains every bidder in the optimal allocation."
     },
     "averageAmountPerGood_formula": {
-      "statement": "-\nAverage amount per good is the bid value divided by the desired-bundle size.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source formula",
       "aliases": [
         "averageAmountPerGood_formula"
-      ]
-    },
-    "averageOrderOf_rule": {
-      "statement": "-\nThe concrete average order lists every bidder exactly once and is weakly\ndescending in average amount per good.",
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.averageAmountPerGood_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.averageAmountPerGood_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.averageAmountPerGood_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 636,
+          "line_start": 630,
+          "publication_locator": "cited publication",
+          "quoted_text": "a\n.\nDefinition 7.1. The average amount per good of a bid b = hs, ai is |s|\n\nSorting the list L by descending average amount per good is a very reasonable idea. But many other possibilities may be considered. Sorting L by descending amounts for example, or, more generally sorting L by a criterion of the form\na/|s|l for some number l, l ≥ 0, possibly depending on k. All such criteria satisfy\nbid-monotonicity.",
+          "quoted_text_sha256": "58ad84eaf62ee30f8c33dce9d4583993219c6075cb054dc61e8ae732129371f9"
+        }
+      ],
+      "source_location": "Definition 7.1; cited publication:630-636",
       "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source rule",
-      "aliases": [
-        "averageOrderOf_rule"
-      ]
-    },
-    "greedyAcceptedFromOrder_formula": {
-      "statement": "-\nThe greedy accepted set starts empty and folds through the order, accepting a\nbid iff it conflicts with no already accepted bid.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source formula",
-      "aliases": [
-        "greedyAcceptedFromOrder_formula"
+      "statement": "-\nAverage amount per good is the bid value divided by the desired-bundle size.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.averageAmountPerGood_formulaSpec"
       ]
     },
     "averageGreedyAcceptedSet_formula": {
-      "statement": "-\nAverage-greedy accepts the greedy set from the concrete average order.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source formula",
       "aliases": [
         "averageGreedyAcceptedSet_formula"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.averageGreedyAcceptedSet_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.averageGreedyAcceptedSet_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.averageGreedyAcceptedSet_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 604,
+          "line_start": 590,
+          "publication_locator": "cited publication",
+          "quoted_text": "The algorithms we consider execute in two phases.\n—In the first phase, the bids are sorted by some criterion. The algorithms of the\nfamily are distinguished by the different criteria they use. Since there are n bids,\nthis phase takes time of the order of n log n. We assume a criterion, that is, a norm\nis defined and the bids are sorted in decreasing order following this norm. Since\nwe shall have, in Theorem 10.2, to compare the sorted lists of bids of slightly\ndifferent auctions, we also assume a consistent treatment of ties, that is, bids\nwith equal norms. Formally, we shall assume that no two different bids have the\nsame norm, that is, there are no ties.\n—In the second phase, a greedy algorithm generates an allocation. Let L be the\nlist of sorted bids obtained in the first phase. The first bid of L, say b = hs, ai is\ngranted, that is, the set s will be allocated to b and then the algorithm examines\neach bid of L, in order, and grants it if it does not conflict with any of the bids\npreviously granted. If it does, it denies (i.e., does not grant) the bid. This phase\nrequires time linear in n.",
+          "quoted_text_sha256": "263e7af39711b9920f07f38423c7a3ced672b1d95dd5afc7743b5af3cf1c1e9d"
+        }
+      ],
+      "source_location": "Section 7, greedy acceptance rule; cited publication:590-604",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nAverage-greedy accepts the greedy set from the concrete average order.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.averageGreedyAcceptedSet_formulaSpec"
       ]
     },
     "averageGreedyPayment_formula": {
-      "statement": "-\nDefinition 10.1 payment: denied bidders pay zero; accepted bidders pay zero\nwhen there is no later denied blocker, and otherwise pay their bundle size\ntimes that blocker bid's average amount per good.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source formula",
       "aliases": [
         "averageGreedyPayment_formula"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.averageGreedyPayment_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.averageGreedyPayment_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.averageGreedyPayment_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 993,
+          "line_start": 969,
+          "publication_locator": "cited publication",
+          "quoted_text": "10. A Truthful Mechanism with Greedy Allocation\nWe shall now describe the payment mechanism that we propose to be used in\nconjunction with the greedy allocation of Section 7. The description of the payments\nis tightly linked with that of the greedy algorithm. The computation of the payment\nis performed in parallel with the execution of the greedy algorithm and takes time\nlinear in the number of bidders for each payment. On the whole, computing the\nallocation and the payments takes time at most quadratic in the number of bids.\nWe assume that the criterion used is average amount per good, the adaptation\nto most other suitable greedy allocations is obvious. Informally, a bidder pays, per\ngood, the average price proposed by the first bid in the list L that is denied because\nof this bid. Consider a bid j in L. Let c( j) be the average amount per good of j. We\nshall denote by n( j) the first bid following j (bids are sorted in decreasing order,\nthat is, c( j) ≥ c(n( j))) that has been denied but would have been granted were it\nnot for the presence of j. Assume that such a bid exists. Notice that such a bid\nnecessarily conflicts with j, and therefore:\nn( j) = min{i | j < i, s( j) ∩ s(i) 6= ∅, ∀l, l < i, l 6= j, l granted ⇒ s(l) ∩ s(i) = ∅}.\nDefinition 10.1 Greedy Payment Scheme.\nthe first phase.\n\nLet L be the sorted list obtained in\n\n— j pays zero if his bid is denied or if there is no bid n( j),\n—if there is an n( j) and j’s bid hs, vi is granted, he pays |s| × c(n( j)).\nWe may now state the main result of this article.\nTHEOREM 10.2. The mechanism composed of the greedy allocation and payment schemes is truthful for single-minded bidders.",
+          "quoted_text_sha256": "cc57ccd04b6acce3f10a5ee0c209a453eb3adf3e14445d98cb0eb76b331b4e48"
+        }
+      ],
+      "source_location": "Definition 10.1; cited publication:969-993",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nDefinition 10.1 payment: denied bidders pay zero; accepted bidders pay zero\nwhen there is no later denied blocker, and otherwise pay their bundle size\ntimes that blocker bid's average amount per good.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.averageGreedyPayment_formulaSpec"
       ]
     },
-    "theorem4_1_generalized_vickrey_truthful": {
-      "statement": "- Theorem 4.1: generalized Vickrey auctions are truthful.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "averageOrderOf_rule": {
       "aliases": [
-        "theorem4_1_generalized_vickrey_truthful"
-      ]
-    },
-    "proposition4_2_generalized_vickrey_truthful_utility_nonneg": {
-      "statement": "- Proposition 4.2: truthful GVA bidder utility is nonnegative.",
+        "averageOrderOf_rule"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.averageOrderOf_rule"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.averageOrderOf_rule",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.averageOrderOf_ruleSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 624,
+          "line_start": 590,
+          "publication_locator": "cited publication",
+          "quoted_text": "The algorithms we consider execute in two phases.\n—In the first phase, the bids are sorted by some criterion. The algorithms of the\nfamily are distinguished by the different criteria they use. Since there are n bids,\nthis phase takes time of the order of n log n. We assume a criterion, that is, a norm\nis defined and the bids are sorted in decreasing order following this norm. Since\nwe shall have, in Theorem 10.2, to compare the sorted lists of bids of slightly\ndifferent auctions, we also assume a consistent treatment of ties, that is, bids\nwith equal norms. Formally, we shall assume that no two different bids have the\nsame norm, that is, there are no ties.\n—In the second phase, a greedy algorithm generates an allocation. Let L be the\nlist of sorted bids obtained in the first phase. The first bid of L, say b = hs, ai is\ngranted, that is, the set s will be allocated to b and then the algorithm examines\neach bid of L, in order, and grants it if it does not conflict with any of the bids\npreviously granted. If it does, it denies (i.e., does not grant) the bid. This phase\nrequires time linear in n.\nThe use of such a greedy scheme is very straightforward and speedy. We shall\nnow discuss its efficiency: how efficient is the allocation generated? The efficiency\nof the allocation generated depends obviously both on the criterion used in the first\nphase and on the types of the bidders, or on the distribution with which the bidders\nare generated. It is clear that, to obtain allocations close to efficiency, one should use\na norm that pushes bids that have a good chance to be part of an efficient allocation\ntoward the beginning of the list L. The amount of a bid is a good criterion in this respect: we want bids with higher amounts to have a larger norm than bids with lower\namounts, at least when the bids are for the same set of goods. Similarly, leaving the\namount of a bid unchanged but making its bundle a smaller set (inclusion-wise),\nshould also increase the norm. We shall require that changing s to s 0 with s 0 ⊂ s\nor changing v to v 0 with v 0 > v increase the norm of a bid. Let us call this property\nbid-monotonicity. This is the only requirement we shall make. Many criteria\nsatisfy it.\nIn real-life situations, one can typically find a suitable natural norm related to the\neconomic parameters of the bundle that measures the a-priori attractiveness of the\nbid (for the auctioneer). In the FCC auction, goods (licenses) are characterized by\nthe population they cover. The (inverse of the) sum of those populations is a good\nindicator. In the abstract, if we know nothing concrete about the goods, our best bet\nis to use the size of the set of goods mentioned in a bid. We shall look in particular\nat the average-amount-per-good measure.",
+          "quoted_text_sha256": "70698999cf2cbd36ee890f740efc76b61a04a32b2f2e9f7ca8723f209b68a440"
+        }
+      ],
+      "source_location": "Section 7, ordered greedy allocation; cited publication:590-624",
       "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
-      "aliases": [
-        "proposition4_2_generalized_vickrey_truthful_utility_nonneg"
-      ]
-    },
-    "theorem6_1_set_packing_feasibility_encoding_correct": {
-      "statement": "- Theorem 6.1 set-packing feasibility encoding.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
-      "aliases": [
-        "theorem6_1_set_packing_feasibility_encoding_correct"
-      ]
-    },
-    "theorem6_1_set_packing_value_encoding_correct": {
-      "statement": "- Theorem 6.1 set-packing value encoding.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
-      "aliases": [
-        "theorem6_1_set_packing_value_encoding_correct"
-      ]
-    },
-    "theorem6_1_weighted_set_packing_reduction": {
-      "statement": "- Theorem 6.1 weighted set-packing reduction.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
-      "aliases": [
-        "theorem6_1_weighted_set_packing_reduction"
-      ]
-    },
-    "theorem6_1_clique_decision_single_minded_welfare_reduction": {
-      "statement": "- Theorem 6.1 clique-to-single-minded welfare reduction.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
-      "aliases": [
-        "theorem6_1_clique_decision_single_minded_welfare_reduction"
-      ]
-    },
-    "theorem6_1_external_optimal_solver_np_eq_zpp": {
-      "statement": "-\nTheorem 6.1 external exact-solver complexity consequence.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "partial external complexity boundary",
-      "aliases": [
-        "theorem6_1_external_optimal_solver_np_eq_zpp"
-      ]
-    },
-    "theorem6_1_external_approximation_solver_np_eq_zpp": {
-      "statement": "-\nTheorem 6.1 external approximation-solver complexity consequence.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "partial external complexity boundary",
-      "aliases": [
-        "theorem6_1_external_approximation_solver_np_eq_zpp"
+      "statement": "-\nThe concrete average order lists every bidder exactly once and is weakly\ndescending in average amount per good.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.averageOrderOf_ruleSpec"
       ]
     },
     "complexity_note_np_eq_zpp_implies_randomized_collapse": {
-      "statement": "-\nComplexity-class note: `NP = ZPP` implies the randomized collapse.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "partial external complexity boundary",
       "aliases": [
         "complexity_note_np_eq_zpp_implies_randomized_collapse"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.complexity_note_np_eq_zpp_implies_randomized_collapse"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.complexity_note_np_eq_zpp_implies_randomized_collapse",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.complexity_note_np_eq_zpp_implies_randomized_collapseSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 539,
+          "line_start": 528,
+          "publication_locator": "cited publication",
+          "quoted_text": "A short note on complexity classes: in the above, NP is the class of sets for which\nmembership can be decided nondeterministically in polynomial time and ZPP is\nthe subclass of NP consisting of those sets for which there is some constant c and a\nprobabilistic Turing machine M that on input x runs in expected time O(|x|c ) and\noutputs 1 if and only if x ∈ L. The question of whether NP = ZPP is a deep open\nquestion in theoretical computer science, related with the famous P = NP question.\nNP = ZPP is not known to imply P = NP, but does imply NP = RP = co-RP =\nco-NP. P = NP obviously implies NP = ZPP. RP is the class of sets for which\nmembership can be decided in polynomial time by a randomizing algorithm. The\nclass co-RP is the class of sets whose complements are in RP: nonmembership can\nbe decided polynomially by a randomizing algorithm. Similarly for co-NP. ZPP is\nthe intersection of RP and co-RP. (end of short note).",
+          "quoted_text_sha256": "05c48a3645883c1bc1cd78cd9b739ba64a52d73d7f26fb1ec982c08b78fc7a31"
+        }
+      ],
+      "source_location": "Theorem 6.1 complexity note; cited publication:528-539",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nComplexity-class note: `NP = ZPP` implies the randomized collapse.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.complexity_note_np_eq_zpp_implies_randomized_collapseSpec"
       ]
     },
-    "theorem7_2_sqrt_norm_approx_of_sorted_order": {
-      "statement": "- Theorem 7.2 greedy allocation square-root approximation.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "generalizedVickreyAuction_allocation_payment": {
       "aliases": [
-        "theorem7_2_sqrt_norm_approx_of_sorted_order"
+        "generalizedVickreyAuction_allocation_payment"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.generalizedVickreyAuction_allocation_payment"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.generalizedVickreyAuction_allocation_payment",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.generalizedVickreyAuction_allocation_paymentSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 339,
+          "line_start": 282,
+          "publication_locator": "cited publication",
+          "quoted_text": "In a GVA, the allocation chosen maximizes the sum of the declared valuations\nof the bidders, each bidder receives a monetary amount that equals the sum of the\ndeclared valuations of all other bidders, and pays the auctioneer the sum of such\nvaluations that would have been obtained if he had not participated in the auction.\nA way to describe such an auction, in which i does not participate, is to consider\nthe auction in which bidder i declares a zero valuation for all possible bundles. A\nbidder with zero valuation for all bundles has no influence on the outcome.\nFormally, given a vector D of declarations, the generalized Vickrey auction\ndefines the allocation and payment policies as follows (notice that a −1 (i) is the\nbundle allocated to i by allocation a, and that gi is defined in Eq. (2)):\nf (D) = argmaxa∈O\n\nn\nX\ni=1\n\ndi (a −1 (i)),\n\n(4)\n\n\fApproximately Efficient Combinatorial Auctions\nn\nX\n\np j (D) = −\n\nn\nX\n\ndi (gi (D)) +\n\ni=1,i6= j\n\n583\n\ndi (gi (Z )),\n\n(5)\n\ni=1,i6= j\n\nwhere Z i = Di for any i 6= j and Z j (s) = 0 for any bundle s ⊆ G. Since\nd j (g j (Z )) = 0, we may as well have written:\np j (D) = −\n\nn\nX\n\ndi (gi (D)) +\n\ni=1,i6= j\n\nn\nX\n\ndi (gi (Z )).\n\n(6)",
+          "quoted_text_sha256": "e17870b3ea31b8f45cb52e0fdb814ef9f21629c23d3a55d2584a635d1cc1bb75"
+        }
+      ],
+      "source_location": "Section 4, Equations 4–6; cited publication:282-339",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nThe generalized Vickrey auction uses the supplied allocation rule and Clarke\npivot payments.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.generalizedVickreyAuction_allocation_paymentSpec"
+      ]
+    },
+    "greedyAcceptedFromOrder_formula": {
+      "aliases": [
+        "greedyAcceptedFromOrder_formula"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.greedyAcceptedFromOrder_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.greedyAcceptedFromOrder_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.greedyAcceptedFromOrder_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 604,
+          "line_start": 590,
+          "publication_locator": "cited publication",
+          "quoted_text": "The algorithms we consider execute in two phases.\n—In the first phase, the bids are sorted by some criterion. The algorithms of the\nfamily are distinguished by the different criteria they use. Since there are n bids,\nthis phase takes time of the order of n log n. We assume a criterion, that is, a norm\nis defined and the bids are sorted in decreasing order following this norm. Since\nwe shall have, in Theorem 10.2, to compare the sorted lists of bids of slightly\ndifferent auctions, we also assume a consistent treatment of ties, that is, bids\nwith equal norms. Formally, we shall assume that no two different bids have the\nsame norm, that is, there are no ties.\n—In the second phase, a greedy algorithm generates an allocation. Let L be the\nlist of sorted bids obtained in the first phase. The first bid of L, say b = hs, ai is\ngranted, that is, the set s will be allocated to b and then the algorithm examines\neach bid of L, in order, and grants it if it does not conflict with any of the bids\npreviously granted. If it does, it denies (i.e., does not grant) the bid. This phase\nrequires time linear in n.",
+          "quoted_text_sha256": "263e7af39711b9920f07f38423c7a3ced672b1d95dd5afc7743b5af3cf1c1e9d"
+        }
+      ],
+      "source_location": "Section 7, greedy acceptance rule; cited publication:590-604",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nThe greedy accepted set starts empty and folds through the order, accepting a\nbid iff it conflicts with no already accepted bid.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.greedyAcceptedFromOrder_formulaSpec"
       ]
     },
     "lemma9_1_exists_nonnegative_critical_value_of_monotonicity": {
-      "statement": "- Lemma 9.1 critical-value existence from monotonicity.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
       "aliases": [
         "lemma9_1_exists_nonnegative_critical_value_of_monotonicity"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.lemma9_1_exists_nonnegative_critical_value_of_monotonicity"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.lemma9_1_exists_nonnegative_critical_value_of_monotonicity",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.lemma9_1_exists_nonnegative_critical_value_of_monotonicitySpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 887,
+          "line_start": 878,
+          "publication_locator": "cited publication",
+          "quoted_text": "LEMMA 9.1. In a mechanism that satisfies Exactness and Monotonicity, given\na bidder j, a set s of goods and declarations for all other bidders, there exists a\ncritical value v c such that\n∀v, v < v c ⇒ g j = ∅,\n∀v, v > v c ⇒ g j = s,\nWe allow v c to be infinite if f (As,v )−1 ( j) = ∅ for every v. Note that we do not\nknow whether j’s bid is granted or not in case v = v c .\nPROOF. By Monotonicity, the set of v’s for which g j = ∅ is empty (in which\ncase take v c = 0), a semi-open set of the form [0, v c [ or a closed set of the form\n[0, v c ] or equal to R+ .",
+          "quoted_text_sha256": "42e7d666bbdd640368363b057c49f13ff2cf4833bde438be45d91bf81b8e1e2b"
+        }
+      ],
+      "source_location": "Lemma 9.1; cited publication:878-887",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- Lemma 9.1 critical-value existence from monotonicity.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.lemma9_1_exists_nonnegative_critical_value_of_monotonicitySpec"
       ]
     },
     "lemma9_2_denied_bidder_utility_eq_zero": {
-      "statement": "-\nLemma 9.2 denied-bidder utility is zero.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source lemma endpoint",
       "aliases": [
         "lemma9_2_denied_bidder_utility_eq_zero"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.lemma9_2_denied_bidder_utility_eq_zero"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.lemma9_2_denied_bidder_utility_eq_zero",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.lemma9_2_denied_bidder_utility_eq_zeroSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 927,
+          "line_start": 922,
+          "publication_locator": "cited publication",
+          "quoted_text": "Any mechanism that satisfies the conditions above is truthful. A number of\npreliminary lemmas are needed.\nLEMMA 9.2. In a mechanism that satisfies Exactness and Participation, a\nbidder whose bid is denied has utility zero.\nPROOF. By Exactness, the bidder gets nothing and his valuation is zero. By\nParticipation, his payment is zero.",
+          "quoted_text_sha256": "b7deb7b4d7d1a2cb6ad0d7b230b6f20d44e529d5bf3ac6e85fcb617968cfa513"
+        }
+      ],
+      "source_location": "Lemma 9.2; cited publication:922-927",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nLemma 9.2 denied-bidder utility is zero.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.lemma9_2_denied_bidder_utility_eq_zeroSpec"
       ]
     },
     "lemma9_3_truthful_utility_nonnegative_condition": {
-      "statement": "-\nLemma 9.3 truth-telling utility is nonnegative under critical-value conditions.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source lemma endpoint with visible certificate boundary",
       "aliases": [
         "lemma9_3_truthful_utility_nonnegative_condition"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.lemma9_3_truthful_utility_nonnegative_condition"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.lemma9_3_truthful_utility_nonnegative_condition",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.lemma9_3_truthful_utility_nonnegative_conditionSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 932,
+          "line_start": 928,
+          "publication_locator": "cited publication",
+          "quoted_text": "LEMMA 9.3. In a mechanism that satisfies Exactness, Monotonicity, Participation and Critical a truthful bidder’s utility is nonnegative.\nPROOF. If j’s bid is denied, we conclude by Lemma 9.2. Assume j’s bid is\ngranted and his type is hs, vi. Since he is truthful, his declaration is d j = hs, vi. We\nconclude that j is allocated s and his valuation is v. By Lemma 9.1, since j’s bid\nis granted, v ≥ v c . By Critical, j’s payment is v c , and his utility is v − v c ≥ 0.",
+          "quoted_text_sha256": "79b56d35ebb654e7e67e005e97b2e618e5b10c3e6194f8179c1838f9bfd18694"
+        }
+      ],
+      "source_location": "Lemma 9.3; cited publication:928-932",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nLemma 9.3 truth-telling utility is nonnegative under critical-value conditions.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.lemma9_3_truthful_utility_nonnegative_conditionSpec"
       ]
     },
     "lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms": {
-      "statement": "- Lemma 9.4 no profitable value-only lie under nonnegative infinity axioms.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
       "aliases": [
         "lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axiomsSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 945,
+          "line_start": 933,
+          "publication_locator": "cited publication",
+          "quoted_text": "The next lemma shows that a bidder cannot benefit from lying just about his\nvalue (he truthfully declares the set of goods he is interested in).\nLEMMA 9.4. In a mechanism that satisfies Exactness, Monotonicity, Participation and Critical, a bidder j of type hs, vi is never better off declaring hs, v 0 i for\nsome v 0 6= v than by being truthful.\nPROOF. Compare the case j bids, truthfully, hs, vi and the case he bids hs, v 0 i.\nLet g j be the bundle he gets in the first case and g 0j the bundle he gets in the second\ncase. If j’s bid is denied in the second case (i.e., if g 0j 6= s), then, by Lemma 9.2,\nhis utility is zero in the second case and, by Lemma 9.3, his utility in the first case\nis nonnegative. The claim holds.\nAssume therefore that g 0j = s. If both bids are granted, j has the same valuation\n(v) and pays the same payment, v c (by Critical). If g 0j = s but g j = ∅, it must be\nthe case that v ≤ v c ≤ v 0 . Being truthful gives j, by Lemma 9.2, zero utility. Lying\ngives him utility v − v c ≤ 0.",
+          "quoted_text_sha256": "c94fd7df7125eb4b689ee3a43daed8fba9c998a8ba49416fc0b10a24ca91b825"
+        }
+      ],
+      "source_location": "Lemma 9.4; cited publication:933-945",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- Lemma 9.4 no profitable value-only lie under nonnegative infinity axioms.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axiomsSpec"
       ]
     },
     "lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate": {
-      "statement": "-\nLemma 9.5 finite threshold monotonicity.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "direct source lemma endpoint",
       "aliases": [
         "lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificateSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 952,
+          "line_start": 946,
+          "publication_locator": "cited publication",
+          "quoted_text": "LEMMA 9.5. In a mechanism that satisfies Exactness, Monotonicity and Critical, a bidder j declaring type hs, vi whose bid is granted, that is, g j = s, pays a\nprice p j that is at least the price p 0j that he would have paid had he declared his\ntype as hs 0 , vi for any s 0 ⊆ s.\nPROOF. By Monotonicity, the bid hs 0 , vi would have been granted and by Critical, the price p 0j paid for such a bid satisfies: for any x < p 0j the bid hs 0 , xi would\nnot have been granted. By Monotonicity, for any such x the bid hs, xi would not\nhave been granted. By Critical, for any x such that x > p j , the bid hs, xi would\nhave been granted. We conclude that p 0j ≤ p j .",
+          "quoted_text_sha256": "da9e8e5d2d0a09c9d0cf03d61caf0f88d642fdcc0be142a7be4cc827c8f52dad"
+        }
+      ],
+      "source_location": "Lemma 9.5; cited publication:946-952",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nLemma 9.5 finite threshold monotonicity.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificateSpec"
       ]
     },
-    "theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms": {
-      "statement": "- Theorem 9.6 critical axioms imply truthfulness for single-minded bidders.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "nonnegativeNonemptySingleMindedProfile_iff": {
       "aliases": [
-        "theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms"
+        "nonnegativeNonemptySingleMindedProfile_iff"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.nonnegativeNonemptySingleMindedProfile_iff"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.nonnegativeNonemptySingleMindedProfile_iff",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.nonnegativeNonemptySingleMindedProfile_iffSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 465,
+          "line_start": 449,
+          "publication_locator": "cited publication",
+          "quoted_text": "We shall assume that bidders are single-minded and care only about one specific\n(bidder-dependent) set of goods. If they do not get this set they value the outcome\nat the lowest possible value 0. In other words, our bidders are restricted to one\nsingle bid.\nDefinition 5.1. Bidder i is single-minded if and only if there is a set s ⊂ G of\ngoods and a value v ∈ R+ such that its type t can be described as: t(s 0 ) = v if s ⊆ s 0\nand t(s 0 ) = 0 otherwise.\nNote that single-minded bidders are not one parameter agents in the sense\nof Archer and Tardos [2001], since they have the freedom of deciding which bundle\nthey bid for on top on the amount they are willing to pay. In Mu’alem and Nisan\n[2002], truthfulness is shown to be attainable for allocation algorithms providing\nbetter approximations if agents are assumed to be single-minded and one parameter. We shall denote by hs, vi the type just described. Note that a single-minded\nbidder enjoys free disposal. We shall assume, in most of this article, that all bidders\nare single-minded, that is, there are sets of goods si and nonnegative real numbers\nv i such that bidder i is of type hsi , v i i. We shall denote by 6 the set of all singleminded types. The size of the set 6, contrary to the size of 2, is singly exponential\nin k. A string of polynomial size will be enough to code the declarations of the\nbidders: it will describe a set of goods and a value. In this setting, we identify bids",
+          "quoted_text_sha256": "97deba338e863cd7d7316a9ef60d3651514dbb5ad0325fa418a8c3c50d11ebc6"
+        }
+      ],
+      "source_location": "Definition 5.1; cited publication:449-465",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nEvery single-minded bid has a nonempty desired bundle and nonnegative value.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.nonnegativeNonemptySingleMindedProfile_iffSpec"
+      ]
+    },
+    "proposition4_2_generalized_vickrey_truthful_utility_nonneg": {
+      "aliases": [
+        "proposition4_2_generalized_vickrey_truthful_utility_nonneg"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.proposition4_2_generalized_vickrey_truthful_utility_nonneg"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.proposition4_2_generalized_vickrey_truthful_utility_nonneg",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.proposition4_2_generalized_vickrey_truthful_utility_nonnegSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 423,
+          "line_start": 385,
+          "publication_locator": "cited publication",
+          "quoted_text": "and t(g j (D 0 )) − p j (D 0 ) ≥ t(g j (D)) − p j (D).\nNotice that the second term in the payment of j does not depend on j’s declaration\nand is therefore irrelevant to his decision on what to declare. A feature of the GVA\nis that no truthful bidder’s utility can be negative.\nPROPOSITION 4.2. If j is truthful, his utility u j in the GVA is nonnegative.\nPROOF. By Eq. (3), since j is truthful, by Eq. (6), and finally by Eq. (4):\nu j = d j (g j (D)) +\n=\n\nn\nX\ni=1\n\nn\nX\n\ndi (gi (D)) −\n\ni=1,i6= j\nn\nX\n\ndi (gi (D)) −\n\nn\nX\n\ndi (gi (Z ))\n\ni=1\n\ndi (gi (Z )) ≥ 0.\n\ni=1\n\nSince bidders truthfully declare their type and the allocation maximizes the sum\nof the declared utilities, in a GVA, the allocation maximizes the sum of the true\nvaluations of the bidders, that is, the social welfare. In a quasilinear setting, this is\nequivalent to Pareto optimality. Therefore, a GVA is Pareto optimal. The mechanism",
+          "quoted_text_sha256": "929fcbbd14c126f68ba8f921410120882e3cfe0398ecbb8f6c9e8aa925d2ec07"
+        }
+      ],
+      "source_location": "Proposition 4.2; cited publication:385-423",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- Proposition 4.2: truthful GVA bidder utility is nonnegative.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.proposition4_2_generalized_vickrey_truthful_utility_nonnegSpec"
+      ]
+    },
+    "setPackingSingleMindedBids_formula": {
+      "aliases": [
+        "setPackingSingleMindedBids_formula"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.setPackingSingleMindedBids_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.setPackingSingleMindedBids_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.setPackingSingleMindedBids_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 523,
+          "line_start": 501,
+          "publication_locator": "cited publication",
+          "quoted_text": "6. Infeasibility of the GVA\nLet us now assume that all bidders are single-minded, that is, the set of all possible\ntypes is now 6. It follows easily from Proposition 4.2 that, in a GVA, a singleminded bidder of type hs, vi never pays more than v and pays nothing if he is not\nallocated the whole set s.\nIn a GVA, the allocation\nPn is the one defined in Eq. (4). Computing this allocation\ndi (a) over all a’s in the set O that is of exponential size.\nrequires optimizing i=1\nOne may suspect that this an infeasible task. Indeed, the problem of finding the\nallocation of Eq. (4) has been shown to be NP-hard in Rothkopf et al. [1998]. We\nremark that the restriction to single-minded bidders does nothing to alleviate the\nproblem. Not only is it infeasible to solve exactly the optimization problem, but\nit turns out to be also infeasible to guarantee any nontrivial approximation to the\noptimal allocation. This follows easily from a celebrated result of Håstad [1999]\nand was, independently, noticed by Sandholm to whom priority is due: final version\nin Sandholm [2002].\nTHEOREM 6.1. Let a single-minded type di = hsi , v i i, si ⊆ G, v i ∈ R+ be given\nfor each bidder i ∈ P. Let\nPn|G| = k and |P| = n. The problem of finding an allodi (a) is NP-hard in k + n. Moreover, the existence\ncation a that maximizes i=1\nof a polynomial time algorithm guaranteed to find an allocation whose value is at\nleast k −1/2+² times the value of the optimal solution would imply that NP = ZPP.\n",
+          "quoted_text_sha256": "e6ec50608d6312b224d48a2de415ad3223a92f8d764ce7d4d6d473b959407ab4"
+        }
+      ],
+      "source_location": "Theorem 6.1, weighted set-packing formulation; cited publication:501-523",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nThe set-packing encoding gives bidder `i` desired set `sets i` and value\n`weights i`.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.setPackingSingleMindedBids_formulaSpec"
+      ]
+    },
+    "singleMindedAcceptedMechanism_fields": {
+      "aliases": [
+        "singleMindedAcceptedMechanism_fields"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.singleMindedAcceptedMechanism_fields"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.singleMindedAcceptedMechanism_fields",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.singleMindedAcceptedMechanism_fieldsSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 465,
+          "line_start": 449,
+          "publication_locator": "cited publication",
+          "quoted_text": "We shall assume that bidders are single-minded and care only about one specific\n(bidder-dependent) set of goods. If they do not get this set they value the outcome\nat the lowest possible value 0. In other words, our bidders are restricted to one\nsingle bid.\nDefinition 5.1. Bidder i is single-minded if and only if there is a set s ⊂ G of\ngoods and a value v ∈ R+ such that its type t can be described as: t(s 0 ) = v if s ⊆ s 0\nand t(s 0 ) = 0 otherwise.\nNote that single-minded bidders are not one parameter agents in the sense\nof Archer and Tardos [2001], since they have the freedom of deciding which bundle\nthey bid for on top on the amount they are willing to pay. In Mu’alem and Nisan\n[2002], truthfulness is shown to be attainable for allocation algorithms providing\nbetter approximations if agents are assumed to be single-minded and one parameter. We shall denote by hs, vi the type just described. Note that a single-minded\nbidder enjoys free disposal. We shall assume, in most of this article, that all bidders\nare single-minded, that is, there are sets of goods si and nonnegative real numbers\nv i such that bidder i is of type hsi , v i i. We shall denote by 6 the set of all singleminded types. The size of the set 6, contrary to the size of 2, is singly exponential\nin k. A string of polynomial size will be enough to code the declarations of the\nbidders: it will describe a set of goods and a value. In this setting, we identify bids",
+          "quoted_text_sha256": "97deba338e863cd7d7316a9ef60d3651514dbb5ad0325fa418a8c3c50d11ebc6"
+        }
+      ],
+      "source_location": "Definition 5.1; cited publication:449-465",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nA single-minded accepted-set mechanism consists of an accepted-bidder rule and\na payment rule.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.singleMindedAcceptedMechanism_fieldsSpec"
+      ]
+    },
+    "singleMindedTruthfulOn_iff": {
+      "aliases": [
+        "singleMindedTruthfulOn_iff"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.singleMindedTruthfulOn_iff"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.singleMindedTruthfulOn_iff",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.singleMindedTruthfulOn_iffSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 465,
+          "line_start": 449,
+          "publication_locator": "cited publication",
+          "quoted_text": "We shall assume that bidders are single-minded and care only about one specific\n(bidder-dependent) set of goods. If they do not get this set they value the outcome\nat the lowest possible value 0. In other words, our bidders are restricted to one\nsingle bid.\nDefinition 5.1. Bidder i is single-minded if and only if there is a set s ⊂ G of\ngoods and a value v ∈ R+ such that its type t can be described as: t(s 0 ) = v if s ⊆ s 0\nand t(s 0 ) = 0 otherwise.\nNote that single-minded bidders are not one parameter agents in the sense\nof Archer and Tardos [2001], since they have the freedom of deciding which bundle\nthey bid for on top on the amount they are willing to pay. In Mu’alem and Nisan\n[2002], truthfulness is shown to be attainable for allocation algorithms providing\nbetter approximations if agents are assumed to be single-minded and one parameter. We shall denote by hs, vi the type just described. Note that a single-minded\nbidder enjoys free disposal. We shall assume, in most of this article, that all bidders\nare single-minded, that is, there are sets of goods si and nonnegative real numbers\nv i such that bidder i is of type hsi , v i i. We shall denote by 6 the set of all singleminded types. The size of the set 6, contrary to the size of 2, is singly exponential\nin k. A string of polynomial size will be enough to code the declarations of the\nbidders: it will describe a set of goods and a value. In this setting, we identify bids",
+          "quoted_text_sha256": "97deba338e863cd7d7316a9ef60d3651514dbb5ad0325fa418a8c3c50d11ebc6"
+        }
+      ],
+      "source_location": "Definition 5.1 and Section 9 truthfulness setup; cited publication:449-465",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nSingle-minded truthfulness allows no admissible single-bidder deviation to\nraise the true single-minded utility.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.singleMindedTruthfulOn_iffSpec"
       ]
     },
     "theorem10_2_averageGreedy_truthful": {
-      "statement": "- Theorem 10.2 average-order greedy mechanism truthfulness.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
       "aliases": [
         "theorem10_2_averageGreedy_truthful"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem10_2_averageGreedy_truthful"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem10_2_averageGreedy_truthful",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem10_2_averageGreedy_truthfulSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 1020,
+          "line_start": 969,
+          "publication_locator": "cited publication",
+          "quoted_text": "10. A Truthful Mechanism with Greedy Allocation\nWe shall now describe the payment mechanism that we propose to be used in\nconjunction with the greedy allocation of Section 7. The description of the payments\nis tightly linked with that of the greedy algorithm. The computation of the payment\nis performed in parallel with the execution of the greedy algorithm and takes time\nlinear in the number of bidders for each payment. On the whole, computing the\nallocation and the payments takes time at most quadratic in the number of bids.\nWe assume that the criterion used is average amount per good, the adaptation\nto most other suitable greedy allocations is obvious. Informally, a bidder pays, per\ngood, the average price proposed by the first bid in the list L that is denied because\nof this bid. Consider a bid j in L. Let c( j) be the average amount per good of j. We\nshall denote by n( j) the first bid following j (bids are sorted in decreasing order,\nthat is, c( j) ≥ c(n( j))) that has been denied but would have been granted were it\nnot for the presence of j. Assume that such a bid exists. Notice that such a bid\nnecessarily conflicts with j, and therefore:\nn( j) = min{i | j < i, s( j) ∩ s(i) 6= ∅, ∀l, l < i, l 6= j, l granted ⇒ s(l) ∩ s(i) = ∅}.\nDefinition 10.1 Greedy Payment Scheme.\nthe first phase.\n\nLet L be the sorted list obtained in\n\n— j pays zero if his bid is denied or if there is no bid n( j),\n—if there is an n( j) and j’s bid hs, vi is granted, he pays |s| × c(n( j)).\nWe may now state the main result of this article.\nTHEOREM 10.2. The mechanism composed of the greedy allocation and payment schemes is truthful for single-minded bidders.\nPROOF. We shall prove that greedy mechanism satisfies Exactness, Monotonicity, Participation and Critical and use Theorem 9.6. The description of the greedy\nallocation scheme makes it clear that every bid is either granted or denied. The\ngreedy allocation satisfies Exactness. For Monotonicity, assume that s ⊆ s 0 and\nthat v ≥ v 0 and let c be the norm of hs, vi and c0 the norm of hs 0 , v 0 i. By our\nassumption concerning norms we have c ≥ c0 . If we compare the list L and L 0 obtained, respectively, we see that, since there are no ties by assumption, they differ\nonly in that j’s bid may have been moved backwards by the change from hs, vi to\nhs 0 , v 0 i. The greedy allocation algorithm performs, that is, grants or denies bids, in\nexactly the same way on L and L 0 until it gets to j’s bid in L. Assume j’s bid is\ndenied in L: there is some bid that conflict with it that has been granted already.\nThe same bid also conflicts with j’s bid in L 0 since s ⊆ s 0 and this bid will also be\ndenied. Similarly, if j’s bid in L 0 is granted, no bid granted before conflicts with it\nand therefore no bid granted before j’s in L conflicts with it either and j’s bid is also\ngranted in L. We have shown that the greedy allocation satisfies Monotonicity. It is\n\n\fApproximately Efficient Combinatorial Auctions\n\n595\n\nclear from the first part of Definition 10.1 that it satisfies Participation. For Critical,\nnotice that the second part of Definition 10.1 defines the payment for a bid granted\nat exactly the minimal declared value that would have allowed it to be granted, v c .\nAny declared value above |s| × c(n( j)) leaves j before n( j). If there was a bid i,\nj < i < n( j) that would prevent the granting of j displaced in such a way, i would\nhave to be granted and conflict with j. It is therefore a bid denied in the original\nallocation, that would have been granted were it not for j, contradicting the fact\nthat n( j) is the first such bid. Any declared value below |s| × c(n( j)) guarantees\nthe denial of j because n( j) is granted.",
+          "quoted_text_sha256": "dcba478a5ce72f151428e5927f1eb205653ec5d198e19e153d3449fbadfcb14d"
+        }
+      ],
+      "source_location": "Theorem 10.2; cited publication:969-1020",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- Theorem 10.2 average-order greedy mechanism truthfulness.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem10_2_averageGreedy_truthfulSpec"
       ]
     },
-    "assumption_admissible_combinatorial_report_domain": {
-      "statement": "- Truthfulness is stated relative to an admissible declaration domain.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "theorem4_1_generalized_vickrey_truthful": {
       "aliases": [
-        "assumption_admissible_combinatorial_report_domain"
+        "theorem4_1_generalized_vickrey_truthful"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem4_1_generalized_vickrey_truthful"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem4_1_generalized_vickrey_truthful",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem4_1_generalized_vickrey_truthfulSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 385,
+          "line_start": 343,
+          "publication_locator": "cited publication",
+          "quoted_text": "A proof of the truthfulness of the Clarke–Groves–Vickrey mechanism may be\nfound, for example, in Mas-Colell et al. [1995, Proposition 23.C.4]. We include the\nproof here only to stress how easy it is.\nTHEOREM 4.1. The generalized Vickrey auction is a truthful mechanism.\nPROOF. Assume j ∈ P, t ∈ 2, D is a vector of declarations, and Di0 = Di for\nany i 6= j and D 0j = t. By Eq. (4),\nn\nX\n\ndi0 (gi (D 0 )) ≥\n\ni=1\n\nn\nX\n\ndi0 (gi (D)).\n\ni=1\n\nBut, for E = D, D 0 , we have:\ndi0 (gi (E)) = di (gi (E)),\n\nif i 6= j and d 0j (g j (E)) = t(g j (E)).\n\nTherefore,\nn\nX\n\nt(g j (D 0 )) − p j (D 0 ) +\n\ndi (gi (Z )) ≥ t(g j (D)) − p j (D) +\n\ni=1,i6= j\n\nn\nX\n\ndi (gi (Z ))\n\ni=1,i6= j\n\nand t(g j (D 0 )) − p j (D 0 ) ≥ t(g j (D)) − p j (D).",
+          "quoted_text_sha256": "765b03123d31941044b24e694fac5fc66a52978dc8eab42aa26e4c5c5be388ec"
+        }
+      ],
+      "source_location": "Theorem 4.1; cited publication:343-385",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- Theorem 4.1: generalized Vickrey auctions are truthful.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem4_1_generalized_vickrey_truthfulSpec"
       ]
     },
-    "assumption_external_exact_set_packing_complexity_boundary": {
-      "statement": "-\nExternal exact set-packing hardness and polynomial-time transfer facts for the\npaper's Theorem 6.1 complexity consequence.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "theorem6_1_clique_decision_single_minded_welfare_reduction": {
       "aliases": [
-        "assumption_external_exact_set_packing_complexity_boundary"
+        "theorem6_1_clique_decision_single_minded_welfare_reduction"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_clique_decision_single_minded_welfare_reduction"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_clique_decision_single_minded_welfare_reduction",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_clique_decision_single_minded_welfare_reductionSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 548,
+          "line_start": 540,
+          "publication_locator": "cited publication",
+          "quoted_text": "PROOF. The problem at hand may be described as the weighted version of the\nSet Packing problem of Karp [1972]. Karp shows that Set Packing is NP-hard by\nreducing the Clique problem to it. The k used in this reduction is of the order of n 2 .\nA direct reduction of Clique to our allocation problem is obtained in the following\nway. Given a graph G, let the goods be the edges and the bids be the vertices. Each\nvertex requests the edges it is adjacent to for a price of 1. An optimal allocation\nis a maximal independent vertex set. Håstad [1999] has shown that Clique cannot\nbe approximated within |V |1−² unless NP = ZPP. The reduction mentioned above\nshows our claim.",
+          "quoted_text_sha256": "68c8c84caee07b20fa3a63ab871f40483be54053ef0a74ab69dec4e41de1685d"
+        }
+      ],
+      "source_location": "Theorem 6.1 proof, Clique reduction; cited publication:540-548",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- Theorem 6.1 clique-to-single-minded welfare reduction.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_clique_decision_single_minded_welfare_reductionSpec"
       ]
     },
-    "assumption_external_approximation_set_packing_complexity_boundary": {
-      "statement": "-\nExternal set-packing inapproximability and polynomial-time transfer facts for\nthe paper's Theorem 6.1 approximation consequence.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "theorem6_1_external_approximation_solver_np_eq_zpp": {
       "aliases": [
-        "assumption_external_approximation_set_packing_complexity_boundary"
+        "theorem6_1_external_approximation_solver_np_eq_zpp"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_external_approximation_solver_np_eq_zpp"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_external_approximation_solver_np_eq_zpp",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_external_approximation_solver_np_eq_zppSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 539,
+          "line_start": 517,
+          "publication_locator": "cited publication",
+          "quoted_text": "THEOREM 6.1. Let a single-minded type di = hsi , v i i, si ⊆ G, v i ∈ R+ be given\nfor each bidder i ∈ P. Let\nPn|G| = k and |P| = n. The problem of finding an allodi (a) is NP-hard in k + n. Moreover, the existence\ncation a that maximizes i=1\nof a polynomial time algorithm guaranteed to find an allocation whose value is at\nleast k −1/2+² times the value of the optimal solution would imply that NP = ZPP.\n\n\f586\n\nD. LEHMANN ET AL.\n\nA short note on complexity classes: in the above, NP is the class of sets for which\nmembership can be decided nondeterministically in polynomial time and ZPP is\nthe subclass of NP consisting of those sets for which there is some constant c and a\nprobabilistic Turing machine M that on input x runs in expected time O(|x|c ) and\noutputs 1 if and only if x ∈ L. The question of whether NP = ZPP is a deep open\nquestion in theoretical computer science, related with the famous P = NP question.\nNP = ZPP is not known to imply P = NP, but does imply NP = RP = co-RP =\nco-NP. P = NP obviously implies NP = ZPP. RP is the class of sets for which\nmembership can be decided in polynomial time by a randomizing algorithm. The\nclass co-RP is the class of sets whose complements are in RP: nonmembership can\nbe decided polynomially by a randomizing algorithm. Similarly for co-NP. ZPP is\nthe intersection of RP and co-RP. (end of short note).",
+          "quoted_text_sha256": "b41185baeac0480351cf62f50573baf2ec1ee60957a3931f9e6053b16276a21f"
+        }
+      ],
+      "source_location": "Theorem 6.1 complexity statement; cited publication:517-539",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nTheorem 6.1 external approximation-solver complexity consequence.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_external_approximation_solver_np_eq_zppSpec"
       ]
     },
-    "assumption_theorem7_optimal_allocation_feasible": {
-      "statement": "- The optimal allocation considered in Theorem 7.2 is feasible.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "theorem6_1_external_optimal_solver_np_eq_zpp": {
       "aliases": [
-        "assumption_theorem7_optimal_allocation_feasible"
+        "theorem6_1_external_optimal_solver_np_eq_zpp"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_external_optimal_solver_np_eq_zpp"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_external_optimal_solver_np_eq_zpp",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_external_optimal_solver_np_eq_zppSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 539,
+          "line_start": 517,
+          "publication_locator": "cited publication",
+          "quoted_text": "THEOREM 6.1. Let a single-minded type di = hsi , v i i, si ⊆ G, v i ∈ R+ be given\nfor each bidder i ∈ P. Let\nPn|G| = k and |P| = n. The problem of finding an allodi (a) is NP-hard in k + n. Moreover, the existence\ncation a that maximizes i=1\nof a polynomial time algorithm guaranteed to find an allocation whose value is at\nleast k −1/2+² times the value of the optimal solution would imply that NP = ZPP.\n\n\f586\n\nD. LEHMANN ET AL.\n\nA short note on complexity classes: in the above, NP is the class of sets for which\nmembership can be decided nondeterministically in polynomial time and ZPP is\nthe subclass of NP consisting of those sets for which there is some constant c and a\nprobabilistic Turing machine M that on input x runs in expected time O(|x|c ) and\noutputs 1 if and only if x ∈ L. The question of whether NP = ZPP is a deep open\nquestion in theoretical computer science, related with the famous P = NP question.\nNP = ZPP is not known to imply P = NP, but does imply NP = RP = co-RP =\nco-NP. P = NP obviously implies NP = ZPP. RP is the class of sets for which\nmembership can be decided in polynomial time by a randomizing algorithm. The\nclass co-RP is the class of sets whose complements are in RP: nonmembership can\nbe decided polynomially by a randomizing algorithm. Similarly for co-NP. ZPP is\nthe intersection of RP and co-RP. (end of short note).",
+          "quoted_text_sha256": "b41185baeac0480351cf62f50573baf2ec1ee60957a3931f9e6053b16276a21f"
+        }
+      ],
+      "source_location": "Theorem 6.1 complexity statement; cited publication:517-539",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nTheorem 6.1 external exact-solver complexity consequence.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_external_optimal_solver_np_eq_zppSpec"
       ]
     },
-    "assumption_theorem7_optimal_bidders_in_order": {
-      "statement": "- The fixed greedy order contains every bidder in the optimal allocation.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "theorem6_1_set_packing_feasibility_encoding_correct": {
       "aliases": [
-        "assumption_theorem7_optimal_bidders_in_order"
+        "theorem6_1_set_packing_feasibility_encoding_correct"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_set_packing_feasibility_encoding_correct"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_set_packing_feasibility_encoding_correct",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_set_packing_feasibility_encoding_correctSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 523,
+          "line_start": 501,
+          "publication_locator": "cited publication",
+          "quoted_text": "6. Infeasibility of the GVA\nLet us now assume that all bidders are single-minded, that is, the set of all possible\ntypes is now 6. It follows easily from Proposition 4.2 that, in a GVA, a singleminded bidder of type hs, vi never pays more than v and pays nothing if he is not\nallocated the whole set s.\nIn a GVA, the allocation\nPn is the one defined in Eq. (4). Computing this allocation\ndi (a) over all a’s in the set O that is of exponential size.\nrequires optimizing i=1\nOne may suspect that this an infeasible task. Indeed, the problem of finding the\nallocation of Eq. (4) has been shown to be NP-hard in Rothkopf et al. [1998]. We\nremark that the restriction to single-minded bidders does nothing to alleviate the\nproblem. Not only is it infeasible to solve exactly the optimization problem, but\nit turns out to be also infeasible to guarantee any nontrivial approximation to the\noptimal allocation. This follows easily from a celebrated result of Håstad [1999]\nand was, independently, noticed by Sandholm to whom priority is due: final version\nin Sandholm [2002].\nTHEOREM 6.1. Let a single-minded type di = hsi , v i i, si ⊆ G, v i ∈ R+ be given\nfor each bidder i ∈ P. Let\nPn|G| = k and |P| = n. The problem of finding an allodi (a) is NP-hard in k + n. Moreover, the existence\ncation a that maximizes i=1\nof a polynomial time algorithm guaranteed to find an allocation whose value is at\nleast k −1/2+² times the value of the optimal solution would imply that NP = ZPP.\n",
+          "quoted_text_sha256": "e6ec50608d6312b224d48a2de415ad3223a92f8d764ce7d4d6d473b959407ab4"
+        }
+      ],
+      "source_location": "Theorem 6.1, set-packing encoding; cited publication:501-523",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- Theorem 6.1 set-packing feasibility encoding.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_set_packing_feasibility_encoding_correctSpec"
       ]
     },
-    "assumption_lemma9_denied_bidder_case": {
-      "statement": "- Lemma 9.2 is the denied-bidder case.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "theorem6_1_set_packing_value_encoding_correct": {
       "aliases": [
-        "assumption_lemma9_denied_bidder_case"
+        "theorem6_1_set_packing_value_encoding_correct"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_set_packing_value_encoding_correct"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_set_packing_value_encoding_correct",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_set_packing_value_encoding_correctSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 523,
+          "line_start": 501,
+          "publication_locator": "cited publication",
+          "quoted_text": "6. Infeasibility of the GVA\nLet us now assume that all bidders are single-minded, that is, the set of all possible\ntypes is now 6. It follows easily from Proposition 4.2 that, in a GVA, a singleminded bidder of type hs, vi never pays more than v and pays nothing if he is not\nallocated the whole set s.\nIn a GVA, the allocation\nPn is the one defined in Eq. (4). Computing this allocation\ndi (a) over all a’s in the set O that is of exponential size.\nrequires optimizing i=1\nOne may suspect that this an infeasible task. Indeed, the problem of finding the\nallocation of Eq. (4) has been shown to be NP-hard in Rothkopf et al. [1998]. We\nremark that the restriction to single-minded bidders does nothing to alleviate the\nproblem. Not only is it infeasible to solve exactly the optimization problem, but\nit turns out to be also infeasible to guarantee any nontrivial approximation to the\noptimal allocation. This follows easily from a celebrated result of Håstad [1999]\nand was, independently, noticed by Sandholm to whom priority is due: final version\nin Sandholm [2002].\nTHEOREM 6.1. Let a single-minded type di = hsi , v i i, si ⊆ G, v i ∈ R+ be given\nfor each bidder i ∈ P. Let\nPn|G| = k and |P| = n. The problem of finding an allodi (a) is NP-hard in k + n. Moreover, the existence\ncation a that maximizes i=1\nof a polynomial time algorithm guaranteed to find an allocation whose value is at\nleast k −1/2+² times the value of the optimal solution would imply that NP = ZPP.\n",
+          "quoted_text_sha256": "e6ec50608d6312b224d48a2de415ad3223a92f8d764ce7d4d6d473b959407ab4"
+        }
+      ],
+      "source_location": "Theorem 6.1, set-packing encoding; cited publication:501-523",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- Theorem 6.1 set-packing value encoding.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_set_packing_value_encoding_correctSpec"
       ]
     },
-    "assumption_lemma9_nonnegative_value_deviation": {
-      "statement": "- Lemma 9.4 ranges over nonnegative single-minded value declarations.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "theorem6_1_weighted_set_packing_reduction": {
       "aliases": [
-        "assumption_lemma9_nonnegative_value_deviation"
+        "theorem6_1_weighted_set_packing_reduction"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_weighted_set_packing_reduction"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_weighted_set_packing_reduction",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_weighted_set_packing_reductionSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 548,
+          "line_start": 540,
+          "publication_locator": "cited publication",
+          "quoted_text": "PROOF. The problem at hand may be described as the weighted version of the\nSet Packing problem of Karp [1972]. Karp shows that Set Packing is NP-hard by\nreducing the Clique problem to it. The k used in this reduction is of the order of n 2 .\nA direct reduction of Clique to our allocation problem is obtained in the following\nway. Given a graph G, let the goods be the edges and the bids be the vertices. Each\nvertex requests the edges it is adjacent to for a price of 1. An optimal allocation\nis a maximal independent vertex set. Håstad [1999] has shown that Clique cannot\nbe approximated within |V |1−² unless NP = ZPP. The reduction mentioned above\nshows our claim.",
+          "quoted_text_sha256": "68c8c84caee07b20fa3a63ab871f40483be54053ef0a74ab69dec4e41de1685d"
+        }
+      ],
+      "source_location": "Theorem 6.1 proof; cited publication:540-548",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- Theorem 6.1 weighted set-packing reduction.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem6_1_weighted_set_packing_reductionSpec"
       ]
     },
-    "assumption_lemma9_nonnegative_critical_value_axioms": {
-      "statement": "-\nThe Lemma 9.3--9.6 critical-price rows are stated relative to the paper's\ncritical-value axioms on the nonnegative single-minded declaration domain.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "theorem7_2_sqrt_norm_approx_of_sorted_order": {
       "aliases": [
-        "assumption_lemma9_nonnegative_critical_value_axioms"
+        "theorem7_2_sqrt_norm_approx_of_sorted_order"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem7_2_sqrt_norm_approx_of_sorted_order"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem7_2_sqrt_norm_approx_of_sorted_order",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem7_2_sqrt_norm_approx_of_sorted_orderSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 740,
+          "line_start": 653,
+          "publication_locator": "cited publication",
+          "quoted_text": "THEOREM 7.2. The greedy allocation√scheme with norm a/|s|1/2 approximates\nthe optimal allocation within a factor of k.\nPROOF. Assume the bids (i.e.,\n√ bidders) are hsi , ai i for i = 1, . . . , n. Let\nw i = |si |. Our norm is: ri = ai / w i . Let OP be the optimal solution, that is, the\nset ofPbids contained in the optimal solution. The value of the optimal solution is\nai . Let GR be the solution obtained by the greedy allocation and β its\nα = i∈OP P\nvalue: β = i∈GR ai . We want to show that:\n√\nα ≤ β k.\n(7)\nNotice, first, that we may, without loss of generality, assume that the sets OP and\nGR have no bid in common. Indeed, if they have, one considers the problem in\nwhich the common bids and all the units they request have been removed. The\ngreedy and optimal solutions of the new problem are similar to the old ones and the\ninequality for the new smaller problem implies the same for the original problem.\nLet us consider β. By elementary algebraic considerations:\nrX\nrX\nX\nai ≥\nai 2 =\nri 2 w i .\nβ=\ni∈GR\n\ni∈GR\n\ni∈GR\n\nConsider α. By the Cauchy–Schwarz inequality:\nrX\nrX\nX √\nri w i ≤\nri 2\nwi .\nα=\nP\n\ni∈OP\n\ni∈OP\n\ni∈OP\n\nThe expression i∈OP w i represents the total number of goods allocated in the\noptimal allocation OP and is therefore bounded from above by k, the number of\n\n\fApproximately Efficient Combinatorial Auctions\ngoods available. We conclude that:\nα≤\n\nrX\n\nri 2\n\n589\n\n√\nk.\n\ni∈OP\n\nTo prove (7), it will be enough, then, to prove that:\nX\nX\nri 2 ≤\nri 2 w i .\ni∈OP\n\ni∈GR\n\nConsider the optimal solution OP. By assumption, the bids of OP did not enter\nthe greedy solution GR. This means that, at the time any such bid i is considered\nduring the execution of the greedy algorithm, it cannot be entered in the partial\nallocation already built. This implies that there is a good l ∈ si that has already\nbeen allocated in the partial greedy solution, that is, there is a bid j in GR, with\nr j ≥ ri and l ∈ s j .\nA number of different bids from OP may, in this way, be associated with the\nsame bid j of GR, but at most w j different bids of OP may be associated with bid j\nof GR, since the sets of goods requested by two different bids of OP have an empty\nintersection. If OP j is the set of bids of OP that are associated with bid j:\nX\nri 2 ≤ r j 2 w j .\ni∈OP j\n",
+          "quoted_text_sha256": "1590728dbfc75f4714403c2154a6505f598edefac8361eecc5d167defd6efa67"
+        }
+      ],
+      "source_location": "Theorem 7.2 and proof; cited publication:653-740",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- Theorem 7.2 greedy allocation square-root approximation.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem7_2_sqrt_norm_approx_of_sorted_orderSpec"
       ]
     },
-    "assumption_lemma9_finite_large_threshold": {
-      "statement": "- Lemma 9.5 is the finite-threshold case for the larger desired set.",
-      "source_url": "https://doi.org/10.1145/585265.585266",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms": {
       "aliases": [
-        "assumption_lemma9_finite_large_threshold"
+        "theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.theorem9_6_single_minded_truthful_of_nonnegative_infinity_axiomsSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 968,
+          "line_start": 954,
+          "publication_locator": "cited publication",
+          "quoted_text": "THEOREM 9.6. If a mechanism satisfies Exactness, Monotonicity, Participation\nand Critical, then it is a truthful mechanism.\nPROOF. Suppose j’s type is hs, vi. Could j have any interest in declaring his\ntype as hs 0 , v 0 i? By Lemma 9.3, the only case we have to consider is when declaring\nhs 0 , v 0 i j gets a positive utility, and by Lemma 9.2 this means that j’s bid is granted.\nAssume, therefore that g 0j = s 0 . If s 6⊆ s 0 , the valuation of j is zero. Since, by\n\n\f594\n\nD. LEHMANN ET AL.\n\nCritical, his payment is non-negative, his utility cannot be positive. Assume then\ns ⊆ s 0 . Since j’s valuation for s 0 is the same as for s, Lemma 9.5 implies that,\ninstead of declaring hs 0 , v 0 i, j would not have been worse off by declaring hs, v 0 i.\nLemma 9.4 implies that declaring hs, v 0 i cannot be better than being truthful.",
+          "quoted_text_sha256": "f4b79d5c1609a295705541828593a4c156b6a608e09d2e0a2739697c490be0a3"
+        }
+      ],
+      "source_location": "Theorem 9.6; cited publication:954-968",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "- Theorem 9.6 critical axioms imply truthfulness for single-minded bidders.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.theorem9_6_single_minded_truthful_of_nonnegative_infinity_axiomsSpec"
+      ]
+    },
+    "truthfulOn_iff": {
+      "aliases": [
+        "truthfulOn_iff"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.truthfulOn_iff"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.truthfulOn_iff",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.truthfulOn_iffSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 272,
+          "line_start": 258,
+          "publication_locator": "cited publication",
+          "quoted_text": "The game-theoretic solution concept used throughout this article is that of a weakly\ndominant strategy, that is, a strategy that is as good as any other for a given player,\nno matter what other players do. This is in contrast with the weaker and more\ncommon notion of Nash equilibrium. The particular property we would like to\nensure for our mechanism is that the dominant strategy for each player is to bid\nhis true valuation; in other words, no bidder can be better off by lying, no matter\nhow other bidders behave. A mechanism is truthful if no bidder can be better off by\nlying, even if other bidders lie. This is a very strong requirement, making for a very\nsturdy mechanism.\nDefinition 3.2. A mechanism h f, pi is truthful if and only if for every i ∈ P,\nt ∈ 2 and any vector D of declarations, if D 0 is the vector obtained from D by\nreplacing the ith coordinate di by t, then: t(gi (D 0 )) − pi (D 0 ) ≥ t(gi (D)) − pi (D).\nIn the definition above, t is the true type of bidder i and D is a vector of declared\ntypes. The term, t(gi (D)), represents the true satisfaction i receives from the allocation resulting from declarations D and t(gi (D 0 )) represents his true satisfaction\nfrom the allocation that would have been obtained had i been truthful.",
+          "quoted_text_sha256": "d3abce2c74efd838d4d0cbe96c76cde8c2dd769cbcec4fe262a3f8e420821622"
+        }
+      ],
+      "source_location": "Definition 3.2; cited publication:258-272",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nTruthfulness means every admissible value profile weakly prefers reporting\ntruthfully to replacing bidder `i`'s report by any alternative bundle valuation.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.truthfulOn_iffSpec"
+      ]
+    },
+    "utility_formula": {
+      "aliases": [
+        "utility_formula"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.utility_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.utility_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.utility_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 252,
+          "line_start": 226,
+          "publication_locator": "cited publication",
+          "quoted_text": "Since we assume the Independent Value Model and Quasi-Linear utilities, fairly\nstandard assumptions in the field, the utility, for a bidder of type t, of bundle s ⊆ G\nand payment x is:\nu = t(s) − x.\n\n(1)\n\nDefinition 3.1. A (direct) mechanism for combinatorial auctions consists of\n—an allocation algorithm f that picks, for each vector D (D is a vector of declared\ntypes), an allocation f (D),\n—a payment scheme p that determines, for each vector D a payment vector p(D):\npi (D) is paid by bidder i to the auctioneer.\nLet us denote the bundle obtained by i as:\ngi (D) = f (D)−1 (i).\n\n(2)\n\nNotation. In general, gi depends on the allocation algorithm f , but when f is\nclear from the context, we shall abuse the notation and treat gi as a direct function\nof the bid vector, D. Equation (1) implies that if bidder i has (true) type t, his utility\n\n\f582\n\nD. LEHMANN ET AL.\n\nfrom the mechanism is:\nu i = t(gi (D)) − pi (D),",
+          "quoted_text_sha256": "ae791a44a3e9aa8bb0f35d0d6cf1e8e678a698d7a1aa2412b707aa7a95706983"
+        }
+      ],
+      "source_location": "Section 3, Equation 1 and utility definition; cited publication:226-252",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nUtility is value for the allocated bundle minus the bidder's payment.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.utility_formulaSpec"
+      ]
+    },
+    "weightedSetPackingValue_formula": {
+      "aliases": [
+        "weightedSetPackingValue_formula"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.weightedSetPackingValue_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "LOS02CombinatorialAuctions.PaperInterface.weightedSetPackingValue_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "LOS02CombinatorialAuctions.PaperInterface.weightedSetPackingValue_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 523,
+          "line_start": 505,
+          "publication_locator": "cited publication",
+          "quoted_text": "In a GVA, the allocation\nPn is the one defined in Eq. (4). Computing this allocation\ndi (a) over all a’s in the set O that is of exponential size.\nrequires optimizing i=1\nOne may suspect that this an infeasible task. Indeed, the problem of finding the\nallocation of Eq. (4) has been shown to be NP-hard in Rothkopf et al. [1998]. We\nremark that the restriction to single-minded bidders does nothing to alleviate the\nproblem. Not only is it infeasible to solve exactly the optimization problem, but\nit turns out to be also infeasible to guarantee any nontrivial approximation to the\noptimal allocation. This follows easily from a celebrated result of Håstad [1999]\nand was, independently, noticed by Sandholm to whom priority is due: final version\nin Sandholm [2002].\nTHEOREM 6.1. Let a single-minded type di = hsi , v i i, si ⊆ G, v i ∈ R+ be given\nfor each bidder i ∈ P. Let\nPn|G| = k and |P| = n. The problem of finding an allodi (a) is NP-hard in k + n. Moreover, the existence\ncation a that maximizes i=1\nof a polynomial time algorithm guaranteed to find an allocation whose value is at\nleast k −1/2+² times the value of the optimal solution would imply that NP = ZPP.\n",
+          "quoted_text_sha256": "5f67b80cc6a42fd9aa0c9d5f10a812fcadc72f974d1db761c6d4ce32008f3120"
+        }
+      ],
+      "source_location": "Theorem 6.1, welfare objective; cited publication:505-523",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "statement": "-\nThe weighted set-packing objective sums the selected bidders' weights.",
+      "support_lean_declarations": [
+        "LOS02CombinatorialAuctions.PaperInterface.weightedSetPackingValue_formulaSpec"
       ]
     }
   },
+  "paper": "LOS02CombinatorialAuctions",
+  "paper_interface_namespace": "LOS02CombinatorialAuctions",
+  "schema": 1,
+  "semantic_contract_schema": 1,
+  "source_artifact_sha256": "ac47ef3801288291f7f7e8d0114c31d1a3c79c4649ebeefe660098f63b2625c6",
+  "source_coverage_mode": "named_theoretical_statements",
+  "source_curated": true,
   "source_inventory_kind": "source_curated",
-  "source_curated": true
+  "source_inventory_policy": "Independent source-first inventory from the pinned line-numbered JACM/arXiv text extraction. Published-paper section, theorem, and formula locators remain the human-facing references. The inventory includes direct-mechanism definitions, auction rules, stated results, and explicit complexity boundaries; formal interface abstractions remain routing only, never semantic evidence. Canonical v11 review binds one transparent PaperInterface Spec to each selected source claim; retained source claims without a current Spec route remain explicit audit work rather than disappearing from the inventory.",
+  "source_spec_correspondence_schema": 1,
+  "source_url": "https://arxiv.org/pdf/cs/0202017v1; https://doi.org/10.1145/585265.585266",
+  "title": "Truth Revelation in Approximately Efficient Combinatorial Auctions"
 }

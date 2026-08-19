@@ -707,6 +707,44 @@
       "verification": [
         "python3 -m unittest scripts.tests.test_closeout_reuse_plan scripts.tests.test_source_record_audit scripts.tests.test_semantic_contract_closeout_bridge scripts.tests.test_v11_semantic_review_gates"
       ]
+    },
+    {
+      "engine_tree_sha256": "1b32b63e295c3df06d7ec5a54abf2666984a7350de72d20679430e19cfc55815",
+      "formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "previous_engine_tree_sha256": "b2fbd6328f52fa2f57add23057ea733c53ea1ee7037ef74fd1f3bc73a502e56b",
+      "previous_formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "rationale": "Register v11 source-contract generation, exact source-to-Spec anchoring, packet selection, and release-safety refinements without changing the canonical formalization review obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 53,
+      "verification": [
+        "Focused v11 source-map, review-surface, packet, and dashboard regressions pass (54 tests).",
+        "Focused v11 semantic-gate, source-correspondence, manifest, public-release, and status regressions pass; changed production scripts compile."
+      ]
+    },
+    {
+      "engine_tree_sha256": "35f38a6b5cc48ff237439709de015b89813c4b9fe34763f308c0eb5cf784a0cc",
+      "formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "previous_engine_tree_sha256": "1b32b63e295c3df06d7ec5a54abf2666984a7350de72d20679430e19cfc55815",
+      "previous_formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "rationale": "Preserve exact archive-source offsets, durable definition reconciliation, source-inventory support routing, and namespace-safe v11 contract generation without changing the canonical review obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 54,
+      "verification": [
+        "Focused source-map, source-archive, source-contract, prose-definition, and source-inventory dashboard regressions pass.",
+        "Focused PG23 and PG24 PaperInterface builds pass before semantic receipt reissue."
+      ]
+    },
+    {
+      "engine_tree_sha256": "7609da0aefb86a04287d0f7b1a9ad25242272109c92d77a46952a46419f07b5b",
+      "formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "previous_engine_tree_sha256": "35f38a6b5cc48ff237439709de015b89813c4b9fe34763f308c0eb5cf784a0cc",
+      "previous_formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "rationale": "Register the merged review-packet whitespace normalization in the audit engine without changing source-to-Spec review obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 55,
+      "verification": [
+        "The merged packet normalization is content-preserving apart from generated whitespace; focused v11 source-map and paper-interface regressions are rerun on the merged tree."
+      ]
     }
   ],
   "schema": 1

@@ -24,6 +24,7 @@ from typing import Any, Callable, Iterable, Mapping
 
 try:
     from scripts import review_dashboard
+    from scripts.public_release_projection import ProjectionError, project_text
     from scripts.lean_signature_manifest import (
         paper_owned_module_names_in_import_closure,
         run_lean_transparent_paper_declaration_displays,
@@ -31,6 +32,7 @@ try:
     )
 except ModuleNotFoundError:  # Direct `python scripts/review_dashboard_packet.py` execution.
     import review_dashboard
+    from public_release_projection import ProjectionError, project_text  # type: ignore[no-redef]
     from lean_signature_manifest import (  # type: ignore[no-redef]
         paper_owned_module_names_in_import_closure,
         run_lean_transparent_paper_declaration_displays,
@@ -58,9 +60,34 @@ PAPER_PREREQUISITE_PROMPT_VERSION = (
 PAPER_PREREQUISITE_TARGET_PROTOCOL = "lean_paper_declaration_display_v1"
 PACKET_LEAN_CACHE_NAME = "audit/human_review_packet_lean_cache.json"
 PACKET_LEAN_CACHE_SCHEMA = 3
+# Packet displays are a non-certifying review aid.  Requesting a very large
+# collection of otherwise independent transparent Specs in one Lean process
+# can exceed the interactive command wall-clock limit before Lean emits its
+# all-or-nothing transport.  Keep the individual closure request bounded;
+# every Spec still receives a Lean-produced target and the cache remains bound
+# to the exact paper and library source trees.
+PACKET_SPEC_DISPLAY_BATCH_SIZE = 4
+
+
+def _packet_presentation_text(value: object) -> str:
+    """Project ordinary packet prose before TeX escaping it.
+
+    Raw source excerpts remain inside ``ReviewVerbatim`` and therefore retain
+    the exact quoted mathematical text.  Locators, metadata, reasons, and
+    other normal presentation fields must not expose a private checkout path
+    merely because TeX later turns an underscore into ``\\_``.
+    """
+
+    try:
+        return project_text(
+            str(value or ""),
+            relative_path="docs/HUMAN_REVIEW_PACKET.tex",
+        )
+    except ProjectionError as exc:
+        raise ValueError("packet contains non-public presentation text: " + str(exc)) from exc
 
 def _tex_escape(value: object) -> str:
-    text = str(value or "")
+    text = _packet_presentation_text(value)
     replacements = {
         "\\": r"\textbackslash{}",
         "{": r"\{",
@@ -86,9 +113,24 @@ def _tex_identifier(value: object) -> str:
 
 
 def _tex_locator(value: object) -> str:
-    """Render an audit locator with safe breakpoints for long local paths."""
+    """Render a public citation locator without exposing a local audit path."""
 
-    escaped = _tex_escape(value)
+    locator = str(value or "").strip()
+    # The source map's path is private provisioning detail.  Line spans remain
+    # useful to a reviewer, so retain only a bounded human-facing location.
+    line_match = re.search(
+        r"(?:\bline(?:s)?\s*|:)" r"(\d+)(?:\s*[-–]\s*(\d+))?",
+        locator,
+        flags=re.IGNORECASE,
+    )
+    if line_match:
+        start, end = line_match.group(1), line_match.group(2)
+        locator = "cited publication, lines " + start + (
+            "-" + end if end else ""
+        )
+    else:
+        locator = "cited publication"
+    escaped = _tex_escape(locator)
     for separator in ("/", ":", "-", ";", "."):
         escaped = escaped.replace(separator, separator + r"\allowbreak{}")
     return r"{\footnotesize\raggedright " + escaped + r"\par}"
@@ -125,6 +167,12 @@ def _verbatim(value: object) -> str:
     # packet readable rather than emitting missing-character boxes.
     text = text.replace("𝓕", "calF")
     text = text.replace("ℓ", "ell")
+    # CACHE_RENDERER_NEUTRAL_START
+    # The monospace packet font does not provide U+2225.  Preserve the
+    # standard plain-text norm notation rather than letting XeTeX drop each
+    # delimiter from a reviewer-visible source formula.
+    text = text.replace("∥", "||")
+    # CACHE_RENDERER_NEUTRAL_END
     text = text.replace("⦃", "{{").replace("⦄", "}}")
     # Lean's pretty printer can emit private-use pieces of extensible
     # delimiters.  The packet font cannot render those pieces; retain an
@@ -220,6 +268,18 @@ def _packet_lean_display_engine_sha256() -> str:
         digest.update(len(relative).to_bytes(8, "big"))
         digest.update(relative)
         contents = path.read_bytes()
+        # CACHE_RENDERER_NEUTRAL_START
+        # A packet cache contains Lean declarations and dependency displays,
+        # never its generated TeX.  Strip explicitly marked renderer-only
+        # changes before hashing so they do not cause an unnecessary Lean walk
+        # or invalidate an otherwise exact display cache.
+        contents = re.sub(
+            rb"\n[ \t]*# CACHE_RENDERER_NEUTRAL_START\n.*?\n[ \t]*# CACHE_RENDERER_NEUTRAL_END",
+            b"",
+            contents,
+            flags=re.S,
+        )
+        # CACHE_RENDERER_NEUTRAL_END
         digest.update(len(contents).to_bytes(8, "big"))
         digest.update(contents)
     return digest.hexdigest()
@@ -275,6 +335,32 @@ def _write_packet_lean_cache(paper_dir: Path, payload: Mapping[str, Any]) -> Non
     path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
+def _next_packet_semantic_target_batch(
+    paper_dir: Path,
+    specifications: list[str],
+    existing_targets: Mapping[str, Any],
+) -> dict[str, dict[str, Any]]:
+    """Obtain one exact, bounded, previously-unmaterialized Spec batch.
+
+    A packet cache is only usable once it contains every current Spec target,
+    but persisting each complete Lean batch makes the non-certifying worksheet
+    resumable when an interactive command has a short wall-clock budget.
+    """
+
+    missing = [name for name in specifications if name not in existing_targets]
+    if not missing:
+        return {}
+    batch = missing[:PACKET_SPEC_DISPLAY_BATCH_SIZE]
+    targets = semantic_expanded_spec_targets(paper_dir, batch, require_build=False)
+    if set(targets) != set(batch):
+        absent = sorted(set(batch) - set(targets))
+        raise ValueError(
+            "Lean returned an incomplete transparent Spec display batch: "
+            + ", ".join(absent)
+        )
+    return targets
+
+
 def prepare_packet_lean_cache(paper: str, *, stage: str) -> str:
     """Run one bounded Lean-display stage for a human-review packet.
 
@@ -315,12 +401,21 @@ def prepare_packet_lean_cache(paper: str, *, stage: str) -> str:
         }
     )
     if stage == "specifications":
-        targets = semantic_expanded_spec_targets(
-            paper_dir, specifications, require_build=False
-        )
-        if set(targets) != set(specifications):
-            raise ValueError("Lean returned an incomplete transparent Spec display set")
+        existing = payload.get("semantic_targets")
+        if not isinstance(existing, Mapping):
+            existing = {}
+        targets = {str(name): dict(target) for name, target in existing.items()
+                   if isinstance(target, Mapping)}
+        targets.update(_next_packet_semantic_target_batch(
+            paper_dir, specifications, targets
+        ))
         payload["semantic_targets"] = targets
+        _write_packet_lean_cache(paper_dir, payload)
+        if set(targets) != set(specifications):
+            return (
+                f"{paper}: prepared packet Lean-cache specification batch "
+                f"({len(targets)}/{len(specifications)}); rerun this stage to resume"
+            )
     elif stage == "paper-prerequisites":
         semantic_targets = payload.get("semantic_targets")
         if not isinstance(semantic_targets, Mapping) or set(semantic_targets) != set(specifications):
@@ -722,11 +817,22 @@ def paper_semantic_prerequisites(
         source_digest = ""
         source_error = ""
         source_locator = ""
+        source_connection_state = ""
         if source_item_key and source_record is None:
             source_error = f"registered source item `{source_item_key}` is absent from the statement map"
         elif source_record is not None:
             source_locator = str(source_record.get("source_location") or "not recorded")
             source_error = review_dashboard.source_anchor_file_error(paper_dir, source_record)
+            if source_error:
+                source_connection_state, display_error = (
+                    review_dashboard.source_anchor_display_state(
+                        paper_dir,
+                        source_record,
+                        source_item_key=source_item_key,
+                    )
+                )
+                if not display_error:
+                    source_error = ""
             if not source_error:
                 source_input, source_digest, source_error = review_dashboard.source_semantic_input_bundle(
                     source_record, require_context_roles=True
@@ -734,6 +840,12 @@ def paper_semantic_prerequisites(
         elif isinstance(raw.get("source_anchor_evidence"), list):
             source_locator = str(raw.get("source_location") or "not recorded")
             source_error = review_dashboard.source_anchor_file_error(paper_dir, raw)
+            if source_error:
+                source_connection_state, display_error = (
+                    review_dashboard.source_anchor_display_state(paper_dir, raw)
+                )
+                if not display_error:
+                    source_error = ""
             if not source_error:
                 source_input, source_digest, source_error = review_dashboard.source_semantic_input_bundle(
                     raw, require_context_roles=True
@@ -767,6 +879,8 @@ def paper_semantic_prerequisites(
             and str(raw.get("source_input_bundle_sha256") or "").strip().lower()
             == source_digest
             and has_metadata
+            and source_connection_state
+            != review_dashboard.PUBLIC_SOURCE_DISPLAY_PROJECTION_STATE
         )
         if not declaration:
             status = "Lean retained a paper-local prerequisite with no exact source declaration"
@@ -778,6 +892,8 @@ def paper_semantic_prerequisites(
             status = source_error
         elif not judgment:
             status = "source connection is registered; semantic judgment is pending"
+        elif source_connection_state == review_dashboard.PUBLIC_SOURCE_DISPLAY_PROJECTION_STATE:
+            status = "release-projected excerpt (display only)"
         elif not current:
             status = "recorded paper-prerequisite semantic judgment is stale or incomplete"
         else:
@@ -791,6 +907,11 @@ def paper_semantic_prerequisites(
                 "verbatim_source_input": source_input,
                 "source_input_bundle_sha256": source_digest,
                 "source_connection_error": source_error,
+                "source_connection_state": source_connection_state,
+                "source_connection_display_only": (
+                    source_connection_state
+                    == review_dashboard.PUBLIC_SOURCE_DISPLAY_PROJECTION_STATE
+                ),
                 "paper_semantic_target": semantic_target_text,
                 "paper_semantic_target_sha256": semantic_target_digest,
                 "paper_semantic_target_kind": str(
@@ -1017,22 +1138,24 @@ def _claim_review_rows(
             )
         )
 
-    # A malformed or legacy map must not hide a PaperInterface specification.
-    # Keep any unpaired declarations after the mapped source claims and label
-    # their absent proof endpoint explicitly.
-    for fallback_index, item in enumerate(interface_items.values(), start=len(selected)):
-        full_name = str(item.get("full_name") or "").strip()
-        if not full_name or full_name in covered:
-            continue
-        selected.append(
-            (
-                20_000 + fallback_index,
-                fallback_index,
-                item,
-                records_by_declaration.get(full_name, []),
-                "",
+    # A legacy map must not hide a PaperInterface specification.  In contrast,
+    # an activated v11 source-contract map is the deliberate claim surface:
+    # paper-local helper Specs not selected by a one-claim-to-one-Spec route
+    # must not silently enlarge its human-review denominator.
+    if source_map.get("semantic_contract_schema") != 1:
+        for fallback_index, item in enumerate(interface_items.values(), start=len(selected)):
+            full_name = str(item.get("full_name") or "").strip()
+            if not full_name or full_name in covered:
+                continue
+            selected.append(
+                (
+                    20_000 + fallback_index,
+                    fallback_index,
+                    item,
+                    records_by_declaration.get(full_name, []),
+                    "",
+                )
             )
-        )
     return [
         (item, records, proof_name)
         for _rank, _index, item, records, proof_name in sorted(selected, key=lambda entry: entry[:2])
@@ -1161,6 +1284,18 @@ def _prerequisites_tex(
                 [
                     "\\textbf{Source locator:} "
                     + _tex_locator(entry.get("source_locator") or "not recorded"),
+                    *(
+                        [
+                            "\\textbf{Source connection:} \\texttt{"
+                            + _tex_escape(
+                                entry.get("source_connection_state")
+                                or "release_projected_excerpt"
+                            )
+                            + "}"
+                        ]
+                        if entry.get("source_connection_display_only")
+                        else []
+                    ),
                     "\\paragraph{Verbatim paper-source connection}",
                     _verbatim(source_input),
                 ]
@@ -1249,6 +1384,18 @@ def _paper_prerequisites_tex(entries: Iterable[Mapping[str, Any]]) -> str:
                 [
                     "\\textbf{Source locator:} "
                     + _tex_locator(entry.get("source_locator") or "not recorded"),
+                    *(
+                        [
+                            "\\textbf{Source connection:} \\texttt{"
+                            + _tex_escape(
+                                entry.get("source_connection_state")
+                                or "release_projected_excerpt"
+                            )
+                            + "}"
+                        ]
+                        if entry.get("source_connection_display_only")
+                        else []
+                    ),
                     "\\paragraph{Verbatim paper-source connection}",
                     _verbatim(source_input),
                 ]
@@ -1335,6 +1482,84 @@ def _record_source_blocks(
         _verbatim(verbatim_source_input),
     ]
     return "\n".join(chunks)
+
+
+def _public_packet_presentation_tex(tex: str, *, paper: str) -> str:
+    """Apply the bounded public projection to non-verbatim packet material.
+
+    ``ReviewVerbatim`` holds raw paper excerpts and Lean displays.  The source
+    excerpts are permitted public evidence, so this final safety pass leaves
+    those byte-visible blocks untouched.  Every surrounding heading, locator,
+    metadata field, and diagnostic is projected once more as a fail-closed
+    release presentation boundary.
+    """
+
+    relative_path = f"papers/{paper}/docs/{PACKET_NAME}.tex"
+    blocks = re.split(
+        r"(\\begin\{ReviewVerbatim\}.*?\\end\{ReviewVerbatim\})",
+        tex,
+        flags=re.DOTALL,
+    )
+    projected: list[str] = []
+    for index, block in enumerate(blocks):
+        if index % 2:
+            projected.append(block)
+            continue
+        try:
+            public_block = project_text(block, relative_path=relative_path)
+        except ProjectionError as exc:
+            raise ValueError("packet contains non-public presentation text: " + str(exc)) from exc
+        projected.append(_sanitize_preescaped_packet_locators(public_block))
+    return "".join(projected)
+
+
+_PREESCAPED_PACKET_LOCATOR_RE = re.compile(
+    r"(\\textbf\{(?:Source locator|Archival source anchor):\}\s*)"
+    r"\{\\footnotesize\\raggedright\s*(.*?)\\par\}",
+    flags=re.DOTALL,
+)
+
+
+def _sanitize_preescaped_packet_locators(tex: str) -> str:
+    """Normalize locators in packets generated before the public projection.
+
+    Old packets first TeX-escaped private source paths (for example
+    ``audit/\\allowbreak{}source\\_archive\\_surface.tex``), so a normal text
+    projection can no longer recognize the locator.  This bounded rewrite
+    touches only the two public locator labels, retains any visible line span,
+    and leaves the raw-source ``ReviewVerbatim`` blocks untouched.
+    """
+
+    def replacement(match: re.Match[str]) -> str:
+        raw_locator = match.group(2)
+        locator = raw_locator.replace(r"\allowbreak{}", "").replace(r"\_", "_")
+        return match.group(1) + _tex_locator(locator)
+
+    return _PREESCAPED_PACKET_LOCATOR_RE.sub(replacement, tex)
+
+
+def sanitize_existing_packet(paper: str, tex_path: Path) -> str:
+    """Project an already-rendered packet without recomputing Lean displays.
+
+    This is intentionally presentation-only: it is for packets whose semantic
+    rows and Lean display cache are already current but whose old TeX rendering
+    exposed an internal source locator.  It neither validates nor changes any
+    audit receipt, source map, or Lean statement.
+    """
+
+    if not tex_path.is_file():
+        raise ValueError(f"existing packet TeX does not exist: {tex_path}")
+    rendered = _public_packet_presentation_tex(
+        tex_path.read_text(encoding="utf-8"), paper=paper
+    )
+    # Packet regeneration is intentionally able to reuse an exact Lean-display
+    # cache. Keep the reviewer-facing template guidance synchronized in that
+    # presentation-only lane as well, without touching source excerpts, Lean
+    # displays, or audit evidence.
+    return rendered.replace(
+        "The dashboard records saved annotations in this paper's local\nreview trace.",
+        "The dashboard records saved annotations in this paper's\nreviewer-owned review record.",
+    )
 
 
 def _approved_corrected_target_tex(records: Iterable[Mapping[str, Any]]) -> str:
@@ -1800,8 +2025,16 @@ def render_packet(
         semantic_target_errors_override=library_semantic_target_errors,
     )
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
-    source_version = str(source_map.get("source_version") or "not recorded")
-    source_url = str(source_map.get("source_url") or "")
+    # Do this before TeX escaping so a path such as `.audit_source` cannot
+    # become an escaped form that a later public-content scan cannot recognize.
+    source_version = _packet_presentation_text(
+        source_map.get("source_version") or "not recorded"
+    )
+    source_url = str(source_map.get("source_url") or "").strip()
+    # A packet may link only to an ordinary public web source.  A local/file
+    # locator is neither useful to an external reviewer nor safe to publish.
+    if source_url and not re.match(r"https?://", source_url, flags=re.IGNORECASE):
+        source_url = ""
     metadata = [
         "\\noindent\\textbf{Paper:} " + _tex_escape(paper) + "\\\\",
         "\\textbf{Paper id:} \\texttt{" + _tex_escape(paper) + "}\\\\",
@@ -1833,7 +2066,7 @@ def render_packet(
         [item for item, _records, _proof in prepared_rows],
         library_prerequisites,
     )
-    return (
+    rendered = (
         template.replace("@@PAPER_TITLE@@", _tex_escape(paper))
         .replace("@@PAPER_ID@@", _tex_escape(paper))
         .replace("@@METADATA@@", "\n".join(metadata))
@@ -1865,6 +2098,7 @@ def render_packet(
         )
         .replace("@@ROWS@@", "\n".join(rows))
     )
+    return _public_packet_presentation_tex(rendered, paper=paper)
 
 
 def _resolve_output_dir(
@@ -1908,6 +2142,14 @@ def main() -> int:
     parser.add_argument("--write", action="store_true", help="write the TeX packet")
     parser.add_argument("--compile", action="store_true", help="compile the written packet to PDF")
     parser.add_argument(
+        "--sanitize-existing",
+        action="store_true",
+        help=(
+            "rewrite only public presentation locators in an existing packet; "
+            "does not recompute Lean displays or audit evidence"
+        ),
+    )
+    parser.add_argument(
         "--prepare-lean-cache",
         action="store_true",
         help="prepare one bounded Lean-display stage for a later packet render",
@@ -1924,25 +2166,40 @@ def main() -> int:
         help="allow a visibly incomplete diagnostic when v11 preparation is not active",
     )
     args = parser.parse_args()
-    if args.compile and not args.write:
+    if args.compile and not (args.write or args.sanitize_existing):
         parser.error("--compile requires --write")
-    if args.prepare_lean_cache and (args.write or args.compile):
+    if args.prepare_lean_cache and (args.write or args.compile or args.sanitize_existing):
         parser.error("--prepare-lean-cache does not write or compile a packet")
+    if args.sanitize_existing and args.write:
+        parser.error("--sanitize-existing rewrites the existing TeX; omit --write")
     try:
         if args.prepare_lean_cache:
             print(prepare_packet_lean_cache(args.paper, stage=args.stage))
+            return 0
+        output_dir = _resolve_output_dir(args.paper, args.out_dir)
+        if args.sanitize_existing:
+            tex_path = output_dir / f"{PACKET_NAME}.tex"
+            sanitized = sanitize_existing_packet(args.paper, tex_path)
+            normalized = "\n".join(
+                line.rstrip(" \t") for line in sanitized.split("\n")
+            )
+            tex_path.write_text(normalized, encoding="utf-8")
+            print(f"sanitized {tex_path.relative_to(ROOT)}")
+            if args.compile:
+                _compile(tex_path)
+                print(f"wrote {tex_path.with_suffix('.pdf').relative_to(ROOT)}")
             return 0
         rendered = render_packet(args.paper, allow_draft=args.draft)
         if not args.write:
             print(rendered)
             return 0
-        output_dir = _resolve_output_dir(
-            args.paper,
-            args.out_dir,
-        )
         output_dir.mkdir(parents=True, exist_ok=True)
         tex_path = output_dir / f"{PACKET_NAME}.tex"
-        tex_path.write_text(rendered, encoding="utf-8")
+        # Source excerpts can contain trailing whitespace.  It has no review
+        # meaning in the rendered packet, but keeping it would make a generated
+        # public packet fail Git's whitespace check.
+        normalized = "\n".join(line.rstrip(" \t") for line in rendered.split("\n"))
+        tex_path.write_text(normalized, encoding="utf-8")
         print(f"wrote {tex_path.relative_to(ROOT)}")
         if args.compile:
             _compile(tex_path)

@@ -286,18 +286,17 @@ Completed papers should also have:
 
 Completed papers with a configured source-proof fidelity ledger must use
 schema 2. Every defect entry needs `status_impact` and
-`status_impact_rationale` under the rule in
-[`FORMALIZATION_STATUS_POLICY.md`](FORMALIZATION_STATUS_POLICY.md). Treat
+`status_impact_rationale`. Use the public status vocabulary in
+[`STATUS.md`](STATUS.md) when a recorded impact controls a public paper label. Treat
 `statement_impact` and `status_impact` as different questions: the former says
 whether source proof text or a source statement changes; the latter says
 whether the issue is a note, a substantial paper caveat, or evidence that the
 formalization remains partial.
 
-For the 2026-07-18 migration of completed papers explicitly marked
-`repository_visibility: public`, use the frozen inventory, sequential commands,
-and live receipts in
-[`PUBLIC_COMPLETE_PROTOCOL_AUDIT_2026-07-18.md`](PUBLIC_COMPLETE_PROTOCOL_AUDIT_2026-07-18.md).
-The batch `--public-complete` diagnostics select this visibility/status set;
+For a public release, follow
+[`PUBLIC_RELEASE_CHECKLIST.md`](PUBLIC_RELEASE_CHECKLIST.md) after the
+paper-local source-first closeout. The batch `--public-complete` diagnostics
+select the visibility/status set;
 they do not establish that a prepared public candidate is release-safe and do
 not replace a paper-local source-first closeout.
 

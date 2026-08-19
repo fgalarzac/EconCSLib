@@ -1,207 +1,288 @@
 # New Contributor Workflow
 
-This guide is for contributors who want to build on the public `EconCSLib`
-repository. It does not assume that you already have a private EconCSLib
-workspace.
+This guide is for a contributor adding or repairing one paper formalization
+without taking responsibility for existing papers. The stable entrypoint is
+`scripts/paper_contribution.py`; the individual audit scripts are maintainer
+interfaces, not prerequisites for learning the contribution flow.
 
-The contribution policy is still provisional. Before starting substantial paper
-formalization work, contact Nikhil Garg at ngarg@cornell.edu so the intended
-scope, source-paper version, and public/private status are clear.
+## Scope Guarantee
 
-Unless explicitly marked otherwise, contributions to the repository's Lean code,
-scripts, documentation, and site source are accepted under the Apache License,
-Version 2.0. Source-paper PDFs and extracted text caches remain separate
-third-party reference artifacts, are not covered by the repository code
-license, and should stay out of public commits unless redistribution rights
-have been checked separately.
+A one-paper pull request owns only:
 
-## 1. Use Public Main As A Read-Only Base
+- `papers/<PaperName>/**`
+- `papers/<PaperName>.lean`
+- one exact additive `[[lean_lib]]` registration for `<PaperName>` in
+  `lakefile.toml`
 
-Do not work directly on the public repository. Treat
-`nikhgarg/EconCSLib/main` as the upstream base that you periodically sync from,
-and do the actual development in a private workspace until the contribution is
-ready for public review.
+It does not own or update:
 
-Start with a local private clone:
+- `papers/status.json`
+- `papers/human_status.json`
+- `docs/PAPER_STATUS.md`
+- `site/index.html`
+- any other paper folder or audit evidence
+
+The paper-scoped check and pull-request CI build and audit only `<PaperName>`.
+Existing paper state cannot make that lane fail. A change to shared library,
+tooling, audit protocol, workflow, or multiple papers instead uses the
+integration lane.
+
+## 1. Create A Public-Based Working Branch
+
+Fork the public repository on GitHub, then clone the fork and retain the project
+repository as `upstream`:
 
 ```bash
-git clone https://github.com/nikhgarg/EconCSLib.git
+git clone https://github.com/example-contributor/EconCSLib.git
 cd EconCSLib
 git remote add upstream https://github.com/nikhgarg/EconCSLib.git
 git fetch upstream
-git checkout main
-git merge --ff-only upstream/main
+git switch -c paper/abc24-short-title upstream/main
 ```
 
-Then create a local working branch that you do not publish until it is ready:
+Do not push unfinished or sensitive work to a public fork. Work locally, in
+your own private repository, or in a private collaboration space until the
+branch is safe for public review. A public fork has public Git history.
+Never commit source PDFs, TeX archives, or extracted source text and then delete
+them: those bytes remain in public history. The paper lane checks the entire
+candidate history and blocks recognizable source-artifact paths and binary
+formats. It cannot determine the copyright status of arbitrarily renamed text,
+so if any third-party source bytes entered the branch, rebuild it from clean
+commits.
+
+Before substantial work, coordinate the exact paper version and intended scope
+with Nikhil Garg at ngarg@cornell.edu.
+
+## 2. Check The Local Environment
+
+From the repository root, run:
 
 ```bash
-git checkout -b <short-topic-name>
+python3 scripts/paper_contribution.py doctor
 ```
 
-If you need cloud backup or collaboration before public review, use your own
-private repository or coordinate a private collaboration space with Nikhil. A
-public fork is not a private workspace.
+The command checks the required Python and Lean/Lake environment and reports
+optional source-extraction or DAG-rendering tools separately. Resolve required
+failures before scaffolding; an unavailable optional tool should not be
+mistaken for a Lean failure.
 
-## 2. Choose The Contribution Type
+## 3. Pin The Source And Draft The Statement Spec
 
-Most contributions should fit one of these shapes:
-
-- Reusable library change under `EconCSLib/`.
-- Documentation, status, dashboard, or tooling update.
-- Improvement to an already-public paper folder under `papers/<PaperName>/`.
-- New paper formalization.
-
-Do not mix an unrelated paper formalization with reusable library cleanup in one
-pull request unless the library change is needed by that paper and is small
-enough to review with it.
-
-## 3. Reusable Library Contributions
-
-Library contributions should be paper-independent. Good examples include
-finite-sum lemmas, probability interfaces, optimization certificates, auction
-primitives, matching definitions, or theorem wrappers that more than one paper
-could reuse.
-
-Before opening a pull request, run the most relevant target. Examples:
+Keep the exact source PDF, TeX archive, or transcript outside the repository.
+Obtain the exact version before starting. The example assumes the bytes already
+exist at `$SOURCE_ARTIFACT`; do not run `init-spec` until the `test` succeeds.
 
 ```bash
-lake build EconCSLib
-python3 scripts/audit_repository.py
+PAPER=ABC24ShortTitle
+SOURCE_VERSION='arXiv v1, 2024-01-03'
+WORK_DIR="${HOME}/econcslib-review/$PAPER"
+SOURCE_ARTIFACT="$WORK_DIR/paper.pdf"
+STATEMENT_SPEC="$WORK_DIR/statement-spec.json"
+mkdir -p "$WORK_DIR"
+# Copy or download the exact source version here before continuing.
+test -f "$SOURCE_ARTIFACT"
+python3 scripts/paper_contribution.py init-spec \
+  "$SOURCE_ARTIFACT" \
+  --version "$SOURCE_VERSION" \
+  --output "$STATEMENT_SPEC"
 ```
 
-If the full library build is slow, run a narrower target while developing, then
-document the command you ran in the pull request.
+The specification records the exact source version and SHA-256 identity. Edit
+its `targets` list with the paper-facing named results you intend to formalize,
+including source locations, literal source statements, Lean declaration names,
+and proposed Lean types. This file is a local scaffold input; do not add a
+root-level `statement-spec.json` to the pull request.
 
-## 4. Work On An Existing Public Paper
-
-For an existing public paper, start by reading:
-
-- `papers/<PaperName>/README.md`
-- `papers/<PaperName>/FINAL_VALIDATION_REPORT.md`
-- `papers/<PaperName>/PaperInterface.lean`
-- `papers/<PaperName>/docs/DependencyDAG.tex`
-
-Then build the paper target:
+**STOP here before running `new`.** Replace every `REPLACE ...` value and
+`replace_with_lean_name` in `$STATEMENT_SPEC`, and add one complete target
+object per named result in scope. The guard below must print nothing and
+succeed:
 
 ```bash
-lake build <PaperName>
+! grep -nE 'REPLACE|replace_with_lean_name' "$STATEMENT_SPEC"
 ```
 
-Use `PaperInterface.lean` as the human-facing statement surface. Keep theorem
-status, caveats, and dependency-graph styles synchronized when a result moves
-from partial or conditional to formalized.
-Any paper-facing theorem premise that is not derived in Lean must be an
-explicit paper assumption declaration in `Assumptions.lean`, listed in
-`status.json` `review_surface.assumption_names`, and checked in
-`assumption_match_llm.json` as a true source/model assumption. Hidden
-certificate fields, source-row shortcuts, and proof-only hypotheses do not
-qualify as fully formalized paper results.
-Reusable library theorems may require certificate arguments. That is acceptable
-when the certificate is part of the library API, but the paper code must either
-construct the certificate from source primitives or keep the paper result
-partial/conditional. A paper-facing alias to a certificate-taking library theorem
-does not count as a closed paper theorem by itself. Before claiming completion
-or opening a public paper PR, run
-`python3 scripts/audit_repository.py --library-only --library-premise-audit`; the audit follows
-transitive reusable-library dependencies, not just direct aliases.
-The default audit also follows paper-local helper chains. A paper-facing row is
-not closed if a local helper, or a helper used by that helper, still takes an
-unvalidated certificate, source-row equation, proof-only hypothesis, or other
-boundary premise. Evidence constructed internally from already proved facts is
-discharged; evidence merely consumed by a helper must be visible as a validated
-paper assumption or the endpoint remains partial. Do not use `axiom`,
-`constant`, `opaque`, or unsafe declarations to bypass this rule.
-When `Assumptions.lean` uses `-- audit-premise:` comments, the judge must
-validate each exact premise in `assumption_match_llm.json` `premise_judgments`;
-approving only the surrounding assumption group is not sufficient. Premises not
-explicitly source-matched or already derived in Lean should be marked
-`partial_boundary`, and the paper status should remain partial until they are
-closed.
+The source bytes must also remain uncommitted unless redistribution rights have
+been checked. Neither `$SOURCE_ARTIFACT` nor `$STATEMENT_SPEC` belongs in Git;
+the scaffold commits only source identity and review evidence.
 
-## 5. Start A New Paper Privately
+## 4. Scaffold The Paper
 
-New paper formalizations should start in a private workflow, even if the
-eventual goal is a public contribution. From a private local clone or private
-repository based on public `main`, scaffold the paper folder:
+Use the citation-style folder convention, such as `ABC24ShortTitle`:
 
 ```bash
-python3 scripts/new_paper.py <paper-url> \
-  --folder <CitationStyleFolderName> \
-  --title "<Paper Title>" \
-  --authors "<Authors>" \
-  --version "<Venue or version>"
+PAPER_URL=https://arxiv.org/abs/2401.01234
+python3 scripts/paper_contribution.py new "$PAPER_URL" \
+  --folder "$PAPER" \
+  --title "A Short Formalization Example" \
+  --authors "Ada Author and Bao Collaborator" \
+  --version "$SOURCE_VERSION" \
+  --statement-spec "$STATEMENT_SPEC"
 ```
 
-Use the existing folder naming convention, for example `ABC24ShortTitle`.
+The command creates the paper folder and root import, adds only the focused Lake
+library registration, and validates the source-pinned statement skeleton. It
+does not add the paper to broad default targets or regenerate repository-wide
+status files.
 
-The first public pull request for a new paper should contain only public-safe
-work. It can be an intake PR if it contains:
+`--statement-spec` is optional. Without it, `PaperInterface.lean` starts empty;
+the scaffold never invents a theorem placeholder. Freeze and audit exact
+paper-facing theorem types before serious proof work.
 
-- source version metadata;
-- a named-result inventory;
-- a dependency DAG scaffold;
-- `MainTheorems.lean` and `PaperInterface.lean` placeholders without false
-  claims; and
-- an honest status table using `docs/STATUS.md`.
+### Existing Paper Repair
 
-Do not mark a result formalized until the corresponding Lean declaration
-compiles without `sorry`, `admit`, new unreviewed axioms, or hidden certificate
-assumptions. If a result still depends on a capacity equation, threshold row,
-probability mass formula, external certificate, or witness that the paper does
-not explicitly assume, mark the result conditional or partially formalized
-until that premise is derived.
+For an existing paper, skip Sections 3-4 and do not edit `lakefile.toml`.
+Confirm the pinned source version in its validation report, work only in its
+paper folder and root import, and continue with the checks below.
 
-## 6. Keep Unfinished Paper Work Private By Default
+## 5. Work Inside The Paper Boundary
 
-You do not need an existing private EconCSLib repository to start thinking about
-a paper, but unfinished paper work should stay private. Practical options are:
+The main human-facing files are:
 
-- Work locally on a private branch that you do not push anywhere.
-- Create your own private repository or private fork, if your GitHub account
-  supports that workflow.
-- Contact Nikhil to coordinate a private collaboration space.
+1. `papers/<PaperName>/PaperInterface.lean`: source definitions and named
+   theoretical statements in paper order.
+2. `papers/<PaperName>/FINAL_VALIDATION_REPORT.md`: source version, verdict,
+   assumptions, corrections, boundaries, and validation evidence.
+3. `papers/<PaperName>/README.md`: paper metadata and result ledger.
+4. `papers/<PaperName>/docs/DependencyDAG.tex`: paper-facing dependency map.
+5. `papers/<PaperName>/status.json`: machine-readable paper-local status.
 
-Do not push unfinished private-sensitive work to a public fork if the source
-paper, proof attempts, comments, or intermediate history should not be public.
-Public repositories and public forks have public Git history.
+Keep proof plumbing in `MainTheorems.lean`, `ProofInterface.lean`, or smaller
+paper-local modules. `PaperInterface.lean` must expose the actual audited
+statements, not merely aliases with source-looking names.
 
-When the paper becomes public-ready, or when the project explicitly decides to
-publish a documented partial formalization, publish only a clean review branch
-and open a focused pull request containing the approved paper folder, its root
-`papers/<PaperName>.lean` file, and any public-safe reusable library changes.
+Every theorem premise must be derived in Lean or exposed as a source-backed
+paper assumption. Do not replace a missing proof with a certificate, source-row
+package, record field, or assumption that already contains the conclusion.
 
-The pull request is the point at which the contribution becomes public. Review
-the branch history before opening it.
+Normal paper coverage concerns named theoretical content: definitions, lemmas,
+propositions, theorems, and corollaries. Figures, captions, computational
+examples, and empirical results enter only an explicitly requested deep
+all-prose review.
 
-Public partial formalizations are allowed when the remaining assumption seam is
-explicit and useful for public review or collaboration. That should be an
-intentional project decision, not the default for new paper work.
+If reusable library work becomes necessary, put it in a separate integration
+pull request when practical. Adding `EconCSLib/`, tooling, workflow, protocol,
+or another paper path to this branch intentionally escalates validation beyond
+the one-paper lane.
 
-## 7. Pull Request Checklist
+## 6. Use Fast Checks During Proof Work
 
-Before opening a pull request:
+Run the fast path after statement or proof milestones:
 
-- Rebase or merge from `upstream/main`.
-- Run the relevant `lake build` target.
-- Push only a public-safe review branch or fork after the work is ready for
-  review.
-- Keep source PDFs, dashboard caches, and local artifacts out of Git unless the
-  repository already tracks that artifact type intentionally.
-- Update `docs/DependencyDAG.tex`, `docs/DependencyDAG.pdf`,
-  `PaperInterface.lean`, `status.json`, and `FINAL_VALIDATION_REPORT.md` when
-  changing paper-facing status. Update README prose only when the task
-  explicitly asks for it.
-- Run `python3 scripts/sync_paper_status.py` after editing a paper-local
-  `status.json`; it refreshes the aggregate JSON, docs table, and site table.
-  Include the generated status files in the pull request. Paper-folder README
-  entrypoints are refreshed only with
-  `--sync-readmes --readme-edit-permission` after explicit README instructions.
-- Explain any caveat, source-model assumption, certificate, or proof-route
-  deviation in human-facing files.
-- Include the exact commands you ran in the pull request description.
+```bash
+python3 scripts/paper_contribution.py check ABC24ShortTitle --fast
+```
 
-For paper formalizations, reviewers should be able to evaluate the claim by
-starting from `FINAL_VALIDATION_REPORT.md`, `PaperInterface.lean`,
-`docs/DependencyDAG.tex`, and `README.md` without reverse-engineering implementation
-proof files.
+After committing, you can also catch pull-request scope mistakes by naming the
+comparison base:
+
+```bash
+python3 scripts/paper_contribution.py check ABC24ShortTitle \
+  --fast --base upstream/main
+```
+
+With `--base`, the command requires a clean worktree and checks the committed
+base-to-`HEAD` candidate; uncommitted edits are deliberately excluded. The
+fast check validates the paper-owned structure and focused Lean surface. It
+does not claim source-grounded closeout, refresh aggregate files, or inspect
+existing paper audits.
+
+For an existing paper, an uncommitted development check compiles any imported
+paper modules but defers the extra trusted-base graph comparison. The committed
+`--base` check and `prepare-pr` compare Lean-emitted module closures and reject
+new cross-paper dependencies. Modules already reachable at the base are build
+dependencies, not papers the contributor must audit.
+
+## 7. Run The Local Acceptance Check
+
+At completion, keep the pinned source bytes available locally and run the full
+paper check while developing:
+
+```bash
+python3 scripts/sync_paper_status.py --paper ABC24ShortTitle
+python3 scripts/paper_contribution.py check ABC24ShortTitle
+```
+
+This full paper-scoped check is the acceptance boundary. It uses the repository
+closeout planner and its current reusable evidence, so unchanged items are not
+needlessly regenerated. It checks only the selected paper and its imported Lean
+dependencies.
+
+The command asks the planner to resolve status and saved source-evidence
+readiness before compiling. Do not prebuild the paper or invoke dashboard and
+repository-audit children by hand: a source-delta or eligibility stop should
+finish before Lean work, and a cold cache has exactly one planner-scheduled
+paper build.
+
+Do not remove the source bytes and substitute a structural public-checkout
+check for this step. A formalization is not source-audited merely because its
+Lean proofs compile.
+
+## 8. Prepare And Open The Pull Request
+
+Publication is a project decision, not something scaffolding grants. Once the
+paper is approved for a public PR, set `repository_visibility` in the
+paper-local `status.json` to `public`, render only that paper's owned README,
+and commit the candidate. Do not run the aggregate status generator.
+
+```bash
+python3 scripts/sync_paper_status.py --paper ABC24ShortTitle
+git add -- papers/ABC24ShortTitle papers/ABC24ShortTitle.lean lakefile.toml
+git commit -m "Formalize ABC24ShortTitle"
+```
+
+Then prepare the clean branch against current public main:
+
+```bash
+git fetch upstream
+git rebase upstream/main
+python3 scripts/paper_contribution.py prepare-pr ABC24ShortTitle \
+  --base upstream/main
+```
+
+`prepare-pr` verifies the one-paper path boundary, reruns the source-present
+paper check against the exact committed candidate, and prints its paper and
+base identity. It rejects aggregate status/site files,
+unrelated papers, shared code, and non-additive Lake changes from the scoped
+lane.
+
+After the branch contains only public-safe material:
+
+```bash
+git push -u origin paper/abc24-short-title
+```
+
+Open a pull request against `nikhgarg/EconCSLib:main` and complete
+`.github/pull_request_template.md`.
+
+## Pull-Request CI
+
+CI derives contribution scope from the Git diff; labels and checkboxes cannot
+waive it. For a valid one-paper pull request, CI:
+
+- builds the complete focused `<PaperName>` Lake target;
+- runs the paper-scoped structural and audit gates;
+- validates source receipts in public-checkout mode when licensed source bytes
+  are absent; and
+- does not build, refresh, or audit existing papers.
+
+The structural source-receipt check is intentionally weaker than the
+source-present local closeout. Maintainers may ask for the local check result or
+additional source review, but they should not ask a one-paper contributor to
+repair unrelated repository state.
+
+An integration PR may run broader builds and audits because it changes shared
+behavior. Move such work out of the paper-only branch when a narrow separation
+is possible.
+
+After merge, maintainers use
+`python3 scripts/sync_paper_status.py --aggregate-only` in a separate branch.
+The resulting four-file pull request has its own cheap trusted lane: no Lean
+setup, builds, or semantic audit reruns. Contributors are not responsible for
+that mechanical follow-up.
+
+## Contribution License
+
+Unless explicitly marked otherwise, contributed Lean code, scripts,
+documentation, and site source are accepted under the Apache License, Version
+2.0. Source papers are third-party works and are not covered by that license.

@@ -22,10 +22,13 @@ python3 scripts/formalization_protocol.py
 
 The essential current distinctions are:
 
-- statement semantic review and recursive source-record audit are v10 lanes;
-- theorem-realization correspondence is v11 for new papers and explicit v11
-  upgrades; a legacy material repair instead needs current item-level v10
-  source and Lean evidence, never a relabelled v11 receipt;
+- statement semantic review is the v11 raw-source-to-expanded-Spec lane;
+  recursive source-record audit is a separate structural Lean-provenance lane
+  and cannot establish source/Lean semantic equivalence;
+- theorem-realization correspondence is v11 for new papers and for every
+  paper in an explicitly assigned v11-upgrade campaign. Historical evidence
+  remains historical evidence; do not relabel it as v11 or manufacture a
+  replacement without current raw-source and Lean review;
 - normal scope covers independently source-presented named theory;
 - standalone formulas, equations, algorithms, figures, captions, examples,
   simulations, empirical claims, and computational results are deep-only;
@@ -37,8 +40,43 @@ The essential current distinctions are:
   declaration name as the reuse authority;
 - source-row/`PaperInterface` associations use exact semantic bindings, never
   positional pairing or Lean-synthesized source meaning;
-- transparent `Spec` declarations support comparison and routing but receive no
-  proof credit without the reviewed theorem's closed proof;
+- transparent `Spec` declarations are the sole semantic-comparison target;
+  paired proof wrappers receive Lean-Meta proof credit but never a duplicate
+  LLM source-semantic judgment;
+- `PaperInterface.lean` contains exactly one expanded transparent
+  `<name>Spec : Prop` per source claim and no thin theorem/lemma wrappers.
+  Do not use `type_of`, a theorem alias, or a polymorphic `@` alias as that
+  `Spec`'s semantic body. Copy the complete proposition (including all
+  binders, premises, and conclusion) from the source-shaped declaration; if
+  a mechanical migration cannot do that, leave the paper unactivated until a
+  source-specific row is written.
+  A material source condition may not be concealed behind a paper-local helper
+  name: the review declaration itself must show the condition's semantic body.
+  If a source-model/state/policy declaration remains named after the selected
+  Spec root is opened, Lean must produce that declaration's own-body target
+  and recursively inventory the paper-local and reusable-library names left
+  in it. Give every retained paper-local card an exact byte-pinned source
+  connection and a current hash-bound source-to-target judgment in
+  `audit/paper_semantic_prerequisites.json`; source code or a declaration name
+  alone is not a semantic review. These cards are prerequisites, never extra
+  paper-claim denominator rows.
+  A reusable library primitive is permissible only when its Lean-produced
+  root semantic target and exact bounded declaration code are shown before the
+  affected row in the dashboard/packet, an explicit byte-pinned paper-source
+  connection is registered in `audit/library_semantic_review.json`, and its
+  own raw-source-to-library screening is current. For a transparent `def`,
+  Lean must delta-reduce the root and expose any reusable definition left in
+  its body as another prerequisite card. For opaque, inductive, or other
+  non-reducible declarations, show Lean's elaborated signature plus exact
+  code and label it accurately; never call it an expansion. Its use does not
+  replace a source-specific clause. Treat the registered material primitive exactly like paper-local
+  code for source matching: compare raw source bytes to actual Lean code, not
+  to a name, glossary, or paraphrase. Foundational Lean/Mathlib syntax and
+  containers are version-pinned closure terminals rather than fake paper
+  source claims.
+  Put exact-type proof endpoints in `ProofInterface.lean`; the dashboard,
+  packet, and counts show the source claim/Spec once and identify the endpoint
+  only as separately checked proof evidence;
 - proof work comes first; routine documentation waits for material boundaries;
 - close a paper with its full paper-root build, owned by the consolidated
   closeout; run a separate build first only when the reuse planner schedules it.
@@ -138,7 +176,9 @@ diagnostics only and cannot justify a raw reuse, reissue, or closeout result.
   active paper changes; prefer one commit and push after each finished paper
   when requested.
 - Every paper has `PaperInterface.lean`. It is the human and machine source
-  review surface, even if proofs and audit helpers live in imported modules.
+  review surface and contains only expanded semantic Specs. Every paper with
+  a formalized Spec also has `ProofInterface.lean`, which contains the
+  corresponding exact-type proof endpoint outside the semantic review surface.
 - Do not rename or delete legacy audit-facing files during a proof campaign
   unless that cleanup is the assigned task. Record neutral-name cleanup for a
   separate boundary.
@@ -159,8 +199,8 @@ and must not be added to a one-paper pull request.
 
 1. Read the current source artifact, `status.json`, `PaperInterface.lean`,
    paper-local audit map, validation report, coordination row, and recent diff.
-2. Confirm the exact source version and byte-pinned text/TeX artifact. Existing
-   local source caches take precedence over repeated web retrieval.
+2. Confirm the exact source version and byte-pinned text/TeX artifact. The
+   recorded source material takes precedence over repeated web retrieval.
    If the source arrives as a TeX or text archive, do not treat an unpacked
    working copy as an alternate canonical artifact. Build a deterministic,
    paper-local text surface from explicitly named, byte-pinned archive members,
@@ -182,10 +222,13 @@ and must not be added to a one-paper pull request.
    uniqueness, timing, information, equilibrium refinements, and dependencies.
 5. Search Mathlib, Cslib, Optlib, `EconCSLib`, and existing paper modules before
    creating a new mathematical abstraction.
-6. Write the exact audited paper-facing propositions in
-   `PaperInterface.lean`. It is acceptable and preferred to begin with `sorry`
-   proofs once each statement itself is source-correct and its assumptions are
-   visible. This produces a trustworthy proof-obligation queue.
+6. Write the exact audited paper-facing propositions as transparent
+   `<name>Spec : Prop` declarations in `PaperInterface.lean`, once each.
+   Put a theorem/lemma of exactly that Spec type in `ProofInterface.lean`.
+   It is acceptable and preferred for that separate endpoint to begin with
+   `by sorry` in a private draft once the Spec itself is source-correct and
+   its assumptions are visible. This produces a trustworthy proof-obligation
+   queue without duplicating semantic rows.
 7. Freeze intake before proving: verify the complete normal-scope inventory,
    byte anchors, source premise/conclusion atoms, exact `Spec` types, dependency
    order, and owning module/agent for every obligation. Run one focused
@@ -200,10 +243,14 @@ and must not be added to a one-paper pull request.
    Newly scaffolded papers record this boundary in
    `audit/intake_freeze.json`; seal its exact source byte slices, total
    dependency order, owners, and acceptance conditions before closeout.
-   A trusted pre-rollout commit defines the legacy cohort. Existing cohort
-   papers without that prospective marker remain `legacy_not_configured`: do
-   not backfill it, reopen them, or rerun audits. Marker removal from a new
-   paper is an intake failure, not a downgrade to legacy.
+   A trusted pre-rollout commit defines the legacy cohort. Do not backfill a
+   prospective intake marker as if it existed historically. When the project
+   assigns an existing paper to the corpus-upgrade campaign, create a fresh
+   migration freeze that records the current source inventory, one-Spec-per-
+   claim interface, dependency order, and evidence plan; then rerun the v11
+   lanes for that paper. Outside an assigned upgrade campaign, preserve legacy
+   evidence and do not rewrite it merely for cosmetic conformance. Marker
+   removal from a new paper is an intake failure, not a downgrade to legacy.
 8. Choose the first dependency-ordered proof seam and prove it. Update plans or
    reports only when the source target changes or a handoff is needed.
 
@@ -247,6 +294,13 @@ record, or map-key names.
 
 - Put every material premise and conclusion in the elaborated
   `PaperInterface.lean` type or a transparent audited `Spec : Prop`.
+- Inspect that expanded public proposition for implementation-only binders.
+  A local `Finset` proof may need `DecidableEq`, but the paper-facing statement
+  must not acquire `DecidableEq`, computability, or another typeclass premise
+  unless the source model actually requires it. Prefer local `classical` in
+  the specification or proof and recompile the interface plus paper root after
+  removing such an artifact. This is a material source-fidelity change: freeze
+  again and refresh the affected raw evidence before resuming closeout review.
 - Do not hide conclusions in caller-supplied certificates, records, witnesses,
   runs, equilibria, selectors, convergence packages, or source-row equations.
 - Distinguish conditional behavior from existence, nonvacuity, uniqueness,
@@ -276,6 +330,186 @@ statement. Explicit one-to-many coverage must be represented explicitly. A
 transparent `Spec : Prop` may mediate direct structural comparison and route
 selection, but only the reviewed theorem's elaborated type and closed proof can
 earn theorem proof credit.
+
+For every v11 source-to-Lean semantic judgment, the source input is exactly
+the byte-pinned `source_anchor_evidence` quote bundle for that source item,
+followed only by separately byte-pinned
+`semantic_context_requirements` quote bundles. Each context entry must state
+one permitted role—definition, model, model construction, scope, prior stated
+result, or stated antecedent—so it can interpret a displayed claim but cannot
+smuggle in a proof derivation or inferred strengthening. The map's
+`statement`, `semantic_claim`, title, source-route explanation, and any
+generated Lean-to-TeX prose are navigation or reviewer-output metadata, never
+semantic input.
+Record one deterministic source-input-bundle identity, and bind it to the
+judgment, each direct route, and each direct endpoint obligation. If the
+displayed result relies on construction, definition, or stated-antecedent
+context not in the result excerpt, add exact context excerpts before judging;
+do not infer it from a paraphrase. If available source context only describes a
+stronger construction than the displayed endpoint, formalize the displayed
+endpoint as a separate Spec and use the construction in its Lean proof; do not
+call the stronger construction a direct match. Compare that raw source bundle
+directly with the expanded transparent `Spec`, and record its exact
+declaration and elaborated text identity. A paired theorem `T : TSpec` is
+proof evidence only: Lean Meta must verify the exact type/proof relation, but
+no LLM row may compare the source to that wrapper separately.
+
+A `Spec` is not expanded merely because Lean can unfold it elsewhere. If the
+displayed declaration replaces the paper's material domain, construction,
+definition, or conclusion with a paper-local predicate/function name, record
+the row as `uncertain` rather than asking an LLM to infer the hidden body. Move
+the condition into the one source-facing Spec, or add a separately source-faced
+Spec for the displayed endpoint. A direct `matches` verdict requires the raw
+source bundle and the visible Spec code alone to support the comparison.
+
+The same rule applies to a material reused library definition, including one
+reached through a retained paper-local prerequisite rather than directly by a
+selected Spec. A paper may
+reuse its Lean implementation, but not outsource the semantic audit to its
+name. Before source claims that depend on it, show the Lean-produced root
+semantic target, the exact bounded library declaration, its selected raw
+source connection, and the current hash-bound source-to-library judgment in
+the dashboard and human-review packet. A transparent library `def` must be
+delta-reduced at that root; compiler-generated helpers under the same root
+are expanded rather than made into fake cards, while a reusable dependency
+left in the target receives its own card. If Lean marks the root opaque or
+non-reducible, show the elaborated signature with exact code and state that
+there is no delta expansion. The source connection must be a map item or an
+explicit byte-pinned source-anchor bundle with the same raw-input rules as a
+paper Spec; a source-map summary, docstring, or library prose does not count.
+If no exact paper source connection is available, mark the prerequisite
+pending/uncertain and do not let a paper-level `matches` verdict silently
+treat it as established. Add uncommon material primitives to the ledger with
+their bounded library source path and lines. Do not create a second paper
+claim just to restate the library definition, and do not source-match
+foundation terminals such as `Nat` or `Finset`.
+
+The closeout gate, not only the dashboard, enforces both source-semantic
+lanes. Every selected source claim has exactly one direct
+`def <name>Spec : Prop := ...` route and one current `matches` entry in
+`audit/v11_raw_source_spec_screening.json`; a theorem/lemma, an `abbrev`, a
+helper-only body, a duplicate source claim sharing a Spec, an `uncertain`
+verdict, or stale source/Spec hashes blocks closeout. Every material library
+declaration in Lean's elaborated direct dependency surface for a selected Spec
+or retained paper-local prerequisite, and every reusable declaration exposed
+by a reviewed library root target, must
+be registered with a bounded declaration location and a current `matches` entry
+in `audit/library_semantic_review.json`; an unregistered library name is a gate
+failure, not a dashboard omission. Reissue either ledger only after an
+explicit reviewer decision, using the deterministic writers:
+
+```bash
+python3 scripts/reissue_v11_raw_source_spec_screening.py --paper <PaperRoot> \
+  --decisions papers/<PaperRoot>/audit/v11_raw_source_spec_reissue_decisions_YYYY-MM-DD.json \
+  --validator "<reviewer>" --write
+python3 scripts/reissue_paper_semantic_prerequisites.py --paper <PaperRoot> \
+  --decisions papers/<PaperRoot>/audit/paper_semantic_prerequisite_reissue_decisions_YYYY-MM-DD.json \
+  --validator "<reviewer>" --write
+python3 scripts/reissue_library_semantic_review.py --paper <PaperRoot> \
+  --decisions papers/<PaperRoot>/audit/library_semantic_reissue_decisions_YYYY-MM-DD.json \
+  --validator "<reviewer>" --write
+```
+
+Those writers recompute byte identities but never decide a semantic match.
+Do not edit hashes by hand or carry an old `matches` decision forward merely
+because the declaration name survived.
+Their default path includes a focused build. If that build has just completed
+successfully in the same checkout, `--skip-build` may avoid repeating it while
+the writer still obtains fresh Lean displays and rewrites the hash-bound
+ledger. It is a bounded execution optimization only: the preceding build and
+the later closeout build remain required, and a packet cache by itself is not
+evidence or permission to reuse a verdict.
+
+If the archival source statement is demonstrably false and the paper instead
+has an approved, fully proved corrected target, never record that as
+`matches`. Keep the archival bytes and statement, mark the map item
+`corrected_source_statement`, pin its distinct approved corrected target and
+the governing defect, and record only
+`matches_approved_corrected_target`. That exceptional verdict is valid only
+when both target record and its approval hash are current and it explicitly
+disclaims archival equivalence. In the dashboard and human-review packet,
+show the archival byte-pinned source first and then the full approved corrected
+target, its archival anchor, and its recorded basis; label the reviewer
+checkbox as matching the approved corrected target, never the archival text.
+A source typo or clarification that preserves
+the same endpoint should remain an ordinary `matches` review with the precise
+clarification recorded separately.
+
+Obtain that direct-library inventory from Lean Meta after the selected Specs
+and every retained paper-local prerequisite elaborate. Python may serialize
+the resulting names, verify their hashes, and map a field projection or
+structure constructor to its one owning structure for a non-duplicative human
+card; it must never infer the inventory from qualified tokens, imports, or
+namespace guesses. If Lean cannot produce a complete sorted inventory, fail
+the library lane rather than fall back to lexical scanning.
+
+The human PaperInterface, dashboard, and packet show one source claim per
+expanded `Spec`, in source/DAG order, with the paired theorem named once as
+the verified proof endpoint. Where the paper itself distinguishes main text
+from an appendix or supplement, declare presentation sections that exactly
+partition the canonical source-claim surface: `Main-text source claims` comes
+first and `Appendix and supplement source claims` follows under its own marked
+heading. The declared sections may add headings but must preserve the approved
+source/DAG linearization: never put a definition below a claim that uses it.
+If an appendix-only source item is a prerequisite of a main-text claim, keep
+that prerequisite earlier in the human surface rather than forcing it down.
+This changes human reading order only: appendix claims remain source claims,
+receive the same semantic review, and remain in the denominator. Keep material
+prerequisite cards before both sections in dependency order. Do not
+show a map summary beside a raw quote as a second source statement, a
+Lean-to-TeX paraphrase as a comparison target, or a second wrapper row.
+Human-facing source and Lean columns must contain the actual raw excerpts and
+expanded proposition respectively.
+Treat each raw source excerpt as literal evidence in the dashboard: exclude
+its rendered element from MathJax/TeX processing, including dollar-delimited
+math, so source environments such as `\\begin{definition}` remain visible
+verbatim rather than becoming renderer errors. A displayed source excerpt may
+be typeset only in a separately labelled non-verbatim explanatory rendering;
+it is never the semantic comparison target.
+Render material prerequisite cards in dependency-first order across both
+paper-local and reusable-library declarations: a reusable library card comes
+before a paper-local card that uses it, and either comes before every source
+claim that depends on it. On a paper-local prerequisite card, show the raw
+source connection and its one Lean-expanded semantic target; do not repeat the
+underlying declaration source as a second Lean statement. A reusable-library
+card additionally shows its exact bounded Lean declaration, because that code
+is the independently screened reusable implementation rather than a second
+paper claim.
+Every material library card is individually reviewable: provide a
+matches/mismatch/uncertain control and notes field, and record its annotation
+in a prerequisite-scoped ledger distinct from the paper-claim review ledger.
+Its review status never changes the paper source-claim denominator. Retain
+paper-local semantic prerequisites in their current audit ledger and validate
+them with the same raw-source discipline, but do not place implementation
+scaffolding on the default human packet/dashboard surface unless an explicit
+technical-trace review is requested.
+Do not create an unmarked human-review packet until the paper has explicitly
+activated its v11 raw-source-to-Spec surface and source map. An earlier
+interface may be rendered only as a prominently labelled draft diagnostic; it
+is never a review or closeout artifact.
+The packet is intentionally compact: one numbered row, no repeated declaration
+title or type/kind fields, raw source input, one Spec, one separately named
+proof endpoint, a recorded source-to-Spec verdict/reason, and a usable
+annotation box. Start every source claim and every material-library card on a
+fresh page and normally keep it to one page. When the exact raw source bundle
+including required semantic context, or the fully expanded Spec, genuinely
+does not fit, continue that same item without inserting another row; never
+replace the omitted material with a paraphrase. Do
+not put validator branding, receipt dates, stale flags, or implementation
+history in every row; those belong in the sidecar or final closure receipt.
+Keep the packet's `How to use` note equally direct: tell the reviewer to
+compare the exact source excerpts with the expanded specification and annotate
+the row. Do not explain proof-endpoint deduplication, internal receipts,
+dependency closure, focused builds, or the audit architecture there.
+Put a linked table of contents at the top of both the packet and dashboard.
+It lists dependency-ordered prerequisite cards and the main-text/appendix
+source-claim sections, with each item linking to its card; the dashboard link
+must also open its enclosing paper and collapsed card before scrolling. At the
+top of every packet, add short fresh-fork/clone instructions for opening that
+paper's dashboard from the repository root (`lake exe cache get` on a new
+clone, then `python3 scripts/review_dashboard.py --paper <Paper> --serve` and
+the printed localhost URL). Keep this operational note short and separate from
+the mathematical review instructions.
 
 For a `Spec`/proof contract, Lean Meta must establish exact elaborated
 proposition equivalence and traverse the paper-local transparent dependency
@@ -532,8 +766,21 @@ map or claim by filename or function name alone.
 Legacy Lean receipts keep their original bytes and hashes during control-list
 migrations. Only the exact historical three-control tuple may use the retired
 helper compatibility projection; every other missing/extra control fails.
-Never rewrite or rerun an existing paper merely to adopt these workflow
-mechanisms.
+Do not rewrite or rerun an existing paper merely because a workflow mechanism
+changed. When the user assigns a corpus-upgrade campaign, however, migrate
+each paper in dependency order to the current interface and evidence lanes:
+
+1. Freeze the current normal source surface and replace split, wrapper, or
+   duplicate review rows with one transparent semantic `Spec` per source
+   claim; keep the paired proof endpoint outside that surface.
+2. Reissue the current raw-source-to-Spec screen, source-Spec correspondence,
+   paper-local prerequisite review, and material-library review from explicit
+   reviewer decisions; do not copy old hashes or verdicts by declaration name.
+3. Regenerate the human-review packet, dashboard data, DependencyDAG, and
+   reader-facing validation report; then run the full evidence-integrity gate
+   and issue the one canonical final-closure receipt after a focused build.
+
+Treat the old receipts as provenance, not as the current upgraded closure.
 
 Execute only the planner's current `next_action`. If that action is
 `strict_closeout`, run its exact argv, including `--deep-paper-prose`,
@@ -624,6 +871,14 @@ strict closeout already reads paper-local `status.json` and does not require
 aggregate status, documentation, or site reconciliation. Run the unscoped
 status sync once at integration, public-PR, or release time.
 
+`status.json` prose is paper-owner content. In particular, never create,
+rewrite, shorten, replace, clear, or promote `human_summary`, `main_caveat`,
+or their review metadata without the paper owner's explicit instruction in the
+current conversation. A renderer may project a note that is already marked
+`human_written` or `human_approved`, but must do so verbatim; it must never
+silently substitute a technical/audit note when that user-owned summary exists.
+Agent-authored drafts remain private until explicit human approval.
+
 Classify a proposed audit write before creating any plan, archive, or sidecar:
 
 - A human statement receipt changes only when its exact source target, Lean
@@ -651,8 +906,8 @@ Classify a proposed audit write before creating any plan, archive, or sidecar:
 Keep configured, tracked audit sidecars at their canonical paths even when a
 report classifies them as historical evidence; do not hide canonical paths with
 a broad `audit/*.json` ignore rule. Put retry outputs, templates, recovery
-fragments, and other non-authoritative scratch material under ignored
-`.review_traces` or `.scratch` instead, never in a current evidence path.
+fragments, and other non-authoritative material in reviewer-owned untracked
+working files instead, never in a current evidence path.
 
 At an explicit cleanup boundary, make a checksum/path manifest before removing
 untracked scratch artifacts. A partially generated canonical raw reissue may be

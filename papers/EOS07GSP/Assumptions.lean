@@ -1,4 +1,4 @@
-import EOS07GSP.ProofInterface
+import EOS07GSP.Implementation
 
 /-!
 # Paper Assumptions: EOS07 GSP

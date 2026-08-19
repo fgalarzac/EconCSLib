@@ -3001,6 +3001,19 @@ class SemanticModelRecordBindingTests(unittest.TestCase):
         ] = "Different reviewed semantics."
         self.assertEqual(self._bindings(payload, judgments, strict=False), ())
 
+    def test_source_to_spec_direct_evidence_parent_closes_record_fields(self) -> None:
+        """The current direct-evidence parent is an exact closure root too."""
+
+        payload, _judgments = self._payload_and_judgments()
+        semantic_items = payload["semantic_model_items"]
+        assert isinstance(semantic_items, list) and isinstance(semantic_items[0], dict)
+        semantic_items[0].pop("source_statement_association")
+
+        candidates = CLOSURE.current_record_field_closure_completion_candidates(payload)
+
+        self.assertEqual(len(candidates), 1)
+        self.assertEqual(candidates[0].semantic_model_judgment_key, "semantic-model::reviewed")
+
     def test_result_relation_is_diagnostic_but_semantic_review_failure_blocks(self) -> None:
         payload, judgments = self._payload_and_judgments()
         dependency = payload["conclusion_dependency_items"][0]

@@ -1,4 +1,4 @@
-import GGSG19TopThree.ProofInterface
+import GGSG19TopThree.Implementation
 
 /-!
 # Paper Assumptions: GGSG19 Top Three

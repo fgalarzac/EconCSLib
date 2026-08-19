@@ -1,0 +1,585 @@
+{
+  "generator": "python3 scripts/public_source_display_projection.py",
+  "paper_id": "GCG24UserItemFairness",
+  "private_source_map_sha256": "10b974d48ded5d970340eeb163be1bf389549456d33f4d69bfe9683ffb3e6ac1",
+  "public_manifest_path": "papers/GCG24UserItemFairness/audit/public_source_display_projection.json",
+  "public_source_map_sha256": "cf9f61e83e362abb3beb028eef19eb5409ad3a2239f1ac77177cf74f06834c20",
+  "raw_source_artifact_included": false,
+  "raw_source_display_material": "selected_byte_pinned_source_anchor_quotes",
+  "schema": 1,
+  "selected_source_item_ids": [
+    "appendix_c_lemma2_item_fairness_equality_lp_solution_set",
+    "assumption_theorem3_first_half_alpha_domain",
+    "assumption_theorem3_opposing_type_model",
+    "assumption_theorem3_second_half_alpha_domain",
+    "assumption_theorem4_displayed_reduced_models",
+    "itemFairness",
+    "priceOfFairness",
+    "priceOfMisestimation",
+    "problem11BasicFeasible",
+    "problem11EqualityFeasibleSet",
+    "proposition1_symmetric_lp_reduction",
+    "proposition2_symmetric_optimum_exists",
+    "solvesProblemOne",
+    "source_appendix_c_lemma1_item_fairness_positive",
+    "source_appendix_d_lemma10_midpoint_candidate",
+    "source_appendix_d_lemma11_denominator_monotonicity",
+    "source_appendix_d_lemma3_unconstrained_baseline",
+    "source_appendix_d_lemma4_problem6_structure",
+    "source_appendix_d_lemma5_problem6_closed_form",
+    "source_appendix_d_lemma6_mirror_inverse_gap",
+    "source_appendix_d_lemma7_pivot_monotonicity",
+    "source_appendix_d_lemma8_selected_pivot_stitching",
+    "source_appendix_d_lemma9_pair_share_algebra",
+    "source_appendix_e_lemma12_symmetrized_policy",
+    "source_appendix_e_lemma13_pivot_support",
+    "source_appendix_e_lemma14_uniqueness",
+    "source_appendix_e_lemma15_closed_formula",
+    "source_appendix_e_lemma16_midpoint_order_algebra",
+    "source_appendix_e_lemma17_no_right_half_support",
+    "source_example1_diverse_item_fairness",
+    "source_example1_diverse_user_fairness",
+    "source_example1_homogeneous_tradeoff",
+    "theorem3_price_decreases_first_half",
+    "theorem3_price_increases_second_half",
+    "theorem4_misestimation_tradeoff_typeOne",
+    "theorem4_misestimation_tradeoff_typeZero",
+    "theorem4_misestimation_without_fairness_universal",
+    "userFairness"
+  ],
+  "selected_source_items": {
+    "appendix_c_lemma2_item_fairness_equality_lp_solution_set": {
+      "source_anchors": [
+        {
+          "line_end": 1800,
+          "line_start": 1759,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 2. Let F denote the feasible set of Problem 1,\nF ≜ arg max\nImin (ρ) ≜ arg max\nmin Ij (ρ).\nm\nm\nρ∈∆n−1\n\nρ∈∆n−1\n\nThen F is the solution set of the linear program\nF = arg max\nm\n\nρ∈∆n−1 ,λ\n\nj\n\n(3)\n\nλ\n(4)\n\nsubject to Ij (ρ) = λ\n\n∀j.\n\nNow, condition (iii) on S implies that there is a unique ρ∗ in S ∩ F. Thus\nρ∗ = F ∩ S = arg\nmax\nλ\nm\nρ∈∆n−1 ∩S,λ\n\n.\n(5)\nsubject to Ij (ρ) = λ ∀j,\nWe can add S as a constraint in Problem 4 because we know that there is at least one solution to\nProblem 4 in S – namely, ρ∗ – so this additional constraint will not change the optimal objective\nvalue, but will constrain the set of optimal solutions to be in S, as desired.\nBy condition (ii), ρ∗ is an optimal solution for Problem 1; by condition (i), S can be described by a\nfinite set of linear constraints, and thus Problem 5 is a linear program; call this L.",
+          "quoted_text_sha256": "7b0e76693e0049284b545cd64b012f87812d0506bce518464245f6ddacba554b"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "assumption_theorem3_first_half_alpha_domain": {
+      "source_anchors": [
+        {
+          "line_end": 398,
+          "line_start": 378,
+          "publication_locator": "cited publication",
+          "quoted_text": "fairness as,\n∗\n∗\nUmin\n(α) − Umin\n(γ = 1, α)\nF\nπU\n.\n|I (α) :=\n∗\nUmin (α)\nF\nGiven this structure, Theorem 3 states that the price of fairness πU\n|I (α) increases in the homogeneity\nof the users – heterogeneous user populations are less affected by incorporating item fairness\nconstraints.\nF\nTheorem 3. πU\n|I (α) is decreasing in α for 0 < α ≤ 1/2, and increasing in α for 1/2 ≤ α < 1.\nProof sketch for Theorem 3. We show that when in a population with two opposing types as described",
+          "quoted_text_sha256": "0ca5add4504d36daa69df4135a0b5b4e91495af5d3595c0a4fb4c44c67dd75c1"
+        }
+      ],
+      "source_kind": "assumption"
+    },
+    "assumption_theorem3_opposing_type_model": {
+      "source_anchors": [
+        {
+          "line_end": 398,
+          "line_start": 368,
+          "publication_locator": "cited publication",
+          "quoted_text": "can be captured by a single parameter. Consider the following utility matrix structure. Let v1 >\nv2 > ... > vn > 0. Suppose that there are two user types: a user i either has utility wij = vj or\nwij = vn−j+1 , and say that user i is of type 1 or 2 respectively. In words, the two types have opposite\npreferences, but the preferences can otherwise be generic and be for any number of items. Now, the\ndirect solution by symmetry for the example no longer directly holds – the items in the middle, not\nnecessarily preferred by either user type, may be binding in terms of item fairness constraints.\nLet α be the proportion of type 1 users in the population, out of a fixed population of m users.\nParameter α thus controls the population heterogeneity; if α is near 0 or 1, the population is highly\nhomogeneous, dominated by users of the same type. If α = 21 , the population is split evenly between\nthe two types and is highly heterogeneous. Since we parametrize w by α, we may write the price of\nfairness as,\n∗\n∗\nUmin\n(α) − Umin\n(γ = 1, α)\nF\nπU\n.\n|I (α) :=\n∗\nUmin (α)\nF\nGiven this structure, Theorem 3 states that the price of fairness πU\n|I (α) increases in the homogeneity\nof the users – heterogeneous user populations are less affected by incorporating item fairness\nconstraints.\nF\nTheorem 3. πU\n|I (α) is decreasing in α for 0 < α ≤ 1/2, and increasing in α for 1/2 ≤ α < 1.\nProof sketch for Theorem 3. We show that when in a population with two opposing types as described",
+          "quoted_text_sha256": "ca11cdc4b0babe7a0c69384e53320e77852fcdc4ebb573f22e5317620284778d"
+        },
+        {
+          "line_end": 2085,
+          "line_start": 2080,
+          "publication_locator": "cited publication",
+          "quoted_text": "Recall Theorem 3 and its setting. We let v1 > v2 > ... > vn and suppose that there are two user\ntypes. A user i either has value wij = vj for all j or wij = vn−j+1 for all j, corresponding to types\n1 and 2 respectively. That is, the two types have opposite preferences. We let α be the proportion of\ntype 1 users in the population, out of a fixed population of m users.\nF\nTheorem 3. πU",
+          "quoted_text_sha256": "7548681f93f8a3ed27098161084a0262ca518111b61b407ffe0a557490e16935"
+        }
+      ],
+      "source_kind": "assumption"
+    },
+    "assumption_theorem3_second_half_alpha_domain": {
+      "source_anchors": [
+        {
+          "line_end": 398,
+          "line_start": 378,
+          "publication_locator": "cited publication",
+          "quoted_text": "fairness as,\n∗\n∗\nUmin\n(α) − Umin\n(γ = 1, α)\nF\nπU\n.\n|I (α) :=\n∗\nUmin (α)\nF\nGiven this structure, Theorem 3 states that the price of fairness πU\n|I (α) increases in the homogeneity\nof the users – heterogeneous user populations are less affected by incorporating item fairness\nconstraints.\nF\nTheorem 3. πU\n|I (α) is decreasing in α for 0 < α ≤ 1/2, and increasing in α for 1/2 ≤ α < 1.\nProof sketch for Theorem 3. We show that when in a population with two opposing types as described",
+          "quoted_text_sha256": "0ca5add4504d36daa69df4135a0b5b4e91495af5d3595c0a4fb4c44c67dd75c1"
+        }
+      ],
+      "source_kind": "assumption"
+    },
+    "assumption_theorem4_displayed_reduced_models": {
+      "source_anchors": [
+        {
+          "line_end": 456,
+          "line_start": 444,
+          "publication_locator": "cited publication",
+          "quoted_text": "Section 4, suppose that there are 2 types of users, with opposing preferences (i.e., with values\nv1 , v2 ..., vn and vn , vn−1 , ..., v1 , respectively) – and the platform has correctly estimated these\npreferences. However, now, these two types only make up a proportion β of the population each.\nNow, we suppose that there is a fraction 1 − β of the user population who are “new” users. We assume\nthat these users are drawn from the same distribution as the remaining users, but the platform does\nnot know their preferences. It thus constructs a prior by averaging over the known users’ preferences\nv +v\n– (mis)estimating the users’ utility for each item j as j n−j+1\n.\n2\n6\n\n\fTheorem 4. If β > n1 and w and ŵ are as described above, then fairness constraints can arbitrarily",
+          "quoted_text_sha256": "607336bd87febd4716a37d5b80c0c6c2d1e99deb25fa134ee267659f8372e0b5"
+        },
+        {
+          "line_end": 3403,
+          "line_start": 3368,
+          "publication_locator": "cited publication",
+          "quoted_text": "Item fairness constraints with misestimation. First, notice that in the misestimated value matrix\nŵ there are three distinct user value types, and thus we can identify Ssymm with ∆3n−1 and a policy\nρ ∈ Ssymm with vectors x, y, z, where x is the recommendation policy for users with value ŵij = vj ,\ny is the recommendation policy for users with value ŵij = vn−j+1 , and z is the recommendation\npolicy for the mis-estimated users.\nLet\n\nS ′ = {x, y, z ∈ Ssymm : xj = yn−j+1 , zj = zn−j+1 for all j}.\nSince y is completely determined by x, we can identify S ′ with ∆2n−1 and can identify x, y, z ∈ S ′\nsimply by x, z.\n∗\nLemma 12. If a policy ρ = (x, y, z) ∈ Ssymm solves Umin (ρ) = Umin\n(1), then there is some policy\n∗\nρ′ = x′ , z ′ ∈ S ′ that solves Umin (ρ′ ) = Umin\n(1).\n\nApplying the framework in Proposition 1 to this proof with S = S ′ and using ŵ as the user and item\nvalues, we reduce the problem to finding\nϕ = arg\n\nmax\n\nx,z∈∆2n−1 ,λ\n\nλ\n(11)\n\nsubject to Ij (x, z) = λ\n\n∀j,\n\nand showing that this ϕ is unique.\nFirst, we use an analogue of the sparsity result Proposition 2 to show that the optimal x, z has the\nfollowing sparse structure.\nLemma 13. Let x, z be an optimal basic feasible solution to the linear program Problem 11. There",
+          "quoted_text_sha256": "5a0cc3077f11c6e73b775bb00de22124254ffe7ced0f276edcb5f783da0f5826"
+        },
+        {
+          "line_end": 3924,
+          "line_start": 3884,
+          "publication_locator": "cited publication",
+          "quoted_text": "In terms of x, z,\nv +vn−j+1\nzj\n2\nvj +vn−j+1\nβvj + βvn−j+1 + (1 − 2β)\n2\nv +v\nβvj xj + βvn−j+1 xn−j+1 + (1 − 2β) j n−j+1\nzj\n2\n=\nvj +vn−j+1\n2\n\nIj (x, z) =\n\nβvj xj + βvn−j+1 xn−j+1 + (1 − 2β) j\n\n\u0012\n= 2β\n\nvj\nvn−j+1\nxj +\nxn−j+1\nvj + vn−j+1\nvj + vn−j+1\n\n41\n\n\u0013\n+ (1 − 2β)zj\n\n\fv\n\nj\n. Note that qj does not depend on β, and qj is decreasing in j. Then\nLet qj = vj +vn−j+1\n\nIj (x, y, z) = 2β (qj xj + (1 − qj )yj ) + (1 − 2β)zj .",
+          "quoted_text_sha256": "5eb9ba465a9f5164f5f56225cc7cfb81c11ab2269d3137ee9de20517e9665cce"
+        }
+      ],
+      "source_kind": "assumption"
+    },
+    "itemFairness": {
+      "source_anchors": [
+        {
+          "line_end": 150,
+          "line_start": 149,
+          "publication_locator": "cited publication",
+          "quoted_text": "Given a recommendation policy ρ, user fairness is quantified as the minimum normalized user utility\nUmin (ρ, w) = mini Ui (ρ, w), and item fairness analogously as Imin (ρ, w) = minj Ij (ρ, w).",
+          "quoted_text_sha256": "b24a05728065e60e25ae545cc9fcd3ff1c711dd5435293cdcdd07e08b2243802"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "priceOfFairness": {
+      "source_anchors": [
+        {
+          "line_end": 199,
+          "line_start": 174,
+          "publication_locator": "cited publication",
+          "quoted_text": "Research questions: price of fairness and misestimation. We can now define the price of item\nF\nfairness on user fairness πU\n|I (“price of fairness”) as the decrease in user fairness with maximal item\nfairness constraints:\n∗\n∗\nUmin\n(w) − Umin\n(γ = 1, w)\nF\nπU\n.\n|I (w) :=\n∗ (w)\nUmin\nF\nWe ask how πU\n|I changes with the utility matrix w. We note that while this question (in terms\nof solutions to Problem (1)) can be simply stated, as we detail in Section 3, finding a closed\n∗\nform expression for Umin\n(1, w) – the optimal minimum normalized user utility given item fairness\nconstraints – in terms of w is theoretically challenging.\n\nSimilarly, we investigate the price of misestimation. Let ŵij denote the platform’s estimate of the",
+          "quoted_text_sha256": "d1f6452e588494ace604720c89d9d9a87c830ae7b99b62e9ce899f834913a6d4"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "priceOfMisestimation": {
+      "source_anchors": [
+        {
+          "line_end": 220,
+          "line_start": 199,
+          "publication_locator": "cited publication",
+          "quoted_text": "Similarly, we investigate the price of misestimation. Let ŵij denote the platform’s estimate of the\nutility of recommending i to j; let ρ̂(γ) be a policy that solves the optimization problem above with\n3\n\n\f∗\nmisestimated utilities, that is, ρ̂(γ) attains Umin\n(γ, ŵ).1 Then we define the price of misestimation\nM\non user utility (“price of misestimation”) πU as\nM\n(γ, w, ŵ) :=\nπU\n\n∗\nUmin\n(γ, w) − Umin (ρ̂(γ), w)\n,\n∗ (γ, w)\nUmin\n\nthat is, the decrease in true user fairness due to optimizing with estimated utilities. In particular, in\nSection 5 we will examine whether item fairness exacerbates the price of misestimation by comparing",
+          "quoted_text_sha256": "dcc41620c5c8deb44378409cbd9fdafc2f5a92a5765f6b3d920aa446b4fed093"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "problem11BasicFeasible": {
+      "source_anchors": [
+        {
+          "line_end": 3412,
+          "line_start": 3401,
+          "publication_locator": "cited publication",
+          "quoted_text": "First, we use an analogue of the sparsity result Proposition 2 to show that the optimal x, z has the\nfollowing sparse structure.\nLemma 13. Let x, z be an optimal basic feasible solution to the linear program Problem 11. There\n′\n′\n′\n′\n′\nis some j ≤ n+1\n2 such that for all j > j, xj = 0 and for all j < j, zj = zn−j +1 = 0. Let the\npivot index t denote the minimum such j.\nThis sparse structure implies uniqueness.",
+          "quoted_text_sha256": "5bd47bd676c784bf2ac724341ace686c53a504df59d2a1fef41e1b3d28fe2c77"
+        }
+      ],
+      "source_kind": "predicate_vocabulary"
+    },
+    "problem11EqualityFeasibleSet": {
+      "source_anchors": [
+        {
+          "line_end": 3400,
+          "line_start": 3375,
+          "publication_locator": "cited publication",
+          "quoted_text": "S ′ = {x, y, z ∈ Ssymm : xj = yn−j+1 , zj = zn−j+1 for all j}.\nSince y is completely determined by x, we can identify S ′ with ∆2n−1 and can identify x, y, z ∈ S ′\nsimply by x, z.\n∗\nLemma 12. If a policy ρ = (x, y, z) ∈ Ssymm solves Umin (ρ) = Umin\n(1), then there is some policy\n∗\nρ′ = x′ , z ′ ∈ S ′ that solves Umin (ρ′ ) = Umin\n(1).\n\nApplying the framework in Proposition 1 to this proof with S = S ′ and using ŵ as the user and item\nvalues, we reduce the problem to finding\nϕ = arg\n\nmax\n\nx,z∈∆2n−1 ,λ\n\nλ\n(11)\n\nsubject to Ij (x, z) = λ\n\n∀j,\n\nand showing that this ϕ is unique.",
+          "quoted_text_sha256": "12d03c98c5b180661bc6d2707d460da3e25b463044c62f337d120797c9328b94"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "proposition1_symmetric_lp_reduction": {
+      "source_anchors": [
+        {
+          "line_end": 316,
+          "line_start": 292,
+          "publication_locator": "cited publication",
+          "quoted_text": "Proposition 1. Suppose that for a set of recommendation policies S ⊆ ∆m\nn−1 ,\n(i) S can be described by a finite set of linear constraints\n(ii) There exists an optimal solution ρ∗ to Problem (2) such that ρ∗ ∈ S\n(iii) ρ∗ is the unique feasible solution to Problem (2) in S\n∗\nMultiple policies ρ̂ may optimize Umin\n(γ, ŵ), and different policies ρ̂ may have different values of\nUmin (ρ̂, w). In our experimental results, we use the policy ρ̂ found by the convex optimization solver.\n1\n\n4\n\n\fThen, finding an optimal solution ρ∗ to Problem (2) can be reduced to solving a linear program L.\nWith Proposition 1, the key technical challenges become: (a) given utility matrix w, finding S\nsatisfying the above conditions; (b) given S and w, finding a closed-form expression for ρ∗ ; (c) given\n∗\na closed form for ρ∗ in terms of w, reasoning about the properties of item fair solution Umin\n(1, w).\nTo do this, for our main results, we construct S as a set of recommendations with a particular\nsymmetric structure. Suppose users come in K types, where a user of type k shares a utility vector.\nThen, consider Ssymm = {ρ : ρi = ρi′ if wi = wi′ } ⊆ ∆m\nn−1 , the set of policies where users of the\nsame type are given the same recommendation probabilities. Note that, in the extreme case, each user\nis their own type. Furthermore, let ρk denote the recommendation policy for type k, for ρ ∈ Ssymm .",
+          "quoted_text_sha256": "dfb025f4fe84dd7e21b5adde7916719ff5586ac52a55ee6f6254591c35c52c60"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "proposition2_symmetric_optimum_exists": {
+      "semantic_context": [
+        {
+          "semantic_role": "model",
+          "source_anchors": [
+            {
+              "line_end": 316,
+              "line_start": 312,
+              "publication_locator": "cited publication",
+              "quoted_text": "symmetric structure. Suppose users come in K types, where a user of type k shares a utility vector.\nThen, consider Ssymm = {ρ : ρi = ρi′ if wi = wi′ } ⊆ ∆m\nn−1 , the set of policies where users of the\nsame type are given the same recommendation probabilities. Note that, in the extreme case, each user\nis their own type. Furthermore, let ρk denote the recommendation policy for type k, for ρ ∈ Ssymm .",
+              "quoted_text_sha256": "cf99e02ab115875335576b2a2c2a9524e5f015fb7d8f622de77e20989847711c"
+            },
+            {
+              "line_end": 1890,
+              "line_start": 1889,
+              "publication_locator": "cited publication",
+              "quoted_text": "We first define a piece of convenient notation: if two users i, i′ share the same utility vector wi = wi′ ,\nwe say that they have the same type τ (i) = τ (i′ ). If τ (i) = τ (i′ ) := τ , we write wij = wi′ j := wτ j",
+              "quoted_text_sha256": "4ab5aeee8bc954f8bfab657bca3d224a4508f09b45e73284a9c4f7da2f451d54"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 338,
+          "line_start": 312,
+          "publication_locator": "cited publication",
+          "quoted_text": "symmetric structure. Suppose users come in K types, where a user of type k shares a utility vector.\nThen, consider Ssymm = {ρ : ρi = ρi′ if wi = wi′ } ⊆ ∆m\nn−1 , the set of policies where users of the\nsame type are given the same recommendation probabilities. Note that, in the extreme case, each user\nis their own type. Furthermore, let ρk denote the recommendation policy for type k, for ρ ∈ Ssymm .\nProposition 2. Ssymm satisfies conditions (i) and (ii) in Proposition 1. Furthermore, solutions\nρ ∈ Ssymm to Problem (2) have a sparse structure:\n• If ρ is a basic feasible solution to the linear program L in Proposition 1, then there are at\nmost n + K − 1 type-item pairs (k, j) such that ρkj > 0 (out of nK possible pairs).\n• If ρ is also optimal, then there are at most K − 1 items that are ever recommended to more\nthan one type of user, i.e., where ρkj , ρk′ j > 0 for k ̸= k ′ .\nFor our main results, we will leverage the sparsity structure in Proposition 2 to show, with further\nrestrictions on utility matrix w, that Ssymm also satisfies (iii). We will then derive closed-form\nexpressions for that solution, and show how it changes as a function of w.\nThe sparsity structure in Proposition 2 is also interesting in its own right. Without item fairness\nconstraints, solutions will be highly sparse: each user will be recommended their most preferred item\ndeterministically; each other item will have a recommendation probability of zero. Once we add item\nfairness constraints, solutions do not necessarily remain sparse. However, Proposition 2 shows that\nsparse solutions still arise under item fairness constraints in settings with symmetric solutions.\n\n4\n\nUser preference diversity and fairness tradeoffs\n\nWe now use the theoretical framework developed in the above section to understand the effect of the\nstructure of user utilities on the price of fairness. In particular, we identify “free fairness,” i.e., the\nprice of fairness is low, when preferences are sufficiently diverse.",
+          "quoted_text_sha256": "be5681a19b24b81f1b594d38b1b6a5c821e84bfd048c3fe0276fb3b00a1b48f2"
+        },
+        {
+          "line_end": 1890,
+          "line_start": 1873,
+          "publication_locator": "cited publication",
+          "quoted_text": "Proof. We will first prove that Ssymm satisfies conditions (i) and (ii), and then show sparsity.\nPart 1. Recall that for fixed w,\n\\\n\nSsymm = {ρ : ρi = ρi′ if wi = wi′ } =\n\n{ρ : ρi = ρi′ }\n\ni,i′ :wi =wi′\n\nwhich is a finite set of linear constraints, so condition (i) holds.\nNow, we show condition (ii), that always there is some ϕ∗ ∈ Ssymm that is an optimal solution to\nProblem 1. Let ρ be an arbitrary optimal solution to Problem 1. Then ρ is also feasible: Imin (ρ) =\n∗\nImin\n.\nWe first define a piece of convenient notation: if two users i, i′ share the same utility vector wi = wi′ ,\nwe say that they have the same type τ (i) = τ (i′ ). If τ (i) = τ (i′ ) := τ , we write wij = wi′ j := wτ j",
+          "quoted_text_sha256": "74344211bbcef207f3766f7e83f16142d8b12275ecfe927e72af54c9c2b10cc0"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "solvesProblemOne": {
+      "source_anchors": [
+        {
+          "line_end": 174,
+          "line_start": 152,
+          "publication_locator": "cited publication",
+          "quoted_text": "fairness desiderata as follows. At the extremes, the platform could choose a maximally fair solution\n∗\nfor one side, ignoring the other. Denote the optimal user fair utility as Umin\n(w) := maxρ Umin (ρ, w)\n(achieved by giving each user their favorite item deterministically), and the optimal item fair utility\n∗\nas Imin\n(w) := maxρ Imin (ρ, w).\nFinally, we cast the two-sided fair optimization – for the optimal γ-constrained user fair solution – as\n∗\nUmin\n(γ, w) = max Umin (ρ, w)\nρ\n\n(1)\n\n∗\nsubject to Imin (ρ, w) ≥ γImin\n(w),\n\ni.e., we maximize the minimum normalized user utility, subject to the minimum normalized item\nutility being at least a fraction γ of the optimal item fair solution.\nResearch questions: price of fairness and misestimation. We can now define the price of item",
+          "quoted_text_sha256": "617e1da22a2efaee5a4a2a40a707811082c885e1471d3b2a3ffda4ff31ee1639"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "source_appendix_c_lemma1_item_fairness_positive": {
+      "source_anchors": [
+        {
+          "line_end": 1745,
+          "line_start": 1742,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 1. Since wij > 0 for all j, Imin\n> 0.\n∗\n= maxρ Imin (ρ) > 0.",
+          "quoted_text_sha256": "a8f0276c9aabefed734a94003390c07fed9f2b7bf9b7c4d3ef0088a2888b36f4"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_appendix_d_lemma10_midpoint_candidate": {
+      "source_anchors": [
+        {
+          "line_end": 3078,
+          "line_start": 3071,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 10. If α ≤ 1/2, then t(α) ≤ (n + 1)/2.\nNow, for 1 ≤ t ≤ n, define A(t) = {α : t(α) = t}. Since t(α) is weakly increasing in α by Lemma\n7, A(t) is an interval in (0, 1), and [A(1), A(2), ..., A(n)] forms a consecutive partition of (0, 1). We\n∗\nwill now show that Imin\n(α) is increasing on each of the first ⌊(n + 1)/2⌋ intervals, which by Lemma\n10 contain all α ∈ (0, 1/2].\n∗",
+          "quoted_text_sha256": "9adfe4ce87a6c5c8a0778ab9aa288ca7cac75db5984e86f43184f0068d9f336f"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_appendix_d_lemma11_denominator_monotonicity": {
+      "source_anchors": [
+        {
+          "line_end": 3100,
+          "line_start": 3079,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 11. Imin\n(α) is increasing on A(t) for t ≤ (n + 1)/2.\n∗\nFinally, we show that this implies Imin\n(α) is increasing on 0 < α ≤ 1/2. Notice that Ij (x, y, α)\nis continuous in α for each fixed x, y, so Imin (x, y, α) = minj Ij (x, y, α) is continuous in α for\n∗\neach fixed x, y. Recall that Imin\n(α) = maxx,y∈∆n−1 Imin (x, y, α). As the supremum of a set of\n∗\ncontinuous functions on a compact set must itself be continuous , this means that Imin\n(α) must be\n∗\ncontinuous in α, since ∆n−1 × ∆n−1 is compact. Since Imin (α) is continuousSand is increasing on\n∗\neach interval {A(t)}t≤(n+1)/2 by Lemma 11, Imin\n(α) must be increasing on t≤(n+1)/2 A(t). By\nS\n∗\nLemma 10, t≤(n+1)/2 A(t) ⊃ (0, 1/2]. So Imin (α) is increasing on (0, 1/2].\n\nNow, we show Lemmas 10 and 11.",
+          "quoted_text_sha256": "18fd4034bc8d665b457cd75eaecd366339ff27102d430fac8402198665dfd96f"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_appendix_d_lemma3_unconstrained_baseline": {
+      "source_anchors": [
+        {
+          "line_end": 2182,
+          "line_start": 2098,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 3. For all 0 < α < 1, Umin\n(α) = 1.\n∗\n∗\nF\n(Umin −Umin (1,α))/U ∗\nBy Lemma 3, Umin\n(α) := Umin\nis constant in α, so πU\nmin and it is\n|I (α) =\n∗\nenough to show Umin (1, α) increases in α.\n∗\n\n∗\n\nRecall the definition of Ssymm :\n{ρ : ρi = ρi′ if wi = wi′ }.\nBy Proposition 2, we know that Ssymm is a satisfies conditions (i) and (ii) on S for Proposition 1.\nThus by Proposition 1, it is sufficient to find ϕ such that\nϕ ∈ arg\n\nmax\n\nρ∈S∩∆m\nn−1 ,λ\n\nλ\n\nsubject to Ij (ρ) = λ\n\n∀j,\n\nand show that this ϕ is unique, where the linear program is derived from the proof of Proposition 1.\nSince each user in our population only has one of two possible value vectors, wi = (v1 , ..., vn )\nor wi = (vn , ...., v1 ), we can identify Ssymm with ∆2n−1 , and identify ρ ∈ Ssymm with a pair x, y.\nExpanding the expression for Ij (ρ) and making explicit the dependence on α, we see that\nP\ni ρij wij (α)\nIj (ρ, α) = P\nwij (α)\nP i\nP\ni:τ (i)=1 ρij vj +\ni:τ (i)=2 ρij vn−j+1\nP\nP\n=\ni:τ (i)=1 vj +\ni:τ (i)=2 vn−j+1\nmαxj vj + m(1 − α)yj vn−j+1\nmαvj + m(1 − α)vn−j+1\n= qj (α)xj + (1 − qj (α))yj\n\n=\n\nwhere\nqj (α) :=\n\nαvj\n.\nαvj + (1 − α)vn−j+1\n\nNote that for all j and 0 < α < 1, we have 0 < qj , 1 − qj < 1. We can thus simplify\nϕ = arg\n\nmax\n\nx,y∈∆2n−1 ,λ\n\nλ\n(6)\n\nsubject to qj (α)xj + (1 − qj (α))yj = λ\n\n∀j,\n\nFirst, we will show uniqueness and find a closed form to Problem 6 in Lemmas 4 and 5. Then, we\n∗\nwill use this closed forms to show that Umin\n(1, α) is increasing for α < 1/2. By symmetry, this\n∗\nimplies that Umin\n(1, α) must be decreasing for α > 1/2 and we will be done.",
+          "quoted_text_sha256": "dde9be1627679007794046b464b97f92cd73bf2e53f13ca347bcf16f4ed8e641"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_appendix_d_lemma4_problem6_structure": {
+      "source_anchors": [
+        {
+          "line_end": 2188,
+          "line_start": 2183,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 4. Problem 6 has a unique solution (x, y, λ). Moreover, the solution is sparse: there is some\n1 ≤ t ≤ n such that for j > t, xj = 0, and for j < t, yj = 0.\nThus, to solve our original problem (Problem 1) we merely need to evaluate the user fairness Umin of\nx, y solving Problem 6 and show that this is increasing. We will do this in the remainder of the proof.\nFor each α, let x, y be the solution to the corresponding Problem 6, and define7\nt(α) := max{j : xj (α) > 0}.",
+          "quoted_text_sha256": "aa5b0436aaa817655a3082c5d46756f8e23bc031ab6416991bf1d624b03247d9"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_appendix_d_lemma5_problem6_closed_form": {
+      "source_anchors": [
+        {
+          "line_end": 2256,
+          "line_start": 2190,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 5. Let 0 < α < 1, t := t(α). Define\nX 1\nLt =\n,\nq\nj<t j\n\nRt =\n\n7\n\n1\n.\n1 − qj\nj>t\n\nX\n\nWhile there is a single optimal solution x, y to Problem 6 for each α, there may be two t that satisfy Lemma\n4. In particular, this occurs when for each j, xj = 0 or yj = 0. By contrast, t(α) is unique.\n\n28\n\n\fThen\n\n1\n,\n1 + qt Lt + (1 − qt )Rt\n\n∗\nImin\n=\n\nand\n\n I∗\nmin\n\nj<t\n qj ,\nLt\nxj = 1 − 1+q L +(1−q\n, j=t,\nt t\nt )Rt\n\n\n0,\nj>t\n\n\n\n0,\nRt\n,\nyj = 1 − 1+qt Lt +(1−q\nt )Rt\n∗\n\n Imin ,\n1−qj\n\nj<t\nj=t.\nj>t\n\nNote that for t ̸= t(α), x, y above may not be valid probability vectors.",
+          "quoted_text_sha256": "8dd76abdcb21c7c4359a160d1cef1b9336b9459ebb68a93cf544170398106ca7"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_appendix_d_lemma6_mirror_inverse_gap": {
+      "source_anchors": [
+        {
+          "line_end": 2313,
+          "line_start": 2257,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 6. For 0 < α < 1/2, if ρ∗ is the optimal recommendation policy, then Ui (ρ∗ , α) ≥\nUi′ (ρ∗ , α) for τ (i) = 1, τ (i′ ) = 2.\n∗\nBy Lemma 6, Umin\n(α) = Ui (α) for i with τ (i) = 2. Then\n∗\nUmin\n(1, α) = Ui (α)\nn\nX\n1\nyj vn−j+1\nmaxj vj j=1\n\n\nX\n1\nyt(α) vn−t(α)+1 +\nyj vn−j+1 \n=\nmaxj vj\nj>t(α)\n\n\n\nX I ∗ (α)\nX I ∗ (α)\n1\nmin\nmin\n1 −\n vn−t(α)+1 +\n=\nvn−j+1 \nmaxj vj\n1 − qj (α)\n1 − qj (α)\nj>t(α)\nj>t(α)\n\n\nX I ∗ (α)\n1\nmin\nvn−t(α)+1 +\n=\n(vn−j+1 − vn−t(α)+1 )\nmaxj vj\n1 − qj (α)\n\n=\n\nj>t(α)\n\n∗\nThe following results will enable us to conclude that Umin\n(1, α) is increasing for α < 1/2.",
+          "quoted_text_sha256": "ccd924ceba3cc9f9100ce9e84ba9d7ef30b7358e9085bd009ebf01e3ca382c1c"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_appendix_d_lemma7_pivot_monotonicity": {
+      "source_anchors": [
+        {
+          "line_end": 2316,
+          "line_start": 2315,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 7. t(α) is weakly increasing.\n∗",
+          "quoted_text_sha256": "3d7b92068f949f2186c62c8884d4eee9e3dc88ed3b0ab17cf5c9f1e71a294283"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_appendix_d_lemma8_selected_pivot_stitching": {
+      "source_anchors": [
+        {
+          "line_end": 2318,
+          "line_start": 2317,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 8. Imin\n(α) is increasing for α ≤ 1/2.",
+          "quoted_text_sha256": "d2eb6ee0dabe793d17205910a7a4163fa293ace758574dd4b68b1da3d39cda5e"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_appendix_d_lemma9_pair_share_algebra": {
+      "source_anchors": [
+        {
+          "line_end": 2339,
+          "line_start": 2320,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 9. qj (α) strictly increases as α increases and strictly decreases as j increases.\n∗\nSince t(α) is increasing and vj decreases in j, vn−t(α)+1 is increasing in α. Also, Imin\n(α) is\nI∗\n\n(α)\n\nmin\nincreasing for α < 1/2, and qj (α) is increasing, so 1−q\nis increasing. For j > t(α), vn−j+1 −\nj (α)\n∗\nvn−t(α)+1 > 0. Thus, Umin (1, α) is increasing.\n\nD.2\n\nSupporting lemma proofs\n\nWe will first prove Lemma 9, as it is a simple result that we will use extensively.",
+          "quoted_text_sha256": "13819bbf9d7ef37eaa280b13b482a47091ab919d73a8d1786f5c699086432402"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_appendix_e_lemma12_symmetrized_policy": {
+      "source_anchors": [
+        {
+          "line_end": 3402,
+          "line_start": 3379,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 12. If a policy ρ = (x, y, z) ∈ Ssymm solves Umin (ρ) = Umin\n(1), then there is some policy\n∗\nρ′ = x′ , z ′ ∈ S ′ that solves Umin (ρ′ ) = Umin\n(1).\n\nApplying the framework in Proposition 1 to this proof with S = S ′ and using ŵ as the user and item\nvalues, we reduce the problem to finding\nϕ = arg\n\nmax\n\nx,z∈∆2n−1 ,λ\n\nλ\n(11)\n\nsubject to Ij (x, z) = λ\n\n∀j,\n\nand showing that this ϕ is unique.\nFirst, we use an analogue of the sparsity result Proposition 2 to show that the optimal x, z has the\nfollowing sparse structure.",
+          "quoted_text_sha256": "a7c9bafa673873a2db6adfb2fb3751662f4f507ebe18ae1c953113b7fba4a5d4"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_appendix_e_lemma13_pivot_support": {
+      "semantic_context": [
+        {
+          "semantic_role": "prior_result",
+          "source_anchors": [
+            {
+              "line_end": 3400,
+              "line_start": 3375,
+              "publication_locator": "cited publication",
+              "quoted_text": "S ′ = {x, y, z ∈ Ssymm : xj = yn−j+1 , zj = zn−j+1 for all j}.\nSince y is completely determined by x, we can identify S ′ with ∆2n−1 and can identify x, y, z ∈ S ′\nsimply by x, z.\n∗\nLemma 12. If a policy ρ = (x, y, z) ∈ Ssymm solves Umin (ρ) = Umin\n(1), then there is some policy\n∗\nρ′ = x′ , z ′ ∈ S ′ that solves Umin (ρ′ ) = Umin\n(1).\n\nApplying the framework in Proposition 1 to this proof with S = S ′ and using ŵ as the user and item\nvalues, we reduce the problem to finding\nϕ = arg\n\nmax\n\nx,z∈∆2n−1 ,λ\n\nλ\n(11)\n\nsubject to Ij (x, z) = λ\n\n∀j,\n\nand showing that this ϕ is unique.",
+              "quoted_text_sha256": "12d03c98c5b180661bc6d2707d460da3e25b463044c62f337d120797c9328b94"
+            }
+          ]
+        },
+        {
+          "semantic_role": "prior_result",
+          "source_anchors": [
+            {
+              "line_end": 3883,
+              "line_start": 3845,
+              "publication_locator": "cited publication",
+              "quoted_text": "Lemma 17. Let (x, z) be an optimal solution to Problem 11. For j > n+1\n2 , xj = 0.\nIn particular, if we let h = ⌊ n+1\n2 ⌋ indicate the index halfway through the set of items, this means that\nwe can simplify the problem above to\narg x max\n,...,x ,\n1\n\nλ\n\nh\n\nz1 ,...,zh ,\nλ\n\nsubject to Ij (x, z) = λ, 1 ≤ j ≤ h\nX\nX\nX\nxj =\nzj +\nzn−j+1 = 1\nj≤h\n\nj≤h\n\n(12)\n\nh<j≤n\n\nxj , zj ≥ 0.\nNow this is a linear program with 2h + 1 variables and h + 2 constraints, so by an argument analogous\nto Problem 12, we find that every basic feasible solution x1:h , z1:h must share h − 1 zeros. This means\nthat there is a single index t such that xt > 0, zt > 0; if there were more than one, by the pigeonhole\nprinciple there must be some t′ ≤ h such that xt′ = zt′ = xn−t′ +1 = 0, and It′ (x, z) = 0. Then\n∗\nImin (x, z) = 0; however, by Lemma 1, Imin (x, z) = Imin\n> 0, so we have a contradiction.",
+              "quoted_text_sha256": "f1caf7805d0269e7680b10fdddafe1cc453b21a294867b44866fe80072ccb6dd"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 3412,
+          "line_start": 3403,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 13. Let x, z be an optimal basic feasible solution to the linear program Problem 11. There\n′\n′\n′\n′\n′\nis some j ≤ n+1\n2 such that for all j > j, xj = 0 and for all j < j, zj = zn−j +1 = 0. Let the\npivot index t denote the minimum such j.\nThis sparse structure implies uniqueness.",
+          "quoted_text_sha256": "f58776994becece00c0c5134d9d644a8edd0a82c0b61d4083fab7a807d8416b9"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_appendix_e_lemma14_uniqueness": {
+      "source_anchors": [
+        {
+          "line_end": 3414,
+          "line_start": 3413,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 14. Problem 11 has a unique optimal solution.\nWe can now describe what this solution (x, z) looks like.",
+          "quoted_text_sha256": "03179fa640eaba3c2532e2ffdc6ba1f288827f3c9e4f6a84f74f9021f4574569"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_appendix_e_lemma15_closed_formula": {
+      "source_anchors": [
+        {
+          "line_end": 3472,
+          "line_start": 3415,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 15. Let (x, z) be the optimal solution to Problem 12, and let t be the pivot element of (x, z);\nsuppose that t ̸= n+1\n2 . Define\nX 1\nLt :=\n.\nq\nj<t j\nThen\nλ=\n\n\n0,\u0010\n\nzj = 12\n\n\n\n2βqt + 1/2(1 − 2β)\n,\n1 + qt Lt + 1/2(n − 2t)\nj<t\n\nλ\n1 − (n − 2t) 1−2β\n\n\u0011\n\n,\n\nλ\n1−2β ,\n\nj ∈ {t, n − t + 1} .\nt<j <n−t+1\n\nFinally,\n\nλ\n\n 2βqj ,\nλ\nxj = 1 − 2β\nLt ,\n\n0,\n38\n\nj<t\nj=t.\nj>t\n\n\fIf t = n+1\n2 , then x remains the same, but zt = 1 and\n2βqt + (1 − 2β)\nλ=\n.\n1 + qt Lt",
+          "quoted_text_sha256": "ac33c7417bcf6e34a0112bbc885f37f853f587dd33c1ed3a6482632b729ec2d1"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_appendix_e_lemma16_midpoint_order_algebra": {
+      "source_anchors": [
+        {
+          "line_end": 3735,
+          "line_start": 3713,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 16. If j < n+1\n2 , then qj > 1/2; if j > 2 , then qj < 1/2. If j = 2 , qj = 1/2.\n\nProof. If j < n+1\n2 , then vj > vn−j+1 and\nqj =\n\nvj\n1\n1\n1\n= ;\n=\nvn−j+1 >\nvj + vn−j+1\n1+1\n2\n1 + vj\n\nif j < n+1\n2 , then vj < vn−j+1 and a symmetric argument holds.\nIf j = n+1\n2 , then vj = vn−j+1 and thus qj = 1/2.",
+          "quoted_text_sha256": "f7bf3d7ddc402f0ae4e95af199178bcf5ad8bef065e6b57b29baf04707b7230c"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_appendix_e_lemma17_no_right_half_support": {
+      "source_anchors": [
+        {
+          "line_end": 3925,
+          "line_start": 3845,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 17. Let (x, z) be an optimal solution to Problem 11. For j > n+1\n2 , xj = 0.\nIn particular, if we let h = ⌊ n+1\n2 ⌋ indicate the index halfway through the set of items, this means that\nwe can simplify the problem above to\narg x max\n,...,x ,\n1\n\nλ\n\nh\n\nz1 ,...,zh ,\nλ\n\nsubject to Ij (x, z) = λ, 1 ≤ j ≤ h\nX\nX\nX\nxj =\nzj +\nzn−j+1 = 1\nj≤h\n\nj≤h\n\n(12)\n\nh<j≤n\n\nxj , zj ≥ 0.\nNow this is a linear program with 2h + 1 variables and h + 2 constraints, so by an argument analogous\nto Problem 12, we find that every basic feasible solution x1:h , z1:h must share h − 1 zeros. This means\nthat there is a single index t such that xt > 0, zt > 0; if there were more than one, by the pigeonhole\nprinciple there must be some t′ ≤ h such that xt′ = zt′ = xn−t′ +1 = 0, and It′ (x, z) = 0. Then\n∗\nImin (x, z) = 0; however, by Lemma 1, Imin (x, z) = Imin\n> 0, so we have a contradiction.\nIn terms of x, z,\nv +vn−j+1\nzj\n2\nvj +vn−j+1\nβvj + βvn−j+1 + (1 − 2β)\n2\nv +v\nβvj xj + βvn−j+1 xn−j+1 + (1 − 2β) j n−j+1\nzj\n2\n=\nvj +vn−j+1\n2\n\nIj (x, z) =\n\nβvj xj + βvn−j+1 xn−j+1 + (1 − 2β) j\n\n\u0012\n= 2β\n\nvj\nvn−j+1\nxj +\nxn−j+1\nvj + vn−j+1\nvj + vn−j+1\n\n41\n\n\u0013\n+ (1 − 2β)zj\n\n\fv\n\nj\n. Note that qj does not depend on β, and qj is decreasing in j. Then\nLet qj = vj +vn−j+1\n\nIj (x, y, z) = 2β (qj xj + (1 − qj )yj ) + (1 − 2β)zj .\nPart 2. Moreover, the set of j such that xj = 0 is contiguous; similarly for zj .",
+          "quoted_text_sha256": "343ecfdb192df189855a018b3eacd5cd557f6b09481adb10eed9c32ce7ba7aae"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_example1_diverse_item_fairness": {
+      "source_anchors": [
+        {
+          "line_end": 343,
+          "line_start": 339,
+          "publication_locator": "cited publication",
+          "quoted_text": "Example 1. For intuition as to why user diversity affects the price of fairness, consider the following\nexample. Suppose we have n = 2 items and m users; half the users have utility ϵ for the first item\nand 1 − ϵ for the second item, and the other half has utility 1 − ϵ for the first item and ϵ for the second.\nThen, the recommender can simply give each user their favorite item (the user optimal solution), and\nthis solution simultaneously maximizes user and item fairness as well as total user and item utility.",
+          "quoted_text_sha256": "cd373e3d7ebeb0e739e8e237d4b93e213ebc3d99ce0a8e715dcbc50e2a1f8b82"
+        }
+      ],
+      "source_kind": "example"
+    },
+    "source_example1_diverse_user_fairness": {
+      "source_anchors": [
+        {
+          "line_end": 343,
+          "line_start": 339,
+          "publication_locator": "cited publication",
+          "quoted_text": "Example 1. For intuition as to why user diversity affects the price of fairness, consider the following\nexample. Suppose we have n = 2 items and m users; half the users have utility ϵ for the first item\nand 1 − ϵ for the second item, and the other half has utility 1 − ϵ for the first item and ϵ for the second.\nThen, the recommender can simply give each user their favorite item (the user optimal solution), and\nthis solution simultaneously maximizes user and item fairness as well as total user and item utility.",
+          "quoted_text_sha256": "cd373e3d7ebeb0e739e8e237d4b93e213ebc3d99ce0a8e715dcbc50e2a1f8b82"
+        }
+      ],
+      "source_kind": "example"
+    },
+    "source_example1_homogeneous_tradeoff": {
+      "source_anchors": [
+        {
+          "line_end": 364,
+          "line_start": 344,
+          "publication_locator": "cited publication",
+          "quoted_text": "On the other hand, suppose all users have the same preferences: each user has utility 1 − ϵ for the first\nitem and utility ϵ for the second item, for ϵ > 0 that is small. Then, any recommendation probability\ngiven to the second item comes at a cost to users who receive that item instead of the first item;\nhowever, (normalized) item fairness would require that the second item receives ϵ as much utility as\nthe first item. Below, we show that this results in a tradeoff even between linear normalized user and\nitem utilities, where we account for the fact that the second item is on average less preferred by users.\nSince all users have the same preferences for items, using Proposition 2 it is sufficient to consider\nthem receiving the same recommendation probabilities ρ1 for the first item and ρ2 = 1 − ρ1 for the\nsecond. Bounding minimum item utility Imin by the utility of the second item, we have\nP\nρ2 ϵ\nImin ≤ I2 (ρ) = i\n= ρ2 ≜ 1 − ρ1 .\nmϵ\nFor a given recommendation probability ρ1 , the minimum normalized user utility is\nUmin = (1 − ϵ)ρ1 + ϵρ2 = ϵ + (1 − 2ϵ)ρ1 ≤ ρ1 + ϵ.\nRearranging, we get that\nUmin − ϵ ≤ ρ1 ≤ 1 − Imin =⇒ Umin + Imin ≤ 1 + ϵ.\nThus the minimum normalized user utility and the minimum normalized item utility essentially follow\na negative linear relationship – guaranteeing the second item even ϵ as much utility as the first item\nresults in a linear cost to users. □",
+          "quoted_text_sha256": "b199a50a808b42a1edc030724ac27d727beb7cb2e5834a80b9c0cc8127b149fc"
+        }
+      ],
+      "source_kind": "example"
+    },
+    "theorem3_price_decreases_first_half": {
+      "source_anchors": [
+        {
+          "line_end": 397,
+          "line_start": 396,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 3. πU\n|I (α) is decreasing in α for 0 < α ≤ 1/2, and increasing in α for 1/2 ≤ α < 1.",
+          "quoted_text_sha256": "796806b12893b3a494691cd7a6987b7b32038aaff8e97cb829c9e7a72c19409e"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem3_price_increases_second_half": {
+      "source_anchors": [
+        {
+          "line_end": 397,
+          "line_start": 396,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 3. πU\n|I (α) is decreasing in α for 0 < α ≤ 1/2, and increasing in α for 1/2 ≤ α < 1.",
+          "quoted_text_sha256": "796806b12893b3a494691cd7a6987b7b32038aaff8e97cb829c9e7a72c19409e"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem4_misestimation_tradeoff_typeOne": {
+      "source_anchors": [
+        {
+          "line_end": 476,
+          "line_start": 456,
+          "publication_locator": "cited publication",
+          "quoted_text": "\fTheorem 4. If β > n1 and w and ŵ are as described above, then fairness constraints can arbitrarily\nworsen the price of misestimation.\n• The price of misestimation without fairness constraints is low: for all {vj }, there is a\n∗\nrecommendation policy ρ̂ that solves the misestimated problem Umin\n(0, ŵ) so that\nM\nπU\n(0, w, ŵ) ≤\n\n1\n.\n2\n\n• The price of misestimation with fairness constraints can be arbitrarily large: ∀ϵ, there exists\n∗\n{vj } and a recommendation policy ρ̂ that solves the problem Umin\n(1, ŵ) such that\nM\nπU\n(1, w, ŵ) > 1 − ϵ.",
+          "quoted_text_sha256": "2d8a3d2c085053ff20cbf7d1fa71e9a53bfdd4ac09c84c19b19d7ec7c3a5a072"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem4_misestimation_tradeoff_typeZero": {
+      "source_anchors": [
+        {
+          "line_end": 476,
+          "line_start": 456,
+          "publication_locator": "cited publication",
+          "quoted_text": "\fTheorem 4. If β > n1 and w and ŵ are as described above, then fairness constraints can arbitrarily\nworsen the price of misestimation.\n• The price of misestimation without fairness constraints is low: for all {vj }, there is a\n∗\nrecommendation policy ρ̂ that solves the misestimated problem Umin\n(0, ŵ) so that\nM\nπU\n(0, w, ŵ) ≤\n\n1\n.\n2\n\n• The price of misestimation with fairness constraints can be arbitrarily large: ∀ϵ, there exists\n∗\n{vj } and a recommendation policy ρ̂ that solves the problem Umin\n(1, ŵ) such that\nM\nπU\n(1, w, ŵ) > 1 − ϵ.",
+          "quoted_text_sha256": "2d8a3d2c085053ff20cbf7d1fa71e9a53bfdd4ac09c84c19b19d7ec7c3a5a072"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem4_misestimation_without_fairness_universal": {
+      "source_anchors": [
+        {
+          "line_end": 476,
+          "line_start": 456,
+          "publication_locator": "cited publication",
+          "quoted_text": "\fTheorem 4. If β > n1 and w and ŵ are as described above, then fairness constraints can arbitrarily\nworsen the price of misestimation.\n• The price of misestimation without fairness constraints is low: for all {vj }, there is a\n∗\nrecommendation policy ρ̂ that solves the misestimated problem Umin\n(0, ŵ) so that\nM\nπU\n(0, w, ŵ) ≤\n\n1\n.\n2\n\n• The price of misestimation with fairness constraints can be arbitrarily large: ∀ϵ, there exists\n∗\n{vj } and a recommendation policy ρ̂ that solves the problem Umin\n(1, ŵ) such that\nM\nπU\n(1, w, ŵ) > 1 − ϵ.",
+          "quoted_text_sha256": "2d8a3d2c085053ff20cbf7d1fa71e9a53bfdd4ac09c84c19b19d7ec7c3a5a072"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "userFairness": {
+      "source_anchors": [
+        {
+          "line_end": 150,
+          "line_start": 149,
+          "publication_locator": "cited publication",
+          "quoted_text": "Given a recommendation policy ρ, user fairness is quantified as the minimum normalized user utility\nUmin (ρ, w) = mini Ui (ρ, w), and item fairness analogously as Imin (ρ, w) = minj Ij (ρ, w).",
+          "quoted_text_sha256": "b24a05728065e60e25ae545cc9fcd3ff1c711dd5435293cdcdd07e08b2243802"
+        }
+      ],
+      "source_kind": "definition"
+    }
+  },
+  "source_artifact_sha256": "7a0981ed1c26b7e69886e093b37d24b7778a645fe205c301ee14928ddd9c81ea",
+  "source_coverage_mode": "named_theoretical_statements"
+}

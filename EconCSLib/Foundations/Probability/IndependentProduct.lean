@@ -260,6 +260,671 @@ theorem pmfExp_pmfProd_eq_pairExp {α β : Type*}
   ring
 
 /--
+Finite law of total variance for two independent PMF draws.  The first term is
+the expected conditional variance in the second coordinate and the second is
+the variance of the conditional expectation in the first coordinate.
+-/
+theorem pmfVariance_pmfProd_eq_exp_condVariance_add_variance_condExp
+    {α β : Type*} [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (μ : PMF α) (ν : PMF β) (F : α → β → ℝ) :
+    pmfVariance (pmfProd μ ν) (fun x : α × β => F x.1 x.2) =
+      pmfExp μ (fun a => pmfVariance ν (fun b => F a b)) +
+        pmfVariance μ (fun a => pmfExp ν (fun b => F a b)) := by
+  have hcond_var :
+      pmfExp μ (fun a => pmfVariance ν (fun b => F a b)) =
+        pmfPairExp μ ν (fun a b => F a b ^ 2) -
+          pmfExp μ (fun a => (pmfExp ν (fun b => F a b)) ^ 2) := by
+    calc
+      pmfExp μ (fun a => pmfVariance ν (fun b => F a b)) =
+          pmfExp μ
+            (fun a =>
+              pmfExp ν (fun b => F a b ^ 2) -
+                (pmfExp ν (fun b => F a b)) ^ 2) := by
+              refine pmfExp_congr μ ?_
+              intro a
+              exact pmfVariance_eq_exp_sq_sub_sq_exp ν (fun b => F a b)
+      _ =
+          pmfExp μ (fun a => pmfExp ν (fun b => F a b ^ 2)) -
+            pmfExp μ (fun a => (pmfExp ν (fun b => F a b)) ^ 2) := by
+              rw [pmfExp_sub]
+      _ =
+          pmfPairExp μ ν (fun a b => F a b ^ 2) -
+            pmfExp μ (fun a => (pmfExp ν (fun b => F a b)) ^ 2) := by
+              rfl
+  have hcond_exp_var :
+      pmfVariance μ (fun a => pmfExp ν (fun b => F a b)) =
+        pmfExp μ (fun a => (pmfExp ν (fun b => F a b)) ^ 2) -
+          (pmfPairExp μ ν F) ^ 2 := by
+    rw [pmfVariance_eq_exp_sq_sub_sq_exp]
+    rfl
+  have hsecond :
+      pmfExp (pmfProd μ ν) (fun x : α × β => F x.1 x.2 ^ 2) =
+        pmfPairExp μ ν (fun a b => F a b ^ 2) :=
+    pmfExp_pmfProd_eq_pairExp μ ν (fun x : α × β => F x.1 x.2 ^ 2)
+  have hmean :
+      pmfExp (pmfProd μ ν) (fun x : α × β => F x.1 x.2) =
+        pmfPairExp μ ν F :=
+    pmfExp_pmfProd_eq_pairExp μ ν (fun x : α × β => F x.1 x.2)
+  rw [pmfVariance_eq_exp_sq_sub_sq_exp, hsecond, hmean]
+  rw [hcond_var, hcond_exp_var]
+  ring
+
+/--
+The expected conditional variance in a product draw is half the expected
+squared change after resampling the second coordinate independently.
+-/
+theorem pmfExp_condVariance_eq_half_pmfPairExp_resample_right
+    {α β : Type*} [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (μ : PMF α) (ν : PMF β) (F : α → β → ℝ) :
+    pmfExp μ (fun a => pmfVariance ν (fun b => F a b)) =
+      (1 / 2 : ℝ) *
+        pmfPairExp μ ν
+          (fun a b => pmfExp ν (fun b' => (F a b - F a b') ^ 2)) := by
+  calc
+    pmfExp μ (fun a => pmfVariance ν (fun b => F a b)) =
+        pmfExp μ
+          (fun a =>
+            (1 / 2 : ℝ) *
+              pmfPairExp ν ν (fun b b' => (F a b - F a b') ^ 2)) := by
+          refine pmfExp_congr μ ?_
+          intro a
+          exact pmfVariance_eq_half_pmfPairExp_sq_sub ν (fun b => F a b)
+    _ =
+        (1 / 2 : ℝ) *
+          pmfExp μ
+            (fun a => pmfPairExp ν ν (fun b b' => (F a b - F a b') ^ 2)) := by
+          rw [pmfExp_const_mul]
+    _ =
+        (1 / 2 : ℝ) *
+          pmfPairExp μ ν
+            (fun a b => pmfExp ν (fun b' => (F a b - F a b') ^ 2)) := by
+          rfl
+
+/--
+Product variance splits into a second-coordinate resampling term and the
+variance of the first-coordinate conditional expectation.
+-/
+theorem pmfVariance_pmfProd_eq_half_resample_right_add_variance_condExp
+    {α β : Type*} [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (μ : PMF α) (ν : PMF β) (F : α → β → ℝ) :
+    pmfVariance (pmfProd μ ν) (fun x : α × β => F x.1 x.2) =
+      (1 / 2 : ℝ) *
+        pmfPairExp μ ν
+          (fun a b => pmfExp ν (fun b' => (F a b - F a b') ^ 2)) +
+        pmfVariance μ (fun a => pmfExp ν (fun b => F a b)) := by
+  rw [pmfVariance_pmfProd_eq_exp_condVariance_add_variance_condExp]
+  rw [pmfExp_condVariance_eq_half_pmfPairExp_resample_right]
+
+/--
+Taking an independent conditional expectation cannot increase the independent
+copy variance: this is the finite Jensen step in Efron--Stein tensorization.
+-/
+theorem pmfVariance_condExp_le_half_pmfPairExp_resample_left
+    {α β : Type*} [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (μ : PMF α) (ν : PMF β) (F : α → β → ℝ) :
+    pmfVariance μ (fun a => pmfExp ν (fun b => F a b)) ≤
+      (1 / 2 : ℝ) *
+        pmfPairExp μ μ
+          (fun a a' => pmfExp ν (fun b => (F a b - F a' b) ^ 2)) := by
+  rw [pmfVariance_eq_half_pmfPairExp_sq_sub]
+  apply mul_le_mul_of_nonneg_left
+  · unfold pmfPairExp
+    refine pmfExp_le_pmfExp_of_forall_le μ _ _ ?_
+    intro a
+    refine pmfExp_le_pmfExp_of_forall_le μ _ _ ?_
+    intro a'
+    have h := pmfExp_sq_le_pmfExp_sq ν (fun b => F a b - F a' b)
+    rw [pmfExp_sub] at h
+    exact h
+  · norm_num
+
+/--
+Two-coordinate finite Efron--Stein inequality, obtained by resampling either
+independent coordinate.  Iterating this is the variance route for iid lists.
+-/
+theorem pmfVariance_pmfProd_le_half_sum_resample_coordinates
+    {α β : Type*} [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (μ : PMF α) (ν : PMF β) (F : α → β → ℝ) :
+    pmfVariance (pmfProd μ ν) (fun x : α × β => F x.1 x.2) ≤
+      (1 / 2 : ℝ) *
+          pmfPairExp μ ν
+            (fun a b => pmfExp ν (fun b' => (F a b - F a b') ^ 2)) +
+        (1 / 2 : ℝ) *
+          pmfPairExp μ μ
+            (fun a a' => pmfExp ν (fun b => (F a b - F a' b) ^ 2)) := by
+  rw [pmfVariance_pmfProd_eq_half_resample_right_add_variance_condExp]
+  gcongr
+  exact pmfVariance_condExp_le_half_pmfPairExp_resample_left μ ν F
+
+/-- Expected squared change after independently resampling coordinate `i`. -/
+noncomputable def pmfResampleEnergy
+    {ι α : Type*} [Fintype ι] [DecidableEq ι] [Fintype α] [DecidableEq α]
+    (μ : PMF α) (F : (ι → α) → ℝ) (i : ι) : ℝ :=
+  pmfPairExp (pmfProduct ι α μ) μ
+    (fun sample replacement =>
+      (F sample - F (Function.update sample i replacement)) ^ 2)
+
+/-- Resampling the distinguished `none` coordinate of an `Option` product. -/
+theorem pmfResampleEnergy_option_none
+    {ι α : Type*} [Fintype ι] [DecidableEq ι] [Fintype α] [DecidableEq α]
+    (μ : PMF α) (F : (Option ι → α) → ℝ) :
+    pmfResampleEnergy μ F none =
+      pmfPairExp (pmfProduct ι α μ) μ
+        (fun sample newItem =>
+          pmfExp μ
+            (fun replacement =>
+              (F (extendDraw sample newItem) -
+                F (extendDraw sample replacement)) ^ 2)) := by
+  classical
+  unfold pmfResampleEnergy pmfPairExp
+  rw [pmfExp_pmfProduct_option_eq_pairExp]
+  refine pmfExp_congr (pmfProduct ι α μ) ?_
+  intro sample
+  refine pmfExp_congr μ ?_
+  intro newItem
+  refine pmfExp_congr μ ?_
+  intro replacement
+  have hupdate :
+      Function.update (extendDraw sample newItem) none replacement =
+        extendDraw sample replacement := by
+    funext index
+    cases index <;> simp [extendDraw]
+  dsimp
+  rw [hupdate]
+
+/-- Resampling an inherited `some i` coordinate of an `Option` product. -/
+theorem pmfResampleEnergy_option_some
+    {ι α : Type*} [Fintype ι] [DecidableEq ι] [Fintype α] [DecidableEq α]
+    (μ : PMF α) (F : (Option ι → α) → ℝ) (i : ι) :
+    pmfResampleEnergy μ F (some i) =
+      pmfPairExp (pmfProduct ι α μ) μ
+        (fun sample newItem =>
+          pmfExp μ
+            (fun replacement =>
+              (F (extendDraw sample newItem) -
+                F (extendDraw (Function.update sample i replacement) newItem)) ^ 2)) := by
+  classical
+  unfold pmfResampleEnergy pmfPairExp
+  rw [pmfExp_pmfProduct_option_eq_pairExp]
+  refine pmfExp_congr (pmfProduct ι α μ) ?_
+  intro sample
+  refine pmfExp_congr μ ?_
+  intro newItem
+  refine pmfExp_congr μ ?_
+  intro replacement
+  have hupdate :
+      Function.update (extendDraw sample newItem) (some i) replacement =
+        extendDraw (Function.update sample i replacement) newItem := by
+    funext index
+    cases index with
+    | none => simp [extendDraw]
+    | some j =>
+        by_cases hji : j = i
+        · subst hji
+          simp [extendDraw]
+        · simp [Function.update_of_ne, extendDraw, hji]
+  dsimp
+  rw [hupdate]
+
+/-- The two iid replacement draws in an inherited-coordinate energy may swap. -/
+theorem pmfResampleEnergy_option_some_swap
+    {ι α : Type*} [Fintype ι] [DecidableEq ι] [Fintype α] [DecidableEq α]
+    (μ : PMF α) (F : (Option ι → α) → ℝ) (i : ι) :
+    pmfResampleEnergy μ F (some i) =
+      pmfPairExp (pmfProduct ι α μ) μ
+        (fun sample replacement =>
+          pmfExp μ
+            (fun newItem =>
+              (F (extendDraw sample newItem) -
+                F (extendDraw (Function.update sample i replacement) newItem)) ^ 2)) := by
+  rw [pmfResampleEnergy_option_some]
+  unfold pmfPairExp
+  refine pmfExp_congr (pmfProduct ι α μ) ?_
+  intro sample
+  exact pmfPairExp_swap μ μ
+    (fun newItem replacement =>
+      (F (extendDraw sample newItem) -
+        F (extendDraw (Function.update sample i replacement) newItem)) ^ 2)
+
+/-- Resampling the distinguished coordinate of an iid `Option` product preserves its law. -/
+theorem pmfPairExp_pmfProduct_option_update_none_eq_pmfExp
+    {ι α : Type*} [Fintype ι] [DecidableEq ι] [Fintype α] [DecidableEq α]
+    (μ : PMF α) (F : (Option ι → α) → ℝ) :
+    pmfPairExp (pmfProduct (Option ι) α μ) μ
+        (fun sample replacement => F (Function.update sample none replacement)) =
+      pmfExp (pmfProduct (Option ι) α μ) F := by
+  classical
+  unfold pmfPairExp
+  rw [pmfExp_pmfProduct_option_eq_pairExp]
+  calc
+    pmfPairExp (pmfProduct ι α μ) μ
+        (fun sample newItem =>
+          pmfExp μ
+            (fun replacement =>
+              F (Function.update (extendDraw sample newItem) none replacement))) =
+        pmfPairExp (pmfProduct ι α μ) μ
+          (fun sample _newItem => pmfExp μ (fun replacement => F (extendDraw sample replacement))) := by
+          unfold pmfPairExp
+          refine pmfExp_congr (pmfProduct ι α μ) ?_
+          intro sample
+          refine pmfExp_congr μ ?_
+          intro newItem
+          refine pmfExp_congr μ ?_
+          intro replacement
+          have hupdate :
+              Function.update (extendDraw sample newItem) none replacement =
+                extendDraw sample replacement := by
+            funext index
+            cases index <;> simp [extendDraw]
+          rw [hupdate]
+    _ = pmfExp (pmfProduct ι α μ)
+          (fun sample => pmfExp μ (fun replacement => F (extendDraw sample replacement))) := by
+          exact pmfPairExp_ignore_right (pmfProduct ι α μ) μ
+            (fun sample => pmfExp μ (fun replacement => F (extendDraw sample replacement)))
+    _ = pmfExp (pmfProduct (Option ι) α μ) F :=
+          (pmfExp_pmfProduct_option_eq_pairExp μ F).symm
+
+/-- Independently resampling any one coordinate of a finite iid product preserves its law. -/
+theorem pmfPairExp_pmfProduct_update_eq_pmfExp
+    {ι α : Type*} [Fintype ι] [DecidableEq ι] [Fintype α] [DecidableEq α]
+    (μ : PMF α) (F : (ι → α) → ℝ) (i : ι) :
+    pmfPairExp (pmfProduct ι α μ) μ
+        (fun sample replacement => F (Function.update sample i replacement)) =
+      pmfExp (pmfProduct ι α μ) F := by
+  classical
+  let Rest := {j : ι // j ≠ i}
+  let e : Option Rest ≃ ι := Equiv.optionSubtypeNe i
+  let G : (Option Rest → α) → ℝ :=
+    fun optionSample => F (fun j : ι => optionSample (e.symm j))
+  have hoption (optionSample : Option Rest → α) (replacement : α) :
+      Function.update (fun j : ι => optionSample (e.symm j)) i replacement =
+        (fun j : ι => Function.update optionSample none replacement (e.symm j)) := by
+    funext j
+    by_cases hji : j = i
+    · subst hji
+      have hnone : e.symm j = none := by
+        apply e.injective
+        rw [e.apply_symm_apply]
+        change j = Equiv.optionSubtypeNe j none
+        rfl
+      rw [hnone, Function.update_self, Function.update_self]
+    · have hsymm : e.symm j = some ⟨j, hji⟩ := by
+        simpa [e, Rest] using Equiv.optionSubtypeNe_symm_of_ne hji
+      rw [hsymm, Function.update_of_ne hji]
+      simpa [e, Rest, hji] using congrArg optionSample hsymm
+  have htransport :
+      pmfPairExp (pmfProduct ι α μ) μ
+          (fun sample replacement => F (Function.update sample i replacement)) =
+        pmfPairExp (pmfProduct (Option Rest) α μ) μ
+          (fun optionSample replacement =>
+            G (Function.update optionSample none replacement)) := by
+    unfold pmfPairExp
+    let H : (Option Rest → α) → ℝ :=
+      fun optionSample =>
+        pmfExp μ
+          (fun replacement => F (Function.update
+            (fun j : ι => optionSample (e.symm j)) i replacement))
+    calc
+      pmfExp (pmfProduct ι α μ)
+          (fun sample =>
+            pmfExp μ (fun replacement => F (Function.update sample i replacement))) =
+          pmfExp (pmfProduct ι α μ)
+            (fun sample => H (fun optionIndex : Option Rest => sample (e optionIndex))) := by
+            refine pmfExp_congr (pmfProduct ι α μ) ?_
+            intro sample
+            unfold H
+            refine pmfExp_congr μ ?_
+            intro replacement
+            have hlift :
+                (fun j : ι => sample (e (e.symm j))) = sample := by
+              funext j
+              rw [e.apply_symm_apply]
+            rw [hlift]
+      _ = pmfExp (pmfProduct (Option Rest) α μ) H :=
+            pmfExp_pmfProduct_equiv e.symm μ H
+      _ = pmfExp (pmfProduct (Option Rest) α μ)
+            (fun optionSample =>
+              pmfExp μ
+                (fun replacement => G (Function.update optionSample none replacement))) := by
+            refine pmfExp_congr (pmfProduct (Option Rest) α μ) ?_
+            intro optionSample
+            unfold H G
+            refine pmfExp_congr μ ?_
+            intro replacement
+            exact congrArg F (hoption optionSample replacement)
+  calc
+    pmfPairExp (pmfProduct ι α μ) μ
+        (fun sample replacement => F (Function.update sample i replacement)) =
+        pmfPairExp (pmfProduct (Option Rest) α μ) μ
+          (fun optionSample replacement =>
+            G (Function.update optionSample none replacement)) := htransport
+    _ = pmfExp (pmfProduct (Option Rest) α μ) G :=
+          pmfPairExp_pmfProduct_option_update_none_eq_pmfExp μ G
+    _ = pmfExp (pmfProduct ι α μ) F := by
+          calc
+            pmfExp (pmfProduct (Option Rest) α μ) G =
+                pmfExp (pmfProduct ι α μ)
+                  (fun sample => G (fun optionIndex : Option Rest => sample (e optionIndex))) :=
+                    (pmfExp_pmfProduct_equiv e.symm μ G).symm
+            _ = pmfExp (pmfProduct ι α μ) F := by
+                  refine pmfExp_congr (pmfProduct ι α μ) ?_
+                  intro sample
+                  unfold G
+                  congr 1
+                  funext j
+                  simp [e]
+
+/-- The old and independently resampled values have twice the common expectation. -/
+theorem pmfPairExp_pmfProduct_add_resample_eq_two_pmfExp
+    {ι α : Type*} [Fintype ι] [DecidableEq ι] [Fintype α] [DecidableEq α]
+    (μ : PMF α) (F : (ι → α) → ℝ) (i : ι) :
+    pmfPairExp (pmfProduct ι α μ) μ
+        (fun sample replacement => F sample + F (Function.update sample i replacement)) =
+      2 * pmfExp (pmfProduct ι α μ) F := by
+  rw [pmfPairExp_add]
+  rw [pmfPairExp_ignore_right]
+  rw [pmfPairExp_pmfProduct_update_eq_pmfExp]
+  ring
+
+/-- Jensen bounds the old-coordinate resampling energy after conditional expectation. -/
+theorem pmfResampleEnergy_condExp_le_option_some
+    {ι α : Type*} [Fintype ι] [DecidableEq ι] [Fintype α] [DecidableEq α]
+    (μ : PMF α) (F : (Option ι → α) → ℝ) (i : ι) :
+    pmfResampleEnergy μ
+      (fun sample => pmfExp μ (fun newItem => F (extendDraw sample newItem))) i ≤
+      pmfResampleEnergy μ F (some i) := by
+  rw [pmfResampleEnergy_option_some_swap]
+  unfold pmfResampleEnergy pmfPairExp
+  refine pmfExp_le_pmfExp_of_forall_le (pmfProduct ι α μ) _ _ ?_
+  intro sample
+  refine pmfExp_le_pmfExp_of_forall_le μ _ _ ?_
+  intro replacement
+  have h :=
+    pmfExp_sq_le_pmfExp_sq μ
+      (fun newItem =>
+        F (extendDraw sample newItem) -
+          F (extendDraw (Function.update sample i replacement) newItem))
+  rw [pmfExp_sub] at h
+  exact h
+
+/-- Reindexing iid product coordinates by an equivalence preserves resampling energy. -/
+theorem pmfResampleEnergy_pmfProduct_equiv
+    {ι κ α : Type*} [Fintype ι] [DecidableEq ι]
+    [Fintype κ] [DecidableEq κ] [Fintype α] [DecidableEq α]
+    (e : ι ≃ κ) (μ : PMF α) (F : (κ → α) → ℝ) (i : ι) :
+    pmfResampleEnergy μ
+        (fun sample : ι → α => F (fun j : κ => sample (e.symm j))) i =
+      pmfResampleEnergy μ F (e i) := by
+  classical
+  let H : (κ → α) → ℝ := fun sample =>
+    pmfExp μ
+      (fun replacement =>
+        (F sample - F (Function.update sample (e i) replacement)) ^ 2)
+  have hupdate (sample : ι → α) (replacement : α) :
+      (fun j : κ => Function.update sample i replacement (e.symm j)) =
+        Function.update (fun j : κ => sample (e.symm j)) (e i) replacement := by
+    funext j
+    by_cases hji : j = e i
+    · subst hji
+      rw [e.symm_apply_apply]
+      rw [Function.update_self, Function.update_self]
+    · have hne : e.symm j ≠ i := by
+        intro h
+        apply hji
+        exact (e.apply_symm_apply j).symm.trans (congrArg e h)
+      rw [Function.update_of_ne hne, Function.update_of_ne hji]
+  unfold pmfResampleEnergy pmfPairExp
+  calc
+    pmfExp (pmfProduct ι α μ)
+        (fun sample =>
+          pmfExp μ
+            (fun replacement =>
+              (F (fun j : κ => sample (e.symm j)) -
+                F (fun j : κ => Function.update sample i replacement (e.symm j))) ^ 2)) =
+        pmfExp (pmfProduct ι α μ)
+          (fun sample => H (fun j : κ => sample (e.symm j))) := by
+          refine pmfExp_congr (pmfProduct ι α μ) ?_
+          intro sample
+          unfold H
+          refine pmfExp_congr μ ?_
+          intro replacement
+          rw [hupdate]
+    _ = pmfExp (pmfProduct κ α μ) H :=
+      pmfExp_pmfProduct_equiv e μ H
+    _ = pmfExp (pmfProduct κ α μ)
+          (fun sample =>
+            pmfExp μ
+              (fun replacement =>
+                (F sample - F (Function.update sample (e i) replacement)) ^ 2)) := by
+          rfl
+
+/-- An iid product on `Option ι` is variance-equivalent to an old product and one new draw. -/
+theorem pmfVariance_pmfProduct_option_eq_pmfVariance_pmfProd
+    {ι α : Type*} [Fintype ι] [DecidableEq ι] [Fintype α] [DecidableEq α]
+    (μ : PMF α) (F : (Option ι → α) → ℝ) :
+    pmfVariance (pmfProduct (Option ι) α μ) F =
+      pmfVariance (pmfProd (pmfProduct ι α μ) μ)
+        (fun pair : (ι → α) × α => F (extendDraw pair.1 pair.2)) := by
+  have hsecond :
+      pmfExp (pmfProduct (Option ι) α μ) (fun sample => F sample ^ 2) =
+        pmfExp (pmfProd (pmfProduct ι α μ) μ)
+          (fun pair : (ι → α) × α => F (extendDraw pair.1 pair.2) ^ 2) := by
+    calc
+      pmfExp (pmfProduct (Option ι) α μ) (fun sample => F sample ^ 2) =
+          pmfPairExp (pmfProduct ι α μ) μ
+            (fun sample newItem => F (extendDraw sample newItem) ^ 2) :=
+              pmfExp_pmfProduct_option_eq_pairExp μ (fun sample => F sample ^ 2)
+      _ = pmfExp (pmfProd (pmfProduct ι α μ) μ)
+            (fun pair : (ι → α) × α => F (extendDraw pair.1 pair.2) ^ 2) := by
+              symm
+              exact pmfExp_pmfProd_eq_pairExp (pmfProduct ι α μ) μ
+                (fun pair : (ι → α) × α => F (extendDraw pair.1 pair.2) ^ 2)
+  have hmean :
+      pmfExp (pmfProduct (Option ι) α μ) F =
+        pmfExp (pmfProd (pmfProduct ι α μ) μ)
+          (fun pair : (ι → α) × α => F (extendDraw pair.1 pair.2)) := by
+    calc
+      pmfExp (pmfProduct (Option ι) α μ) F =
+          pmfPairExp (pmfProduct ι α μ) μ
+            (fun sample newItem => F (extendDraw sample newItem)) :=
+              pmfExp_pmfProduct_option_eq_pairExp μ F
+      _ = pmfExp (pmfProd (pmfProduct ι α μ) μ)
+            (fun pair : (ι → α) × α => F (extendDraw pair.1 pair.2)) := by
+              symm
+              exact pmfExp_pmfProd_eq_pairExp (pmfProduct ι α μ) μ
+                (fun pair : (ι → α) × α => F (extendDraw pair.1 pair.2))
+  rw [pmfVariance_eq_exp_sq_sub_sq_exp, pmfVariance_eq_exp_sq_sub_sq_exp,
+    hsecond, hmean]
+
+/-- One Efron--Stein decomposition step for an iid product over `Option ι`. -/
+theorem pmfVariance_pmfProduct_option_eq_half_resample_none_add_condExp
+    {ι α : Type*} [Fintype ι] [DecidableEq ι] [Fintype α] [DecidableEq α]
+    (μ : PMF α) (F : (Option ι → α) → ℝ) :
+    pmfVariance (pmfProduct (Option ι) α μ) F =
+      (1 / 2 : ℝ) * pmfResampleEnergy μ F none +
+        pmfVariance (pmfProduct ι α μ)
+          (fun sample => pmfExp μ (fun newItem => F (extendDraw sample newItem))) := by
+  rw [pmfVariance_pmfProduct_option_eq_pmfVariance_pmfProd]
+  calc
+    pmfVariance (pmfProd (pmfProduct ι α μ) μ)
+        (fun pair : (ι → α) × α => F (extendDraw pair.1 pair.2)) =
+        (1 / 2 : ℝ) *
+          pmfPairExp (pmfProduct ι α μ) μ
+            (fun sample newItem =>
+              pmfExp μ
+                (fun replacement =>
+                  (F (extendDraw sample newItem) -
+                    F (extendDraw sample replacement)) ^ 2)) +
+          pmfVariance (pmfProduct ι α μ)
+            (fun sample => pmfExp μ (fun newItem => F (extendDraw sample newItem))) := by
+          simpa using
+            (pmfVariance_pmfProd_eq_half_resample_right_add_variance_condExp
+              (pmfProduct ι α μ) μ
+              (fun sample newItem => F (extendDraw sample newItem)))
+    _ =
+        (1 / 2 : ℝ) * pmfResampleEnergy μ F none +
+          pmfVariance (pmfProduct ι α μ)
+            (fun sample => pmfExp μ (fun newItem => F (extendDraw sample newItem))) := by
+          rw [pmfResampleEnergy_option_none]
+
+/-- One induction step for the finite iid Efron--Stein inequality. -/
+theorem pmfVariance_pmfProduct_le_half_sum_resample_option
+    {ι α : Type*} [Fintype ι] [DecidableEq ι] [Fintype α] [DecidableEq α]
+    (μ : PMF α) (F : (Option ι → α) → ℝ)
+    (hind :
+      pmfVariance (pmfProduct ι α μ)
+        (fun sample => pmfExp μ (fun newItem => F (extendDraw sample newItem))) ≤
+        (1 / 2 : ℝ) *
+          ∑ i : ι,
+            pmfResampleEnergy μ
+              (fun sample => pmfExp μ (fun newItem => F (extendDraw sample newItem))) i) :
+    pmfVariance (pmfProduct (Option ι) α μ) F ≤
+      (1 / 2 : ℝ) * ∑ i : Option ι, pmfResampleEnergy μ F i := by
+  let H : (ι → α) → ℝ :=
+    fun sample => pmfExp μ (fun newItem => F (extendDraw sample newItem))
+  have hsum :
+      (∑ i : ι, pmfResampleEnergy μ H i) ≤
+        ∑ i : ι, pmfResampleEnergy μ F (some i) := by
+    refine Finset.sum_le_sum ?_
+    intro i _
+    exact pmfResampleEnergy_condExp_le_option_some μ F i
+  calc
+    pmfVariance (pmfProduct (Option ι) α μ) F =
+        (1 / 2 : ℝ) * pmfResampleEnergy μ F none +
+          pmfVariance (pmfProduct ι α μ) H := by
+          exact pmfVariance_pmfProduct_option_eq_half_resample_none_add_condExp μ F
+    _ ≤ (1 / 2 : ℝ) * pmfResampleEnergy μ F none +
+          (1 / 2 : ℝ) * ∑ i : ι, pmfResampleEnergy μ H i := by
+          gcongr
+    _ ≤ (1 / 2 : ℝ) * pmfResampleEnergy μ F none +
+          (1 / 2 : ℝ) * ∑ i : ι, pmfResampleEnergy μ F (some i) := by
+          gcongr
+    _ = (1 / 2 : ℝ) * ∑ i : Option ι, pmfResampleEnergy μ F i := by
+          rw [univ_option, Finset.sum_insertNone]
+          ring
+
+/-- Reindexing an entire finite iid resampling-energy sum by an equivalence. -/
+theorem pmfResampleEnergy_sum_pmfProduct_equiv
+    {ι κ α : Type*} [Fintype ι] [DecidableEq ι]
+    [Fintype κ] [DecidableEq κ] [Fintype α] [DecidableEq α]
+    (e : ι ≃ κ) (μ : PMF α) (F : (κ → α) → ℝ) :
+    (∑ i : ι,
+      pmfResampleEnergy μ
+        (fun sample : ι → α => F (fun j : κ => sample (e.symm j))) i) =
+      ∑ j : κ, pmfResampleEnergy μ F j := by
+  calc
+    (∑ i : ι,
+        pmfResampleEnergy μ
+          (fun sample : ι → α => F (fun j : κ => sample (e.symm j))) i) =
+        ∑ j : κ,
+          pmfResampleEnergy μ
+            (fun sample : ι → α => F (fun j : κ => sample (e.symm j)))
+            (e.symm j) := by
+          simpa using
+            (Equiv.sum_comp e.symm
+              (fun i : ι =>
+                pmfResampleEnergy μ
+                  (fun sample : ι → α => F (fun j : κ => sample (e.symm j))) i)).symm
+    _ = ∑ j : κ, pmfResampleEnergy μ F j := by
+          refine Finset.sum_congr rfl ?_
+          intro j _
+          simpa using
+            (pmfResampleEnergy_pmfProduct_equiv e μ F (e.symm j))
+
+/-- An iid product with no coordinates has zero variance. -/
+theorem pmfVariance_pmfProduct_pempty_eq_zero
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (F : (PEmpty → α) → ℝ) :
+    pmfVariance (pmfProduct PEmpty α μ) F = 0 := by
+  let defaultSample : PEmpty → α := fun x => PEmpty.elim x
+  have hvalue : ∀ sample : PEmpty → α, F sample = F defaultSample := by
+    intro sample
+    congr 1
+    funext x
+    exact PEmpty.elim x
+  have hmean : pmfExp (pmfProduct PEmpty α μ) F = F defaultSample := by
+    calc
+      pmfExp (pmfProduct PEmpty α μ) F =
+          pmfExp (pmfProduct PEmpty α μ) (fun _ => F defaultSample) :=
+            pmfExp_congr (pmfProduct PEmpty α μ) hvalue
+      _ = F defaultSample := pmfExp_const (pmfProduct PEmpty α μ) (F defaultSample)
+  unfold pmfVariance
+  calc
+    pmfExp (pmfProduct PEmpty α μ)
+        (fun sample => (F sample - pmfExp (pmfProduct PEmpty α μ) F) ^ 2) =
+        pmfExp (pmfProduct PEmpty α μ) (fun _ => 0) := by
+          refine pmfExp_congr (pmfProduct PEmpty α μ) ?_
+          intro sample
+          rw [hvalue sample, hmean]
+          ring
+    _ = 0 := by simp
+
+/--
+Finite iid Efron--Stein inequality: variance is at most half the sum of the
+expected squared changes from independently resampling individual coordinates.
+-/
+theorem pmfVariance_pmfProduct_le_half_sum_resample
+    {ι α : Type*} [Fintype ι] [DecidableEq ι] [Fintype α] [DecidableEq α]
+    (μ : PMF α) (F : (ι → α) → ℝ) :
+    pmfVariance (pmfProduct ι α μ) F ≤
+      (1 / 2 : ℝ) * ∑ i : ι, pmfResampleEnergy μ F i := by
+  classical
+  let P : ∀ (κ : Type u_1) [Fintype κ], Prop :=
+    fun κ _ =>
+      ∀ [inst : DecidableEq κ] (G : (κ → α) → ℝ),
+        pmfVariance (pmfProduct κ α μ) G ≤
+          (1 / 2 : ℝ) * ∑ i : κ, pmfResampleEnergy μ G i
+  have hP : P ι := by
+    refine Fintype.induction_empty_option (P := P) ?_ ?_ ?_ ι
+    · intro κ tau instTau e hind instDec G
+      letI : Fintype κ := Fintype.ofEquiv tau e.symm
+      calc
+        pmfVariance (pmfProduct tau α μ) G =
+            pmfVariance (pmfProduct κ α μ)
+              (fun sample : κ → α => G (fun j : tau => sample (e.symm j))) := by
+              exact (pmfVariance_pmfProduct_equiv e μ G).symm
+        _ ≤ (1 / 2 : ℝ) *
+              ∑ i : κ,
+                pmfResampleEnergy μ
+                  (fun sample : κ → α => G (fun j : tau => sample (e.symm j))) i :=
+              hind _
+        _ = (1 / 2 : ℝ) * ∑ j : tau, pmfResampleEnergy μ G j := by
+              rw [pmfResampleEnergy_sum_pmfProduct_equiv e μ G]
+    · intro instDec G
+      have hzero : pmfVariance (pmfProduct PEmpty α μ) G = 0 := by
+        let defaultSample : PEmpty → α := fun x => PEmpty.elim x
+        have hvalue : ∀ sample : PEmpty → α, G sample = G defaultSample := by
+          intro sample
+          congr 1
+          funext x
+          exact PEmpty.elim x
+        have hmean : pmfExp (pmfProduct PEmpty α μ) G = G defaultSample := by
+          calc
+            pmfExp (pmfProduct PEmpty α μ) G =
+                pmfExp (pmfProduct PEmpty α μ) (fun _ => G defaultSample) :=
+                  pmfExp_congr (pmfProduct PEmpty α μ) hvalue
+            _ = G defaultSample := pmfExp_const (pmfProduct PEmpty α μ) (G defaultSample)
+        unfold pmfVariance
+        calc
+          pmfExp (pmfProduct PEmpty α μ)
+              (fun sample => (G sample - pmfExp (pmfProduct PEmpty α μ) G) ^ 2) =
+              pmfExp (pmfProduct PEmpty α μ) (fun _ => 0) := by
+                refine pmfExp_congr (pmfProduct PEmpty α μ) ?_
+                intro sample
+                rw [hvalue sample, hmean]
+                ring
+          _ = 0 := by simp
+      rw [hzero]
+      simp
+    · intro κ instK hind instDec G
+      letI : DecidableEq κ := Classical.decEq κ
+      have hdec : instDec = (Option.instDecidableEq : DecidableEq (Option κ)) :=
+        Subsingleton.elim _ _
+      cases hdec
+      exact pmfVariance_pmfProduct_le_half_sum_resample_option μ G (hind _)
+  exact hP F
+
+/--
 The two-coordinate event marginal of a same-codomain finite independent product
 is the independent pair-product event probability.
 -/
@@ -574,6 +1239,45 @@ theorem pmfProb_pmfProd_snd_eq {α β : Type*}
   unfold pmfProb
   rw [pmfExp_pmfProd_eq_pairExp]
   exact pmfPairExp_ignore_left μ ν (fun b => if q b then (1 : ℝ) else 0)
+
+/--
+Conditioning an independent finite product on a positive-probability event of
+the first coordinate leaves every second-coordinate event at its marginal
+probability.  This is the finite one-step post-history independence fact used
+by stopped iid constructions.
+-/
+theorem pmfConditionalProb_pmfProd_snd_eq_pmfProb_of_fst
+    {α β : Type*} [Fintype α] [DecidableEq α]
+    [Fintype β] [DecidableEq β]
+    (μ : PMF α) (ν : PMF β)
+    (past : α → Prop) (future : β → Prop)
+    [DecidablePred past] [DecidablePred future]
+    (hpast_pos : 0 < pmfProb μ past) :
+    pmfConditionalProb (pmfProd μ ν)
+        (fun x : α × β => past x.1)
+        (fun x : α × β => future x.2) =
+      pmfProb ν future := by
+  classical
+  have hcondition :
+      pmfProb (pmfProd μ ν) (fun x : α × β => past x.1) =
+        pmfProb μ past :=
+    pmfProb_pmfProd_fst_eq μ ν past
+  have hcondition_pos :
+      0 < pmfProb (pmfProd μ ν) (fun x : α × β => past x.1) := by
+    rw [hcondition]
+    exact hpast_pos
+  have hinter :
+      pmfProb (pmfProd μ ν)
+          (fun x : α × β => past x.1 ∧ future x.2) =
+        pmfProb μ past * pmfProb ν future := by
+    rw [pmfProb_pmfProd_and_eq_mul_pmfProb]
+  rw [pmfConditionalProb_eq_inter_div_of_pos
+    (pmfProd μ ν)
+    (fun x : α × β => past x.1)
+    (fun x : α × β => future x.2)
+    hcondition_pos]
+  rw [hinter, hcondition]
+  field_simp [hpast_pos.ne']
 
 /--
 If a second-coordinate event has probability one, then a product event that

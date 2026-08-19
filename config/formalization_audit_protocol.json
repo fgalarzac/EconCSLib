@@ -1,21 +1,22 @@
 {
-  "schema": 1,
-  "protocol_id": "formalization-audit-protocol-2026-08-18",
-  "authority": {
-    "scope": "Current operational defaults for paper formalization, semantic audit reuse, and closeout.",
-    "precedence": "This file overrides conflicting workflow prose. Historical reports describe the protocol used at their recorded date and do not redefine current policy."
-  },
   "audit_versions": {
+    "source_record": {
+      "current": "v10",
+      "meaning": "Current recursive boundary and conclusion-dependency audit.",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract"
+    },
     "statement_semantic_review": {
       "current": "v11",
-      "prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
+      "interface_layout": {
+        "proof_declarations": "one exact-type theorem or lemma endpoint per Spec",
+        "proof_module": "ProofInterface.lean",
+        "rule": "PaperInterface contains no thin theorem/lemma wrapper declarations. Each source claim has exactly one direct def <name>Spec : Prop := declaration, which itself exposes every material source-side premise, construction, definition, and conclusion needed for semantic comparison. If Lean retains a paper-local state/model/policy name after opening the Spec root, it must show that declaration's own-body target and recursively inventory its remaining paper-local and library dependencies; every such paper-local prerequisite needs an exact byte-pinned source connection and a current matches judgment in audit/paper_semantic_prerequisites.json. The current audit/v11_raw_source_spec_screening.json must record one current matches verdict for each selected source claim against its exact raw source bundle and that direct Spec; a theorem/lemma endpoint, duplicate route, uncertain verdict, or stale hash cannot close the claim. The sole distinct correction disposition is matches_approved_corrected_target: it is permitted only for a source map item marked corrected_source_statement with a current, approval-pinned corrected target that explicitly disclaims equivalence to the archival source; that map row rejects ordinary matches. The dashboard and packet show the archival bytes first, then the full approved corrected target, archival anchor, and recorded basis, and label its human checkbox as matching that corrected target. A material reused EconCSLib definition, whether reached directly by the Spec or through a retained paper-local prerequisite, may remain reusable only when audit/library_semantic_review.json registers its bounded exact Lean declaration, a byte-pinned paper-source item, and a current raw-source-to-library-definition matches verdict; an unregistered reference blocks closeout. The dashboard and packet render every prerequisite before its dependent claim in dependency-first order across paper-local and reusable-library cards; the raw source connection precedes the Lean target on every card. A paper-local card shows one expanded semantic target, while a reusable-library card additionally shows its bounded declaration code as the independently screened implementation. A declaration name, docstring, or curator paraphrase is not semantic evidence. Paper-local/library prerequisites do not add paper-claim denominator rows. Foundational Lean/Mathlib terminals remain version-pinned closure bases, not paper source claims. The dashboard, packets, and review counts display one source claim/Spec row and name the proof endpoint only as separately Lean-checked evidence.",
+        "semantic_declarations": "one expanded transparent <name>Spec : Prop per source claim",
+        "semantic_module": "PaperInterface.lean"
+      },
       "meaning": "Current source-to-Lean statement judgment: only verbatim byte-pinned source-anchor bundles may be compared with Lean's own elaborated transparent Spec display; paired proof wrappers receive Lean-Meta proof credit, not a second semantic judgment. Every retained paper-local semantic prerequisite and reusable library prerequisite receives its own source-connected Lean target card before the dependent claim.",
+      "prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
       "source_input": {
-        "protocol": "verbatim_source_anchor_bundle_v1",
-        "order": [
-          "source_anchor_evidence",
-          "semantic_context_requirements"
-        ],
         "context_roles": [
           "definition",
           "model",
@@ -24,41 +25,76 @@
           "prior_result",
           "stated_antecedent"
         ],
+        "order": [
+          "source_anchor_evidence",
+          "semantic_context_requirements"
+        ],
+        "protocol": "verbatim_source_anchor_bundle_v1",
         "rule": "A semantic-context requirement is an exact source excerpt needed to interpret the displayed claim. It must declare one permitted role and may not be an inferred proof derivation, curator paraphrase, or source-derived strengthening. If the expanded Spec formalizes a stricter construction than the displayed source statement, add a separate exact source-facing Spec for the displayed endpoint; do not call the stronger construction a direct semantic match."
-      },
-      "interface_layout": {
-        "semantic_module": "PaperInterface.lean",
-        "semantic_declarations": "one expanded transparent <name>Spec : Prop per source claim",
-        "proof_module": "ProofInterface.lean",
-        "proof_declarations": "one exact-type theorem or lemma endpoint per Spec",
-        "rule": "PaperInterface contains no thin theorem/lemma wrapper declarations. Each source claim has exactly one direct def <name>Spec : Prop := declaration, which itself exposes every material source-side premise, construction, definition, and conclusion needed for semantic comparison. If Lean retains a paper-local state/model/policy name after opening the Spec root, it must show that declaration's own-body target and recursively inventory its remaining paper-local and library dependencies; every such paper-local prerequisite needs an exact byte-pinned source connection and a current matches judgment in audit/paper_semantic_prerequisites.json. The current audit/v11_raw_source_spec_screening.json must record one current matches verdict for each selected source claim against its exact raw source bundle and that direct Spec; a theorem/lemma endpoint, duplicate route, uncertain verdict, or stale hash cannot close the claim. The sole distinct correction disposition is matches_approved_corrected_target: it is permitted only for a source map item marked corrected_source_statement with a current, approval-pinned corrected target that explicitly disclaims equivalence to the archival source; that map row rejects ordinary matches. The dashboard and packet show the archival bytes first, then the full approved corrected target, archival anchor, and recorded basis, and label its human checkbox as matching that corrected target. A material reused EconCSLib definition, whether reached directly by the Spec or through a retained paper-local prerequisite, may remain reusable only when audit/library_semantic_review.json registers its bounded exact Lean declaration, a byte-pinned paper-source item, and a current raw-source-to-library-definition matches verdict; an unregistered reference blocks closeout. The dashboard and packet render every prerequisite before its dependent claim in dependency-first order across paper-local and reusable-library cards; the raw source connection precedes the Lean target on every card. A paper-local card shows one expanded semantic target, while a reusable-library card additionally shows its bounded declaration code as the independently screened implementation. A declaration name, docstring, or curator paraphrase is not semantic evidence. Paper-local/library prerequisites do not add paper-claim denominator rows. Foundational Lean/Mathlib terminals remain version-pinned closure bases, not paper source claims. The dashboard, packets, and review counts display one source claim/Spec row and name the proof endpoint only as separately Lean-checked evidence."
       }
-    },
-    "source_record": {
-      "current": "v10",
-      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "meaning": "Current recursive boundary and conclusion-dependency audit."
     },
     "theorem_realization": {
       "current": "v11",
+      "legacy_v10_transition_baseline": {
+        "authority": "trusted_git_tree",
+        "git_commit": "93817f0b1a75be86bc495223c4952788f4a81df2",
+        "material_identity_schema": 1,
+        "rule": "The pinned commit must be an ancestor of the recorded source-provenance ref. A closeout absent from this reviewed tree is new and must pass v11. A legacy paper's material source/model/target/name-independent statement change requires current item-level v10 evidence; it does not silently manufacture a v11 migration. Explicit v11 status/map switches remain mandatory.",
+        "trusted_ref": "refs/remotes/origin/main"
+      },
+      "meaning": "Source-atom-to-transparent-Spec correspondence and elaborated semantic closure.",
       "required_for": [
         "new_paper_closeout",
         "explicit_v11_upgrade"
       ],
-      "meaning": "Source-atom-to-transparent-Spec correspondence and elaborated semantic closure.",
-      "transition": "A new paper requires v11. A legacy v10 paper may opt into v11 explicitly, but a material repair instead requires current item-level v10 source and Lean evidence; v10 evidence is never relabelled as v11 evidence.",
-      "legacy_v10_transition_baseline": {
-        "authority": "trusted_git_tree",
-        "git_commit": "93817f0b1a75be86bc495223c4952788f4a81df2",
-        "trusted_ref": "refs/remotes/origin/main",
-        "material_identity_schema": 1,
-        "rule": "The pinned commit must be an ancestor of the trusted private origin/main ref. A closeout absent from this reviewed tree is new and must pass v11. A legacy paper's material source/model/target/name-independent statement change requires current item-level v10 evidence; it does not silently manufacture a v11 migration. Explicit v11 status/map switches remain mandatory."
-      }
+      "transition": "A new paper requires v11. A legacy v10 paper may opt into v11 explicitly, but a material repair instead requires current item-level v10 source and Lean evidence; v10 evidence is never relabelled as v11 evidence."
+    }
+  },
+  "authority": {
+    "precedence": "This file overrides conflicting workflow prose. Historical reports describe the protocol used at their recorded date and do not redefine current policy.",
+    "scope": "Current operational defaults for paper formalization, semantic audit reuse, and closeout."
+  },
+  "builds": {
+    "integration_or_release": "lake build",
+    "paper_closeout": "env LEAN_NUM_THREADS=1 lake build <PaperRoot>",
+    "proof_iteration": "lake build <PaperRoot>.PaperInterface",
+    "rule": "Use the focused interface during proof iteration, the complete paper target at paper closeout, and a repository-wide build only at integration or release milestones."
+  },
+  "classification": {
+    "additional_assumption": {
+      "rule": "A condition not supported by the source must be visible in the theorem statement and report, must never be silently attributed to the paper, and leaves the original source endpoint partial.",
+      "status_impact": "partially_formalized"
+    },
+    "approved_corrected_target": {
+      "rule": "A statement repair requires explicit approval and defect pins and never claims archival equivalence. A repair preserving the substantive endpoint is a formalized note; a material central correction is formalized with caveat only after the corrected endpoint is proved; an unresolved repair is partial.",
+      "status_impact": "classify_by_substantive_endpoint_impact"
+    },
+    "empirical_or_computational_material": {
+      "rule": "Simulations, numerical examples, figures, captions, and implementation measurements are deep-only unless needed to interpret a selected named theorem.",
+      "status_impact": "out_of_normal_theorem_scope"
+    },
+    "minor_source_typo_or_proof_repair": {
+      "rule": "A correction that preserves the advertised endpoint is a source-proof note, not a caveat.",
+      "status_impact": "formalized_note"
+    },
+    "source_condition_or_refinement": {
+      "rule": "An implicit source model condition made explicit in Lean is recorded in the post-formalization report and statement premises; it is not automatically a caveat.",
+      "status_impact": "formalized_note"
     }
   },
   "coverage": {
+    "deep_mode": {
+      "id": "deep_paper_with_all_prose_claims",
+      "rule": "Inventory every prose, display, algorithm, figure, table, simulation, empirical, and computational claim under a source-pinned completeness attestation."
+    },
     "default_mode": "named_theoretical_statements",
     "normal_mode": {
+      "deep_only_standalone_source_kinds": [
+        "formula",
+        "equation",
+        "algorithm",
+        "algorithmic_formula"
+      ],
       "id": "named_theoretical_statements",
       "included_source_kinds": [
         "theorem",
@@ -80,21 +116,35 @@
         "condition",
         "model"
       ],
-      "deep_only_standalone_source_kinds": [
-        "formula",
-        "equation",
-        "algorithm",
-        "algorithmic_formula"
-      ],
       "rule": "Only independently source-presented named theoretical statements are normal obligations. A standalone display or algorithm is inspected only as a dependency of a selected named statement."
-    },
-    "deep_mode": {
-      "id": "deep_paper_with_all_prose_claims",
-      "rule": "Inventory every prose, display, algorithm, figure, table, simulation, empirical, and computational claim under a source-pinned completeness attestation."
     }
   },
+  "pacing": {
+    "documentation_boundaries": [
+      "material_source_scope_change",
+      "assumption_or_correction_decision",
+      "proof_boundary_or_handoff",
+      "paper_transition",
+      "closeout"
+    ],
+    "priority": "proof_first",
+    "rule": "After the source-shaped statement and visible premises are honest, work on the proof. Do not interrupt an actionable proof campaign for routine documentation or broad audit regeneration."
+  },
+  "protocol_id": "formalization-audit-protocol-2026-08-18",
   "reuse": {
+    "fail_closed_on": [
+      "missing_identity",
+      "changed_identity",
+      "ambiguous_rebinding",
+      "unresolved_route"
+    ],
     "granularity": "item",
+    "navigation_only": [
+      "source_map_key",
+      "source_location_after_byte_revalidation",
+      "lean_declaration_name",
+      "raw_lean_declaration_spelling_after_unique_semantic_match"
+    ],
     "required_unchanged_identities": [
       "source_semantics",
       "byte_validated_source_quote",
@@ -105,57 +155,7 @@
       "validator_and_protocol_fingerprints",
       "correction_and_model_convention_disposition"
     ],
-    "navigation_only": [
-      "source_map_key",
-      "source_location_after_byte_revalidation",
-      "lean_declaration_name",
-      "raw_lean_declaration_spelling_after_unique_semantic_match"
-    ],
-    "fail_closed_on": [
-      "missing_identity",
-      "changed_identity",
-      "ambiguous_rebinding",
-      "unresolved_route"
-    ],
     "rule": "Reuse never follows names or raw pretty-printed declaration spelling and never survives a change in an imported definition body or other transitive semantic dependency. Raw Lean text remains trace evidence and may be refreshed only after a unique elaborated semantic match. Whole review-module artifacts, unrelated declarations, and theorem proof bodies are not statement-semantic identities; replacing sorry with a proof does not reopen an unchanged statement judgment."
   },
-  "builds": {
-    "proof_iteration": "lake build <PaperRoot>.PaperInterface",
-    "paper_closeout": "env LEAN_NUM_THREADS=1 lake build <PaperRoot>",
-    "integration_or_release": "lake build",
-    "rule": "Use the focused interface during proof iteration, the complete paper target at paper closeout, and a repository-wide build only at integration or release milestones."
-  },
-  "classification": {
-    "source_condition_or_refinement": {
-      "status_impact": "formalized_note",
-      "rule": "An implicit source model condition made explicit in Lean is recorded in the post-formalization report and statement premises; it is not automatically a caveat."
-    },
-    "additional_assumption": {
-      "status_impact": "partially_formalized",
-      "rule": "A condition not supported by the source must be visible in the theorem statement and report, must never be silently attributed to the paper, and leaves the original source endpoint partial."
-    },
-    "minor_source_typo_or_proof_repair": {
-      "status_impact": "formalized_note",
-      "rule": "A correction that preserves the advertised endpoint is a source-proof note, not a caveat."
-    },
-    "approved_corrected_target": {
-      "status_impact": "classify_by_substantive_endpoint_impact",
-      "rule": "A statement repair requires explicit approval and defect pins and never claims archival equivalence. A repair preserving the substantive endpoint is a formalized note; a material central correction is formalized with caveat only after the corrected endpoint is proved; an unresolved repair is partial."
-    },
-    "empirical_or_computational_material": {
-      "status_impact": "out_of_normal_theorem_scope",
-      "rule": "Simulations, numerical examples, figures, captions, and implementation measurements are deep-only unless needed to interpret a selected named theorem."
-    }
-  },
-  "pacing": {
-    "priority": "proof_first",
-    "documentation_boundaries": [
-      "material_source_scope_change",
-      "assumption_or_correction_decision",
-      "proof_boundary_or_handoff",
-      "paper_transition",
-      "closeout"
-    ],
-    "rule": "After the source-shaped statement and visible premises are honest, work on the proof. Do not interrupt an actionable proof campaign for routine documentation or broad audit regeneration."
-  }
+  "schema": 1
 }

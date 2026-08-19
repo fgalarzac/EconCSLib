@@ -18,16 +18,17 @@
   "review_entrypoint": "papers/EOS07GSP/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 0,
-    "total_rows": 23,
+    "total_rows": 24,
     "stale_rows": 0,
     "mismatch_rows": 0,
-    "source": "paper-local status.json review_surface; human entries come from dashboard logs"
+    "uncertain_rows": 0,
+    "source": "v11 PaperInterface claim surface; human entries are recorded after direct review"
   },
   "paper_interface": {
     "path": "papers/EOS07GSP/PaperInterface.lean",
     "line_count": 516,
     "declaration_rows": 36,
-    "review_rows": 23,
+    "review_rows": 24,
     "oversized": false,
     "maintainability_issue": null
   },
@@ -35,6 +36,8 @@
     "readme": "papers/EOS07GSP/README.md",
     "paper_interface": "papers/EOS07GSP/PaperInterface.lean",
     "final_validation_report": "papers/EOS07GSP/FINAL_VALIDATION_REPORT.md",
+    "human_review_packet_pdf": "papers/EOS07GSP/docs/HUMAN_REVIEW_PACKET.pdf",
+    "human_review_packet_tex": "papers/EOS07GSP/docs/HUMAN_REVIEW_PACKET.tex",
     "dependency_dag_tex": "papers/EOS07GSP/docs/DependencyDAG.tex",
     "dependency_dag_pdf": "papers/EOS07GSP/docs/DependencyDAG.pdf",
     "source_proof_fidelity": "papers/EOS07GSP/audit/source_proof_fidelity.json"
@@ -51,7 +54,8 @@
       "surface_audit_threshold": 30,
       "surface_warning_threshold": 120,
       "require_explicit_source_routes": true,
-      "policy": "Translate every elaborated row without relying on its name. Preserve the finite position-auction carriers, tie rule, payment and utility formulas, history order, value-density law, conditional survival events, legal stopped-clock domain, complete-continuation deviation quantifiers, effective-price uniqueness, and every VCG conclusion. Treat a below-clock raw threshold as immediate dropout, but reject any local payoff predicate, supplied equilibrium certificate, belief package, or terminal outcome package presented as the full legal-history Theorem 8 endpoint."
+      "policy": "For every selected source claim, compare only its exact byte-pinned raw source-anchor bundle and Lean's expanded transparent `...Spec : Prop` target. The paired proof endpoint receives separate Lean-Meta proof credit; a name, paraphrase, wrapper, or prior aggregate receipt is not a semantic match. Review every retained paper-local prerequisite and every material library prerequisite before the dependent claim.",
+      "required_prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2"
     },
     "llm_paper_coverage_review": {
       "paper_coverage_audit_file": "papers/EOS07GSP/audit/paper_coverage_llm.json",
@@ -87,31 +91,57 @@
     "assumption_policy": "strict",
     "assumption_names": [],
     "source_definition_names": [],
-    "proposition_spec_proofs": {},
+    "proposition_spec_proofs": {
+      "definition4_locally_envy_freeSpec": "definition4_locally_envy_free",
+      "stable_assignmentSpec": "stable_assignment",
+      "first_price_running_example_profitable_revision_chainSpec": "first_price_running_example_profitable_revision_chain",
+      "remark1_gsp_payments_weakly_dominate_vcgSpec": "remark1_gsp_payments_weakly_dominate_vcg",
+      "remark2_vcg_truthfulSpec": "remark2_vcg_truthful",
+      "remark3_gsp_not_truthfulSpec": "remark3_gsp_not_truthful",
+      "running_example_truthful_gsp_nashSpec": "running_example_truthful_gsp_nash",
+      "running_example_truthful_gsp_revenue_comparisonSpec": "running_example_truthful_gsp_revenue_comparison",
+      "lemma5_locally_envy_free_stableSpec": "lemma5_locally_envy_free_stable",
+      "lemma6_tiebreak_ranked_gsp_stable_assignment_locally_envy_freeSpec": "lemma6_tiebreak_ranked_gsp_stable_assignment_locally_envy_free",
+      "theorem7_ranked_gsp_bstar_mechanism_realizes_bstar_outcomeSpec": "theorem7_ranked_gsp_bstar_mechanism_realizes_bstar_outcome",
+      "theorem7_bstar_payment_identitySpec": "theorem7_bstar_payment_identity",
+      "theorem7_bstar_locally_envy_freeSpec": "theorem7_bstar_locally_envy_free",
+      "theorem7_no_positive_transfer_conclusionSpec": "theorem7_no_positive_transfer_conclusion",
+      "theorem7_strict_tiebreak_gsp_comparison_conclusionSpec": "theorem7_strict_tiebreak_gsp_comparison_conclusion",
+      "theorem8_dropout_formula_eq_bstar_thresholdSpec": "theorem8_dropout_formula_eq_bstar_threshold",
+      "theorem8_q_step2_waiting_before_q_reviewSpec": "theorem8_q_step2_waiting_before_q_review",
+      "theorem8_q_step1_dropping_after_q_reviewSpec": "theorem8_q_step1_dropping_after_q_review",
+      "theorem8_q_mem_interval_reviewSpec": "theorem8_q_mem_interval_review",
+      "theorem8_q_strict_mem_interval_reviewSpec": "theorem8_q_strict_mem_interval_review",
+      "theorem8_q_continuous_value_reviewSpec": "theorem8_q_continuous_value_review",
+      "theorem8_continuous_source_local_best_response_support_unique_reviewSpec": "theorem8_continuous_source_local_best_response_support_unique_review",
+      "theorem8_strict_values_ex_post_local_deviationSpec": "theorem8_strict_values_ex_post_local_deviation",
+      "theorem8_continuous_generalized_english_payoff_game_strict_values_main_conclusion_reviewSpec": "theorem8_continuous_generalized_english_payoff_game_strict_values_main_conclusion_review"
+    },
     "include_names": [
-      "definition4_locally_envy_free",
-      "stable_assignment",
-      "first_price_running_example_profitable_revision_chain",
-      "remark1_gsp_payments_weakly_dominate_vcg",
-      "remark2_vcg_truthful",
-      "remark3_gsp_not_truthful",
-      "running_example_truthful_gsp_nash",
-      "running_example_truthful_gsp_revenue_comparison",
-      "lemma5_locally_envy_free_stable",
-      "lemma6_tiebreak_ranked_gsp_stable_assignment_locally_envy_free",
-      "theorem7_ranked_gsp_bstar_mechanism_realizes_bstar_outcome",
-      "theorem7_bstar_payment_identity",
-      "theorem7_bstar_locally_envy_free",
-      "theorem7_no_positive_transfer_conclusion",
-      "theorem7_strict_tiebreak_gsp_comparison_conclusion",
-      "theorem8_dropout_formula_eq_bstar_threshold",
-      "theorem8_q_step2_waiting_before_q_review",
-      "theorem8_q_step1_dropping_after_q_review",
-      "theorem8_q_mem_interval_review",
-      "theorem8_q_strict_mem_interval_review",
-      "theorem8_q_continuous_value_review",
-      "theorem8_continuous_full_history_bayes_ex_post_review",
-      "theorem8_continuous_source_local_best_response_support_unique_review"
+      "definition4_locally_envy_freeSpec",
+      "stable_assignmentSpec",
+      "first_price_running_example_profitable_revision_chainSpec",
+      "remark1_gsp_payments_weakly_dominate_vcgSpec",
+      "remark2_vcg_truthfulSpec",
+      "remark3_gsp_not_truthfulSpec",
+      "running_example_truthful_gsp_nashSpec",
+      "running_example_truthful_gsp_revenue_comparisonSpec",
+      "lemma5_locally_envy_free_stableSpec",
+      "lemma6_tiebreak_ranked_gsp_stable_assignment_locally_envy_freeSpec",
+      "theorem7_ranked_gsp_bstar_mechanism_realizes_bstar_outcomeSpec",
+      "theorem7_bstar_payment_identitySpec",
+      "theorem7_bstar_locally_envy_freeSpec",
+      "theorem7_no_positive_transfer_conclusionSpec",
+      "theorem7_strict_tiebreak_gsp_comparison_conclusionSpec",
+      "theorem8_dropout_formula_eq_bstar_thresholdSpec",
+      "theorem8_q_step2_waiting_before_q_reviewSpec",
+      "theorem8_q_step1_dropping_after_q_reviewSpec",
+      "theorem8_q_mem_interval_reviewSpec",
+      "theorem8_q_strict_mem_interval_reviewSpec",
+      "theorem8_q_continuous_value_reviewSpec",
+      "theorem8_continuous_source_local_best_response_support_unique_reviewSpec",
+      "theorem8_strict_values_ex_post_local_deviationSpec",
+      "theorem8_continuous_generalized_english_payoff_game_strict_values_main_conclusion_reviewSpec"
     ],
     "slices": [
       {
@@ -164,6 +194,8 @@
       "theorem8_source_event_strict_values_unique_pbe_continuous_action_formula",
       "theorem8_source_event_strict_values_unique_pbe_formula_conclusion",
       "theorem8_named_history_strategy_not_globally_clock_legal_review"
-    ]
+    ],
+    "require_v11_raw_source_spec_screening": true,
+    "require_source_spec_correspondence": true
   }
 }

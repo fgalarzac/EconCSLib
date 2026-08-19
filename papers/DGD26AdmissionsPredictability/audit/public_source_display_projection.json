@@ -1,0 +1,895 @@
+{
+  "generator": "python3 scripts/public_source_display_projection.py",
+  "paper_id": "DGD26AdmissionsPredictability",
+  "private_source_map_sha256": "ded9c0c24a1abd3fea80546ed8297eac02aefb1dd637c2d2385321f028c819b9",
+  "public_manifest_path": "papers/DGD26AdmissionsPredictability/audit/public_source_display_projection.json",
+  "public_source_map_sha256": "5c02e8a02b5c3f23f1a4b6d3d6524e16506238fa0c3f10dd87bdc66d34ceef0e",
+  "raw_source_artifact_included": false,
+  "raw_source_display_material": "selected_byte_pinned_source_anchor_quotes",
+  "schema": 1,
+  "selected_source_item_ids": [
+    "definition_borderline_set",
+    "definition_choice_distance",
+    "definition_consistency",
+    "definition_d_instability",
+    "definition_general_variability",
+    "definition_independence",
+    "definition_lap_assignment_choice",
+    "definition_lap_slot_order",
+    "definition_lap_slot_order_equivalence",
+    "definition_main_variability",
+    "definition_ml_representation",
+    "definition_monotonicity",
+    "definition_q_acceptance",
+    "definition_q_representativeness",
+    "definition_sequential_composition",
+    "definition_substitutability",
+    "definition_tight_d_instability",
+    "definition_total_order",
+    "definition_waitlisted_set",
+    "definition_zero_instability",
+    "result_additive_variability_bound",
+    "result_append_remove_max_equality",
+    "result_calculating_instability",
+    "result_choice_distance_triangle",
+    "result_corrected_removable_sets",
+    "result_edopt_dia_variability_six",
+    "result_edopt_variability_three",
+    "result_even_distance_iff_inconsistent",
+    "result_independence_iff_substitutable_monotonic",
+    "result_independence_iff_zero_instability",
+    "result_lap_assigned_outranks_rejected",
+    "result_lap_distinct_order_variability",
+    "result_lap_higher_applicant_chosen",
+    "result_lap_one_instability",
+    "result_ml_independent_only_zero",
+    "result_ml_rank_can_represent_one_one",
+    "result_ml_rank_cannot_instability_gt_one",
+    "result_ml_rank_cannot_variability_gt_one",
+    "result_monotonicity_distance_term",
+    "result_monotonicity_qacceptance_incompatibility",
+    "result_no_consistent_tightly_even",
+    "result_no_qacceptant_zero_instability_corollary",
+    "result_non_substitutable_single_add",
+    "result_program_classes_one_instability",
+    "result_qacceptant_substitutable_consistent",
+    "result_qacceptant_substitutable_iff_one",
+    "result_qrepresentative_converse",
+    "result_qrepresentative_forward",
+    "result_ranking_m_borderline_waitlisted",
+    "result_screened_open_dia_variability_two",
+    "result_screened_open_variability_one",
+    "result_sequential_preserves_substitutability",
+    "result_substitutability_distance_term",
+    "result_theorem1_no_zero",
+    "result_theorem1_substitutability_iff_one",
+    "result_theorem1_tight_all_d",
+    "result_theorem2_one_iff_single_order",
+    "result_theorem2_variability_range",
+    "result_zero_iff_substitutable_monotonic"
+  ],
+  "selected_source_items": {
+    "definition_borderline_set": {
+      "source_anchors": [
+        {
+          "line_end": 830,
+          "line_start": 826,
+          "publication_locator": "cited publication",
+          "quoted_text": "As per \\Cref{def:variability}, when appending a new element to the input set $X$, different applicants may become rejected: let the set of ``borderline admits'' $V_\\choice(X)$ be \n\\begin{equation}\nV_\\choice(X) = \\bigcup\\limits_{x'\\in\\calX} \\choice(X) \\setminus \\choice(X \\cup \\{x'\\})\n\\end{equation}\nwhich we shall call the ``borderline set'' for short. Notice that this is bounded by $q$, as $|\\choice(X)| = q$.",
+          "quoted_text_sha256": "7c8f46ee0d552129a4ed29346bd4ea83cdee9fe47a5ce2e6bf27ae9c37b9cc80"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_choice_distance": {
+      "source_anchors": [
+        {
+          "line_end": 218,
+          "line_start": 213,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Choice Distance]{definition}{distance} \\label{def:distance}\nFor a choice function $\\choice$ and sets $X_1 \\subseteq X_2$, we define the choice distance as:\n\\begin{equation}\nr_\\choice(X_1, X_2) := |X_1 \\cap \\choice(X_2) \\setminus \\choice(X_1)| + |\\choice(X_1) \\setminus \\choice(X_2)|\n\\end{equation}\n\\end{restatable}",
+          "quoted_text_sha256": "87e4d40780b10bf96f3fed5adf5378af0d3ba0956484b71af575b92a336d2830"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_consistency": {
+      "source_anchors": [
+        {
+          "line_end": 495,
+          "line_start": 492,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Consistency]{definition}{consistency} \n\\label{def:consistency}\nChoice function $\\choice$ is \\textit{consistent} if $\\choice(X_2) \\subseteq X_1 \\subseteq X_2$ implies $\\choice(X_2) = \\choice(X_1)$.\n\\end{restatable}",
+          "quoted_text_sha256": "861a04a463247e958150b0ce0b4958baeacf4abcec552c2295a99daa28ff569b"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_d_instability": {
+      "source_anchors": [
+        {
+          "line_end": 225,
+          "line_start": 222,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[$d$-Instability]{definition}{defstability} \n\\label{def:d-instability}\nChoice function $\\choice$ is $d$-unstable if for all $X$, and $X' = X \\cup \\{x'\\}$, we have $r_\\choice(X, X') \\leq d$ for any nonnegative integer $d$. $\\choice$ is called tightly $d$-unstable if it is $d$-unstable but not $(d-1)$-unstable.\n\\end{restatable}",
+          "quoted_text_sha256": "d6c7c14d8553368b76048227ee9b14aefa77adf4d4e39184fa9e8526489d334b"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_general_variability": {
+      "source_anchors": [
+        {
+          "line_end": 842,
+          "line_start": 838,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{definition}[Variability, General]\n\\label{def:variability-general}\nA choice function $\\choice$ has \\textit{variability} $m$ where:\n$$m := \\max\\left\\{\\max_{X\\subset \\calX} \\left|V_\\choice(X)\\right|, \\max_{X\\subset \\calX} \\left|A_\\choice(X)\\right| \\right\\}$$\n\\end{definition}",
+          "quoted_text_sha256": "6865844c9cc0c45e12405cef44316fe8785cc92fa029126e74df495cb5e4ca52"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_independence": {
+      "source_anchors": [
+        {
+          "line_end": 679,
+          "line_start": 671,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{definition}{Independence} \n\\label{def:independence}\n$\\choice$ is independent if for \n for all $x$,\neither $x \\in \\choice(X)$ \nor $x \\not\\in \\choice(X)$ for all $X$ where $x \\in X$. \n\\end{restatable}\n\nIn other words, any element is either always accepted, or always rejected, when available, irrespective of the other elements available in a set $S$.",
+          "quoted_text_sha256": "cd7e59d6183d3b4ee3e0a2745d13f47e535ad206d8176eacc822f8aa18e1ddce"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_lap_assignment_choice": {
+      "source_anchors": [
+        {
+          "line_end": 1089,
+          "line_start": 1084,
+          "publication_locator": "cited publication",
+          "quoted_text": "Let assignment $A$ be the set of pairs $\\{(x_{s_1}, s_1), ..., (x_{s_q}, s_q)\\}$.\n\n\\begin{restatable}{lemma}{LAP Ordering} \n\\label{lem:lap-ordering}\nLet $x_{s}$ denote the element of $\\choice(X)$ assigned to slot $s$. Then for all $x \\in X$, $x \\in \\choice(X)$ if $x \\succ_s x_s$, and $x_s \\succ_s x$ if $x \\not\\in \\choice(X)$.\n\\end{restatable}",
+          "quoted_text_sha256": "022bb0f6d7d027eb8215da396fa78b916946102d6b5eb3c7b9867077a3f164d8"
+        }
+      ],
+      "source_kind": "model"
+    },
+    "definition_lap_slot_order": {
+      "source_anchors": [
+        {
+          "line_end": 1083,
+          "line_start": 1081,
+          "publication_locator": "cited publication",
+          "quoted_text": "Consider all edges connecting to slot $s$; then for each element  $x_j \\in X$ there is a real number weight $w(x_j, s)$. Then sorting $x \\in \\calX$ by $w(x,s)$ creates a total ordering, which we call $\\succ_s$. Let slot $s'$ be \\textit{equivalent} to \nto slot $s$ if and only if $\\succ_{s'} = \\succ_{s}$. \nWe will assume for simplicity that weights are defined such that ties do not occur.",
+          "quoted_text_sha256": "a87a25f60defd5826cc29a243054f7c94b53b8cb9665245c01a2251367b4951a"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_lap_slot_order_equivalence": {
+      "source_anchors": [
+        {
+          "line_end": 1083,
+          "line_start": 1081,
+          "publication_locator": "cited publication",
+          "quoted_text": "Consider all edges connecting to slot $s$; then for each element  $x_j \\in X$ there is a real number weight $w(x_j, s)$. Then sorting $x \\in \\calX$ by $w(x,s)$ creates a total ordering, which we call $\\succ_s$. Let slot $s'$ be \\textit{equivalent} to \nto slot $s$ if and only if $\\succ_{s'} = \\succ_{s}$. \nWe will assume for simplicity that weights are defined such that ties do not occur.",
+          "quoted_text_sha256": "a87a25f60defd5826cc29a243054f7c94b53b8cb9665245c01a2251367b4951a"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_main_variability": {
+      "source_anchors": [
+        {
+          "line_end": 243,
+          "line_start": 235,
+          "publication_locator": "cited publication",
+          "quoted_text": "We formalize\\footnote{For a more general definition of variability (beyond 1-unstable and $q$-acceptant), see \\Cref{sec:variability-appendix}.} this intuition with the following definition.\n\n\\begin{restatable}[Variability]{definition}{defvariability} \n\\label{def:variability}\nA $1$-unstable, $q$-acceptant choice function $\\choice$ has variability $m$ where\n\\begin{equation}\nm \\coloneqq \\max_{X\\subset \\calX} \\left|\\bigcup\\limits_{x'\\in\\calX} \\choice(X) \\setminus \\choice(X \\cup \\{x'\\})\\right|\n\\end{equation}\n\\end{restatable}",
+          "quoted_text_sha256": "95816ed1be86000313a5c7c75f6db6c9895dd64df9277fea08d4f77479e13dfc"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_ml_representation": {
+      "source_anchors": [
+        {
+          "line_end": 251,
+          "line_start": 248,
+          "publication_locator": "cited publication",
+          "quoted_text": "We first relate the concepts of instability and variability to the practice of machine learning.\nWe focus on the representation capabilities of ML models: when is it possible for an ML model to faithfully represent an admissions process?\nFormally, we say that an ML model can represent a choice function $\\mathcal C$ if there exists a function $f$ such that for all applicant sets $X$, $f(x_i) = \\mathcal C(X)_i$.\n{Note that by focusing on representation, our theory is distribution agnostic, and applies to settings where applicant distributions are affected considerations such as strategic behavior and matching algorithms.}",
+          "quoted_text_sha256": "0516cd2228a6bf78999265e7c0b269c52ef2a636d820318baae5f0ecd23bc3bf"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_monotonicity": {
+      "source_anchors": [
+        {
+          "line_end": 487,
+          "line_start": 484,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Monotonicity]{definition}{monotonicity} \n\\label{def:monotonicity}\nChoice function $\\choice$ is \\textit{monotonic} if $X_1 \\subseteq X_2$ implies $\\choice(X_1) \\subseteq \\choice(X_2)$.\n\\end{restatable}",
+          "quoted_text_sha256": "e3e1eb99b1023d4715869420a0dd04315a1ba8b172a22e7c696a01f81df6223f"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_q_acceptance": {
+      "source_anchors": [
+        {
+          "line_end": 189,
+          "line_start": 186,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[$q$-Acceptance]{definition}{qacceptance} \n\\label{def:q-acceptance}\nChoice function $\\choice$ is $q$-acceptant if $|\\choice(X)| = \\min\\{q, |X|\\}$ for all input sets $X$.\n\\end{restatable}",
+          "quoted_text_sha256": "586e02f161fa95b87296e95f561fbd23307bd36889d9b6854e4aecc92daf33b3"
+        },
+        {
+          "line_end": 481,
+          "line_start": 478,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\qacceptance*\n\\textit{Intuition}: Capacity of $q$.\n\n\\substitutability*",
+          "quoted_text_sha256": "df0cc10bed11ffc1662d566ea704a34976400698072e2b9053dd26db9d40afe3"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_q_representativeness": {
+      "source_anchors": [
+        {
+          "line_end": 507,
+          "line_start": 500,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[$q$-representativeness]{definition}{qrepresentativeness} \n\\label{def:q-representative}\n$q$-acceptant choice function $\\choice$ is $q$-representative if there exists a strict total ordering $\\succ$ over all $x \\in \\calX$ and $\\choice(X)$ is the top $q$ elements of $X$ for all $X \\subseteq \\calX$.\n\\end{restatable}\n\n\\textit{Intuition}: Students are selected according to an exact ranking. \n\n\\textbf{Note:} We refer to this property in the main body as being ``characterized by a total order'', or a ``queue'', but this language --- and definition as a property in its own right --- is seen in, e.g., \\citet{echenique2015control}.",
+          "quoted_text_sha256": "d69f7989aa19b57253a7d886fdb265cc9052d002abbfea863e894ad9dc503eb6"
+        },
+        {
+          "line_end": 201,
+          "line_start": 197,
+          "publication_locator": "cited publication",
+          "quoted_text": "Total orders are frequently used in modeling choice mechanisms; they are often called \\textit{preference orderings} or \\textit{priority orders} in economic models. \nIntuitively, total orders induce a ranking over candidates and could result from, e.g., ordering applicants based on their GPA.\nWe will say that a $q$-acceptant choice function $\\mathcal C$ is \\textit{characterized by a total order} if there exists a total order $\\succ$ such that for any input $X$, the accepted applicants are the top-$q$ elements of $X$ ordered by $\\succ$.\nIn other words,  $x_1 \\succ x_2$ for all $x_1 \\in \\choice(X), x_2 \\not\\in\\choice(X)$. \nWe will refer to the process of sorting elements according to a total order $\\succ$ and selecting the top $q$ as a \\textit{queue}. ",
+          "quoted_text_sha256": "580dcef3317efef5c3252e8d1bc6a773d70edf8faf3247e7d4b144bf9812aab9"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_sequential_composition": {
+      "source_anchors": [
+        {
+          "line_end": 311,
+          "line_start": 307,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Sequential Composition]{definition}{seqcomposition} \\label{def:seq-composition}\nA choice function $\\choice$ is a \\textit{sequential composition} of functions $\\choice_n, \\ldots, \\choice_1$ if:\n$$\\choice(X) = \\choice_1(X) \\cup \\choice_{2}(X_{2}) \\cup \\cdots \\cup \\choice_n(X_n)$$\nwhere $X_{i+1}= X_{i} \\setminus \\choice_{i}(X_{i})$ and $X_1 = X$.\n\\end{restatable}",
+          "quoted_text_sha256": "37c7aa789b9f7cfc162e3476b776359def98a30132cd2d7d8468e14d573b1b52"
+        },
+        {
+          "line_end": 958,
+          "line_start": 955,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsubsection{Sequential Composition} \\label{sec:seq-proofs}\nA useful class of choice functions are choice functions that can be broken down or defined as a sequential composition of functions $\\choice_n, \\choice_{n-1}, ..., \\choice_1$; that is, \n$\\choice(X) = \\choice_n(X) \\cup \\choice_{n-1}(X_{n-1}) \\cup ... \\cup \\choice_1(X_1)$ where $X_i = X_{i+1} \\setminus\\choice_{i+1}(X_{i+1})$ and $X_n = X$. Sequential composition is particularly useful because it preserves a variety of useful properties. Sequences of $q_i$-acceptant functions are $q$-acceptant, because no duplicate elements are selected by multiple functions, and therefore preserves $q$-acceptance when each function in the sequence has capacity $q_i$ (i.e., $q = q_n + ... + q_1$.) \n\\seqcomposition*",
+          "quoted_text_sha256": "8d278c9d96645997ebe90f8e7e376cf970e554ed681e9a47c1c58d48f819f75d"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_substitutability": {
+      "source_anchors": [
+        {
+          "line_end": 276,
+          "line_start": 273,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Substitutability]{definition}{substitutability} \n\\label{def:substitutability}\nChoice function $\\choice$ is substitutable if $X_1 \\subseteq X_2$ implies $X_1 \\cap \\choice(X_2) \\subseteq \\choice(X_1)$.\n\\end{restatable}",
+          "quoted_text_sha256": "fc699ff017b69e447cb7dc9acf34e4eb1ced5ffba56bc638bc9070fae47fb4d7"
+        },
+        {
+          "line_end": 482,
+          "line_start": 480,
+          "publication_locator": "cited publication",
+          "quoted_text": "\n\\substitutability*\n\\textit{Intuition}: Students selected from a larger pool remain selected when the pool shrinks.    ",
+          "quoted_text_sha256": "59fa3d020999cd492a67b19ff54c0b0147ad83fb5af58c6bcd92dd346d1e31bf"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_tight_d_instability": {
+      "source_anchors": [
+        {
+          "line_end": 225,
+          "line_start": 222,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[$d$-Instability]{definition}{defstability} \n\\label{def:d-instability}\nChoice function $\\choice$ is $d$-unstable if for all $X$, and $X' = X \\cup \\{x'\\}$, we have $r_\\choice(X, X') \\leq d$ for any nonnegative integer $d$. $\\choice$ is called tightly $d$-unstable if it is $d$-unstable but not $(d-1)$-unstable.\n\\end{restatable}",
+          "quoted_text_sha256": "d6c7c14d8553368b76048227ee9b14aefa77adf4d4e39184fa9e8526489d334b"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_total_order": {
+      "source_anchors": [
+        {
+          "line_end": 195,
+          "line_start": 193,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{definition}[Total order] \\label{def:total_order}\n    A \\emph{total order} is a transitive, asymmetric, and complete binary relation $\\succ$ over elements of $\\calX$; that is, $x_1 \\succ x_2$ implies $x_2 \\not\\succ x_1$, $x_1 \\succ x_2$ and $x_2 \\succ x_3$ implies $x_1 \\succ x_3$, and all $x_1, x_2$ are comparable.\n\\end{definition}",
+          "quoted_text_sha256": "9039787c00a91ea8731bf1ef61945b12841c6fee92fdaa91f15861489f94e9cc"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_waitlisted_set": {
+      "source_anchors": [
+        {
+          "line_end": 836,
+          "line_start": 832,
+          "publication_locator": "cited publication",
+          "quoted_text": "Conversely, when removing an applicant from $X$, let the set of applicants that might be newly accepted be\n\\begin{equation}\nA_\\choice(X) = \\bigcup_{x^*\\in X} \\choice(X \\setminus \\{x^*\\}) \\setminus \\choice(X)\n\\end{equation}\nthe set of ``waitlisted rejections''; likewise, we shall call this the ``waitlisted set''. ",
+          "quoted_text_sha256": "a6443bcfcddc42edf8551bb4bc2627f3a56cf5515ebca5e61d207d6753718c90"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_zero_instability": {
+      "source_anchors": [
+        {
+          "line_end": 657,
+          "line_start": 654,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[$0$-Instability]{definition}{zerostability} \n\\label{def:zero-instability}\nChoice function $\\choice$ is 0-unstable if and only if $r_\\choice(X_1, X_2) = 0$ for all $X_1 \\subseteq X_2$.\n\\end{restatable}",
+          "quoted_text_sha256": "fe8c610f45d7963ac63c16a6441c5b400fb8fb5a4706e78443b90fa8a45aca4a"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "result_additive_variability_bound": {
+      "source_anchors": [
+        {
+          "line_end": 1003,
+          "line_start": 998,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Additive Variability Bound]{theorem}{addvar}\n\\label{thm:additive-variability}\nIf $\\choice$ is a sequential composition of $q$-acceptant, $1$-unstable functions with variabilities $m_1, \\ldots, m_n$, then $\\choice$ has variability at most $\\sum_{i=1}^n m_i$.\n\\end{restatable}\n\nNote that this is only an upper bound; we could trivially construct cases where this is not tight. For example, compose a $\\choice$ of two $q$-representative choice functions with the same underlying ordering. On the other hand, it is also easy to construct instances in which this upper bound is tight. Consider the composition of $m$ queues which each rank a student by a different subject area exam. Then the addition of a new student to the applicant pool could displace any of $m$ students, depending on the subject area.",
+          "quoted_text_sha256": "8cba959d7edde221b066bac7258427fa78907b170e71903a54bf08006534ddf7"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_append_remove_max_equality": {
+      "source_anchors": [
+        {
+          "line_end": 879,
+          "line_start": 850,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{theorem}{appendremove} \n\\label{thm:append-remove-size}\nFor $q$-acceptant, 1-unstable $\\choice$, and $|\\calX| \\geq 2q$, the maximum size of the waitlisted set is equal to the maximum size of the borderline set; that is, \n\\begin{equation}\n\\max_{X\\subset \\calX} \\left| V_\\choice(X)\\right| = \\max_{X\\subset \\calX} \\left| A_\\choice(X)\\right|\n\\end{equation}\n\\end{restatable}\n\nIn short, if there is a set $X$ with a waitlisted set of size $u$, there must be a set $X_0$ with a borderline set of size (at least) $u$, and vice versa. %\n\n\\begin{proof}\nTo prove equality, we will prove that 1) $\\max_{X\\subset \\calX} \\left| V_\\choice(X)\\right| \\geq \\max_{X\\subset \\calX} \\left| A_\\choice(X)\\right|$ and then that 2) $\\max_{X\\subset \\calX} \\left| V_\\choice(X)\\right| \\leq  \\max_{X\\subset \\calX} \\left| A_\\choice(X)\\right|$.\n\n\\textbf{Part 1).}\nTo prove the first statement, assume that there is some $X$ where the waitlisted set is of cardinality at least $u$, so $x^*_1, ..., x^*_u \\in A_\\choice(X)$.\n\nThen (recall that $\\choice$ is consistent) there are $X_1, ..., X_u \\subseteq X$ where $X_i = X \\setminus \\{x'_i\\}$ such that $\\choice(X_i) = x^*_i \\cup \\choice(X) \\setminus x'_i$ for $i \\in \\{1, ..., u\\}$. Then consider $X_0 = \\bigcap_{i=1}^u X_i = X \\setminus \\{x'_1, ..., x'_u\\}$, and $\\choice(X_0)$. It must be that $\\choice(X_0) = \\{x^*_1, ..., x^*_u\\} \\cup \\choice(X) \\setminus \\{x'_1, ..., x'_u\\}$ by substitutability. I claim that $\\{x^*_1, ..., x^*_u\\} \\subseteq V_\\choice(X_0)$, which means $|V_c(X_0)| \\geq u$, which would complete the proof.\n\nAssume for contradiction that this is untrue; $\\{x^*_1, ..., x^*_u\\} \\not\\subseteq V_\\choice(X_0)$. Then some $x^*_i$, say $x^*_u$ (without loss of generality), is not in $V_\\choice(X_0)$, which means that $x^*_u \\in \\choice(\\{x'_u\\} \\cup X_0)$.   \nConsider the makeup of $\\choice(\\{x'_u\\} \\cup X_0)$. Recall that $\\{x'_u\\} \\cup X_0 = \\bigcap_{i=1}^{u-1} X_i = X \\setminus \\{x'_1, ..., x'_{u-1}\\}$. Because of substitutability, as a subset of $X$, we have $\\left(\\choice(X) \\setminus \\{x'_1, ..., x'_{u-1}\\}\\right) \\subseteq \\{x'_u\\} \\cup X_0$. From substitutability, as a subset of from $X_1$ through $X_{u-1}$, $\\{x^*_2, ..., x^*_{u-1}\\}$ are likewise chosen. \nHowever, consider the size of $\\choice(\\{x'_u\\} \\cup X_0)$. $|\\choice(X) \\setminus \\{x'_1, ..., x'_{u-1}\\}|$ is of size $q-(u-1)$, because $x'_i \\in \\choice(X)$ for all $i$. We also know that $|\\{x^*_1, ..., x^*_{u-1}\\}| = u-1$, and as no  $x^*_i$ is in $\\choice(X)$ by definition, all of these elements are distinct. As $x^*_u$ remains by assumption, this adds up to $|\\choice(\\{x'_u\\} \\cup X_0)| = q+1$, which violates $q$-acceptance and completes the proof.\n\n\\textbf{Part 2).}\nThe proof for 2) is extremely similar to the former. Begin with $X_0$ with $V_\\choice(X_0) = \\{x^*_1, ..., x^*_m\\}$, with $x'_1, ..., x'_m$ such that $\\choice(X'_1) = \\{x'_1\\} \\cup \\choice(X_0) \\setminus \\{x^*_1\\}$. Let $X = \\bigcup_{i=1}^m /X'_i = X_0 \\cup \\{x'_1,...,x'_m\\}$ and $X_i = X \\setminus \\{x'_i\\}$. Note that $X_i = X'_1 \\cup ... X'_{i-1} \\cup X'_{i+1} \\cup ... \\cup X_m$. %\nBecause of $1$-instability, $|\\choice(X_0) \\setminus \\choice(X)| \\leq |X_0 \\setminus X| = m$. Because of substitutability, any $x \\in \\choice(X)$ is either in $\\choice(X_0)$ or not in $X_0$ and therefore in $\\{x'_1, ..., x'_m\\}$. \n\nI claim $\\choice(X) = \\{x'_1,...,x'_m\\} \\cup \\choice(X_0) \\setminus \\{x^*_1,..., x^*_m\\}$. Firstly, $x^*_i \\not\\in \\choice(X)$ because  $x^*_i \\not\\in \\choice(X'_i)$ and $X'_i \\subseteq X$, so that would be a substitutability violation. As $\\choice(X_0) \\setminus \\{x^*_1,..., x^*_m\\}$ has $q-m$ elements, the only possible elements to fill $\\choice(X)$ must be the $m$ elements of $\\{x'_1,...,x'_m\\}$. \n\nThe same argument holds for any $X_i$, but use $X_m$ without loss of generality for ease of notation; $X'_j \\subseteq X_m$ for $m \\neq j$, so $x^*_j \\not\\in\\choice(X_m)$ by substitutability. With $\\choice(X_0) \\setminus \\{x^*_1,..., x^*_{m-1}\\}$ being the only $q-m+1$ elements of $X_0$ that can be in $\\choice(X_m)$, the other $m-1$ elements must be $\\{x'_1,. .., x'_{m-1}\\}$. Then consider the definition of $A_\\choice(X)$ and see that $\\choice(X \\setminus x'_i) \\setminus \\choice(X) = \\{x^*_i\\}$ for any $i$, with each $x^*_i$ being unique.\n\\end{proof}",
+          "quoted_text_sha256": "a6ac169041db727639d9ed3cd2cef78742043e50b35b9e08a7999cef8a4c60da"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_calculating_instability": {
+      "source_anchors": [
+        {
+          "line_end": 765,
+          "line_start": 746,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Calculating Instability]{lemma}{stablecalc} \n\\label{lem:unstable-calc}\nFor all $q$-acceptant $\\choice$, let $X' = X \\cup \\{x'\\}$ for $|X| \\geq q$ and $n = |\\choice(X) \\setminus \\choice(X')|$.  Then \n$r_\\choice(X, X') = 2n-\\mathbf{1}_{x'\\in\\choice(X')}$. \n\\end{restatable}\n\n\\begin{proof}\n\\textbf{Informal}\nIf input sets differ by one element, but the selected sets differ by $n$ elements, then it must be that $n$ previously accepted elements were rejected and there must be $n$ new accepted elements, at least $n-1$ must have been previously rejected, because the size of the accepted set is fixed. \n\n\\textbf{Formal}\nBy $q$-acceptance, $|\\choice(X)| = |\\choice(X')| = q$. Then $|\\choice(X) \\setminus \\choice(X')| = |\\choice(X') \\setminus \\choice(X)| = q-|\\choice(X) \\cap \\choice(X')|$. \nSecond, note that $\\choice(X') \\setminus \\choice(X) = (\\choice(X') \\cap X) \\setminus \\choice(X)$ if $x' \\not\\in \\choice(X')$, and otherwise $\\choice(X') \\setminus \\choice(X) = \\{x'\\} \\cup \\left((\\choice(X') \\cap X) \\setminus \\choice(X)\\right)$. \nPutting the previous statements together, we get two cases:\n\\begin{itemize}\n    \\item $x' \\not\\in \\choice(X')$: $|\\choice(X) \\setminus \\choice(X')| = |\\choice(X') \\setminus \\choice(X)| = |X \\cap \\choice(X') \\setminus \\choice(X)|$ \n    \\item $x' \\in \\choice(X')$: $|\\choice(X) \\setminus \\choice(X')| = |\\choice(X') \\setminus \\choice(X)| = |X \\cap \\choice(X') \\setminus \\choice(X)| + 1$ \n\\end{itemize}\nThen $r_\\choice(X, X') = |X \\cap \\choice(X') \\setminus \\choice(X)| + |\\choice(X) \\setminus \\choice(X')| = 2|X \\cap \\choice(X') \\setminus \\choice(X)| + \\mathbf{1}_{x'\\in\\choice(X')} = 2|\\choice(X) \\setminus \\choice(X')| - \\mathbf{1}_{x'\\in\\choice(X')}$\n\\end{proof}",
+          "quoted_text_sha256": "01a80f89df8dbafd1c0f3e71d61071e4fc72514ec9586d85c3a78f5d3f3212a1"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "result_choice_distance_triangle": {
+      "source_anchors": [
+        {
+          "line_end": 580,
+          "line_start": 576,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Triangle Inequality]{theorem}{triangle} \n\\label{thm:triangle-ineq}\nFor any choice function $\\choice$ and sets $X_1 \\subseteq X_2 \\subseteq X_3$, $r_\\choice$ obeys the triangle inequality; \n$$r_\\choice(X_1, X_3) \\leq r_\\choice(X_1, X_2) + r_\\choice(X_2, X_3)$$\n\\end{restatable}",
+          "quoted_text_sha256": "02ffdc4dc8a1d64ca8f999f8780ea14085b6d1d65d9312f56e718e38bf2c80a2"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_corrected_removable_sets": {
+      "source_anchors": [
+        {
+          "line_end": 896,
+          "line_start": 885,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Consistency of Removable Sets]{lemma}{consistentremove}\n\\label{lem:consistent-remove}\nLet $\\choice$ be 1-unstable and q-acceptant with variability $m$. For any $X_1, X_2$, if $\\choice(X_1) = \\choice(X_2)$, then $V_\\choice(X_1) = V_\\choice(X_1)$.\n\\end{restatable}\n\n\\begin{proof}\nRecall from \\Cref{thm:sub-accept-consistent} that $\\choice$ must be consistent and so $\\choice(\\choice(X)) = \\choice(X)$ for any $X$. \n\nConsider any $x'$ associated with an element $x^*$ of $V_\\choice(X)$, such that $\\choice(X) \\setminus \\choice(X') = \\{x^*\\}$ (and even more precisely, by $q$-acceptant substitutability, that $\\choice(X') = \\{x'\\} \\cup \\choice(X) \\setminus \\{x^*\\}$ exactly). Note that $\\choice(X') \\subseteq \\choice(X) \\cup \\{x'\\} \\subseteq X'$, and therefore $\\choice(\\choice(X) \\cup \\{x'\\}) = \\choice(X')$ by consistency. This applies to all possible $x'$ (including when $x' \\in X$), and therefore, $V_\\choice(X) = V_\\choice(\\choice(X))$.\n\nAs this set equality is exact, apply this logic to some $X_2$ and see $V_\\choice(X_1) = V_\\choice(\\choice(X_1)) = V_\\choice(\\choice(X_2)) = V_\\choice(X_2)$.\n\\end{proof}",
+          "quoted_text_sha256": "96694ed58cbcfed3ba9a4d21be87944188f616e6bee4698a481c142becf3626c"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "result_edopt_dia_variability_six": {
+      "source_anchors": [
+        {
+          "line_end": 358,
+          "line_start": 347,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[]{proposition}{empiricalmethods} \n\\label{prop:program-variability}\nAll considered choice functions ({Ed. Opt}, {Screened/Open}, {Ed. Opt with DIA}, and {Screened/Open with DIA}) are $1$-unstable. Furthermore, their variability is (tightly) equal to their number of queues: \n\n\\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]\n    \\item Screened/Open programs are $1$-variable\n    \\item Screened/Open with DIA programs are $2$-variable\n    \\item Ed. Opt. programs are $3$-variable\n    \\item Ed. Opt with DIA programs are $6$-variable\n\\end{itemize}\n\n\\end{restatable}",
+          "quoted_text_sha256": "fa5aad8fd36c5d394fba9757f98e190d8ab7f8aaf6240f5a587fee4d987c47eb"
+        },
+        {
+          "line_end": 1158,
+          "line_start": 1150,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:program-variability}} \\label{sec:program-prop-proof}\n\nRecall \\Cref{prop:program-variability}:\n\\empiricalmethods*\n\nWe construct applicant sets to prove the variability of each empirical method we study, showing that the upper bound from \\Cref{thm:variability} based on the number of queues is tight.\n\nNote that both Screened and Open programs are explicitly a ranking, and therefore have variability $1$ by  \\Cref{thm:variability}. \nScreened and Open programs with DIA are upper-bounded by variability 2, as they are composed of two queues. It is easy to see that this upper bound is tight. Consider an applicant pool $X$ where the lowest-ranking students in the DIA queue is lower-ranked than the lowest-ranked student in the non-DIA queue. Then $A_\\choice(X)$ contains two elements -- adding a new DIA-qualified student might lead to rejecting the lowest-ranked student in the DIA queue, while a non-DIA student would lead to a change in the non-DIA queue. Similarly, in the three-queue Ed. Opt. case, the variability $3$ bound is tight, as there are applicant pools where adding a single high-, middle-, or low-category student would displace a different student in the corresponding queue. Likewise, the six queues in Ed. Opt. with DIA programs lead to six diffrent students who might be displaced depending on what category a new applicant falls into.",
+          "quoted_text_sha256": "6c2d6098e2b3c1400451a8e44ce5db10a6ec758755d2362c47a45ee8769c0c51"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "result_edopt_variability_three": {
+      "source_anchors": [
+        {
+          "line_end": 358,
+          "line_start": 347,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[]{proposition}{empiricalmethods} \n\\label{prop:program-variability}\nAll considered choice functions ({Ed. Opt}, {Screened/Open}, {Ed. Opt with DIA}, and {Screened/Open with DIA}) are $1$-unstable. Furthermore, their variability is (tightly) equal to their number of queues: \n\n\\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]\n    \\item Screened/Open programs are $1$-variable\n    \\item Screened/Open with DIA programs are $2$-variable\n    \\item Ed. Opt. programs are $3$-variable\n    \\item Ed. Opt with DIA programs are $6$-variable\n\\end{itemize}\n\n\\end{restatable}",
+          "quoted_text_sha256": "fa5aad8fd36c5d394fba9757f98e190d8ab7f8aaf6240f5a587fee4d987c47eb"
+        },
+        {
+          "line_end": 1158,
+          "line_start": 1150,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:program-variability}} \\label{sec:program-prop-proof}\n\nRecall \\Cref{prop:program-variability}:\n\\empiricalmethods*\n\nWe construct applicant sets to prove the variability of each empirical method we study, showing that the upper bound from \\Cref{thm:variability} based on the number of queues is tight.\n\nNote that both Screened and Open programs are explicitly a ranking, and therefore have variability $1$ by  \\Cref{thm:variability}. \nScreened and Open programs with DIA are upper-bounded by variability 2, as they are composed of two queues. It is easy to see that this upper bound is tight. Consider an applicant pool $X$ where the lowest-ranking students in the DIA queue is lower-ranked than the lowest-ranked student in the non-DIA queue. Then $A_\\choice(X)$ contains two elements -- adding a new DIA-qualified student might lead to rejecting the lowest-ranked student in the DIA queue, while a non-DIA student would lead to a change in the non-DIA queue. Similarly, in the three-queue Ed. Opt. case, the variability $3$ bound is tight, as there are applicant pools where adding a single high-, middle-, or low-category student would displace a different student in the corresponding queue. Likewise, the six queues in Ed. Opt. with DIA programs lead to six diffrent students who might be displaced depending on what category a new applicant falls into.",
+          "quoted_text_sha256": "6c2d6098e2b3c1400451a8e44ce5db10a6ec758755d2362c47a45ee8769c0c51"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "result_even_distance_iff_inconsistent": {
+      "source_anchors": [
+        {
+          "line_end": 794,
+          "line_start": 777,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Even Instability is Inconsistent]{theorem}{inconsistentstable} \n\\label{thm:even-inconsistency}\nFor any $q$-acceptant $\\choice$, $\\choice$ is inconsistent if and only if there exist $X, X' = X \\cup \\{x'\\}$ where $r_\\choice(X, X')$ is positive and even. \n\\end{restatable}\n\n\\textit{Intuition}: for $\\choice$ to have an even but nonzero choice distance $r_\\choice$, the indicator term in  \\Cref{lem:unstable-calc} must be zero; the added $x'$ is not selected. But that means $x'$ is a rejected element that still has an impact, which violates consistency.\n\\begin{proof}\n\\textbf{Informal}\nFirst, we prove that an even and positive value of $r_\\choice$ implies inconsistency. For $\\choice$ to have an even but nonzero choice distance $r_\\choice$, the indicator term in  \\Cref{lem:unstable-calc} must be zero; the added $x'$ is not selected. But that means $x'$ affects selection without actually being chosen, which violates consistency.\n\nNext, prove that consistency limits the values of $r_\\choice$. If $\\choice$ is not consistent, then there is some $X, X'$ where the new element $x'$ is not chosen (so the indicator term in \\Cref{lem:unstable-calc} is zero and $r_\\choice$ is even), but changes the chosen elements. This makes  $r_\\choice$ is positive under a fixed capacity constraint.\n\n\\textbf{Formal}\nConsider \\Cref{lem:unstable-calc}. See that for $r_\\choice \\neq 0$, $r_\\choice$ is odd if and only if $x' \\in \\choice(X')$ and even if and only if $x' \\not\\in \\choice(X')$. If $x' \\not\\in \\choice(X')$, then $\\choice(X') \\subseteq X$. %\nSo if $x' \\not\\in \\choice(X')$ but $n > 0$, $\\choice(X') \\subseteq X$ but $\\choice(X') \\neq \\choice(X)$, which proves inconsistency.\nSimilarly, if $\\choice$ is inconsistent, there is $\\choice(X') \\subseteq X$ but $\\choice(X') \\neq \\choice(X)$. %\nAs $\\choice(X') \\neq \\choice(X)$, $n > 0$, but for $\\choice(X') \\subseteq X$ to be true, $x' \\neq \\choice(X')$, and so $r_\\choice(X, X')$ is even. \n\\end{proof}",
+          "quoted_text_sha256": "80b42ff19ac087ad7779220ae21bdd2bda5b9bed2974d730ddce8cab7458e0ff"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_independence_iff_substitutable_monotonic": {
+      "source_anchors": [
+        {
+          "line_end": 707,
+          "line_start": 683,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{theorem}{Independent Rules are Substitutable and Monotonic} \n\\label{thm:independent-sub-mon}\n$\\choice$ is independent if and only if it is both substitutable and monotonic.\n\\end{restatable}\n\n\\textit{Intuition}: The only way for adding applicants to neither hurt those already accepted or help those already rejected is to not affect them at all.\n\\begin{proof}\n    Assume $\\choice$ is independent.\n\n    \\textbf{Informal}\n    Consider how independence implies substitutability and monotonicity. Independence means any element is always accepted or always rejected regardless of applicant pool. Then any $x$ that is accepted in $X_1$ is still accepted in any subset of $X_1$, which satisfies the definition of substitutability, and is accepted in any superset of $X_1$, which satisfies monotonicity.\n\n    To prove that substitutability and monotonicity combine to form independence, consider the behavior they cover. Recall the intuition behind substitutability --- removing applicants does not lead to rejecting those accepted, and the intuition behind monotonicity --- adding applicants does not lead to rejecting those accepted. Given both properties, nothing can affect an acceptance decision at all. \n\n    \\textbf{Formal}\n    First, we assume independence and prove $0$-stablility.\n    Recall \\Cref{lem:substitutability-term}: $\\choice$ is substitutable if and only if $|X_1 \\cap \\choice(X_2) \\setminus \\choice(X_1)| = 0$ for all $X_1 \\subseteq X_2$. Then for any $x \\in X_1$, either $x \\in \\choice(X_1),\\choice(X_2)$ or $x \\not\\in \\choice(X_1),\\choice(X_2)$, so $X_1 \\cap \\choice(X_2) = \\choice(X_1)$. Then $|X_1 \\cap \\choice(X_2) \\setminus \\choice(X_1)| = 0$ and so $\\choice$ is substitutable. Similarly, recall \\Cref{lem:monotonicity-term}: $\\choice$ is monotonic if and only if $|\\choice(X_1) \\setminus \\choice(X_2)| = 0$ for all $X_1 \\subseteq X_2$. Any element $x \\in \\choice(X_1)$ is in $X_2$ because $\\choice(X_1) \\subseteq X_1 \\subseteq X_2$. By definition of independence, $x \\in \\choice(X)$ for all $X$ where $x \\in X$, so if $x \\in \\choice(X_1)$, $x \\in \\choice(X_2)$, so $\\choice(X_1) \\subseteq \\choice(X_2)$.\n\n    To prove that substitutability and monotonicity together imply independence, consider any $x \\in X$. If $x \\in \\choice(X)$, we can show that $x \\in \\choice(X')$ for any $X'$ where $x \\in X'$. By monotonicity, $x \\in \\choice(X' \\cup X)$, and so by substitutability, $x \\in \\choice(X')$. If $x \\not\\in \\choice(X)$, we can prove $x \\not\\in \\choice(X')$ for any $X'$. If we assumed for contradiction that $x \\in \\choice(X')$, then the same argument as above proves $x \\in \\choice(X)$, leading to contradiction.\n\\end{proof}\n\n\\begin{restatable}{corollary}{Only Independent Rules are 0-unstable} \n\\label{thm:independent-zero-unstable}\n$\\choice$ is $0$-unstable if and only if it is independent, and therefore no $q$-acceptant $\\choice$ can be $0$-unstable.\n\\end{restatable}",
+          "quoted_text_sha256": "ae099b91fb11022b8d47fefc96a1b2fedebedccb21f3a1f91c12086ae8dd2d20"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_independence_iff_zero_instability": {
+      "source_anchors": [
+        {
+          "line_end": 707,
+          "line_start": 704,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{corollary}{Only Independent Rules are 0-unstable} \n\\label{thm:independent-zero-unstable}\n$\\choice$ is $0$-unstable if and only if it is independent, and therefore no $q$-acceptant $\\choice$ can be $0$-unstable.\n\\end{restatable}",
+          "quoted_text_sha256": "6a88aacd401138e1651b69eaf2284381dd635e4ccd84fdac6e9c00c6d8220515"
+        }
+      ],
+      "source_kind": "corollary"
+    },
+    "result_lap_assigned_outranks_rejected": {
+      "source_anchors": [
+        {
+          "line_end": 1095,
+          "line_start": 1086,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{lemma}{LAP Ordering} \n\\label{lem:lap-ordering}\nLet $x_{s}$ denote the element of $\\choice(X)$ assigned to slot $s$. Then for all $x \\in X$, $x \\in \\choice(X)$ if $x \\succ_s x_s$, and $x_s \\succ_s x$ if $x \\not\\in \\choice(X)$.\n\\end{restatable}\n\n\\textit{Intuition}: Linear assignment problems have a structure that resembles a combination of rankings, even though there is not a fixed sequential order.\n\n\\begin{proof}\nThis comes by the optimality of the assignment solution. For contradiction, say there is $x^* \\succ_s x_s$ where $x^* \\not\\in \\choice(X)$. Then $w(x^*, s) > w(x_s, s)$, and therefore $\\{x^*, s\\} \\cup A \\setminus \\{x_s, s\\}$ leads to a higher sum than $\\choice(X)$, contradicting the fact that $A$ is be optimal.\n\\end{proof}",
+          "quoted_text_sha256": "4b0c8a0cafa73c15f0df02db85decf0a20958cfe394d5b33bbb1974c8708245f"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "result_lap_distinct_order_variability": {
+      "source_anchors": [
+        {
+          "line_end": 1129,
+          "line_start": 1111,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Linear Assignment Variability]{theorem}{LAPvariable} \n\\label{thm:lap-variability}\nThe variability of a linear assignment problem is upper bounded by the number of distinct preference orderings induced by its slots. \n\\end{restatable}\n\n\\textit{Intuition}: \nThe proof follows from the observation that, if slot $s$ ranks some other element $x$ in the chosen set higher than the element $x_s$ currently assigned to $s$, $x$ cannot be in the variable set. Then, if $k$ slots (say, slots $s_1, ..., s_k$, with assigned elements $x_{s_1}, ..., x_{s_k}$) induce the same preference ordering over elements, then only the minimal element in $\\{x_{s_1}, ..., x_{s_k}\\}$ according to that preference ordering can be in $V_\\choice(X)$.\n\n\\begin{proof}\nWe want to show that variability is upper bounded by the number of unique orderings. Recall that the variable set $V_\\choice(X) \\subseteq \\choice(X)$ is at most cardinality $q$.\n\nI claim that for any $X$ and $\\choice(X)$, $x_{s_i}$ is not in $V_\\choice(X)$ if $x_{s_i} \\succ_{s_j} x_{s_j}$ for any $j \\neq i$. \nTo be precise, if $x_{s_i} \\in \\choice(X)$, and $x_{s_i} \\succ_{s_j} x_{s_j}$ for some $j \\neq i$, then $x_{s_i} \\in \\choice(X')$ for any $X' = X \\cup \\{x'\\}$. \n\nThe proof of this claim is by contradiction: assume there exists $\\choice(X), \\choice(X')$ where some $x_{s_i} \\succ_{s_j} x_{s_j}$ but $x_{s_i} \\not\\in \\choice(X')$. Firstly, because of the 1-instability proven in \\Cref{thm:lap-unstable}, $|\\choice(X) \\setminus \\choice(X')| = 1$, which means by assumption, $\\choice(X) \\setminus \\choice(X') = \\{x_{s_i}\\}$, which further implies $x_{s_j} \\in \\choice(X')$. However,  \\Cref{lem:lap-ordering} then applies to $x_{s_j}$, where $x_{s_i} \\succ_{s_j} x_{s_j}$ implies $x_{s_i} \\in \\choice(X')$, leading to contradiction.\n\nSecondly, note that if $s_i, s_j$ induce the same total ordering, then either $x_{s_i} \\succ_{s_j} x_{s_j}$ or $x_{s_j} \\succ_{s_i} x_{s_i}$ (and the same for $\\succ_{s_i}$) for any $\\choice(X)$, as a property of any total ordering. Then one of either $x_{s_j}$ or $x_{s_j}$ are not in $V_\\choice(X)$. It is intuitive to see that this generalizes: if $s_1, ... s_j$ all induce the same ordering $\\succ_{s_j}$, there is exactly one minimal element in $x_{s_1}, ..., x_{s_j}$, because any finite subset of a totally ordered set is well-ordered. \nSay that $x_{s_j}$ is the minimal element, w.l.o.g.; then none of $x_{s_1}, ..., x_{s_{j-1}}$ are in $V_\\choice(X)$. More generally, let there be $m$ unique orderings, which we notate $\\succ_1,..., \\succ_m$. Let $k \\in \\{1,..., m\\}$ and let there be $c_k$ slots that induce $\\succ_k$. Then we have \ndefined sets of size $c_k-1$ elements that cannot be in $V_\\choice(X)$. Then $|V_\\choice(X)| \\leq m$, and therefore the overall variability is at most $m$. ",
+          "quoted_text_sha256": "316f102f1d4d1bcc73bdde64c1e072118be201c16803838c718b7f07f5d893c3"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_lap_higher_applicant_chosen": {
+      "source_anchors": [
+        {
+          "line_end": 1095,
+          "line_start": 1086,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{lemma}{LAP Ordering} \n\\label{lem:lap-ordering}\nLet $x_{s}$ denote the element of $\\choice(X)$ assigned to slot $s$. Then for all $x \\in X$, $x \\in \\choice(X)$ if $x \\succ_s x_s$, and $x_s \\succ_s x$ if $x \\not\\in \\choice(X)$.\n\\end{restatable}\n\n\\textit{Intuition}: Linear assignment problems have a structure that resembles a combination of rankings, even though there is not a fixed sequential order.\n\n\\begin{proof}\nThis comes by the optimality of the assignment solution. For contradiction, say there is $x^* \\succ_s x_s$ where $x^* \\not\\in \\choice(X)$. Then $w(x^*, s) > w(x_s, s)$, and therefore $\\{x^*, s\\} \\cup A \\setminus \\{x_s, s\\}$ leads to a higher sum than $\\choice(X)$, contradicting the fact that $A$ is be optimal.\n\\end{proof}",
+          "quoted_text_sha256": "4b0c8a0cafa73c15f0df02db85decf0a20958cfe394d5b33bbb1974c8708245f"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "result_lap_one_instability": {
+      "source_anchors": [
+        {
+          "line_end": 1109,
+          "line_start": 1097,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Linear Assignment Instability]{theorem}{LAPstable} \n\\label{thm:lap-unstable}\nLinear assignment problems are 1-unstable.\n\\end{restatable}\n\n\\textit{Intuition}: The ranking-like structure of linear assignment slots maintains substitutability, because each slot maintains a  preference ordering over elements that is independent of the cohort.\n\n\\begin{proof}\nRecall that for $q$-acceptant functions, substitutability and 1-instability are equivalent by \\Cref{thm:sub-unstable-equiv}.\n\nThe proof is by contradiction; assume $\\choice$ is not substitutable. As per \\Cref{lem:unsubstitutable}, there exists $\\choice(X), \\choice(X')$ where some $x^* \\in X$ is not in $\\choice(X)$ but $x^* \\in \\choice(X')$.\nBy \\Cref{lem:lap-ordering}, $\\choice(X) = \\{x_{s_1}, ..., x_{s_q}\\}$ tells us we have $x_{s_i} \\succ_{s_i} x^*$ for all $i \\in \\{1, ..., q\\}$. For $x^*$ to be in $\\choice(X')$, $x_{s_i}$ must also be in $\\choice(X')$, meaning that $\\choice(X) \\subseteq \\choice(X')$. However, as $x^* \\in \\choice(X')$, $|\\choice(X')| > |\\choice(X')|$, which violates $q$-acceptance, leading to contradiction.\n\\end{proof}",
+          "quoted_text_sha256": "0f2e3e7e1f6323c4e066fd44052c8355e0306de4ba05d9c0943836064714a08d"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_ml_independent_only_zero": {
+      "source_anchors": [
+        {
+          "line_end": 265,
+          "line_start": 261,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[ML Representation]{proposition}{mlrepresentation} \n\\label{prop:ml-representation}\nA model of the form~\\eqref{eq:ml-independent} which makes independent predictions can only represent 0-unstable choice functions.\nA model of the form~\\eqref{eq:ml-rank} which ranks applicants can represent a 1-variable, 1-unstable choice function. No such model can represent a choice function with variability or instability greater than one.\n\\end{restatable}",
+          "quoted_text_sha256": "0e66945fa50babc19af475aed8ee4f78f49fcc0579b37853f6749a96e6f31487"
+        },
+        {
+          "line_end": 1148,
+          "line_start": 1139,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:ml-representation}} \\label{sec:ml-prop-proof}\n\nRecall \\Cref{prop:ml-representation}:\n\\mlrepresentation*\n\nFirst consider using an ML model to make decisions; then it can be seen as a choice function with various properties.\nThus we say that an ML model can represent a choice function with various properties if it can have those properties when viewed as a choice function. %\n\nThe first statement follows by noting that any rule of the form~\\eqref{eq:ml-independent} must either admit or reject an applicant regardless of the applicant pool, so it must be independent and hence $0$-unstable by \\Cref{thm:independent-zero-unstable}. %\nThe second and third statements follow by noting that scores in~\\eqref{eq:ml-rank} induce a total order by embedding applicants in $\\mathbb R$ and selecting accordingly. Therefore any rule of the form~\\eqref{eq:ml-rank} is $q$-representative (by definition) and hence has instability and variability exactly one (by \\Cref{thm:ranking-variability}), but no greater.",
+          "quoted_text_sha256": "e7fb01fdb41f32323eb4396f019d16b40b9ef2e5c409e475717059fd8f064873"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "result_ml_rank_can_represent_one_one": {
+      "source_anchors": [
+        {
+          "line_end": 269,
+          "line_start": 261,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[ML Representation]{proposition}{mlrepresentation} \n\\label{prop:ml-representation}\nA model of the form~\\eqref{eq:ml-independent} which makes independent predictions can only represent 0-unstable choice functions.\nA model of the form~\\eqref{eq:ml-rank} which ranks applicants can represent a 1-variable, 1-unstable choice function. No such model can represent a choice function with variability or instability greater than one.\n\\end{restatable}\n\nThis result shows that standard ML practice coherently applies to admissions data only in limited settings.\nThe intuition for this result hinges on the fact that all 1-unstable and 1-variable choice functions correspond to total preference orderings over applicants (formalized in Theorem~\\ref{thm:variability}).\nThen the proposition follows from noticing that total preference orderings correspond to  embedding applicants in  $\\mathbb{R}$  (by their scores).",
+          "quoted_text_sha256": "431acaaf8a67733f03e3efaca8aaac9780c268e6529a7389cb19a416c6ff0056"
+        },
+        {
+          "line_end": 1148,
+          "line_start": 1139,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:ml-representation}} \\label{sec:ml-prop-proof}\n\nRecall \\Cref{prop:ml-representation}:\n\\mlrepresentation*\n\nFirst consider using an ML model to make decisions; then it can be seen as a choice function with various properties.\nThus we say that an ML model can represent a choice function with various properties if it can have those properties when viewed as a choice function. %\n\nThe first statement follows by noting that any rule of the form~\\eqref{eq:ml-independent} must either admit or reject an applicant regardless of the applicant pool, so it must be independent and hence $0$-unstable by \\Cref{thm:independent-zero-unstable}. %\nThe second and third statements follow by noting that scores in~\\eqref{eq:ml-rank} induce a total order by embedding applicants in $\\mathbb R$ and selecting accordingly. Therefore any rule of the form~\\eqref{eq:ml-rank} is $q$-representative (by definition) and hence has instability and variability exactly one (by \\Cref{thm:ranking-variability}), but no greater.",
+          "quoted_text_sha256": "e7fb01fdb41f32323eb4396f019d16b40b9ef2e5c409e475717059fd8f064873"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "result_ml_rank_cannot_instability_gt_one": {
+      "source_anchors": [
+        {
+          "line_end": 269,
+          "line_start": 261,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[ML Representation]{proposition}{mlrepresentation} \n\\label{prop:ml-representation}\nA model of the form~\\eqref{eq:ml-independent} which makes independent predictions can only represent 0-unstable choice functions.\nA model of the form~\\eqref{eq:ml-rank} which ranks applicants can represent a 1-variable, 1-unstable choice function. No such model can represent a choice function with variability or instability greater than one.\n\\end{restatable}\n\nThis result shows that standard ML practice coherently applies to admissions data only in limited settings.\nThe intuition for this result hinges on the fact that all 1-unstable and 1-variable choice functions correspond to total preference orderings over applicants (formalized in Theorem~\\ref{thm:variability}).\nThen the proposition follows from noticing that total preference orderings correspond to  embedding applicants in  $\\mathbb{R}$  (by their scores).",
+          "quoted_text_sha256": "431acaaf8a67733f03e3efaca8aaac9780c268e6529a7389cb19a416c6ff0056"
+        },
+        {
+          "line_end": 1148,
+          "line_start": 1139,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:ml-representation}} \\label{sec:ml-prop-proof}\n\nRecall \\Cref{prop:ml-representation}:\n\\mlrepresentation*\n\nFirst consider using an ML model to make decisions; then it can be seen as a choice function with various properties.\nThus we say that an ML model can represent a choice function with various properties if it can have those properties when viewed as a choice function. %\n\nThe first statement follows by noting that any rule of the form~\\eqref{eq:ml-independent} must either admit or reject an applicant regardless of the applicant pool, so it must be independent and hence $0$-unstable by \\Cref{thm:independent-zero-unstable}. %\nThe second and third statements follow by noting that scores in~\\eqref{eq:ml-rank} induce a total order by embedding applicants in $\\mathbb R$ and selecting accordingly. Therefore any rule of the form~\\eqref{eq:ml-rank} is $q$-representative (by definition) and hence has instability and variability exactly one (by \\Cref{thm:ranking-variability}), but no greater.",
+          "quoted_text_sha256": "e7fb01fdb41f32323eb4396f019d16b40b9ef2e5c409e475717059fd8f064873"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "result_ml_rank_cannot_variability_gt_one": {
+      "source_anchors": [
+        {
+          "line_end": 269,
+          "line_start": 261,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[ML Representation]{proposition}{mlrepresentation} \n\\label{prop:ml-representation}\nA model of the form~\\eqref{eq:ml-independent} which makes independent predictions can only represent 0-unstable choice functions.\nA model of the form~\\eqref{eq:ml-rank} which ranks applicants can represent a 1-variable, 1-unstable choice function. No such model can represent a choice function with variability or instability greater than one.\n\\end{restatable}\n\nThis result shows that standard ML practice coherently applies to admissions data only in limited settings.\nThe intuition for this result hinges on the fact that all 1-unstable and 1-variable choice functions correspond to total preference orderings over applicants (formalized in Theorem~\\ref{thm:variability}).\nThen the proposition follows from noticing that total preference orderings correspond to  embedding applicants in  $\\mathbb{R}$  (by their scores).",
+          "quoted_text_sha256": "431acaaf8a67733f03e3efaca8aaac9780c268e6529a7389cb19a416c6ff0056"
+        },
+        {
+          "line_end": 1148,
+          "line_start": 1139,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:ml-representation}} \\label{sec:ml-prop-proof}\n\nRecall \\Cref{prop:ml-representation}:\n\\mlrepresentation*\n\nFirst consider using an ML model to make decisions; then it can be seen as a choice function with various properties.\nThus we say that an ML model can represent a choice function with various properties if it can have those properties when viewed as a choice function. %\n\nThe first statement follows by noting that any rule of the form~\\eqref{eq:ml-independent} must either admit or reject an applicant regardless of the applicant pool, so it must be independent and hence $0$-unstable by \\Cref{thm:independent-zero-unstable}. %\nThe second and third statements follow by noting that scores in~\\eqref{eq:ml-rank} induce a total order by embedding applicants in $\\mathbb R$ and selecting accordingly. Therefore any rule of the form~\\eqref{eq:ml-rank} is $q$-representative (by definition) and hence has instability and variability exactly one (by \\Cref{thm:ranking-variability}), but no greater.",
+          "quoted_text_sha256": "e7fb01fdb41f32323eb4396f019d16b40b9ef2e5c409e475717059fd8f064873"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "result_monotonicity_distance_term": {
+      "source_anchors": [
+        {
+          "line_end": 573,
+          "line_start": 564,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Monotonicity Term]{lemma}{mono-dist} \n\\label{lem:monotonicity-term}\nChoice function $\\choice$ is monotonic if and only if $|\\choice(X_1) \\setminus \\choice(X_2)| = 0$ for all $X_1 \\subseteq X_2$.\n\\end{restatable}\n\n\\textit{Intuition}:\nFor a monotonic choice function, previously accepted candidates are never rejected after the addition of more applicants. Thus labels cannot flip from positive to negative, which is what the second term counts.\n    \n\\begin{proof}\nUse the same set properties as per \\Cref{lem:substitutability-term},  $|\\choice(X_1) \\setminus \\choice(X_2)| = 0$ if and only if $\\choice(X_1) \\subseteq \\choice(X_2)$, which is the definition of monotonicity.",
+          "quoted_text_sha256": "40befc37393b1a5baf69caf988d687da0bdfafb21276aa8455f6861e6d0b7a42"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "result_monotonicity_qacceptance_incompatibility": {
+      "source_anchors": [
+        {
+          "line_end": 529,
+          "line_start": 517,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Incompatibility of Monotonicity and $q$-Acceptance]{lemma}{incompatibility}\n\\label{thm:mono-accept-mutex}\nFor $|\\calX| > q \\geq 1$, no choice function can be both monotonic and $q$-acceptant.\n\\end{restatable}\n\n\\textit{Intuition}: %\nFor a choice function to be monotonic, it must never reject a previously accepted applicant as the applicant pool grows. This implies that the capacity must be unbounded, which contradicts the strict capacity limit imposed by $q$-acceptance.%\n\n\\begin{proof}\nConsider two different sets each of $q$ elements. If $\\choice$ is $q$-acceptant, every element must be chosen in each. Then consider their union. If $\\choice$ is monotonic, every element in their union would also be accepted, but that would contradict the $q$-acceptant capacity constraint. \n\nConsider two disjoint sets $X_1, X_2 \\subseteq \\calX$ with $|X_1| = |X_2| = q$. By $q$-acceptance, $\\choice(X_1) = X_1$ and $\\choice(X_2) = X_2$. By monotonicity, both $\\choice(X_1)$ and $\\choice(X_2)$ must be subsets of $\\choice(X_1 \\cup X_2)$. But then $|\\choice(X_1 \\cup X_2)| \\geq |X_1| + |X_2| = 2q > q$, violating $q$-acceptance.\n\\end{proof}",
+          "quoted_text_sha256": "b758682eb58fc6be162673b8a88591b6897695f6ac576dbc235ffb5f0434836d"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "result_no_consistent_tightly_even": {
+      "source_anchors": [
+        {
+          "line_end": 801,
+          "line_start": 796,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{corollary}{No Consistent Tightly Even Instability} \n\\label{cor:even-inconsistency}\nThere is no $q$-acceptant and consistent $\\choice$ that is tightly $dk$-unstable for even values of $d$.\n\\end{restatable}\n\nThis follows directly from \\Cref{thm:even-inconsistency}.",
+          "quoted_text_sha256": "a645002e5c858fcf72ae0d194befe46cc51fefc824b324fb40443c6aa0285f15"
+        }
+      ],
+      "source_kind": "corollary"
+    },
+    "result_no_qacceptant_zero_instability_corollary": {
+      "source_anchors": [
+        {
+          "line_end": 707,
+          "line_start": 704,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{corollary}{Only Independent Rules are 0-unstable} \n\\label{thm:independent-zero-unstable}\n$\\choice$ is $0$-unstable if and only if it is independent, and therefore no $q$-acceptant $\\choice$ can be $0$-unstable.\n\\end{restatable}",
+          "quoted_text_sha256": "6a88aacd401138e1651b69eaf2284381dd635e4ccd84fdac6e9c00c6d8220515"
+        }
+      ],
+      "source_kind": "corollary"
+    },
+    "result_non_substitutable_single_add": {
+      "source_anchors": [
+        {
+          "line_end": 546,
+          "line_start": 532,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{lemma}{unsubstitutable}\n\\label{lem:unsubstitutable}\nIf $\\choice$ is not substitutable, there exists some $x^*$, $x'$, $X$ and $X' = X \\cup \\{x'\\}$ where $x^* \\in X$ and $x^* \\in \\choice(X')$ but $x^* \\not\\in \\choice(X)$.\n\\end{restatable}\n\n\\textit{Intuition}:\nIf a choice function is not substitutable, then there is at least one situation where a decision ``flips'' from rejection to acceptance.\nWe argue that there has to be some single element $x'$ that causes this ``flip'' when added.\n\n\\begin{proof}\n$\\choice$ is not substitutable if there exists some  $x^*$ and $X_0 \\subseteq X_k$ where $x^* \\in X_0$ and $x^* \\in \\choice(X_k)$ but $x \\not\\in \\choice(X_0)$.\nLet $k$ be such that $k = |X_k \\setminus X_0|$.%\n\nWe want to show the existence of $x'$. To do this, we identify the ``closest'' sets where this occurs. For each $x \\in X_k \\setminus X_0$, add elements to $X_0$, constructing $X_0 \\subseteq X_1 \\subseteq ... \\subseteq X_j \\subseteq ... \\subseteq X_k$, where $X_1 = X_0 \\cup \\{x_1\\}$ and so on. Let $X_j$ be the first in this sequence of sets such that $x^* \\in \\choice(X_j)$ where $x^* \\in \\choice(X_j)$ but $x^* \\not\\in \\choice(X_{j-1})$. Then let $x' = x_j$, $X = X_{j-1}$, and $X' = X_j$. \n\\end{proof}",
+          "quoted_text_sha256": "ae416104322c49223227872748c006600dbdd80741098744607c503b83453d12"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "result_program_classes_one_instability": {
+      "source_anchors": [
+        {
+          "line_end": 358,
+          "line_start": 347,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[]{proposition}{empiricalmethods} \n\\label{prop:program-variability}\nAll considered choice functions ({Ed. Opt}, {Screened/Open}, {Ed. Opt with DIA}, and {Screened/Open with DIA}) are $1$-unstable. Furthermore, their variability is (tightly) equal to their number of queues: \n\n\\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]\n    \\item Screened/Open programs are $1$-variable\n    \\item Screened/Open with DIA programs are $2$-variable\n    \\item Ed. Opt. programs are $3$-variable\n    \\item Ed. Opt with DIA programs are $6$-variable\n\\end{itemize}\n\n\\end{restatable}",
+          "quoted_text_sha256": "fa5aad8fd36c5d394fba9757f98e190d8ab7f8aaf6240f5a587fee4d987c47eb"
+        },
+        {
+          "line_end": 1158,
+          "line_start": 1150,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:program-variability}} \\label{sec:program-prop-proof}\n\nRecall \\Cref{prop:program-variability}:\n\\empiricalmethods*\n\nWe construct applicant sets to prove the variability of each empirical method we study, showing that the upper bound from \\Cref{thm:variability} based on the number of queues is tight.\n\nNote that both Screened and Open programs are explicitly a ranking, and therefore have variability $1$ by  \\Cref{thm:variability}. \nScreened and Open programs with DIA are upper-bounded by variability 2, as they are composed of two queues. It is easy to see that this upper bound is tight. Consider an applicant pool $X$ where the lowest-ranking students in the DIA queue is lower-ranked than the lowest-ranked student in the non-DIA queue. Then $A_\\choice(X)$ contains two elements -- adding a new DIA-qualified student might lead to rejecting the lowest-ranked student in the DIA queue, while a non-DIA student would lead to a change in the non-DIA queue. Similarly, in the three-queue Ed. Opt. case, the variability $3$ bound is tight, as there are applicant pools where adding a single high-, middle-, or low-category student would displace a different student in the corresponding queue. Likewise, the six queues in Ed. Opt. with DIA programs lead to six diffrent students who might be displaced depending on what category a new applicant falls into.",
+          "quoted_text_sha256": "6c2d6098e2b3c1400451a8e44ce5db10a6ec758755d2362c47a45ee8769c0c51"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "result_qacceptant_substitutable_consistent": {
+      "source_anchors": [
+        {
+          "line_end": 745,
+          "line_start": 733,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{theorem}{BoundedDistance} \n\\label{thm:sub-accept-consistent}\nAny $q$-acceptant, substitutable $\\choice$ is consistent.\n\\end{restatable}\n\n\\begin{proof}\nConsider $X_1, X_2$ where $\\choice(X_2) \\subseteq X_1 \\subseteq X_2$ for substitutable, $q-$acceptant $\\choice$. Substitutability guarantees that if $x \\in \\choice(X_2)$ and $x \\in X_1$, $x \\in \\choice(X_1)$. By construction, this applies to all $x \\in \\choice(X_2)$, because $\\choice(X_2) \\subseteq X_1$; therefore, $\\choice(X_2) \\subseteq \\choice(X_1)$. As $|\\choice(X_2)| = |\\choice(X_1)|$, and $\\choice(X_1),\\choice(X_2)$ are finite sets, this means that $\\choice(X_2) = \\choice(X_1)$, which is the definition of consistency.\n\\end{proof}\n\n\\subsection{\\textit{d}-Instability} \\label{sec:d-unstable-appendix}\n\n\\subsubsection{Proof of \\Cref{lem:unstable-calc}} \\label{sec:calc-proof}\n",
+          "quoted_text_sha256": "77c9a85367d8d0362e5bb0c6813e5f1827a77aa569862d3bce072fd5e6e89234"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_qacceptant_substitutable_iff_one": {
+      "source_anchors": [
+        {
+          "line_end": 733,
+          "line_start": 715,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Substitutability and 1-Instability are Equivalent Under Capacity Constraints]{theorem}{subequiv}\n\\label{thm:sub-unstable-equiv}\nAny $q$-acceptant choice function is $1$-unstable if and only if it is substitutable.\n\\end{restatable}\n\n\\begin{proof}\n\\textbf{Informal}\nIntuitively, $q$-acceptance means that every acceptance decision that becomes a rejection must also be paired with a new acceptance to keep the size of the accepted set the same. Substitutability implies that adding elements cannot cause new acceptances from rejections, so the only possible newly accepted element is the newly added one.  \n\nRecall that the first term of $r_\\choice$ is always zero only for substitutable $\\choice$. So, we only need to show $|\\choice(X) \\setminus \\choice(X')| \\leq 1$ if and only if $\\choice$ is substitutable. %\nFirst, we show that $\\choice$ being substitutable is \\textit{sufficient} for $1$-instability. If $\\choice$ is substitutable, then all elements in $\\choice(X')$ except for $x'$ must be in $\\choice(X)$. By $q$-acceptance, $|\\choice(X')| = |\\choice(X)| = q$ (the $|X| < q$ case is trivial), so $\\choice(X)$ can have at most one element not in $\\choice(X')$, making $\\choice$ 1-unstable. \n\nSecond, we show that substitutability is \\textit{necessary} for $1$-instability. If $\\choice$ is not substitutable, there is some $X \\subseteq X'$ and $x^* \\in X$ such that $x^* \\notin \\choice(X)$ but $x^* \\in \\choice(X')$ (by \\Cref{lem:unsubstitutable}). This creates one change. By $q$-acceptance, this forces another candidate out of $\\choice(X')$, creating at least a second change, violating 1-instability.\n\nTogether, these show that under $q$-acceptance, substitutability is necessary and sufficient for $1$-instability, completing the proof.\n\\end{proof}\n\n\n\\begin{restatable}{theorem}{BoundedDistance} ",
+          "quoted_text_sha256": "20880b26e76d6900c8d0c1aa65277a46848c53900d2d64a271585402fdf336c5"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_qrepresentative_converse": {
+      "source_anchors": [
+        {
+          "line_end": 950,
+          "line_start": 910,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[$q$-Representativeness and $1$-Variability are Equivalent]{theorem}{rankingvariability} \n\\label{thm:ranking-variability}\n$\\choice$ is $q$-representative if and only if it is $q$-acceptant and $1$-unstable with variability $1$.\n\\end{restatable}\n\\begin{proof}\nWe prove this in two parts: first, that $q$-representativeness implies $1$-variability, and then the converse.\n\n\\paragraph{Direction 1} %\nNote that $q$-representativeness implies $q$-acceptance by definition. \n\nNext, we prove that $q$-representativeness implies $1$-instability. Assume for contradiction that some $q$-representative $\\choice$ is not substitutable (and therefore not $1$-unstable). Then there exists (by \\Cref{lem:unsubstitutable}) some $x^*$, $x'$, $X$ and $X' = X \\cup \\{x'\\}$ where $x^* \\in X$ and $x^* \\in \\choice(X')$ but $x^* \\not\\in \\choice(X)$. By $q$-acceptance, there must be at least one $x$ in $\\choice(X)$ that is not in $\\choice(X')$ (which must take the place of $x^*$). However, $\\choice(X')$ implies that $x^* \\succ x$, while $\\choice(X)$ implies that $x \\succ x^*$ --- violating asymmetry and leading us to contradiction.\n\nLastly, proving that $q$-representative $\\choice$ leads to $m=1$ is relatively intuitive. For any $X$, $\\choice(X)$ are the $q$ highest-ranked elements of $X$. Denote $X = \\{x_1, x_2, ..., x_k\\}$ where $|X| = k$ and $x_1 \\succ x_2 \\succ ...\\succ x_k$. Then $\\choice(X) = \\{x_1, ..., x_{q^*}\\}$ where $q^* = \\min\\{q, k\\}$. \nAssume for contradiction that there is a $q$-representative $\\choice$ with variability $m > 1$. Then there exists some $X$ where $|V_\\choice(X)| > 1$; say that $\\{x^*_a, x^*_b\\} \\subseteq V_\\choice(X)$. Then there exists some $x'_a$ where $\\choice(X) \\setminus \\choice(X \\cup x'_a) = \\{x^*_a\\}$ and similar $x'_b$ for $x^*_b$. The first implies $x^*_b$ is ranked above $x^*_a$, but the second implies the opposite. Then choices cannot be made according to a static ranking and $\\choice$ is not $q$-representative, completing the proof by contradiction. %\n\n\\paragraph{Direction 2}\nAssume $q$-acceptance, variability 1, and instability 1. Now we prove $\\choice$ is $q$-representative. To be precise, I take this to mean that $\\choice$ is indistinguishable from some $q$-representative $\\choice$; $\\choice$ could be represented by some total ordering over elements of $X$. We show this strict total ordering constructively.\n\nDefine $\\succ$ such that, if $x_a \\in \\choice(X)$ but $x_b \\not\\in\\choice(X)$ for any $x_a, x_b \\in X$, $x_a \\succ x_b$. Note that this implies that the existence of some set $A$ where $x_a \\in \\choice(A)$ and $A_\\choice(A) = \\{x_b\\}$ by consistency (e.g. $A = \\choice(X) \\cup \\{x_b\\}$). This also implies $A'$ where $x_a, x_b \\in \\choice(A')$, $V_\\choice(A') = \\{x_b\\}$, where $A' = A \\setminus \\{x\\}$ for any $x \\neq x_a, x_b$. \n\nThen, we need to prove this relation is asymmetric, transitive, and completeness (or rather, is indistinguishable from a complete relation when examining the induced choice function).\n\n\\paragraph{Asymmetry} \nFirst, we show asymmetry. Assume for contradiction that $a \\succ b$ and $b \\succ a$. Then there exists $X_a$ where $a, b \\in X_a$, $a \\in \\choice(X_a)$ and $b \\not\\in \\choice(X_a)$, and a similar $X_b$ where $a \\not\\in \\choice(X_b)$ and so on.\n\nLet $X_a = \\choice(X_a) \\cup \\{b\\}$ (we can construct such out of any $X_a$, by consistency), where $A_\\choice(X_a) = \\{b\\}$, and denote $\\choice(X_a) = \\{x^a_1, ..., x^a_{q-1}, a\\}$. Construct $X_b$ similarly. Further, let $X'_a = X_a \\setminus \\{x^a_1\\}$, and note that $V_\\choice(X_a') = \\{b\\}$.\n\nThen from here, we add the elements of $X_b$ to $X_a'$, constructing $X_1, X_2,$ and so forth. \n\nLet $X_0 = X_a'$ and sequentially construct a series of $X_t$. Add $x^b_t$ to $X_{t-1}$. If $x_b \\not\\in \\choice(X_{t-1} \\cup \\{x^b_t\\})$, then let $X_t = X_{t-1} \\cup \\{x^b_t\\}$, and $V_\\choice(X_t) = \\{b\\}$ by \\Cref{lem:consistent-remove}. If $x^b_t \\in \\choice(X_{t-1} \\cup \\{x^b_t\\})$, then $b \\not\\in \\choice(X_{t-1} \\cup \\{x^b_t\\})$ and $A_\\choice(X_{t-1} \\cup \\{x^b_t\\}) = \\{b\\}$ (by \\Cref{lem:a-v-equal}). Then let $X_t = \\{x^b_t\\} \\cup X_a' \\setminus x^a_i$ where $x^a_{i-1} \\not\\in X_{t-1}$ but $x^a_i \\in X_{t-1}$, and $V_\\choice(X_t) = \\{b\\}$ (again, by \\Cref{lem:a-v-equal}). Note that $a \\in \\choice(X_t)$, $b \\in X_t$, and specifically $b \\in V_\\choice(X_t)$, for all $t \\in \\{0,..., q-2\\}$.\n\nThen $X_{q-2}$ will contain $x^b_1,...x^b_{q-2}$. Let $X^* = X_{q-2} \\cup \\{x^b_{q-1}\\}$. Note that adding $x^b_{q-1}$ to $X_{q-2}$ makes $X^* \\supseteq X_b$. Then, if $a \\in \\choice(X^*)$, substitutability is violated, as $a \\not\\in \\choice(X_b)$. If $x^b_{q-1} \\not\\in \\choice(X^*)$, then $\\choice(X_{q-2}) = \\choice(X^*)$ by consistency, and $a \\in \\choice(X_{q-2})$. If instead $x^b_{q-1} \\in \\choice(X^*)$, recall that $V_\\choice(X_{q-2}) = \\{b\\}$, so $a \\not\\in V_\\choice(X_{q-2})$, and $a$ remains in $\\choice(X^*)$. Therefore, either possibility leads to contradiction, proving that $\\succ$ is asymmetric.\n\n\\paragraph{Transitivity}\nSay that $a \\succ b$ and $b \\succ c$ and we want to prove $a \\succ c$. If $a \\succ b$, there exists some $X$ where $a, b \\in X$, $a \\in \\choice(X)$, and $b \\not\\in \\choice(X)$. Let $X$ be $\\choice(X) \\cup \\{b\\}$, where $a \\in \\choice(X), b \\not\\in\\choice(X)$ by consistency. Then consider $X \\cup \\{c\\}$. By asymmetry, $c \\not\\succ b$, so $c \\not\\in \\choice(X\\cup \\{c\\})$. By consistency, then, $\\choice(X\\cup \\{c\\}) = \\choice(X)$, so $a \\in \\choice(X\\cup \\{c\\})$ and $a \\succ c$, completing the proof.\n\n\\paragraph{(Almost)-Completeness}\nSee that this relation must exist for all but $q$ elements --- and any arbitrary linear extension thereof generates the same choice function behavior.\n\nFor any $a, b$, let there be some $X_0$ where $a, b \\not\\in \\choice(X_0)$. Then remove elements of $\\choice(X_t)$ in a sequence $X_0, ..., X_t$ until $A_\\choice(X_t) = \\{a\\}$ or $\\{b\\}$. This must happen for some value of $t$ because when $|X_t| = q+1$, at least one of $a$ or $b$ are in $\\choice(X)$, and due to $1$-instability, both $a$ and $b$ cannot be added to $\\choice(X_t)$ at once. The only exception is if there is no such $X_0$ where $a, b \\not\\in \\choice(X_0)$, which can only be true if $a$ is such that $a \\in \\choice(X)$ for all $X$ (and similarly for $b$). (If $a \\not\\in \\choice(X)$ for some $X$, then substitutability implies $a \\not\\in \\choice(X \\cup \\{b\\})$). However, there can only be $q$ such elements (by $q$-acceptance). Note that any linear extension of this partial order will produce the same choice function behavior; that is, any constructed total ordering that otherwise aligns with $\\succ$ will produce the same choice behavior, and thus, $\\choice$ can be represented by any such strict total ordering.\n\\end{proof}",
+          "quoted_text_sha256": "b67cca09e0dc8326ede92ac208baf6982be985fea45cbe39d3657960a0d277ff"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_qrepresentative_forward": {
+      "source_anchors": [
+        {
+          "line_end": 923,
+          "line_start": 910,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[$q$-Representativeness and $1$-Variability are Equivalent]{theorem}{rankingvariability} \n\\label{thm:ranking-variability}\n$\\choice$ is $q$-representative if and only if it is $q$-acceptant and $1$-unstable with variability $1$.\n\\end{restatable}\n\\begin{proof}\nWe prove this in two parts: first, that $q$-representativeness implies $1$-variability, and then the converse.\n\n\\paragraph{Direction 1} %\nNote that $q$-representativeness implies $q$-acceptance by definition. \n\nNext, we prove that $q$-representativeness implies $1$-instability. Assume for contradiction that some $q$-representative $\\choice$ is not substitutable (and therefore not $1$-unstable). Then there exists (by \\Cref{lem:unsubstitutable}) some $x^*$, $x'$, $X$ and $X' = X \\cup \\{x'\\}$ where $x^* \\in X$ and $x^* \\in \\choice(X')$ but $x^* \\not\\in \\choice(X)$. By $q$-acceptance, there must be at least one $x$ in $\\choice(X)$ that is not in $\\choice(X')$ (which must take the place of $x^*$). However, $\\choice(X')$ implies that $x^* \\succ x$, while $\\choice(X)$ implies that $x \\succ x^*$ --- violating asymmetry and leading us to contradiction.\n\nLastly, proving that $q$-representative $\\choice$ leads to $m=1$ is relatively intuitive. For any $X$, $\\choice(X)$ are the $q$ highest-ranked elements of $X$. Denote $X = \\{x_1, x_2, ..., x_k\\}$ where $|X| = k$ and $x_1 \\succ x_2 \\succ ...\\succ x_k$. Then $\\choice(X) = \\{x_1, ..., x_{q^*}\\}$ where $q^* = \\min\\{q, k\\}$. \nAssume for contradiction that there is a $q$-representative $\\choice$ with variability $m > 1$. Then there exists some $X$ where $|V_\\choice(X)| > 1$; say that $\\{x^*_a, x^*_b\\} \\subseteq V_\\choice(X)$. Then there exists some $x'_a$ where $\\choice(X) \\setminus \\choice(X \\cup x'_a) = \\{x^*_a\\}$ and similar $x'_b$ for $x^*_b$. The first implies $x^*_b$ is ranked above $x^*_a$, but the second implies the opposite. Then choices cannot be made according to a static ranking and $\\choice$ is not $q$-representative, completing the proof by contradiction. %",
+          "quoted_text_sha256": "cdcbbcc28179da1cba99b0c46a66af8ce3aa046b3755545d3d9c2fdd2cc8cf07"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_ranking_m_borderline_waitlisted": {
+      "source_anchors": [
+        {
+          "line_end": 905,
+          "line_start": 898,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{lemma}{Ranking m} \n\\label{lem:a-v-equal}\nLet $q$-acceptant, $1$-unstable $\\choice$ have variability $1$. Then $V_\\choice(X) = A_\\choice(X \\cup \\{x'\\})$ when $\\choice(X \\cup \\{x'\\}) \\neq \\choice(X)$.\n\\end{restatable}\n\n\\begin{proof}\nIf $\\choice(X \\cup \\{x'\\}) \\neq \\choice(X)$, then $\\choice(X \\cup \\{x'\\}) = \\{x'\\} \\cup \\choice(X) \\setminus x^*$ where $V_\\choice(X) = \\{x^*\\}$ (by consistency, 1-instability, and the definition of variability). Then $X' \\setminus \\{x'\\}) = X$ and so $A_\\choice(X') = \\{x^*\\}$, completing the proof. \n\\end{proof}",
+          "quoted_text_sha256": "cb41c1d6596c5eb6af2a3d5bbf89453d6c941987b5b0ad447a4f01bc7c1ee1ec"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "result_screened_open_dia_variability_two": {
+      "source_anchors": [
+        {
+          "line_end": 358,
+          "line_start": 347,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[]{proposition}{empiricalmethods} \n\\label{prop:program-variability}\nAll considered choice functions ({Ed. Opt}, {Screened/Open}, {Ed. Opt with DIA}, and {Screened/Open with DIA}) are $1$-unstable. Furthermore, their variability is (tightly) equal to their number of queues: \n\n\\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]\n    \\item Screened/Open programs are $1$-variable\n    \\item Screened/Open with DIA programs are $2$-variable\n    \\item Ed. Opt. programs are $3$-variable\n    \\item Ed. Opt with DIA programs are $6$-variable\n\\end{itemize}\n\n\\end{restatable}",
+          "quoted_text_sha256": "fa5aad8fd36c5d394fba9757f98e190d8ab7f8aaf6240f5a587fee4d987c47eb"
+        },
+        {
+          "line_end": 1158,
+          "line_start": 1150,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:program-variability}} \\label{sec:program-prop-proof}\n\nRecall \\Cref{prop:program-variability}:\n\\empiricalmethods*\n\nWe construct applicant sets to prove the variability of each empirical method we study, showing that the upper bound from \\Cref{thm:variability} based on the number of queues is tight.\n\nNote that both Screened and Open programs are explicitly a ranking, and therefore have variability $1$ by  \\Cref{thm:variability}. \nScreened and Open programs with DIA are upper-bounded by variability 2, as they are composed of two queues. It is easy to see that this upper bound is tight. Consider an applicant pool $X$ where the lowest-ranking students in the DIA queue is lower-ranked than the lowest-ranked student in the non-DIA queue. Then $A_\\choice(X)$ contains two elements -- adding a new DIA-qualified student might lead to rejecting the lowest-ranked student in the DIA queue, while a non-DIA student would lead to a change in the non-DIA queue. Similarly, in the three-queue Ed. Opt. case, the variability $3$ bound is tight, as there are applicant pools where adding a single high-, middle-, or low-category student would displace a different student in the corresponding queue. Likewise, the six queues in Ed. Opt. with DIA programs lead to six diffrent students who might be displaced depending on what category a new applicant falls into.",
+          "quoted_text_sha256": "6c2d6098e2b3c1400451a8e44ce5db10a6ec758755d2362c47a45ee8769c0c51"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "result_screened_open_variability_one": {
+      "source_anchors": [
+        {
+          "line_end": 358,
+          "line_start": 347,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[]{proposition}{empiricalmethods} \n\\label{prop:program-variability}\nAll considered choice functions ({Ed. Opt}, {Screened/Open}, {Ed. Opt with DIA}, and {Screened/Open with DIA}) are $1$-unstable. Furthermore, their variability is (tightly) equal to their number of queues: \n\n\\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]\n    \\item Screened/Open programs are $1$-variable\n    \\item Screened/Open with DIA programs are $2$-variable\n    \\item Ed. Opt. programs are $3$-variable\n    \\item Ed. Opt with DIA programs are $6$-variable\n\\end{itemize}\n\n\\end{restatable}",
+          "quoted_text_sha256": "fa5aad8fd36c5d394fba9757f98e190d8ab7f8aaf6240f5a587fee4d987c47eb"
+        },
+        {
+          "line_end": 1158,
+          "line_start": 1150,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:program-variability}} \\label{sec:program-prop-proof}\n\nRecall \\Cref{prop:program-variability}:\n\\empiricalmethods*\n\nWe construct applicant sets to prove the variability of each empirical method we study, showing that the upper bound from \\Cref{thm:variability} based on the number of queues is tight.\n\nNote that both Screened and Open programs are explicitly a ranking, and therefore have variability $1$ by  \\Cref{thm:variability}. \nScreened and Open programs with DIA are upper-bounded by variability 2, as they are composed of two queues. It is easy to see that this upper bound is tight. Consider an applicant pool $X$ where the lowest-ranking students in the DIA queue is lower-ranked than the lowest-ranked student in the non-DIA queue. Then $A_\\choice(X)$ contains two elements -- adding a new DIA-qualified student might lead to rejecting the lowest-ranked student in the DIA queue, while a non-DIA student would lead to a change in the non-DIA queue. Similarly, in the three-queue Ed. Opt. case, the variability $3$ bound is tight, as there are applicant pools where adding a single high-, middle-, or low-category student would displace a different student in the corresponding queue. Likewise, the six queues in Ed. Opt. with DIA programs lead to six diffrent students who might be displaced depending on what category a new applicant falls into.",
+          "quoted_text_sha256": "6c2d6098e2b3c1400451a8e44ce5db10a6ec758755d2362c47a45ee8769c0c51"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "result_sequential_preserves_substitutability": {
+      "source_anchors": [
+        {
+          "line_end": 996,
+          "line_start": 962,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\paragraph{Sequentially Composed Substitutable Functions Are Substitutable}\nSimilarly, we show sequential compositions of substitutable functions are also substitutable.\n\\begin{restatable}[Composition Preserves Substitutability]{theorem}{seqsub}\n\\label{thm:composition-substitutable}\nSequential composition of substitutable functions yields a substitutable function.\n\\end{restatable}\n\n\\textit{Intuition}:\n``Appending'' a substitutable choice function $\\choice_2$ before another substitutable function $\\choice_1$ affects the inputs to $\\choice_1$ in a structured way.\n\\begin{proof}\n    Proof by induction.\n    In the base case, for $n = 1$, $\\choice(X) = \\choice_1(X)$, and as $\\choice_1$ is given to be substitutable, $\\choice$ is as well.\n\n    For the inductive step, show that $\\choice^{n+1}$ is substitutable when comprised of $\\choice_{n+1}, \\choice_n, ..., \\choice_1$, assuming that $\\choice^n$ comprised of $\\choice_n,...,\\choice_1$ is substitutable. \n\n    The definition of substitutability is that $X \\subseteq X'$ implies $\\choice(X') \\cap X \\subseteq \\choice(X)$. So we need to show $\\choice^{n+1}(X') \\cap X \\subseteq \\choice^{n+1}(X)$. \n    \n    First, note that $\\choice^{n+1}(X) = \\choice_{n+1}(X) \\cup \\choice^n(X \\setminus \\choice_{n+1}(X))$. \n    Let $S = X \\setminus \\choice_{n+1}(X)$ and $S' = X' \\setminus \\choice_{n+1}(X')$. As $S \\subseteq X'$, we only need to show that no elements of $S$ are elements of $\\choice_{n+1}(X')$. As $\\choice_{n+1}$ is substitutable, $\\choice_{n+1}(X') \\cap X = \\choice_{n+1}(X)$. So, any element of $X$ that is in $\\choice_{n+1}(X') $ must be in $\\choice_{n+1}(X)$, and therefore cannot be in $S = X \\setminus \\choice_{n+1}(X)$. Therefore, $S \\subseteq S'$.\n\n    Now, we can apply the induction hypothesis, so we assume $\\choice^n$ is substitutable to get \n\n    \\begin{align*}\n        \\choice^n(S') \\cap S & \\subseteq \\choice^n(S) && \\text{induction hypothesis} \\\\\n        \\choice^n(S') \\cap \\left(X \\setminus \\choice_{n+1}(X)\\right) & \\subseteq \\choice^n(S) &&  \\text{substitute out $S$}\\\\      \\left(\\choice^n(S') \\cap X\\right) \\setminus \\left(\\choice^n(S') \\cap  \\choice_{n+1}(X)\\right) & \\subseteq \\choice^n(S) && \\text{intersection commutes}\\\\  \n        \\choice_{n+1}(X) \\cup \\left[\\left(\\choice^n(S') \\cap X\\right) \\setminus \\left(\\choice^n(S') \\cap  \\choice_{n+1}(X)\\right)\\right] & \\subseteq \\choice_{n+1}(X) \\cup \\choice^n(S) && \\text{add $\\choice_{n+1}(X)$} \\\\ \\intertext{Note that $\\choice_{n+1}(X) \\supseteq\\left(\\choice^n(S') \\cap  \\choice_{n+1}(X)\\right)$, so the set difference can be simplified out:}\n        \\choice_{n+1}(X) \\cup \\left(\\choice^n(S') \\cap X\\right) & \\subseteq \\choice_{n+1}(X) \\cup \\choice^n(S) && \\text{equivalent} \\\\ \\intertext{Note that for any sets $A,B,C$, $(A \\cup B) \\cap C = (A \\cap C)\\cup (B \\cap C) \\subseteq A \\cup (B \\cap C)$, so: \n        }\n        \\left(\\choice_{n+1}(X) \\cup \\choice^n(S') \\right) \\cap X & \\subseteq \\choice_{n+1}(X) \\cup \\choice^n(S) && \\text{} \\\\\n        \\left(\\choice_{n+1}(X) \\cup \\choice^n(X' \\setminus \\choice_{n+1}(X')) \\right) \\cap X & \\subseteq \\choice_{n+1}(X) \\cup \\choice^n(X \\setminus \\choice_{n+1}(X)) &&  \\text{substitute out $S$, $S'$}  \\\\\n        \\choice^{n+1}(X') \\cap X & \\subseteq \\choice^{n+1}(X) &&  \\text{definition of $\\choice^{n+1}$}    \n    \\end{align*}\n\n    Which is the definition of substitutability, completing the proof.\n\\end{proof}",
+          "quoted_text_sha256": "e06ce87abdddcfdbf77199624410e4731506fffe61e05a684ff129c55599ece5"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_substitutability_distance_term": {
+      "source_anchors": [
+        {
+          "line_end": 562,
+          "line_start": 552,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}[Substitutability Term]{lemma}{sub-dist} \n\\label{lem:substitutability-term}\nChoice function $\\choice$ is substitutable if and only if $|X_1 \\cap \\choice(X_2) \\setminus \\choice(X_1)| = 0$ for all $X_1 \\subseteq X_2$. \n\\end{restatable}\n\n\\textit{Intuition}:\nFor a substitutable choice function, previously rejected candidates are never accepted after the addition of more applicants. Thus labels cannot flip from negative to positive, which is what the first term counts.\n\n\\begin{proof}\nFor any sets $A, B$, $|A \\setminus B| = 0$ if and only if $A \\setminus B = \\emptyset$, and furthermore $A \\setminus B = \\emptyset$ if and only if $A \\subseteq B$. So $|X_1 \\cap \\choice(X_2) \\setminus \\choice(X_1)| = 0$ if and only if $X_1 \\cap \\choice(X_2) \\subseteq \\choice(X_1)$, which is the definition of substitutability.\n\\end{proof}",
+          "quoted_text_sha256": "75b18aa897411dd0aa9a2363f90bd176501858e4fb5505260f69865fbefbb6fd"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "result_theorem1_no_zero": {
+      "source_anchors": [
+        {
+          "line_end": 289,
+          "line_start": 280,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{theorem}{thminstability}\n\\label{thm:instability}\nA $q$-acceptant choice function \n\\begin{enumerate}\n    \\item cannot be $0$-unstable,\n    \\item  is exactly $1$-unstable if and only if it is substitutable,\n    \\item can be tightly $d$-unstable for every $1\\leq d \\leq 2q$.\n\\end{enumerate}\n\n\\end{restatable}%",
+          "quoted_text_sha256": "aefd67fe726b343b06eafe63ce6bb1984d82712b2d8feb73dc080b01f126d0d6"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_theorem1_substitutability_iff_one": {
+      "source_anchors": [
+        {
+          "line_end": 289,
+          "line_start": 280,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{theorem}{thminstability}\n\\label{thm:instability}\nA $q$-acceptant choice function \n\\begin{enumerate}\n    \\item cannot be $0$-unstable,\n    \\item  is exactly $1$-unstable if and only if it is substitutable,\n    \\item can be tightly $d$-unstable for every $1\\leq d \\leq 2q$.\n\\end{enumerate}\n\n\\end{restatable}%",
+          "quoted_text_sha256": "aefd67fe726b343b06eafe63ce6bb1984d82712b2d8feb73dc080b01f126d0d6"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_theorem1_tight_all_d": {
+      "source_anchors": [
+        {
+          "line_end": 289,
+          "line_start": 280,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{theorem}{thminstability}\n\\label{thm:instability}\nA $q$-acceptant choice function \n\\begin{enumerate}\n    \\item cannot be $0$-unstable,\n    \\item  is exactly $1$-unstable if and only if it is substitutable,\n    \\item can be tightly $d$-unstable for every $1\\leq d \\leq 2q$.\n\\end{enumerate}\n\n\\end{restatable}%",
+          "quoted_text_sha256": "aefd67fe726b343b06eafe63ce6bb1984d82712b2d8feb73dc080b01f126d0d6"
+        },
+        {
+          "line_end": 817,
+          "line_start": 806,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Proof of \\Cref{thm:instability}} \\label{sec:instability-proof}\n\nRecall \\Cref{thm:instability}:\n\\thminstability*\n\nPutting things together, the first statement of \\Cref{thm:instability} comes from \\Cref{thm:independent-zero-unstable} and the second from \\Cref{thm:sub-unstable-equiv}. The third \nhas roots in \\Cref{lem:unstable-calc}, which allows us to calculate instability.\n\nRigorously, we can generate a $d$-unstable $\\choice$ for any $1 < d \\leq 2q$. Take any $1$-unstable, $q$-acceptant $\\choice$ induced by a total order $\\succ$ (i.e, is a ranking). Let $n$ be $\\frac{d}{2}$, rounded down. Then let $X^* = \\{x^*_1, ..., x^*_n\\}$ be the $n$ \\textit{minimal} elements of $\\succ$ (or any $n$ elements that are not among the $n$ maximal elements, if there exist any.) Then modify $\\choice$ such that if $X^* \\subseteq X$ for any input $X$, $X^* \\subseteq \\choice(X)$. Then $\\choice$ is tightly $2n-1$-unstable. To make $\\choice$ $2n$-unstable, let there be some $x'$ such that if $X^* \\subseteq X$ but $x' \\in X$ as well, then \\textit{no} element of $X^*$ is in $\\choice(X)$. %\n\nThe intuition for the construction is that $X^*$ forms a highly desirable team, even though each element is not individually desirable, nor are partial subsets of $X^*$.\nIn the inconsistent case (even instability) $x'$ represents a candidate whose mere presence negates the value of $X^*$ as a team, even when not accepted. ",
+          "quoted_text_sha256": "d8f87ffab72fd8faf2c8ae7f3da224de66e6725926d43f26096bbc8052d625b5"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_theorem2_one_iff_single_order": {
+      "source_anchors": [
+        {
+          "line_end": 323,
+          "line_start": 315,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{theorem}{thmvariability} \n\\label{thm:variability}\nConsider a $q$-acceptant, 1-unstable choice function $\\mathcal C$ which\ncan be represented as the sequential composition of $n$ choice functions, each characterized by a total order.\nThen $\\mathcal C$ has a variability  $m$, where $1 \\leq m \\leq n$. Furthermore, $\\mathcal C$ has variability $1$ if and only if it can be characterized by a single total order, $n=1$.\n\\end{restatable}\nIn the appendix, we discuss when this upper bound is tight. We also extend this result to choice functions which are not explicitly defined as a fixed sequential composition, such as linear assignment problems.\n\\Cref{thm:lap-variability} addresses the context-dependent sequential queues which result from such optimization based admissions. \nImportantly, Theorem~\\ref{thm:variability} means that a choice function can be faithfully represented by a machine learning model if and \\emph{only if} it is characterized by a total ordering over $\\calX$.",
+          "quoted_text_sha256": "53deb96019d16bd5b39bae14723378a3c71d5fa33f0e22cc2f68082a0caa9804"
+        },
+        {
+          "line_end": 1137,
+          "line_start": 1132,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Proof of \\Cref{thm:variability}} \\label{sec:variability-proof}\n\nRecall \\Cref{thm:variability}:\n\\thmvariability*\n\nWe see that the second claim comes exactly from \\Cref{thm:ranking-variability}, and that combining it with \\Cref{thm:additive-variability} directly gives us the first claim.",
+          "quoted_text_sha256": "d0ad4122d550f6b19088cc6f2530ab234133e96607186c54904652f5b273a98e"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_theorem2_variability_range": {
+      "source_anchors": [
+        {
+          "line_end": 322,
+          "line_start": 315,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{theorem}{thmvariability} \n\\label{thm:variability}\nConsider a $q$-acceptant, 1-unstable choice function $\\mathcal C$ which\ncan be represented as the sequential composition of $n$ choice functions, each characterized by a total order.\nThen $\\mathcal C$ has a variability  $m$, where $1 \\leq m \\leq n$. Furthermore, $\\mathcal C$ has variability $1$ if and only if it can be characterized by a single total order, $n=1$.\n\\end{restatable}\nIn the appendix, we discuss when this upper bound is tight. We also extend this result to choice functions which are not explicitly defined as a fixed sequential composition, such as linear assignment problems.\n\\Cref{thm:lap-variability} addresses the context-dependent sequential queues which result from such optimization based admissions. ",
+          "quoted_text_sha256": "f19d5e25e6de937fc6c75c4c62872dedee27db0ca2b1939703ebddb4736c7102"
+        },
+        {
+          "line_end": 1137,
+          "line_start": 1132,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Proof of \\Cref{thm:variability}} \\label{sec:variability-proof}\n\nRecall \\Cref{thm:variability}:\n\\thmvariability*\n\nWe see that the second claim comes exactly from \\Cref{thm:ranking-variability}, and that combining it with \\Cref{thm:additive-variability} directly gives us the first claim.",
+          "quoted_text_sha256": "d0ad4122d550f6b19088cc6f2530ab234133e96607186c54904652f5b273a98e"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "result_zero_iff_substitutable_monotonic": {
+      "source_anchors": [
+        {
+          "line_end": 667,
+          "line_start": 661,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{corollary}{Zero-Distance} \n\\label{thm:sub-mon-zero}\nChoice function $\\choice$ is 0-unstable if and only if it is both substitutable and monotonic.\n\\end{restatable}\n\n\nThis immediately follows from the two terms comprising $r_\\choice$ mapping onto substitutability and monotonicity.",
+          "quoted_text_sha256": "ded7f10bdad466c20ff07e0f3950815003312f78c035ebbb74dc52b35ed40ac6"
+        }
+      ],
+      "source_kind": "corollary"
+    }
+  },
+  "source_artifact_sha256": "e550e1a07d28f2b59bd55f1733964d0a5b7db85bdff60e3b20b788e3a842130d",
+  "source_coverage_mode": "named_theoretical_statements"
+}

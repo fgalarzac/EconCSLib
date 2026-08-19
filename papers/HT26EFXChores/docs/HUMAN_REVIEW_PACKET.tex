@@ -63,8 +63,8 @@ lake exe cache get
 python3 scripts/review_dashboard.py --paper HT26EFXChores --serve
 \end{ReviewVerbatim}
 Open \url{http://127.0.0.1:8765/} in a browser and keep that terminal running
-while reviewing. The dashboard records saved annotations in this paper's local
-review trace.
+while reviewing. The dashboard records saved annotations in this paper's
+reviewer-owned review record.
 
 \section*{Contents}
 \begin{itemize}[leftmargin=1.2em]
@@ -132,7 +132,7 @@ review trace.
 \section*{Material library prerequisites}
 \hypertarget{library-prerequisite-5a2d10cb5db86b3a}{}
 \subsection*{\small\ttfamily\raggedright AdditiveChoreInstance}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}244-\allowbreak{}248\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 244-\allowbreak{}248\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \section{Preliminaries}
@@ -170,7 +170,7 @@ structure AdditiveChoreInstance (Agent Item : Type*) where
 \clearpage
 \hypertarget{library-prerequisite-3240074e96589b21}{}
 \subsection*{\small\ttfamily\raggedright Bundle Item}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}244-\allowbreak{}248\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 244-\allowbreak{}248\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \section{Preliminaries}
@@ -201,7 +201,7 @@ abbrev Bundle (Item : Type*) := Finset Item
 \clearpage
 \hypertarget{library-prerequisite-9933ac127bcc0808}{}
 \subsection*{\small\ttfamily\raggedright Allocation Agent Item}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}244-\allowbreak{}248\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 244-\allowbreak{}248\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \section{Preliminaries}
@@ -232,7 +232,7 @@ abbrev Allocation (Agent Item : Type*) := Agent → Bundle Item
 \clearpage
 \hypertarget{library-prerequisite-0f08bb302d29f5c6}{}
 \subsection*{\small\ttfamily\raggedright EFXForChores}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}260-\allowbreak{}275\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 260-\allowbreak{}275\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{definition}[EFX for chores]
@@ -280,7 +280,7 @@ def EFXForChores [DecidableEq Item] (cost : Agent → Bundle Item → ℝ)
 \clearpage
 \hypertarget{library-prerequisite-4249211ce100f713}{}
 \subsection*{\small\ttfamily\raggedright ChoreCost Agent Item}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}244-\allowbreak{}248\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 244-\allowbreak{}248\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \section{Preliminaries}
@@ -311,7 +311,7 @@ abbrev ChoreCost (Agent Item : Type*) := Agent → Item → ℝ
 \clearpage
 \hypertarget{library-prerequisite-7bff1a0ffca2fbc8}{}
 \subsection*{\small\ttfamily\raggedright additiveChoreCost}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}244-\allowbreak{}248\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 244-\allowbreak{}248\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \section{Preliminaries}
@@ -347,7 +347,7 @@ noncomputable def additiveChoreCost (cost : ChoreCost Agent Item)
 \clearpage
 \hypertarget{library-prerequisite-de6ce80db7947acf}{}
 \subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FairDivision.\allowbreak{}AdditiveChoreInstance.\allowbreak{}IsEFX}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}260-\allowbreak{}275\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 260-\allowbreak{}275\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{definition}[EFX for chores]
@@ -394,7 +394,7 @@ def IsEFX {Agent Item : Type*} [DecidableEq Item]
 \clearpage
 \hypertarget{library-prerequisite-272962efb2ddede6}{}
 \subsection*{\small\ttfamily\raggedright IsAllocationOf allocation chores}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}244-\allowbreak{}248\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 244-\allowbreak{}248\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \section{Preliminaries}
@@ -428,7 +428,7 @@ def IsAllocationOf [DecidableEq Item] (A : Allocation Agent Item) (goods : Finse
 \clearpage
 \hypertarget{library-prerequisite-c86819508edcb6d0}{}
 \subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FairDivision.\allowbreak{}AdditiveChoreInstance.\allowbreak{}IsFeasible}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}260-\allowbreak{}275\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 260-\allowbreak{}275\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{definition}[EFX for chores]
@@ -475,7 +475,7 @@ def IsFeasible {Agent Item : Type*} [DecidableEq Item]
 \clearpage
 \hypertarget{library-prerequisite-53807d5ecfc91999}{}
 \subsection*{\small\ttfamily\raggedright ParetoDominatesForChores}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}280-\allowbreak{}287\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 280-\allowbreak{}287\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{definition}[Pareto-Optimality]
@@ -515,7 +515,7 @@ def ParetoDominatesForChores (cost : Agent → Bundle Item → ℝ)
 \clearpage
 \hypertarget{library-prerequisite-e50910ae4c5f1487}{}
 \subsection*{\small\ttfamily\raggedright ParetoOptimalForChores}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}280-\allowbreak{}287\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 280-\allowbreak{}287\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{definition}[Pareto-Optimality]
@@ -558,7 +558,7 @@ def ParetoOptimalForChores [DecidableEq Item] (cost : Agent → Bundle Item → 
 \clearpage
 \hypertarget{library-prerequisite-9a8054c4d16718aa}{}
 \subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FairDivision.\allowbreak{}AdditiveChoreInstance.\allowbreak{}IsParetoOptimal}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}280-\allowbreak{}287\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 280-\allowbreak{}287\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{definition}[Pareto-Optimality]
@@ -598,7 +598,7 @@ def IsParetoOptimal {Agent Item : Type*} [DecidableEq Item]
 \clearpage
 \hypertarget{library-prerequisite-0988b156f88eab26}{}
 \subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FairDivision.\allowbreak{}DoesNotStronglyEnvyForChores}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}260-\allowbreak{}275\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 260-\allowbreak{}275\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{definition}[EFX for chores]
@@ -645,7 +645,7 @@ def DoesNotStronglyEnvyForChores [DecidableEq Item]
 \clearpage
 \hypertarget{library-prerequisite-a6835599374e9c61}{}
 \subsection*{\small\ttfamily\raggedright EnvyFreeForChores}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}253-\allowbreak{}255\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 253-\allowbreak{}255\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{definition}[EF for chores]
@@ -679,7 +679,7 @@ def EnvyFreeForChores (cost : Agent → Bundle Item → ℝ)
 \clearpage
 \hypertarget{library-prerequisite-bff109e0f31c867f}{}
 \subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FairDivision.\allowbreak{}IsBiValuedChoreCost}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}532-\allowbreak{}534\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 532-\allowbreak{}534\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{theorem}\label{thm:four}
@@ -717,7 +717,7 @@ def IsBiValuedChoreCost (cost : ChoreCost Agent Item) : Prop :=
 \clearpage
 \hypertarget{library-prerequisite-d5b3a13495d92097}{}
 \subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FairDivision.\allowbreak{}IsSmallChore}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}532-\allowbreak{}534\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 532-\allowbreak{}534\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{theorem}\label{thm:four}
@@ -755,7 +755,7 @@ def IsSmallChore (cost : ChoreCost Agent Item)
 \clearpage
 \hypertarget{library-prerequisite-cc7147176e4228f0}{}
 \subsection*{\small\ttfamily\raggedright ownSmallChoreSet}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}752\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 752\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 An allocation $P=(P_1,P_2,P_3,P_4)$ of $M_{01}$ is \emph{canonical} if, for each agent $i$, $|P_i|\in\{a,a+1\}$ and $P_i$ contains $\min\{|P_i|, n_i\}$ items that are small for agent $i$.
@@ -788,7 +788,7 @@ with $S(g)=\emptyset$ are all-large items.
 Let $|M_{01}|=4a+b$ with $b\in\{0,1,2,3\}$.
 As mentioned before, we will make sure each agent receives either $a$ items or $a+1$ items.
 
-Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$. 
+Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$.
 We consider allocations of $M_{01}$ with quotas $q=(q_1,q_2,q_3,q_4)$ in which each agent $i$ first receives as many of her uniquely-small items as possible, up to quota $q_i$, and the remaining slots are filled with the remaining items.
 We will show that all such allocations satisfy EFX.
 It is also important that we have the freedom to choose which agents receive $a$ items and which agents receive $a+1$ items.
@@ -823,7 +823,7 @@ noncomputable def ownSmallChoreSet (cost : ChoreCost Agent Item)
 \clearpage
 \hypertarget{library-prerequisite-b5fb7421a7b0fa8f}{}
 \subsection*{\small\ttfamily\raggedright IsCanonicalSmallChoreAllocation}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}752\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 752\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 An allocation $P=(P_1,P_2,P_3,P_4)$ of $M_{01}$ is \emph{canonical} if, for each agent $i$, $|P_i|\in\{a,a+1\}$ and $P_i$ contains $\min\{|P_i|, n_i\}$ items that are small for agent $i$.
@@ -856,7 +856,7 @@ with $S(g)=\emptyset$ are all-large items.
 Let $|M_{01}|=4a+b$ with $b\in\{0,1,2,3\}$.
 As mentioned before, we will make sure each agent receives either $a$ items or $a+1$ items.
 
-Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$. 
+Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$.
 We consider allocations of $M_{01}$ with quotas $q=(q_1,q_2,q_3,q_4)$ in which each agent $i$ first receives as many of her uniquely-small items as possible, up to quota $q_i$, and the remaining slots are filled with the remaining items.
 We will show that all such allocations satisfy EFX.
 It is also important that we have the freedom to choose which agents receive $a$ items and which agents receive $a+1$ items.
@@ -898,7 +898,7 @@ noncomputable def IsCanonicalSmallChoreAllocation [DecidableEq Item]
 \clearpage
 \hypertarget{library-prerequisite-7104bc1ed9b2997f}{}
 \subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FairDivision.\allowbreak{}IsLargeChore}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}532-\allowbreak{}534\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 532-\allowbreak{}534\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{theorem}\label{thm:four}
@@ -936,7 +936,7 @@ def IsLargeChore (cost : ChoreCost Agent Item) (r : ℝ)
 \clearpage
 \hypertarget{library-prerequisite-4ec5c5b788db5478}{}
 \subsection*{\small\ttfamily\raggedright IsOneOrRChoreCost}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}532-\allowbreak{}534\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 532-\allowbreak{}534\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{theorem}\label{thm:four}
@@ -973,7 +973,7 @@ def IsOneOrRChoreCost (cost : ChoreCost Agent Item) (r : ℝ) : Prop :=
 \clearpage
 \hypertarget{library-prerequisite-126791b7110fcec9}{}
 \subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FairDivision.\allowbreak{}smallAgentSet}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}577-\allowbreak{}581\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 577-\allowbreak{}581\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{lemma}[Insertion of an $M_{34}$ item]\label{lem:insertion}
@@ -1035,7 +1035,7 @@ noncomputable def smallAgentSet [Fintype Agent] [DecidableEq Agent]
 \clearpage
 \hypertarget{library-prerequisite-dd10cc5d5fbc610c}{}
 \subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FairDivision.\allowbreak{}IsSmallForAtLeastThree}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}577-\allowbreak{}581\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 577-\allowbreak{}581\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{lemma}[Insertion of an $M_{34}$ item]\label{lem:insertion}
@@ -1093,7 +1093,7 @@ def IsSmallForAtLeastThree [Fintype Agent] [DecidableEq Agent]
 \clearpage
 \hypertarget{library-prerequisite-7d30866fb5725e8b}{}
 \subsection*{\small\ttfamily\raggedright IsSmallForAtMostOne}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}752\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 752\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 An allocation $P=(P_1,P_2,P_3,P_4)$ of $M_{01}$ is \emph{canonical} if, for each agent $i$, $|P_i|\in\{a,a+1\}$ and $P_i$ contains $\min\{|P_i|, n_i\}$ items that are small for agent $i$.
@@ -1126,7 +1126,7 @@ with $S(g)=\emptyset$ are all-large items.
 Let $|M_{01}|=4a+b$ with $b\in\{0,1,2,3\}$.
 As mentioned before, we will make sure each agent receives either $a$ items or $a+1$ items.
 
-Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$. 
+Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$.
 We consider allocations of $M_{01}$ with quotas $q=(q_1,q_2,q_3,q_4)$ in which each agent $i$ first receives as many of her uniquely-small items as possible, up to quota $q_i$, and the remaining slots are filled with the remaining items.
 We will show that all such allocations satisfy EFX.
 It is also important that we have the freedom to choose which agents receive $a$ items and which agents receive $a+1$ items.
@@ -1159,7 +1159,7 @@ def IsSmallForAtMostOne [Fintype Agent] [DecidableEq Agent]
 \clearpage
 \hypertarget{library-prerequisite-ae44c6bc90159d5e}{}
 \subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FairDivision.\allowbreak{}IsSmallForExactlyTwo}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}1045-\allowbreak{}1047\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1045-\allowbreak{}1047\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{lemma}[EFX Allocation of $M_2$]\label{lem:M2}
@@ -1231,7 +1231,7 @@ def IsSmallForExactlyTwo [Fintype Agent] [DecidableEq Agent]
 \clearpage
 \hypertarget{library-prerequisite-9936f1893dc14aa4}{}
 \subsection*{\small\ttfamily\raggedright IsSuperCanonicalSmallChoreAllocation}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}755\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 755\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 For $b>0$, an allocation $P=(P_1,P_2,P_3,P_4)$ is \emph{super-canonical} if it is canonical and satisfies $c_i(P_i)\leq c_i(P_j)-r$ for every short agent $i$ and every long agent $j$.
@@ -1264,7 +1264,7 @@ with $S(g)=\emptyset$ are all-large items.
 Let $|M_{01}|=4a+b$ with $b\in\{0,1,2,3\}$.
 As mentioned before, we will make sure each agent receives either $a$ items or $a+1$ items.
 
-Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$. 
+Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$.
 We consider allocations of $M_{01}$ with quotas $q=(q_1,q_2,q_3,q_4)$ in which each agent $i$ first receives as many of her uniquely-small items as possible, up to quota $q_i$, and the remaining slots are filled with the remaining items.
 We will show that all such allocations satisfy EFX.
 It is also important that we have the freedom to choose which agents receive $a$ items and which agents receive $a+1$ items.
@@ -1315,7 +1315,7 @@ noncomputable def IsSuperCanonicalSmallChoreAllocation [DecidableEq Item]
 \clearpage
 \hypertarget{library-prerequisite-62a40b20b9512854}{}
 \subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FairDivision.\allowbreak{}IsTriValuedChoreCost}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}304-\allowbreak{}306\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 304-\allowbreak{}306\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
 \begin{theorem}\label{thm:tri}
@@ -1351,7 +1351,7 @@ def IsTriValuedChoreCost (cost : ChoreCost Agent Item) : Prop :=
 \hypertarget{source-section-0c7af8265958a9ea}{}
 \section*{Main-text source claims}
 \subsection*{Review row 1}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}253-\allowbreak{}255\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 253-\allowbreak{}255\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{definition}[EF for chores]
@@ -1382,7 +1382,7 @@ HT26EFXChores.envyFreeForChores_iff_source_definition
 \clearpage
 \hypertarget{source-claim-dc1c37ece7fbf653}{}
 \section*{Review row 2}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}260-\allowbreak{}275\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 260-\allowbreak{}275\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{definition}[EFX for chores]
@@ -1426,7 +1426,7 @@ HT26EFXChores.efxForChores_iff_source_definition
 \clearpage
 \hypertarget{source-claim-a1cc8eae6630de31}{}
 \section*{Review row 3}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}280-\allowbreak{}287\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 280-\allowbreak{}287\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{definition}[Pareto-Optimality]
@@ -1466,7 +1466,7 @@ HT26EFXChores.paretoOptimalForChores_iff_source_definition
 \clearpage
 \hypertarget{source-claim-28f223907b1b4b26}{}
 \section*{Review row 4}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}752\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 752\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 An allocation $P=(P_1,P_2,P_3,P_4)$ of $M_{01}$ is \emph{canonical} if, for each agent $i$, $|P_i|\in\{a,a+1\}$ and $P_i$ contains $\min\{|P_i|, n_i\}$ items that are small for agent $i$.
@@ -1499,7 +1499,7 @@ with $S(g)=\emptyset$ are all-large items.
 Let $|M_{01}|=4a+b$ with $b\in\{0,1,2,3\}$.
 As mentioned before, we will make sure each agent receives either $a$ items or $a+1$ items.
 
-Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$. 
+Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$.
 We consider allocations of $M_{01}$ with quotas $q=(q_1,q_2,q_3,q_4)$ in which each agent $i$ first receives as many of her uniquely-small items as possible, up to quota $q_i$, and the remaining slots are filled with the remaining items.
 We will show that all such allocations satisfy EFX.
 It is also important that we have the freedom to choose which agents receive $a$ items and which agents receive $a+1$ items.
@@ -1543,7 +1543,7 @@ HT26EFXChores.canonicalSmallChoreAllocation_iff_source_definition
 \clearpage
 \hypertarget{source-claim-1250d6810504d818}{}
 \section*{Review row 5}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}753-\allowbreak{}754\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 753-\allowbreak{}754\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 In a canonical allocation with $b>0$, agents receiving $a$ items are called \emph{short} agents, and agents receiving $a+1$ items are called \emph{long} agents.
@@ -1577,7 +1577,7 @@ with $S(g)=\emptyset$ are all-large items.
 Let $|M_{01}|=4a+b$ with $b\in\{0,1,2,3\}$.
 As mentioned before, we will make sure each agent receives either $a$ items or $a+1$ items.
 
-Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$. 
+Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$.
 We consider allocations of $M_{01}$ with quotas $q=(q_1,q_2,q_3,q_4)$ in which each agent $i$ first receives as many of her uniquely-small items as possible, up to quota $q_i$, and the remaining slots are filled with the remaining items.
 We will show that all such allocations satisfy EFX.
 It is also important that we have the freedom to choose which agents receive $a$ items and which agents receive $a+1$ items.
@@ -1626,7 +1626,7 @@ HT26EFXChores.canonicalShortLongLabels_iff_source_definition
 \clearpage
 \hypertarget{source-claim-b7fd18b85f877d97}{}
 \section*{Review row 6}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}755\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 755\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 For $b>0$, an allocation $P=(P_1,P_2,P_3,P_4)$ is \emph{super-canonical} if it is canonical and satisfies $c_i(P_i)\leq c_i(P_j)-r$ for every short agent $i$ and every long agent $j$.
@@ -1659,7 +1659,7 @@ with $S(g)=\emptyset$ are all-large items.
 Let $|M_{01}|=4a+b$ with $b\in\{0,1,2,3\}$.
 As mentioned before, we will make sure each agent receives either $a$ items or $a+1$ items.
 
-Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$. 
+Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$.
 We consider allocations of $M_{01}$ with quotas $q=(q_1,q_2,q_3,q_4)$ in which each agent $i$ first receives as many of her uniquely-small items as possible, up to quota $q_i$, and the remaining slots are filled with the remaining items.
 We will show that all such allocations satisfy EFX.
 It is also important that we have the freedom to choose which agents receive $a$ items and which agents receive $a+1$ items.
@@ -1718,7 +1718,7 @@ HT26EFXChores.superCanonicalSmallChoreAllocation_iff_source_definition
 \clearpage
 \hypertarget{source-claim-707062c38758c055}{}
 \section*{Review row 7}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}304-\allowbreak{}306\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 304-\allowbreak{}306\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{theorem}\label{thm:tri}
@@ -1751,7 +1751,7 @@ HT26EFXChores.tri_valued_nonexistence
 \clearpage
 \hypertarget{source-claim-2321d8010acce683}{}
 \section*{Review row 8}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}340-\allowbreak{}342\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 340-\allowbreak{}342\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{proposition}
@@ -1819,7 +1819,7 @@ HT26EFXChores.tri_four_no_two_large
 \clearpage
 \hypertarget{source-claim-120f295a37ffc0ce}{}
 \section*{Review row 9}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}363-\allowbreak{}365\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 363-\allowbreak{}365\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{proposition}
@@ -1900,7 +1900,7 @@ HT26EFXChores.tri_four_no_a_bundle_expensive
 \clearpage
 \hypertarget{source-claim-8bed2d2e9152e71d}{}
 \section*{Review row 10}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}416-\allowbreak{}418\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 416-\allowbreak{}418\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{theorem}\label{thm:EFXPO}
@@ -1936,7 +1936,7 @@ HT26EFXChores.efx_pareto_incompatibility
 \clearpage
 \hypertarget{source-claim-5145ed0daed8afc6}{}
 \section*{Review row 11}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}461-\allowbreak{}463\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 461-\allowbreak{}463\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{proposition}\label{prop:PO-exist-large}
@@ -2000,7 +2000,7 @@ HT26EFXChores.efx_po_every_agent_large
 \clearpage
 \hypertarget{source-claim-8a3c68dd9df286a5}{}
 \section*{Review row 12}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}502-\allowbreak{}504\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 502-\allowbreak{}504\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{proposition}\label{prop:r+1r+2}
@@ -2075,7 +2075,7 @@ HT26EFXChores.efx_po_cost_lower_bounds
 \clearpage
 \hypertarget{source-claim-03ed4c5388a9d78f}{}
 \section*{Review row 13}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}532-\allowbreak{}534\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 532-\allowbreak{}534\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{theorem}\label{thm:four}
@@ -2112,7 +2112,7 @@ HT26EFXChores.four_agent_bi_valued_efx_exists
 \clearpage
 \hypertarget{source-claim-e126eba4635c1cd5}{}
 \section*{Review row 14}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}577-\allowbreak{}581\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 577-\allowbreak{}581\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{lemma}[Insertion of an $M_{34}$ item]\label{lem:insertion}
@@ -2176,7 +2176,7 @@ HT26EFXChores.m34_insertion
 \clearpage
 \hypertarget{source-claim-58fb9c46acb21eca}{}
 \section*{Review row 15}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}706-\allowbreak{}724\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 706-\allowbreak{}724\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{lemma}[Composition]\label{lem:composition}
@@ -2256,7 +2256,7 @@ HT26EFXChores.composition
 \clearpage
 \hypertarget{source-claim-1b77c29da35b62c2}{}
 \section*{Review row 16}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}760-\allowbreak{}767\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 760-\allowbreak{}767\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{lemma}\label{lem:canonical}
@@ -2296,7 +2296,7 @@ with $S(g)=\emptyset$ are all-large items.
 Let $|M_{01}|=4a+b$ with $b\in\{0,1,2,3\}$.
 As mentioned before, we will make sure each agent receives either $a$ items or $a+1$ items.
 
-Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$. 
+Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$.
 We consider allocations of $M_{01}$ with quotas $q=(q_1,q_2,q_3,q_4)$ in which each agent $i$ first receives as many of her uniquely-small items as possible, up to quota $q_i$, and the remaining slots are filled with the remaining items.
 We will show that all such allocations satisfy EFX.
 It is also important that we have the freedom to choose which agents receive $a$ items and which agents receive $a+1$ items.
@@ -2369,7 +2369,7 @@ HT26EFXChores.canonical_allocation_properties
 \clearpage
 \hypertarget{source-claim-0869bc0832b92b55}{}
 \section*{Review row 17}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}1019-\allowbreak{}1031\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1019-\allowbreak{}1031\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{lemma}[Balanced orientation]\label{lem:balancedorientation}
@@ -2421,7 +2421,7 @@ HT26EFXChores.balanced_orientation
 \clearpage
 \hypertarget{source-claim-6263bf063357fb29}{}
 \section*{Review row 18}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}1045-\allowbreak{}1047\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1045-\allowbreak{}1047\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{lemma}[EFX Allocation of $M_2$]\label{lem:M2}
@@ -2495,7 +2495,7 @@ HT26EFXChores.m2_efx_allocation
 \clearpage
 \hypertarget{source-claim-687ed4b91a799ce3}{}
 \section*{Review row 19}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}1419-\allowbreak{}1462\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1419-\allowbreak{}1462\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{lemma}[Properties of the EFX allocations in Lemma~\ref{lem:M2}]\label{lem:M2properties}
@@ -2704,7 +2704,7 @@ HT26EFXChores.m2_efx_allocation_properties
 \clearpage
 \hypertarget{source-claim-c475426ec81f3892}{}
 \section*{Review row 20}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}1709-\allowbreak{}1712\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1709-\allowbreak{}1712\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{lemma}\label{lem:easycombine}
@@ -2723,7 +2723,7 @@ with $S(g)=\emptyset$ are all-large items.
 Let $|M_{01}|=4a+b$ with $b\in\{0,1,2,3\}$.
 As mentioned before, we will make sure each agent receives either $a$ items or $a+1$ items.
 
-Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$. 
+Fix quotas $q_i\in\{a,a+1\}$ with $\sum_i q_i=|M_{01}|$.
 We consider allocations of $M_{01}$ with quotas $q=(q_1,q_2,q_3,q_4)$ in which each agent $i$ first receives as many of her uniquely-small items as possible, up to quota $q_i$, and the remaining slots are filled with the remaining items.
 We will show that all such allocations satisfy EFX.
 It is also important that we have the freedom to choose which agents receive $a$ items and which agents receive $a+1$ items.
@@ -2753,7 +2753,7 @@ and
 \[
  \Delta_R(U)=\frac{|U|m_R}{4}-\operatorname{inc}_R(U).
 \]
-We call $U$ \emph{deficient} if $\Delta_R(U)>0$.  
+We call $U$ \emph{deficient} if $\Delta_R(U)>0$.
 
 [Next verbatim source excerpt]
 
@@ -2841,7 +2841,7 @@ HT26EFXChores.exceptional_residue_combination
 \hypertarget{source-section-1743f0a28d68d6cc}{}
 \section*{Appendix and supplement source claims}
 \subsection*{Review row 21}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}2074-\allowbreak{}2076\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 2074-\allowbreak{}2076\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{proposition}
@@ -2951,7 +2951,7 @@ HT26EFXChores.appendix_no_two_a_items
 \clearpage
 \hypertarget{source-claim-18b6e05d84d21367}{}
 \section*{Review row 22}
-\textbf{Source locator:} {\footnotesize\raggedright papers/\allowbreak{}HT26EFXChores/\allowbreak{}source/\allowbreak{}EFXadditivechores.\allowbreak{}tex:\allowbreak{}2104-\allowbreak{}2106\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 2104-\allowbreak{}2106\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
 \begin{proposition}

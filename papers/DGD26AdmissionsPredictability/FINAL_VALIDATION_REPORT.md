@@ -33,7 +33,7 @@ unresolved dependency or recursion failure.
 The primary artifact is the pinned AAAI-26/arXiv source archive with SHA-256
 `0d57324d02fc64c4c6b627c71c71cbbf93610b7f0b4b2138da1b436bb9234434`.
 The public source is https://arxiv.org/abs/2601.11513.
-The audit reread `source_tex/main.tex` and `source_tex/appendix.tex` before
+The audit reread `cited publication` and `cited publication` before
 comparing the resulting 65-item mathematical inventory with the Lean
 interface. Scope includes every
 definition, displayed model formula, named result, concrete program example,
@@ -161,15 +161,15 @@ clarifications; they do not change a central advertised conclusion.
 
 - Published paper: AAAI-26, DOI `10.1609/aaai.v40i45.41179`.
 - Formula/proof source: arXiv `2601.11513v1`.
-- Pinned archive: `source_tex/arxiv_source.tar`, SHA-256
+- Pinned archive: `cited publication`, SHA-256
   `0d57324d02fc64c4c6b627c71c71cbbf93610b7f0b4b2138da1b436bb9234434`.
 - `audit/paper_statement_map.json`: 20 definitions, 3 formulas, 3 model
   objects, 17 theorems, 9 propositions, 9 lemmas, and 4 corollaries.
 - `audit/paper_coverage_llm.json`: 61 exact items and 4 collective-support
   items, totaling all 65 source targets.
 
-The source inventory was constructed from `source_tex/main.tex` and
-`source_tex/appendix.tex` before comparing the 69-row `PaperInterface.lean`
+The source inventory was constructed from `cited publication` and
+`cited publication` before comparing the 69-row `PaperInterface.lean`
 surface. The checked-in TeX agrees with the pinned archive modulo whitespace.
 
 ### Review surface and semantic matching
@@ -379,7 +379,7 @@ no missing, conditional, or out-of-scope named-theory target.
 <!-- BEGIN GENERATED SOURCE COVERAGE LEDGER -->
 ### Current Canonical Evidence
 - Coverage scope: full inventory shown because scope metadata needs repair (paper_statement_map.json must explicitly set source_coverage_mode before a source-coverage closeout).
-- Source inventory: 65 source statements from `source_tex/arxiv_source.tar`.
+- Source inventory: 65 source statements from `cited publication`.
 - Coverage result: 61 covered, 4 covered by reviewed rows.
 - Coverage review: coverage ledger recorded; Agent check by Codex DGD26 source-first completion; 2026-07-19.
 - Row-local statement checks: 0/73 linked row references have a completed canonical statement check; repeated links are counted per source row.

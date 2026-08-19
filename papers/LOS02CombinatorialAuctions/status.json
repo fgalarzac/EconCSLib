@@ -1,47 +1,42 @@
 {
-  "schema": 1,
-  "id": "LOS02CombinatorialAuctions",
-  "repository_visibility": "public",
-  "title": "Truth Revelation in Approximately Efficient Combinatorial Auctions",
-  "authors": "Daniel Lehmann, Liadan Ita O'Callaghan, and Yoav Shoham",
-  "source_version": "Journal of the ACM 49(5), 2002",
-  "build_target": "lake build LOS02CombinatorialAuctions",
-  "status": "partially formalized",
-  "main_caveat": "Partial-formalization boundary: the external computational-complexity consequences for the native Theorem 6.1 hardness and NP=ZPP claims remain reusable library infrastructure work.",
-  "human_summary": "Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope.",
-  "review_entrypoint": "papers/LOS02CombinatorialAuctions/FINAL_VALIDATION_REPORT.md",
-  "human_review": {
-    "reviewed_rows": 0,
-    "total_rows": 39,
-    "stale_rows": 0,
-    "mismatch_rows": 0,
-    "source": "paper-local status.json review_surface; human entries come from dashboard logs"
-  },
-  "paper_interface": {
-    "path": "papers/LOS02CombinatorialAuctions/PaperInterface.lean",
-    "line_count": 371,
-    "declaration_rows": 39,
-    "review_rows": 30,
-    "oversized": false,
-    "maintainability_issue": null,
-    "proof_interface_path": "papers/LOS02CombinatorialAuctions/ProofInterface.lean",
-    "proof_interface_line_count": 3360
-  },
   "artifacts": {
-    "readme": "papers/LOS02CombinatorialAuctions/README.md",
-    "paper_interface": "papers/LOS02CombinatorialAuctions/PaperInterface.lean",
-    "final_validation_report": "papers/LOS02CombinatorialAuctions/FINAL_VALIDATION_REPORT.md",
-    "dependency_dag_tex": "papers/LOS02CombinatorialAuctions/docs/DependencyDAG.tex",
+    "assumptions": "papers/LOS02CombinatorialAuctions/Assumptions.lean",
     "dependency_dag_pdf": "papers/LOS02CombinatorialAuctions/docs/DependencyDAG.pdf",
+    "dependency_dag_tex": "papers/LOS02CombinatorialAuctions/docs/DependencyDAG.tex",
+    "final_validation_report": "papers/LOS02CombinatorialAuctions/FINAL_VALIDATION_REPORT.md",
+    "human_review_packet_pdf": "papers/LOS02CombinatorialAuctions/docs/HUMAN_REVIEW_PACKET.pdf",
+    "human_review_packet_tex": "papers/LOS02CombinatorialAuctions/docs/HUMAN_REVIEW_PACKET.tex",
+    "paper_interface": "papers/LOS02CombinatorialAuctions/PaperInterface.lean",
     "proof_interface": "papers/LOS02CombinatorialAuctions/ProofInterface.lean",
-    "source_text": "papers/LOS02CombinatorialAuctions/LOS02CombinatorialAuctions.txt",
-    "assumptions": "papers/LOS02CombinatorialAuctions/Assumptions.lean"
+    "readme": "papers/LOS02CombinatorialAuctions/README.md",
+    "source_text": "cited publication"
   },
+  "authors": "Daniel Lehmann, Liadan Ita O'Callaghan, and Yoav Shoham",
+  "build_target": "lake build LOS02CombinatorialAuctions",
+  "human_review": {
+    "mismatch_rows": 0,
+    "reviewed_rows": 0,
+    "source": "v11 PaperInterface claim surface; human entries are recorded after direct review",
+    "stale_rows": 0,
+    "total_rows": 30,
+    "uncertain_rows": 0
+  },
+  "human_summary": "Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope.",
+  "id": "LOS02CombinatorialAuctions",
+  "main_caveat": "Partial-formalization boundary: the external computational-complexity consequences for the native Theorem 6.1 hardness and NP=ZPP claims remain reusable library infrastructure work.",
+  "paper_interface": {
+    "declaration_rows": 39,
+    "line_count": 371,
+    "maintainability_issue": null,
+    "oversized": false,
+    "path": "papers/LOS02CombinatorialAuctions/PaperInterface.lean",
+    "proof_interface_line_count": 3360,
+    "proof_interface_path": "papers/LOS02CombinatorialAuctions/ProofInterface.lean",
+    "review_rows": 30
+  },
+  "repository_visibility": "public",
+  "review_entrypoint": "papers/LOS02CombinatorialAuctions/FINAL_VALIDATION_REPORT.md",
   "review_surface": {
-    "source_file": "papers/LOS02CombinatorialAuctions/PaperInterface.lean",
-    "assumption_source_file": "papers/LOS02CombinatorialAuctions/Assumptions.lean",
-    "llm_assumption_review": "papers/LOS02CombinatorialAuctions/audit/assumption_match_llm.json",
-    "assumption_policy": "strict",
     "assumption_names": [
       "assumption_admissible_combinatorial_report_domain",
       "assumption_external_exact_set_packing_complexity_boundary",
@@ -53,73 +48,8 @@
       "assumption_lemma9_nonnegative_critical_value_axioms",
       "assumption_lemma9_finite_large_threshold"
     ],
-    "include_names": [
-      "utility_formula",
-      "truthfulOn_iff",
-      "generalizedVickreyAuction_allocation_payment",
-      "singleMindedAcceptedMechanism_fields",
-      "singleMindedTruthfulOn_iff",
-      "nonnegativeNonemptySingleMindedProfile_iff",
-      "weightedSetPackingValue_formula",
-      "setPackingSingleMindedBids_formula",
-      "averageAmountPerGood_formula",
-      "averageOrderOf_rule",
-      "greedyAcceptedFromOrder_formula",
-      "averageGreedyAcceptedSet_formula",
-      "averageGreedyPayment_formula",
-      "theorem4_1_generalized_vickrey_truthful",
-      "proposition4_2_generalized_vickrey_truthful_utility_nonneg",
-      "theorem6_1_set_packing_feasibility_encoding_correct",
-      "theorem6_1_set_packing_value_encoding_correct",
-      "theorem6_1_weighted_set_packing_reduction",
-      "theorem6_1_clique_decision_single_minded_welfare_reduction",
-      "theorem6_1_external_optimal_solver_np_eq_zpp",
-      "theorem6_1_external_approximation_solver_np_eq_zpp",
-      "complexity_note_np_eq_zpp_implies_randomized_collapse",
-      "theorem7_2_sqrt_norm_approx_of_sorted_order",
-      "lemma9_1_exists_nonnegative_critical_value_of_monotonicity",
-      "lemma9_2_denied_bidder_utility_eq_zero",
-      "lemma9_3_truthful_utility_nonnegative_condition",
-      "lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms",
-      "lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate",
-      "theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms",
-      "theorem10_2_averageGreedy_truthful"
-    ],
-    "slices": [
-      {
-        "id": "source-definitions",
-        "title": "Source Definitions",
-        "names": []
-      },
-      {
-        "id": "sections-4-6",
-        "title": "Sections 4-6",
-        "names": [
-          "theorem4_1_generalized_vickrey_truthful",
-          "proposition4_2_generalized_vickrey_truthful_utility_nonneg",
-          "theorem6_1_set_packing_feasibility_encoding_correct",
-          "theorem6_1_set_packing_value_encoding_correct",
-          "theorem6_1_weighted_set_packing_reduction",
-          "theorem6_1_clique_decision_single_minded_welfare_reduction",
-          "theorem6_1_external_optimal_solver_np_eq_zpp",
-          "theorem6_1_external_approximation_solver_np_eq_zpp",
-          "complexity_note_np_eq_zpp_implies_randomized_collapse"
-        ]
-      },
-      {
-        "id": "sections-7-10",
-        "title": "Sections 7-10",
-        "names": [
-          "theorem7_2_sqrt_norm_approx_of_sorted_order",
-          "lemma9_1_exists_nonnegative_critical_value_of_monotonicity",
-          "lemma9_2_denied_bidder_utility_eq_zero",
-          "lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms",
-          "lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate",
-          "theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms",
-          "theorem10_2_averageGreedy_truthful"
-        ]
-      }
-    ],
+    "assumption_policy": "strict",
+    "assumption_source_file": "papers/LOS02CombinatorialAuctions/Assumptions.lean",
     "auxiliary_names": [
       "averageAmountPerGood",
       "averageGreedyAcceptedSet",
@@ -135,6 +65,117 @@
       "truthfulOn",
       "utility",
       "weightedSetPackingValue"
-    ]
-  }
+    ],
+    "include_names": [
+      "utility_formulaSpec",
+      "truthfulOn_iffSpec",
+      "generalizedVickreyAuction_allocation_paymentSpec",
+      "singleMindedAcceptedMechanism_fieldsSpec",
+      "singleMindedTruthfulOn_iffSpec",
+      "nonnegativeNonemptySingleMindedProfile_iffSpec",
+      "weightedSetPackingValue_formulaSpec",
+      "setPackingSingleMindedBids_formulaSpec",
+      "averageAmountPerGood_formulaSpec",
+      "averageOrderOf_ruleSpec",
+      "greedyAcceptedFromOrder_formulaSpec",
+      "averageGreedyAcceptedSet_formulaSpec",
+      "averageGreedyPayment_formulaSpec",
+      "theorem4_1_generalized_vickrey_truthfulSpec",
+      "proposition4_2_generalized_vickrey_truthful_utility_nonnegSpec",
+      "theorem6_1_set_packing_feasibility_encoding_correctSpec",
+      "theorem6_1_set_packing_value_encoding_correctSpec",
+      "theorem6_1_weighted_set_packing_reductionSpec",
+      "theorem6_1_clique_decision_single_minded_welfare_reductionSpec",
+      "theorem6_1_external_optimal_solver_np_eq_zppSpec",
+      "theorem6_1_external_approximation_solver_np_eq_zppSpec",
+      "complexity_note_np_eq_zpp_implies_randomized_collapseSpec",
+      "theorem7_2_sqrt_norm_approx_of_sorted_orderSpec",
+      "lemma9_1_exists_nonnegative_critical_value_of_monotonicitySpec",
+      "lemma9_2_denied_bidder_utility_eq_zeroSpec",
+      "lemma9_3_truthful_utility_nonnegative_conditionSpec",
+      "lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axiomsSpec",
+      "lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificateSpec",
+      "theorem9_6_single_minded_truthful_of_nonnegative_infinity_axiomsSpec",
+      "theorem10_2_averageGreedy_truthfulSpec"
+    ],
+    "llm_assumption_review": "papers/LOS02CombinatorialAuctions/audit/assumption_match_llm.json",
+    "llm_statement_review": {
+      "policy": "For every selected source claim, compare only its exact byte-pinned raw source-anchor bundle and Lean's expanded transparent `...Spec : Prop` target. The paired proof endpoint receives separate Lean-Meta proof credit; a name, paraphrase, wrapper, or prior aggregate receipt is not a semantic match. Review every retained paper-local prerequisite and every material library prerequisite before the dependent claim.",
+      "required_prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2"
+    },
+    "proposition_spec_proofs": {
+      "averageAmountPerGood_formulaSpec": "averageAmountPerGood_formula",
+      "averageGreedyAcceptedSet_formulaSpec": "averageGreedyAcceptedSet_formula",
+      "averageGreedyPayment_formulaSpec": "averageGreedyPayment_formula",
+      "averageOrderOf_ruleSpec": "averageOrderOf_rule",
+      "complexity_note_np_eq_zpp_implies_randomized_collapseSpec": "complexity_note_np_eq_zpp_implies_randomized_collapse",
+      "generalizedVickreyAuction_allocation_paymentSpec": "generalizedVickreyAuction_allocation_payment",
+      "greedyAcceptedFromOrder_formulaSpec": "greedyAcceptedFromOrder_formula",
+      "lemma9_1_exists_nonnegative_critical_value_of_monotonicitySpec": "lemma9_1_exists_nonnegative_critical_value_of_monotonicity",
+      "lemma9_2_denied_bidder_utility_eq_zeroSpec": "lemma9_2_denied_bidder_utility_eq_zero",
+      "lemma9_3_truthful_utility_nonnegative_conditionSpec": "lemma9_3_truthful_utility_nonnegative_condition",
+      "lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axiomsSpec": "lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms",
+      "lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificateSpec": "lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate",
+      "nonnegativeNonemptySingleMindedProfile_iffSpec": "nonnegativeNonemptySingleMindedProfile_iff",
+      "proposition4_2_generalized_vickrey_truthful_utility_nonnegSpec": "proposition4_2_generalized_vickrey_truthful_utility_nonneg",
+      "setPackingSingleMindedBids_formulaSpec": "setPackingSingleMindedBids_formula",
+      "singleMindedAcceptedMechanism_fieldsSpec": "singleMindedAcceptedMechanism_fields",
+      "singleMindedTruthfulOn_iffSpec": "singleMindedTruthfulOn_iff",
+      "theorem10_2_averageGreedy_truthfulSpec": "theorem10_2_averageGreedy_truthful",
+      "theorem4_1_generalized_vickrey_truthfulSpec": "theorem4_1_generalized_vickrey_truthful",
+      "theorem6_1_clique_decision_single_minded_welfare_reductionSpec": "theorem6_1_clique_decision_single_minded_welfare_reduction",
+      "theorem6_1_external_approximation_solver_np_eq_zppSpec": "theorem6_1_external_approximation_solver_np_eq_zpp",
+      "theorem6_1_external_optimal_solver_np_eq_zppSpec": "theorem6_1_external_optimal_solver_np_eq_zpp",
+      "theorem6_1_set_packing_feasibility_encoding_correctSpec": "theorem6_1_set_packing_feasibility_encoding_correct",
+      "theorem6_1_set_packing_value_encoding_correctSpec": "theorem6_1_set_packing_value_encoding_correct",
+      "theorem6_1_weighted_set_packing_reductionSpec": "theorem6_1_weighted_set_packing_reduction",
+      "theorem7_2_sqrt_norm_approx_of_sorted_orderSpec": "theorem7_2_sqrt_norm_approx_of_sorted_order",
+      "theorem9_6_single_minded_truthful_of_nonnegative_infinity_axiomsSpec": "theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms",
+      "truthfulOn_iffSpec": "truthfulOn_iff",
+      "utility_formulaSpec": "utility_formula",
+      "weightedSetPackingValue_formulaSpec": "weightedSetPackingValue_formula"
+    },
+    "require_source_spec_correspondence": true,
+    "require_v11_raw_source_spec_screening": true,
+    "slices": [
+      {
+        "id": "source-definitions",
+        "names": [],
+        "title": "Source Definitions"
+      },
+      {
+        "id": "sections-4-6",
+        "names": [
+          "theorem4_1_generalized_vickrey_truthful",
+          "proposition4_2_generalized_vickrey_truthful_utility_nonneg",
+          "theorem6_1_set_packing_feasibility_encoding_correct",
+          "theorem6_1_set_packing_value_encoding_correct",
+          "theorem6_1_weighted_set_packing_reduction",
+          "theorem6_1_clique_decision_single_minded_welfare_reduction",
+          "theorem6_1_external_optimal_solver_np_eq_zpp",
+          "theorem6_1_external_approximation_solver_np_eq_zpp",
+          "complexity_note_np_eq_zpp_implies_randomized_collapse"
+        ],
+        "title": "Sections 4-6"
+      },
+      {
+        "id": "sections-7-10",
+        "names": [
+          "theorem7_2_sqrt_norm_approx_of_sorted_order",
+          "lemma9_1_exists_nonnegative_critical_value_of_monotonicity",
+          "lemma9_2_denied_bidder_utility_eq_zero",
+          "lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms",
+          "lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate",
+          "theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms",
+          "theorem10_2_averageGreedy_truthful"
+        ],
+        "title": "Sections 7-10"
+      }
+    ],
+    "source_file": "papers/LOS02CombinatorialAuctions/PaperInterface.lean"
+  },
+  "schema": 1,
+  "source_version": "Journal of the ACM 49(5), 2002",
+  "status": "partially formalized",
+  "title": "Truth Revelation in Approximately Efficient Combinatorial Auctions"
 }

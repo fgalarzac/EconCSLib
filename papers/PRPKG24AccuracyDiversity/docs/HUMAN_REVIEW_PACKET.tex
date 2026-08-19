@@ -1,0 +1,2511 @@
+% Generated human-review packet template.  Source records, Lean statements,
+% and raw-source-to-Spec screening fields are substituted by
+% scripts/review_dashboard_packet.py.
+% Do not hand-edit generated packets; annotate the PDF or reconcile notes into
+% the paper-local human-review log.
+\documentclass[10pt]{article}
+\usepackage[margin=0.43in]{geometry}
+\usepackage{fontspec}
+\setmainfont{Latin Modern Roman}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{fvextra}
+\usepackage{enumitem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.15em}
+\linespread{0.92}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+\DefineVerbatimEnvironment{ReviewVerbatim}{Verbatim}{breaklines=true,breakanywhere=true,fontsize=\scriptsize}
+\newcommand{\reviewerbox}{%
+  \par\noindent\fbox{\parbox{0.96\linewidth}{\rule{0pt}{0.38in}}}\par
+}
+\newcommand{\reviewmatch}[1]{%
+  \par\noindent\textbf{Reviewer check:} $\square$\; #1\par
+  \noindent\emph{If left unchecked, explain the discrepancy or uncertainty below.}\par
+}
+
+\begin{document}
+\fontsize{9}{10}\selectfont
+
+\begin{center}
+{\LARGE Human review packet: PRPKG24AccuracyDiversity}\\[0.35em]
+\small Generated from byte-pinned source excerpts, the expanded PaperInterface
+specifications, and hash-bound raw-source-to-Spec screening records.
+\end{center}
+
+\noindent\textbf{Paper:} PRPKG24AccuracyDiversity\\
+\textbf{Paper id:} \texttt{PRPKG24AccuracyDiversity}\\
+\textbf{Source version:} not recorded\\
+\textbf{Source record:} \texttt{audit/paper\_statement\_map.json}\\
+\textbf{Rows:} 25\\
+\textbf{Generated:} 2026-08-18\\
+\textbf{Source URL:} \href{https://arxiv.org/pdf/2307.15142}{official source}
+
+\noindent\fbox{\parbox{0.96\linewidth}{\textbf{Review status:} 0/25 source-claim screens; 0/47 library prerequisite screens. This is a review worksheet while those direct checks remain pending; it is not a final validation receipt.}}\par
+
+
+
+\section*{How to use this packet}
+For each source claim, compare the exact source excerpts with the expanded
+PaperInterface specification. Mark up this PDF or fill the blank reviewer box in the TeX source;
+return the annotated file for reconciliation into the paper-local human-review
+log.
+
+\section*{Open the interactive dashboard}
+The interactive dashboard is an optional alternative to using this PDF; it
+presents the same review surface rather than an additional review requirement.
+After forking and cloning (or pulling) EconCSLib, run the following from the
+repository root. The cache command is needed only the first time in a new clone.
+\begin{ReviewVerbatim}
+cd <your-EconCSLib-checkout>
+lake exe cache get
+python3 scripts/review_dashboard.py --paper PRPKG24AccuracyDiversity --serve
+\end{ReviewVerbatim}
+Open \url{http://127.0.0.1:8765/} in a browser and keep that terminal running
+while reviewing. The dashboard records saved annotations in this paper's
+reviewer-owned review record.
+
+\section*{Contents}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-section-817d76f29df3ed36}{Semantic library prerequisites (47; not paper claims)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-prerequisite-244a5634666cf50c}{EconCSLib.Allocation}
+\item \hyperlink{library-prerequisite-1120c97ff2565677}{EconCSLib.Allocation.count}
+\item \hyperlink{library-prerequisite-39475461428c4522}{EconCSLib.Allocation.total}
+\item \hyperlink{library-prerequisite-854dbd581a24b11b}{EconCSLib.Allocation.HasTotal}
+\item \hyperlink{library-prerequisite-1e33dc126ee38fa0}{EconCSLib.Allocation.OptimalSequence}
+\item \hyperlink{library-prerequisite-f057f1f71b64854d}{EconCSLib.Allocation.OptimalSequence.allocation}
+\item \hyperlink{library-prerequisite-789aa00e4fe50d99}{EconCSLib.Allocation.Sequence}
+\item \hyperlink{library-prerequisite-3322c23d7f6e606c}{EconCSLib.Allocation.Sequence.mk}
+\item \hyperlink{library-prerequisite-d5adfaeab2714afc}{EconCSLib.Allocation.OptimalSequence.toSequence}
+\item \hyperlink{library-prerequisite-3b25df6be98f16f4}{EconCSLib.Allocation.Sequence.allocation}
+\item \hyperlink{library-prerequisite-9ff3b8c891376806}{EconCSLib.Allocation.share}
+\item \hyperlink{library-prerequisite-2eb787814a5760ab}{EconCSLib.Allocation.Sequence.share}
+\item \hyperlink{library-prerequisite-64f4f097df8be0ff}{EconCSLib.Allocation.Sequence.ConvergesToProfile}
+\item \hyperlink{library-prerequisite-1a55187d37c03928}{EconCSLib.Allocation.mk}
+\item \hyperlink{library-prerequisite-e62b9706a9918a21}{EconCSLib.Allocation.allOnTypeAllocation}
+\item \hyperlink{library-prerequisite-6578aab22e1c5dc9}{EconCSLib.Allocation.objective}
+\item \hyperlink{library-prerequisite-cb9d5e5ffda08a9a}{EconCSLib.Math.AsymptoticEquivalent}
+\item \hyperlink{library-prerequisite-0d847b93822bc6c4}{EconCSLib.Math.TendsToZero}
+\item \hyperlink{library-prerequisite-00608e839979428a}{EconCSLib.Probability.Exponential.Model}
+\item \hyperlink{library-prerequisite-ebd02d956f133ba1}{EconCSLib.Probability.Exponential.Model.rate}
+\item \hyperlink{library-prerequisite-46315b27c25dd5ba}{EconCSLib.Probability.Exponential.Model.measure}
+\item \hyperlink{library-prerequisite-374422e12fa3aeb6}{EconCSLib.Probability.Exponential.Model.iidProductMeasure}
+\item \hyperlink{library-prerequisite-f979086662c1cf00}{EconCSLib.Probability.Exponential.Model.mk}
+\item \hyperlink{library-prerequisite-02420e071ed4ec26}{EconCSLib.Probability.Exponential.harmonicReal}
+\item \hyperlink{library-prerequisite-83df72d297d25686}{EconCSLib.Probability.Pareto.iidProductMeasure}
+\item \hyperlink{library-prerequisite-18052cb8ae517639}{EconCSLib.Probability.TopKExpectationOracle}
+\item \hyperlink{library-prerequisite-6edb20c3dcdd9767}{EconCSLib.Probability.TopKExpectationOracle.mk}
+\item \hyperlink{library-prerequisite-b4ecb635d6064acd}{EconCSLib.Probability.TopKExpectationOracle.common}
+\item \hyperlink{library-prerequisite-f3d0f68534aa7689}{EconCSLib.Probability.TopKExpectationOracle.expectedTopSum}
+\item \hyperlink{library-prerequisite-e63098616a4b886a}{EconCSLib.Probability.orderStatisticTopKSumFromMean}
+\item \hyperlink{library-prerequisite-11c2928776f87e9b}{EconCSLib.Probability.TopKExpectationOracle.orderStatisticTopKExpectationOracle}
+\item \hyperlink{library-prerequisite-5424336cdb453911}{EconCSLib.Probability.ascendingOrderStatistic}
+\item \hyperlink{library-prerequisite-4cea2ad3a0ac0028}{EconCSLib.Probability.binaryRatingScore}
+\item \hyperlink{library-prerequisite-d15dae326946f52b}{EconCSLib.Probability.sampleOrderStatisticValue}
+\item \hyperlink{library-prerequisite-0f0bc5629332b317}{EconCSLib.Probability.expectedSampleOrderStatisticMean}
+\item \hyperlink{library-prerequisite-da58a47f8cf8aa37}{EconCSLib.Probability.expectedOrderStatisticMeanSeq}
+\item \hyperlink{library-prerequisite-c31a128535eb9d3f}{EconCSLib.Probability.topKRankEmbedding}
+\item \hyperlink{library-prerequisite-73abacac3346884e}{EconCSLib.Probability.upperOrderStatistic}
+\item \hyperlink{library-prerequisite-d2bd4711b013979c}{EconCSLib.Probability.sampleTopKSum}
+\item \hyperlink{library-prerequisite-d84d938cdf309d75}{EconCSLib.Probability.expectedSampleTopKSum}
+\item \hyperlink{library-prerequisite-b6ce97a274cbdb86}{EconCSLib.Probability.realBernoulliPMF}
+\item \hyperlink{library-prerequisite-6839133042f142df}{EconCSLib.Probability.reflectedCDFMass}
+\item \hyperlink{library-prerequisite-087e3287a5c76915}{EconCSLib.finiteMin}
+\item \hyperlink{library-prerequisite-e5c7eedc40c11b7a}{EconCSLib.pmfExp}
+\item \hyperlink{library-prerequisite-b9805c0fe3b56f02}{EconCSLib.pmfPi}
+\item \hyperlink{library-prerequisite-7fec9dedef722fc8}{EconCSLib.pmfProb}
+\item \hyperlink{library-prerequisite-38eb9a31a47bfbd9}{EconCSLib.pmfProduct}
+\end{itemize}
+\item \hyperlink{source-section-f10b5f68e4acf3dc}{Source claims (25)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-f5a7e9fe26a022aa}{theorem1\_i\_formulaSpec}
+\item \hyperlink{source-claim-8765a3b8d5c11957}{theorem1\_ii\_formulaSpec}
+\item \hyperlink{source-claim-378eee8a78b6ada4}{theorem1\_iii\_formulaSpec}
+\item \hyperlink{source-claim-cc5ff6e8390a6049}{theorem1\_iv\_formulaSpec}
+\item \hyperlink{source-claim-846cffa9077c1769}{theorem1\_v\_selected\_maximizer\_conclusionSpec}
+\item \hyperlink{source-claim-e7ae4618a91038ee}{corollary1Spec}
+\item \hyperlink{source-claim-e58423f2214d3283}{proposition2\_corrected\_finite\_and\_sequence\_sourceSpec}
+\item \hyperlink{source-claim-f61ea0b8a68fcc23}{corollary3\_iid\_bernoulli\_conclusionSpec}
+\item \hyperlink{source-claim-04c6588920268e32}{theorem2\_i\_corrected\_pmf\_source\_model\_endpointSpec}
+\item \hyperlink{source-claim-6ff5481408fce970}{theorem2\_ii\_corrected\_pmf\_source\_model\_endpointSpec}
+\item \hyperlink{source-claim-3057a09badb30d45}{theorem2\_iii\_corrected\_pmf\_source\_model\_endpointSpec}
+\item \hyperlink{source-claim-49b00f2a87213781}{theorem2\_iv\_corrected\_pmf\_source\_model\_endpointSpec}
+\item \hyperlink{source-claim-149ee4bef168eff6}{theorem3\_log\_share\_conclusionSpec}
+\item \hyperlink{source-claim-a9a6608e74ff7dd3}{theorem3\_all\_consumed\_argmax\_conclusionSpec}
+\item \hyperlink{source-claim-e8b459af037ff529}{lemma1\_bounded\_topk\_loss\_asymptotic\_of\_pdf\_sourceSpec}
+\item \hyperlink{source-claim-28a8fb49d83f5d5a}{proposition4Spec}
+\item \hyperlink{source-claim-fa631b15a4a1176a}{lemmaD1\_i\_corrected\_uniform\_optimizer\_shares\_sourceSpec}
+\item \hyperlink{source-claim-f95d0c81ab1b47f3}{lemmaD1\_ii\_corrected\_powerTail\_optimizer\_shares\_sourceSpec}
+\item \hyperlink{source-claim-3f921e813126282a}{lemmaD1\_iii\_corrected\_probability\_optimizer\_shares\_sourceSpec}
+\item \hyperlink{source-claim-30cff96f226dc581}{lemmaD1\_iv\_corrected\_powerTail\_optimizer\_shares\_sourceSpec}
+\item \hyperlink{source-claim-7237c50e8bcf2059}{lemmaD2\_bounded\_fixed\_rank\_integral\_asymptotic\_of\_pdf\_sourceSpec}
+\item \hyperlink{source-claim-dcffa0731fd7e8dc}{lemmaD3\_corrected\_exponential\_fixed\_rank\_sourceSpec}
+\item \hyperlink{source-claim-49105a2b2538ba9d}{lemmaD4\_corrected\_pareto\_fixed\_rank\_sourceSpec}
+\item \hyperlink{source-claim-477ea495052a0969}{lemmaD5Spec}
+\item \hyperlink{source-claim-4a13a0b223d63917}{proposition5\_iid\_topk\_identitySpec}
+\end{itemize}
+\end{itemize}
+
+\clearpage
+\hypertarget{library-section-817d76f29df3ed36}{}
+\section*{Material library prerequisites}
+\hypertarget{library-prerequisite-244a5634666cf50c}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+Type u_1 → Type u_1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+structure Allocation (κ : Type*) where
+  count : κ → ℕ
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-1120c97ff2565677}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation.\allowbreak{}count}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{κ : Type u_1} → (self : EconCSLib.Allocation κ) → (a : κ) → self.1 a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-39475461428c4522}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation.\allowbreak{}total}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{κ : Type u_1} → [inst : Fintype κ] → (a : EconCSLib.Allocation κ) → ∑ k, a.count k
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def total (a : Allocation κ) : ℕ :=
+  ∑ k, a.count k
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-854dbd581a24b11b}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation.\allowbreak{}HasTotal}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {κ : Type u_1} [inst : Fintype κ] (a : EconCSLib.Allocation κ) (N : ℕ), a.total = N
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def HasTotal (a : Allocation κ) (N : ℕ) : Prop :=
+  a.total = N
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-1e33dc126ee38fa0}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation.\allowbreak{}OptimalSequence}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+{κ : Type u_1} → [Fintype κ] → (ℕ → κ → ℝ) → (ℕ → κ → ℕ → ℝ) → Type u_1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+structure OptimalSequence
+    (objectiveWeightSeq : ℕ → κ → ℝ)
+    (valueOfCountSeq : ℕ → κ → ℕ → ℝ) where
+  allocation : ℕ → Allocation κ
+  optimal : ∀ N,
+    IsOptimalAtTotal (objectiveWeightSeq N) (valueOfCountSeq N) N (allocation N)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-f057f1f71b64854d}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation.\allowbreak{}OptimalSequence.\allowbreak{}allocation}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{κ : Type u_1} →
+  [inst : Fintype κ] →
+    {objectiveWeightSeq : ℕ → κ → ℝ} →
+      {valueOfCountSeq : ℕ → κ → ℕ → ℝ} →
+        (self : EconCSLib.Allocation.OptimalSequence objectiveWeightSeq valueOfCountSeq) → (a : ℕ) → self.1 a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-789aa00e4fe50d99}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation.\allowbreak{}Sequence}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+(κ : Type u_2) → [Fintype κ] → Type u_2
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+structure Sequence (κ : Type*) [Fintype κ] where
+  allocation : ℕ → Allocation κ
+  feasible : ∀ N, HasTotal (allocation N) N
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-3322c23d7f6e606c}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation.\allowbreak{}Sequence.\allowbreak{}mk}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+{κ : Type u_2} →
+  [inst : Fintype κ] →
+    (allocation : ℕ → EconCSLib.Allocation κ) → (∀ (N : ℕ), (allocation N).HasTotal N) → EconCSLib.Allocation.Sequence κ
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-d5adfaeab2714afc}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation.\allowbreak{}OptimalSequence.\allowbreak{}toSequence}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{κ : Type u_1} →
+  [inst : Fintype κ] →
+    {objectiveWeightSeq : ℕ → κ → ℝ} →
+      {valueOfCountSeq : ℕ → κ → ℕ → ℝ} →
+        (seq : EconCSLib.Allocation.OptimalSequence objectiveWeightSeq valueOfCountSeq) →
+          { allocation := seq.allocation, feasible := ⋯ }
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def toSequence
+    {objectiveWeightSeq : ℕ → κ → ℝ}
+    {valueOfCountSeq : ℕ → κ → ℕ → ℝ}
+    (seq : OptimalSequence objectiveWeightSeq valueOfCountSeq) :
+    Sequence κ where
+  allocation := seq.allocation
+  feasible := fun N => (seq.optimal N).1
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-3b25df6be98f16f4}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation.\allowbreak{}Sequence.\allowbreak{}allocation}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{κ : Type u_2} → [inst : Fintype κ] → (self : EconCSLib.Allocation.Sequence κ) → (a : ℕ) → self.1 a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-9ff3b8c891376806}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation.\allowbreak{}share}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{κ : Type u_1} →
+  [inst : Fintype κ] → (a : EconCSLib.Allocation κ) → (k : κ) → if h : a.total = 0 then 0 else ↑(a.count k) / ↑a.total
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def share (a : Allocation κ) (k : κ) : ℝ :=
+  if h : a.total = 0 then 0 else (a.count k : ℝ) / (a.total : ℝ)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-2eb787814a5760ab}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation.\allowbreak{}Sequence.\allowbreak{}share}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{κ : Type u_1} →
+  [inst : Fintype κ] → (seq : EconCSLib.Allocation.Sequence κ) → (N : ℕ) → (k : κ) → (seq.allocation N).share k
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def share (seq : Sequence κ) (N : ℕ) (k : κ) : ℝ :=
+  Allocation.share (seq.allocation N) k
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-64f4f097df8be0ff}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation.\allowbreak{}Sequence.\allowbreak{}ConvergesToProfile}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {κ : Type u_1} [inst : Fintype κ] (seq : EconCSLib.Allocation.Sequence κ) (target : κ → ℝ) (k : κ),
+  Filter.Tendsto (fun N => seq.share N k) Filter.atTop (nhds (target k))
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def ConvergesToProfile (seq : Sequence κ) (target : κ → ℝ) : Prop :=
+  ∀ k, Tendsto (fun N => seq.share N k) atTop (nhds (target k))
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-1a55187d37c03928}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation.\allowbreak{}mk}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+{κ : Type u_1} → (κ → ℕ) → EconCSLib.Allocation κ
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e62b9706a9918a21}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation.\allowbreak{}allOnTypeAllocation}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{κ : Type u_1} → [inst : DecidableEq κ] → (N : ℕ) → (best : κ) → { count := fun k => if k = best then N else 0 }
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def allOnTypeAllocation (N : ℕ) (best : κ) : Allocation κ where
+  count := fun k => if k = best then N else 0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-6578aab22e1c5dc9}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Allocation.\allowbreak{}objective}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{κ : Type u_1} →
+  [inst : Fintype κ] →
+    (a : EconCSLib.Allocation κ) →
+      (weight : κ → ℝ) → (valueOfCount : κ → ℕ → ℝ) → ∑ k, weight k * valueOfCount k (a.count k)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def objective
+    (a : Allocation κ) (weight : κ → ℝ) (valueOfCount : κ → ℕ → ℝ) : ℝ :=
+  ∑ k, weight k * valueOfCount k (a.count k)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-cb9d5e5ffda08a9a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Math.\allowbreak{}AsymptoticEquivalent}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ (x y : ℕ → ℝ), Filter.Tendsto (fun n => x n / y n) Filter.atTop (nhds 1)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def AsymptoticEquivalent (x y : ℕ → ℝ) : Prop :=
+  Tendsto (fun n => x n / y n) atTop (nhds 1)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-0d847b93822bc6c4}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Math.\allowbreak{}TendsToZero}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ (ε : ℕ → ℝ), Filter.Tendsto ε Filter.atTop (nhds 0)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def TendsToZero (ε : ℕ → ℝ) : Prop :=
+  Tendsto ε atTop (nhds 0)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-00608e839979428a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}Exponential.\allowbreak{}Model}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+Type
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+structure Model where
+  rate : ℝ
+  rate_pos : 0 < rate
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-ebd02d956f133ba1}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}Exponential.\allowbreak{}Model.\allowbreak{}rate}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(self : EconCSLib.Probability.Exponential.Model) → self.1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-46315b27c25dd5ba}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}Exponential.\allowbreak{}Model.\allowbreak{}measure}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(M : EconCSLib.Probability.Exponential.Model) → ProbabilityTheory.expMeasure M.rate
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def measure (M : Model) : MeasureTheory.Measure ℝ :=
+  ProbabilityTheory.expMeasure M.rate
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-374422e12fa3aeb6}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}Exponential.\allowbreak{}Model.\allowbreak{}iidProductMeasure}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(M : EconCSLib.Probability.Exponential.Model) → (q : ℕ) → MeasureTheory.Measure.pi fun x => M.measure
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def Model.iidProductMeasure
+    (M : Model) (q : ℕ) : MeasureTheory.Measure (Fin q → ℝ) :=
+  MeasureTheory.Measure.pi (fun _ : Fin q => M.measure)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-f979086662c1cf00}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}Exponential.\allowbreak{}Model.\allowbreak{}mk}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+(rate : ℝ) → 0 < rate → EconCSLib.Probability.Exponential.Model
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-02420e071ed4ec26}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}Exponential.\allowbreak{}harmonicReal}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(q : ℕ) → ∑ j ∈ Finset.range q, 1 / ↑(j + 1)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def harmonicReal (q : ℕ) : ℝ :=
+  ∑ j ∈ Finset.range q, (1 : ℝ) / ((j + 1 : ℕ) : ℝ)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-83df72d297d25686}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}Pareto.\allowbreak{}iidProductMeasure}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(t r : ℝ) → (q : ℕ) → MeasureTheory.Measure.pi fun x => ProbabilityTheory.paretoMeasure t r
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def iidProductMeasure (t r : ℝ) (q : ℕ) :
+    MeasureTheory.Measure (Fin q → ℝ) :=
+  MeasureTheory.Measure.pi
+    (fun _ : Fin q => ProbabilityTheory.paretoMeasure t r)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-18052cb8ae517639}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}TopKExpectationOracle}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+Type u_1 → Type u_1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+structure TopKExpectationOracle (τ : Type*) where
+  expectedTopSum : ℕ → τ → ℕ → ℝ
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-6edb20c3dcdd9767}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}TopKExpectationOracle.\allowbreak{}mk}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+{τ : Type u_1} → (ℕ → τ → ℕ → ℝ) → EconCSLib.Probability.TopKExpectationOracle τ
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-b4ecb635d6064acd}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}TopKExpectationOracle.\allowbreak{}common}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(τ : Type u_2) → (h : ℕ → ℝ) → { expectedTopSum := fun _k _t q => h q }
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def common (τ : Type*) (h : ℕ → ℝ) : TopKExpectationOracle τ where
+  expectedTopSum := fun _k _t q => h q
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-f3d0f68534aa7689}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}TopKExpectationOracle.\allowbreak{}expectedTopSum}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{τ : Type u_1} →
+  (self : EconCSLib.Probability.TopKExpectationOracle τ) → (a : ℕ) → (a_1 : τ) → (a_2 : ℕ) → self.1 a a_1 a_2
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e63098616a4b886a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}orderStatisticTopKSumFromMean}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(μ : ℕ → ℕ → ℝ) → (k a : ℕ) → ∑ i ∈ Finset.range (min k a), μ (a - i) a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def orderStatisticTopKSumFromMean
+    (μ : ℕ → ℕ → ℝ) (k a : ℕ) : ℝ :=
+  ∑ i ∈ Finset.range (min k a), μ (a - i) a
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-11c2928776f87e9b}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}TopKExpectationOracle.\allowbreak{}orderStatisticTopKExpectationOracle}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(τ : Type u_2) →
+  (μ : ℕ → ℕ → ℝ) → { expectedTopSum := fun k _t q => EconCSLib.Probability.orderStatisticTopKSumFromMean μ k q }
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def orderStatisticTopKExpectationOracle
+    (τ : Type*) (μ : ℕ → ℕ → ℝ) : TopKExpectationOracle τ where
+  expectedTopSum := fun k _t q => orderStatisticTopKSumFromMean μ k q
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-5424336cdb453911}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}ascendingOrderStatistic}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} → (sample : Fin n → ℝ) → (rank : Fin n) → sample ((Tuple.sort sample) rank)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def ascendingOrderStatistic {n : ℕ} (sample : Fin n → ℝ) (rank : Fin n) : ℝ :=
+  sample (Tuple.sort sample rank)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-4cea2ad3a0ac0028}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}binaryRatingScore}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(b : Bool) → if b = true then 1 else 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def binaryRatingScore (b : Bool) : ℝ :=
+  if b then 1 else 0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-d15dae326946f52b}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}sampleOrderStatisticValue}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{a : ℕ} →
+  (sample : Fin a → ℝ) →
+    (rank : ℕ) →
+      if hrank : 0 < rank ∧ rank ≤ a then EconCSLib.Probability.ascendingOrderStatistic sample ⟨rank - 1, ⋯⟩ else 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def sampleOrderStatisticValue {a : ℕ}
+    (sample : Fin a → ℝ) (rank : ℕ) : ℝ :=
+  if hrank : 0 < rank ∧ rank ≤ a then
+    ascendingOrderStatistic sample ⟨rank - 1, by omega⟩
+  else 0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-0f0bc5629332b317}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}expectedSampleOrderStatisticMean}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{a : ℕ} →
+  (μ : MeasureTheory.Measure (Fin a → ℝ)) →
+    (rank sampleSize : ℕ) →
+      if sampleSize = a then ∫ (sample : Fin a → ℝ), EconCSLib.Probability.sampleOrderStatisticValue sample rank ∂μ
+      else 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def expectedSampleOrderStatisticMean {a : ℕ}
+    (μ : MeasureTheory.Measure (Fin a → ℝ)) (rank sampleSize : ℕ) : ℝ :=
+  if sampleSize = a then
+    ∫ sample, sampleOrderStatisticValue sample rank ∂μ
+  else 0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-da58a47f8cf8aa37}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}expectedOrderStatisticMeanSeq}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(sampleMeasure : (a : ℕ) → MeasureTheory.Measure (Fin a → ℝ)) →
+  (rank sampleSize : ℕ) →
+    EconCSLib.Probability.expectedSampleOrderStatisticMean (sampleMeasure sampleSize) rank sampleSize
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def expectedOrderStatisticMeanSeq
+    (sampleMeasure : (a : ℕ) → MeasureTheory.Measure (Fin a → ℝ))
+    (rank sampleSize : ℕ) : ℝ :=
+  expectedSampleOrderStatisticMean (sampleMeasure sampleSize) rank sampleSize
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-c31a128535eb9d3f}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}topKRankEmbedding}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(k n : ℕ) → (i : Fin (min k n)) → ⟨↑i, ⋯⟩
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def topKRankEmbedding (k n : ℕ) (i : Fin (min k n)) : Fin n :=
+  ⟨i.val, lt_of_lt_of_le i.isLt (min_le_right k n)⟩
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-73abacac3346884e}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}upperOrderStatistic}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (sample : Fin n → ℝ) → (rankFromTop : Fin n) → EconCSLib.Probability.ascendingOrderStatistic sample rankFromTop.rev
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def upperOrderStatistic {n : ℕ} (sample : Fin n → ℝ)
+    (rankFromTop : Fin n) : ℝ :=
+  ascendingOrderStatistic sample rankFromTop.rev
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-d2bd4711b013979c}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}sampleTopKSum}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (sample : Fin n → ℝ) →
+    (k : ℕ) → ∑ i, EconCSLib.Probability.upperOrderStatistic sample (EconCSLib.Probability.topKRankEmbedding k n i)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def sampleTopKSum {n : ℕ} (sample : Fin n → ℝ) (k : ℕ) : ℝ :=
+  ∑ i : Fin (min k n),
+    upperOrderStatistic sample (topKRankEmbedding k n i)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-d84d938cdf309d75}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}expectedSampleTopKSum}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (μ : MeasureTheory.Measure (Fin n → ℝ)) →
+    (k : ℕ) → ∫ (sample : Fin n → ℝ), EconCSLib.Probability.sampleTopKSum sample k ∂μ
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def expectedSampleTopKSum {n : ℕ}
+    (μ : MeasureTheory.Measure (Fin n → ℝ)) (k : ℕ) : ℝ :=
+  ∫ sample, sampleTopKSum sample k ∂μ
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-b6ce97a274cbdb86}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}realBernoulliPMF}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(p : ℝ) → (hp0 : 0 ≤ p) → (hp1 : p ≤ 1) → PMF.bernoulli ⟨p, hp0⟩ ⋯
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def realBernoulliPMF (p : ℝ) (hp0 : 0 ≤ p) (hp1 : p ≤ 1) : PMF Bool :=
+  PMF.bernoulli ⟨p, hp0⟩ (by
+    change p ≤ (1 : ℝ)
+    exact hp1)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-6839133042f142df}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}reflectedCDFMass}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(μ : MeasureTheory.Measure ℝ) → (M x : ℝ) → μ.real {y | M ≤ x + y}
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def reflectedCDFMass (μ : Measure ℝ) (M x : ℝ) : ℝ :=
+  μ.real {y : ℝ | M ≤ x + y}
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-087e3287a5c76915}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}finiteMin}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} → [inst : Fintype α] → [inst_1 : Nonempty α] → (f : α → ℝ) → Finset.univ.inf' ⋯ f
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteMin {α : Type*} [Fintype α] [Nonempty α]
+    (f : α → ℝ) : ℝ :=
+  (Finset.univ : Finset α).inf' Finset.univ_nonempty f
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e5c7eedc40c11b7a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfExp}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} → [inst : Fintype α] → [DecidableEq α] → (μ : PMF α) → (f : α → ℝ) → ∑ a, (μ a).toReal * f a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfExp {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (f : α → ℝ) : ℝ :=
+  ∑ a, (μ a).toReal * f a
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-b9805c0fe3b56f02}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfPi}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{ι : Type u_1} →
+  [inst : Fintype ι] →
+    [inst_1 : DecidableEq ι] →
+      {α : ι → Type u_2} →
+        [inst_2 : (i : ι) → Fintype (α i)] → (μ : (i : ι) → PMF (α i)) → PMF.ofFintype (fun f => ∏ i, (μ i) (f i)) ⋯
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfPi {ι : Type*} [Fintype ι] [DecidableEq ι]
+    {α : ι → Type*} [∀ i : ι, Fintype (α i)]
+    (μ : ∀ i : ι, PMF (α i)) : PMF ((i : ι) → α i) :=
+  PMF.ofFintype (fun f : (i : ι) → α i => ∏ i : ι, μ i (f i)) (by
+    classical
+    have hcoord : ∀ i : ι, ∑ a : α i, μ i a = 1 := by
+      intro i
+      rw [← PMF.tsum_coe (μ i), tsum_fintype]
+    calc
+      ∑ f : ((i : ι) → α i), ∏ i : ι, μ i (f i)
+          = ∑ f ∈ Fintype.piFinset
+              (fun i : ι => (Finset.univ : Finset (α i))),
+              ∏ i : ι, μ i (f i) := by
+            simp
+      _ = ∏ i : ι, ∑ a ∈ (Finset.univ : Finset (α i)), μ i a := by
+            symm
+            exact Finset.prod_univ_sum
+              (t := fun i : ι => (Finset.univ : Finset (α i)))
+              (f := fun i a => μ i a)
+      _ = 1 := by simp [hcoord])
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-7fec9dedef722fc8}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] →
+    [inst_1 : DecidableEq α] →
+      (μ : PMF α) → (p : α → Prop) → [inst_2 : DecidablePred p] → EconCSLib.pmfExp μ fun a => if p a then 1 else 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfProb {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (p : α → Prop) [DecidablePred p] : ℝ :=
+  pmfExp μ (fun a => if p a then 1 else 0)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-38eb9a31a47bfbd9}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfProduct}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(ι : Type u_1) →
+  (α : Type u_2) →
+    [inst : Fintype ι] →
+      [inst_1 : DecidableEq ι] → [inst_2 : Fintype α] → (μ : PMF α) → PMF.ofFintype (fun f => ∏ i, μ (f i)) ⋯
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfProduct (ι α : Type*) [Fintype ι] [DecidableEq ι] [Fintype α]
+    (μ : PMF α) : PMF (ι → α) :=
+  PMF.ofFintype (fun f : ι → α => ∏ i : ι, μ (f i)) (by
+    classical
+    have hcoord : ∑ a : α, μ a = 1 := by
+      rw [← PMF.tsum_coe μ, tsum_fintype]
+    calc
+      ∑ f : ι → α, ∏ i : ι, μ (f i)
+          = ∏ i : ι, ∑ a : α, μ a := by
+            symm
+            simpa using
+              (Finset.prod_univ_sum
+                (t := fun _i : ι => (Finset.univ : Finset α))
+                (f := fun _i a => μ a))
+      _ = 1 := by simp [hcoord])
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\clearpage
+\hypertarget{source-claim-f5a7e9fe26a022aa}{}
+\hypertarget{source-section-f10b5f68e4acf3dc}{}
+\section*{Source claims}
+\subsection*{Review row 1}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 349-\allowbreak{}350\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a nonempty finite type space with a preferred-type PMF having every atom p_t > 0, a fixed positive k, and a shared iid finite discrete nonnegative conditional-value law having a positive top value, a strictly smaller nonnegative second bound, and positive law mass both at the top and below it, the source exact min(k,a) top-k objective is the stated two-stage PMF experiment and every fixed-total optimal allocation sequence has limiting uniform type shares.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 349-\allowbreak{}350\par}
+\paragraph{Recorded basis}
+Approved finite-\allowbreak{}discrete corrected target and visible nonnegative exact-\allowbreak{}top-\allowbreak{}k model convention in docs/\allowbreak{}CORRECTED\_\allowbreak{}TARGET\_\allowbreak{}APPROVAL\_\allowbreak{}ADDENDUM\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}27.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {T : ℕ} [NeZero T] {Omega : Type u_1} [inst : Fintype Omega] [inst_1 : DecidableEq Omega]
+  (preferenceLaw : PRPKG24AccuracyDiversity.SourcePreferenceLaw T) (itemLaw : PMF Omega) (value : Omega → ℝ)
+  {xTop xSecond : ℝ} (k : ℕ)
+  (seq :
+    PRPKG24AccuracyDiversity.OptimalAllocationSequence fun x =>
+      (PRPKG24AccuracyDiversity.TopKValueOracle.common T
+            (PRPKG24AccuracyDiversity.finiteDiscreteIidTopKExpected Omega itemLaw k value)).toConsumptionModel
+        (fun t => (preferenceLaw t).toReal) k),
+  0 < k →
+    0 < xTop →
+      0 ≤ xSecond →
+        xSecond ≤ xTop →
+          xSecond < xTop →
+            (∀ (omega : Omega), 0 ≤ value omega) →
+              (∀ (omega : Omega), value omega ≤ xTop) →
+                (∀ (omega : Omega), value omega = xTop ∨ value omega ≤ xSecond) →
+                  (0 < EconCSLib.pmfProb itemLaw fun omega => value omega = xTop) →
+                    (0 < EconCSLib.pmfProb itemLaw fun omega => ¬value omega = xTop) →
+                      (∀ (t : PRPKG24AccuracyDiversity.ItemType T), 0 < (preferenceLaw t).toReal) →
+                        (∀ (a : PRPKG24AccuracyDiversity.CountAllocation T),
+                            ((PRPKG24AccuracyDiversity.TopKValueOracle.common T
+                                        (PRPKG24AccuracyDiversity.finiteDiscreteIidTopKExpected Omega itemLaw k
+                                          value)).toConsumptionModel
+                                    (fun t => (preferenceLaw t).toReal) k).objective
+                                a =
+                              EconCSLib.pmfExp preferenceLaw fun t =>
+                                EconCSLib.pmfExp (EconCSLib.pmfProduct (Fin (a.count t)) Omega itemLaw) fun sample =>
+                                  EconCSLib.Probability.sampleTopKSum (fun i => value (sample i)) k) ∧
+                          ∀ (t : PRPKG24AccuracyDiversity.ItemType T),
+                            Filter.Tendsto (fun N => (seq.allocation N).representation t) Filter.atTop (nhds (1 / ↑T))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.theorem1_i_formulaSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-8765a3b8d5c11957}{}
+\section*{Review row 2}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 351-\allowbreak{}365\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {T : ℕ} [NeZero T] {beta c M L : ℝ} {k : ℕ} (preferenceLaw : PRPKG24AccuracyDiversity.SourcePreferenceLaw T)
+  (baseMeasure : MeasureTheory.Measure ℝ) [MeasureTheory.IsProbabilityMeasure baseMeasure],
+  MeasureTheory.Integrable (fun x => x) baseMeasure →
+    (∀ᵐ (y : ℝ) ∂baseMeasure, L ≤ y ∧ y ≤ M) →
+      (∀ᵐ (y : ℝ) ∂baseMeasure, 0 ≤ y) →
+        0 < M →
+          ∀ (f : ℝ → ℝ),
+            (baseMeasure = MeasureTheory.volume.withDensity fun y => ENNReal.ofReal (f y)) →
+              (∀ (y : ℝ), 0 ≤ f y) →
+                Measurable f →
+                  0 < beta →
+                    0 < c →
+                      Filter.Tendsto (fun x => f x / (M - x) ^ (beta - 1)) (nhdsWithin M (Set.Iio M)) (nhds c) →
+                        (∀ (t : PRPKG24AccuracyDiversity.ItemType T), 0 < (preferenceLaw t).toReal) →
+                          0 < k →
+                            0 < M - L →
+                              ∀
+                                (seq :
+                                  PRPKG24AccuracyDiversity.OptimalAllocationSequence fun x =>
+                                    PRPKG24AccuracyDiversity.boundedIidOrderStatisticConsumptionModel
+                                      (fun t => (preferenceLaw t).toReal) k baseMeasure),
+                                (∀ (a : PRPKG24AccuracyDiversity.CountAllocation T),
+                                    (PRPKG24AccuracyDiversity.boundedIidOrderStatisticConsumptionModel
+                                            (fun t => (preferenceLaw t).toReal) k baseMeasure).objective
+                                        a =
+                                      EconCSLib.pmfExp preferenceLaw fun t =>
+                                        EconCSLib.Probability.expectedSampleTopKSum
+                                          (PRPKG24AccuracyDiversity.definition3IidSampleMeasure baseMeasure (a.count t))
+                                          k) ∧
+                                  ∀ (t : PRPKG24AccuracyDiversity.ItemType T),
+                                    Filter.Tendsto (fun N => (seq.allocation N).representation t) Filter.atTop
+                                      (nhds
+                                        ((preferenceLaw t).toReal ^ (beta / (beta + 1)) /
+                                          ∑ i, (preferenceLaw i).toReal ^ (beta / (beta + 1))))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.theorem1_ii_formulaSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-378eee8a78b6ada4}{}
+\section*{Review row 3}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 431-\allowbreak{}433\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {T : ℕ} [NeZero T] (preferenceLaw : PRPKG24AccuracyDiversity.SourcePreferenceLaw T) (lambda : ℝ) (k : ℕ)
+  (hlambda_pos : 0 < lambda),
+  0 < k →
+    (∀ (t : PRPKG24AccuracyDiversity.ItemType T), 0 < (preferenceLaw t).toReal) →
+      ∀
+        (seq :
+          PRPKG24AccuracyDiversity.OptimalAllocationSequence fun x =>
+            (PRPKG24AccuracyDiversity.exponentialTopKOrderStatisticOracle T lambda k).toConsumptionModel
+              (fun t => (preferenceLaw t).toReal) k),
+        (∀ (a : PRPKG24AccuracyDiversity.CountAllocation T),
+            ((PRPKG24AccuracyDiversity.exponentialTopKOrderStatisticOracle T lambda k).toConsumptionModel
+                    (fun t => (preferenceLaw t).toReal) k).objective
+                a =
+              EconCSLib.pmfExp preferenceLaw fun t =>
+                EconCSLib.Probability.expectedSampleTopKSum
+                  ((PRPKG24AccuracyDiversity.exponentialDistributionModel lambda hlambda_pos).iidProductMeasure
+                    (a.count t))
+                  k) ∧
+          ∀ (t : PRPKG24AccuracyDiversity.ItemType T),
+            Filter.Tendsto (fun N => (seq.allocation N).representation t) Filter.atTop
+              (nhds ((preferenceLaw t).toReal ^ 1 / ∑ i, (preferenceLaw i).toReal ^ 1))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.theorem1_iii_formulaSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-cc5ff6e8390a6049}{}
+\section*{Review row 4}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 434-\allowbreak{}437\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {T : ℕ} [NeZero T] (preferenceLaw : PRPKG24AccuracyDiversity.SourcePreferenceLaw T) {k : ℕ} {alpha : ℝ},
+  1 < alpha →
+    0 < k →
+      (∀ (t : PRPKG24AccuracyDiversity.ItemType T), 0 < (preferenceLaw t).toReal) →
+        ∀
+          (seq :
+            PRPKG24AccuracyDiversity.OptimalAllocationSequence fun x =>
+              PRPKG24AccuracyDiversity.paretoIidOrderStatisticConsumptionModel (fun t => (preferenceLaw t).toReal) k
+                alpha),
+          (∀ (a : PRPKG24AccuracyDiversity.CountAllocation T),
+              (PRPKG24AccuracyDiversity.paretoIidOrderStatisticConsumptionModel (fun t => (preferenceLaw t).toReal) k
+                      alpha).objective
+                  a =
+                EconCSLib.pmfExp preferenceLaw fun t =>
+                  EconCSLib.Probability.expectedSampleTopKSum
+                    (PRPKG24AccuracyDiversity.paretoIidSampleMeasure alpha (a.count t)) k) ∧
+            ∀ (t : PRPKG24AccuracyDiversity.ItemType T),
+              Filter.Tendsto (fun N => (seq.allocation N).representation t) Filter.atTop
+                (nhds
+                  ((preferenceLaw t).toReal ^ (alpha / (alpha - 1)) /
+                    ∑ i, (preferenceLaw i).toReal ^ (alpha / (alpha - 1))))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.theorem1_iv_formulaSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-846cffa9077c1769}{}
+\section*{Review row 5}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 438-\allowbreak{}441\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a finite type space with a preferred-type PMF, one common iid conditional-value probability law D whose identity is integrable and whose mean is nonnegative, and a selected type maximizing the PMF atom mass, the source all-consumed objective is the stated selected-type and finite-iid-sample expectation and the all-on allocation at that type is an optimal selected allocation at every total.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 437-\allowbreak{}438\par}
+\paragraph{Recorded basis}
+Approved selected-\allowbreak{}optimizer/\allowbreak{}tie convention and recorded nonnegative-\allowbreak{}mean Theorem 1(v) correction in docs/\allowbreak{}CORRECTED\_\allowbreak{}TARGET\_\allowbreak{}APPROVAL\_\allowbreak{}ADDENDUM\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}27.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {T : ℕ} (preferenceLaw : PRPKG24AccuracyDiversity.SourcePreferenceLaw T) (D : MeasureTheory.Measure ℝ)
+  [MeasureTheory.IsProbabilityMeasure D],
+  MeasureTheory.Integrable (fun x => x) D →
+    0 ≤ ∫ (x : ℝ), x ∂D →
+      ∀ (N : ℕ) (best : PRPKG24AccuracyDiversity.ItemType T),
+        (∀ (t : PRPKG24AccuracyDiversity.ItemType T), (preferenceLaw t).toReal ≤ (preferenceLaw best).toReal) →
+          (PRPKG24AccuracyDiversity.iidAllConsumedSourceModel preferenceLaw D).IsOptimalAtTotal N
+            (PRPKG24AccuracyDiversity.allOnTypeAllocation N best)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.theorem1_v_selected_maximizer_conclusionSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-e7ae4618a91038ee}{}
+\section*{Review row 6}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 443-\allowbreak{}457\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {T : ℕ} [NeZero T] {k : ℕ} (likelihood : PRPKG24AccuracyDiversity.ItemType T → ℝ) (gamma : ℝ),
+  0 < k →
+    0 ≤ gamma →
+      (∀ (t : PRPKG24AccuracyDiversity.ItemType T), 0 < likelihood t) →
+        ∃ M,
+          PRPKG24AccuracyDiversity.Corollary1SourceIidFamily likelihood gamma k M ∧
+            ∀ (seq : PRPKG24AccuracyDiversity.OptimalAllocationSequence fun x => M)
+              (t : PRPKG24AccuracyDiversity.ItemType T),
+              Filter.Tendsto (fun N => (seq.allocation N).representation t) Filter.atTop
+                (nhds (likelihood t ^ gamma / ∑ i, likelihood i ^ gamma))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.corollary1Spec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-e58423f2214d3283}{}
+\section*{Review row 7}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 459-\allowbreak{}516\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For the iid Uniform([0,1]) source model with positive type likelihoods and every displayed-admissible positive top-k sequence, every fixed-total optimal allocation has representation error at most (2*m+1)/n from the square-root likelihood profile, and every optimal allocation sequence converges to that profile.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 459-\allowbreak{}485\par}
+\paragraph{Recorded basis}
+Approved corrected Proposition 2 finite constant and unchanged asymptotic conclusion in docs/\allowbreak{}CORRECTED\_\allowbreak{}TARGET\_\allowbreak{}APPROVAL\_\allowbreak{}ADDENDUM\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}27.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {T : ℕ} [inst : NeZero T] (likelihood : PRPKG24AccuracyDiversity.ItemType T → ℝ) (kseq : ℕ → ℕ),
+  (∀ (t : PRPKG24AccuracyDiversity.ItemType T), 0 < likelihood t) →
+    (∀ (N : ℕ), 0 < N → 0 < kseq N) →
+      (∀ (N : ℕ), 0 < N → ↑(kseq N) + 1 ≤ ↑N * PRPKG24AccuracyDiversity.uniformSqrtMinShare likelihood - ↑T) →
+        ∀
+          (seq :
+            PRPKG24AccuracyDiversity.OptimalAllocationSequence fun N =>
+              PRPKG24AccuracyDiversity.uniformTopKConsumptionModel likelihood (kseq N)),
+          (∀ (N : ℕ),
+              0 < N →
+                ∀ (a : PRPKG24AccuracyDiversity.CountAllocation T),
+                  (PRPKG24AccuracyDiversity.uniformTopKConsumptionModel likelihood (kseq N)).IsOptimalAtTotal N a →
+                    (PRPKG24AccuracyDiversity.PaperInterface.proposition2SqrtProfile likelihood).Approx a
+                      ((2 * ↑(Fintype.card (PRPKG24AccuracyDiversity.ItemType T)) + 1) / ↑N)) ∧
+            seq.toAllocationSequence.ConvergesToProfile
+              (PRPKG24AccuracyDiversity.PaperInterface.proposition2SqrtProfile likelihood)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.proposition2_corrected_finite_and_sequence_sourceSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-f61ea0b8a68fcc23}{}
+\section*{Review row 8}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 518-\allowbreak{}535\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a nonempty finite type space with a preferred-type PMF having every atom p_t > 0 and, conditional on each selected type, iid Bernoulli(q) values for one common q in (0,1), the source top-one objective is the stated selected-type and finite-iid-Bernoulli two-stage expectation and every fixed-total optimal allocation sequence has limiting uniform type shares.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 518-\allowbreak{}521\par}
+\paragraph{Recorded basis}
+Approved corrected Corollary 3 q-\allowbreak{}in-\allowbreak{}(0,1) target and visible positive-\allowbreak{}PMF-\allowbreak{}support convention in docs/\allowbreak{}BERNOULLI\_\allowbreak{}MAIN\_\allowbreak{}RESULTS\_\allowbreak{}CORRECTED\_\allowbreak{}TARGET\_\allowbreak{}APPROVAL\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}27.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {T : ℕ} [NeZero T] (B : PRPKG24AccuracyDiversity.BernoulliSatisfactionModel T)
+  (preferenceLaw : PRPKG24AccuracyDiversity.SourcePreferenceLaw T),
+  (∀ (t : PRPKG24AccuracyDiversity.ItemType T), B.likelihood t = (preferenceLaw t).toReal) →
+    (∀ (t : PRPKG24AccuracyDiversity.ItemType T), 0 < B.successProb t) →
+      (∀ (t : PRPKG24AccuracyDiversity.ItemType T), B.successProb t < 1) →
+        (∀ (t : PRPKG24AccuracyDiversity.ItemType T), 0 < (preferenceLaw t).toReal) →
+          (∀ (i j : PRPKG24AccuracyDiversity.ItemType T), B.successProb i = B.successProb j) →
+            PRPKG24AccuracyDiversity.ConsumptionModel.AsymptoticHomogeneity (fun x => B.toConsumptionModel)
+              (PRPKG24AccuracyDiversity.uniformProfile T)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.corollary3_iid_bernoulli_conclusionSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-04c6588920268e32}{}
+\section*{Review row 9}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 540-\allowbreak{}543\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a nonempty finite type space with a preferred-type PMF having every atom p_t > 0 and, conditional on the selected type, independent rank-varying Bernoulli values satisfying P[X_i^(t)=1] = c*((i+1)+d)^(-alpha), 0 <= alpha < 1, c > 0, d >= 0, and c*(1+d)^(-alpha) < 1, the source top-one objective is the stated two-stage PMF experiment and every optimal top-one allocation sequence has limiting uniform type shares.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 537-\allowbreak{}541\par}
+\paragraph{Recorded basis}
+Approved Theorem 2 independent rank-\allowbreak{}varying Bernoulli model correction in docs/\allowbreak{}THEOREM2\_\allowbreak{}MODEL\_\allowbreak{}CORRECTION\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}27.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {T : ℕ} [NeZero T] (preferenceLaw : PRPKG24AccuracyDiversity.SourcePreferenceLaw T) (alpha c d : ℝ)
+  (halpha_nonneg : 0 ≤ alpha),
+  alpha < 1 →
+    ∀ (hc_pos : 0 < c) (hd_nonneg : 0 ≤ d)
+      (hfirst_lt_one : PRPKG24AccuracyDiversity.decayingBernoulliSuccess c d alpha 0 < 1),
+      (∀ (t : PRPKG24AccuracyDiversity.ItemType T), 0 < (preferenceLaw t).toReal) →
+        ∀
+          (seq :
+            PRPKG24AccuracyDiversity.OptimalAllocationSequence fun x =>
+              PRPKG24AccuracyDiversity.decayingBernoulliTopOneConsumptionModel (fun t => (preferenceLaw t).toReal) c d
+                alpha),
+          (∀ (a : PRPKG24AccuracyDiversity.CountAllocation T),
+              (PRPKG24AccuracyDiversity.decayingBernoulliTopOneConsumptionModel (fun t => (preferenceLaw t).toReal) c d
+                      alpha).objective
+                  a =
+                EconCSLib.pmfExp preferenceLaw fun t =>
+                  EconCSLib.pmfExp
+                    (PRPKG24AccuracyDiversity.decayingBernoulliFiniteLaw c d alpha (a.count t) ⋯ hd_nonneg halpha_nonneg
+                      ⋯)
+                    PRPKG24AccuracyDiversity.rankBernoulliFiniteTopOneSampleValue) ∧
+            ∀ (t : PRPKG24AccuracyDiversity.ItemType T),
+              Filter.Tendsto (fun N => (seq.allocation N).representation t) Filter.atTop (nhds (1 / ↑T))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.theorem2_i_corrected_pmf_source_model_endpointSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-6ff5481408fce970}{}
+\section*{Review row 10}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 544-\allowbreak{}546\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a nonempty finite type space with a preferred-type PMF having every atom p_t > 0 and, conditional on the selected type, independent rank-varying Bernoulli values satisfying P[X_i^(t)=1] = c*((i+1)+d)^(-1), c > 0, d >= 0, and c*(1+d)^(-1) < 1, the source top-one objective is the stated two-stage PMF experiment and every optimal top-one allocation sequence has shares converging to p_t^(1/(1+c)) / sum_i p_i^(1/(1+c)).
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 537-\allowbreak{}545\par}
+\paragraph{Recorded basis}
+Approved Theorem 2 independent rank-\allowbreak{}varying Bernoulli model correction in docs/\allowbreak{}THEOREM2\_\allowbreak{}MODEL\_\allowbreak{}CORRECTION\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}27.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {T : ℕ} [NeZero T] (preferenceLaw : PRPKG24AccuracyDiversity.SourcePreferenceLaw T) (c d : ℝ) (hc_pos : 0 < c)
+  (hd_nonneg : 0 ≤ d) (hfirst_lt_one : PRPKG24AccuracyDiversity.decayingBernoulliSuccess c d 1 0 < 1),
+  (∀ (t : PRPKG24AccuracyDiversity.ItemType T), 0 < (preferenceLaw t).toReal) →
+    ∀
+      (seq :
+        PRPKG24AccuracyDiversity.OptimalAllocationSequence fun x =>
+          PRPKG24AccuracyDiversity.decayingBernoulliTopOneConsumptionModel (fun t => (preferenceLaw t).toReal) c d 1),
+      (∀ (a : PRPKG24AccuracyDiversity.CountAllocation T),
+          (PRPKG24AccuracyDiversity.decayingBernoulliTopOneConsumptionModel (fun t => (preferenceLaw t).toReal) c d
+                  1).objective
+              a =
+            EconCSLib.pmfExp preferenceLaw fun t =>
+              EconCSLib.pmfExp
+                (PRPKG24AccuracyDiversity.decayingBernoulliFiniteLaw c d 1 (a.count t) ⋯ hd_nonneg
+                  PRPKG24AccuracyDiversity.PaperInterface.theorem2_ii_corrected_pmf_source_model_endpointSpec._proof_1
+                  ⋯)
+                PRPKG24AccuracyDiversity.rankBernoulliFiniteTopOneSampleValue) ∧
+        ∀ (t : PRPKG24AccuracyDiversity.ItemType T),
+          Filter.Tendsto (fun N => (seq.allocation N).representation t) Filter.atTop
+            (nhds ((preferenceLaw t).toReal ^ (1 / (1 + c)) / ∑ i, (preferenceLaw i).toReal ^ (1 / (1 + c))))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.theorem2_ii_corrected_pmf_source_model_endpointSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-3057a09badb30d45}{}
+\section*{Review row 11}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 547-\allowbreak{}551\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a nonempty finite type space with a preferred-type PMF having every atom p_t > 0 and, conditional on the selected type, independent rank-varying Bernoulli values satisfying P[X_i^(t)=1] = c*((i+1)+d)^(-alpha), alpha > 1, c > 0, d >= 0, and c*(1+d)^(-alpha) < 1, the source top-one objective is the stated two-stage PMF experiment and every optimal top-one allocation sequence has shares converging to p_t^(1/alpha) / sum_i p_i^(1/alpha).
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 537-\allowbreak{}548\par}
+\paragraph{Recorded basis}
+Approved Theorem 2 independent rank-\allowbreak{}varying Bernoulli model correction in docs/\allowbreak{}THEOREM2\_\allowbreak{}MODEL\_\allowbreak{}CORRECTION\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}27.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {T : ℕ} [NeZero T] (preferenceLaw : PRPKG24AccuracyDiversity.SourcePreferenceLaw T) (alpha c d : ℝ)
+  (halpha_gt_one : 1 < alpha) (hc_pos : 0 < c) (hd_nonneg : 0 ≤ d)
+  (hfirst_lt_one : PRPKG24AccuracyDiversity.decayingBernoulliSuccess c d alpha 0 < 1),
+  (∀ (t : PRPKG24AccuracyDiversity.ItemType T), 0 < (preferenceLaw t).toReal) →
+    ∀
+      (seq :
+        PRPKG24AccuracyDiversity.OptimalAllocationSequence fun x =>
+          PRPKG24AccuracyDiversity.decayingBernoulliTopOneConsumptionModel (fun t => (preferenceLaw t).toReal) c d
+            alpha),
+      (∀ (a : PRPKG24AccuracyDiversity.CountAllocation T),
+          (PRPKG24AccuracyDiversity.decayingBernoulliTopOneConsumptionModel (fun t => (preferenceLaw t).toReal) c d
+                  alpha).objective
+              a =
+            EconCSLib.pmfExp preferenceLaw fun t =>
+              EconCSLib.pmfExp
+                (PRPKG24AccuracyDiversity.decayingBernoulliFiniteLaw c d alpha (a.count t) ⋯ hd_nonneg ⋯ ⋯)
+                PRPKG24AccuracyDiversity.rankBernoulliFiniteTopOneSampleValue) ∧
+        ∀ (t : PRPKG24AccuracyDiversity.ItemType T),
+          Filter.Tendsto (fun N => (seq.allocation N).representation t) Filter.atTop
+            (nhds ((preferenceLaw t).toReal ^ (1 / alpha) / ∑ i, (preferenceLaw i).toReal ^ (1 / alpha)))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.theorem2_iii_corrected_pmf_source_model_endpointSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-49b00f2a87213781}{}
+\section*{Review row 12}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 552-\allowbreak{}564\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a nonempty finite type space with a preferred-type PMF having every atom p_t > 0 and, conditional on the selected type, independent rank-varying Bernoulli values satisfying P[X_i^(t)=1] = c*((i+1)+d)^(-alpha), alpha >= 0, c >= 0, d >= 0, and c*(1+d)^(-alpha) <= 1: the source all-consumed objective is the stated two-stage PMF experiment; if alpha > 0 and c > 0, every optimal all-consumed allocation sequence has shares converging to p_t^(1/alpha) / sum_i p_i^(1/alpha); if alpha = 0, the corrected selected-optimizer convention yields an all-on allocation at a likelihood-maximizing type.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 537-\allowbreak{}553\par}
+\paragraph{Recorded basis}
+Approved Theorem 2 independent rank-\allowbreak{}varying Bernoulli model correction in docs/\allowbreak{}THEOREM2\_\allowbreak{}MODEL\_\allowbreak{}CORRECTION\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}27.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {T : ℕ} [NeZero T] (preferenceLaw : PRPKG24AccuracyDiversity.SourcePreferenceLaw T) (alpha c d : ℝ)
+  (halpha_nonneg : 0 ≤ alpha) (hc_nonneg : 0 ≤ c) (hd_nonneg : 0 ≤ d)
+  (hfirst_le_one : PRPKG24AccuracyDiversity.decayingBernoulliSuccess c d alpha 0 ≤ 1),
+  (∀ (t : PRPKG24AccuracyDiversity.ItemType T), 0 < (preferenceLaw t).toReal) →
+    (0 < alpha →
+        ∀ (hc_pos : 0 < c)
+          (seq :
+            PRPKG24AccuracyDiversity.OptimalAllocationSequence fun x =>
+              PRPKG24AccuracyDiversity.decayingBernoulliAllConsumedConsumptionModel (fun t => (preferenceLaw t).toReal)
+                c d alpha),
+          (∀ (a : PRPKG24AccuracyDiversity.CountAllocation T),
+              (PRPKG24AccuracyDiversity.decayingBernoulliAllConsumedConsumptionModel (fun t => (preferenceLaw t).toReal)
+                      c d alpha).objective
+                  a =
+                EconCSLib.pmfExp preferenceLaw fun t =>
+                  EconCSLib.pmfExp
+                    (PRPKG24AccuracyDiversity.decayingBernoulliFiniteLaw c d alpha (a.count t) ⋯ hd_nonneg halpha_nonneg
+                      hfirst_le_one)
+                    PRPKG24AccuracyDiversity.rankBernoulliFiniteAllConsumedSampleValue) ∧
+            ∀ (t : PRPKG24AccuracyDiversity.ItemType T),
+              Filter.Tendsto (fun N => (seq.allocation N).representation t) Filter.atTop
+                (nhds ((preferenceLaw t).toReal ^ (1 / alpha) / ∑ i, (preferenceLaw i).toReal ^ (1 / alpha)))) ∧
+      (alpha = 0 →
+        ∀ (N : ℕ) (best : PRPKG24AccuracyDiversity.ItemType T),
+          (∀ (t : PRPKG24AccuracyDiversity.ItemType T), (preferenceLaw t).toReal ≤ (preferenceLaw best).toReal) →
+            (∀ (a : PRPKG24AccuracyDiversity.CountAllocation T),
+                (PRPKG24AccuracyDiversity.decayingBernoulliAllConsumedConsumptionModel
+                        (fun t => (preferenceLaw t).toReal) c d alpha).objective
+                    a =
+                  EconCSLib.pmfExp preferenceLaw fun t =>
+                    EconCSLib.pmfExp
+                      (PRPKG24AccuracyDiversity.decayingBernoulliFiniteLaw c d alpha (a.count t) hc_nonneg hd_nonneg
+                        halpha_nonneg hfirst_le_one)
+                      PRPKG24AccuracyDiversity.rankBernoulliFiniteAllConsumedSampleValue) ∧
+              (PRPKG24AccuracyDiversity.decayingBernoulliAllConsumedConsumptionModel (fun t => (preferenceLaw t).toReal)
+                    c d alpha).IsOptimalAtTotal
+                N (PRPKG24AccuracyDiversity.allOnTypeAllocation N best))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.theorem2_iv_corrected_pmf_source_model_endpointSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-149ee4bef168eff6}{}
+\section*{Review row 13}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 605-\allowbreak{}662\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a nonempty finite type space with a preferred-type PMF having every atom p_t > 0 and, conditional on each selected type t, iid Bernoulli values with q_t in (0,1), the source top-one objective is the stated selected-type and finite-iid-Bernoulli two-stage expectation and every fixed-total optimal allocation sequence has limiting type share (1 / log(1 / (1 - q_t))) / sum_i (1 / log(1 / (1 - q_i))) for every t.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 605-\allowbreak{}619\par}
+\paragraph{Recorded basis}
+Approved corrected Theorem 3 q\_\allowbreak{}t-\allowbreak{}in-\allowbreak{}(0,1) target and visible positive-\allowbreak{}PMF-\allowbreak{}support convention in docs/\allowbreak{}BERNOULLI\_\allowbreak{}MAIN\_\allowbreak{}RESULTS\_\allowbreak{}CORRECTED\_\allowbreak{}TARGET\_\allowbreak{}APPROVAL\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}27.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {T : ℕ} [NeZero T] (B : PRPKG24AccuracyDiversity.BernoulliSatisfactionModel T)
+  (preferenceLaw : PRPKG24AccuracyDiversity.SourcePreferenceLaw T),
+  (∀ (t : PRPKG24AccuracyDiversity.ItemType T), B.likelihood t = (preferenceLaw t).toReal) →
+    (∀ (t : PRPKG24AccuracyDiversity.ItemType T), 0 < B.successProb t) →
+      (∀ (t : PRPKG24AccuracyDiversity.ItemType T), B.successProb t < 1) →
+        (∀ (t : PRPKG24AccuracyDiversity.ItemType T), 0 < (preferenceLaw t).toReal) →
+          ∀ (seq : PRPKG24AccuracyDiversity.OptimalAllocationSequence fun x => B.toConsumptionModel)
+            (t : PRPKG24AccuracyDiversity.ItemType T),
+            Filter.Tendsto (fun N => (seq.allocation N).representation t) Filter.atTop
+              (nhds
+                (PRPKG24AccuracyDiversity.theorem3LogShareWeight B t /
+                  ∑ i, PRPKG24AccuracyDiversity.theorem3LogShareWeight B i))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.theorem3_log_share_conclusionSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-a9a6608e74ff7dd3}{}
+\section*{Review row 14}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 619\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {T : ℕ} (B : PRPKG24AccuracyDiversity.BernoulliSatisfactionModel T)
+  (preferenceLaw : PRPKG24AccuracyDiversity.SourcePreferenceLaw T),
+  (∀ (t : PRPKG24AccuracyDiversity.ItemType T), B.likelihood t = (preferenceLaw t).toReal) →
+    PRPKG24AccuracyDiversity.assumption_bernoulli_success_probability_range B →
+      ∀ (N : ℕ) (best : PRPKG24AccuracyDiversity.ItemType T),
+        (∀ (t : PRPKG24AccuracyDiversity.ItemType T),
+            B.likelihood t * B.successProb t ≤ B.likelihood best * B.successProb best) →
+          (PRPKG24AccuracyDiversity.bernoulliAllConsumedModel B).IsOptimalAtTotal N
+            (PRPKG24AccuracyDiversity.allOnTypeAllocation N best)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.theorem3_all_consumed_argmax_conclusionSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-e8b459af037ff529}{}
+\section*{Review row 15}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 703-\allowbreak{}729\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 1. If D has support bounded from above by M with pdf fD such that limx→M (Mf−x)
+β−1 = c for some
+
+β, c > 0, then lima→∞ M k−h(a)
+= 1.
+−1
+Ba
+
+β
+
+Combining Lemma 1 with Lemma D.1(ii), with σ = − β1 , we show that for D as in Theorem 1(ii),
+β
+
+(n)
+
+a
+p β+1
+lim t = P t
+β .
+n→∞ n
+m
+β+1
+i=1 pi
+
+5
+
+(11)
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {beta c M L : ℝ} {k : ℕ} (baseMeasure : MeasureTheory.Measure ℝ) [MeasureTheory.IsProbabilityMeasure baseMeasure],
+  (∀ᵐ (y : ℝ) ∂baseMeasure, L ≤ y ∧ y ≤ M) →
+    0 < M - L →
+      ∀ (f : ℝ → ℝ),
+        (baseMeasure = MeasureTheory.volume.withDensity fun y => ENNReal.ofReal (f y)) →
+          (∀ (y : ℝ), 0 ≤ f y) →
+            Measurable f →
+              MeasureTheory.Integrable f MeasureTheory.volume →
+                0 < beta →
+                  0 < c →
+                    Filter.Tendsto (fun u => f (M - u) / (c * u ^ (beta - 1))) (nhdsWithin 0 (Set.Ioi 0)) (nhds 1) →
+                      0 < k →
+                        EconCSLib.Math.AsymptoticEquivalent
+                          (fun a =>
+                            ↑k * M -
+                              PRPKG24AccuracyDiversity.orderStatisticTopKSumFromMean
+                                (PRPKG24AccuracyDiversity.expectedOrderStatisticMeanSeq fun a =>
+                                  MeasureTheory.Measure.pi fun x => baseMeasure)
+                                k a)
+                          fun a =>
+                          (∑ q, PRPKG24AccuracyDiversity.boundedLemmaD2LimitCoeff beta c ↑q.snd) *
+                            PRPKG24AccuracyDiversity.boundedTailScale beta a
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.lemma1_bounded_topk_loss_asymptotic_of_pdf_sourceSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-28a8fb49d83f5d5a}{}
+\section*{Review row 16}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1122-\allowbreak{}1145\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Proposition 4. Consider a non-constant function p(u, v) : Sd × Sd → (0, 1], interpreted as the probability
+that item v does not satisfy a user with preference u, such that p(u, v) = q(||u − v||) can be expressed as
+a function of the cosine distance between u and v. Then let µ be a probability measure with support Sd ,
+representing the distribution of user preferences. Then for a probability measure α on Sd , define
+[U+0014 control character] Z
+[U+0015 control character]
+Z
+1
+log
+µ(u) exp n
+α(v) log p(u, v) dv du.
+(17)
+Γ(α) = lim
+n→∞ n
+Sd
+Sd
+Then
+Γ(π) ∈ inf Γ(α),
+
+(18)
+
+α
+
+where π is the uniform probability measure over Sd .
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+On the source unit-sphere model, with a full-support preference probability measure and a continuous nonconstant radial kernel p with 0 < p <= 1 on realized distances, the uniform probability profile pi satisfies Gamma(pi) <= Gamma(alpha) for every probability profile alpha.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 1122-\allowbreak{}1145\par}
+\paragraph{Recorded basis}
+Approved corrected Proposition 4 Equation (18) target and explicit continuity boundary in docs/\allowbreak{}CORRECTED\_\allowbreak{}TARGET\_\allowbreak{}APPROVAL\_\allowbreak{}ADDENDUM\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}27.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : InnerProductSpace ℝ E] [inst_2 : MeasurableSpace E]
+  [inst_3 : BorelSpace E] [OpensMeasurableSpace (PRPKG24AccuracyDiversity.Proposition4Sphere.UnitSphere E)]
+  [inst_5 : FiniteDimensional ℝ E] [inst_6 : Nontrivial E]
+  (preferenceMeasure : MeasureTheory.Measure (PRPKG24AccuracyDiversity.Proposition4Sphere.UnitSphere E))
+  [MeasureTheory.IsProbabilityMeasure preferenceMeasure] (p : ℝ → ℝ),
+  preferenceMeasure.IsOpenPosMeasure →
+    Continuous p →
+      (∃ r ∈ Set.Icc 0 2, ∃ s ∈ Set.Icc 0 2, p r ≠ p s) →
+        (∀ r ∈ Set.Icc 0 2, 0 < p r ∧ p r ≤ 1) →
+          ∀ (alpha : MeasureTheory.ProbabilityMeasure (PRPKG24AccuracyDiversity.Proposition4Sphere.UnitSphere E)),
+            PRPKG24AccuracyDiversity.Proposition4Sphere.logRadialDistanceProfileSupValue p
+                PRPKG24AccuracyDiversity.Proposition4Sphere.sphereVolumeUniformProbabilityMeasure ≤
+              PRPKG24AccuracyDiversity.Proposition4Sphere.logRadialDistanceProfileSupValue p alpha
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.proposition4Spec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-fa631b15a4a1176a}{}
+\section*{Review row 17}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1298-\allowbreak{}1322\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a nonempty finite type space with every weight p_t > 0, let a^(n) be an exact fixed-total integer maximizer of sum_t p_t h(a_t). If h is monotone, B < 0, sigma > 0, A - h(a) is eventually positive, and log(A - h(a)) / (B * a^sigma) tends to 1 as a tends to infinity, then a_t^(n) / n tends to 1 / m for every t.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 1298-\allowbreak{}1322\par}
+\paragraph{Recorded basis}
+User instruction 2026-\allowbreak{}07-\allowbreak{}27:\allowbreak{} adopt explicit conventions that make a corrected result true, without representing the archival statement as proved.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m : ℕ} [NeZero m] {A B sigma : ℝ} {h : ℕ → ℝ} (p : PRPKG24AccuracyDiversity.ItemType m → ℝ)
+  (seq : EconCSLib.Allocation.OptimalSequence (fun x => p) fun x x_1 => h),
+  (∀ (i : PRPKG24AccuracyDiversity.ItemType m), 0 < p i) →
+    Monotone h →
+      B < 0 →
+        0 < sigma →
+          (∀ᶠ (n : ℕ) in Filter.atTop, 0 < PRPKG24AccuracyDiversity.AppendixD1GenericI.saturationGap A h n) →
+            Filter.Tendsto
+                (fun n => Real.log (PRPKG24AccuracyDiversity.AppendixD1GenericI.saturationGap A h n) / (B * ↑n ^ sigma))
+                Filter.atTop (nhds 1) →
+              seq.toSequence.ConvergesToProfile fun x => 1 / ↑m
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.lemmaD1_i_corrected_uniform_optimizer_shares_sourceSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-f95d0c81ab1b47f3}{}
+\section*{Review row 18}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1324-\allowbreak{}1350\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a nonempty finite type space with every weight p_t > 0, let a^(n) be an exact fixed-total integer maximizer of sum_t p_t h(a_t). If h is monotone, B > 0, sigma < 0, and (A - h(a)) / (B * a^sigma) tends to 1 as a tends to infinity, then a_t^(n) / n tends to p_t^(1 / (1 - sigma)) / sum_i p_i^(1 / (1 - sigma)) for every t.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 1324-\allowbreak{}1350\par}
+\paragraph{Recorded basis}
+User instruction 2026-\allowbreak{}07-\allowbreak{}27:\allowbreak{} adopt explicit conventions that make a corrected result true, without representing the archival statement as proved.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m : ℕ} [NeZero m] {A B sigma : ℝ} {h : ℕ → ℝ} (p : PRPKG24AccuracyDiversity.ItemType m → ℝ)
+  (seq : EconCSLib.Allocation.OptimalSequence (fun x => p) fun x x_1 => h),
+  (∀ (i : PRPKG24AccuracyDiversity.ItemType m), 0 < p i) →
+    Monotone h →
+      0 < B →
+        sigma < 0 →
+          Filter.Tendsto (fun n => PRPKG24AccuracyDiversity.AppendixD1GenericII.saturationGap A h n / (B * ↑n ^ sigma))
+              Filter.atTop (nhds 1) →
+            seq.toSequence.ConvergesToProfile (PRPKG24AccuracyDiversity.AppendixD1GenericIIFull.targetShare p sigma)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.lemmaD1_ii_corrected_powerTail_optimizer_shares_sourceSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-3f921e813126282a}{}
+\section*{Review row 19}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1352-\allowbreak{}1369\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a nonempty finite type space with every weight p_t > 0 and sum_t p_t = 1, let a^(n) be an exact fixed-total integer maximizer of sum_t p_t h(a_t). If h is monotone and strictly discretely concave, B > 0, and h(a) - B * log(a) - C tends to 0 as a tends to infinity, then a_t^(n) / n tends to p_t for every t.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 1352-\allowbreak{}1369\par}
+\paragraph{Recorded basis}
+User instruction 2026-\allowbreak{}07-\allowbreak{}27:\allowbreak{} adopt explicit conventions that make a corrected result true, without representing the archival statement as proved.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m : ℕ} [NeZero m] {B C : ℝ} {h : ℕ → ℝ} (p : PRPKG24AccuracyDiversity.ItemType m → ℝ)
+  (seq : EconCSLib.Allocation.OptimalSequence (fun x => p) fun x x_1 => h),
+  (∀ (i : PRPKG24AccuracyDiversity.ItemType m), 0 < p i) →
+    ∑ i, p i = 1 →
+      Monotone h →
+        PRPKG24AccuracyDiversity.AppendixD1GenericIII.StrictDiscreteConcave h →
+          0 < B →
+            Filter.Tendsto (PRPKG24AccuracyDiversity.AppendixD1GenericIII.logRemainder h B C) Filter.atTop (nhds 0) →
+              seq.toSequence.ConvergesToProfile p
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.lemmaD1_iii_corrected_probability_optimizer_shares_sourceSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-30cff96f226dc581}{}
+\section*{Review row 20}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1371-\allowbreak{}1399\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a nonempty finite type space with every weight p_t > 0, let a^(n) be an exact fixed-total integer maximizer of sum_t p_t h(a_t). If h is strictly discretely concave, B > 0, 0 < sigma < 1, and h(a) / (B * a^sigma) tends to 1 as a tends to infinity, then a_t^(n) / n tends to p_t^(1 / (1 - sigma)) / sum_i p_i^(1 / (1 - sigma)) for every t.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 1371-\allowbreak{}1399\par}
+\paragraph{Recorded basis}
+User instruction 2026-\allowbreak{}07-\allowbreak{}27:\allowbreak{} adopt explicit conventions that make a corrected result true, without representing the archival statement as proved.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m : ℕ} [inst : NeZero m] {B sigma : ℝ} {h : ℕ → ℝ} (p : Fin m → ℝ)
+  (seq : EconCSLib.Allocation.OptimalSequence (fun x => p) fun x x_1 => h),
+  (∀ (i : Fin m), 0 < p i) →
+    0 < B →
+      0 < sigma →
+        sigma < 1 →
+          PRPKG24AccuracyDiversity.AppendixD1GenericIV.StrictDiscreteConcave h →
+            Filter.Tendsto (PRPKG24AccuracyDiversity.AppendixD1GenericIV.powerTailQuotient h B sigma) Filter.atTop
+                (nhds 1) →
+              seq.toSequence.ConvergesToProfile (PRPKG24AccuracyDiversity.AppendixD1GenericIV.targetShare p sigma)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.lemmaD1_iv_corrected_powerTail_optimizer_shares_sourceSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-7237c50e8bcf2059}{}
+\section*{Review row 21}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 2264-\allowbreak{}2287\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma D.2. For β > 0,
+
+Z ∞[U+0012 control character] [U+0013 control character]
+1
+a
+GX (x)j (1 − GX (x))a−j dx ∝ a− β .
+j
+0
+
+(97)
+
+fX (x)
+gX (x)
+= lim −
+=1
+lim
+x→M c(M − x)β−1
+x→0+ cxβ−1
+
+(98)
+
+(1 − ϵ)cxβ−1 ≤ gX (x) ≤ (1 + ϵ)cxβ−1
+
+(99)
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {beta c M L : ℝ} {j : ℕ} (baseMeasure : MeasureTheory.Measure ℝ) [MeasureTheory.IsProbabilityMeasure baseMeasure],
+  (∀ᵐ (y : ℝ) ∂baseMeasure, L ≤ y ∧ y ≤ M) →
+    0 < M - L →
+      ∀ (f : ℝ → ℝ),
+        (baseMeasure = MeasureTheory.volume.withDensity fun y => ENNReal.ofReal (f y)) →
+          (∀ (y : ℝ), 0 ≤ f y) →
+            Measurable f →
+              MeasureTheory.Integrable f MeasureTheory.volume →
+                0 < beta →
+                  0 < c →
+                    Filter.Tendsto (fun u => f (M - u) / (c * u ^ (beta - 1))) (nhdsWithin 0 (Set.Ioi 0)) (nhds 1) →
+                      EconCSLib.Math.AsymptoticEquivalent
+                        (PRPKG24AccuracyDiversity.boundedLemmaD2IntegralTerm
+                          (EconCSLib.Probability.reflectedCDFMass baseMeasure M) j)
+                        fun a =>
+                        PRPKG24AccuracyDiversity.boundedLemmaD2LimitCoeff beta c j *
+                          PRPKG24AccuracyDiversity.boundedTailScale beta a
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.lemmaD2_bounded_fixed_rank_integral_asymptotic_of_pdf_sourceSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-dcffa0731fd7e8dc}{}
+\section*{Review row 22}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 2778-\allowbreak{}2785\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma D.3. For D an exponential distribution with rate parameter λ, so that fX (x) = λe−λx for λ > 0,
+lim µD (a − i, a) − log a − B(j) = 0
+
+a→∞
+
+(127)
+
+for a constant B(j) > 0. Moreover, µD (a − i, a) is strictly concave.
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For an iid exponential law with rate lambda > 0 and each fixed valid upper rank r, mu(q-r,q) = (H_q-H_r)/lambda for q>r; after subtracting (log q)/lambda it tends to (EulerMascheroniConstant-H_r)/lambda, and the fixed-rank forward marginal is eventually strictly diminishing on valid ranks.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 2778-\allowbreak{}2785\par}
+\paragraph{Recorded basis}
+Approved corrected Lemma D.\allowbreak{}3 scale, constant, and valid-\allowbreak{}rank target in docs/\allowbreak{}CORRECTED\_\allowbreak{}TARGET\_\allowbreak{}APPROVAL\_\allowbreak{}ADDENDUM\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}27.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (lambda : ℝ) (hlambda_pos : 0 < lambda) (r : ℕ),
+  (∀ (q : ℕ),
+      r < q →
+        PRPKG24AccuracyDiversity.expectedOrderStatisticMeanSeq
+            (fun a => (PRPKG24AccuracyDiversity.exponentialDistributionModel lambda hlambda_pos).iidProductMeasure a)
+            (q - r) q =
+          1 / lambda * (PRPKG24AccuracyDiversity.harmonicReal q - PRPKG24AccuracyDiversity.harmonicReal r)) ∧
+    Filter.Tendsto
+        (fun q =>
+          PRPKG24AccuracyDiversity.expectedOrderStatisticMeanSeq
+              (fun a => (PRPKG24AccuracyDiversity.exponentialDistributionModel lambda hlambda_pos).iidProductMeasure a)
+              (q - r) q -
+            1 / lambda * Real.log ↑q)
+        Filter.atTop (nhds (1 / lambda * (Real.eulerMascheroniConstant - PRPKG24AccuracyDiversity.harmonicReal r))) ∧
+      ∀ᶠ (q : ℕ) in Filter.atTop,
+        PRPKG24AccuracyDiversity.expectedOrderStatisticMeanSeq
+              (fun a => (PRPKG24AccuracyDiversity.exponentialDistributionModel lambda hlambda_pos).iidProductMeasure a)
+              (q + 2 - r) (q + 2) -
+            PRPKG24AccuracyDiversity.expectedOrderStatisticMeanSeq
+              (fun a => (PRPKG24AccuracyDiversity.exponentialDistributionModel lambda hlambda_pos).iidProductMeasure a)
+              (q + 1 - r) (q + 1) <
+          PRPKG24AccuracyDiversity.expectedOrderStatisticMeanSeq
+              (fun a => (PRPKG24AccuracyDiversity.exponentialDistributionModel lambda hlambda_pos).iidProductMeasure a)
+              (q + 1 - r) (q + 1) -
+            PRPKG24AccuracyDiversity.expectedOrderStatisticMeanSeq
+              (fun a => (PRPKG24AccuracyDiversity.exponentialDistributionModel lambda hlambda_pos).iidProductMeasure a)
+              (q - r) q
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.lemmaD3_corrected_exponential_fixed_rank_sourceSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-49105a2b2538ba9d}{}
+\section*{Review row 23}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 2844-\allowbreak{}2858\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma D.4. For D a Pareto distribution with pdf fX (x) = x−α−1 for α > 1,
+lim
+
+at →∞
+
+µD (a − i, a)
+1
+
+aα
+
+=C
+
+(132)
+
+for a constant C > 0. Moreover, µD (a − i, a) is strictly concave.
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For the normalized iid Pareto law with density alpha*x^(-alpha-1) on its Pareto support, alpha > 1, and each fixed valid upper rank, the order-statistic mean has the source power asymptotic with its corrected rank-dependent coefficient and its forward marginal is eventually strictly diminishing on valid ranks.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 2844-\allowbreak{}2858\par}
+\paragraph{Recorded basis}
+Approved corrected Lemma D.\allowbreak{}4 normalized-\allowbreak{}Pareto and valid-\allowbreak{}rank target in docs/\allowbreak{}CORRECTED\_\allowbreak{}TARGET\_\allowbreak{}APPROVAL\_\allowbreak{}ADDENDUM\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}27.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {alpha : ℝ},
+  1 < alpha →
+    ∀ (r : ℕ),
+      (EconCSLib.Math.AsymptoticEquivalent
+          (fun q =>
+            PRPKG24AccuracyDiversity.expectedOrderStatisticMeanSeq
+              (PRPKG24AccuracyDiversity.paretoIidSampleMeasure alpha) (q - r) q)
+          fun q => PRPKG24AccuracyDiversity.paretoRankValueCoeff alpha r * ↑q ^ (1 / alpha)) ∧
+        ∀ᶠ (q : ℕ) in Filter.atTop,
+          PRPKG24AccuracyDiversity.expectedOrderStatisticMeanSeq (PRPKG24AccuracyDiversity.paretoIidSampleMeasure alpha)
+                (q + 2 - r) (q + 2) -
+              PRPKG24AccuracyDiversity.expectedOrderStatisticMeanSeq
+                (PRPKG24AccuracyDiversity.paretoIidSampleMeasure alpha) (q + 1 - r) (q + 1) <
+            PRPKG24AccuracyDiversity.expectedOrderStatisticMeanSeq
+                (PRPKG24AccuracyDiversity.paretoIidSampleMeasure alpha) (q + 1 - r) (q + 1) -
+              PRPKG24AccuracyDiversity.expectedOrderStatisticMeanSeq
+                (PRPKG24AccuracyDiversity.paretoIidSampleMeasure alpha) (q - r) q
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.lemmaD4_corrected_pareto_fixed_rank_sourceSpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-477ea495052a0969}{}
+\section*{Review row 24}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 3819-\allowbreak{}3840\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma D.5. Let g1 , g2 , · · · , gm : [0, ∞)m → R be strictly convex functions over the non-negative reals. Then
+define
+m
+X
+gt (xt ).
+(190)
+g(x1 , · · · , xm ) :=
+t=1
+
+Pm
+
+∗
+∗
+t=1 xt = n, if (x1 , · · · , xm ) is the maximum of g over the non-negative
+
+Then, under the constraint that
+reals and (a∗1 , · · · , a∗m ) is the maximum of g over the non-negative integers, then
+⌊x∗t ⌋ − m < a∗t < ⌊x∗t ⌋ + m
+
+(191)
+
+for all t.
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For separable strictly concave summands on the nonnegative reals, given fixed-sum real and integer maximizers, every coordinate lies in the strict floor window floor(x_t) < a_t + m and a_t < floor(x_t) + m. The proof basis is derivative-free strict concavity.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 3819-\allowbreak{}3840\par}
+\paragraph{Recorded basis}
+Approved corrected Lemma D.\allowbreak{}5 concavity and derivative-\allowbreak{}free target in docs/\allowbreak{}CORRECTED\_\allowbreak{}TARGET\_\allowbreak{}APPROVAL\_\allowbreak{}ADDENDUM\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}27.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {κ : Type u_1} [inst : Fintype κ] (g : κ → ℝ → ℝ) (N : ℕ) (x : κ → ℝ) (a : κ → ℕ),
+  (∀ (i : κ), StrictConcaveOn ℝ (Set.Ici 0) (g i)) →
+    (∀ (i : κ), 0 ≤ x i) →
+      ∑ i, x i = ↑N →
+        (∀ (z : κ → ℝ),
+            (∀ (i : κ), 0 ≤ z i) →
+              ∑ i, z i = ↑N →
+                PRPKG24AccuracyDiversity.GeneralRounding.objective g z ≤
+                  PRPKG24AccuracyDiversity.GeneralRounding.objective g x) →
+          ∑ i, a i = N →
+            (∀ (b : κ → ℕ),
+                ∑ i, b i = N →
+                  (PRPKG24AccuracyDiversity.GeneralRounding.objective g fun i => ↑(b i)) ≤
+                    PRPKG24AccuracyDiversity.GeneralRounding.objective g fun i => ↑(a i)) →
+              ∀ (t : κ), ⌊x t⌋₊ < a t + Fintype.card κ ∧ a t < ⌊x t⌋₊ + Fintype.card κ
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.lemmaD5Spec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-4a13a0b223d63917}{}
+\section*{Review row 25}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 2071-\allowbreak{}2087\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Proposition 5. For Xi
+
+∼ D,
+
+min{k,a}
+
+h(a) =
+
+X
+i=1
+
+µD (a − i + 1, a).
+
+(78)
+
+Recall that µD (i, a) is the expected value of the i-th order statistic of a random variables drawn i.i.d.
+from D.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (D : MeasureTheory.Measure ℝ) [MeasureTheory.IsProbabilityMeasure D],
+  MeasureTheory.Integrable (fun x => x) D →
+    ∀ (k a : ℕ),
+      EconCSLib.Probability.orderStatisticTopKSumFromMean (PRPKG24AccuracyDiversity.definition3IidOrderStatisticMean D)
+          k a =
+        EconCSLib.Probability.expectedSampleTopKSum (PRPKG24AccuracyDiversity.definition3IidSampleMeasure D a) k
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+PRPKG24AccuracyDiversity.PaperInterface.proposition5_iid_topk_identitySpec_proof
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\end{document}

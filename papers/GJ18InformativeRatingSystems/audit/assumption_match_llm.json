@@ -21,7 +21,6 @@
       ],
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "reason": "Positive match rates are explicit in the author-approved corrected model so every seller's floor sample count diverges; the archive's nondecreasing-rate prose alone does not establish positivity.",
-      "source_artifact_path": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
       "source_artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
       "source_evidence": "Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
       "source_location": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20",
@@ -37,8 +36,8 @@
         "at most one floor-count increment per period": {
           "judgment": "documented_additional_assumption",
           "reason": "The source says at most one buyer matches per period; the exact floor-count step property is justified by the approved upper bound g(theta) <= 1.",
-          "source_evidence": "Pinned sources/arxiv.tex:669-670 states at-most-one matching per period and a nondecreasing match function with floor accumulation. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
-          "source_location": "sources/arxiv.tex:669; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20",
+          "source_evidence": "Pinned cited publication:669-670 states at-most-one matching per period and a nondecreasing match function with floor accumulation. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+          "source_location": "cited publication:669; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20",
           "validated_at": "2026-07-26T23:10:00Z",
           "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
           "validator_type": "agent"
@@ -46,8 +45,8 @@
         "monotone match rate": {
           "judgment": "paper_condition",
           "reason": "The source explicitly assumes a nondecreasing match function by seller quality.",
-          "source_evidence": "Pinned sources/arxiv.tex:669-670 states at-most-one matching per period and a nondecreasing match function with floor accumulation.",
-          "source_location": "sources/arxiv.tex:670",
+          "source_evidence": "Pinned cited publication:669-670 states at-most-one matching per period and a nondecreasing match function with floor accumulation.",
+          "source_location": "cited publication:670",
           "validated_at": "2026-07-26T23:10:00Z",
           "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
           "validator_type": "agent"
@@ -69,10 +68,9 @@
       ],
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "reason": "The source explicitly gives a nondecreasing match function and at-most-one matching prose; the exact floor-step coherence and nonnegativity used by Lean are recorded through the author-approved 0 < g(theta) <= 1 correction.",
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
-      "source_evidence": "Pinned sources/arxiv.tex:669-670 states at-most-one matching per period and a nondecreasing match function with floor accumulation. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
-      "source_location": "sources/arxiv.tex:669-670; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20",
+      "source_evidence": "Pinned cited publication:669-670 states at-most-one matching per period and a nondecreasing match function with floor accumulation. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+      "source_location": "cited publication:669-670; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20",
       "validated_at": "2026-07-26T23:10:00Z",
       "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
       "validator_type": "agent"
@@ -85,8 +83,8 @@
         "every displayed score is between zero and one": {
           "judgment": "paper_condition",
           "reason": "The source gives phi(y) in [0,1] for every rating y, which is the same two-sided bound.",
-          "source_evidence": "Pinned sources/arxiv.tex:679-680 states that every rating score lies in [0,1].",
-          "source_location": "sources/arxiv.tex:679",
+          "source_evidence": "Pinned cited publication:679-680 states that every rating score lies in [0,1].",
+          "source_location": "cited publication:679",
           "validated_at": "2026-07-26T23:10:00Z",
           "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
           "validator_type": "agent"
@@ -97,10 +95,9 @@
       ],
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "reason": "The source explicitly restricts each rating score to the interval [0,1], matching the two-sided real inequality in the Lean predicate.",
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
-      "source_evidence": "Pinned sources/arxiv.tex:679-680 states that every rating score lies in [0,1].",
-      "source_location": "sources/arxiv.tex:679-680",
+      "source_evidence": "Pinned cited publication:679-680 states that every rating score lies in [0,1].",
+      "source_location": "cited publication:679-680",
       "validated_at": "2026-07-26T23:10:00Z",
       "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
       "validator_type": "agent"
@@ -113,8 +110,8 @@
         "strict decrease between adjacent displayed ordinal cutoffs": {
           "judgment": "paper_condition",
           "reason": "The finite adjacent-cutoff reading is the literal meaningful interpretation of strict decrease with the displayed ordinal rating level.",
-          "source_evidence": "Pinned sources/arxiv.tex:683 states that cumulative rating mass is strictly increasing in quality and strictly decreasing with rating level.",
-          "source_location": "sources/arxiv.tex:683",
+          "source_evidence": "Pinned cited publication:683 states that cumulative rating mass is strictly increasing in quality and strictly decreasing with rating level.",
+          "source_location": "cited publication:683",
           "validated_at": "2026-07-26T23:10:00Z",
           "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
           "validator_type": "agent"
@@ -125,10 +122,9 @@
       ],
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "reason": "The source says cumulative rating tails strictly decrease with rating level. Lean states that only between adjacent displayed cutoffs, avoiding an invented cutoff above the finite maximum.",
-      "source_artifact_path": "sources/arxiv.tex",
       "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
-      "source_evidence": "Pinned sources/arxiv.tex:683 states that cumulative rating mass is strictly increasing in quality and strictly decreasing with rating level. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
-      "source_location": "sources/arxiv.tex:683; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:22",
+      "source_evidence": "Pinned cited publication:683 states that cumulative rating mass is strictly increasing in quality and strictly decreasing with rating level. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+      "source_location": "cited publication:683; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:22",
       "validated_at": "2026-07-26T23:10:00Z",
       "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
       "validator_type": "agent"
@@ -153,10 +149,9 @@
       ],
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "reason": "The archive says tails strictly increase with quality, but strictness at the bottom cutoff is impossible because that upper tail is always one. The approved correction restricts strictness to nonbottom displayed cutoffs.",
-      "source_artifact_path": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
       "source_artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
-      "source_evidence": "Pinned sources/arxiv.tex:683 states that cumulative rating mass is strictly increasing in quality and strictly decreasing with rating level. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
-      "source_location": "sources/arxiv.tex:683; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:22",
+      "source_evidence": "Pinned cited publication:683 states that cumulative rating mass is strictly increasing in quality and strictly decreasing with rating level. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+      "source_location": "cited publication:683; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:22",
       "validated_at": "2026-07-26T23:10:00Z",
       "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
       "validator_type": "agent"
@@ -169,8 +164,8 @@
         "strict monotonicity on the ordered rating scale": {
           "judgment": "documented_additional_assumption",
           "reason": "The source conditions its convergence claim on strict score increase, and the governing corrected model records strict increase as a model clause.",
-          "source_evidence": "Pinned sources/arxiv.tex:744-745 explicitly conditions convergence prose on a strictly increasing score function. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
-          "source_location": "sources/arxiv.tex:744; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:22",
+          "source_evidence": "Pinned cited publication:744-745 explicitly conditions convergence prose on a strictly increasing score function. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+          "source_location": "cited publication:744; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:22",
           "validated_at": "2026-07-26T23:10:00Z",
           "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
           "validator_type": "agent"
@@ -181,10 +176,9 @@
       ],
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "reason": "Strict score monotonicity is invoked in the source convergence discussion and is made an explicit author-approved finite-ordinal model clause; it is not inferred from the weaker [0,1] range condition.",
-      "source_artifact_path": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
       "source_artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
-      "source_evidence": "Pinned sources/arxiv.tex:744-745 explicitly conditions convergence prose on a strictly increasing score function. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
-      "source_location": "sources/arxiv.tex:744-745; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:22",
+      "source_evidence": "Pinned cited publication:744-745 explicitly conditions convergence prose on a strictly increasing score function. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+      "source_location": "cited publication:744-745; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:22",
       "validated_at": "2026-07-26T23:10:00Z",
       "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
       "validator_type": "agent"

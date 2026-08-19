@@ -1,95 +1,41 @@
 {
-  "schema": 1,
-  "id": "DSWG24DiscretizationBias",
-  "repository_visibility": "public",
-  "title": "Addressing Discretization-Induced Bias in Demographic Prediction",
-  "authors": "Evan Dong, Aaron Schein, Yixin Wang, and Nikhil Garg",
-  "source_version": "ACM FAccT 2024 / PNAS Nexus 2025 published version; exact audit extraction recorded separately from the older tracked text extraction",
-  "build_target": "lake build DSWG24DiscretizationBias",
-  "status": "formalized",
-  "human_summary": "",
-  "main_caveat": "",
-  "formalization_boundaries": [],
-  "review_entrypoint": "papers/DSWG24DiscretizationBias/FINAL_VALIDATION_REPORT.md",
-  "human_review": {
-    "reviewed_rows": 0,
-    "total_rows": 64,
-    "stale_rows": 0,
-    "mismatch_rows": 0,
-    "uncertain_rows": 0,
-    "source": "paper-local status.json review_surface; human entries come from dashboard logs"
-  },
-  "paper_interface": {
-    "path": "papers/DSWG24DiscretizationBias/PaperInterface.lean",
-    "line_count": 1330,
-    "declaration_rows": 64,
-    "review_rows": 55,
-    "oversized": true,
-    "maintainability_issue": "The source-first interface now includes exact support-sensitive and dataset-dependent closeout endpoints in addition to the older continuous proof-support surface. A later refactor may split auxiliary proof support without changing the reviewed interface."
-  },
   "artifacts": {
-    "readme": "papers/DSWG24DiscretizationBias/README.md",
-    "paper_interface": "papers/DSWG24DiscretizationBias/PaperInterface.lean",
-    "final_validation_report": "papers/DSWG24DiscretizationBias/FINAL_VALIDATION_REPORT.md",
-    "dependency_dag_tex": "papers/DSWG24DiscretizationBias/docs/DependencyDAG.tex",
-    "dependency_dag_pdf": "papers/DSWG24DiscretizationBias/docs/DependencyDAG.pdf",
-    "source_text": "papers/DSWG24DiscretizationBias/DSWG24DiscretizationBias.txt",
     "assumptions": "papers/DSWG24DiscretizationBias/Assumptions.lean",
-    "dependency_dag_render_status": "DependencyDAG.tex and DependencyDAG.pdf were rebuilt and visually inspected on 2026-07-18 after the exact-endpoint closure."
+    "dependency_dag_pdf": "papers/DSWG24DiscretizationBias/docs/DependencyDAG.pdf",
+    "dependency_dag_render_status": "DependencyDAG.tex and DependencyDAG.pdf were rebuilt and visually inspected on 2026-07-18 after the exact-endpoint closure.",
+    "dependency_dag_tex": "papers/DSWG24DiscretizationBias/docs/DependencyDAG.tex",
+    "final_validation_report": "papers/DSWG24DiscretizationBias/FINAL_VALIDATION_REPORT.md",
+    "human_review_packet_pdf": "papers/DSWG24DiscretizationBias/docs/HUMAN_REVIEW_PACKET.pdf",
+    "human_review_packet_tex": "papers/DSWG24DiscretizationBias/docs/HUMAN_REVIEW_PACKET.tex",
+    "paper_interface": "papers/DSWG24DiscretizationBias/PaperInterface.lean",
+    "readme": "papers/DSWG24DiscretizationBias/README.md",
+    "source_text": "cited publication"
   },
-  "canonical_source_audit": {
-    "path": "papers/DSWG24DiscretizationBias/.audit_source/DSWG24DiscretizationBias.txt",
-    "origin_path": "/tmp/econcs_source_text/DSWG24DiscretizationBias.txt",
-    "provisioned_path": "papers/DSWG24DiscretizationBias/.audit_source/DSWG24DiscretizationBias.txt",
-    "sha256": "2370832850d19fc3e0b74c5471316b099bcab9f958c268ffcd9de9d38ef55295",
-    "line_count": 2379,
-    "tracked_extraction_path": "papers/DSWG24DiscretizationBias/DSWG24DiscretizationBias.txt",
-    "tracked_extraction_sha256": "ab554d513936d2b898b72f87e2f70674ce12737065b04591a5a00c371a6fb5cf",
-    "note": "All 2026-07-18 source anchors and judgments use the exact extraction now provisioned at the paper-local .audit_source path. The older tracked extraction was not overwritten."
+  "authors": "Evan Dong, Aaron Schein, Yixin Wang, and Nikhil Garg",
+  "build_target": "lake build DSWG24DiscretizationBias",
+  "formalization_boundaries": [],
+  "human_review": {
+    "mismatch_rows": 0,
+    "reviewed_rows": 0,
+    "source": "v11 PaperInterface claim surface; human entries are recorded after direct review",
+    "stale_rows": 0,
+    "total_rows": 17,
+    "uncertain_rows": 0
   },
+  "human_summary": "",
+  "id": "DSWG24DiscretizationBias",
+  "main_caveat": "",
+  "paper_interface": {
+    "declaration_rows": 64,
+    "line_count": 1330,
+    "maintainability_issue": "The source-first interface now includes exact support-sensitive and dataset-dependent closeout endpoints in addition to the older continuous proof-support surface. A later refactor may split auxiliary proof support without changing the reviewed interface.",
+    "oversized": true,
+    "path": "papers/DSWG24DiscretizationBias/PaperInterface.lean",
+    "review_rows": 17
+  },
+  "repository_visibility": "public",
+  "review_entrypoint": "papers/DSWG24DiscretizationBias/FINAL_VALIDATION_REPORT.md",
   "review_surface": {
-    "source_file": "papers/DSWG24DiscretizationBias/PaperInterface.lean",
-    "assumption_source_file": "papers/DSWG24DiscretizationBias/Assumptions.lean",
-    "llm_statement_review": {
-      "lean_to_tex_file": "papers/DSWG24DiscretizationBias/audit/lean_to_tex_llm.json",
-      "match_judgment_file": "papers/DSWG24DiscretizationBias/audit/statement_match_llm.json",
-      "review_surface_audit_file": "papers/DSWG24DiscretizationBias/audit/review_surface_llm.json",
-      "paper_coverage_audit_file": "papers/DSWG24DiscretizationBias/audit/paper_coverage_llm.json",
-      "defect_support_judgment_file": "papers/DSWG24DiscretizationBias/audit/defect_support_match_llm.json",
-      "assumption_judgment_file": "papers/DSWG24DiscretizationBias/audit/assumption_match_llm.json",
-      "surface_audit_threshold": 30,
-      "surface_warning_threshold": 120,
-      "require_explicit_source_routes": true,
-      "policy": "Review every paper-facing classifier, decision-rule, bias, fidelity, expected-objective, and theorem row against the pinned source rather than its Lean name. Preserve finite carriers, sample normalization, probability and support scope, plurality/tie-breaking conventions, calibration and Bayes semantics, dataset-dependent references, randomized-policy laws, and every exact Theorem 1 and Theorem 2 conclusion."
-    },
-    "llm_paper_coverage_review": {
-      "paper_coverage_audit_file": "papers/DSWG24DiscretizationBias/audit/paper_coverage_llm.json",
-      "defect_support_judgment_file": "papers/DSWG24DiscretizationBias/audit/defect_support_match_llm.json",
-      "policy": "Inventory the source's continuous-classifier and discretization definitions, bias/fidelity/accuracy objectives, Theorem 1(i)-(iii), and Theorem 2(i)-(iii), including their displayed conditions and appendical repeated presentations. Formula fragments and proof partitions are reviewed only as support for the selected source surface, not counted as independent paper conclusions."
-    },
-    "llm_source_record_review": {
-      "source_record_audit_file": "papers/DSWG24DiscretizationBias/audit/source_record_audit.json",
-      "source_record_judgment_file": "papers/DSWG24DiscretizationBias/audit/source_record_match_llm.json",
-      "policy": "Recursively inspect every source-facing classifier, decision rule, probability law, support premise, objective, and theorem endpoint. A supplied posterior, calibration, rule law, optimization certificate, or theorem-level input is conclusion-bearing proof debt unless Lean derives it from the source-shaped premises."
-    },
-    "llm_assumption_review": {
-      "assumption_judgment_file": "papers/DSWG24DiscretizationBias/audit/assumption_match_llm.json"
-    },
-    "semantic_model_review": {
-      "schema": 2,
-      "required_dimensions": [
-        "expanded_binders_and_domain",
-        "carrier_and_domain",
-        "probability_support_endpoints",
-        "joint_law_and_state_evolution",
-        "conditioning_and_calibration_semantics",
-        "expectation_definedness",
-        "null_cell_totalization_and_partition_scope",
-        "extended_rate_codomain"
-      ],
-      "policy": "Review the finite and continuous classifier models against the pinned source. Record not-applicable only after inspecting feature and label carriers, joint/sample laws, support and conditioning conventions, posterior/calibration equations, expectation and normalization semantics, tie handling, and the exact theorem conclusions."
-    },
-    "assumption_policy": "strict",
     "assumption_names": [
       "assumption_theorem1_no_information_case",
       "assumption_theorem1_plurality_argmax_class",
@@ -101,73 +47,8 @@
       "assumption_theorem2_positive_sample_count",
       "assumption_theorem2_reference_nonnegative"
     ],
-    "include_names": [
-      "prior",
-      "accuracy",
-      "marginalLabelShare",
-      "aggregatePosterior",
-      "isFirstArgmax_formula",
-      "isTieBrokenArgmaxRule_formula",
-      "thresholdRule",
-      "isThompsonSamplingRule_formula",
-      "isIndependentRule_formula",
-      "isIndependentRandomizedRule_formula",
-      "bias",
-      "fidelity",
-      "equation1Objective",
-      "maximizesEquation1_formula",
-      "classifierMAE",
-      "continuousMarginalLabelShare",
-      "continuousAggregatePosterior",
-      "continuousBias",
-      "continuousAggregateBias",
-      "continuousClassifierMAE",
-      "continuousJointPriorBias",
-      "continuousJointClassifierMAE",
-      "posteriorSimplex_formula",
-      "isArgmaxRule_formula",
-      "bayesOptimal_formula",
-      "perfectClassifierOnSupport_formula",
-      "calibrated_formula",
-      "objective",
-      "expectedObjective",
-      "equation2ExpectedAccuracy",
-      "expectedFidelityAt",
-      "expectedBiasAt",
-      "equation3ExpectedObjective",
-      "paretoOptimal_formula",
-      "referenceSimplexAt_formula",
-      "isAggregateFirstArgmax_formula",
-      "sourcePNq_formula",
-      "sourceSa_formula",
-      "sourceSb_formula",
-      "sourceSc_formula",
-      "sourceSd_formula",
-      "sourceSe_formula",
-      "theorem1iNoInformationBiasSpec",
-      "theorem1i_no_information_bias",
-      "theorem1i_no_information_bias_spec",
-      "theorem1iiPriorReferenceZeroBiasSpec",
-      "theorem1ii_prior_reference_zero_bias_on_support_spec",
-      "theorem1iiAggregateReferenceZeroBiasSpec",
-      "theorem1ii_aggregate_reference_zero_bias_on_support_spec",
-      "theorem1iiiArgmaxBiasLeMaeSpec",
-      "theorem1iii_argmax_bias_le_mae",
-      "theorem1iii_argmax_bias_le_mae_spec",
-      "theorem1iiiTightBinaryExampleSpec",
-      "theorem1iii_tight_binary_example",
-      "theorem1iii_tight_binary_example_spec",
-      "theorem2iJointRuleExistsSpec",
-      "theorem2i_joint_rule_exists",
-      "theorem2i_joint_rule_exists_spec",
-      "theorem2iiArgmaxAccuracyMaximizingSpec",
-      "theorem2ii_argmax_accuracy_maximizing",
-      "theorem2ii_argmax_accuracy_maximizing_spec",
-      "theorem2iiiParetoOptimalAgreesArgmaxSpec",
-      "theorem2iii_source_pareto_optimal_agrees_argmax_spec",
-      "theorem2iiiWeightedObjectiveMaximizerAgreesArgmaxSpec",
-      "theorem2iii_source_weighted_objective_maximizer_agrees_argmax_spec"
-    ],
+    "assumption_policy": "strict",
+    "assumption_source_file": "papers/DSWG24DiscretizationBias/Assumptions.lean",
     "auxiliary_names": [
       "isFirstArgmax",
       "isTieBrokenArgmaxRule",
@@ -206,10 +87,89 @@
       "theorem2iii_weighted_objective_maximizer_agrees_argmax",
       "theorem2iii_strict_disagreement_not_weighted_objective_maximizer"
     ],
+    "include_names": [
+      "theorem1ii_perfect_classifier_zero_biasSpec",
+      "theorem2iii_non_argmax_not_paretoSpec",
+      "theorem2iii_weighted_objective_maximizer_agrees_argmaxSpec",
+      "tie_broken_argmax_definitionSpec",
+      "thompson_sampling_definitionSpec",
+      "independent_rule_definitionSpec",
+      "integer_optimization_rule_definitionSpec",
+      "bayes_optimal_definitionSpec",
+      "pareto_optimality_definitionSpec",
+      "nontrivial_reference_family_definitionSpec",
+      "posterior_simplex_definitionSpec",
+      "calibration_definitionSpec",
+      "theorem1i_no_information_biasSpec",
+      "theorem1iii_argmax_bias_le_maeSpec",
+      "theorem1iii_tight_binary_exampleSpec",
+      "theorem2i_joint_rule_existsSpec",
+      "theorem2ii_argmax_accuracy_maximizingSpec"
+    ],
+    "llm_assumption_review": {
+      "assumption_judgment_file": "papers/DSWG24DiscretizationBias/audit/assumption_match_llm.json"
+    },
+    "llm_paper_coverage_review": {
+      "defect_support_judgment_file": "papers/DSWG24DiscretizationBias/audit/defect_support_match_llm.json",
+      "paper_coverage_audit_file": "papers/DSWG24DiscretizationBias/audit/paper_coverage_llm.json",
+      "policy": "Inventory the source's continuous-classifier and discretization definitions, bias/fidelity/accuracy objectives, Theorem 1(i)-(iii), and Theorem 2(i)-(iii), including their displayed conditions and appendical repeated presentations. Formula fragments and proof partitions are reviewed only as support for the selected source surface, not counted as independent paper conclusions."
+    },
+    "llm_source_record_review": {
+      "policy": "Recursively inspect every source-facing classifier, decision rule, probability law, support premise, objective, and theorem endpoint. A supplied posterior, calibration, rule law, optimization certificate, or theorem-level input is conclusion-bearing proof debt unless Lean derives it from the source-shaped premises.",
+      "source_record_audit_file": "papers/DSWG24DiscretizationBias/audit/source_record_audit.json",
+      "source_record_judgment_file": "papers/DSWG24DiscretizationBias/audit/source_record_match_llm.json"
+    },
+    "llm_statement_review": {
+      "assumption_judgment_file": "papers/DSWG24DiscretizationBias/audit/assumption_match_llm.json",
+      "defect_support_judgment_file": "papers/DSWG24DiscretizationBias/audit/defect_support_match_llm.json",
+      "lean_to_tex_file": "papers/DSWG24DiscretizationBias/audit/lean_to_tex_llm.json",
+      "match_judgment_file": "papers/DSWG24DiscretizationBias/audit/statement_match_llm.json",
+      "paper_coverage_audit_file": "papers/DSWG24DiscretizationBias/audit/paper_coverage_llm.json",
+      "policy": "For every selected source claim, compare only its exact byte-pinned raw source-anchor bundle and Lean's expanded transparent `...Spec : Prop` target. The paired proof endpoint receives separate Lean-Meta proof credit; a name, paraphrase, wrapper, or prior aggregate receipt is not a semantic match. Review every retained paper-local prerequisite and every material library prerequisite before the dependent claim.",
+      "require_explicit_source_routes": true,
+      "required_prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
+      "review_surface_audit_file": "papers/DSWG24DiscretizationBias/audit/review_surface_llm.json",
+      "surface_audit_threshold": 30,
+      "surface_warning_threshold": 120
+    },
+    "proposition_spec_proofs": {
+      "bayes_optimal_definitionSpec": "bayes_optimal_definition",
+      "calibration_definitionSpec": "calibration_definition",
+      "independent_rule_definitionSpec": "independent_rule_definition",
+      "integer_optimization_rule_definitionSpec": "integer_optimization_rule_definition",
+      "nontrivial_reference_family_definitionSpec": "nontrivial_reference_family_definition",
+      "pareto_optimality_definitionSpec": "pareto_optimality_definition",
+      "posterior_simplex_definitionSpec": "posterior_simplex_definition",
+      "theorem1i_no_information_biasSpec": "theorem1i_no_information_bias",
+      "theorem1ii_perfect_classifier_zero_biasSpec": "theorem1ii_perfect_classifier_zero_bias",
+      "theorem1iii_argmax_bias_le_maeSpec": "theorem1iii_argmax_bias_le_mae",
+      "theorem1iii_tight_binary_exampleSpec": "theorem1iii_tight_binary_example",
+      "theorem2i_joint_rule_existsSpec": "theorem2i_joint_rule_exists",
+      "theorem2ii_argmax_accuracy_maximizingSpec": "theorem2ii_argmax_accuracy_maximizing",
+      "theorem2iii_non_argmax_not_paretoSpec": "theorem2iii_non_argmax_not_pareto",
+      "theorem2iii_weighted_objective_maximizer_agrees_argmaxSpec": "theorem2iii_weighted_objective_maximizer_agrees_argmax",
+      "thompson_sampling_definitionSpec": "thompson_sampling_definition",
+      "tie_broken_argmax_definitionSpec": "tie_broken_argmax_definition"
+    },
+    "require_source_spec_correspondence": true,
+    "require_v11_raw_source_spec_screening": true,
+    "semantic_model_review": {
+      "policy": "Review the finite and continuous classifier models against the pinned source. Record not-applicable only after inspecting feature and label carriers, joint/sample laws, support and conditioning conventions, posterior/calibration equations, expectation and normalization semantics, tie handling, and the exact theorem conclusions.",
+      "required_dimensions": [
+        "expanded_binders_and_domain",
+        "carrier_and_domain",
+        "probability_support_endpoints",
+        "joint_law_and_state_evolution",
+        "conditioning_and_calibration_semantics",
+        "expectation_definedness",
+        "null_cell_totalization_and_partition_scope",
+        "extended_rate_codomain"
+      ],
+      "schema": 2
+    },
     "slices": [
       {
         "id": "main_definitions",
-        "title": "Main-text formulas and rule semantics",
         "names": [
           "prior",
           "accuracy",
@@ -228,11 +188,11 @@
           "perfectClassifierOnSupport_formula",
           "posteriorSimplex_formula",
           "calibrated_formula"
-        ]
+        ],
+        "title": "Main-text formulas and rule semantics"
       },
       {
         "id": "objectives_and_reference",
-        "title": "Equations (1)-(3), Pareto, and P_N^q",
         "names": [
           "equation1Objective",
           "maximizesEquation1_formula",
@@ -246,11 +206,11 @@
           "sourcePNq_formula",
           "objective",
           "expectedObjective"
-        ]
+        ],
+        "title": "Equations (1)-(3), Pareto, and P_N^q"
       },
       {
         "id": "theorem1",
-        "title": "Theorem 1 and continuous proof support",
         "names": [
           "continuousMarginalLabelShare",
           "continuousAggregatePosterior",
@@ -278,11 +238,11 @@
           "theorem1iiiTightBinaryExampleSpec",
           "theorem1iii_tight_binary_example",
           "theorem1iii_tight_binary_example_spec"
-        ]
+        ],
+        "title": "Theorem 1 and continuous proof support"
       },
       {
         "id": "theorem2",
-        "title": "Theorem 2 exact dataset-dependent expected-policy endpoints",
         "names": [
           "theorem2iJointRuleExistsSpec",
           "theorem2i_joint_rule_exists",
@@ -294,14 +254,19 @@
           "theorem2iii_source_pareto_optimal_agrees_argmax_spec",
           "theorem2iiiWeightedObjectiveMaximizerAgreesArgmaxSpec",
           "theorem2iii_source_weighted_objective_maximizer_agrees_argmax_spec"
-        ]
+        ],
+        "title": "Theorem 2 exact dataset-dependent expected-policy endpoints"
       }
     ],
     "source_definition_names": [],
-    "proposition_spec_proofs": {},
+    "source_file": "papers/DSWG24DiscretizationBias/PaperInterface.lean",
     "source_proof_fidelity_review": {
       "ledger_file": "papers/DSWG24DiscretizationBias/audit/source_proof_fidelity.json",
       "policy": "No source-paper error or caveat is asserted. The former incomplete Lean endpoints are repaired in Lean with exact source-shaped specifications and semantic contracts. Stronger-premise fixed-reference or all-product-pair wrappers remain support only."
     }
-  }
+  },
+  "schema": 1,
+  "source_version": "cited publication source record",
+  "status": "formalized",
+  "title": "Addressing Discretization-Induced Bias in Demographic Prediction"
 }

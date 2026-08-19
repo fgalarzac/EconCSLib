@@ -3073,6 +3073,88 @@ def source_vocabulary_definition_binding_item_ids(
     )
 
 
+def source_prose_definition_replaced_named_presentation_spans(
+    folder: Path,
+    map_payload: object,
+    presentations: object,
+    *,
+    repository_root: Path | None = None,
+    file_bytes_override: Mapping[Path, bytes | None] | None = None,
+) -> set[tuple[int, int]]:
+    """Return named Definition spans genuinely replaced by prose components.
+
+    A prose-definition ledger refines only a named ``definition`` presentation
+    that contains (or is contained by) that ledger's independently pinned
+    source span.  It must not make an unrelated conventional ``Definition n``
+    disappear merely because another definition is introduced in prose
+    elsewhere in the paper.  This decision uses only current source bytes and
+    the source-only ledger, never a map key or Lean route.
+    """
+
+    if not isinstance(map_payload, Mapping) or not isinstance(presentations, list):
+        return set()
+    _item_ids, errors = source_vocabulary_definition_binding_item_ids(
+        folder,
+        map_payload,
+        repository_root=repository_root,
+        file_bytes_override=file_bytes_override,
+    )
+    if errors:
+        return set()
+    current_source = _current_canonical_text_source(
+        folder,
+        map_payload,
+        repository_root=repository_root,
+        file_bytes_override=file_bytes_override,
+    )
+    if current_source is None:
+        return set()
+    source_text, source_path, _source_format = current_source
+    review = map_payload.get(_SOURCE_NAMED_RESULT_INVENTORY_REVIEW_FIELD)
+    if not isinstance(review, Mapping):
+        return set()
+    raw_definitions = review.get(SOURCE_PROSE_DEFINITION_PRESENTATIONS_FIELD)
+    if not isinstance(raw_definitions, list):
+        return set()
+    component_spans: set[tuple[int, int]] = set()
+    for raw_definition in raw_definitions:
+        if not isinstance(raw_definition, Mapping):
+            continue
+        if (
+            str(raw_definition.get("scope_disposition") or "").strip().lower()
+            != SOURCE_PROSE_DEFINITION_NORMAL_SCOPE
+        ):
+            continue
+        span = _current_source_anchor_span(
+            raw_definition.get("source_anchor"),
+            source_text=source_text,
+            source_path=source_path,
+        )
+        if span is not None:
+            component_spans.add(span)
+    if not component_spans:
+        return set()
+
+    replaced: set[tuple[int, int]] = set()
+    for presentation in presentations:
+        kind = str(getattr(presentation, "kind", "")).strip().lower()
+        line_start = getattr(presentation, "line_start", None)
+        line_end = getattr(presentation, "line_end", None)
+        if (
+            kind != "definition"
+            or not isinstance(line_start, int)
+            or not isinstance(line_end, int)
+        ):
+            continue
+        if any(
+            (component_start <= line_start and line_end <= component_end)
+            or (line_start <= component_start and component_end <= line_end)
+            for component_start, component_end in component_spans
+        ):
+            replaced.add((line_start, line_end))
+    return replaced
+
+
 def source_index_byte_pinned_anchor_item_ids(
     folder: Path,
     map_payload: object,
@@ -3142,19 +3224,23 @@ def source_index_byte_pinned_anchor_item_ids(
         )
     else:
         prose_definition_ids, prose_definition_errors = set(), []
-    # A source may place several independently stated definitions inside one
-    # TeX `definition` environment.  Once the source-only prose-definition
-    # ledger has separately and currently bound those clauses, it is the more
-    # precise human/audit surface.  Do not force that environment to collapse
-    # to one row or let it compete with its semantic components.
-    use_prose_definition_components = bool(prose_definition_ids) and not prose_definition_errors
+    # A prose-definition component supersedes only the actual named Definition
+    # span it refines.  Other numbered definitions remain normal source claims.
+    replaced_definition_spans = source_prose_definition_replaced_named_presentation_spans(
+        folder,
+        map_payload,
+        presentations,
+        repository_root=repository_root,
+        file_bytes_override=file_bytes_override,
+    )
     in_scope_presentations = [
         presentation
         for presentation in presentations
         if source_named_presentation_in_coverage_scope(presentation.kind, mode)
         and not (
-            use_prose_definition_components
-            and presentation.kind == "definition"
+            presentation.kind == "definition"
+            and (presentation.line_start, presentation.line_end)
+            in replaced_definition_spans
         )
     ]
     items: dict[str, object] = {}
@@ -3233,6 +3319,18 @@ def source_item_is_named_theoretical_statement(
     # a claim count.
     if item.get(SOURCE_PRESENTATION_ALIAS_FIELD) is not None:
         return False
+    # A prose definition that has passed the source-only reconciliation is a
+    # visible source presentation even when the text extractor has no literal
+    # ``Definition n`` heading.  Treating it as context solely because its
+    # formula is introduced in prose would let a migration hide a definition
+    # that the source inventory independently identified.  The reconciliation
+    # validator checks the source presentation and byte-pinned relation; no
+    # Lean route or map key is used here.
+    if (
+        item.get(SOURCE_PROSE_DEFINITION_RECONCILIATION_FIELD) is not None
+        and not source_prose_definition_reconciliation_errors(item)
+    ):
+        return True
     source_kind = str(item.get("source_kind") or "").strip().lower()
     if source_kind and not source_named_presentation_in_coverage_scope(
         source_kind, NAMED_THEORETICAL_STATEMENTS

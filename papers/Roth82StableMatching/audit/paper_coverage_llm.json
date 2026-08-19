@@ -14,7 +14,7 @@
         "completeMarriageOutcome_iff_source_definition"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:140-145, quote SHA-256 e49220fe8da85d1a90ae1694002816d85906e4996b281d6a658ca09f7b19452d. Source atom: Every man and every woman has exactly one mutually consistent partner in a marriage outcome.",
+      "source_evidence": "Byte-pinned source anchor cited publication:140-145, quote SHA-256 e49220fe8da85d1a90ae1694002816d85906e4996b281d6a658ca09f7b19452d. Source atom: Every man and every woman has exactly one mutually consistent partner in a marriage outcome.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "3333f0e2225a6a3a76feebf0ce19fdc0b6a9b153defc7628d618ab30b84f71f8",
@@ -35,7 +35,7 @@
         "corollary5_1_first_choice_need_not_be_misrepresented"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:477-479, quote SHA-256 bc2cc6ee54d9d823d2d832af3a8f762d18a811368ae490f19c545942f250c53e. Source atom: Any outcome attainable by a non-proposing-side report can be weakly matched by a report that preserves that agent's true first choice.",
+      "source_evidence": "Byte-pinned source anchor cited publication:477-479, quote SHA-256 bc2cc6ee54d9d823d2d832af3a8f762d18a811368ae490f19c545942f250c53e. Source atom: Any outcome attainable by a non-proposing-side report can be weakly matched by a report that preserves that agent's true first choice.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "92f1c508ecd215294d9370705fa358822a731b3d139e2646b2bfce7dc6097eb2",
@@ -56,7 +56,7 @@
         "truthfulForAllAgents_iff_source_definition"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:340-351, quote SHA-256 1111f7f610ef89a5d85d802e37052acf15c4b2e3ae4d607d5df85f89136bcc16. Source atom: For either side, no legal unilateral report yields an outcome strictly preferred under the agent's true ranking to truthful reporting.",
+      "source_evidence": "Byte-pinned source anchor cited publication:340-351, quote SHA-256 1111f7f610ef89a5d85d802e37052acf15c4b2e3ae4d607d5df85f89136bcc16. Source atom: For either side, no legal unilateral report yields an outcome strictly preferred under the agent's true ranking to truthful reporting.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "3a9a7a0d7b1552f8f213aff0e6da717fe87b176fc76f0b3ce41510fb97ec078b",
@@ -77,7 +77,7 @@
         "efficientMatchingProcedure_iff_source_definition"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:433-435, quote SHA-256 ab4c20e26a01c98c49a0daeece53336f06cb9cafb8e8116832a94348c9614b74. Source atom: An efficient matching procedure returns a Pareto-optimal outcome for every reported preference profile.",
+      "source_evidence": "Byte-pinned source anchor cited publication:433-435, quote SHA-256 ab4c20e26a01c98c49a0daeece53336f06cb9cafb8e8116832a94348c9614b74. Source atom: An efficient matching procedure returns a Pareto-optimal outcome for every reported preference profile.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "35cf954188e2e78c0c13f741ecd1a8c51383513d3aadef0f883bff8449f28f9b",
@@ -98,7 +98,7 @@
         "fillsIndividualQuotas_iff_source_definition"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:167-175, quote SHA-256 6e77ff39cbab944c485ac6c2ef54afe626e9c3f43759b08da0bf187a15c8fb02. Source atom: Each agent has an individual quota and an outcome gives that agent exactly the stated number of partners.",
+      "source_evidence": "Byte-pinned source anchor cited publication:167-175, quote SHA-256 6e77ff39cbab944c485ac6c2ef54afe626e9c3f43759b08da0bf187a15c8fb02. Source atom: Each agent has an individual quota and an outcome gives that agent exactly the stated number of partners.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "9f493afb09afc86eed1e07f08ae7f41f66f24a980e96ec8cc28a6f8c22ac6400",
@@ -119,7 +119,7 @@
         "lemma1_simple_report_same_partner"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:537-537, quote SHA-256 e3a8fbb9b53b90f4c234c91d88a5b9f3414881bdb13038be39905aff9c5b4c73. Source atom: The original report and its simple top-partner replacement produce the same partner for the reporting man.",
+      "source_evidence": "Byte-pinned source anchor cited publication:537-537, quote SHA-256 e3a8fbb9b53b90f4c234c91d88a5b9f3414881bdb13038be39905aff9c5b4c73. Source atom: The original report and its simple top-partner replacement produce the same partner for the reporting man.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "66a3abac94cb22ab13d4236c3b58195e20f0333b8ef1aae94fd51769d6a6a790",
@@ -140,7 +140,7 @@
         "lemma2_simple_report_harms_no_man"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:564-567, quote SHA-256 0a42cb5261f959c0a2a273cc09344f343218d238c3314a54e76bfe4c2e506473. Source atom: If the simple-report outcome leaves the reporting man weakly better off, it leaves every man weakly better off.",
+      "source_evidence": "Byte-pinned source anchor cited publication:564-567, quote SHA-256 0a42cb5261f959c0a2a273cc09344f343218d238c3314a54e76bfe4c2e506473. Source atom: If the simple-report outcome leaves the reporting man weakly better off, it leaves every man weakly better off.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "718574ad303cee4f5619e1c42371d0cafcb2cf64f243870eea17cda9dc2f51cf",
@@ -161,7 +161,7 @@
         "sourceMarriageModel_iff_source_definition"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:176-197, quote SHA-256 2123d65bf25a071b4a6b9aa3edfec487a86e7f1a19041fb732c3d18cb254d01f. Source atom: The marriage model has equal finite sides and each agent has a complete strict ordering without ties over the opposite side.",
+      "source_evidence": "Byte-pinned source anchor cited publication:176-197, quote SHA-256 2123d65bf25a071b4a6b9aa3edfec487a86e7f1a19041fb732c3d18cb254d01f. Source atom: The marriage model has equal finite sides and each agent has a complete strict ordering without ties over the opposite side.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "fc290cb3a1eeb532ddd3c766692dbc991a4c3a14dc7d3eb5676726c393a5e2c2",
@@ -182,7 +182,7 @@
         "matchingProcedure_eq_source_definition"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:300-303, quote SHA-256 63e113f7b30d0353dae5367908f91bc3f7077bf0fe7482eb257c85eeec190c66. Source atom: A matching procedure elicits the agents reported preferences and aggregates the reported two-sided profile into an outcome.",
+      "source_evidence": "Byte-pinned source anchor cited publication:300-303, quote SHA-256 63e113f7b30d0353dae5367908f91bc3f7077bf0fe7482eb257c85eeec190c66. Source atom: A matching procedure elicits the agents reported preferences and aggregates the reported two-sided profile into an outcome.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "39acbe0c20219cb492741d6e7e557b90e7a06aca4e44013e9e9c8af044296f03",
@@ -203,7 +203,7 @@
         "preferenceProfile_eq_source_definition"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:130-138, quote SHA-256 97c8c5c207a9697be53470790905b4f445b421625087f43fc0cb224baab27d54. Source atom: A preference profile contains one preference ordering for each member of both disjoint sides.",
+      "source_evidence": "Byte-pinned source anchor cited publication:130-138, quote SHA-256 97c8c5c207a9697be53470790905b4f445b421625087f43fc0cb224baab27d54. Source atom: A preference profile contains one preference ordering for each member of both disjoint sides.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "77ce9022f604a038259a528a0f23959f9712c3faf53e07a0b8d511d107d76bbf",
@@ -224,7 +224,7 @@
         "sideOptimalStableOutcome_iff_source_definition"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:463-466, quote SHA-256 09747a4564c0c2ac4835865bfaf1072e77d591b62a958f985c0dc82f1e2a38fc. Source atom: A side-optimal stable outcome is stable and is weakly preferred to every other stable outcome by every agent on that selected side.",
+      "source_evidence": "Byte-pinned source anchor cited publication:463-466, quote SHA-256 09747a4564c0c2ac4835865bfaf1072e77d591b62a958f985c0dc82f1e2a38fc. Source atom: A side-optimal stable outcome is stable and is weakly preferred to every other stable outcome by every agent on that selected side.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "3f76ef7c1e3e74e9e3029f6cbfa09c274ca4bcc5ef86eb863ad55aa492c33c87",
@@ -245,7 +245,7 @@
         "manReportStrictlyRanksPartnerFirst_iff_source_definition"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:522-529, quote SHA-256 4a72e487b27f3bc8ba95cfcd080897ec726a5dfe93664aa8e816b50bb4577fba. Source atom: The associated simple misrepresentation ranks the partner obtained under the original misreport strictly above every alternative partner.",
+      "source_evidence": "Byte-pinned source anchor cited publication:522-529, quote SHA-256 4a72e487b27f3bc8ba95cfcd080897ec726a5dfe93664aa8e816b50bb4577fba. Source atom: The associated simple misrepresentation ranks the partner obtained under the original misreport strictly above every alternative partner.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "1fc64322909fb32a0d842c79f4fabbe2be50bfe89da1851b59988fe61ba31713",
@@ -266,7 +266,7 @@
         "sourceStableMarriage_iff_source_definition"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:145-165, quote SHA-256 bbccd76cebc990c571a8b00596f851b845067c0b4bdef299c73a6fa4d1850505. Source atom: A complete marriage outcome is stable when there is no man and woman who both strictly prefer each other to their current partners.",
+      "source_evidence": "Byte-pinned source anchor cited publication:145-165, quote SHA-256 bbccd76cebc990c571a8b00596f851b845067c0b4bdef299c73a6fa4d1850505. Source atom: A complete marriage outcome is stable when there is no man and woman who both strictly prefer each other to their current partners.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "4d1d7224fb5baed09eb7cbb27be5ea9feb2569495ef09b35f531f929f232215d",
@@ -287,7 +287,7 @@
         "sourceStableMatchingProcedure_iff_source_definition"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:313-323, quote SHA-256 1823bc6b49d139faa68db29f72fb0c8a457a704784764d94aa4d635892d0ff69. Source atom: For every reported preference profile, a stable matching procedure returns an outcome stable for those reports.",
+      "source_evidence": "Byte-pinned source anchor cited publication:313-323, quote SHA-256 1823bc6b49d139faa68db29f72fb0c8a457a704784764d94aa4d635892d0ff69. Source atom: For every reported preference profile, a stable matching procedure returns an outcome stable for those reports.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "51eb403d5bd3e647325034d3fb7395dc9af5bf970a1423b9a55ed98c67bb3516",
@@ -308,7 +308,7 @@
         "theorem1_stable_outcome_exists"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:227-227, quote SHA-256 cc02cee890eb2da2d91d715a550278ccdbfe41f38d578a7f78ef048acb3b9095. Source atom: Every finite complete strict marriage market has at least one stable outcome.",
+      "source_evidence": "Byte-pinned source anchor cited publication:227-227, quote SHA-256 cc02cee890eb2da2d91d715a550278ccdbfe41f38d578a7f78ef048acb3b9095. Source atom: Every finite complete strict marriage market has at least one stable outcome.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "3c1df5e5146827985360a3f152885409bd182a4024edd2775beac907078f2372",
@@ -329,7 +329,7 @@
         "theorem2_side_optimal_stable_outcomes"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:258-259, quote SHA-256 17aeefb3b35642fc47227b7f8699824b0e25ee9ca2b1a8d90ddccb1c2b8e51e4. Source atom: There is a stable outcome weakly preferred by every man to every other stable outcome and a symmetric outcome for every woman.",
+      "source_evidence": "Byte-pinned source anchor cited publication:258-259, quote SHA-256 17aeefb3b35642fc47227b7f8699824b0e25ee9ca2b1a8d90ddccb1c2b8e51e4. Source atom: There is a stable outcome weakly preferred by every man to every other stable outcome and a symmetric outcome for every woman.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "88550823b2c17c7f578eb5a258908f0f071a0114b41587bb6bd9db703275fdc0",
@@ -350,7 +350,7 @@
         "theorem3_no_stable_truthful_procedure"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:356-357, quote SHA-256 000927377c304d112bb085c4dcc61e726489b9eae5f1d53a261a80c9d45946e6. Source atom: No procedure can be stable at every legal profile and dominant-strategy truthful for every agent on both sides.",
+      "source_evidence": "Byte-pinned source anchor cited publication:356-357, quote SHA-256 000927377c304d112bb085c4dcc61e726489b9eae5f1d53a261a80c9d45946e6. Source atom: No procedure can be stable at every legal profile and dominant-strategy truthful for every agent on both sides.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "d02f449a33c76e8ad88ade34aeb1cdb47d332e8b59610d249346320e93373c15",
@@ -371,7 +371,7 @@
         "theorem4_efficient_truthful_procedure_exists"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:438-439, quote SHA-256 f86039aad0d5e8e9a29f8d3655f3cec589f75530e80bcc0a21725a501689f504. Source atom: There exists a matching procedure that is Pareto efficient and dominant-strategy truthful for every agent.",
+      "source_evidence": "Byte-pinned source anchor cited publication:438-439, quote SHA-256 f86039aad0d5e8e9a29f8d3655f3cec589f75530e80bcc0a21725a501689f504. Source atom: There exists a matching procedure that is Pareto efficient and dominant-strategy truthful for every agent.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "ec8f88d049b89af1106e29eec596328bc2a81e72a8c7b9ee129284bfadcf2434",
@@ -392,7 +392,7 @@
         "theorem5_optimal_side_truthful"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:468-471, quote SHA-256 0e4a0f52e3972d17ddb05fd3c58c609f98505689c633fd78234b13519a71b2e5. Source atom: For either proposal direction, every agent on the side receiving its optimal stable outcome has truthful reporting as a dominant strategy.",
+      "source_evidence": "Byte-pinned source anchor cited publication:468-471, quote SHA-256 0e4a0f52e3972d17ddb05fd3c58c609f98505689c633fd78234b13519a71b2e5. Source atom: For either proposal direction, every agent on the side receiving its optimal stable outcome has truthful reporting as a dominant strategy.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "a3251f1a4e8db06334f105f5e61ab8083f85a6ee61b517a8b4457ec9e0f829ab",
@@ -413,7 +413,7 @@
         "theorem6_no_outcome_strictly_better_for_all_men"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:678-684, quote SHA-256 da2f73003ce7f2bd9595441b891e0da7fa769688766985f0922cb4e0c78e150f. Source atom: There is no feasible complete outcome that every man strictly prefers to the men-proposing deferred-acceptance outcome.",
+      "source_evidence": "Byte-pinned source anchor cited publication:678-684, quote SHA-256 da2f73003ce7f2bd9595441b891e0da7fa769688766985f0922cb4e0c78e150f. Source atom: There is no feasible complete outcome that every man strictly prefers to the men-proposing deferred-acceptance outcome.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "f57b2def2c67aae4382d8af3f612a42c1ec3d24910bac025ab7750ca3da44946",
@@ -434,7 +434,7 @@
         "theorem7_later_choice_manipulation_unavoidable"
       ],
       "seed_scaffold": false,
-      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:713-714, quote SHA-256 65564e5e45888b113fa81dc3ef03e8a8f240c16bdfe0d1b3f5a94775e8721dbd. Source atom: For every kth rank beyond first choice, some finite strict complete marriage market forces a profitable kth-choice misreport under every stable procedure.",
+      "source_evidence": "Byte-pinned source anchor cited publication:713-714, quote SHA-256 65564e5e45888b113fa81dc3ef03e8a8f240c16bdfe0d1b3f5a94775e8721dbd. Source atom: For every kth rank beyond first choice, some finite strict complete marriage market forces a profitable kth-choice misreport under every stable procedure.",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "c28c6662c83ef602a73494ae01c299836f45bafc1274dea06b4dfcea22f1e73d",
@@ -450,7 +450,6 @@
   "review_surface_sha256": "207cc6900e432c622354da2af5ccbd965c6df036864d8c500aef6a0714a886af",
   "schema": 1,
   "seed_scaffold": false,
-  "source_artifact_path": "Roth82StableMatching.txt",
   "source_artifact_sha256": "55d2c35a8077a74dc9953dcb6f838fcd6e91edc9e77079a2419f185835a79fd4",
   "source_coverage_mode": "named_theoretical_statements",
   "source_grounded": true,

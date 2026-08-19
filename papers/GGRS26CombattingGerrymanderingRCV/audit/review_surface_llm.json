@@ -4,22 +4,22 @@
     "paper_lemma_c1_pav_selector_eq_unique_integer_interval": {
       "judgment": "passes",
       "reason": "This proof endpoint exposes the complete named source target.  It preserves the relational leftmost PAV condition and all interval/uniqueness clauses.",
-      "source_location": "source.txt:2414-2433"
+      "source_location": "cited publication:2414-2433"
     },
     "paper_lemma_c1_pav_selector_eq_unique_integer_intervalSpec": {
       "judgment": "passes",
       "reason": "This transparent specification exposes the complete named source target.  It preserves the relational leftmost PAV condition and all interval/uniqueness clauses.",
-      "source_location": "source.txt:2414-2433"
+      "source_location": "cited publication:2414-2433"
     },
     "paper_proposition1_all_ballot_routed_surplus_transfer_outcomes_and_selected_pav": {
       "judgment": "passes",
       "reason": "This proof endpoint exposes the complete named source target.  It preserves finite rosters, policy, canonical initial state, legal execution and terminal binders, relational PAV witness, and both rounded-seat results.",
-      "source_location": "source.txt:485-490"
+      "source_location": "cited publication:485-490"
     },
     "paper_proposition1_all_ballot_routed_surplus_transfer_outcomes_and_selected_pavSpec": {
       "judgment": "passes",
       "reason": "This transparent specification exposes the complete named source target.  It preserves finite rosters, policy, canonical initial state, legal execution and terminal binders, relational PAV witness, and both rounded-seat results.",
-      "source_location": "source.txt:485-490"
+      "source_location": "cited publication:485-490"
     }
   },
   "judgment": "passes",

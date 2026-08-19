@@ -12,7 +12,7 @@
       "review_rows": [
         "corollary1"
       ],
-      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor PRPKG24AccuracyDiversity.txt:443-447.",
+      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor cited publication:443-447.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "1e46ad5176088d7d7a991e7d9ec8690ee43490ffcd4ea89e2375e943eeaf0fa5",
       "statement_sha256": "e95df9c9aefe42a7009eb867b93ff897b16f149c32094b178f0737cb92e5b992",
@@ -36,7 +36,7 @@
       "review_rows": [
         "corollary3_iid_bernoulli_conclusion"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:518-521; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:518-521; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "5b444b763be0037193e6672fa5ee3089a6f3d37b61953527a3601718d09e0c5a",
       "statement_sha256": "e7d3c930c31f9a002c6e5607837f25f0d8e0cd74f409eb8012dae314ea613190",
@@ -55,7 +55,7 @@
       "review_rows": [
         "definition1_source_preference_law"
       ],
-      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor PRPKG24AccuracyDiversity.txt:273-295.",
+      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor cited publication:273-295.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "d240cf5bf6fa1834a4d68e773bf629644cd30dce5c52d3a344c5ff3d63fa8c77",
       "statement_sha256": "0c8cf209ec50a8227428d683b8e9be26c338e675ca5d2d0530b6380def5f46bd",
@@ -73,7 +73,7 @@
       "review_rows": [
         "definition2_source_preference_law"
       ],
-      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor PRPKG24AccuracyDiversity.txt:301-308.",
+      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor cited publication:301-308.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "c18486b95d5de58d013dd994146c5030122a049df7ee1be44542ac759efff627",
       "statement_sha256": "8fa415538aedf7f0acff8d18cb8687a516af0564b8a2c3b457d31b707b88c5e4",
@@ -91,7 +91,7 @@
       "review_rows": [
         "definition3_iid_order_statistic_mean_formula"
       ],
-      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor PRPKG24AccuracyDiversity.txt:663-665.",
+      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor cited publication:663-665.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "1e4c7c617b32b3c034cdeef6171b6c5768d718c7c9c741d55cd5822641b237dc",
       "statement_sha256": "674fe1b4afefc3d29a267b8847cd5c9ac3500d4974b0c5b59e86cc2ea584e83e",
@@ -115,7 +115,7 @@
       "review_rows": [
         "proposition4"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:1122-1145; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:1122-1145; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "3a90b59230ad27bfcf2c1e1cf031abd7ec866f0d8a5d578c9c1641cfed8f0de0",
       "statement_sha256": "5cbbffdc0f3f0d1dcbd24b72003336c2a356ee72b3d85b155207ef8207b4feea",
@@ -140,7 +140,7 @@
       "review_rows": [
         "proposition2_corrected_finite_and_sequence_source"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:459-485; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:459-485; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "a8828dd6b7d8d231f361a4a9677c1dc504d41e3c914b264cb1ce4aadc7e9c3a0",
       "statement_sha256": "214c98289c1395c523d6f756a1e5487f6bf869750983221df2c585f454f6a11a",
@@ -165,7 +165,7 @@
       "review_rows": [
         "theorem3_log_share_conclusion"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:607-617; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:607-617; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "f1eb2e6956106730f08389dce7d53cb689e452de24bfd894e63cd0f53e728fec",
       "statement_sha256": "104111aaead676b4adc84a612d15eb3a293ccd0a04f28634833625e46097f5fc",
@@ -184,7 +184,7 @@
       "review_rows": [
         "lemma1_bounded_topk_loss_asymptotic_of_pdf_source"
       ],
-      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor PRPKG24AccuracyDiversity.txt:703-711.",
+      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor cited publication:703-711.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "f8d65a1f89e0e13b127f9d7b224c87cc7731123f8e7cbd392c93ceab7b4b1e30",
       "statement_sha256": "312289c890059616232014d5abf7cf5ca2efe3c70ff286e9c2b5a2362b1802ee",
@@ -209,7 +209,7 @@
       "review_rows": [
         "lemmaD1_i_corrected_uniform_optimizer_shares_source"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:1298-1322; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:1298-1322; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "dc6609eee723b81082ad89cb6b51557460ed3d7ccddbb395bbac3baa2a1ca2b2",
       "statement_sha256": "8781701b21645d872f631974e8e0715e9847f65d1d05f2409f9c5d3734a465b5",
@@ -234,7 +234,7 @@
       "review_rows": [
         "lemmaD1_ii_corrected_powerTail_optimizer_shares_source"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:1324-1350; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:1324-1350; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "e03541beed03c0a6f7704a45544ef09f6a8f35129f93a0f5b63de42a856bc5c3",
       "statement_sha256": "e5e2b9d1b03dc8e40675ff9dd2081c18be84fb5210b897b892b6d286e4f522f4",
@@ -259,7 +259,7 @@
       "review_rows": [
         "lemmaD1_iii_corrected_probability_optimizer_shares_source"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:1352-1369; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:1352-1369; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "04403273ea7d7552bf3efaed1f49537b79087828679265f052c0aea7c66caa73",
       "statement_sha256": "eee8c82aafce7576d163969fd79a8fa9a85f358c624cca4e9d58fc737567e624",
@@ -284,7 +284,7 @@
       "review_rows": [
         "lemmaD1_iv_corrected_powerTail_optimizer_shares_source"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:1371-1399; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:1371-1399; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "11aea87a32fdb5fc23bb34a7a0dbd6b3e422f8584f914e23366c686e8612ed96",
       "statement_sha256": "da9ccd844c809ba952c1972c9ea2cb43a71a6bff16b83a094f2f508e8071aa33",
@@ -303,7 +303,7 @@
       "review_rows": [
         "lemmaD2_bounded_fixed_rank_integral_asymptotic_of_pdf_source"
       ],
-      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor PRPKG24AccuracyDiversity.txt:2264-2287.",
+      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor cited publication:2264-2287.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "a6d2464803993b1efd3c47f272caaff3ff6eef52f0cef5577a6b9a75d894afad",
       "statement_sha256": "c31a484980712b428472ea154cb5e53a272c0c323a2e7f9522994d9e332c9060",
@@ -327,7 +327,7 @@
       "review_rows": [
         "lemmaD3_corrected_exponential_fixed_rank_source"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:2778-2785; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:2778-2785; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "873966e86201341c20e036ae3d42dca55ceeb2d72527dfa8747a1bf97e5301f6",
       "statement_sha256": "de21bb329d79f469d90a01770d46a4c2a6b09f37377a88520dc97aabba5c2c1a",
@@ -352,7 +352,7 @@
       "review_rows": [
         "lemmaD4_corrected_pareto_fixed_rank_source"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:2844-2858; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:2844-2858; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "be910376b5bd1d2c76e3865c036ae221331968e2c2453bf52707cdbd6ce50f4f",
       "statement_sha256": "3e74c5a3c24c95b53341b462e10cb1fa7c8cd4eaf13277ccc17164a71ddb146d",
@@ -377,7 +377,7 @@
       "review_rows": [
         "lemmaD5"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:3819-3840; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:3819-3840; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "775b912de3ed9167ab9a866d39c554b03eca61bec8dbc599be4a55b33ee12c3f",
       "statement_sha256": "80600cd2b53c039201b6f1ddcd9e88ac4fedc7d449e1bed2c6ff77c0e1f51eac",
@@ -402,7 +402,7 @@
       "review_rows": [
         "lemmaD1_ii_corrected_powerTail_optimizer_shares_source"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:678-699; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:678-699; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "e316c04b37962f0e940727cf5e1ec665aa193fefe77ce4c718f6db9e6ba55a9e",
       "statement_sha256": "e5e2b9d1b03dc8e40675ff9dd2081c18be84fb5210b897b892b6d286e4f522f4",
@@ -421,7 +421,7 @@
       "review_rows": [
         "proposition5_iid_topk_identity"
       ],
-      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor PRPKG24AccuracyDiversity.txt:2071-2084.",
+      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor cited publication:2071-2084.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "2615077a38f6bbbfc09a7aaaa1ab107cb119f3883c203d1b1676c1e60f3c29f5",
       "statement_sha256": "4611fbec34854aa93d9112769977f2da33c9c7527bc13e01bf413db4c3f8e680",
@@ -445,7 +445,7 @@
       "review_rows": [
         "theorem1_i_formula"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:349-350; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:349-350; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "48d4868c03fc75241e3e9564874ae9356faf02e42ea07c04fb10cb3c798946bd",
       "statement_sha256": "2ae0d8df1ae60a3432c1f9d33f99855a9973f3c9d356ac3fbd8c36e34e1a7d12",
@@ -464,7 +464,7 @@
       "review_rows": [
         "theorem1_ii_formula"
       ],
-      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor PRPKG24AccuracyDiversity.txt:351-359.",
+      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor cited publication:351-359.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "3f82ba9e0daf166f19cf52e3e77d101c6ba11fd777cb71df450d48224e7ebf33",
       "statement_sha256": "a70a1a079393265a891e33bad3bff5dc1aafc9eb4a9638b6559ee45b5f6782d2",
@@ -482,7 +482,7 @@
       "review_rows": [
         "theorem1_iii_formula"
       ],
-      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor PRPKG24AccuracyDiversity.txt:431-432.",
+      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor cited publication:431-432.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "a4595c418b470d7624a7b9835b218e5c3c36f74e407a10df5e345fb9631ae98d",
       "statement_sha256": "d367b037c2bf543cdd0833d76cfe4d5e38843a28ce41d3f6a11043034a8d17ea",
@@ -500,7 +500,7 @@
       "review_rows": [
         "theorem1_iv_formula"
       ],
-      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor PRPKG24AccuracyDiversity.txt:434-435.",
+      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor cited publication:434-435.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "60030bcc62ac8d8abdd6fbd554fb5bc7f36541d139a4c62f01e4481029a881d0",
       "statement_sha256": "36c8f16180b53aa5ff8e389826dcd6fdf8636ff630db4dff4dfc7570ff42b797",
@@ -524,7 +524,7 @@
       "review_rows": [
         "theorem1_v_selected_maximizer_conclusion"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:437-438; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:437-438; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "f51ee4ac5d1ca3fb5c07ecb7a25452a5146c57c9d6f2f9f185a7df78aa5fecda",
       "statement_sha256": "fbcfbaff75927c15a886ba0dc71c726f09719c9253d162d1db3393a0d85b8a02",
@@ -549,7 +549,7 @@
       "review_rows": [
         "theorem2_i_corrected_pmf_source_model_endpoint"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:540-541; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:540-541; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "4f106c536fdae86a392a4d24ba841643ac4ac5882d5cc3fc3c74905100d491d4",
       "statement_sha256": "2b33ec0008037861f625cfdc4568b0b7560db762249f3b0dfa8512c864ccc2fe",
@@ -574,7 +574,7 @@
       "review_rows": [
         "theorem2_ii_corrected_pmf_source_model_endpoint"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:543-545; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:543-545; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "c0709fad1e53a7025731cd5fba81ce5b136827032b6a285718782f3a87da32ac",
       "statement_sha256": "1d5d16a5dde3b178db67ffc7a7683668c0c6c2986e922a85a0435a051b868b62",
@@ -599,7 +599,7 @@
       "review_rows": [
         "theorem2_iii_corrected_pmf_source_model_endpoint"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:547-548; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:547-548; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "1387e5641f50cdc9844ecd5c7ae212a1c51b722f086ffc0222d2bbe8fe11a44e",
       "statement_sha256": "1bfa36570345202cca2baa69d271fd28e7c76edbef1b8070e60536054b177b04",
@@ -624,7 +624,7 @@
       "review_rows": [
         "theorem2_iv_corrected_pmf_source_model_endpoint"
       ],
-      "source_evidence": "Archival source anchor PRPKG24AccuracyDiversity.txt:550-553; the map pins the approved corrected target and explicitly rejects archival equivalence.",
+      "source_evidence": "Archival source anchor cited publication:550-553; the map pins the approved corrected target and explicitly rejects archival equivalence.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "cd9ba7c19e09bd2fe95f1c813ba2cd2c5e0b268bde14dc5ec558fceae7b3ee4e",
       "statement_sha256": "cef84e9925cf12cbf1814800cebcb3f17b82f1581f1f3eb73037f741a6991695",
@@ -643,7 +643,7 @@
       "review_rows": [
         "theorem3_all_consumed_argmax_conclusion"
       ],
-      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor PRPKG24AccuracyDiversity.txt:619.",
+      "source_evidence": "Pinned source SHA-256 4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830; exact source anchor cited publication:619.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "239a8b1b27e8da0fb21635cbcefeea379ad9bc7f10ca12aa43f19d845f62a5d8",
       "statement_sha256": "5c573df225923eb6a7abc5bf7865115cb07e9e1cf92081f6056ab2717b5fb69c",
@@ -658,7 +658,6 @@
   "review_surface_sha256": "0143325422bd4ad1637ed79dde8ba004fffc47b5c58b9f849e5c978b3139d50d",
   "schema": 1,
   "seed_scaffold": false,
-  "source_artifact_path": "PRPKG24AccuracyDiversity.txt",
   "source_artifact_sha256": "4dd55b1445de448e81d5494fbf9bafe4aac3f8c59f0ee62dac00aa1345dc4830",
   "source_coverage_mode": "named_theoretical_statements",
   "source_grounded": true,

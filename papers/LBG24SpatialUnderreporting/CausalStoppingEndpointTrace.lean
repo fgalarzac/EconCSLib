@@ -11,11 +11,11 @@ response draws are auxiliary policy randomization; after restricting to a
 branch with `count` reports, the observable output has one absolute endpoint
 time.
 
-This is intentionally a corrected-model construction, not a derivation from
-the printed Conditions 1--2.  The source's prose says that endpoints depend on
+This is a source-model construction, not a derivation of an arbitrary endpoint
+law from the printed Conditions 1--2 alone.  The source's prose says that endpoints depend on
 reports only through information available up to their times
-(`source.txt:271-283`, `1817-1828`) and later calls this a stopping-times
-assumption (`source.txt:2437-2467`).  A source-carrier bridge still has to
+(`cited publication:254-258`, `1574-1579`) and later calls this a stopping-times
+assumption (`cited publication:2086-2110`).  A source-carrier bridge still has to
 establish the corresponding conditional transition law.  In particular, this
 module does not turn the marginal Condition-2 density into that law.
 -/
@@ -164,7 +164,7 @@ end CollapsedFiniteStageEndpointKernelModel
 The paper's simulator is a concrete source-supported instance of the causal
 reading: after each report it races a new report clock against a death clock
 whose rate may depend on the number of reports already received
-(`source.txt:2215-2233`).  The following construction has one realized death
+(`cited publication:1897-1904`).  The following construction has one realized death
 endpoint on every accepted finite branch.  The independently generated clock
 coordinates are implementation noise for that sequential policy, not a claim
 that the archived Conditions 1--2 imply a product law on an existing carrier.

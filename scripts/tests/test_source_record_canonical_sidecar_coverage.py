@@ -84,6 +84,7 @@ class CanonicalSourceRecordSidecarCoverageTests(unittest.TestCase):
         effective_keys: set[str],
         *,
         effective_items: dict[str, object] | None = None,
+        primary_closeout_source_record_receipt: bool = False,
     ) -> str:
         return EVIDENCE.canonical_source_record_sidecar_effective_coverage_error(
             self.raw,
@@ -95,6 +96,9 @@ class CanonicalSourceRecordSidecarCoverageTests(unittest.TestCase):
             ),
             paper_dir=self.paper_dir,
             sidecar_path=self.sidecar_path,
+            primary_closeout_source_record_receipt=(
+                primary_closeout_source_record_receipt
+            ),
         )
 
     def manual_complement_provenance(self) -> dict[str, object]:
@@ -157,6 +161,28 @@ class CanonicalSourceRecordSidecarCoverageTests(unittest.TestCase):
             "manual_current_complement": self.manual_complement_provenance(),
         }
         self.assertEqual(self.coverage_error(sidecar, self.expected), "")
+
+    def test_primary_closeout_receipt_discharges_only_missing_runtime_strict_rows(self) -> None:
+        """A downstream reader need not duplicate runtime-only strict receipts."""
+
+        sidecar = {
+            "schema": 1,
+            "paper": PAPER,
+            "items": {"first current group": {}},
+            "manual_current_complement": self.manual_complement_provenance(),
+        }
+        self.assertIn(
+            "does not have exact authenticated effective coverage",
+            self.coverage_error(sidecar, {"first current group"}),
+        )
+        self.assertEqual(
+            self.coverage_error(
+                sidecar,
+                {"first current group"},
+                primary_closeout_source_record_receipt=True,
+            ),
+            "",
+        )
 
     def test_completed_legacy_complement_provenance_remains_structurally_valid(self) -> None:
         for policy_version in (

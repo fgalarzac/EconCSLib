@@ -22,7 +22,7 @@ caveat`.
 ## 3. Source and Scope
 
 The checked source is the AISTATS 2019 / PMLR 89 main paper and supplement in
-`source.tar`, SHA-256
+`cited publication`, SHA-256
 `59780d7a9ea09cccd9c6877103434757a6597212512958c6e22e60b189826e89`.
 The public source is the
 [PMLR paper PDF](https://proceedings.mlr.press/v89/garg19a/garg19a.pdf).
@@ -308,7 +308,7 @@ conditional.
 <!-- BEGIN GENERATED SOURCE COVERAGE LEDGER -->
 ### Current Canonical Evidence
 - Coverage scope: full inventory shown because scope metadata needs repair (paper_statement_map.json must explicitly set source_coverage_mode before a source-coverage closeout).
-- Source inventory: 76 source statements from `papers/GJ19OptimalBinaryRatingSystems/source.tar`.
+- Source inventory: 76 source statements from `cited publication`.
 - Coverage result: 59 covered, 17 support only.
 - Coverage review: coverage ledger recorded; Agent check by Codex GJ19 full-formalization source-coverage closeout 2026-07-19; 2026-07-19.
 - Row-local statement checks: 0/61 linked row references have a completed canonical statement check; repeated links are counted per source row.

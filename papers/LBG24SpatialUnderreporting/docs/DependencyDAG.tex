@@ -31,33 +31,33 @@
 
 \node[source_premise] (ReportingModel) at (0,0) {
   \textbf{Incident/reporting model} \\
-  latent homogeneous Poisson incidents; \\
-  independent reporting and duration law
+  stationary homogeneous incident births; \\
+  reports while an incident is active
 };
 
 \node[source_premise] (ForwardModel) at (6.5,0) {
-  \textbf{Forward Poisson + Condition 1} \\
-  homogeneous report path and selected start \\
-  independent of the post-first-report future
+  \textbf{Calendar-time first reports} \\
+  observed incidents are first reports in \\
+  the calendar window; pre-first-report survival
 };
 
 \node[dag_result] (PMF) at (13,0) {
-  \textbf{Eq. (2)} \\
-  Poisson count PMF \\
-  $p(M\mid\lambda(e-s))$
+  \textbf{Lemma 2 + Condition 1} \\
+  selected start is rate-free given the \\
+  first report and visible prior history
 };
 
 \node[source_premise] (PalmEndpoint) at (19.5,0) {
-  \textbf{Conditions 1--2, made joint} \\
-  stationary/Palm tagged report source and \\
-  normalized causal endpoint densities
+  \textbf{Condition 2: causal endpoint} \\
+  one rate-free endpoint policy may use \\
+  visible reports, not future report gaps
 };
 
 \node[dag_result] (Lemma1) at (0,-3.5) {
   \textbf{Lemma 1} \\
-  homogeneous and nonhomogeneous \\
-  detection integrals; \\
-  observed Poisson process at the thinned rate
+  duration-mixture first-report probability; \\
+  calendar-time first reports are Poisson \\
+  at the displayed observed rate
 };
 
 \node[dag_result] (Lemma2) at (6.5,-3.5) {
@@ -69,13 +69,14 @@
 \node[dag_result] (Theorem) at (16.25,-3.5) {
   \textbf{Theorem 1 / Appendix Theorem 2} \\
   $L_\lambda=F\,p(M\mid\lambda(e-s))$; \\
-  first gap $t_{m+1}-s$, residual $M!/(e-s)^M$
+  selected-start likelihood with a causal endpoint
 };
 
 \node[dag_result] (Prop1) at (0,-7) {
   \textbf{Proposition 1} \\
-  distinct reporting rates have positive \\
-  compensating latent rates and the same observed rate
+  calendar-window counts satisfy the rate limit; \\
+  distinct reporting rates can have the same \\
+  observed first-report process
 };
 
 \node[dag_result] (NYC) at (6.5,-7) {
@@ -103,9 +104,10 @@
 };
 
 \draw[dag_arrow] (ReportingModel) -- (Lemma1);
+\draw[dag_arrow] (ForwardModel) -- (Lemma1);
 \draw[dag_arrow] (Lemma1) -- (Prop1);
-\draw[dag_arrow] (ForwardModel) -- (Lemma2);
-\draw[dag_arrow] (PMF) -- (Theorem);
+\draw[dag_arrow] (PMF) -- (Lemma2);
+\draw[dag_arrow] (Lemma2) -- (Theorem);
 \draw[dag_arrow] (PalmEndpoint) -- (Theorem);
 \draw[dag_arrow] (Theorem) -- (MLE);
 \draw[dag_arrow] (MLE) -- (Regression);

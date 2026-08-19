@@ -1,5 +1,6 @@
 *.pdf
 !docs/DependencyDAG.pdf
+!docs/HUMAN_REVIEW_PACKET.pdf
 !docs/LAP_VARIABILITY_CLEAN_PROOF.pdf
 source.pdf
 source.txt

@@ -19,6 +19,11 @@ import sys
 from pathlib import Path
 from typing import Any, Mapping
 
+try:
+    from source_coverage_scope import source_item_is_named_theoretical_statement
+except ModuleNotFoundError:  # pragma: no cover - supports package-style imports.
+    from scripts.source_coverage_scope import source_item_is_named_theoretical_statement
+
 
 ROOT = Path(__file__).resolve().parents[1]
 _SOURCE_LOCATOR_RE = re.compile(r"^(?P<path>[^:]+):(?P<start>[1-9][0-9]*)(?:-(?P<end>[1-9][0-9]*))?$")
@@ -53,7 +58,7 @@ def as_string_list(value: object, *, label: str) -> list[str]:
 
 
 def full_name(namespace: str, module: str, short: str) -> str:
-    return f"{namespace}.{module}.{short}"
+    return f"{namespace}.{module}.{short}" if module else f"{namespace}.{short}"
 
 
 def _sha256_file(path: Path) -> str:
@@ -182,6 +187,140 @@ def _apply_corrected_targets(
         item["statement"] = archival_statement
         item["source_note"] = source_note
         item["corrected_target"] = target
+
+
+def _initialize_selected_source_claim_atoms(
+    items: Mapping[str, dict[str, Any]],
+    selected_by_item: Mapping[str, str],
+    *,
+    namespace: str,
+    interface_module: str,
+    enabled: object,
+) -> bool:
+    """Pin one already-curated source claim to its exact existing anchor.
+
+    Legacy source maps frequently predate the v11 atom schema while already
+    containing one curated source statement and one exact quote bundle per
+    direct source item.  This is a mechanical schema migration only: it uses
+    that existing statement verbatim, refuses ambiguous multi-anchor items,
+    and records the already selected paper-interface proof route.  It never
+    derives an atom from a Lean declaration name.
+    """
+
+    if enabled in {None, False}:
+        return False
+    if enabled is not True:
+        raise PreparationError("initialize_selected_source_claim_atoms must be boolean")
+    for key, spec in selected_by_item.items():
+        item = items[key]
+        existing = item.get("source_claim_atoms")
+        if existing is not None and existing != []:
+            if (
+                isinstance(existing, list)
+                and len(existing) == 1
+                and isinstance(existing[0], dict)
+                and existing[0].get("id") == key.replace("_", ".")
+            ):
+                # This is the deterministic initialization record from an
+                # earlier invocation.  Keep its source semantics and quote
+                # pin but rebind the route if the interface layout changed.
+                existing[0]["reviewed_lean_route"] = full_name(
+                    namespace, interface_module, spec + "Spec_proof"
+                )
+            continue
+        statement = str(item.get("statement") or "").strip()
+        anchors = item.get("source_anchor_evidence")
+        if not statement or not isinstance(anchors, list) or len(anchors) != 1:
+            raise PreparationError(
+                f"{key}: atom initialization needs one existing substantive statement and exact source anchor"
+            )
+        anchor = anchors[0]
+        if not isinstance(anchor, Mapping):
+            raise PreparationError(f"{key}: existing source anchor must be an object")
+        path = str(anchor.get("path") or "").strip()
+        start = anchor.get("line_start")
+        end = anchor.get("line_end")
+        quote_digest = str(anchor.get("quoted_text_sha256") or "").strip()
+        if (
+            not path
+            or not isinstance(start, int)
+            or isinstance(start, bool)
+            or not isinstance(end, int)
+            or isinstance(end, bool)
+            or start < 1
+            or end < start
+            or not re.fullmatch(r"[0-9a-fA-F]{64}", quote_digest)
+        ):
+            raise PreparationError(f"{key}: existing source anchor is not a byte-pinned file span")
+        item["source_claim_atoms"] = [
+            {
+                "id": key.replace("_", "."),
+                "source_locator": f"{path}:{start}-{end}",
+                "semantic_claim": statement,
+                "reviewed_lean_route": full_name(
+                    namespace, interface_module, spec + "Spec_proof"
+                ),
+                "source_quote_sha256": quote_digest.lower(),
+            }
+        ]
+    return True
+
+
+def _apply_explicit_source_claim_atoms(
+    items: Mapping[str, dict[str, Any]],
+    selected_by_item: Mapping[str, str],
+    config: Mapping[str, Any],
+    *,
+    folder: Path | None,
+    namespace: str,
+    interface_module: str,
+) -> None:
+    """Install reviewed one-anchor atoms for selected multi-span presentations.
+
+    The ordinary initializer intentionally accepts only a source item with one
+    anchor.  A source theorem can, however, have one statement span and a
+    separately pinned proof or model-context span.  This migration-only input
+    records which *one* exact statement anchor owns the source claim instead
+    of letting a mechanical tool choose one from a multi-span presentation.
+    """
+
+    raw_atoms = config.get("explicit_source_claim_atoms", {})
+    if raw_atoms in ({}, None):
+        return
+    if folder is None:
+        raise PreparationError("explicit_source_claim_atoms require the paper folder")
+    if not isinstance(raw_atoms, Mapping):
+        raise PreparationError("explicit_source_claim_atoms must be an object")
+    for raw_key, raw_atom in raw_atoms.items():
+        key = str(raw_key).strip()
+        if key not in selected_by_item or not isinstance(raw_atom, Mapping):
+            raise PreparationError(
+                "each explicit_source_claim_atoms entry needs a selected source item and object"
+            )
+        atom_id = str(raw_atom.get("id") or "").strip()
+        locator = str(raw_atom.get("source_locator") or "").strip()
+        claim = str(raw_atom.get("semantic_claim") or "").strip()
+        if not atom_id or not locator or not claim:
+            raise PreparationError(
+                f"{key}: explicit source claim atom needs id, source_locator, and semantic_claim"
+            )
+        anchors = _canonical_anchor_evidence(folder, locator)
+        if len(anchors) != 1:
+            raise PreparationError(
+                f"{key}: explicit source claim atom must have one exact source anchor"
+            )
+        spec = selected_by_item[key]
+        items[key]["source_claim_atoms"] = [
+            {
+                "id": atom_id,
+                "source_locator": locator,
+                "source_quote_sha256": anchors[0]["quoted_text_sha256"],
+                "semantic_claim": claim,
+                "reviewed_lean_route": full_name(
+                    namespace, interface_module, spec + "Spec_proof"
+                ),
+            }
+        ]
 
 
 def _atomize_source_items(
@@ -623,6 +762,211 @@ def _consolidate_presentation_aliases(
         items[name] = result
 
 
+def _retire_non_source_items(
+    items: dict[str, dict[str, Any]], config: Mapping[str, Any]
+) -> None:
+    """Remove a legacy audit row that is not its own source presentation.
+
+    The source map is a source inventory, not a record of every helpful Lean
+    bridge ever added during a formalization.  A v11 migration may therefore
+    retire an old duplicated presentation row or an implementation-only bridge
+    after its actual named source result is retained elsewhere.  The permanent
+    preparation configuration must identify that retained source item and
+    state why the retired row is not an independent source presentation.
+    """
+
+    raw_retirements = config.get("retire_non_source_items", {})
+    if raw_retirements in ({}, None):
+        return
+    if not isinstance(raw_retirements, Mapping):
+        raise PreparationError("retire_non_source_items must be an object")
+    pending: list[tuple[str, str, str, str]] = []
+    valid_kinds = {"legacy_duplicate_presentation", "formalization_bridge"}
+    for raw_key, raw_plan in raw_retirements.items():
+        key = str(raw_key).strip()
+        if not key or not isinstance(raw_plan, Mapping):
+            raise PreparationError(
+                "each retire_non_source_items entry needs an existing item and object"
+            )
+        kind = str(raw_plan.get("kind") or "").strip()
+        replacement = str(raw_plan.get("replacement_source_item") or "").strip()
+        reason = str(raw_plan.get("reason") or "").strip()
+        if kind not in valid_kinds or not replacement or len(reason) < 20:
+            raise PreparationError(
+                f"{key}: retirement needs a recognized kind, replacement_source_item, and substantive reason"
+            )
+        if replacement == key:
+            raise PreparationError(f"{key}: retirement replacement cannot be the retired item")
+        pending.append((key, kind, replacement, reason))
+    for key, _kind, replacement, _reason in pending:
+        if key not in items:
+            # A prior deterministic run has already removed the non-source
+            # bookkeeping row.  Requiring its replacement below still guards
+            # against an accidental config copied into a different inventory.
+            if replacement not in items:
+                raise PreparationError(
+                    f"{key}: retired item and replacement `{replacement}` are both absent"
+                )
+            continue
+        if replacement not in items:
+            raise PreparationError(
+                f"{key}: replacement source item `{replacement}` is absent"
+            )
+        items.pop(key)
+
+
+def _add_source_items(
+    items: dict[str, dict[str, Any]], config: Mapping[str, Any], *, folder: Path | None
+) -> None:
+    """Add an explicitly reviewed source-inventory row during a v11 migration.
+
+    Older maps sometimes omitted a source definition or a named proof-support
+    lemma altogether.  This helper requires the migration configuration to
+    state the source presentation and exact anchor; it only materializes that
+    supplied inventory record and never infers it from a Lean declaration.
+    """
+
+    raw_additions = config.get("add_source_items", {})
+    if raw_additions in ({}, None):
+        return
+    if folder is None:
+        raise PreparationError("add_source_items require the paper folder")
+    if not isinstance(raw_additions, Mapping):
+        raise PreparationError("add_source_items must be an object")
+    for raw_key, raw_item in raw_additions.items():
+        key = str(raw_key).strip()
+        if not key or not isinstance(raw_item, Mapping):
+            raise PreparationError("each add_source_items entry needs a new item name and object")
+        if key in items:
+            # The prior deterministic run already materialized this exact
+            # source row. Its map-local semantic contract remains authoritative
+            # and is updated by the normal preparation pass below.
+            continue
+        statement = str(raw_item.get("statement") or "").strip()
+        source_kind = str(raw_item.get("source_kind") or "").strip()
+        source_location = str(raw_item.get("source_location") or "").strip()
+        source_note = str(raw_item.get("source_note") or "").strip()
+        claim_bearing = raw_item.get("claim_bearing", True)
+        source_status = str(raw_item.get("source_status") or "").strip()
+        declarations = raw_item.get("lean_declarations", [])
+        support = raw_item.get("support_lean_declarations", [])
+        if (
+            not statement
+            or not source_kind
+            or not source_location
+            or not source_note
+            or not isinstance(claim_bearing, bool)
+            or not isinstance(declarations, list)
+            or not isinstance(support, list)
+            or any(not isinstance(value, str) or not value.strip() for value in declarations)
+            or any(not isinstance(value, str) or not value.strip() for value in support)
+            or not declarations and not support
+        ):
+            raise PreparationError(
+                f"{key}: added source item needs statement, source_kind, source_location, source_note, "
+                "a Boolean claim_bearing, and at least one Lean or support declaration"
+            )
+        item: dict[str, Any] = {
+            "source_kind": source_kind,
+            "source_location": source_location,
+            "statement": statement,
+            "source_note": source_note,
+            "claim_bearing": claim_bearing,
+            "source_anchor_evidence": _canonical_anchor_evidence(folder, source_location),
+        }
+        if declarations:
+            item["lean_declarations"] = [value.strip() for value in declarations]
+            item["aliases"] = [value.strip().rsplit(".", maxsplit=1)[-1] for value in declarations]
+        if support:
+            item["support_lean_declarations"] = [value.strip() for value in support]
+        if source_status:
+            item["source_status"] = source_status
+        items[key] = item
+
+
+def _replace_source_item_anchors(
+    items: Mapping[str, dict[str, Any]], config: Mapping[str, Any], *, folder: Path | None
+) -> None:
+    """Replace a legacy broad source bundle with reviewed exact presentation spans."""
+
+    raw_replacements = config.get("replace_source_item_anchors", {})
+    if raw_replacements in ({}, None):
+        return
+    if folder is None:
+        raise PreparationError("replace_source_item_anchors require the paper folder")
+    if not isinstance(raw_replacements, Mapping):
+        raise PreparationError("replace_source_item_anchors must be an object")
+    for raw_key, raw_location in raw_replacements.items():
+        key = str(raw_key).strip()
+        location = str(raw_location or "").strip()
+        if not key or key not in items or not location:
+            raise PreparationError(
+                "each replace_source_item_anchors entry needs an existing item and source_location"
+            )
+        items[key]["source_location"] = location
+        items[key]["source_anchor_evidence"] = _canonical_anchor_evidence(folder, location)
+
+
+def _apply_prose_definition_reconciliations(
+    items: dict[str, dict[str, Any]], config: Mapping[str, Any]
+) -> None:
+    """Persist reviewed literal-definition bindings across preparation reruns."""
+
+    raw_reconciliations = config.get("prose_definition_reconciliations", {})
+    if not isinstance(raw_reconciliations, Mapping):
+        raise PreparationError("prose_definition_reconciliations must be an object")
+    for raw_name, raw_reconciliation in raw_reconciliations.items():
+        name = str(raw_name).strip()
+        if not name or name not in items or not isinstance(raw_reconciliation, Mapping):
+            raise PreparationError(
+                "each prose_definition_reconciliations entry needs an existing item and object"
+            )
+        item = items[name]
+        if str(item.get("source_kind") or "").strip().lower() != "definition":
+            raise PreparationError(
+                f"{name}: prose_definition_reconciliations applies only to definitions"
+            )
+        presentation_sha = str(
+            raw_reconciliation.get("presentation_sha256") or ""
+        ).strip()
+        semantic_basis = str(raw_reconciliation.get("semantic_basis") or "").strip()
+        validator = str(raw_reconciliation.get("validator") or "").strip()
+        validator_type = str(raw_reconciliation.get("validator_type") or "").strip()
+        validated_at = str(raw_reconciliation.get("validated_at") or "").strip()
+        if (
+            not re.fullmatch(r"[0-9a-fA-F]{64}", presentation_sha)
+            or len(semantic_basis) < 20
+            or not validator
+            or validator_type not in {"agent", "human", "model"}
+            or not validated_at
+        ):
+            raise PreparationError(
+                f"{name}: prose_definition_reconciliations needs a presentation SHA-256, "
+                "substantive basis, validator, validator type, and timestamp"
+            )
+        statement = str(item.get("statement") or "").strip()
+        if not statement:
+            raise PreparationError(
+                f"{name}: prose_definition_reconciliations needs a source-map statement"
+            )
+        statement_digest = hashlib.sha256(
+            " ".join(statement.replace("\r\n", "\n").replace("\r", "\n").split()).encode(
+                "utf-8"
+            )
+        ).hexdigest()
+        item["source_prose_definition_reconciliation"] = {
+            "schema": 2,
+            "relation": "source_item_represents_prose_definition",
+            "presentation_sha256": presentation_sha.lower(),
+            "source_item_statement_sha256": statement_digest,
+            "judgment": "semantically_equivalent",
+            "semantic_basis": semantic_basis,
+            "validator": validator,
+            "validator_type": validator_type,
+            "validated_at": validated_at,
+        }
+
+
 def prepare(
     source_map: dict[str, Any], config: Mapping[str, Any], *, folder: Path | None = None
 ) -> dict[str, Any]:
@@ -632,6 +976,11 @@ def prepare(
     namespace = str(config.get("namespace") or "").strip()
     if not namespace:
         raise PreparationError("config needs namespace")
+    interface_module = str(config.get("paper_interface_module", "PaperInterface")).strip()
+    if "." in interface_module:
+        raise PreparationError(
+            "paper_interface_module must be one direct namespace component or empty"
+        )
     specs = as_string_list(config.get("include_specs"), label="include_specs")
     raw_items = source_map.get("items")
     if not isinstance(raw_items, Mapping):
@@ -639,9 +988,13 @@ def prepare(
     items = {str(key): dict(value) for key, value in raw_items.items() if isinstance(value, Mapping)}
     if len(items) != len(raw_items):
         raise PreparationError("every existing source-map item must be an object")
+    _add_source_items(items, config, folder=folder)
+    _replace_source_item_anchors(items, config, folder=folder)
     _atomize_source_items(items, config)
     _consolidate_source_items(items, config, folder=folder)
     _consolidate_presentation_aliases(items, config, folder=folder)
+    _apply_prose_definition_reconciliations(items, config)
+    _retire_non_source_items(items, config)
 
     overrides_raw = config.get("source_item_for_spec", {})
     if not isinstance(overrides_raw, Mapping) or not all(
@@ -719,6 +1072,7 @@ def prepare(
         canonical_item = items[canonical]
         canonical_anchors = list(canonical_item.get("source_anchor_evidence") or [])
         locations = [str(canonical_item.get("source_location") or "").strip()]
+        merged_any = False
         for alias in aliases:
             if alias == canonical:
                 raise PreparationError(f"{canonical}: cannot merge a source item into itself")
@@ -729,17 +1083,20 @@ def prepare(
                 # decide whether that bundled evidence is usable.
                 continue
             alias_item = items.pop(alias)
+            merged_any = True
             canonical_anchors.extend(alias_item.get("source_anchor_evidence") or [])
             locations.append(str(alias_item.get("source_location") or "").strip())
         canonical_item["source_anchor_evidence"] = canonical_anchors
         canonical_item["source_location"] = "; ".join(
             location for location in locations if location
         )
-        canonical_item["source_note"] = (
-            str(canonical_item.get("source_note") or "").strip()
-            + " The raw source bundle also includes the explicitly merged source presentation(s) "
+        merge_note = (
+            "The raw source bundle also includes the explicitly merged source presentation(s) "
             "needed to interpret this one canonical claim."
-        ).strip()
+        )
+        existing_note = str(canonical_item.get("source_note") or "").strip()
+        if merged_any and merge_note not in existing_note:
+            canonical_item["source_note"] = (existing_note + " " + merge_note).strip()
 
     aliases_raw = config.get("presentation_aliases", {})
     if not isinstance(aliases_raw, Mapping):
@@ -798,6 +1155,18 @@ def prepare(
         )
 
     selected_by_item = {key: spec for spec, key in source_items_for_spec.items()}
+    existing_evidence_names: dict[str, str] = {}
+    for spec, key in source_items_for_spec.items():
+        contract = items[key].get("semantic_contract")
+        if not isinstance(contract, Mapping):
+            continue
+        endpoint = str(contract.get("evidence_declaration") or "").strip()
+        if endpoint:
+            # A source map which already pairs this exact transparent Spec
+            # with its checked endpoint should keep that endpoint when a
+            # mechanical preparation only activates/rebuilds the v11 surface.
+            # An explicit configuration remains authoritative.
+            existing_evidence_names[spec] = endpoint.rsplit(".", maxsplit=1)[-1]
     raw_dispositions = config.get("unselected_item_dispositions", {})
     if not isinstance(raw_dispositions, Mapping):
         raise PreparationError("unselected_item_dispositions must be an object")
@@ -845,6 +1214,7 @@ def prepare(
             item.pop("lean_declarations", None)
             item.pop("proof_lean_declarations", None)
             item.pop("support_lean_declarations", None)
+            item.pop("source_spec_correspondence", None)
         else:
             item.pop("source_presentation_alias", None)
         if selected is None:
@@ -859,9 +1229,34 @@ def prepare(
                 item["claim_bearing"] = False
                 item["inventory_role"] = "source_presentation_alias"
                 continue
+            if str(item.get("source_status") or "").strip().lower() == "support_only":
+                # A named intermediate source lemma remains visible to the
+                # source inventory, but its explicit support-only disposition
+                # says that it is proof support for a retained result rather
+                # than an additional direct source-to-Spec obligation.
+                item["claim_bearing"] = item.get("claim_bearing") is True or (
+                    source_item_is_named_theoretical_statement(item)
+                )
+                item["inventory_role"] = "proof_support"
+                continue
             configured = unselected_dispositions.get(key)
             if configured is not None:
-                item["claim_bearing"] = False
+                # An unselected disposition records why a source presentation
+                # has no current v11 Spec route.  It cannot turn a real source
+                # claim into non-claim inventory: normal-scope named results,
+                # an already claim-bearing source assertion, and an explicitly
+                # user-approved scope exclusion must remain visible to the
+                # structural validator and later coverage review.  A declared
+                # open problem is the exception: its source kind requires a
+                # non-claim disposition.
+                source_kind = str(item.get("source_kind") or "").strip().lower()
+                preserve_claim_bearing = source_kind != "open_problem" and (
+                    item.get("claim_bearing") is True
+                    or source_item_is_named_theoretical_statement(item)
+                    or configured["scope_disposition"] == "user_approved_scope_exclusion"
+                    or isinstance(item.get("user_approved_scope_exclusion"), Mapping)
+                )
+                item["claim_bearing"] = preserve_claim_bearing
                 item["inventory_role"] = configured["inventory_role"]
                 item["scope_disposition"] = configured["scope_disposition"]
                 item["scope_disposition_note"] = configured["reason"]
@@ -877,11 +1272,13 @@ def prepare(
             item["claim_bearing"] = False
             continue
         item["claim_bearing"] = True
-        spec_name = full_name(namespace, "PaperInterface", selected + "Spec")
+        spec_name = full_name(namespace, interface_module, selected + "Spec")
         endpoint_name = full_name(
             namespace,
-            "PaperInterface",
-            evidence_names.get(selected, selected),
+            interface_module,
+            evidence_names.get(
+                selected, existing_evidence_names.get(selected, selected)
+            ),
         )
         item["semantic_contract"] = {
             "spec_declaration": spec_name,
@@ -893,12 +1290,30 @@ def prepare(
         item["support_lean_declarations"] = [spec_name]
         item.pop("proof_lean_declarations", None)
 
+    _apply_explicit_source_claim_atoms(
+        items,
+        selected_by_item,
+        config,
+        folder=folder,
+        namespace=namespace,
+        interface_module=interface_module,
+    )
+    initialized_atoms = _initialize_selected_source_claim_atoms(
+        items,
+        selected_by_item,
+        namespace=namespace,
+        interface_module=interface_module,
+        enabled=config.get("initialize_selected_source_claim_atoms"),
+    )
     _apply_corrected_targets(items, config, folder=folder)
 
     result = dict(source_map)
     result["items"] = items
     result["semantic_contract_schema"] = 1
     result["source_spec_correspondence_schema"] = 1
+    result["paper_interface_namespace"] = namespace
+    if initialized_atoms:
+        result["source_claim_atoms_schema"] = 1
     source_version = str(config.get("source_version") or "").strip()
     if source_version:
         result["source_version"] = source_version

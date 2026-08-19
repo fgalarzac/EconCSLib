@@ -30,12 +30,11 @@ results and implementation code are not formal theorem targets.
 
 Canonical audit source:
 
-- path: `.audit_source/DSWG24DiscretizationBias.txt`;
+- path: `publication text;
 - line count: 2,379;
 - SHA-256: `2370832850d19fc3e0b74c5471316b099bcab9f958c268ffcd9de9d38ef55295`.
 
-The older tracked extraction
-`DSWG24DiscretizationBias.txt` has SHA-256
+The cited publication is the source reference for these anchors.txt` has SHA-256
 `ab554d513936d2b898b72f87e2f70674ce12737065b04591a5a00c371a6fb5cf`
 and a different line layout. It was not overwritten.
 
@@ -391,7 +390,7 @@ Independent human dashboard review: 0/64 rows. No human row-level approval is in
 <!-- BEGIN GENERATED SOURCE COVERAGE LEDGER -->
 ### Current Canonical Evidence
 - Coverage scope: full inventory shown because scope metadata needs repair (paper_statement_map.json must explicitly set source_coverage_mode before a source-coverage closeout).
-- Source inventory: 96 source statements from `.audit_source/DSWG24DiscretizationBias.txt`.
+- Source inventory: 96 source statements from `publication text
 - Coverage result: 62 covered, 16 out of scope, 18 support only.
 - Coverage review: coverage ledger recorded; Agent check by Codex DSWG24 source inventory coverage auditor 2026-07-18; 2026-07-19.
 - Row-local statement checks: 0/62 linked row references have a completed canonical statement check; repeated links are counted per source row.

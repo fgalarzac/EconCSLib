@@ -357,7 +357,7 @@ numerical findings are outside normal named-theory scope.
 <!-- BEGIN GENERATED SOURCE COVERAGE LEDGER -->
 ### Current Canonical Evidence
 - Coverage scope: full inventory shown because scope metadata needs repair (paper_statement_map.json must explicitly set source_coverage_mode before a source-coverage closeout).
-- Source inventory: 39 source statements from `source.pdf`.
+- Source inventory: 39 source statements from `cited publication`.
 - Coverage result: 39 covered.
 - Coverage review: coverage ledger recorded; Agent check by Codex MBJG25 source inventory coverage auditor 2026-07-18; 2026-07-18.
 - Row-local statement checks: 0/39 linked row references have a completed canonical statement check; repeated links are counted per source row.

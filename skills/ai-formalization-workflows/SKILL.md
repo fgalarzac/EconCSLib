@@ -88,6 +88,25 @@ layer for paper-facing statements:
 - use human review for final paper-facing claims;
 - flag source deviations, hidden assumptions, and newly introduced axioms;
 - treat alignment scores as review aids, not proof of semantic correctness.
+- unfold named result predicates and reject self-characterizing iff/membership
+  clauses as evidence that an algorithm produced the characterized object;
+- track source and Lean runners, their outputs, and independently supplied
+  profiles as distinct semantic worlds until a checked refinement or
+  preservation proposition connects them;
+- compare fixed-instance and universal quantification, and distinguish
+  noncomputable existence, executability, and polynomial runtime.
+- compare source output arity and projection against the actual formal runner,
+  including terminal trace components;
+- require nonvacuous carrier/capacity and duplicate-validity evidence for every
+  universally quantified adversarial transformation;
+- reject combined coordinatewise extrema unless one coherent admissible
+  witness realizes them and the result is connected to the actual runner;
+- distinguish syntax-family cardinality from nonempty realized fibers, requiring
+  surjectivity for exact equality;
+- keep fixed-quota, mismatched-seat stopping, one-round, natural-arithmetic, and
+  local comparison-count results separate from turnout-dependent full-runner
+  polynomial claims; explicitly compare the seat count used by the quota with
+  the seat count and stopping rule used by the runner.
 
 Credits: MerLean and EconCSLib for Lean-to-LaTeX review loops; FormalScience for
 multi-stage human review and proof-boundary extraction; FormalAlign and cycle

@@ -1,5 +1,6 @@
 import LBG24SpatialUnderreporting.CausalStoppingEndpointTrace
 import LBG24SpatialUnderreporting.CorrectedTheorem2Causal
+import LBG24SpatialUnderreporting.CalendarFirstReportDisplacement
 import LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning
 
 /-!
@@ -13,7 +14,7 @@ or law-of-large-numbers conclusion as a field.
 For Appendix Theorem 2, the main-text wording says that the endpoint is
 independent of the selected start conditional on the reports available at the
 endpoint, and the application calls the end rule a stopping-times assumption
-(`source.txt:285-323`, `source.txt:2437-2467`).  The finite model below is the
+(`cited publication:254-258;1574-1579`, `cited publication:2086-2110`).  The finite model below is the
 corresponding rate-free causal transition semantics.  A response kernel sees
 only the visible report prefix, then races a fresh next-report gap.  The
 canonical construction exposes one terminal endpoint after the observed
@@ -21,7 +22,7 @@ branch is selected.
 
 For Lemma 1, the source's steady-state argument states a latent Poisson birth
 process, independent reporting marks, and the resulting conditional binomial
-thinning law (`source.txt:1660-1770`).  The model below makes those primitive
+thinning law (`cited publication:1433-1542`).  The model below makes those primitive
 laws explicit and derives the observed Poisson process and unit-window LLN.
 -/
 
@@ -215,6 +216,188 @@ theorem firstReportProbability_le_one
   exact sub_le_self 1 h_noReport_nonneg
 
 end ContinuousDurationDensitySourceCondition
+
+/--
+The calendar-time source model for Lemma 1. Incidents are born on a stationary
+marked Poisson process. A mark is the first-report delay when the incident
+reports before its duration ends, so `calendarCount t` counts actual first
+reports in the calendar interval `(0,t]`, not retained births in that interval.
+
+The final field is the source's duration/report survival bridge: it identifies
+the finite mark mass with the displayed probability of a first report before
+the iid duration ends. It is intentionally a model premise rather than an
+observed-process conclusion. The marked Poisson law is then sufficient for
+Lean to derive the calendar-time Poisson process and its independent
+increments.
+-/
+structure Lemma1CalendarTimeDurationSourceModel
+    (Ω : Type*) [MeasurableSpace Ω] (P : Measure Ω) where
+  /-- The source's (possibly age-varying) per-incident reporting intensity. -/
+  reportingIntensity : ℝ → ℝ
+  durationDensity : ℝ → ℝ
+  durationDensity_source : ContinuousDurationDensitySourceCondition durationDensity
+  calendarFirstReports : CalendarFirstReportSourceModel Ω P
+  /-- The retained first-report mark mass is the source probability that an
+  incident reports before its duration ends. This is the weakest bridge used
+  here; it places no restriction on reports after the first one. -/
+  preFirstReport_survival_retention_probability :
+    calendarFirstReports.retentionProbability =
+      continuousDurationFirstReportProbabilityOfCumulativeIntensity
+        (fun t => ∫ u in (0 : ℝ)..t, reportingIntensity u) durationDensity
+
+namespace Lemma1CalendarTimeDurationSourceModel
+
+variable {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
+
+/-- The displayed observed incident rate under the calendar-time source
+model. -/
+def observedIncidentRate
+    (M : Lemma1CalendarTimeDurationSourceModel Ω P) : ℝ :=
+  continuousDurationObservedIncidentRateOfCumulativeIntensity
+    M.calendarFirstReports.incidentRate
+    (fun t => ∫ u in (0 : ℝ)..t, M.reportingIntensity u)
+    M.durationDensity
+
+/-- The derived forward process of calendar-time first reports. -/
+def observedProcess
+    (M : Lemma1CalendarTimeDurationSourceModel Ω P) :
+    ForwardHomogeneousPoissonCountingProcessByLaw Ω P :=
+  M.calendarFirstReports.toForwardHomogeneousPoissonProcess
+
+/-- Its rate is exactly the source's duration-mixture observed rate. -/
+theorem observedProcess_rate
+    (M : Lemma1CalendarTimeDurationSourceModel Ω P) :
+    M.observedProcess.rate = M.observedIncidentRate := by
+  change M.calendarFirstReports.incidentRate *
+      M.calendarFirstReports.retentionProbability =
+    continuousDurationObservedIncidentRateOfCumulativeIntensity
+      M.calendarFirstReports.incidentRate
+      (fun t => ∫ u in (0 : ℝ)..t, M.reportingIntensity u)
+      M.durationDensity
+  rw [M.preFirstReport_survival_retention_probability]
+  rfl
+
+/-- Proposition 1's total count, represented as consecutive calendar-time
+first-report counts. -/
+def observedUniqueIncidentCount
+    (M : Lemma1CalendarTimeDurationSourceModel Ω P)
+    (n : ℕ) (ω : Ω) : ℕ :=
+  ∑ i ∈ Finset.range n, M.observedProcess.unitIntervalCount i ω
+
+/-- The calendar-time process gives the exact Lemma 1 interval law. -/
+theorem observed_calendar_process_properties
+    (M : Lemma1CalendarTimeDurationSourceModel Ω P) :
+    (∀ t : ℝ≥0, Measurable (M.calendarFirstReports.calendarCount t)) ∧
+      (∀ᵐ ω ∂P, M.calendarFirstReports.calendarCount 0 ω = 0) ∧
+      (∀ᵐ ω ∂P, Monotone fun t => M.calendarFirstReports.calendarCount t ω) ∧
+      ProbabilityTheory.HasIndepIncrements M.calendarFirstReports.calendarCount P ∧
+      ∀ {s t : ℝ≥0}, s ≤ t → ∀ observedCount : ℕ,
+        P.real {ω : Ω |
+          M.calendarFirstReports.calendarCount t ω -
+            M.calendarFirstReports.calendarCount s ω = observedCount} =
+          countLikelihood M.observedIncidentRate ((t : ℝ) - (s : ℝ)) observedCount := by
+  refine ⟨M.observedProcess.count_measurable,
+    M.observedProcess.count_zero_ae,
+    M.observedProcess.count_mono_ae,
+    M.observedProcess.hasIndepIncrements, ?_⟩
+  intro s t hst observedCount
+  have h := M.observedProcess.intervalCount_prob hst observedCount
+  rw [M.observedProcess_rate] at h
+  simpa [observedProcess,
+    ForwardHomogeneousPoissonCountingProcessByLaw.intervalCount] using h
+
+/-- The source's large-time conclusion follows for actual calendar-time first
+reports, not merely for a retained birth cohort. -/
+theorem observedUniqueIncidentCount_real_strongLaw
+    (M : Lemma1CalendarTimeDurationSourceModel Ω P) :
+    ∀ᵐ ω ∂P,
+      Tendsto (fun n : ℕ =>
+        (M.observedUniqueIncidentCount n ω : ℝ) / n)
+        atTop (nhds M.observedIncidentRate) := by
+  have h := M.observedProcess.unitIntervalCount_real_strongLaw
+  rw [M.observedProcess_rate] at h
+  simpa [observedUniqueIncidentCount] using h
+
+end Lemma1CalendarTimeDurationSourceModel
+
+/--
+The homogeneous specialization used by Proposition 1. It retains the same
+calendar-time first-report process as Lemma 1 while making the reporting-rate
+parameter that Proposition 1 varies explicit.
+-/
+structure Proposition1CalendarTimeDurationSourceModel
+    (Ω : Type*) [MeasurableSpace Ω] (P : Measure Ω) where
+  reportingRate : ℝ
+  reportingRate_pos : 0 < reportingRate
+  durationDensity : ℝ → ℝ
+  durationDensity_source : ContinuousDurationDensitySourceCondition durationDensity
+  calendarFirstReports : CalendarFirstReportSourceModel Ω P
+  preFirstReport_survival_retention_probability :
+    calendarFirstReports.retentionProbability =
+      continuousDurationFirstReportProbability reportingRate durationDensity
+
+namespace Proposition1CalendarTimeDurationSourceModel
+
+variable {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
+
+/-- Proposition 1's steady-state observed rate. -/
+def observedIncidentRate
+    (M : Proposition1CalendarTimeDurationSourceModel Ω P) : ℝ :=
+  continuousDurationObservedIncidentRate
+    M.calendarFirstReports.incidentRate M.reportingRate M.durationDensity
+
+/-- The derived process of actual first reports in calendar time. -/
+def observedProcess
+    (M : Proposition1CalendarTimeDurationSourceModel Ω P) :
+    ForwardHomogeneousPoissonCountingProcessByLaw Ω P :=
+  M.calendarFirstReports.toForwardHomogeneousPoissonProcess
+
+theorem observedProcess_rate
+    (M : Proposition1CalendarTimeDurationSourceModel Ω P) :
+    M.observedProcess.rate = M.observedIncidentRate := by
+  change M.calendarFirstReports.incidentRate *
+      M.calendarFirstReports.retentionProbability =
+    continuousDurationObservedIncidentRate
+      M.calendarFirstReports.incidentRate M.reportingRate M.durationDensity
+  rw [M.preFirstReport_survival_retention_probability]
+  rfl
+
+/-- Consecutive calendar-time unit counts used in the Proposition 1 limit. -/
+def observedUniqueIncidentCount
+    (M : Proposition1CalendarTimeDurationSourceModel Ω P)
+    (n : ℕ) (ω : Ω) : ℕ :=
+  ∑ i ∈ Finset.range n, M.observedProcess.unitIntervalCount i ω
+
+theorem observedUniqueIncidentCount_real_strongLaw
+    (M : Proposition1CalendarTimeDurationSourceModel Ω P) :
+    ∀ᵐ ω ∂P,
+      Tendsto (fun n : ℕ =>
+        (M.observedUniqueIncidentCount n ω : ℝ) / n)
+        atTop (nhds M.observedIncidentRate) := by
+  have h := M.observedProcess.unitIntervalCount_real_strongLaw
+  rw [M.observedProcess_rate] at h
+  simpa [observedUniqueIncidentCount] using h
+
+/-- Two homogeneous calendar-time source models with distinct reporting rates
+but the same observed rate have observationally equivalent first-report
+Poisson-process laws at the level used by Proposition 1. -/
+theorem distinct_reporting_rates_same_observed_process_rate
+    {Ω₁ Ω₂ : Type*} [MeasurableSpace Ω₁] [MeasurableSpace Ω₂]
+    {P₁ : Measure Ω₁} {P₂ : Measure Ω₂}
+    (M₁ : Proposition1CalendarTimeDurationSourceModel Ω₁ P₁)
+    (M₂ : Proposition1CalendarTimeDurationSourceModel Ω₂ P₂)
+    (reporting_rates_ne : M₁.reportingRate ≠ M₂.reportingRate)
+    (observed_rates_eq : M₁.observedIncidentRate = M₂.observedIncidentRate) :
+    M₁.reportingRate ≠ M₂.reportingRate ∧
+      ∃ observedProcess₁ : ForwardHomogeneousPoissonCountingProcessByLaw Ω₁ P₁,
+        ∃ observedProcess₂ : ForwardHomogeneousPoissonCountingProcessByLaw Ω₂ P₂,
+          observedProcess₁.count = M₁.calendarFirstReports.calendarCount ∧
+          observedProcess₂.count = M₂.calendarFirstReports.calendarCount ∧
+          observedProcess₁.rate = observedProcess₂.rate := by
+  refine ⟨reporting_rates_ne, M₁.observedProcess, M₂.observedProcess, rfl, rfl, ?_⟩
+  rw [M₁.observedProcess_rate, M₂.observedProcess_rate, observed_rates_eq]
+
+end Proposition1CalendarTimeDurationSourceModel
 
 /--
 The source-level birth-cohort model used in the cumulative-intensity proof of

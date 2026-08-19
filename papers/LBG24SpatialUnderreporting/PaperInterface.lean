@@ -40,7 +40,7 @@ on reports before the selected start, the retained interval data are encoded as
 exactly a zero-, one-, or multi-report window.  The one- and multi-report
 branches carry ordered report-time data in `(s,e]`, not only a count.
 
-Source status: shared source-model convention for source.txt:231-246;285-290.
+Source status: shared source-model convention for cited publication:205-220;254-291.
 This theorem exposes the encoding's exhaustive shape only; it does not
 construct source variables `S`, `E`, or the conditioning history `H`.
 -/
@@ -475,6 +475,141 @@ theorem lemma1_observed_incidents_form_poisson_process
   exact M.observed_process_is_homogeneous_poisson
 
 /--
+Lemma 1, literal calendar-time reading: the observed incident is an actual
+first report in the calendar window, obtained by displacing a stationary
+marked birth process by its retained first-report delay. The source model
+records the conditional duration/report survival bridge; Lean derives the
+Poisson count laws, monotone path property, and independent increments from
+the marked birth process.
+
+Source status: Lean-checked paper-facing source-model theorem for
+cited publication:1433-1520, with the calendar-time first-report clarification in
+`docs/SOURCE_CLARIFICATIONS.md`.
+-/
+def lemma1CalendarTimeDurationSourceObservedProcessSpec
+    {Omega : Type*} [MeasurableSpace Omega] {P : Measure Omega}
+    (M : Lemma1CalendarTimeDurationSourceModel Omega P) : Prop :=
+    (∀ t : ℝ≥0, Measurable (M.calendarFirstReports.calendarCount t)) ∧
+      (∀ᵐ omega ∂P, M.calendarFirstReports.calendarCount 0 omega = 0) ∧
+      (∀ᵐ omega ∂P,
+        Monotone fun t => M.calendarFirstReports.calendarCount t omega) ∧
+      ProbabilityTheory.HasIndepIncrements M.calendarFirstReports.calendarCount P ∧
+      ∀ {s t : ℝ≥0}, s ≤ t → ∀ observedCount : ℕ,
+        P.real {omega : Omega |
+          M.calendarFirstReports.calendarCount t omega -
+            M.calendarFirstReports.calendarCount s omega = observedCount} =
+          countLikelihood
+            (continuousDurationObservedIncidentRateOfCumulativeIntensity
+              M.calendarFirstReports.incidentRate
+              (fun u => ∫ v in (0 : ℝ)..u, M.reportingIntensity v)
+              M.durationDensity)
+            ((t : ℝ) - (s : ℝ)) observedCount
+
+theorem lemma1_calendar_time_duration_source_observed_process
+    {Omega : Type*} [MeasurableSpace Omega] {P : Measure Omega}
+    (M : Lemma1CalendarTimeDurationSourceModel Omega P) :
+    lemma1CalendarTimeDurationSourceObservedProcessSpec M := by
+  exact M.observed_calendar_process_properties
+
+/--
+Proposition 1, literal calendar-time reading: consecutive unit calendar
+windows of actual first reports satisfy the source's almost-sure observed-rate
+limit. This does not replace a calendar window by a cohort of births.
+
+Source status: Lean-checked paper-facing source-model theorem for
+cited publication:1521-1542, with the calendar-time first-report clarification in
+`docs/SOURCE_CLARIFICATIONS.md`.
+-/
+theorem proposition1_calendar_time_duration_source_count_lln
+    {Omega : Type*} [MeasurableSpace Omega] {P : Measure Omega}
+    (M : Lemma1CalendarTimeDurationSourceModel Omega P) :
+    ∀ᵐ omega ∂P,
+      Tendsto (fun n : ℕ =>
+        (M.observedUniqueIncidentCount n omega : ℝ) / n)
+        atTop
+          (nhds
+            (continuousDurationObservedIncidentRateOfCumulativeIntensity
+              M.calendarFirstReports.incidentRate
+              (fun u => ∫ v in (0 : ℝ)..u, M.reportingIntensity v)
+              M.durationDensity)) := by
+  exact M.observedUniqueIncidentCount_real_strongLaw
+
+/--
+Proposition 1's homogeneous steady-state limit for calendar-time first
+reports. The displayed rate is the source duration mixture at the chosen
+reporting-rate parameter.
+
+Source status: Lean-checked paper-facing source-model theorem for
+cited publication:1433-1542, with the calendar-time first-report
+clarification in `docs/SOURCE_CLARIFICATIONS.md`.
+-/
+theorem proposition1_calendar_time_homogeneous_source_count_lln
+    {Omega : Type*} [MeasurableSpace Omega] {P : Measure Omega}
+    (M : Proposition1CalendarTimeDurationSourceModel Omega P) :
+    ∀ᵐ omega ∂P,
+      Tendsto (fun n : ℕ =>
+        (M.observedUniqueIncidentCount n omega : ℝ) / n)
+        atTop
+          (nhds (continuousDurationObservedIncidentRate
+            M.calendarFirstReports.incidentRate
+            M.reportingRate M.durationDensity)) := by
+  exact M.observedUniqueIncidentCount_real_strongLaw
+
+/--
+Proposition 1's nonidentifiability implication on the literal calendar-time
+reading: two source models can have different reporting-rate parameters while
+their observed first-report Poisson processes have the same rate. The supplied
+equal-rate premise is the compensation relation between the incident rates,
+duration law, and reporting rates; Lean derives the two observed processes
+from the common calendar-time model rather than treating either as a premise.
+
+Source status: Lean-checked paper-facing source-model theorem for
+cited publication:1433-1542, with the calendar-time first-report
+clarification in `docs/SOURCE_CLARIFICATIONS.md`.
+-/
+def proposition1CalendarTimeHomogeneousSourceSpec
+    {Omega1 Omega2 : Type*} [MeasurableSpace Omega1] [MeasurableSpace Omega2]
+    {P1 : Measure Omega1} {P2 : Measure Omega2}
+    (M1 : Proposition1CalendarTimeDurationSourceModel Omega1 P1)
+    (M2 : Proposition1CalendarTimeDurationSourceModel Omega2 P2)
+    (reporting_rates_ne : M1.reportingRate ≠ M2.reportingRate)
+    (observed_rates_eq :
+      continuousDurationObservedIncidentRate
+        M1.calendarFirstReports.incidentRate M1.reportingRate M1.durationDensity =
+      continuousDurationObservedIncidentRate
+        M2.calendarFirstReports.incidentRate M2.reportingRate M2.durationDensity) : Prop :=
+    (∀ᵐ omega ∂P1,
+      Tendsto (fun n : ℕ =>
+        (M1.observedUniqueIncidentCount n omega : ℝ) / n)
+        atTop
+          (nhds (continuousDurationObservedIncidentRate
+            M1.calendarFirstReports.incidentRate
+            M1.reportingRate M1.durationDensity))) ∧
+      M1.reportingRate ≠ M2.reportingRate ∧
+        ∃ observedProcess1 : ForwardHomogeneousPoissonCountingProcessByLaw Omega1 P1,
+          ∃ observedProcess2 : ForwardHomogeneousPoissonCountingProcessByLaw Omega2 P2,
+            observedProcess1.count = M1.calendarFirstReports.calendarCount ∧
+            observedProcess2.count = M2.calendarFirstReports.calendarCount ∧
+            observedProcess1.rate = observedProcess2.rate
+
+theorem proposition1_calendar_time_homogeneous_source_nonidentifiability
+    {Omega1 Omega2 : Type*} [MeasurableSpace Omega1] [MeasurableSpace Omega2]
+    {P1 : Measure Omega1} {P2 : Measure Omega2}
+    (M1 : Proposition1CalendarTimeDurationSourceModel Omega1 P1)
+    (M2 : Proposition1CalendarTimeDurationSourceModel Omega2 P2)
+    (reporting_rates_ne : M1.reportingRate ≠ M2.reportingRate)
+    (observed_rates_eq :
+      continuousDurationObservedIncidentRate
+        M1.calendarFirstReports.incidentRate M1.reportingRate M1.durationDensity =
+      continuousDurationObservedIncidentRate
+        M2.calendarFirstReports.incidentRate M2.reportingRate M2.durationDensity) :
+    proposition1CalendarTimeHomogeneousSourceSpec M1 M2 reporting_rates_ne
+      observed_rates_eq := by
+  exact ⟨M1.observedUniqueIncidentCount_real_strongLaw,
+    M1.distinct_reporting_rates_same_observed_process_rate
+      M2 reporting_rates_ne observed_rates_eq⟩
+
+/--
 Lemma 1's explicit birth-cohort proof reading: independently marked latent
 Poisson incidents yield a homogeneous retained-birth count process at the
 source's possibly nonhomogeneous cumulative-intensity duration-mixture rate.
@@ -488,8 +623,8 @@ least one report before the duration ends; Lean derives every displayed
 count-process property.  The source proof conditions this count on births in
 the same window, so this theorem does not identify it with a calendar-window
 count of first reports.
-Source status: Lean-checked source-proof route for source.txt:1660-1770;
-first-report-time semantics remain a separately explicit model boundary.
+Source status: retired birth-cohort support route for cited publication:1433-1520;
+the calendar-first-report route is the paper-facing formalization.
 -/
 theorem lemma1_steady_state_duration_cumulative_intensity_birth_cohort_process
     {Omega : Type*} [MeasurableSpace Omega] {P : Measure Omega}
@@ -555,8 +690,7 @@ Proposition 1's large-time source conclusion: the paper's total observed
 unique-incident count, written as the sum of consecutive unit-window counts,
 converges almost surely to the same duration-mixture observed rate.
 
-Source status: Lean-checked paper-facing source-model theorem for
-source.txt:1772-1812.
+Source status: retired birth-cohort support route for cited publication:1433-1542.
 -/
 theorem proposition1_steady_state_duration_source_count_lln
     {Omega : Type*} [MeasurableSpace Omega] {P : Measure Omega}
@@ -574,8 +708,7 @@ Proposition 1's observational-equivalence step: two source-steady-state
 models with distinct reporting rates but the same observed incident rate induce
 observed homogeneous Poisson processes with the same rate.
 
-Source status: Lean-checked paper-facing source-model theorem for
-source.txt:1626-1658;1772-1812.
+Source status: retired birth-cohort support route for cited publication:1433-1542.
 -/
 theorem proposition1_steady_state_duration_source_nonidentifiability
     {Omega1 Omega2 : Type*} [MeasurableSpace Omega1] [MeasurableSpace Omega2]
@@ -599,8 +732,7 @@ rates with positive duration-mixture detection probabilities admit compensating
 positive incident rates and two steady-state source models whose derived
 observed Poisson processes have the same rate.
 
-Source status: Lean-checked paper-facing construction theorem for
-source.txt:1626-1658;1715-1812.
+Source status: retired birth-cohort support construction for cited publication:1433-1542.
 -/
 theorem proposition1_steady_state_duration_source_compensating_models
     (durationDensity : ℝ → ℝ)
@@ -647,8 +779,7 @@ large-time unique-incident-count limit.
 The positive-retention branch is the identifiable-observation regime used by
 the source's argument; the zero-retention convention is recorded separately
 in the post-formalization audit rather than being hidden in this construction.
-Source status: Lean-checked paper-facing source-model theorem for
-source.txt:1626-1658;1772-1812.
+Source status: retired birth-cohort support route for cited publication:1433-1542.
 -/
 theorem proposition1_steady_state_duration_source
     (durationDensity : ℝ → ℝ)
@@ -712,8 +843,7 @@ The source treats the duration law as a genuine probability law.  Its
 nonnegative density is used only to derive the probability upper bounds needed
 by the marked-Poisson construction; positive retention at the selected rates
 is the explicit positive-observation regularity of this existential branch.
-Source status: Lean-checked paper-facing source-model theorem for
-source.txt:1626-1658;1772-1812.
+Source status: retired birth-cohort support route for cited publication:1433-1542.
 -/
 theorem proposition1_steady_state_duration_source_exists_nonidentifiability
     (durationDensity : ℝ → ℝ)
@@ -1151,11 +1281,11 @@ Condition-1 selected start has the exponential survival tail at the report
 rate.
 Source status: Lean-checked paper-facing row under explicit path-complete Poisson source semantics.
 -/
-theorem lemma2_forward_selected_start_exponential_tail
+def lemma2ForwardSelectedStartExponentialTailSpec
     {Ω : Type*} [MeasurableSpace Ω] [StandardBorelSpace Ω]
     {P : Measure Ω} [IsProbabilityMeasure P]
     (M : Lemma2ForwardSourceModel Ω P)
-    (u : ℝ≥0) :
+    (u : ℝ≥0) : Prop :=
     ∀ᵐ ω ∂P,
       (ProbabilityTheory.condExpKernel P
         (MeasurableSpace.comap M.selection.firstReportTime inferInstance) ω).real
@@ -1163,7 +1293,14 @@ theorem lemma2_forward_selected_start_exponential_tail
             M.selection.startTime u ω' = 0} =
         ((EconCSLib.Probability.Exponential.Model.mk
           M.rate M.rate_pos).measure
-          (Set.Ioi (u : ℝ))).toReal := by
+          (Set.Ioi (u : ℝ))).toReal
+
+theorem lemma2_forward_selected_start_exponential_tail
+    {Ω : Type*} [MeasurableSpace Ω] [StandardBorelSpace Ω]
+    {P : Measure Ω} [IsProbabilityMeasure P]
+    (M : Lemma2ForwardSourceModel Ω P)
+    (u : ℝ≥0) :
+    lemma2ForwardSelectedStartExponentialTailSpec M u := by
   filter_upwards [M.conditional_no_report_given_firstReport u] with ω hω
   rw [hω]
   exact noArrivalProb_eq_exponential_tail
@@ -1727,7 +1864,7 @@ density presentation used for the direct source Eq. (8) theorem.  Thus the
 factorization is derived from the source model rather than from the older
 synthetic condition-function wrapper.
 Source status: Lean-checked paper-facing source-model formula for
-source.txt:930-944;1839-1868.
+cited publication:832-845;1567-1590.
 -/
 theorem equation6_poisson_regression_likelihood_formula
     {Feature : Type*} [Fintype Feature]
@@ -9662,15 +9799,25 @@ Poisson count PMF.
 
 The source wording used here is the main theorem's endpoint independence from
 `S` conditional on reports observed up to the endpoint together with the
-application's stopping-times reading (source.txt:285-323;2437-2467).  Appendix
+application's stopping-times reading (cited publication:254-300;2086-2110).  Appendix
 B.2's final independence display is a terse restatement and must be read at
 that history-conditioned level; marginal independence only after `T1` is not
-sufficient.  The corrected first gap and reciprocal residual are source-proof
-notes, not additional model assumptions.
+sufficient.  The first-gap and reciprocal-residual clarifications are
+source-proof notes, not additional model assumptions.
 
 Source status: Lean-checked paper-facing source-model theorem for
-source.txt:285-323;1839-1868;2116-2195.
+cited publication:254-300;1567-1590;1675-1883;2086-2110.
 -/
+def appendixTheorem2Eq8CausalStoppingSourceSpec
+    (T : OrderedFiniteJumpTimeline)
+    (M : AppendixTheorem2CausalStoppingSourceModel T.count)
+    (D : LBG24SpatialUnderreporting.AppendixTheorem2CausalStoppingSourceModel.EndpointDensityPresentation M)
+    {rate : ℝ} (rate_pos : 0 < rate)
+    (exposure_pos : 0 < T.window.exposure) : Prop :=
+    AppendixTheorem2CausalStoppingSourceModel.conditionalLikelihood T M D rate =
+      AppendixTheorem2CausalStoppingSourceModel.rateFreeResidual T M D *
+        sourcePoissonPMF rate T.window.exposure T.count
+
 theorem appendix_theorem2_eq8_causal_stopping_source_model
     (T : OrderedFiniteJumpTimeline)
     (M : AppendixTheorem2CausalStoppingSourceModel T.count)

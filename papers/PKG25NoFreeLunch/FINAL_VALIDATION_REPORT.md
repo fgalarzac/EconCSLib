@@ -21,7 +21,7 @@ recorded.
 
 ## 3. Source and Scope
 
-The proceedings text is pinned as `source.txt` at SHA-256
+The proceedings text is pinned as `cited publication` at SHA-256
 `b4d5ad11d5f94069db886214bfcaa72eb9928c70b20585ace6238351925da2b9`.
 The public source is the
 [AAAI proceedings article](https://ojs.aaai.org/index.php/AAAI/article/view/33574).
@@ -104,15 +104,15 @@ semantic evidence, not declaration-name matching.
 
 ### Source Pin And Anchors
 
-- Proceedings text pin: `source.txt`
+- Proceedings text pin: `cited publication`
 - SHA256: `b4d5ad11d5f94069db886214bfcaa72eb9928c70b20585ace6238351925da2b9`
-- Canonical source anchors: `source.txt` line ranges
-- Readable TeX recovery: `source_tex/sections/theorem.tex` and
-  `source_tex/sections/proof.tex`
+- Canonical source anchors: `cited publication` line ranges
+- Readable TeX recovery: `cited publication` and
+  `cited publication`
 - The exact source-proof ledger is
   `audit/source_proof_fidelity.json` (schema 2).
 
-All normative anchors below use the pinned `source.txt` line ranges. The TeX
+All normative anchors below use the pinned `cited publication` line ranges. The TeX
 files make stripped formulas readable, but do not replace the proceedings text
 as the theorem target.
 
@@ -121,7 +121,7 @@ as the theorem target.
 The paper's distribution is represented directly as one probability law on
 `X x {0,1}`. Each predictor is a measurable `[0,1]`-valued function. The
 source display
-`Pr[Y=1 | P_i(X)=p] = p` at `source.txt:31-35` is formalized using the
+`Pr[Y=1 | P_i(X)=p] = p` at `cited publication:31-35` is formalized using the
 explicit event-calibration convention
 
 ```text
@@ -155,7 +155,7 @@ restricted to its stated interior domain.
 
 ### Partition Convention
 
-The source's partition recipe is at `source.txt:151-156`. The checked construction is
+The source's partition recipe is at `cited publication:151-156`. The checked construction is
 for **finite measurable** partitions, possibly with a different finite cell
 type for every agent. A positive-mass cell receives its true-label mass divided
 by total cell mass; a null cell is assigned zero. Event calibration is proved
@@ -182,7 +182,7 @@ equality on null fibers.
 
 Lemma 8 now returns a raw joint-law collaboration setting with the source
 conclusion itself: the strategy is strictly worse than agent `k` and weakly no
-better than every agent. The proof's uniform mixture step at `source.txt:180-184`
+better than every agent. The proof's uniform mixture step at `cited publication:180-184`
 is separately checked: from a
 bad interior off-half profile for every agent, the literal `1/n` mixture is a
 raw setting on which the strategy is strictly worse than **every** agent.
@@ -192,10 +192,10 @@ raw setting on which the strategy is strictly worse than **every** agent.
 The first auxiliary setting is checked over the full meaningful source domain
 `0 < epsilon < 1/2`, not only one numerical specialization. The missing lower
 bound is needed because the construction uses `epsilon` as a conditional
-probability and claims interior profiles (`source.txt:280-288`).
+probability and claims interior profiles (`cited publication:280-288`).
 
 The second auxiliary setting repairs the source's free-index denominator at
-`source.txt:300-309`. The checked normalization is
+`cited publication:300-309`. The checked normalization is
 
 ```text
 D = 2 + sum_j (p_j / (1 - p_j) + (1 - q_j) / q_j).
@@ -204,7 +204,7 @@ D = 2 + sum_j (p_j / (1 - p_j) + (1 - q_j) / q_j).
 The final "lambda sufficiently close to one" step is no longer only
 qualitative. The checked witness uses weights `7/8` for `S1` and `1/8` for
 `S2`, proves the componentwise equations, and proves the resulting setting is
-strictly worse than every agent (`source.txt:341-351`).
+strictly worse than every agent (`cited publication:341-351`).
 
 ### Current Semantic Audit Findings
 
@@ -235,14 +235,14 @@ strict-gap calculations.
 
 | ID | Source location | Disposition |
 | --- | --- | --- |
-| `PKG25-ACCURACY-LOSS-01` | `source.txt:27-30` | Formalized note: the opening formula is loss, not accuracy. |
-| `PKG25-CALIBRATION-NULL-FIBERS-01` | `source.txt:31-35` | Formalized note: event calibration is the user-approved reading of the source display. |
-| `PKG25-CORRECTNESS-TIE-01` | `source.txt:104-117` | Formalized note: a strict correct/incorrect comparison needs a non-half label probability. |
-| `PKG25-P6-MIXTURE-INDEX-01` | `source.txt:123-144` | Formalized note: prose says `lambda_ell`; the equations and checked mixture use `lambda_m`. |
-| `PKG25-PARTITION-MEASURABLE-FINITE-01` | `source.txt:151-156` | Formalized note: finite measurable cells with zero on a null cell are the user-approved reading. |
-| `PKG25-IFF-BOUNDARY-01` | `source.txt:159-172` | Formalized note: the accidental converse is refuted on boundary profiles; the advertised forward theorem is retained. |
-| `PKG25-P9-S1-EPSILON-DOMAIN-01` | `source.txt:280-288` | Formalized note: use `0 < epsilon < 1/2`. |
-| `PKG25-P9-S2-DENOMINATOR-01` | `source.txt:300-340` | Formalized note: repair the free-index denominator to the normalized paired-odds sum. |
+| `PKG25-ACCURACY-LOSS-01` | `cited publication:27-30` | Formalized note: the opening formula is loss, not accuracy. |
+| `PKG25-CALIBRATION-NULL-FIBERS-01` | `cited publication:31-35` | Formalized note: event calibration is the user-approved reading of the source display. |
+| `PKG25-CORRECTNESS-TIE-01` | `cited publication:104-117` | Formalized note: a strict correct/incorrect comparison needs a non-half label probability. |
+| `PKG25-P6-MIXTURE-INDEX-01` | `cited publication:123-144` | Formalized note: prose says `lambda_ell`; the equations and checked mixture use `lambda_m`. |
+| `PKG25-PARTITION-MEASURABLE-FINITE-01` | `cited publication:151-156` | Formalized note: finite measurable cells with zero on a null cell are the user-approved reading. |
+| `PKG25-IFF-BOUNDARY-01` | `cited publication:159-172` | Formalized note: the accidental converse is refuted on boundary profiles; the advertised forward theorem is retained. |
+| `PKG25-P9-S1-EPSILON-DOMAIN-01` | `cited publication:280-288` | Formalized note: use `0 < epsilon < 1/2`. |
+| `PKG25-P9-S2-DENOMINATOR-01` | `cited publication:300-340` | Formalized note: repair the free-index denominator to the normalized paired-odds sum. |
 
 The ledger gives each finding its source claim, mathematical repair obligation,
 acceptance condition, and present status. Declaration names are navigation
@@ -290,9 +290,9 @@ Generated from the configured source-condition surface and exact current stateme
 
 | Assumption declaration | Lean declaration | Source location / statement | Assumption validators | Comments |
 | --- | --- | --- | --- | --- |
-| Source assumption predictor measurability | `source_assumption_predictor_measurability` | Source location: source.txt:30-43; source_tex/sections/theorem.tex:2-18. Predictors must be measurable for P_i(X), calibration events, and the displayed expectations to be defined on an arbitrary measurable input space. | source condition; Agent check by Codex PKG25 independent semantic assumption audit 2026-07-24; 2026-07-24 | The source forms random reported probabilities, conditions on reported-probability events, and takes expectations under an arbitrary distribution. The unfolded condition requires each predictor P_i to be measurable, which is the standard model-definedness condition for those expressions; it neither changes the reliability conclusion nor supplies an advers... |
-| Source assumption event calibration | `source_assumption_event_calibration` | Source location: source.txt:31-35; source_tex/sections/theorem.tex:6-10. For every measurable A in the reported-probability space, E[1_{P_i(X) in A,Y=1}]=E[P_i(X)1_{P_i(X) in A}] is the checked event-calibration interpretation of the source display. | source condition; Agent check by Codex PKG25 independent semantic assumption audit 2026-07-24; 2026-07-24 | The source requires calibrated predictors. Its point-fiber conditional display does not select a conditional value on a null fiber, so the reviewed model uses the explicitly documented, user-approved event identity for every measurable set of reported probabilities. This is a calibration reading of the source model, not an extra conclusion used to prove t... |
-| Source assumption strategy expectation well formed | `source_assumption_strategy_expectation_well_formed` | Source location: source.txt:51-64; source_tex/sections/theorem.tex:26-34; source_tex/sections/proof.tex:26-32. The source's expected strategy accuracy requires measurability/integrability of the induced correctness indicator when C is an arbitrary deterministic function. | source condition; Agent check by Codex PKG25 independent semantic assumption audit 2026-07-24; 2026-07-24 | The source defines an arbitrary deterministic strategy and then calls its expected binary correctness an accuracy. Predictor measurability alone does not make that induced indicator integrable on an arbitrary measurable space, so the unfolded condition is the analytic definedness condition for the displayed expectation. It is discharged by the finite witn... |
+| Source assumption predictor measurability | `source_assumption_predictor_measurability` | Source location: cited publication:30-43; cited publication:2-18. Predictors must be measurable for P_i(X), calibration events, and the displayed expectations to be defined on an arbitrary measurable input space. | source condition; Agent check by Codex PKG25 independent semantic assumption audit 2026-07-24; 2026-07-24 | The source forms random reported probabilities, conditions on reported-probability events, and takes expectations under an arbitrary distribution. The unfolded condition requires each predictor P_i to be measurable, which is the standard model-definedness condition for those expressions; it neither changes the reliability conclusion nor supplies an advers... |
+| Source assumption event calibration | `source_assumption_event_calibration` | Source location: cited publication:31-35; cited publication:6-10. For every measurable A in the reported-probability space, E[1_{P_i(X) in A,Y=1}]=E[P_i(X)1_{P_i(X) in A}] is the checked event-calibration interpretation of the source display. | source condition; Agent check by Codex PKG25 independent semantic assumption audit 2026-07-24; 2026-07-24 | The source requires calibrated predictors. Its point-fiber conditional display does not select a conditional value on a null fiber, so the reviewed model uses the explicitly documented, user-approved event identity for every measurable set of reported probabilities. This is a calibration reading of the source model, not an extra conclusion used to prove t... |
+| Source assumption strategy expectation well formed | `source_assumption_strategy_expectation_well_formed` | Source location: cited publication:51-64; cited publication:26-34; cited publication:26-32. The source's expected strategy accuracy requires measurability/integrability of the induced correctness indicator when C is an arbitrary deterministic function. | source condition; Agent check by Codex PKG25 independent semantic assumption audit 2026-07-24; 2026-07-24 | The source defines an arbitrary deterministic strategy and then calls its expected binary correctness an accuracy. Predictor measurability alone does not make that induced indicator integrable on an arbitrary measurable space, so the unfolded condition is the analytic definedness condition for the displayed expectation. It is discharged by the finite witn... |
 <!-- END GENERATED ASSUMPTION PROVENANCE LEDGER -->
 
 ## 14. Displayed Formula Provenance
@@ -452,7 +452,7 @@ conventions stated in Section 6. No advertised named conclusion is missing.
 <!-- BEGIN GENERATED SOURCE COVERAGE LEDGER -->
 ### Current Canonical Evidence
 - Coverage scope: full inventory shown because scope metadata needs repair (paper_statement_map.json must explicitly set source_coverage_mode before a source-coverage closeout).
-- Source inventory: 53 source statements from `source.txt`.
+- Source inventory: 53 source statements from `cited publication`.
 - Coverage result: 3 conditional boundary, 42 covered, 8 support only.
 - Coverage review: coverage ledger recorded; Agent check by Codex PKG25 source-first semantic coverage review 2026-07-24; 2026-07-24.
 - Row-local statement checks: 0/64 linked row references have a completed canonical statement check; repeated links are counted per source row.

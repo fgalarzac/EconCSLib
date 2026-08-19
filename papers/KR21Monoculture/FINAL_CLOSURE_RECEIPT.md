@@ -6,7 +6,7 @@ evidence_lane = "direct-source-row-review"
 closed_at = "2026-08-16"
 
 [source_artifact]
-path = "papers/KR21Monoculture/sources/2101.05853.txt"
+path = "papers/KR21Monoculture/cited publication"
 sha256 = "aed647e81248dd53a36395cbaef93a343a9b6a8a525da05f3dcd06662384fb23"
 
 [statement_map]

@@ -1,6 +1,12 @@
 # Validation Model
 
-Updated: 2026-07-04
+Updated: 2026-07-31
+
+`config/formalization_audit_protocol.json` is the normative machine-readable
+source for current audit versions, coverage scope, reuse identity, build
+selection, and correction/assumption categories. This document explains the
+validation model and defers to that protocol when older prose or historical
+artifact labels conflict with it.
 
 EconCSLib separates three questions that are easy to conflate.
 
@@ -13,6 +19,17 @@ statements in the repository.
 
 Lean does not, by itself, decide whether a theorem statement is the right
 translation of a source-paper statement.
+
+During private paper intake, a theorem may deliberately have an audited
+source-shaped type and a temporary `by sorry` body. That establishes only a
+**statement-audited skeleton**: Lean has elaborated the target, but has not
+checked a proof. The canonical declaration-manifest digest freezes the reviewed
+type, definition/abbreviation values, and name-free repository-local reducible
+dependency closure so proof work cannot silently change them. Current v10
+statement review binds that manifest to expanded semantic-scope, numeric,
+discrete-container, fidelity-risk, and operational-complexity judgments. A
+paper is Lean-closed only after every such
+body is replaced and the dependency closure contains no `sorryAx`.
 
 ## 2. What Human Review Checks
 
@@ -37,11 +54,105 @@ surface problems. The standard lanes are:
 - assumption-provenance matching;
 - source-inventory-to-dashboard coverage;
 - recursive source-record and boundary-input classification;
+- source-proof fidelity and checked defect support; and
 - holistic source/DAG/source-json comparison.
 
 These lanes are intentionally separate. Row-local statement matching cannot
 establish paper coverage, and source-coverage matching cannot establish that
 each Lean row has the exact same hypotheses and conclusion as the source.
+
+Current statement judgments use an obligation ledger rather than a bare
+`matches` label. The ledger enumerates source and Lean assumptions and
+conclusions, requires every source conclusion to be recovered, and requires
+every Lean assumption to be source-backed or derived by an explicit semantic
+bridge. Names, ids, and raw pretty-printed declaration spelling only route or
+document entries; renaming a theorem, field, wrapper, or record must not change
+the verdict after a unique elaborated semantic match.
+
+The current semantic lanes are statement match v10 and recursive source-record
+v10. Theorem-realization correspondence is v11 for new papers and explicit
+v11 upgrades; a legacy material repair receives current item-level v10
+evidence unless it opts in. Paper-coverage and declaration-manifest schemas have their own
+independent schema numbers; for example, a schema-6 declaration manifest is
+not a "v6 statement audit." Earlier sidecars remain historical evidence. A
+version-label edit is not a migration: reuse is item-level and requires every
+identity in the normative protocol, including the transitive elaborated
+dependency graph and exact opaque imported-terminal artifact context. Whole
+review-module artifacts and theorem proof bodies are excluded from statement
+identity, so closing `sorry` reopens proof-closure evidence without discarding
+an unchanged statement judgment.
+
+The legacy-v10 transition can use either the original trusted-Git-tree
+authority or a centrally configured immutable material-identity manifest. The
+portable manifest contains no paper-name or declaration-name credit: those
+strings are navigation labels only. A current closeout is grandfathered only
+when its source-item identity uniquely locates one manifest entry and its full
+material identity matches that entry. The full identity binds the source
+items, elaborated statements, per-item source/statement/dependency/model
+associations, selected targets, corrections, scope, available validator
+schemas, and the semantic protocol identity. The validator rejects an absent,
+duplicate, ambiguous, stale, or mismatched entry and then requires v11.
+
+The manifest's exact file bytes are SHA-256-pinned in the normative protocol.
+Its engine schema and the bytes of the generic projection engine are pinned as
+well. The protocol identity deliberately excludes the transition authority,
+manifest digest, manifest itself, and generated repository aggregates, which
+prevents a self-hash cycle. Manifest validation reads only ordinary files in
+the candidate checkout; it does not require private Git objects. Generate it
+only from an explicit candidate root and explicit completed-paper folder list
+with `scripts/legacy_v10_trust_ledger.py`; folder and paper labels in that list
+locate inputs but never contribute semantic credit.
+
+The conclusion-provenance lane likewise expands every reachable
+proposition-bearing theorem-input record, compares proposition types modulo
+bound-variable renaming, rejects sibling-record repackaging, and follows local
+constructor dependencies. It follows both `abbrev` and reducible `def` type
+aliases, including imported repository records, and recognizes generic data
+carriers from their `Type`/`Sort` binder kinds rather than their identifier
+spelling. Unknown non-data inputs fail closed. Suffixes such as `Certificate`,
+`Assumptions`, or `Run` may appear in diagnostics but do not authorize or reject
+a premise. The static record walker also fails closed on a theorem binder headed
+by a paper/repository-local reducible type family that it cannot normalize (for
+example a conditional type returning a record on one branch). This is
+conservative: expose a direct audited type/alias or add Lean-Meta expansion;
+free-text classification cannot clear the unresolved dependency.
+
+These automated checks remain triage, not semantic certification. A structural
+ledger can prove that every obligation was considered; it cannot prove that an
+agent transcribed the source formula correctly or that free-text
+`semantic_basis` and `bridge_statement` claims are mathematically true. The
+validator rejects missing and explicitly name-only bridge prose, but truth of
+the remaining prose still requires an independently pinned source comparison
+and ultimately human review.
+
+The source-side atom list has the same limit. It is curated from the pinned full
+statement rather than mechanically derived from mathematical prose, so a full
+statement digest does not itself prove that `source_obligations` contains every
+subclaim. Require a distinct source curator and statement judge and have the
+human reviewer compare the atom list against the complete pinned excerpt, not
+only against the listed atoms.
+
+Producer identity is another explicit trust boundary. The evidence-integrity
+audit pairwise-rejects recorded overlap among formalizer, source curator, Lean
+translator, statement judge, and coverage judge, but historical sidecars do not
+consistently identify every role. These are also free-form, unauthenticated
+attestations; the tool cannot prove who actually performed the work. Record the
+identities distinctly at closeout and treat absent or overlapping attestations
+as pending human certification, even when the structural checks pass.
+
+Pinned source artifacts are private-by-default inputs, not ordinary checkout
+contents. `source-audited*` is ignored to avoid accidentally publishing source
+TeX or archives. A fresh CI checkout is therefore non-certifying for the source
+pin unless the exact bytes are securely provisioned or fetched and then
+SHA-256-verified. An artifact may be force-tracked only after an explicit
+redistribution-rights review. Missing bytes must leave release source evidence
+red; the recorded digest alone is not a substitute.
+
+Ordinary public-checkout CI may use
+`audit_evidence_integrity.py --allow-missing-source-bytes`. That mode still
+requires a safe canonical relative path and SHA-256 but emits a non-certifying
+warning when licensed bytes are absent. Never use it for a strict release or
+human/independent source-certification claim.
 
 LLM audit status should report `missing`, `stale`, `uncertain`, `mismatch`,
 `conditional_boundary`, and related statuses directly. Those statuses are not
@@ -49,19 +160,50 @@ human review and should not be counted as human dashboard sign-off.
 
 ## 4. Public Status Reading
 
+The public status vocabulary is in [`STATUS.md`](STATUS.md). Status is about
+mathematical closure and substantial source-paper correctness; it is not a
+generic warning level.
+
 Read public paper status as:
 
 - `Formalized`: Lean proves the exposed paper endpoints under the displayed
-  Lean statements, with no known theorem-level mathematical boundary recorded
-  in the public status.
-- `Formalized with caveat`: Lean proves the exposed endpoints, but the paper
-  has a documented source correction, source ambiguity, or caveat that matters
-  to the theorem statement.
-- `Partially formalized`: some paper endpoints are Lean-checked, but known
-  source claims, assumptions, or theorem-level proof work remain open.
+  Lean statements at the intended semantic level, with no remaining central
+  mathematical boundary. Minor source corrections, standard implicit
+  conditions, repaired auxiliary lemmas, and alternative proof routes are
+  compatible with plain `Formalized` when the substantive advertised endpoint
+  is fully proved; document them as source/proof notes. A materially weaker
+  target or non-source additional assumption is not compatible with this
+  status.
+- `Formalized with caveat`: the source paper contains a substantial error in a
+  central advertised claim, and Lean fully proves a corrected endpoint that
+  materially changes the claim. This status should be rare. It is not used for
+  an incomplete Lean formalization, a routine source correction, or an
+  additional non-source restriction.
+- `Partially formalized`: some paper endpoints are Lean-checked, but a central
+  source claim, intended semantic layer, assumption derivation, or theorem-level
+  proof remains open. A materially weaker/narrower Lean result or an added
+  non-source assumption belongs here rather than under a caveat.
 - `Human review`: saved dashboard rows reviewed by a human.
 - `LLM audit`: tracked machine-readable sidecars checking statement matching,
   coverage, assumption provenance, source records, and holistic coverage.
 
 No single column is a complete trust label. The final validation report should
 give the combined status in plain language.
+
+For configured schema-2 source-proof fidelity ledgers, each defect also states
+its issue-level `status_impact`: `formalized_note`,
+`formalized_with_caveat`, or `partially_formalized`. The audit checks that these
+issue judgments agree with the paper status. The field distinguishes the
+severity of the mathematical issue from `statement_impact`, which only records
+whether the source proof line or source statement is affected.
+
+For release certification, plain `Formalized` is not enough. The exact source
+artifact must be pinned by digest, every source item and theorem premise must
+have a resolvable locator, independent producer/judge attestations must be
+recorded, and the source-to-Lean review surface must have complete human review.
+Because source artifacts are normally untracked, this byte attestation is
+available when CI securely provisions or reproducibly fetches and hash-checks
+the exact artifact, or redistribution review permits tracking it. A normal fresh
+checkout without those bytes is structurally testable but not source-certified.
+Until then, describe the result as Lean-closed with source translation pending
+human certification.

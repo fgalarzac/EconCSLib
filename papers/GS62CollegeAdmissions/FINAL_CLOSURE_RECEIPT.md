@@ -6,7 +6,7 @@ evidence_lane = "direct-source-row-review"
 closed_at = "2026-08-18"
 
 [source_artifact]
-path = "papers/GS62CollegeAdmissions/source.txt"
+path = "papers/GS62CollegeAdmissions/cited publication"
 sha256 = "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d"
 
 [statement_map]

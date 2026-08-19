@@ -1,208 +1,257 @@
 {
-  "schema": 1,
-  "id": "GJ19OptimalBinaryRatingSystems",
-  "repository_visibility": "public",
-  "title": "Designing Optimal Binary Rating Systems",
-  "authors": "Nikhil Garg, Ramesh Johari",
-  "source_version": "AISTATS 2019 / PMLR 89 version, 2019",
-  "source_url": "https://proceedings.mlr.press/v89/garg19a/garg19a.pdf",
-  "build_target": "lake build GJ19OptimalBinaryRatingSystems",
-  "status": "formalized",
-  "main_caveat": "No mathematical paper-result boundary remains. Local source typos, corrected proof steps, Remark C.1's false full-square uniformity sentence, Remark C.2's impossible literal joint-strict-convexity wording, and Lemma B.3's implied score-identifiability condition are recorded as formalized notes rather than caveats.",
-  "human_summary": "",
-  "review_entrypoint": "papers/GJ19OptimalBinaryRatingSystems/FINAL_VALIDATION_REPORT.md",
-  "human_review": {
-    "reviewed_rows": 0,
-    "total_rows": 61,
-    "stale_rows": 0,
-    "mismatch_rows": 0,
-    "source": "paper-local status.json review_surface; human entries come from dashboard logs"
-  },
-  "paper_interface": {
-    "path": "papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean",
-    "line_count": 1822,
-    "declaration_rows": 61,
-    "review_rows": 61,
-    "oversized": false,
-    "maintainability_issue": null
-  },
   "artifacts": {
-    "readme": "papers/GJ19OptimalBinaryRatingSystems/README.md",
-    "paper_interface": "papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean",
     "assumptions": "papers/GJ19OptimalBinaryRatingSystems/Assumptions.lean",
-    "final_validation_report": "papers/GJ19OptimalBinaryRatingSystems/FINAL_VALIDATION_REPORT.md",
-    "dependency_dag_tex": "papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.tex",
-    "dependency_dag_pdf": "papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.pdf",
     "audit_interface": "papers/GJ19OptimalBinaryRatingSystems/AuditInterface.lean",
-    "source_archive": "papers/GJ19OptimalBinaryRatingSystems/source.tar",
+    "dependency_dag_pdf": "papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.pdf",
+    "dependency_dag_tex": "papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.tex",
+    "final_validation_report": "papers/GJ19OptimalBinaryRatingSystems/FINAL_VALIDATION_REPORT.md",
+    "human_review_packet_pdf": "papers/GJ19OptimalBinaryRatingSystems/docs/HUMAN_REVIEW_PACKET.pdf",
+    "human_review_packet_tex": "papers/GJ19OptimalBinaryRatingSystems/docs/HUMAN_REVIEW_PACKET.tex",
+    "paper_interface": "papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean",
+    "readme": "papers/GJ19OptimalBinaryRatingSystems/README.md",
+    "source_archive": "cited publication",
     "source_proof_fidelity": "papers/GJ19OptimalBinaryRatingSystems/audit/source_proof_fidelity.json"
   },
+  "authors": "Nikhil Garg, Ramesh Johari",
+  "build_target": "lake build GJ19OptimalBinaryRatingSystems",
+  "human_review": {
+    "mismatch_rows": 0,
+    "reviewed_rows": 0,
+    "source": "v11 PaperInterface claim surface; human entries are recorded after direct review",
+    "stale_rows": 0,
+    "total_rows": 59,
+    "uncertain_rows": 0
+  },
+  "human_summary": "",
+  "id": "GJ19OptimalBinaryRatingSystems",
+  "main_caveat": "No mathematical paper-result boundary remains. Local source typos, corrected proof steps, Remark C.1's false full-square uniformity sentence, Remark C.2's impossible literal joint-strict-convexity wording, and Lemma B.3's implied score-identifiability condition are recorded as formalized notes rather than caveats.",
+  "paper_interface": {
+    "declaration_rows": 59,
+    "line_count": 997,
+    "maintainability_issue": null,
+    "oversized": false,
+    "path": "papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean",
+    "review_rows": 59
+  },
+  "repository_visibility": "public",
+  "review_entrypoint": "papers/GJ19OptimalBinaryRatingSystems/FINAL_VALIDATION_REPORT.md",
   "review_surface": {
-    "source_file": "papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean",
+    "assumption_names": [],
+    "assumption_policy": "source-plus-proof-boundary",
     "assumption_source_file": "papers/GJ19OptimalBinaryRatingSystems/Assumptions.lean",
-    "llm_statement_review": {
-      "lean_to_tex_file": "papers/GJ19OptimalBinaryRatingSystems/audit/lean_to_tex_llm.json",
-      "match_judgment_file": "papers/GJ19OptimalBinaryRatingSystems/audit/statement_match_llm.json",
-      "review_surface_audit_file": "papers/GJ19OptimalBinaryRatingSystems/audit/review_surface_llm.json",
-      "paper_coverage_audit_file": "papers/GJ19OptimalBinaryRatingSystems/audit/paper_coverage_llm.json",
-      "surface_audit_threshold": 30,
-      "surface_warning_threshold": 120,
-      "policy": "Use current v10 declaration-manifest judgments. Exact matches require full semantic equivalence; rows that assume a source conclusion, replace an executable algorithm by an existence certificate, or restrict the source model must be recorded as conditional or mismatched rather than approved by name."
+    "include_names": [
+      "source_quality_domainSpec",
+      "source_matching_countSpec",
+      "source_matching_functionSpec",
+      "source_empirical_reputation_scoreSpec",
+      "source_system_stateSpec",
+      "source_definition_pairwise_accuracy_eq1Spec",
+      "source_definition_weighted_objective_eq2Spec",
+      "source_definition_large_deviation_rateSpec",
+      "source_definition_step_rule_partition_levelsSpec",
+      "source_definition_lexicographic_optimalitySpec",
+      "theorem31_source_matching_function_unique_value_argmax_lexicographicSpec",
+      "source_theorem31_adjacent_rate_eq3Spec",
+      "theorem31_source_cell_matching_rate_eq_lower_cutpointSpec",
+      "definition_bernoulli_kl_formulaSpec",
+      "source_lemma31_equalization_eq4Spec",
+      "lemma31_closed_adjacent_rate_formulaSpec",
+      "theorem32_weighted_nested_bisection_outputSpec",
+      "theorem32_weighted_nested_bisection_loss_and_runtimeSpec",
+      "section4_question_distributionSpec",
+      "section4_induced_binary_responseSpec",
+      "section4_l1_design_objectiveSpec",
+      "section4_question_design_solutionSpec",
+      "appendixB1_active_setSpec",
+      "appendixB1_transition_kernelSpec",
+      "appendixB1_state_updateSpec",
+      "lemmaB1_matching_rate_shiftSpec",
+      "source_theoremB1_quantile_representationSpec",
+      "paper_theoremB1_uniform_subsequence_principle_to_of_quantile_floor_tendstoUniformlyOn_geometric_meshSpec",
+      "appendixB5_known_type_experimentSpec",
+      "appendixB5_random_question_experimentSpec",
+      "appendixB5_empirical_question_responseSpec",
+      "paper_lemmaB2_knownTypeExperiment_uniform_convergence_of_lipschitz_trackingSpec",
+      "lemmaB2_knownTypeExperiment_random_question_sllnSpec",
+      "appendixB5_unknown_type_experimentSpec",
+      "paper_lemmaB3_unknownTypeExperiment_uniform_convergence_of_ranking_trackingSpec",
+      "lemmaB3_unknownTypeExperiment_random_question_response_and_rankSpec",
+      "source_lemmaC1_pairwise_error_rate_from_derivativesSpec",
+      "source_lemmaC2_binary_complement_rateSpec",
+      "source_theoremC1_laplace_principleSpec",
+      "source_remarkC1_full_square_application_under_explicit_conditionsSpec",
+      "paper_lemmaC3_partition_integral_hasExponentialRate_of_min_component_uniform_logRateSpec",
+      "paper_lemmaC4_finite_selected_pullback_positive_rate_and_nonfiniteStep_source_zero_rateSpec",
+      "source_remarkC2_weighted_kl_separation_monotonicitySpec",
+      "source_appendixC5_rate_notation_eq23Spec",
+      "source_lemmaC5_uniform_doubled_chainSpec",
+      "source_lemmaC5_refinement_equations24_25Spec",
+      "paper_corollaryC2_uniform_equalized_last_rate_tendsto_zeroSpec",
+      "paper_corollaryC2_uniform_equalized_adjacent_mesh_tendsto_zeroSpec",
+      "lemmaC6_monotone_matching_penultimate_level_boundSpec",
+      "lemmaC7_uniform_doubled_objective_rate_ge_one_fifth_old_objectiveSpec",
+      "source_lemmaC8_uniform_first_level_polynomial_lower_boundSpec",
+      "corollaryC3_monotone_scaled_first_level_ge_half_inv_adjacent_count_sqSpec",
+      "source_lemmaC9_nested_bisection_runtime_log_squaredSpec",
+      "source_theoremB1_proof_selector_nestingSpec",
+      "source_corollaryC4_kendall_spearman_subsequenceSpec",
+      "definitionC1_kendall_spearman_population_objectivesSpec",
+      "paper_lemmaC10_spearman_linear_weight_ordered_pair_interval_objective_eq_gap_objectiveSpec",
+      "paper_lemmaC11_kendall_constant_weight_ordered_pair_interval_objective_le_equispacedSpec",
+      "paper_lemmaC12_spearman_linear_weight_ordered_pair_interval_objective_le_equispacedSpec"
+    ],
+    "llm_assumption_review": {
+      "assumption_judgment_file": "papers/GJ19OptimalBinaryRatingSystems/audit/assumption_match_llm.json",
+      "policy": "Source premises and proof boundaries must remain distinguishable. A value-optimality conclusion, empirical tracking theorem, ranking-consistency conclusion, or algorithm bracketing invariant is not a source assumption merely because it is exposed as a Lean premise."
     },
     "llm_paper_coverage_review": {
       "paper_coverage_audit_file": "papers/GJ19OptimalBinaryRatingSystems/audit/paper_coverage_llm.json",
       "policy": "Maintain a source-curated atomic inventory of the main paper and supplement. Every item must be classified as covered, conditional, covered by inspected support, missing, or intentionally contextual under paper-coverage v4."
     },
-    "llm_assumption_review": {
-      "assumption_judgment_file": "papers/GJ19OptimalBinaryRatingSystems/audit/assumption_match_llm.json",
-      "policy": "Source premises and proof boundaries must remain distinguishable. A value-optimality conclusion, empirical tracking theorem, ranking-consistency conclusion, or algorithm bracketing invariant is not a source assumption merely because it is exposed as a Lean premise."
-    },
-    "source_proof_fidelity_review": {
-      "ledger_file": "papers/GJ19OptimalBinaryRatingSystems/audit/source_proof_fidelity.json",
-      "policy": "Schema-2 source defects are classified by mathematical impact. Minor printed corrections, routine implied domain conditions, and repaired proof steps are formalized notes; only a substantial source-paper error with a fully proved materially changed endpoint warrants caveat status."
+    "llm_statement_review": {
+      "lean_to_tex_file": "papers/GJ19OptimalBinaryRatingSystems/audit/lean_to_tex_llm.json",
+      "match_judgment_file": "papers/GJ19OptimalBinaryRatingSystems/audit/statement_match_llm.json",
+      "paper_coverage_audit_file": "papers/GJ19OptimalBinaryRatingSystems/audit/paper_coverage_llm.json",
+      "policy": "For every selected source claim, compare only its exact byte-pinned raw source-anchor bundle and Lean's expanded transparent `...Spec : Prop` target. The paired proof endpoint receives separate Lean-Meta proof credit; a name, paraphrase, wrapper, or prior aggregate receipt is not a semantic match. Review every retained paper-local prerequisite and every material library prerequisite before the dependent claim.",
+      "required_prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
+      "review_surface_audit_file": "papers/GJ19OptimalBinaryRatingSystems/audit/review_surface_llm.json",
+      "surface_audit_threshold": 30,
+      "surface_warning_threshold": 120
     },
     "paper_coverage_required": true,
-    "assumption_policy": "source-plus-proof-boundary",
-    "assumption_names": [],
-    "source_definition_names": [
-      "source_matching_function",
-      "section4_question_distribution",
-      "section4_question_design_solution"
-    ],
-    "include_names": [
-      "definition_bernoulli_kl_formula",
-      "lemma31_closed_adjacent_rate_formula",
-      "binary_rating_pairwise_threshold_rate_top_is_closed_weighted_rate",
-      "paper_corollaryC2_uniform_equalized_last_rate_tendsto_zero",
-      "paper_corollaryC2_uniform_equalized_adjacent_mesh_tendsto_zero",
-      "lemmaC7_uniform_doubled_objective_rate_ge_one_fifth_old_objective",
-      "corollaryC3_monotone_scaled_first_level_ge_half_inv_adjacent_count_sq",
-      "paper_theoremB1_uniform_subsequence_principle_to_of_quantile_floor_tendstoUniformlyOn_geometric_mesh",
-      "definitionC1_kendall_spearman_population_objectives",
-      "paper_lemmaC10_spearman_linear_weight_ordered_pair_interval_objective_eq_gap_objective",
-      "paper_lemmaC11_kendall_constant_weight_ordered_pair_interval_objective_le_equispaced",
-      "paper_lemmaC12_spearman_linear_weight_ordered_pair_interval_objective_le_equispaced",
-      "source_quality_domain",
-      "source_matching_function",
-      "source_matching_count",
-      "source_empirical_reputation_score",
-      "source_system_state",
-      "appendixB1_active_set",
-      "appendixB1_transition_kernel",
-      "appendixB1_state_update",
-      "section4_question_distribution",
-      "section4_induced_binary_response",
-      "section4_l1_design_objective",
-      "section4_question_design_solution",
-      "appendixB5_random_question_experiment",
-      "appendixB5_known_type_experiment",
-      "appendixB5_unknown_type_experiment",
-      "appendixB5_empirical_question_response",
-      "theorem31_source_cell_matching_rate_eq_lower_cutpoint",
-      "theorem31_source_matching_function_unique_value_argmax_lexicographic",
-      "lemmaB1_matching_rate_shift",
-      "lemmaB2_knownTypeExperiment_random_question_slln",
-      "lemmaB3_unknownTypeExperiment_random_question_response_and_rank",
-      "lemmaC6_monotone_matching_penultimate_level_bound",
-      "theorem32_weighted_nested_bisection_output",
-      "theorem32_weighted_nested_bisection_loss_and_runtime",
-      "source_definition_pairwise_accuracy_eq1",
-      "source_definition_weighted_objective_eq2",
-      "source_definition_large_deviation_rate",
-      "source_definition_step_rule_partition_levels",
-      "source_definition_lexicographic_optimality",
-      "source_theorem31_adjacent_rate_eq3",
-      "source_lemma31_equalization_eq4",
-      "source_theoremB1_quantile_representation",
-      "paper_lemmaB2_knownTypeExperiment_uniform_convergence_of_lipschitz_tracking",
-      "paper_lemmaB3_unknownTypeExperiment_uniform_convergence_of_ranking_tracking",
-      "source_lemmaC1_pairwise_error_rate_from_derivatives",
-      "source_lemmaC2_binary_complement_rate",
-      "source_theoremC1_laplace_principle",
-      "source_remarkC1_full_square_application_under_explicit_conditions",
-      "paper_lemmaC3_partition_integral_hasExponentialRate_of_min_component_uniform_logRate",
-      "paper_lemmaC4_finite_selected_pullback_positive_rate_and_nonfiniteStep_source_zero_rate",
-      "source_remarkC2_weighted_kl_separation_monotonicity",
-      "source_appendixC5_rate_notation_eq23",
-      "source_lemmaC5_uniform_doubled_chain",
-      "source_lemmaC5_refinement_equation24",
-      "source_lemmaC5_refinement_equation25",
-      "source_lemmaC8_uniform_first_level_polynomial_lower_bound",
-      "source_lemmaC9_nested_bisection_runtime_log_squared",
-      "source_theoremB1_proof_selector_nesting",
-      "source_corollaryC4_kendall_spearman_subsequence"
-    ],
+    "proposition_spec_proofs": {
+      "appendixB1_active_setSpec": "appendixB1_active_set",
+      "appendixB1_state_updateSpec": "appendixB1_state_update",
+      "appendixB1_transition_kernelSpec": "appendixB1_transition_kernel",
+      "appendixB5_empirical_question_responseSpec": "appendixB5_empirical_question_response",
+      "appendixB5_known_type_experimentSpec": "appendixB5_known_type_experiment",
+      "appendixB5_random_question_experimentSpec": "appendixB5_random_question_experiment",
+      "appendixB5_unknown_type_experimentSpec": "appendixB5_unknown_type_experiment",
+      "corollaryC3_monotone_scaled_first_level_ge_half_inv_adjacent_count_sqSpec": "corollaryC3_monotone_scaled_first_level_ge_half_inv_adjacent_count_sq",
+      "definitionC1_kendall_spearman_population_objectivesSpec": "definitionC1_kendall_spearman_population_objectives",
+      "definition_bernoulli_kl_formulaSpec": "definition_bernoulli_kl_formula",
+      "lemma31_closed_adjacent_rate_formulaSpec": "lemma31_closed_adjacent_rate_formula",
+      "lemmaB1_matching_rate_shiftSpec": "lemmaB1_matching_rate_shift",
+      "lemmaB2_knownTypeExperiment_random_question_sllnSpec": "lemmaB2_knownTypeExperiment_random_question_slln",
+      "lemmaB3_unknownTypeExperiment_random_question_response_and_rankSpec": "lemmaB3_unknownTypeExperiment_random_question_response_and_rank",
+      "lemmaC6_monotone_matching_penultimate_level_boundSpec": "lemmaC6_monotone_matching_penultimate_level_bound",
+      "lemmaC7_uniform_doubled_objective_rate_ge_one_fifth_old_objectiveSpec": "lemmaC7_uniform_doubled_objective_rate_ge_one_fifth_old_objective",
+      "paper_corollaryC2_uniform_equalized_adjacent_mesh_tendsto_zeroSpec": "paper_corollaryC2_uniform_equalized_adjacent_mesh_tendsto_zero",
+      "paper_corollaryC2_uniform_equalized_last_rate_tendsto_zeroSpec": "paper_corollaryC2_uniform_equalized_last_rate_tendsto_zero",
+      "paper_lemmaB2_knownTypeExperiment_uniform_convergence_of_lipschitz_trackingSpec": "paper_lemmaB2_knownTypeExperiment_uniform_convergence_of_lipschitz_tracking",
+      "paper_lemmaB3_unknownTypeExperiment_uniform_convergence_of_ranking_trackingSpec": "paper_lemmaB3_unknownTypeExperiment_uniform_convergence_of_ranking_tracking",
+      "paper_lemmaC10_spearman_linear_weight_ordered_pair_interval_objective_eq_gap_objectiveSpec": "paper_lemmaC10_spearman_linear_weight_ordered_pair_interval_objective_eq_gap_objective",
+      "paper_lemmaC11_kendall_constant_weight_ordered_pair_interval_objective_le_equispacedSpec": "paper_lemmaC11_kendall_constant_weight_ordered_pair_interval_objective_le_equispaced",
+      "paper_lemmaC12_spearman_linear_weight_ordered_pair_interval_objective_le_equispacedSpec": "paper_lemmaC12_spearman_linear_weight_ordered_pair_interval_objective_le_equispaced",
+      "paper_lemmaC3_partition_integral_hasExponentialRate_of_min_component_uniform_logRateSpec": "paper_lemmaC3_partition_integral_hasExponentialRate_of_min_component_uniform_logRate",
+      "paper_lemmaC4_finite_selected_pullback_positive_rate_and_nonfiniteStep_source_zero_rateSpec": "paper_lemmaC4_finite_selected_pullback_positive_rate_and_nonfiniteStep_source_zero_rate",
+      "paper_theoremB1_uniform_subsequence_principle_to_of_quantile_floor_tendstoUniformlyOn_geometric_meshSpec": "paper_theoremB1_uniform_subsequence_principle_to_of_quantile_floor_tendstoUniformlyOn_geometric_mesh",
+      "section4_induced_binary_responseSpec": "section4_induced_binary_response",
+      "section4_l1_design_objectiveSpec": "section4_l1_design_objective",
+      "section4_question_design_solutionSpec": "section4_question_design_solution",
+      "section4_question_distributionSpec": "section4_question_distribution",
+      "source_appendixC5_rate_notation_eq23Spec": "source_appendixC5_rate_notation_eq23",
+      "source_corollaryC4_kendall_spearman_subsequenceSpec": "source_corollaryC4_kendall_spearman_subsequence",
+      "source_definition_large_deviation_rateSpec": "source_definition_large_deviation_rate",
+      "source_definition_lexicographic_optimalitySpec": "source_definition_lexicographic_optimality",
+      "source_definition_pairwise_accuracy_eq1Spec": "source_definition_pairwise_accuracy_eq1",
+      "source_definition_step_rule_partition_levelsSpec": "source_definition_step_rule_partition_levels",
+      "source_definition_weighted_objective_eq2Spec": "source_definition_weighted_objective_eq2",
+      "source_empirical_reputation_scoreSpec": "source_empirical_reputation_score",
+      "source_lemma31_equalization_eq4Spec": "source_lemma31_equalization_eq4",
+      "source_lemmaC1_pairwise_error_rate_from_derivativesSpec": "source_lemmaC1_pairwise_error_rate_from_derivatives",
+      "source_lemmaC2_binary_complement_rateSpec": "source_lemmaC2_binary_complement_rate",
+      "source_lemmaC5_refinement_equations24_25Spec": "source_lemmaC5_refinement_equations24_25",
+      "source_lemmaC5_uniform_doubled_chainSpec": "source_lemmaC5_uniform_doubled_chain",
+      "source_lemmaC8_uniform_first_level_polynomial_lower_boundSpec": "source_lemmaC8_uniform_first_level_polynomial_lower_bound",
+      "source_lemmaC9_nested_bisection_runtime_log_squaredSpec": "source_lemmaC9_nested_bisection_runtime_log_squared",
+      "source_matching_countSpec": "source_matching_count",
+      "source_matching_functionSpec": "source_matching_function",
+      "source_quality_domainSpec": "source_quality_domain",
+      "source_remarkC1_full_square_application_under_explicit_conditionsSpec": "source_remarkC1_full_square_application_under_explicit_conditions",
+      "source_remarkC2_weighted_kl_separation_monotonicitySpec": "source_remarkC2_weighted_kl_separation_monotonicity",
+      "source_system_stateSpec": "source_system_state",
+      "source_theorem31_adjacent_rate_eq3Spec": "source_theorem31_adjacent_rate_eq3",
+      "source_theoremB1_proof_selector_nestingSpec": "source_theoremB1_proof_selector_nesting",
+      "source_theoremB1_quantile_representationSpec": "source_theoremB1_quantile_representation",
+      "source_theoremC1_laplace_principleSpec": "source_theoremC1_laplace_principle",
+      "theorem31_source_cell_matching_rate_eq_lower_cutpointSpec": "theorem31_source_cell_matching_rate_eq_lower_cutpoint",
+      "theorem31_source_matching_function_unique_value_argmax_lexicographicSpec": "theorem31_source_matching_function_unique_value_argmax_lexicographic",
+      "theorem32_weighted_nested_bisection_loss_and_runtimeSpec": "theorem32_weighted_nested_bisection_loss_and_runtime",
+      "theorem32_weighted_nested_bisection_outputSpec": "theorem32_weighted_nested_bisection_output"
+    },
+    "require_source_spec_correspondence": true,
+    "require_v11_raw_source_spec_screening": true,
     "slices": [
       {
         "id": "rate-formulas",
-        "title": "Bernoulli KL and adjacent-rate formulas",
         "names": [
           "definition_bernoulli_kl_formula",
           "definition_bernoulli_kl_top_formula",
           "theorem31_adjacent_binary_rate_formula",
           "theorem31_adjacent_binary_rate_top_formula",
           "lemma31_closed_adjacent_rate_formula"
-        ]
+        ],
+        "title": "Bernoulli KL and adjacent-rate formulas"
       },
       {
         "id": "finite-optimizer",
-        "title": "Finite equalized-rate optimizer",
         "names": [
           "lemma31_forward_clipped_equalized_rates_exist_unique",
           "lemma31_endpoint_aware_equalized_rates_are_isMaximizerOn",
           "lemma31_endpoint_aware_maximizer_iff_pairwise_equalized"
-        ]
+        ],
+        "title": "Finite equalized-rate optimizer"
       },
       {
         "id": "theorem-31",
-        "title": "Theorem 3.1 value and rate optimality",
         "names": [
           "paper_theorem31_two_stage_lexicographic_optimality",
           "paper_theorem31_exists_cell_integral_volume_weighted_uniform_endpoint_two_stage_lexicographic_optimality_of_integrableOn_Icc"
-        ]
+        ],
+        "title": "Theorem 3.1 value and rate optimality"
       },
       {
         "id": "appendix-c-rates",
-        "title": "Appendix C large-deviation rate machinery",
         "names": [
           "paper_theoremC1_weighted_laplace_integral_exponential_rate_of_uniform_tendsto_weightedEssentialInf",
           "paper_lemmaC3_partition_integral_hasExponentialRate_of_min_component_uniform_logRate",
           "paper_lemmaC4_finite_selected_pullback_positive_rate_and_nonfiniteStep_source_zero_rate"
-        ]
+        ],
+        "title": "Appendix C large-deviation rate machinery"
       },
       {
         "id": "algorithm",
-        "title": "Theorem 3.2 algorithm certificate",
         "names": [
           "corollaryC3_monotone_scaled_first_level_ge_half_inv_adjacent_count_sq",
           "theorem32_exists_grid_depth_rate_loss_and_runtime_le_of_nested_bisection_uniform_doubled_closed_run_calculated_grid_low_bisection_upper_one_sub_grid_early_exact_return_of_eps_pos",
           "theorem32_weighted_nested_bisection_loss_and_runtime"
-        ]
+        ],
+        "title": "Theorem 3.2 algorithm certificate"
       },
       {
         "id": "examples",
-        "title": "Kendall and Spearman examples",
         "names": [
           "paper_lemmaC10_spearman_linear_weight_ordered_pair_interval_objective_eq_gap_objective",
           "paper_lemmaC11_kendall_constant_weight_ordered_pair_interval_objective_le_equispaced",
           "paper_lemmaC12_spearman_linear_weight_ordered_pair_interval_objective_le_equispaced",
           "paper_theorem31_kendall_constant_weight_equispaced_canonical_uniform_endpoint_lexicographic_optimality",
           "paper_theorem31_spearman_linear_weight_equispaced_canonical_uniform_endpoint_lexicographic_optimality"
-        ]
+        ],
+        "title": "Kendall and Spearman examples"
       },
       {
         "id": "appendix-b",
-        "title": "Appendix B convergence and learning",
         "names": [
           "paper_theoremB1_uniform_subsequence_principle_to_of_quantile_floor_tendstoUniformlyOn_geometric_mesh",
           "paper_corollaryC4_equispaced_optimal_subsequence_exists_canonical_uniform_optimal_equispaced_floor_selector",
           "paper_lemmaB2_knownTypeExperiment_uniform_convergence_of_lipschitz_tracking",
           "paper_lemmaB3_unknownTypeExperiment_uniform_convergence_of_ranking_tracking"
-        ]
+        ],
+        "title": "Appendix B convergence and learning"
       },
       {
         "id": "source-coverage-support",
-        "title": "Source coverage support rows",
         "names": [
           "paper_theorem31_monotone_chain_adjacent_rate_le_nonadjacent_rate",
           "paper_theorem31_endpoint_aware_adjacent_witness_dominates_ordered_pair",
@@ -232,16 +281,16 @@
           "lemmaC8_uniform_first_level_ge_half_of_equalized_objective_rate_lower",
           "lemmaC9_nested_bisection_operation_count_le_stepBound",
           "lemmaC9_nested_bisection_operation_count_le_mul_succ_sq"
-        ]
+        ],
+        "title": "Source coverage support rows"
       },
       {
         "id": "auxiliary-01",
-        "title": "Auxiliary proof-facing rows 1",
-        "names": []
+        "names": [],
+        "title": "Auxiliary proof-facing rows 1"
       },
       {
         "id": "auxiliary-02",
-        "title": "Auxiliary proof-facing rows 2",
         "names": [
           "binary_rating_model_mgf_formula",
           "binary_rating_model_log_mgf_formula",
@@ -251,34 +300,34 @@
           "binary_rating_pairwise_rate_objective_top_is_threshold_kl_rate",
           "binary_rating_pairwise_threshold_rate_top_is_closed_weighted_rate",
           "binary_rating_pairwise_threshold_rate_certificates_from_derivatives"
-        ]
+        ],
+        "title": "Auxiliary proof-facing rows 2"
       },
       {
         "id": "auxiliary-03",
-        "title": "Auxiliary proof-facing rows 3",
         "names": [
           "paper_theorem31_monotone_chain_adjacent_rate_le_nonadjacent_rate",
           "paper_theorem31_endpoint_aware_adjacent_witness_dominates_ordered_pair"
-        ]
+        ],
+        "title": "Auxiliary proof-facing rows 3"
       },
       {
         "id": "auxiliary-04",
-        "title": "Auxiliary proof-facing rows 4",
-        "names": []
+        "names": [],
+        "title": "Auxiliary proof-facing rows 4"
       },
       {
         "id": "auxiliary-05",
-        "title": "Auxiliary proof-facing rows 5",
-        "names": []
+        "names": [],
+        "title": "Auxiliary proof-facing rows 5"
       },
       {
         "id": "auxiliary-06",
-        "title": "Auxiliary proof-facing rows 6",
-        "names": []
+        "names": [],
+        "title": "Auxiliary proof-facing rows 6"
       },
       {
         "id": "auxiliary-07",
-        "title": "Auxiliary proof-facing rows 7",
         "names": [
           "lemmaC5_uniform_doubled_endpoint_levels",
           "lemmaC5_uniform_doubled_endpoint_levels_even",
@@ -291,11 +340,11 @@
           "paper_corollaryC2_uniform_equalized_adjacent_mesh_tendsto_zero",
           "lemmaC7_uniform_refined_last_rate_ge_one_fifth",
           "lemmaC7_uniform_refined_objective_rate_ge_one_fifth"
-        ]
+        ],
+        "title": "Auxiliary proof-facing rows 7"
       },
       {
         "id": "auxiliary-08",
-        "title": "Auxiliary proof-facing rows 8",
         "names": [
           "lemmaC7_uniform_doubled_objective_rate_ge_one_fifth_old_objective",
           "lemmaC8_uniform_first_level_ge_half_of_first_rate_lower",
@@ -304,21 +353,21 @@
           "lemmaC9_nested_bisection_operation_count_le_stepBound",
           "lemmaC9_nested_bisection_operation_count_le_mul_succ_sq",
           "theorem32_rate_loss_le_of_nested_bisection_width_minimal"
-        ]
+        ],
+        "title": "Auxiliary proof-facing rows 8"
       },
       {
         "id": "auxiliary-09",
-        "title": "Auxiliary proof-facing rows 9",
-        "names": []
+        "names": [],
+        "title": "Auxiliary proof-facing rows 9"
       },
       {
         "id": "auxiliary-10",
-        "title": "Auxiliary proof-facing rows 10",
-        "names": []
+        "names": [],
+        "title": "Auxiliary proof-facing rows 10"
       },
       {
         "id": "source-model-objects",
-        "title": "Literal source model, Section 4, and Appendix B.1 objects",
         "names": [
           "source_quality_domain",
           "source_matching_function",
@@ -338,11 +387,11 @@
           "appendixB5_unknown_type_experiment",
           "appendixB5_empirical_question_response",
           "theorem32_weighted_nested_bisection_output"
-        ]
+        ],
+        "title": "Literal source model, Section 4, and Appendix B.1 objects"
       },
       {
         "id": "reopened-source-theorems",
-        "title": "Source-first remediation theorems",
         "names": [
           "theorem31_source_cell_matching_rate_eq_lower_cutpoint",
           "theorem31_source_matching_function_value_argmax_certificate",
@@ -352,9 +401,24 @@
           "lemmaB3_unknownTypeExperiment_random_question_response_and_rank",
           "lemmaC6_monotone_matching_penultimate_level_bound",
           "theorem32_weighted_nested_bisection_loss_and_runtime"
-        ]
+        ],
+        "title": "source verification theorems"
       }
     ],
-    "human_source_file": "papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean"
-  }
+    "source_definition_names": [
+      "source_matching_function",
+      "section4_question_distribution",
+      "section4_question_design_solution"
+    ],
+    "source_file": "papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean",
+    "source_proof_fidelity_review": {
+      "ledger_file": "papers/GJ19OptimalBinaryRatingSystems/audit/source_proof_fidelity.json",
+      "policy": "Schema-2 source defects are classified by mathematical impact. Minor printed corrections, routine implied domain conditions, and repaired proof steps are formalized notes; only a substantial source-paper error with a fully proved materially changed endpoint warrants caveat status."
+    }
+  },
+  "schema": 1,
+  "source_url": "https://proceedings.mlr.press/v89/garg19a/garg19a.pdf",
+  "source_version": "AISTATS 2019 / PMLR 89 version, 2019",
+  "status": "formalized",
+  "title": "Designing Optimal Binary Rating Systems"
 }

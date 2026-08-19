@@ -43,7 +43,7 @@ is optimal: every measurable feasible one-state trip policy earns no more than
 accept-all.
 
 Source status: direct paper definition
-Source note: Paper source map uses `source.txt` lines 269--275.
+Source note: Paper source map uses `cited publication` lines 269--275.
 -/
 def review_definition_single_state_ic (R : SingleStateReward) : Prop :=
   ∀ σ : TripPolicy, σ ⊆ acceptAllPolicy → MeasurableSet σ → R σ ≤ R acceptAllPolicy
@@ -57,7 +57,7 @@ trip-length domain; openness supplies the required Borel measurability in the
 Lean model.
 
 Source status: direct paper definition
-Source note: Paper source map uses `source.txt` lines 269--275.
+Source note: Paper source map uses `cited publication` lines 269--275.
 -/
 def review_definition_dynamic_ic (R : DynamicReward) : Prop :=
   dynamicFeasibleOpenPolicy acceptAllDynamicPolicy ∧
@@ -71,7 +71,7 @@ state-2 policy earns a strictly higher state reward rate than every feasible
 open state-1 policy.
 
 Source status: direct paper definition
-Source note: Paper source map uses `source.txt` lines 377--381.
+Source note: Paper source map uses `cited publication` lines 377--381.
 -/
 def review_definition_surge_state
     (mu : Fin 2 → Measure TripLength) (arrival : Fin 2 → ℝ)
@@ -83,7 +83,7 @@ Definition: threshold policies.  A trip policy accepts exactly the positive
 trip lengths whose payment-per-time `w τ / τ` is at least the cutoff `c`.
 
 Source status: direct paper definition
-Source note: Paper source map uses `source.txt` lines 2149--2152.
+Source note: Paper source map uses `cited publication` lines 2149--2152.
 -/
 def review_definition_threshold_policy (w : PricingFunction) (c : ℝ) (sigma : TripPolicy) :
     Prop :=
@@ -95,7 +95,7 @@ reward formulas are formalized as a reward value defined on feasible dynamic
 policies where the accepted-trip mass denominators are positive.
 
 Source status: source-domain formalization
-Source note: Paper source map uses `source.txt` lines 308--319; this row makes the paper's implicit positive-denominator domain explicit.
+Source note: Paper source map uses `cited publication` lines 308--319; this row makes the paper's implicit positive-denominator domain explicit.
 -/
 def review_definition_dynamic_defined_reward (mu : Fin 2 → MeasureTheory.Measure TripLength) :
     Type :=
@@ -108,7 +108,7 @@ def review_definition_dynamic_defined_reward (mu : Fin 2 → MeasureTheory.Measu
 Section 2.2: IID renewal-reward bridge for the single-state result.
 
 Source status: source-facing theorem summary
-Source note: Paper source map uses `source.txt` lines 279--292.
+Source note: Paper source map uses `cited publication` lines 279--292.
 -/
 theorem review_section2_single_state_renewal_reward_iid_bridge {Ω : Type u_1}
   [MeasurableSpace Ω] {PΩ : MeasureTheory.Measure Ω} {μ : MeasureTheory.Measure TripLength} {arrivalRate : ℝ}
@@ -124,7 +124,7 @@ theorem review_section2_single_state_renewal_reward_iid_bridge {Ω : Type u_1}
 Proposition 3.1: affine single-state pricing is incentive compatible.
 
 Source status: source-facing theorem summary
-Source note: Paper source map uses `source.txt` line 499.
+Source note: Paper source map uses `cited publication` line 499.
 -/
 theorem review_proposition3_1_affine_single_state_ic (mu : MeasureTheory.Measure TripLength)
   (arrivalRate m a : ℝ)
@@ -142,7 +142,7 @@ theorem review_proposition3_1_affine_single_state_ic (mu : MeasureTheory.Measure
 Theorem 1: optimal single-state policies are threshold policies.
 
 Source status: source-facing theorem summary
-Source note: Paper source map uses `source.txt` lines 455--459.  The
+Source note: Paper source map uses `cited publication` lines 455--459.  The
 zero-positive-payout case is discharged rather than assumed away.
 -/
 theorem review_theorem1_single_state_threshold_best_response
@@ -161,7 +161,7 @@ theorem review_theorem1_single_state_threshold_best_response
 Lemma 4: threshold optimizer uniqueness up to null sets.
 
 Source status: source-facing theorem summary
-Source note: Paper source map uses `source.txt` lines 2375--2379.  The
+Source note: Paper source map uses `cited publication` lines 2375--2379.  The
 zero-positive-payout case is discharged rather than assumed away.
 -/
 theorem review_lemma4_single_state_threshold_uniqueness (μ : MeasureTheory.Measure TripLength)
@@ -221,7 +221,7 @@ theorem review_lemma1_measured_dynamic_reward_decomposition
 Lemma 2: CTMC switch-probability formula.
 
 Source status: source-facing theorem summary
-Source note: Paper source map uses `source.txt` lines 2470--2474.
+Source note: Paper source map uses `cited publication` lines 2470--2474.
 -/
 theorem review_lemma2_switch_probability_formula (lambdaIJ lambdaJI s : ℝ) :
   gn21SwitchProb lambdaIJ lambdaJI s = lambdaIJ / (lambdaIJ + lambdaJI) * (1 - Real.exp (-(lambdaIJ + lambdaJI) * s)) := by
@@ -260,7 +260,7 @@ theorem review_lemma3_measured_time_fraction_formula
 Remark 1: switch probability per unit time is strictly decreasing.
 
 Source status: source-facing theorem summary
-Source note: `source.txt:3747-3768`.
+Source note: `cited publication:3747-3768`.
 -/
 theorem review_remark1_switch_probability_per_time_strictAntiOn (lambdaIJ lambdaJI : ℝ)
   (hlambdaIJ : 0 < lambdaIJ) (hsum : 0 < lambdaIJ + lambdaJI) :
@@ -275,7 +275,7 @@ the model does not give `TripPolicy` a topology, so it does not purport to be
 a policy-space continuity claim.
 
 Source status: direct source conditional.
-Source note: `source.txt:3747-3753`.
+Source note: `cited publication:3747-3753`.
 -/
 theorem review_remark1_response_continuousOn_positive_trip_lengths_of_continuous_price
     (w : PricingFunction)
@@ -306,7 +306,7 @@ strictly decreasing CTMC switch probability per time, and nondecreasing
 payment per time make the displayed response strictly increasing.
 
 Source status: direct source conditional.
-Source note: `source.txt:3758-3763`.
+Source note: `cited publication:3758-3763`.
 -/
 theorem review_remark1_response_strictMonoOn_of_surge_gap_negative_and_per_time_mono
     (w : PricingFunction)
@@ -352,7 +352,7 @@ and nonincreasing payment per time make the displayed response strictly
 decreasing.
 
 Source status: direct source conditional.
-Source note: `source.txt:3764-3768`.
+Source note: `cited publication:3764-3768`.
 -/
 theorem review_remark1_response_strictAntiOn_of_nonsurge_gap_positive_and_per_time_anti
     (w : PricingFunction)
@@ -396,7 +396,7 @@ Remark 2: structured-price scaled earning algebra
 `W_i = m(T_i-1)+z(Q_i-lambda_{i,j})`.
 
 Source status: source-facing theorem summary
-Source note: Paper source map uses `source.txt` lines 3017--3036.
+Source note: Paper source map uses `cited publication` lines 3017--3036.
 -/
 theorem review_remark2_structured_scaled_earning_algebra
     (μ : Measure TripLength) (arrivalRate m z switchIJ switchJI : ℝ)
@@ -427,7 +427,7 @@ the endpoint derivative kernel gives the displayed structured derivative
 expression.
 
 Source status: source-facing theorem summary
-Source note: Paper source map uses `source.txt` lines 3017--3036.
+Source note: Paper source map uses `cited publication` lines 3017--3036.
 -/
 theorem review_remark2_structured_derivative_kernel_algebra (q u m z switchIJ Qi Qj Ti Tj Rj : ℝ) :
   gn21DerivativeSignKernel q u (m * u + z * q) Qi Qj Ti Tj (m * (Ti - 1) + z * (Qi - switchIJ)) (Rj * Tj) =
@@ -438,7 +438,7 @@ theorem review_remark2_structured_derivative_kernel_algebra (q u m z switchIJ Qi
 Remark 3: small-time switch probability per unit time tends to the switch rate.
 
 Source status: source-facing theorem summary
-Source note: Paper source map uses `source.txt` line 3089.
+Source note: Paper source map uses `cited publication` line 3089.
 -/
 theorem review_remark3_switch_probability_per_time_tendsto_at_zero (lambdaIJ lambdaJI : ℝ)
   (hsum : lambdaIJ + lambdaJI ≠ 0) :
@@ -450,7 +450,7 @@ theorem review_remark3_switch_probability_per_time_tendsto_at_zero (lambdaIJ lam
 Remark 4: `lambda * t - q(t)` is nonnegative.
 
 Source status: source-facing theorem summary
-Source note: Paper source map uses `source.txt` lines 3091--3092.
+Source note: Paper source map uses `cited publication` lines 3091--3092.
 -/
 theorem review_remark4_switch_time_minus_switch_probability_nonneg (lambdaIJ lambdaJI τ : ℝ)
   (hlambdaIJ : 0 ≤ lambdaIJ) (hsum : 0 < lambdaIJ + lambdaJI) (_hτ : 0 ≤ τ) :
@@ -466,7 +466,7 @@ pointwise integrand inequality.  The integrability assumptions make the
 source's distributional integrals explicit.
 
 Source status: direct source-facing theorem summary.
-Source note: `source.txt:3799-3800` and proof `source.txt:4538-4570`.
+Source note: `cited publication:3799-3800` and proof `cited publication:4538-4570`.
 -/
 theorem review_remark4_ctmc_aggregate_nonnegative_and_maximized_acceptAll
     (mu : MeasureTheory.Measure TripLength)
@@ -546,7 +546,7 @@ law makes an endpoint traversal through a null interval reward-invariant.  This
 is the source-model bridge used to interpret the ``except where f(u)=0''
 derivative-sign notation; it does not assert an optimizer or a policy form.
 
-Source status: direct source-model convention at `source.txt:3660-3692`.
+Source status: direct source-model convention at `cited publication:3660-3692`.
 -/
 theorem review_lemma5_null_interval_reward_invariance
     (mu : Measure TripLength) [NoAtoms mu]
@@ -720,8 +720,8 @@ The approved source-model route for Lemma 5's zero-density endpoints.
 
 Appendix D identifies policies up to the trip-length law and explicitly reads
 the derivative-sign notation only away from `f(u) = 0`
-(`source.txt:3660-3692`).  Lemma 6 then exposes the density factor in the
-endpoint derivative calculation (`source.txt:4110-4148`).  This data makes
+(`cited publication:3660-3692`).  Lemma 6 then exposes the density factor in the
+endpoint derivative calculation (`cited publication:4110-4148`).  This data makes
 both parts visible: zero-density interval changes are quotient-invariant, and
 the finite-variation implementation receives its explicit endpoint-calculus
 realization.  It is not a full-support assumption.
@@ -867,7 +867,7 @@ theorem lemma5_full_variational_policy_forms
 Lemma 6: upper-endpoint derivative formula.
 
 Source status: source-facing theorem summary
-Source note: Paper source map uses `source.txt` lines 3786--3808. This row
+Source note: Paper source map uses `cited publication` lines 3786--3808. This row
 proves the exact endpoint derivative formula without assuming positive endpoint
 density; positive density is only the conditional premise for the strict
 sign-transfer corollary in the conclusion.
@@ -926,7 +926,7 @@ theorem review_lemma6_upper_endpoint_derivative_formula
 Lemma 7: positive-additive affine response is quasi-convex.
 
 Source status: source-facing theorem summary
-Source note: Paper source map uses `source.txt` lines 3072--3073.
+Source note: Paper source map uses `cited publication` lines 3072--3073.
 -/
 theorem review_lemma7_affine_positive_additive_response_quasi_convex
   (m a Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI : ℝ) (hm_pos : 0 < m) (ha_pos : 0 < a) (hdelta_ji_nonpos : Rj - Ri ≤ 0)
@@ -940,7 +940,7 @@ theorem review_lemma7_affine_positive_additive_response_quasi_convex
 Lemma 8: negative-additive affine response is quasi-concave.
 
 Source status: source-facing theorem summary
-Source note: Paper source map uses `source.txt` lines 3075--3076.
+Source note: Paper source map uses `cited publication` lines 3075--3076.
 -/
 theorem review_lemma8_affine_negative_additive_response_quasi_concave
   (m a Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI : ℝ) (hm_pos : 0 < m) (ha_neg : a < 0) (hdelta_ji_nonneg : 0 ≤ Rj - Ri)
@@ -954,7 +954,7 @@ theorem review_lemma8_affine_negative_additive_response_quasi_concave
 Lemma 9: surge-state derivative positivity under accept-all bounds.
 
 Source status: source-facing theorem summary
-Source note: Paper source map uses `source.txt` lines 704--708, 3809--3833,
+Source note: Paper source map uses `cited publication` lines 704--708, 3809--3833,
 and 4587--4588.
 -/
 theorem review_lemma9_surge_derivative_positive_of_acceptAll_bounds
@@ -1027,7 +1027,7 @@ theorem review_lemma9_surge_derivative_positive_of_acceptAll_bounds
 Lemma 10: non-surge-state derivative positivity under accept-all bounds.
 
 Source status: source-facing theorem summary
-Source note: Paper source map uses `source.txt` lines 3828--3853 and
+Source note: Paper source map uses `cited publication` lines 3828--3853 and
 4729--4751.
 -/
 theorem review_lemma10_nonsurge_derivative_positive_of_acceptAll_bounds
@@ -2221,7 +2221,7 @@ theorem theorem2_multiplicative_policy_shape_ae_of_open_optimal_exists_auxiliary
 Theorem 2's multiplicative policy-shape clause on the paper's actual
 open-policy domain.
 
-Source anchors: `source.txt:264-285` defines the open policy domain,
+Source anchors: `cited publication:264-285` defines the open policy domain,
 `:3710-3714` defines the surge state, and `:560-597` states Theorem 2.
 
 Source status: direct source-facing theorem. Optimizer attainment is proved by
@@ -2281,7 +2281,7 @@ Theorem 2: explicit multiplicative-pricing instance with positive finite
 cutoff deviations in both states, and hence measured dynamic non-IC.
 
 Source status: source-facing theorem split
-Source note: Paper source map uses `source.txt` lines 516--539; Lean supplies a
+Source note: Paper source map uses `cited publication` lines 516--539; Lean supplies a
 concrete bounded-density continuous witness for the paper's non-IC existence
 claim.
 -/
@@ -2561,8 +2561,8 @@ structure GN21Theorem4EndpointSignRealization
 The approved a.e. source-model route for Theorem 4's endpoint variation.
 
 The source treats policies modulo the continuous trip-length law and qualifies
-the derivative-sign argument at zero density (`source.txt:3660-3692`); Lemma
-6 exposes the density factor in the derivative itself (`source.txt:4110-4148`).
+the derivative-sign argument at zero density (`cited publication:3660-3692`); Lemma
+6 exposes the density factor in the derivative itself (`cited publication:4110-4148`).
 The transparent endpoint-calculus field is the finite-variation implementation
 obligation, while the density and policy-equality fields state the source
 semantics that make zero-density endpoint moves irrelevant.  This does not
@@ -2619,10 +2619,9 @@ theorem GN21Theorem4AENullEndpointVariation.zero_density_interval_reward_eq
         (H.density_measurable i) hzero))
 
 /--
-Legacy compatibility engine for the pre-remediation Theorem 4 route.  Its raw
-endpoint-sign package is no longer an audited source-facing route; retain it
-only while downstream compatibility users are migrated to
-`review_theorem4_full_structural_policy_forms_direct`.
+The endpoint-sign formulation of the structural-policy conclusion.  It
+packages the two price cases with the response and marginal hypotheses used by
+the argument.
 -/
 private theorem theorem4_full_structural_policy_forms_open_corrected_raw_endpoint_engine
     (mu : Fin 2 → Measure TripLength)
@@ -3027,9 +3026,9 @@ private theorem theorem4_full_structural_policy_forms_open_corrected_raw_endpoin
     (hopen_tail_lower_derivative := hopen_tail_lower_derivative)
     (hopen_split_lower_derivative := hopen_split_lower_derivative)
 
-/-- Legacy compatibility bridge for the former non-surge Theorem 4 route.
-It is stronger than the printed endpoint condition and is not used by the
-audited literal-endpoint review surface below. -/
+/-- The non-surge positive-left-marginal condition: every feasible policy has
+a strictly positive measured left marginal response at every positive trip
+length. -/
 def legacy_theorem4_nonsurge_positive_derivative_source_condition_bridge
     (mu : Fin 2 -> Measure TripLength)
     (arrival : Fin 2 -> Real)
@@ -3043,9 +3042,9 @@ def legacy_theorem4_nonsurge_positive_derivative_source_condition_bridge
             (arrival 0) (arrival 1) switch12 switch21
             (w 0) (w 1) (rho 0) (rho 1) tau
 
-/-- Legacy compatibility bridge for the former surge Theorem 4 route.
-It is stronger than the printed endpoint condition and is not used by the
-audited literal-endpoint review surface below. -/
+/-- The surge positive-right-marginal condition: every feasible policy has a
+strictly positive measured right marginal response at every positive trip
+length. -/
 def legacy_theorem4_surge_positive_derivative_source_condition_bridge
     (mu : Fin 2 -> Measure TripLength)
     (arrival : Fin 2 -> Real)
@@ -3059,9 +3058,9 @@ def legacy_theorem4_surge_positive_derivative_source_condition_bridge
             (arrival 0) (arrival 1) switch12 switch21
             (w 0) (w 1) (rho 0) (rho 1) tau
 
-/-- Legacy compatibility surface for the former global-marginal bridge.
-It is retained only for dependent code; the audited paper-facing result is
-`review_theorem4_full_structural_policy_forms_direct` below. -/
+/-- The structural-policy conclusion derived from global marginal-response
+hypotheses.  It yields an optimal feasible policy in the Lemma 5 policy form,
+and the same form almost everywhere for every optimum. -/
 theorem legacy_review_theorem4_full_structural_policy_forms_marginal_bridge
     (mu : Fin 2 -> Measure TripLength)
     [NoAtoms (mu 0)] [NoAtoms (mu 1)]
@@ -3265,9 +3264,9 @@ theorem review_theorem4_full_structural_policy_forms_direct
     hswitch12_pos hswitch21_pos hw0_measurable hw1_measurable htime0 htime1
     hw0 hw1 hsurge hnonsurge_price_case hsurge_price_case hcontinuous
 
-/-- Legacy compatibility theorem for the pre-remediation endpoint-record
-route. It is retained for dependent code and is not an audited source-facing
-Theorem 4 declaration. -/
+/-- The endpoint-sign formulation of the structural-policy conclusion.  It
+uses an aggregate-reward representation, endpoint price cases, and the
+response and marginal hypotheses of the argument. -/
 theorem theorem4_full_structural_policy_forms_open_corrected
     (mu : Fin 2 → Measure TripLength)
     [IsFiniteMeasure (mu 0)] [IsFiniteMeasure (mu 1)]
@@ -3479,7 +3478,7 @@ made explicit here.  The checked proof splits at the direct Bellman threshold:
 the lower branch is the literal zero cutoff and the upper branch is accept-all.
 
 Source status: direct source-facing theorem.
-Source anchors: `source.txt:704-711`, `:3944-4091`, and `:4571-4728`.
+Source anchors: `cited publication:704-711`, `:3944-4091`, and `:4571-4728`.
 -/
 theorem review_theorem3_structured_general_policy_source_claim
     (mu : Fin 2 → MeasureTheory.Measure TripLength) (arrival : Fin 2 → ℝ)
@@ -3530,7 +3529,7 @@ derives the non-surge Bellman slack from the source ratio condition, and proves
 the aggregate reward bound and strict a.e.-uniqueness directly for every open
 deviation.
 
-Source anchors: `source.txt:704-720`, `:3944-4091`, and `:4571-4728`.
+Source anchors: `cited publication:704-720`, `:3944-4091`, and `:4571-4728`.
 -/
 theorem review_theorem3_structured_ic_source_claim
     (mu : Fin 2 → MeasureTheory.Measure TripLength) (arrival : Fin 2 → ℝ)
@@ -3799,7 +3798,7 @@ theorem theorem3_defined_reward_ic_of_uniform_current_bounds_auxiliary
 /--
 Theorem 3 proved small-surge-gap subcase, not an unrestricted replacement.
 
-The paper's fixed-price construction is in `source.txt` lines 3944--3990, and
+The paper's fixed-price construction is in `cited publication` lines 3944--3990, and
 the policy-dependent Lemma 9 interval calculation is in lines 4571--4728.
 In addition to the paper's primitive target-rate and CTMC conditions, this row
 exposes the nonsurge reward-envelope inequality and the accept-all surge gap

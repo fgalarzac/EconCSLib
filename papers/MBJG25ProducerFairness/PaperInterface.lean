@@ -581,4 +581,256 @@ theorem paper_facing_k_sampling_market_size_is_uniform
   exact ⟨Finset.univ, by simp, Finset.univ_nonempty,
     by simp [PMF.uniformOfFintype]⟩
 
+/-- Transparent v11 semantic target for the source definition `paper_posterior_rating`. -/
+def paper_posterior_ratingSpec
+    (alphaHat betaHat : ℝ) (positiveRatings totalRatings : ℕ) : Prop :=
+  paper_posterior_rating alphaHat betaHat positiveRatings totalRatings = ((alphaHat + positiveRatings) / (alphaHat + betaHat + totalRatings))
+
+/-- Transparent v11 semantic target for the source definition `paper_posterior_mean`. -/
+def paper_posterior_meanSpec (alpha beta eta t q_v : ℝ) : Prop :=
+  paper_posterior_mean alpha beta eta t q_v = ((eta * alpha + t * q_v) / (eta * alpha + eta * beta + t))
+
+/-- Transparent v11 semantic target for the source definition `paper_bias`. -/
+def paper_biasSpec (alpha beta eta t q_v : ℝ) : Prop :=
+  paper_bias alpha beta eta t q_v = ((eta * alpha + t * q_v) / (eta * alpha + eta * beta + t) - q_v)
+
+/-- Transparent v11 semantic target for the source definition `paper_variance`. -/
+def paper_varianceSpec (alpha beta eta t q_v : ℝ) : Prop :=
+  paper_variance alpha beta eta t q_v = (t * q_v * (1 - q_v) / (eta * alpha + eta * beta + t) ^ 2)
+
+/-- Transparent v11 semantic target for the source definition `paper_squared_bias`. -/
+def paper_squared_biasSpec (alpha beta eta t q_v : ℝ) : Prop :=
+  paper_squared_bias alpha beta eta t q_v = ((paper_bias alpha beta eta t q_v) ^ 2)
+
+/-- Transparent v11 semantic target for the source definition `paper_fixed_market_mse`. -/
+def paper_fixed_market_mseSpec
+    {V : Type*} [Fintype V] [Nonempty V]
+    (estimatedQuality trueQuality : V → ℝ) : Prop :=
+  paper_fixed_market_mse estimatedQuality trueQuality = ((∑ v : V, (estimatedQuality v - trueQuality v) ^ 2) /
+    (Fintype.card V : ℝ))
+
+/-- Transparent v11 semantic target for `paper_facing_fixed_mse_decomposition`. -/
+def paper_facing_fixed_mse_decompositionSpec
+    {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
+    (rating_dist : PMF Ω) (posterior_rating : Ω → ℝ) (q_v : ℝ) : Prop :=
+  EconCSLib.pmfExp rating_dist (fun ω =>
+    (posterior_rating ω - q_v) ^ 2) =
+    (EconCSLib.pmfExp rating_dist posterior_rating - q_v) ^ 2 +
+      EconCSLib.pmfExp rating_dist (fun ω =>
+        (posterior_rating ω -
+          EconCSLib.pmfExp rating_dist posterior_rating) ^ 2)
+
+/-- Transparent v11 semantic target for `paper_facing_theorem3_1_variance_weak_decrease`. -/
+def paper_facing_theorem3_1_variance_weak_decreaseSpec
+    {alpha beta t q etaLow etaHigh : ℝ}
+    (hshape : assumption_positive_prior_shape alpha beta)
+    (ht : assumption_positive_time t)
+    (hq0 : assumption_quality_nonnegative q)
+    (hq1 : assumption_quality_at_most_one q)
+    (hetaLow_nonneg : assumption_prior_strength_nonnegative etaLow)
+    (heta_le : assumption_prior_strength_weak_order etaLow etaHigh) : Prop :=
+  paper_variance alpha beta etaHigh t q ≤
+    paper_variance alpha beta etaLow t q
+
+/-- Transparent v11 semantic target for `paper_facing_theorem3_1_variance_strict_decrease_interior`. -/
+def paper_facing_theorem3_1_variance_strict_decrease_interiorSpec
+    {alpha beta t q etaLow etaHigh : ℝ}
+    (hshape : assumption_positive_prior_shape alpha beta)
+    (ht : assumption_positive_time t)
+    (hq0 : assumption_quality_positive q)
+    (hq1 : assumption_quality_lt_one q)
+    (hetaLow_nonneg : assumption_prior_strength_nonnegative etaLow)
+    (heta_lt : assumption_prior_strength_strict_order etaLow etaHigh) : Prop :=
+  paper_variance alpha beta etaHigh t q <
+    paper_variance alpha beta etaLow t q
+
+/-- Transparent v11 semantic target for `paper_facing_theorem3_1_squared_bias_nondecreasing`. -/
+def paper_facing_theorem3_1_squared_bias_nondecreasingSpec
+    {alpha beta t q etaLow etaHigh : ℝ}
+    (hshape : assumption_positive_prior_shape alpha beta)
+    (ht : assumption_positive_time t)
+    (hetaLow_nonneg : assumption_prior_strength_nonnegative etaLow)
+    (heta_le : assumption_prior_strength_weak_order etaLow etaHigh) : Prop :=
+  paper_squared_bias alpha beta etaLow t q ≤
+    paper_squared_bias alpha beta etaHigh t q
+
+/-- Transparent v11 semantic target for `paper_facing_theorem3_2_squared_bias_convex_in_quality`. -/
+def paper_facing_theorem3_2_squared_bias_convex_in_qualitySpec
+    {alpha beta eta t : ℝ}
+    (hshape : assumption_positive_prior_shape alpha beta)
+    (heta_nonneg : assumption_prior_strength_nonnegative eta)
+    (ht : assumption_positive_time t) : Prop :=
+  EconCSLib.Statistics.JensenConvex
+    (fun q => paper_squared_bias alpha beta eta t q)
+
+/-- Transparent v11 semantic target for `paper_facing_theorem3_2_squared_bias_global_min_at_prior_mean`. -/
+def paper_facing_theorem3_2_squared_bias_global_min_at_prior_meanSpec
+    {alpha beta eta t : ℝ}
+    (hshape : assumption_positive_prior_shape alpha beta)
+    (heta_nonneg : assumption_prior_strength_nonnegative eta)
+    (ht : assumption_positive_time t) : Prop :=
+  EconCSLib.Statistics.GlobalMinAt
+    (fun q => paper_squared_bias alpha beta eta t q)
+    (alpha / (alpha + beta))
+
+/-- Transparent v11 semantic target for `paper_facing_theorem3_2_variance_concave_in_quality`. -/
+def paper_facing_theorem3_2_variance_concave_in_qualitySpec
+    {alpha beta eta t : ℝ}
+    (ht : assumption_nonnegative_time t) : Prop :=
+  EconCSLib.Statistics.JensenConcave
+    (fun q => paper_variance alpha beta eta t q)
+
+/-- Transparent v11 semantic target for `paper_facing_theorem3_2_variance_global_max_at_half`. -/
+def paper_facing_theorem3_2_variance_global_max_at_halfSpec
+    {alpha beta eta t : ℝ}
+    (ht : assumption_nonnegative_time t) : Prop :=
+  EconCSLib.Statistics.GlobalMaxAt
+    (fun q => paper_variance alpha beta eta t q)
+    (1 / 2)
+
+/-- Transparent v11 semantic target for `paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_zero`. -/
+def paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_zeroSpec
+    (alpha beta t etaLow etaHigh : ℝ) : Prop :=
+  ¬ paper_variance alpha beta etaHigh t 0 <
+    paper_variance alpha beta etaLow t 0
+
+/-- Transparent v11 semantic target for `paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_one`. -/
+def paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_oneSpec
+    (alpha beta t etaLow etaHigh : ℝ) : Prop :=
+  ¬ paper_variance alpha beta etaHigh t 1 <
+    paper_variance alpha beta etaLow t 1
+
+/-- Transparent v11 semantic target for the source definition `paper_facing_selection_rate`. -/
+def paper_facing_selection_rateSpec
+    (selections lifespan : ℝ) : Prop :=
+  paper_facing_selection_rate selections lifespan = (selections / lifespan)
+
+/-- Transparent v11 semantic target for the source definition `paper_facing_individual_producer_unfairness`. -/
+def paper_facing_individual_producer_unfairnessSpec
+    {V : Type*} [Fintype V] [DecidableEq V]
+    (selections : V → ℝ)
+    (lifespan : V → ℝ)
+    (q_v : V → ℝ)
+    (q : ℝ) : Prop :=
+  paper_facing_individual_producer_unfairness selections lifespan q_v q = (let S := Finset.univ.filter (fun v => q_v v = q)
+  let selectionRate := fun v =>
+    paper_facing_selection_rate (selections v) (lifespan v)
+  let meanSelectionRate :=
+    if S.card = 0 then 0
+    else (∑ v ∈ S, selectionRate v) / (S.card : ℝ)
+  if S.card = 0 then 0
+  else
+    Real.sqrt
+      ((∑ v ∈ S, (selectionRate v - meanSelectionRate) ^ 2) /
+      (S.card : ℝ)))
+
+/-- Transparent v11 semantic target for the source definition `paper_facing_marketplace_producer_unfairness`. -/
+def paper_facing_marketplace_producer_unfairnessSpec
+    {Q : Type*} [Fintype Q] [DecidableEq Q]
+    (quality_dist : PMF Q) (quality_unfairness : Q → ℝ) : Prop :=
+  paper_facing_marketplace_producer_unfairness quality_dist quality_unfairness = (∑ q : Q, (quality_dist q).toReal * quality_unfairness q)
+
+/-- Transparent v11 semantic target for `paper_facing_thompson_sampling_mechanism`. -/
+def paper_facing_thompson_sampling_mechanismSpec
+    {V : Type*} [Fintype V] [DecidableEq V] [Nonempty V]
+    (belief : PMF (V → ℝ)) : Prop :=
+  ∃ tie_breaker : (V → ℝ) → V,
+    (∀ (profile : V → ℝ) (v : V), profile v ≤ profile (tie_breaker profile)) ∧
+    ∃ policy : PMF V,
+      policy = belief.bind (fun profile => PMF.pure (tie_breaker profile))
+
+/-- Transparent v11 semantic target for the source definition `paper_facing_expected_regret`. -/
+def paper_facing_expected_regretSpec
+    {V : Type*} [Fintype V] [DecidableEq V] [Nonempty V]
+    (T : ℕ)
+    (M : Fin T → Finset V)
+    (h_nonempty : ∀ t, (M t).Nonempty)
+    (q : V → ℝ)
+    (pi : (t : Fin T) → PMF {v // v ∈ M t}) : Prop :=
+  paper_facing_expected_regret T M h_nonempty q pi = (∑ t : Fin T,
+    ((M t).sup' (h_nonempty t) q -
+      EconCSLib.pmfExp (pi t) (fun v => q v.1)))
+
+/-- Transparent v11 semantic target for `paper_facing_responsive_mse_decomposition`. -/
+def paper_facing_responsive_mse_decompositionSpec
+    {α Ω : Type*} [Fintype α] [DecidableEq α]
+    [Fintype Ω] [DecidableEq Ω]
+    {alpha beta eta q_v : ℝ}
+    (state_dist : PMF α)
+    (rating_dist : α → PMF Ω)
+    (N : α → ℝ)
+    (posterior_rating : α → Ω → ℝ)
+    (h_cond_mean : ∀ s,
+      EconCSLib.pmfExp (rating_dist s) (posterior_rating s) =
+      paper_posterior_mean alpha beta eta (N s) q_v)
+    (h_cond_var : ∀ s,
+      EconCSLib.pmfExp (rating_dist s) (fun ω =>
+        (posterior_rating s ω -
+          EconCSLib.pmfExp (rating_dist s) (posterior_rating s)) ^ 2) =
+      paper_variance alpha beta eta (N s) q_v) : Prop :=
+  EconCSLib.pmfExp state_dist (fun s =>
+    EconCSLib.pmfExp (rating_dist s) (fun ω =>
+      (posterior_rating s ω - q_v) ^ 2)) =
+    EconCSLib.pmfExp state_dist (fun s =>
+      paper_squared_bias alpha beta eta (N s) q_v) +
+    EconCSLib.pmfExp state_dist (fun s =>
+      paper_variance alpha beta eta (N s) q_v)
+
+/-- Transparent v11 semantic target for `paper_facing_eq20_bayesian_rating_equivalence`. -/
+def paper_facing_eq20_bayesian_rating_equivalenceSpec
+    (n k : ℕ) (m C : ℝ)
+    (hn : assumption_positive_rating_count n) : Prop :=
+  let nR := (n : ℝ)
+  let kR := (k : ℝ)
+  nR / (nR + m) * (kR / nR) + m / (nR + m) * C =
+      (kR + m * C) / (nR + m) ∧
+    paper_posterior_rating (m * C) (m * (1 - C)) k n =
+      (kR + m * C) / (nR + m)
+
+/-- Transparent v11 semantic target for the source definition `paper_ordinal_posterior_rating`. -/
+def paper_ordinal_posterior_ratingSpec
+    {K : Type*} [Fintype K]
+    (ratingValue priorPseudoCount observedCount : K → ℝ) : Prop :=
+  paper_ordinal_posterior_rating ratingValue priorPseudoCount observedCount = ((∑ j : K, (priorPseudoCount j + observedCount j) * ratingValue j) /
+    (∑ j : K, (priorPseudoCount j + observedCount j)))
+
+/-- Transparent v11 semantic target for `paper_facing_eq21_zero_prior_comparison`. -/
+def paper_facing_eq21_zero_prior_comparisonSpec
+    {K : Type*} [Fintype K]
+    (ratingValue observedCount : K → ℝ) : Prop :=
+  paper_ordinal_posterior_rating ratingValue (fun _ => 0) observedCount =
+    (∑ j : K, observedCount j * ratingValue j) /
+      (∑ j : K, observedCount j)
+
+/-- Transparent v11 semantic target for `paper_facing_k_sampling_mechanism`. -/
+def paper_facing_k_sampling_mechanismSpec
+    {V : Type*} [Fintype V] [DecidableEq V] [Nonempty V]
+    (profile : V → ℝ)
+    (k : ℕ)
+    (hk : 0 < k)
+    (hbound : k ≤ Fintype.card V) : Prop :=
+  ∃ top : Finset V,
+    top.card = k ∧
+    (∀ v ∈ top, ∀ w ∉ top, profile w ≤ profile v) ∧
+    ∃ htop : top.Nonempty, ∃ policy : PMF V,
+      policy = PMF.uniformOfFinset top htop
+
+/-- Transparent v11 semantic target for `paper_facing_k_sampling_one_is_argmax`. -/
+def paper_facing_k_sampling_one_is_argmaxSpec
+    {V : Type*} [Fintype V] [DecidableEq V] [Nonempty V]
+    (profile : V → ℝ) : Prop :=
+  ∃ top : Finset V, top.card = 1 ∧
+    ∃ v : V, top = {v} ∧
+      (∀ w : V, profile w ≤ profile v) ∧
+      ∃ htop : top.Nonempty,
+        PMF.uniformOfFinset top htop = PMF.pure v
+
+/-- Transparent v11 semantic target for `paper_facing_k_sampling_market_size_is_uniform`. -/
+def paper_facing_k_sampling_market_size_is_uniformSpec
+    {V : Type*} [Fintype V] [DecidableEq V] [Nonempty V]
+    (profile : V → ℝ) : Prop :=
+  ∃ top : Finset V, top.card = Fintype.card V ∧
+    ∃ htop : top.Nonempty,
+      PMF.uniformOfFinset top htop = PMF.uniformOfFintype V
+
 end MBJG25ProducerFairness

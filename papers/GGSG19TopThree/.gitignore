@@ -1,5 +1,6 @@
 *.pdf
 !docs/DependencyDAG.pdf
+!docs/HUMAN_REVIEW_PACKET.pdf
 *.tar.gz
 source.txt
 source_tex/

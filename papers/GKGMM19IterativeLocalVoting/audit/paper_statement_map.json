@@ -1,199 +1,961 @@
 {
   "comment": "Declaration-keyed source/subclaim statements for closeout LLM-as-judge sidecars. Endpoint rows keep the original source theorem, so conditional Lean wrappers are judged honestly.",
   "generated_at": "2026-06-29T20:39:31Z",
-  "source_artifact_path": "source.pdf",
-  "source_artifact_sha256": "f0813ec98ba1c763267cf814cc63401c8d1bd0685118bd67ea97d9aa5f55a02d",
   "items": {
     "algorithm1_local_neighborhood_formula": {
-      "source_location": "Algorithm 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_local_neighborhood_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.algorithm1_local_neighborhood_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.algorithm1_local_neighborhood_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 192,
+          "line_start": 170,
+          "publication_locator": "cited publication",
+          "quoted_text": "Algorithm 1: Iterative Local Voting (ILV)\n\nInputs:\nInitial solution x0 ∈X, tolerance ϵ > 0, an integer N, initial radius r0 > 0,\ntermination time T, norm q for local neighborhood.\nOutput:\nSolution x.\n\n• For t ≥1, sample a voter vt ∈V at random from the population; set rt = r0/t\nand elicit\n\nx′\nt = arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x),\n(1)\n\nand then compute xt = [x′\nt]X , where [·]X is a projection onto space X; i.e. ask\nthe voter to move to her favorite point within constraints, and then project the\nreported point onto X.\n\n• Stop when either t = T, in which case return xT , or when\nmaxl, m∈{t−N,...,t} |xl −xm| ≤ϵ, in which case return x = xt.\n",
+          "quoted_text_sha256": "2661593a28d9c8c681b71454bdbaba4ce864acdb51c301f51205de7ee5449b13"
+        }
+      ],
+      "source_location": "cited publication:170-192",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Algorithm 1 local-neighborhood source formula: a candidate is in the local query set exactly when it is feasible and its L_q/source-norm distance from the current point is at most r."
+      "statement": "Algorithm 1 local-neighborhood source formula: a candidate is in the local query set exactly when it is feasible and its L_q/source-norm distance from the current point is at most r.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_local_neighborhood_formulaSpec"
+      ]
     },
     "algorithm1_norm_projection_formula": {
-      "source_location": "Algorithm 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_norm_projection_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.algorithm1_norm_projection_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.algorithm1_norm_projection_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 192,
+          "line_start": 170,
+          "publication_locator": "cited publication",
+          "quoted_text": "Algorithm 1: Iterative Local Voting (ILV)\n\nInputs:\nInitial solution x0 ∈X, tolerance ϵ > 0, an integer N, initial radius r0 > 0,\ntermination time T, norm q for local neighborhood.\nOutput:\nSolution x.\n\n• For t ≥1, sample a voter vt ∈V at random from the population; set rt = r0/t\nand elicit\n\nx′\nt = arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x),\n(1)\n\nand then compute xt = [x′\nt]X , where [·]X is a projection onto space X; i.e. ask\nthe voter to move to her favorite point within constraints, and then project the\nreported point onto X.\n\n• Stop when either t = T, in which case return xT , or when\nmaxl, m∈{t−N,...,t} |xl −xm| ≤ϵ, in which case return x = xt.\n",
+          "quoted_text_sha256": "2661593a28d9c8c681b71454bdbaba4ce864acdb51c301f51205de7ee5449b13"
+        }
+      ],
+      "source_location": "cited publication:170-192",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Algorithm 1 projection source formula: [y]_X is a selected feasible point minimizing source-norm distance to y over the solution space X."
+      "statement": "Algorithm 1 projection source formula: [y]_X is a selected feasible point minimizing source-norm distance to y over the solution space X.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_norm_projection_formulaSpec"
+      ]
     },
     "algorithm1_projected_trajectory_feasible_of_normProjection": {
-      "source_location": "Algorithm 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_projected_trajectory_feasible_of_normProjection"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.algorithm1_projected_trajectory_feasible_of_normProjection",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.algorithm1_projected_trajectory_feasible_of_normProjectionSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 192,
+          "line_start": 170,
+          "publication_locator": "cited publication",
+          "quoted_text": "Algorithm 1: Iterative Local Voting (ILV)\n\nInputs:\nInitial solution x0 ∈X, tolerance ϵ > 0, an integer N, initial radius r0 > 0,\ntermination time T, norm q for local neighborhood.\nOutput:\nSolution x.\n\n• For t ≥1, sample a voter vt ∈V at random from the population; set rt = r0/t\nand elicit\n\nx′\nt = arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x),\n(1)\n\nand then compute xt = [x′\nt]X , where [·]X is a projection onto space X; i.e. ask\nthe voter to move to her favorite point within constraints, and then project the\nreported point onto X.\n\n• Stop when either t = T, in which case return xT , or when\nmaxl, m∈{t−N,...,t} |xl −xm| ≤ϵ, in which case return x = xt.\n",
+          "quoted_text_sha256": "2661593a28d9c8c681b71454bdbaba4ce864acdb51c301f51205de7ee5449b13"
+        }
+      ],
+      "source_location": "cited publication:170-192",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Algorithm 1 projection consequence: if the initial iterate is feasible and each update is a projection onto the feasible solution space, every projected trajectory point remains feasible."
+      "statement": "Algorithm 1 projection consequence: if the initial iterate is feasible and each update is a projection onto the feasible solution space, every projected trajectory point remains feasible.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_projected_trajectory_feasible_of_normProjectionSpec"
+      ]
     },
     "algorithm1_projected_update_formula": {
-      "source_location": "Algorithm 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_projected_update_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.algorithm1_projected_update_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.algorithm1_projected_update_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 192,
+          "line_start": 170,
+          "publication_locator": "cited publication",
+          "quoted_text": "Algorithm 1: Iterative Local Voting (ILV)\n\nInputs:\nInitial solution x0 ∈X, tolerance ϵ > 0, an integer N, initial radius r0 > 0,\ntermination time T, norm q for local neighborhood.\nOutput:\nSolution x.\n\n• For t ≥1, sample a voter vt ∈V at random from the population; set rt = r0/t\nand elicit\n\nx′\nt = arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x),\n(1)\n\nand then compute xt = [x′\nt]X , where [·]X is a projection onto space X; i.e. ask\nthe voter to move to her favorite point within constraints, and then project the\nreported point onto X.\n\n• Stop when either t = T, in which case return xT , or when\nmaxl, m∈{t−N,...,t} |xl −xm| ≤ϵ, in which case return x = xt.\n",
+          "quoted_text_sha256": "2661593a28d9c8c681b71454bdbaba4ce864acdb51c301f51205de7ee5449b13"
+        }
+      ],
+      "source_location": "cited publication:170-192",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Algorithm 1 projected update source formula: the next iterate is the projection of the raw local response back to the feasible set."
+      "statement": "Algorithm 1 projected update source formula: the next iterate is the projection of the raw local response back to the feasible set.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_projected_update_formulaSpec"
+      ]
     },
     "algorithm1_radius_formula": {
-      "source_location": "Algorithm 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_radius_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.algorithm1_radius_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.algorithm1_radius_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 192,
+          "line_start": 170,
+          "publication_locator": "cited publication",
+          "quoted_text": "Algorithm 1: Iterative Local Voting (ILV)\n\nInputs:\nInitial solution x0 ∈X, tolerance ϵ > 0, an integer N, initial radius r0 > 0,\ntermination time T, norm q for local neighborhood.\nOutput:\nSolution x.\n\n• For t ≥1, sample a voter vt ∈V at random from the population; set rt = r0/t\nand elicit\n\nx′\nt = arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x),\n(1)\n\nand then compute xt = [x′\nt]X , where [·]X is a projection onto space X; i.e. ask\nthe voter to move to her favorite point within constraints, and then project the\nreported point onto X.\n\n• Stop when either t = T, in which case return xT , or when\nmaxl, m∈{t−N,...,t} |xl −xm| ≤ϵ, in which case return x = xt.\n",
+          "quoted_text_sha256": "2661593a28d9c8c681b71454bdbaba4ce864acdb51c301f51205de7ee5449b13"
+        }
+      ],
+      "source_location": "cited publication:170-192",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Algorithm 1 source formula: the local-neighborhood radius is r_t = r_0 / t."
+      "statement": "Algorithm 1 source formula: the local-neighborhood radius is r_t = r_0 / t.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_radius_formulaSpec"
+      ]
     },
     "algorithm1_radius_not_summable": {
-      "source_location": "Algorithm 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_radius_not_summable"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.algorithm1_radius_not_summable",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.algorithm1_radius_not_summableSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 192,
+          "line_start": 170,
+          "publication_locator": "cited publication",
+          "quoted_text": "Algorithm 1: Iterative Local Voting (ILV)\n\nInputs:\nInitial solution x0 ∈X, tolerance ϵ > 0, an integer N, initial radius r0 > 0,\ntermination time T, norm q for local neighborhood.\nOutput:\nSolution x.\n\n• For t ≥1, sample a voter vt ∈V at random from the population; set rt = r0/t\nand elicit\n\nx′\nt = arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x),\n(1)\n\nand then compute xt = [x′\nt]X , where [·]X is a projection onto space X; i.e. ask\nthe voter to move to her favorite point within constraints, and then project the\nreported point onto X.\n\n• Stop when either t = T, in which case return xT , or when\nmaxl, m∈{t−N,...,t} |xl −xm| ≤ϵ, in which case return x = xt.\n",
+          "quoted_text_sha256": "2661593a28d9c8c681b71454bdbaba4ce864acdb51c301f51205de7ee5449b13"
+        }
+      ],
+      "source_location": "cited publication:170-192",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Algorithm 1 stochastic-approximation step-size subclaim: for r_0 > 0, the shifted radii r_0/(t+1) are not summable."
+      "statement": "Algorithm 1 stochastic-approximation step-size subclaim: for r_0 > 0, the shifted radii r_0/(t+1) are not summable.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_radius_not_summableSpec"
+      ]
     },
     "algorithm1_radius_sq_summable": {
-      "source_location": "Algorithm 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_radius_sq_summable"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.algorithm1_radius_sq_summable",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.algorithm1_radius_sq_summableSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 192,
+          "line_start": 170,
+          "publication_locator": "cited publication",
+          "quoted_text": "Algorithm 1: Iterative Local Voting (ILV)\n\nInputs:\nInitial solution x0 ∈X, tolerance ϵ > 0, an integer N, initial radius r0 > 0,\ntermination time T, norm q for local neighborhood.\nOutput:\nSolution x.\n\n• For t ≥1, sample a voter vt ∈V at random from the population; set rt = r0/t\nand elicit\n\nx′\nt = arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x),\n(1)\n\nand then compute xt = [x′\nt]X , where [·]X is a projection onto space X; i.e. ask\nthe voter to move to her favorite point within constraints, and then project the\nreported point onto X.\n\n• Stop when either t = T, in which case return xT , or when\nmaxl, m∈{t−N,...,t} |xl −xm| ≤ϵ, in which case return x = xt.\n",
+          "quoted_text_sha256": "2661593a28d9c8c681b71454bdbaba4ce864acdb51c301f51205de7ee5449b13"
+        }
+      ],
+      "source_location": "cited publication:170-192",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Algorithm 1 stochastic-approximation step-size subclaim: the shifted squared radii sum_t (r_0/(t+1))^2 are summable."
+      "statement": "Algorithm 1 stochastic-approximation step-size subclaim: the shifted squared radii sum_t (r_0/(t+1))^2 are summable.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_radius_sq_summableSpec"
+      ]
     },
     "algorithm1_radius_ssgm_step_size_conditions": {
-      "source_location": "Algorithm 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_radius_ssgm_step_size_conditions"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.algorithm1_radius_ssgm_step_size_conditions",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.algorithm1_radius_ssgm_step_size_conditionsSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 192,
+          "line_start": 170,
+          "publication_locator": "cited publication",
+          "quoted_text": "Algorithm 1: Iterative Local Voting (ILV)\n\nInputs:\nInitial solution x0 ∈X, tolerance ϵ > 0, an integer N, initial radius r0 > 0,\ntermination time T, norm q for local neighborhood.\nOutput:\nSolution x.\n\n• For t ≥1, sample a voter vt ∈V at random from the population; set rt = r0/t\nand elicit\n\nx′\nt = arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x),\n(1)\n\nand then compute xt = [x′\nt]X , where [·]X is a projection onto space X; i.e. ask\nthe voter to move to her favorite point within constraints, and then project the\nreported point onto X.\n\n• Stop when either t = T, in which case return xT , or when\nmaxl, m∈{t−N,...,t} |xl −xm| ≤ϵ, in which case return x = xt.\n",
+          "quoted_text_sha256": "2661593a28d9c8c681b71454bdbaba4ce864acdb51c301f51205de7ee5449b13"
+        }
+      ],
+      "source_location": "cited publication:170-192",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Algorithm 1/SSGM bridge subclaim: for r_0 > 0, the radius schedule r_t = r_0/t satisfies positivity, square summability, and divergent-sum SSGM step-size conditions."
+      "statement": "Algorithm 1/SSGM bridge subclaim: for r_0 > 0, the radius schedule r_t = r_0/t satisfies positivity, square summability, and divergent-sum SSGM step-size conditions.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_radius_ssgm_step_size_conditionsSpec"
+      ]
     },
     "algorithm1_radius_sum_tendsto_atTop": {
-      "source_location": "Algorithm 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_radius_sum_tendsto_atTop"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.algorithm1_radius_sum_tendsto_atTop",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.algorithm1_radius_sum_tendsto_atTopSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 192,
+          "line_start": 170,
+          "publication_locator": "cited publication",
+          "quoted_text": "Algorithm 1: Iterative Local Voting (ILV)\n\nInputs:\nInitial solution x0 ∈X, tolerance ϵ > 0, an integer N, initial radius r0 > 0,\ntermination time T, norm q for local neighborhood.\nOutput:\nSolution x.\n\n• For t ≥1, sample a voter vt ∈V at random from the population; set rt = r0/t\nand elicit\n\nx′\nt = arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x),\n(1)\n\nand then compute xt = [x′\nt]X , where [·]X is a projection onto space X; i.e. ask\nthe voter to move to her favorite point within constraints, and then project the\nreported point onto X.\n\n• Stop when either t = T, in which case return xT , or when\nmaxl, m∈{t−N,...,t} |xl −xm| ≤ϵ, in which case return x = xt.\n",
+          "quoted_text_sha256": "2661593a28d9c8c681b71454bdbaba4ce864acdb51c301f51205de7ee5449b13"
+        }
+      ],
+      "source_location": "cited publication:170-192",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Algorithm 1 stochastic-approximation step-size subclaim: for r_0 > 0, shifted radius partial sums sum_{t<n} r_0/(t+1) diverge to infinity."
+      "statement": "Algorithm 1 stochastic-approximation step-size subclaim: for r_0 > 0, shifted radius partial sums sum_{t<n} r_0/(t+1) diverge to infinity.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_radius_sum_tendsto_atTopSpec"
+      ]
     },
     "algorithm1_radius_tendsto_zero": {
-      "source_location": "Algorithm 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_radius_tendsto_zero"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.algorithm1_radius_tendsto_zero",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.algorithm1_radius_tendsto_zeroSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 192,
+          "line_start": 170,
+          "publication_locator": "cited publication",
+          "quoted_text": "Algorithm 1: Iterative Local Voting (ILV)\n\nInputs:\nInitial solution x0 ∈X, tolerance ϵ > 0, an integer N, initial radius r0 > 0,\ntermination time T, norm q for local neighborhood.\nOutput:\nSolution x.\n\n• For t ≥1, sample a voter vt ∈V at random from the population; set rt = r0/t\nand elicit\n\nx′\nt = arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x),\n(1)\n\nand then compute xt = [x′\nt]X , where [·]X is a projection onto space X; i.e. ask\nthe voter to move to her favorite point within constraints, and then project the\nreported point onto X.\n\n• Stop when either t = T, in which case return xT , or when\nmaxl, m∈{t−N,...,t} |xl −xm| ≤ϵ, in which case return x = xt.\n",
+          "quoted_text_sha256": "2661593a28d9c8c681b71454bdbaba4ce864acdb51c301f51205de7ee5449b13"
+        }
+      ],
+      "source_location": "cited publication:170-192",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Algorithm 1 radius consequence: for fixed r_0, the schedule r_t = r_0/t tends to 0 as t tends to infinity."
+      "statement": "Algorithm 1 radius consequence: for fixed r_0, the schedule r_t = r_0/t tends to 0 as t tends to infinity.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_radius_tendsto_zeroSpec"
+      ]
     },
     "algorithm1_stop_condition_formula": {
-      "source_location": "Algorithm 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_stop_condition_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.algorithm1_stop_condition_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.algorithm1_stop_condition_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 192,
+          "line_start": 170,
+          "publication_locator": "cited publication",
+          "quoted_text": "Algorithm 1: Iterative Local Voting (ILV)\n\nInputs:\nInitial solution x0 ∈X, tolerance ϵ > 0, an integer N, initial radius r0 > 0,\ntermination time T, norm q for local neighborhood.\nOutput:\nSolution x.\n\n• For t ≥1, sample a voter vt ∈V at random from the population; set rt = r0/t\nand elicit\n\nx′\nt = arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x),\n(1)\n\nand then compute xt = [x′\nt]X , where [·]X is a projection onto space X; i.e. ask\nthe voter to move to her favorite point within constraints, and then project the\nreported point onto X.\n\n• Stop when either t = T, in which case return xT , or when\nmaxl, m∈{t−N,...,t} |xl −xm| ≤ϵ, in which case return x = xt.\n",
+          "quoted_text_sha256": "2661593a28d9c8c681b71454bdbaba4ce864acdb51c301f51205de7ee5449b13"
+        }
+      ],
+      "source_location": "cited publication:170-192",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Algorithm 1 stopping source formula: the algorithm stops at terminal time T or when the recent window is stable."
+      "statement": "Algorithm 1 stopping source formula: the algorithm stops at terminal time T or when the recent window is stable.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_stop_condition_formulaSpec"
+      ]
     },
     "algorithm1_window_stable_formula": {
-      "source_location": "Algorithm 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_window_stable_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.algorithm1_window_stable_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.algorithm1_window_stable_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 192,
+          "line_start": 170,
+          "publication_locator": "cited publication",
+          "quoted_text": "Algorithm 1: Iterative Local Voting (ILV)\n\nInputs:\nInitial solution x0 ∈X, tolerance ϵ > 0, an integer N, initial radius r0 > 0,\ntermination time T, norm q for local neighborhood.\nOutput:\nSolution x.\n\n• For t ≥1, sample a voter vt ∈V at random from the population; set rt = r0/t\nand elicit\n\nx′\nt = arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x),\n(1)\n\nand then compute xt = [x′\nt]X , where [·]X is a projection onto space X; i.e. ask\nthe voter to move to her favorite point within constraints, and then project the\nreported point onto X.\n\n• Stop when either t = T, in which case return xT , or when\nmaxl, m∈{t−N,...,t} |xl −xm| ≤ϵ, in which case return x = xt.\n",
+          "quoted_text_sha256": "2661593a28d9c8c681b71454bdbaba4ce864acdb51c301f51205de7ee5449b13"
+        }
+      ],
+      "source_location": "cited publication:170-192",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Algorithm 1 stopping-window source formula: all iterates in the recent window [t-N,t] are pairwise within epsilon in the chosen movement norm."
+      "statement": "Algorithm 1 stopping-window source formula: all iterates in the recent window [t-N,t] are pairwise within epsilon in the chosen movement norm.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.algorithm1_window_stable_formulaSpec"
+      ]
     },
     "assumption_conditions_c123": {
+      "claim_bearing": false,
+      "inventory_role": "pending_source_anchor_inventory",
+      "scope_disposition": "requires_byte_pinned_source_anchor_and_dedicated_spec_mapping",
+      "scope_disposition_note": "This source-inventory item predates the v11 byte-pinned source-anchor migration and is retained explicitly until its exact source excerpt and one-to-one Spec route are prepared.",
       "source_location": "Section 3 assumptions C1-C3",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
       "statement": "Section 3 source assumptions C1-C3: nonempty bounded closed convex solution space, unique ideal points, and a bounded measurable density for independently drawn ideal points."
     },
     "assumption_ssgm_convergence_theorem": {
+      "claim_bearing": true,
+      "inventory_role": "pending_source_anchor_inventory",
+      "scope_disposition": "requires_byte_pinned_source_anchor_and_dedicated_spec_mapping",
+      "scope_disposition_note": "This source-inventory item predates the v11 byte-pinned source-anchor migration and is retained explicitly until its exact source excerpt and one-to-one Spec route are prepared.",
       "source_location": "proof boundary recorded by audit; not source text",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
       "statement": "Approved proof-boundary theorem, not a source assumption: a future stochastic subgradient method theorem should prove the finite-coordinate SSGM convergence bundle consumed by the formalized deterministic ILV source-model bridges."
     },
     "c3_product_density_coordinate_noncollision_ae": {
-      "source_location": "Appendix C.4 / Lemma 3",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.c3_product_density_coordinate_noncollision_ae"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.c3_product_density_coordinate_noncollision_ae",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.c3_product_density_coordinate_noncollision_aeSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 2155,
+          "line_start": 2138,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 3. ∀(p, q) s.t. p > 0, q > 0, and 1/p + 1/q = 1, ∥∇∥x −xv∥p∥q = 1, ∀x s.t.\nxm ̸= xm\nv for any m.\n\nTheorem 2. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are\nLp normed, and voters respond to query (1) according to Model B. Then, ILV with Lq\n\nneighborhoods converges to the societal optimal point w.p. 1 for any p > 0 and q > 0 such\nthat 1/p + 1/q = 1.\n\nProof. Since the probability of picking a voter v such that xm\nt = xm\nv for some dimension m\nis 0, we have ˜gvt(xt) = gvt for gvt = ∇fvt(xt). Thus we obtain the gradient exactly, and\nhence Theorem 5 applies with bt = 0 for all t.\n\nC.5 Proof of Propositions\n",
+          "quoted_text_sha256": "1355908bcb7e6c2bb8236504a9ac9fdb44631e4de685cbcb0a7f37b1d6a129af"
+        }
+      ],
+      "source_location": "cited publication:2138-2155",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Structured finite-coordinate C3 bridge: the product bounded-density ideal-point data supply the a.e. coordinate-noncollision condition needed for Lemma 3."
+      "statement": "Structured finite-coordinate C3 bridge: the product bounded-density ideal-point data supply the a.e. coordinate-noncollision condition needed for Lemma 3.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.c3_product_density_coordinate_noncollision_aeSpec"
+      ]
     },
     "conditions_c123_formula": {
-      "source_location": "Section 3 assumptions C1-C3",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.conditions_c123_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.conditions_c123_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.conditions_c123_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 420,
+          "line_start": 410,
+          "publication_locator": "cited publication",
+          "quoted_text": "behavior models. For the rest of the technical analysis, we make the following assumptions\non our model.\n\nC1 The solution space X ⊆RM is non-empty, bounded, closed, and convex.\n\nC2 Each voter v has a unique ideal solution xv ∈X.\n\nC3 The ideal point xv of each voter is drawn independently from a probability distribution\nwith a bounded and measurable density function hX .\n\nUnder this model, for a solution x ∈X, the societal utility is given by Ev[fv(x)]. and the",
+          "quoted_text_sha256": "ce31ddaee78806896c09290b879a54eba0c70ce2a25e3261a893d7cc1dafc23d"
+        }
+      ],
+      "source_location": "cited publication:410-420",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Section 3 assumptions C1-C3: the solution space is nonempty, bounded, closed, and convex; every voter has a unique ideal point; and ideal points are independently drawn from a distribution with bounded measurable density."
+      "statement": "Section 3 assumptions C1-C3: the solution space is nonempty, bounded, closed, and convex; every voter has a unique ideal point; and ideal points are independently drawn from a distribution with bounded measurable density.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.conditions_c123_formulaSpec"
+      ]
     },
     "definition1_finite_coordinate_l1_formula": {
-      "source_location": "Definition 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_l1_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_l1_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_l1_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 450,
+          "line_start": 430,
+          "publication_locator": "cited publication",
+          "quoted_text": "3.1 Spatial Utilities\n\nHere we consider spatial utility functions, where the utilities of each voters can be expressed\nin the form of some kind of spatial distance from their ideal solutions. First, we consider\nthe following kind of utilities.\n\nDe\u001cnition 1. Lp normed utilities. The voter utility function is Lp normed if fv(x) =\n−∥x −xv∥p, ∀x ∈X.\n\nUnder such utilities, for p = 1, 2 and ∞, restricting voters to a ball in the dual norm\nleads to convergence to the societal optimum.\n\nTheorem 1. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are Lp\n\nnormed, and voters respond to query (1) according to either Model A or Model B. Then,\nILV with Lq neighborhoods converges to the societal optimal point w.p. 1 when (p, q) = (2, 2),\n(1, ∞), or (∞, 1).\n\n322\n\n\f",
+          "quoted_text_sha256": "e972d44284ec748469ef9b35d543247e75eff79efe0ae771380a53a22766aa09"
+        }
+      ],
+      "source_location": "cited publication:430-450",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Definition 1 finite-coordinate L1 specialization: f_v(x) = -||x - x_v||_1, represented as the finite-coordinate L1 norm of coordinate differences."
+      "statement": "Definition 1 finite-coordinate L1 specialization: f_v(x) = -||x - x_v||_1, represented as the finite-coordinate L1 norm of coordinate differences.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_l1_formulaSpec"
+      ]
     },
     "definition1_finite_coordinate_l2_formula": {
-      "source_location": "Definition 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_l2_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_l2_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_l2_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 450,
+          "line_start": 430,
+          "publication_locator": "cited publication",
+          "quoted_text": "3.1 Spatial Utilities\n\nHere we consider spatial utility functions, where the utilities of each voters can be expressed\nin the form of some kind of spatial distance from their ideal solutions. First, we consider\nthe following kind of utilities.\n\nDe\u001cnition 1. Lp normed utilities. The voter utility function is Lp normed if fv(x) =\n−∥x −xv∥p, ∀x ∈X.\n\nUnder such utilities, for p = 1, 2 and ∞, restricting voters to a ball in the dual norm\nleads to convergence to the societal optimum.\n\nTheorem 1. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are Lp\n\nnormed, and voters respond to query (1) according to either Model A or Model B. Then,\nILV with Lq neighborhoods converges to the societal optimal point w.p. 1 when (p, q) = (2, 2),\n(1, ∞), or (∞, 1).\n\n322\n\n\f",
+          "quoted_text_sha256": "e972d44284ec748469ef9b35d543247e75eff79efe0ae771380a53a22766aa09"
+        }
+      ],
+      "source_location": "cited publication:430-450",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Definition 1 finite-coordinate L2 specialization: f_v(x) = -||x - x_v||_2, represented as the finite-coordinate L2 norm of coordinate differences."
+      "statement": "Definition 1 finite-coordinate L2 specialization: f_v(x) = -||x - x_v||_2, represented as the finite-coordinate L2 norm of coordinate differences.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_l2_formulaSpec"
+      ]
     },
     "definition1_finite_coordinate_linf_formula": {
-      "source_location": "Definition 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_linf_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_linf_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_linf_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 450,
+          "line_start": 430,
+          "publication_locator": "cited publication",
+          "quoted_text": "3.1 Spatial Utilities\n\nHere we consider spatial utility functions, where the utilities of each voters can be expressed\nin the form of some kind of spatial distance from their ideal solutions. First, we consider\nthe following kind of utilities.\n\nDe\u001cnition 1. Lp normed utilities. The voter utility function is Lp normed if fv(x) =\n−∥x −xv∥p, ∀x ∈X.\n\nUnder such utilities, for p = 1, 2 and ∞, restricting voters to a ball in the dual norm\nleads to convergence to the societal optimum.\n\nTheorem 1. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are Lp\n\nnormed, and voters respond to query (1) according to either Model A or Model B. Then,\nILV with Lq neighborhoods converges to the societal optimal point w.p. 1 when (p, q) = (2, 2),\n(1, ∞), or (∞, 1).\n\n322\n\n\f",
+          "quoted_text_sha256": "e972d44284ec748469ef9b35d543247e75eff79efe0ae771380a53a22766aa09"
+        }
+      ],
+      "source_location": "cited publication:430-450",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Definition 1 finite-coordinate L_infinity specialization: f_v(x) = -||x - x_v||_infinity, represented as the finite-coordinate Linf norm of coordinate differences."
+      "statement": "Definition 1 finite-coordinate L_infinity specialization: f_v(x) = -||x - x_v||_infinity, represented as the finite-coordinate Linf norm of coordinate differences.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_linf_formulaSpec"
+      ]
     },
     "definition1_finite_coordinate_lp_formula": {
-      "source_location": "Definition 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_lp_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_lp_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_lp_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 450,
+          "line_start": 430,
+          "publication_locator": "cited publication",
+          "quoted_text": "3.1 Spatial Utilities\n\nHere we consider spatial utility functions, where the utilities of each voters can be expressed\nin the form of some kind of spatial distance from their ideal solutions. First, we consider\nthe following kind of utilities.\n\nDe\u001cnition 1. Lp normed utilities. The voter utility function is Lp normed if fv(x) =\n−∥x −xv∥p, ∀x ∈X.\n\nUnder such utilities, for p = 1, 2 and ∞, restricting voters to a ball in the dual norm\nleads to convergence to the societal optimum.\n\nTheorem 1. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are Lp\n\nnormed, and voters respond to query (1) according to either Model A or Model B. Then,\nILV with Lq neighborhoods converges to the societal optimal point w.p. 1 when (p, q) = (2, 2),\n(1, ∞), or (∞, 1).\n\n322\n\n\f",
+          "quoted_text_sha256": "e972d44284ec748469ef9b35d543247e75eff79efe0ae771380a53a22766aa09"
+        }
+      ],
+      "source_location": "cited publication:430-450",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Definition 1 finite-coordinate finite-Lp specialization: f_v(x) = -||x - x_v||_p, represented as the finite-coordinate Lp norm of coordinate differences."
+      "statement": "Definition 1 finite-coordinate finite-Lp specialization: f_v(x) = -||x - x_v||_p, represented as the finite-coordinate Lp norm of coordinate differences.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.definition1_finite_coordinate_lp_formulaSpec"
+      ]
     },
     "definition1_lp_normed_utilities_formula": {
-      "source_location": "Definition 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.definition1_lp_normed_utilities_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.definition1_lp_normed_utilities_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.definition1_lp_normed_utilities_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 450,
+          "line_start": 430,
+          "publication_locator": "cited publication",
+          "quoted_text": "3.1 Spatial Utilities\n\nHere we consider spatial utility functions, where the utilities of each voters can be expressed\nin the form of some kind of spatial distance from their ideal solutions. First, we consider\nthe following kind of utilities.\n\nDe\u001cnition 1. Lp normed utilities. The voter utility function is Lp normed if fv(x) =\n−∥x −xv∥p, ∀x ∈X.\n\nUnder such utilities, for p = 1, 2 and ∞, restricting voters to a ball in the dual norm\nleads to convergence to the societal optimum.\n\nTheorem 1. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are Lp\n\nnormed, and voters respond to query (1) according to either Model A or Model B. Then,\nILV with Lq neighborhoods converges to the societal optimal point w.p. 1 when (p, q) = (2, 2),\n(1, ∞), or (∞, 1).\n\n322\n\n\f",
+          "quoted_text_sha256": "e972d44284ec748469ef9b35d543247e75eff79efe0ae771380a53a22766aa09"
+        }
+      ],
+      "source_location": "cited publication:430-450",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Definition 1 source formula: Lp-normed utilities have f_v(x) = -||x - x_v||_p."
+      "statement": "Definition 1 source formula: Lp-normed utilities have f_v(x) = -||x - x_v||_p.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.definition1_lp_normed_utilities_formulaSpec"
+      ]
     },
     "definition2_weighted_euclidean_utilities_formula": {
-      "source_location": "Definition 2",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.definition2_weighted_euclidean_utilities_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.definition2_weighted_euclidean_utilities_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.definition2_weighted_euclidean_utilities_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 535,
+          "line_start": 480,
+          "publication_locator": "cited publication",
+          "quoted_text": "sampling such a voter decreases fast enough).\nNext, we introduce another general class of utility functions, which we call Weighted\nEuclidean utilities, for which one can obtain convergence to a unique solution.\n\nDe\u001cnition 2. Weighted Euclidean utilities. Let the solution space X be decomposable\ninto K di\u001berent sub-spaces, so that x = (x1, . . . , xK) for each x ∈X (where �K\nk=1 dim(xk) =\nM). Suppose that the utility function of the voter v is\n\nfv(x) = −\n\nK\n�\n\nk=1\n\nwk\nv\n∥wv∥2\n∥xk −xk\nv∥2.\n\nwhere wv is a voter-speci\u001cc weight vector, then the function is a Weighted Euclidean utility\nfunction. We further assume that wv ∈W ⊂RK\n+ and xv are independently drawn for each\nvoter v from a joint probability distribution with a bounded and measurable density function,\nwith W nonempty, bounded, closed, and convex.\n\nThis utility function can be interpreted as follows: the decision-making problem is de-\ncomposable into K sub-problems, and each voter v has an ideal point xk\nv and a weight wk\nv\nfor each sub-problem k, so that the voter's disutility for a solution is the weighted sum of\nthe Euclidean distances to the ideal points in each sub-problems. Such utility functions\nmay emerge in facility location problems, for example, where voters have preferences on\n\n323\n\n\f\nGarg, Kamble, Goel, Marn, & Munagala\n\nthe locations of multiple facilities on a map. This utility form is also the one most closely\nrelated to the existing literature on Directional Equilibria and Quadratic Voting, in which\npreferences are linear. To recover the weighted linear preferences case, set K = M, with\neach sub-space of dimension 1. In this case, the following holds:\n\nProposition 1. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are\nWeighted Euclidean, and voters correctly respond to query (1) according to either Model A\nor Model B. Then, ILV with L2 neighborhoods converges with probability 1 to the societal\noptimal point.\n\nThe intuition for the result is as follows: as long as the neighborhood does not contain\nthe ideal point of the sampled voter, the correct response to query (1) under weighted\nEuclidean preferences is to move the solution in the direction of the ideal point to the\nneighborhood boundary, which, as it turns out, is the same as the direction of the gradient.\nThus with radius rt, the e\u001bective movement is",
+          "quoted_text_sha256": "79ee9e97091f68cf540d8f0d387684455bce764f1b4e2774fa78415c8a0673cd"
+        }
+      ],
+      "source_location": "cited publication:480-535",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Definition 2 source formula: weighted-Euclidean utilities have f_v(x) = - sum_k (w_v^k / ||w_v||_2) * ||x^k - x_v^k||_2, with the paper's weight/ideal distribution condition."
+      "statement": "Definition 2 source formula: weighted-Euclidean utilities have f_v(x) = - sum_k (w_v^k / ||w_v||_2) * ||x^k - x_v^k||_2, with the paper's weight/ideal distribution condition.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.definition2_weighted_euclidean_utilities_formulaSpec"
+      ]
     },
     "definition3_decomposable_utilities_formula": {
-      "source_location": "Definition 3",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.definition3_decomposable_utilities_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.definition3_decomposable_utilities_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.definition3_decomposable_utilities_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 575,
+          "line_start": 540,
+          "publication_locator": "cited publication",
+          "quoted_text": "normalized (i.e. not divided by ∥w∥2), the algorithm would converge to the same point, as\nif utility functions were normalized.\n\n3.2 Decomposable Utilities\n\nNext consider the general class of decomposable utilities, motivated by the fact that the\nalgorithm with L∞neighborhoods is of special interest since they are easy for humans to\nunderstand: one can change each dimension up to a certain amount, independent of the\nothers.\n\nDe\u001cnition 3. Decomposable utilities. A voter utility function is decomposable if there\nexists concave functions fm\nv\nfor m ∈{1 . . . M} such that fv(x) = �M\nm=1 fm\nv (xm).\n\nIf the utility functions for the voters are decomposable, then we can show that our\nalgorithm under L∞neighborhoods converges to the vector of medians of voters' ideal points\non each dimension. Suppose that hm\nX is the marginal density function of the random variable\nxm\nv , and let ¯xm be the set of medians of xm\nv . (By set of medians, we mean the set of points\nsuch that, on each dimension, the mass of voters with ideal points above and below.)\n\nProposition 2. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities\nare decomposable, and voters respond to query (1) according to either Model A or Model\nB. Then, ILV with L∞neighborhoods converges with probability 1 to a point in the set of\nmedians ¯x.\n\nAlthough simply eliciting each agent's optimal solution and computing the vector of\nmedian allocations on each dimension is a viable approach in the case of decomposable\nutilities, deciding an optimal allocation across multiple dimensions is a more challenging\ncognitive task than deciding whether one wants to increase or decrease each dimension\nrelative to the current solution (see Section 5.2.3 for experimental evidence). In fact, in this",
+          "quoted_text_sha256": "4e2237f42f255f51627ac8ed799896db84d0537b0911eef665ad12b8b3a1d234"
+        }
+      ],
+      "source_location": "cited publication:540-575",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Definition 3 source formula: decomposable utilities have f_v(x) = sum_m f_v^m(x^m), with concave coordinate utilities."
+      "statement": "Definition 3 source formula: decomposable utilities have f_v(x) = sum_m f_v^m(x^m), with concave coordinate utilities.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.definition3_decomposable_utilities_formulaSpec"
+      ]
     },
     "finite_coordinate_concrete_source_model_formula": {
       "aliases": [
         "modelB_finite_response_formula"
       ],
+      "claim_bearing": true,
+      "inventory_role": "pending_source_anchor_inventory",
+      "scope_disposition": "requires_byte_pinned_source_anchor_and_dedicated_spec_mapping",
+      "scope_disposition_note": "This source-inventory item predates the v11 byte-pinned source-anchor migration and is retained explicitly until its exact source excerpt and one-to-one Spec route are prepared.",
       "source_location": "Algorithm 1",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
       "statement": "Concrete finite-coordinate source-model audit row: the deterministic non-SSGM source semantics are exactly a positive Algorithm 1 radius, concrete finite-coordinate norm semantics, finite-coordinate C3/product-density data, Model B trace semantics, weighted-Euclidean SSGM input and objective bridges, and decomposable median/Linf response bridges."
     },
     "lemma3_coordinate_equality_bad_event_null_from_boundedDensity": {
-      "source_location": "Appendix C.4 / Lemma 3",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.lemma3_coordinate_equality_bad_event_null_from_boundedDensity"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.lemma3_coordinate_equality_bad_event_null_from_boundedDensity",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.lemma3_coordinate_equality_bad_event_null_from_boundedDensitySpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 2155,
+          "line_start": 2138,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 3. ∀(p, q) s.t. p > 0, q > 0, and 1/p + 1/q = 1, ∥∇∥x −xv∥p∥q = 1, ∀x s.t.\nxm ̸= xm\nv for any m.\n\nTheorem 2. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are\nLp normed, and voters respond to query (1) according to Model B. Then, ILV with Lq\n\nneighborhoods converges to the societal optimal point w.p. 1 for any p > 0 and q > 0 such\nthat 1/p + 1/q = 1.\n\nProof. Since the probability of picking a voter v such that xm\nt = xm\nv for some dimension m\nis 0, we have ˜gvt(xt) = gvt for gvt = ∇fvt(xt). Thus we obtain the gradient exactly, and\nhence Theorem 5 applies with bt = 0 for all t.\n\nC.5 Proof of Propositions\n",
+          "quoted_text_sha256": "1355908bcb7e6c2bb8236504a9ac9fdb44631e4de685cbcb0a7f37b1d6a129af"
+        }
+      ],
+      "source_location": "cited publication:2138-2155",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Appendix C.4/C3 bad-event bridge: under bounded-density/absolute-continuity hypotheses, if each coordinate-equality hyperplane is null for the base measure then the finite coordinate-equality bad event is null for the ideal distribution."
+      "statement": "Appendix C.4/C3 bad-event bridge: under bounded-density/absolute-continuity hypotheses, if each coordinate-equality hyperplane is null for the base measure then the finite coordinate-equality bad event is null for the ideal distribution.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.lemma3_coordinate_equality_bad_event_null_from_boundedDensitySpec"
+      ]
     },
     "lemma3_coordinate_equality_bad_event_null_from_productMeasure": {
-      "source_location": "Appendix C.4 / Lemma 3",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.lemma3_coordinate_equality_bad_event_null_from_productMeasure"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.lemma3_coordinate_equality_bad_event_null_from_productMeasure",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.lemma3_coordinate_equality_bad_event_null_from_productMeasureSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 2155,
+          "line_start": 2138,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 3. ∀(p, q) s.t. p > 0, q > 0, and 1/p + 1/q = 1, ∥∇∥x −xv∥p∥q = 1, ∀x s.t.\nxm ̸= xm\nv for any m.\n\nTheorem 2. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are\nLp normed, and voters respond to query (1) according to Model B. Then, ILV with Lq\n\nneighborhoods converges to the societal optimal point w.p. 1 for any p > 0 and q > 0 such\nthat 1/p + 1/q = 1.\n\nProof. Since the probability of picking a voter v such that xm\nt = xm\nv for some dimension m\nis 0, we have ˜gvt(xt) = gvt for gvt = ∇fvt(xt). Thus we obtain the gradient exactly, and\nhence Theorem 5 applies with bt = 0 for all t.\n\nC.5 Proof of Propositions\n",
+          "quoted_text_sha256": "1355908bcb7e6c2bb8236504a9ac9fdb44631e4de685cbcb0a7f37b1d6a129af"
+        }
+      ],
+      "source_location": "cited publication:2138-2155",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Appendix C.4/C3 product-measure instance: if the ideal distribution has bounded density with respect to a finite product of sigma-finite atomless one-dimensional marginals, the coordinate-equality bad event is null."
+      "statement": "Appendix C.4/C3 product-measure instance: if the ideal distribution has bounded density with respect to a finite product of sigma-finite atomless one-dimensional marginals, the coordinate-equality bad event is null.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.lemma3_coordinate_equality_bad_event_null_from_productMeasureSpec"
+      ]
     },
     "lemma3_coordinate_noncollision_ae_from_productMeasure": {
-      "source_location": "Appendix C.4 / Lemma 3",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.lemma3_coordinate_noncollision_ae_from_productMeasure"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.lemma3_coordinate_noncollision_ae_from_productMeasure",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.lemma3_coordinate_noncollision_ae_from_productMeasureSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 2155,
+          "line_start": 2138,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 3. ∀(p, q) s.t. p > 0, q > 0, and 1/p + 1/q = 1, ∥∇∥x −xv∥p∥q = 1, ∀x s.t.\nxm ̸= xm\nv for any m.\n\nTheorem 2. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are\nLp normed, and voters respond to query (1) according to Model B. Then, ILV with Lq\n\nneighborhoods converges to the societal optimal point w.p. 1 for any p > 0 and q > 0 such\nthat 1/p + 1/q = 1.\n\nProof. Since the probability of picking a voter v such that xm\nt = xm\nv for some dimension m\nis 0, we have ˜gvt(xt) = gvt for gvt = ∇fvt(xt). Thus we obtain the gradient exactly, and\nhence Theorem 5 applies with bt = 0 for all t.\n\nC.5 Proof of Propositions\n",
+          "quoted_text_sha256": "1355908bcb7e6c2bb8236504a9ac9fdb44631e4de685cbcb0a7f37b1d6a129af"
+        }
+      ],
+      "source_location": "cited publication:2138-2155",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Appendix C.4/C3 a.e. form: under the product bounded-density hypothesis, almost every ideal point avoids every coordinate equality with a fixed current point."
+      "statement": "Appendix C.4/C3 a.e. form: under the product bounded-density hypothesis, almost every ideal point avoids every coordinate equality with a fixed current point.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.lemma3_coordinate_noncollision_ae_from_productMeasureSpec"
+      ]
     },
     "lemma3_finite_holder_dual_gradient_candidate_norm_formula": {
-      "source_location": "Appendix C.4 / Lemma 3",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.lemma3_finite_holder_dual_gradient_candidate_norm_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.lemma3_finite_holder_dual_gradient_candidate_norm_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.lemma3_finite_holder_dual_gradient_candidate_norm_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 2155,
+          "line_start": 2138,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 3. ∀(p, q) s.t. p > 0, q > 0, and 1/p + 1/q = 1, ∥∇∥x −xv∥p∥q = 1, ∀x s.t.\nxm ̸= xm\nv for any m.\n\nTheorem 2. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are\nLp normed, and voters respond to query (1) according to Model B. Then, ILV with Lq\n\nneighborhoods converges to the societal optimal point w.p. 1 for any p > 0 and q > 0 such\nthat 1/p + 1/q = 1.\n\nProof. Since the probability of picking a voter v such that xm\nt = xm\nv for some dimension m\nis 0, we have ˜gvt(xt) = gvt for gvt = ∇fvt(xt). Thus we obtain the gradient exactly, and\nhence Theorem 5 applies with bt = 0 for all t.\n\nC.5 Proof of Propositions\n",
+          "quoted_text_sha256": "1355908bcb7e6c2bb8236504a9ac9fdb44631e4de685cbcb0a7f37b1d6a129af"
+        }
+      ],
+      "source_location": "cited publication:2138-2155",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Lemma 3 source norm claim: for p,q > 0 with 1/p + 1/q = 1 and away from coordinate equalities, the Lq norm of the gradient of ||x-x_v||_p is 1."
+      "statement": "Lemma 3 source norm claim: for p,q > 0 with 1/p + 1/q = 1 and away from coordinate equalities, the Lq norm of the gradient of ||x-x_v||_p is 1.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.lemma3_finite_holder_dual_gradient_candidate_norm_formulaSpec"
+      ]
     },
     "lemma3_gradient_candidate_hasFDerivAt_formula": {
-      "source_location": "Appendix C.4 / Lemma 3",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.lemma3_gradient_candidate_hasFDerivAt_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.lemma3_gradient_candidate_hasFDerivAt_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.lemma3_gradient_candidate_hasFDerivAt_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 2155,
+          "line_start": 2138,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 3. ∀(p, q) s.t. p > 0, q > 0, and 1/p + 1/q = 1, ∥∇∥x −xv∥p∥q = 1, ∀x s.t.\nxm ̸= xm\nv for any m.\n\nTheorem 2. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are\nLp normed, and voters respond to query (1) according to Model B. Then, ILV with Lq\n\nneighborhoods converges to the societal optimal point w.p. 1 for any p > 0 and q > 0 such\nthat 1/p + 1/q = 1.\n\nProof. Since the probability of picking a voter v such that xm\nt = xm\nv for some dimension m\nis 0, we have ˜gvt(xt) = gvt for gvt = ∇fvt(xt). Thus we obtain the gradient exactly, and\nhence Theorem 5 applies with bt = 0 for all t.\n\nC.5 Proof of Propositions\n",
+          "quoted_text_sha256": "1355908bcb7e6c2bb8236504a9ac9fdb44631e4de685cbcb0a7f37b1d6a129af"
+        }
+      ],
+      "source_location": "cited publication:2138-2155",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Lemma 3 calculus bridge: away from coordinate equalities and for differentiable finite Lp (1 < p), the displayed candidate vector represents the Frechet derivative of y |-> ||y-ideal||_p."
+      "statement": "Lemma 3 calculus bridge: away from coordinate equalities and for differentiable finite Lp (1 < p), the displayed candidate vector represents the Frechet derivative of y |-> ||y-ideal||_p.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.lemma3_gradient_candidate_hasFDerivAt_formulaSpec"
+      ]
     },
     "lemma3_gradient_candidate_source_formula": {
-      "source_location": "Appendix C.4 / Lemma 3",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.lemma3_gradient_candidate_source_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.lemma3_gradient_candidate_source_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.lemma3_gradient_candidate_source_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 2155,
+          "line_start": 2138,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 3. ∀(p, q) s.t. p > 0, q > 0, and 1/p + 1/q = 1, ∥∇∥x −xv∥p∥q = 1, ∀x s.t.\nxm ̸= xm\nv for any m.\n\nTheorem 2. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are\nLp normed, and voters respond to query (1) according to Model B. Then, ILV with Lq\n\nneighborhoods converges to the societal optimal point w.p. 1 for any p > 0 and q > 0 such\nthat 1/p + 1/q = 1.\n\nProof. Since the probability of picking a voter v such that xm\nt = xm\nv for some dimension m\nis 0, we have ˜gvt(xt) = gvt for gvt = ∇fvt(xt). Thus we obtain the gradient exactly, and\nhence Theorem 5 applies with bt = 0 for all t.\n\nC.5 Proof of Propositions\n",
+          "quoted_text_sha256": "1355908bcb7e6c2bb8236504a9ac9fdb44631e4de685cbcb0a7f37b1d6a129af"
+        }
+      ],
+      "source_location": "cited publication:2138-2155",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Appendix C.4 Lemma 3 displayed candidate-gradient formula: the coordinate i of the gradient candidate is (|d_i|^(p-1) * (d_i/|d_i|)) / ||d||_p^(p-1)."
+      "statement": "Appendix C.4 Lemma 3 displayed candidate-gradient formula: the coordinate i of the gradient candidate is (|d_i|^(p-1) * (d_i/|d_i|)) / ||d||_p^(p-1).",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.lemma3_gradient_candidate_source_formulaSpec"
+      ]
     },
     "modelA_response_formula": {
-      "source_location": "Model A response rule",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.modelA_response_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.modelA_response_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.modelA_response_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 145,
+          "line_start": 118,
+          "publication_locator": "cited publication",
+          "quoted_text": "bounds on the sum of absolute values of the changes, the sum of the square of the changes,\nand the maximum change, respectively.)\nMore formally, consider a M-dimensional societal decision problem in X ⊂RM and a\npopulation of voters V, where each voter v ∈V has bounded utility fv(x) ∈R, ∀x ∈X.\nThen we consider the class of algorithms described in Algorithm 1. We study the algorithm\nclass under two plausible models of how voters respond to query (1), which asks for the\nvoter's favorite point in a local region.\n\n• Model A:\nOne possibility is that voters exactly perform the maximization asked of\nthem, responding with their favorite point in the given Lq norm constraint set. In other\nwords, they return a point arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x). Note that by de\u001cnition of this\nmovement, the algorithm is myopically incentive compatible: if a voter is the last voter\nand no projections are used, then truthfully performing this movement is the dominant\nstrategy. In general, the mechanism is not globally incentive compatible, nor incentive\ncompatible with projections onto the feasible region. Simple examples of manipulations\nin both instances exist.\n\n• Model B: On the other hand, voters may not actually search within the constraint set\nto \u001cnd their favorite point inside of it. Rather, a voter v may have an idea about how\nto best improve the current point and then move in that direction to the boundary of\nthe given constraint set. This model leads to a voter moving the current solution in the\ndirection of the gradient of her utility function, returning a point xt−1 + rt\ngt\n∥gt∥q , for some\ngt ∈∂fvt(xt−1). Note that ∂f(x) denotes the set of subgradients of a function f at x, i.e.\ng ∈∂f(x) if ∀y, f(y) −f(x) ≥gT (y −x).\n",
+          "quoted_text_sha256": "3f6e9791e4a95d939a483b2e89c4de2fa7cbaa6e0229e2b6fe331879723263f6"
+        }
+      ],
+      "source_location": "cited publication:118-145",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Model A source formula: the voter returns a favorite feasible point in the queried local neighborhood, maximizing utility over that neighborhood."
+      "statement": "Model A source formula: the voter returns a favorite feasible point in the queried local neighborhood, maximizing utility over that neighborhood.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.modelA_response_formulaSpec"
+      ]
     },
     "modelA_response_isMaxOn_formula": {
-      "source_location": "Model A response rule",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.modelA_response_isMaxOn_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.modelA_response_isMaxOn_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.modelA_response_isMaxOn_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 145,
+          "line_start": 118,
+          "publication_locator": "cited publication",
+          "quoted_text": "bounds on the sum of absolute values of the changes, the sum of the square of the changes,\nand the maximum change, respectively.)\nMore formally, consider a M-dimensional societal decision problem in X ⊂RM and a\npopulation of voters V, where each voter v ∈V has bounded utility fv(x) ∈R, ∀x ∈X.\nThen we consider the class of algorithms described in Algorithm 1. We study the algorithm\nclass under two plausible models of how voters respond to query (1), which asks for the\nvoter's favorite point in a local region.\n\n• Model A:\nOne possibility is that voters exactly perform the maximization asked of\nthem, responding with their favorite point in the given Lq norm constraint set. In other\nwords, they return a point arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x). Note that by de\u001cnition of this\nmovement, the algorithm is myopically incentive compatible: if a voter is the last voter\nand no projections are used, then truthfully performing this movement is the dominant\nstrategy. In general, the mechanism is not globally incentive compatible, nor incentive\ncompatible with projections onto the feasible region. Simple examples of manipulations\nin both instances exist.\n\n• Model B: On the other hand, voters may not actually search within the constraint set\nto \u001cnd their favorite point inside of it. Rather, a voter v may have an idea about how\nto best improve the current point and then move in that direction to the boundary of\nthe given constraint set. This model leads to a voter moving the current solution in the\ndirection of the gradient of her utility function, returning a point xt−1 + rt\ngt\n∥gt∥q , for some\ngt ∈∂fvt(xt−1). Note that ∂f(x) denotes the set of subgradients of a function f at x, i.e.\ng ∈∂f(x) if ∀y, f(y) −f(x) ≥gT (y −x).\n",
+          "quoted_text_sha256": "3f6e9791e4a95d939a483b2e89c4de2fa7cbaa6e0229e2b6fe331879723263f6"
+        }
+      ],
+      "source_location": "cited publication:118-145",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Model A source-equivalent extrema formulation: the response is in the local neighborhood and is an IsMaxOn maximizer of voter utility over that neighborhood."
+      "statement": "Model A source-equivalent extrema formulation: the response is in the local neighborhood and is an IsMaxOn maximizer of voter utility over that neighborhood.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.modelA_response_isMaxOn_formulaSpec"
+      ]
     },
     "modelA_response_lp_normed_cost_minimizer_formula": {
-      "source_location": "Model A response rule",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.modelA_response_lp_normed_cost_minimizer_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.modelA_response_lp_normed_cost_minimizer_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.modelA_response_lp_normed_cost_minimizer_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 145,
+          "line_start": 118,
+          "publication_locator": "cited publication",
+          "quoted_text": "bounds on the sum of absolute values of the changes, the sum of the square of the changes,\nand the maximum change, respectively.)\nMore formally, consider a M-dimensional societal decision problem in X ⊂RM and a\npopulation of voters V, where each voter v ∈V has bounded utility fv(x) ∈R, ∀x ∈X.\nThen we consider the class of algorithms described in Algorithm 1. We study the algorithm\nclass under two plausible models of how voters respond to query (1), which asks for the\nvoter's favorite point in a local region.\n\n• Model A:\nOne possibility is that voters exactly perform the maximization asked of\nthem, responding with their favorite point in the given Lq norm constraint set. In other\nwords, they return a point arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x). Note that by de\u001cnition of this\nmovement, the algorithm is myopically incentive compatible: if a voter is the last voter\nand no projections are used, then truthfully performing this movement is the dominant\nstrategy. In general, the mechanism is not globally incentive compatible, nor incentive\ncompatible with projections onto the feasible region. Simple examples of manipulations\nin both instances exist.\n\n• Model B: On the other hand, voters may not actually search within the constraint set\nto \u001cnd their favorite point inside of it. Rather, a voter v may have an idea about how\nto best improve the current point and then move in that direction to the boundary of\nthe given constraint set. This model leads to a voter moving the current solution in the\ndirection of the gradient of her utility function, returning a point xt−1 + rt\ngt\n∥gt∥q , for some\ngt ∈∂fvt(xt−1). Note that ∂f(x) denotes the set of subgradients of a function f at x, i.e.\ng ∈∂f(x) if ∀y, f(y) −f(x) ≥gT (y −x).\n",
+          "quoted_text_sha256": "3f6e9791e4a95d939a483b2e89c4de2fa7cbaa6e0229e2b6fe331879723263f6"
+        }
+      ],
+      "source_location": "cited publication:118-145",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Definition 1/Model A source bridge: maximizing f_v(x) = -||x-x_v||_p over the local neighborhood is equivalent to minimizing the p-distance to the voter ideal over that neighborhood."
+      "statement": "Definition 1/Model A source bridge: maximizing f_v(x) = -||x-x_v||_p over the local neighborhood is equivalent to minimizing the p-distance to the voter ideal over that neighborhood.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.modelA_response_lp_normed_cost_minimizer_formulaSpec"
+      ]
     },
     "modelB_finite_response_formula": {
-      "source_location": "Model B response rule",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.modelB_finite_response_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.modelB_finite_response_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.modelB_finite_response_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 145,
+          "line_start": 118,
+          "publication_locator": "cited publication",
+          "quoted_text": "bounds on the sum of absolute values of the changes, the sum of the square of the changes,\nand the maximum change, respectively.)\nMore formally, consider a M-dimensional societal decision problem in X ⊂RM and a\npopulation of voters V, where each voter v ∈V has bounded utility fv(x) ∈R, ∀x ∈X.\nThen we consider the class of algorithms described in Algorithm 1. We study the algorithm\nclass under two plausible models of how voters respond to query (1), which asks for the\nvoter's favorite point in a local region.\n\n• Model A:\nOne possibility is that voters exactly perform the maximization asked of\nthem, responding with their favorite point in the given Lq norm constraint set. In other\nwords, they return a point arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x). Note that by de\u001cnition of this\nmovement, the algorithm is myopically incentive compatible: if a voter is the last voter\nand no projections are used, then truthfully performing this movement is the dominant\nstrategy. In general, the mechanism is not globally incentive compatible, nor incentive\ncompatible with projections onto the feasible region. Simple examples of manipulations\nin both instances exist.\n\n• Model B: On the other hand, voters may not actually search within the constraint set\nto \u001cnd their favorite point inside of it. Rather, a voter v may have an idea about how\nto best improve the current point and then move in that direction to the boundary of\nthe given constraint set. This model leads to a voter moving the current solution in the\ndirection of the gradient of her utility function, returning a point xt−1 + rt\ngt\n∥gt∥q , for some\ngt ∈∂fvt(xt−1). Note that ∂f(x) denotes the set of subgradients of a function f at x, i.e.\ng ∈∂f(x) if ∀y, f(y) −f(x) ≥gT (y −x).\n",
+          "quoted_text_sha256": "3f6e9791e4a95d939a483b2e89c4de2fa7cbaa6e0229e2b6fe331879723263f6"
+        }
+      ],
+      "source_location": "cited publication:118-145",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Model B finite-coordinate source formula: the response moves from x in the supplied gradient direction by x' = x + r * g / ||g||_q."
+      "statement": "Model B finite-coordinate source formula: the response moves from x in the supplied gradient direction by x' = x + r * g / ||g||_q.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.modelB_finite_response_formulaSpec"
+      ]
     },
     "modelB_finite_response_neg_lp_cost_gradient_formula": {
-      "source_location": "Model B response rule",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.modelB_finite_response_neg_lp_cost_gradient_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.modelB_finite_response_neg_lp_cost_gradient_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.modelB_finite_response_neg_lp_cost_gradient_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 145,
+          "line_start": 118,
+          "publication_locator": "cited publication",
+          "quoted_text": "bounds on the sum of absolute values of the changes, the sum of the square of the changes,\nand the maximum change, respectively.)\nMore formally, consider a M-dimensional societal decision problem in X ⊂RM and a\npopulation of voters V, where each voter v ∈V has bounded utility fv(x) ∈R, ∀x ∈X.\nThen we consider the class of algorithms described in Algorithm 1. We study the algorithm\nclass under two plausible models of how voters respond to query (1), which asks for the\nvoter's favorite point in a local region.\n\n• Model A:\nOne possibility is that voters exactly perform the maximization asked of\nthem, responding with their favorite point in the given Lq norm constraint set. In other\nwords, they return a point arg maxx∈{s:∥s−xt−1∥q≤rt}fvt(x). Note that by de\u001cnition of this\nmovement, the algorithm is myopically incentive compatible: if a voter is the last voter\nand no projections are used, then truthfully performing this movement is the dominant\nstrategy. In general, the mechanism is not globally incentive compatible, nor incentive\ncompatible with projections onto the feasible region. Simple examples of manipulations\nin both instances exist.\n\n• Model B: On the other hand, voters may not actually search within the constraint set\nto \u001cnd their favorite point inside of it. Rather, a voter v may have an idea about how\nto best improve the current point and then move in that direction to the boundary of\nthe given constraint set. This model leads to a voter moving the current solution in the\ndirection of the gradient of her utility function, returning a point xt−1 + rt\ngt\n∥gt∥q , for some\ngt ∈∂fvt(xt−1). Note that ∂f(x) denotes the set of subgradients of a function f at x, i.e.\ng ∈∂f(x) if ∀y, f(y) −f(x) ≥gT (y −x).\n",
+          "quoted_text_sha256": "3f6e9791e4a95d939a483b2e89c4de2fa7cbaa6e0229e2b6fe331879723263f6"
+        }
+      ],
+      "source_location": "cited publication:118-145",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Model B/Lemma 3 sign bridge subclaim: for Lp utilities and Holder-dual q, the sign-correct utility-gradient direction gives response x' = x - r * grad_cost when coordinate equalities are avoided."
+      "statement": "Model B/Lemma 3 sign bridge subclaim: for Lp utilities and Holder-dual q, the sign-correct utility-gradient direction gives response x' = x - r * grad_cost when coordinate equalities are avoided.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.modelB_finite_response_neg_lp_cost_gradient_formulaSpec"
+      ]
     },
     "proposition1_weighted_euclidean_l2": {
-      "source_location": "Proposition 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.proposition1_weighted_euclidean_l2"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.proposition1_weighted_euclidean_l2",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.proposition1_weighted_euclidean_l2Spec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 535,
+          "line_start": 480,
+          "publication_locator": "cited publication",
+          "quoted_text": "sampling such a voter decreases fast enough).\nNext, we introduce another general class of utility functions, which we call Weighted\nEuclidean utilities, for which one can obtain convergence to a unique solution.\n\nDe\u001cnition 2. Weighted Euclidean utilities. Let the solution space X be decomposable\ninto K di\u001berent sub-spaces, so that x = (x1, . . . , xK) for each x ∈X (where �K\nk=1 dim(xk) =\nM). Suppose that the utility function of the voter v is\n\nfv(x) = −\n\nK\n�\n\nk=1\n\nwk\nv\n∥wv∥2\n∥xk −xk\nv∥2.\n\nwhere wv is a voter-speci\u001cc weight vector, then the function is a Weighted Euclidean utility\nfunction. We further assume that wv ∈W ⊂RK\n+ and xv are independently drawn for each\nvoter v from a joint probability distribution with a bounded and measurable density function,\nwith W nonempty, bounded, closed, and convex.\n\nThis utility function can be interpreted as follows: the decision-making problem is de-\ncomposable into K sub-problems, and each voter v has an ideal point xk\nv and a weight wk\nv\nfor each sub-problem k, so that the voter's disutility for a solution is the weighted sum of\nthe Euclidean distances to the ideal points in each sub-problems. Such utility functions\nmay emerge in facility location problems, for example, where voters have preferences on\n\n323\n\n\f\nGarg, Kamble, Goel, Marn, & Munagala\n\nthe locations of multiple facilities on a map. This utility form is also the one most closely\nrelated to the existing literature on Directional Equilibria and Quadratic Voting, in which\npreferences are linear. To recover the weighted linear preferences case, set K = M, with\neach sub-space of dimension 1. In this case, the following holds:\n\nProposition 1. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are\nWeighted Euclidean, and voters correctly respond to query (1) according to either Model A\nor Model B. Then, ILV with L2 neighborhoods converges with probability 1 to the societal\noptimal point.\n\nThe intuition for the result is as follows: as long as the neighborhood does not contain\nthe ideal point of the sampled voter, the correct response to query (1) under weighted\nEuclidean preferences is to move the solution in the direction of the ideal point to the\nneighborhood boundary, which, as it turns out, is the same as the direction of the gradient.\nThus with radius rt, the e\u001bective movement is",
+          "quoted_text_sha256": "79ee9e97091f68cf540d8f0d387684455bce764f1b4e2774fa78415c8a0673cd"
+        }
+      ],
+      "source_location": "cited publication:480-535",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Proposition 1 source statement: under C1-C3, weighted-Euclidean utilities, and correct Model A or Model B responses, ILV with L2 neighborhoods converges almost surely to the societal optimal point."
+      "statement": "Proposition 1 source statement: under C1-C3, weighted-Euclidean utilities, and correct Model A or Model B responses, ILV with L2 neighborhoods converges almost surely to the societal optimal point.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.proposition1_weighted_euclidean_l2Spec"
+      ]
     },
     "proposition2_decomposable_linf_medians": {
-      "source_location": "Proposition 2",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.proposition2_decomposable_linf_medians"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.proposition2_decomposable_linf_medians",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.proposition2_decomposable_linf_mediansSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 575,
+          "line_start": 540,
+          "publication_locator": "cited publication",
+          "quoted_text": "normalized (i.e. not divided by ∥w∥2), the algorithm would converge to the same point, as\nif utility functions were normalized.\n\n3.2 Decomposable Utilities\n\nNext consider the general class of decomposable utilities, motivated by the fact that the\nalgorithm with L∞neighborhoods is of special interest since they are easy for humans to\nunderstand: one can change each dimension up to a certain amount, independent of the\nothers.\n\nDe\u001cnition 3. Decomposable utilities. A voter utility function is decomposable if there\nexists concave functions fm\nv\nfor m ∈{1 . . . M} such that fv(x) = �M\nm=1 fm\nv (xm).\n\nIf the utility functions for the voters are decomposable, then we can show that our\nalgorithm under L∞neighborhoods converges to the vector of medians of voters' ideal points\non each dimension. Suppose that hm\nX is the marginal density function of the random variable\nxm\nv , and let ¯xm be the set of medians of xm\nv . (By set of medians, we mean the set of points\nsuch that, on each dimension, the mass of voters with ideal points above and below.)\n\nProposition 2. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities\nare decomposable, and voters respond to query (1) according to either Model A or Model\nB. Then, ILV with L∞neighborhoods converges with probability 1 to a point in the set of\nmedians ¯x.\n\nAlthough simply eliciting each agent's optimal solution and computing the vector of\nmedian allocations on each dimension is a viable approach in the case of decomposable\nutilities, deciding an optimal allocation across multiple dimensions is a more challenging\ncognitive task than deciding whether one wants to increase or decrease each dimension\nrelative to the current solution (see Section 5.2.3 for experimental evidence). In fact, in this",
+          "quoted_text_sha256": "4e2237f42f255f51627ac8ed799896db84d0537b0911eef665ad12b8b3a1d234"
+        }
+      ],
+      "source_location": "cited publication:540-575",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Proposition 2 source statement: under C1-C3, decomposable utilities, and Model A or Model B responses, ILV with L_infinity neighborhoods converges almost surely to a point in the set of medians."
+      "statement": "Proposition 2 source statement: under C1-C3, decomposable utilities, and Model A or Model B responses, ILV with L_infinity neighborhoods converges almost surely to a point in the set of medians.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.proposition2_decomposable_linf_mediansSpec"
+      ]
     },
     "source_appendix_lemmas_1_2_4_out_of_scope": {
       "aliases": [],
+      "claim_bearing": false,
+      "inventory_role": "pending_source_anchor_inventory",
+      "scope_disposition": "requires_byte_pinned_source_anchor_and_dedicated_spec_mapping",
+      "scope_disposition_note": "This source-inventory item predates the v11 byte-pinned source-anchor migration and is retained explicitly until its exact source excerpt and one-to-one Spec route are prepared.",
       "source_location": "Appendix Lemmas 1, 2, and 4 in source text; flagged by source-grounding audit.",
       "statement": "Source Appendix Lemmas 1, 2, and 4 are visible but are not currently separate dashboard targets."
     },
@@ -201,72 +963,297 @@
       "aliases": [
         "appendix_theorem4_expected_subgradient_boundary"
       ],
-      "source_location": "Appendix Theorem 4",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.appendix_theorem4_expected_subgradient_boundary"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.appendix_theorem4_expected_subgradient_boundary",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.appendix_theorem4_expected_subgradient_boundarySpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 1965,
+          "line_start": 1944,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 4. (Nemirovski et al., 2009; Strassen, 1965) Let θ ∈Θ be a random vector with\ndistribution P. Let ¯f(x) = E[f(x, θ)] =\n�\n\nΘ f(x, θ)dP(θ), for x ∈X, a non-empty bounded\nclosed convex set, and assume the expectation is well-de\u001cned and \u001cnite valued. Suppose that\nf(·, θ), θ ∈Θ is convex and ¯f(·) is continuous and \u001cnite valued in a neighborhood of point\nx.\nFor each θ, choose any g(x, θ) ∈∂f(x, θ). Then, there exists ¯g(x) ∈∂¯f(x) s.t. ¯g(x) =\nEθ[g(x, θ)].\n\nThis theorem says that the expected value of the sub-gradient of the utility at any point\nx across voters is a subgradient of the societal utility at x, irrespective of how the voters\nchoose the subgradient when there are multiple subgradients, i.e., when the utility function\nis not di\u001berentiable. This key result allows us to use the subgradient of utility function of a\nsampled voter as an unbaised estimate of the societal subgradient.\nNow, consider a convex function f on a non-empty bounded closed convex set X ⊂RM,\nand use [·]X to designate the projection operator. Starting with some x0 ∈X, consider the\nSSGM update rule xt = [xt−1 −rt(¯gt + zt + bt)]X , where zt is a zero-mean random variable\nand bt is a constant, and ¯gt ∈∂f(xt). Let Et[·] be the conditional expectation given Ft, the\nσ-\u001celd generated by x0, x1, . . . , xt. Then we have the following convergence result.\n",
+          "quoted_text_sha256": "938b8a5f4e55b5f17d7405a75817c5c1b6cf24794af36bf14745709ed021a221"
+        }
+      ],
+      "source_location": "cited publication:1944-1965",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Appendix Theorem 4 boundary: expected selected subgradients are subgradients of the expected objective."
+      "statement": "Appendix Theorem 4 boundary: expected selected subgradients are subgradients of the expected objective.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.appendix_theorem4_expected_subgradient_boundarySpec"
+      ]
     },
     "source_appendix_theorem5_ssgm_convergence": {
       "aliases": [
         "appendix_theorem5_ssgm_convergence_boundary"
       ],
-      "source_location": "Appendix Theorem 5",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.appendix_theorem5_ssgm_convergence_boundary"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.appendix_theorem5_ssgm_convergence_boundary",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.appendix_theorem5_ssgm_convergence_boundarySpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 2005,
+          "line_start": 1971,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 5. (Jiang & Walrand, 2010) Consider the above update rule. If\n\nf(·) has a unique minimizer x∗∈X\n\nrt > 0,\n�\n\nt\nrt = ∞,\n�\n\nt\nr2\nt < ∞\n\n∃C1 ∈R < ∞s.t. ∥∂f(x)∥2 ≤C1, ∀x ∈X\n\n∃C2 ∈R < ∞s.t. Et[∥zt∥2] ≤C2, ∀t\n\n∃C3 ∈R < ∞s.t. ∥bt∥2 ≤C3, ∀t\n�\n\nt\nrt∥bt∥< ∞w.p. 1\n\nThen xt →x∗w.p. 1 as t →∞.\n\nNote: Jiang and Walrand (2010) prove the result for gradients, though the same proof\nfollows for subgradients. Only the inequality [x∗−xt]T gt ≤f(x∗) −f(xt) for gradient gt\nat iteration t is used, which holds for subgradients. Boyd and Mutapcic (2006) provide\na general discussion of subgradient methods, along with similar results. Shor (1998), in\nTheorem 46, provide a convergence proof for the stochastic subgradient method without\nprojections and the extra noise terms.\n\nC.2 Mapping ILV to SSGM",
+          "quoted_text_sha256": "0b91468b6eeb73344ca35639c4e07447fb9750dd629df7d04c66dfe859c90f7e"
+        }
+      ],
+      "source_location": "cited publication:1971-2005",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Appendix Theorem 5 boundary: the stochastic subgradient method convergence bundle quoted by the paper."
+      "statement": "Appendix Theorem 5 boundary: the stochastic subgradient method convergence bundle quoted by the paper.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.appendix_theorem5_ssgm_convergence_boundarySpec"
+      ]
     },
     "source_definition4_dlcd": {
       "aliases": [
         "paper_definition4_dlcd_formula"
       ],
-      "source_location": "Definition 4",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.paper_definition4_dlcd_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.paper_definition4_dlcd_formula",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.paper_definition4_dlcd_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 680,
+          "line_start": 645,
+          "publication_locator": "cited publication",
+          "quoted_text": "\n325\n\n\f\nGarg, Kamble, Goel, Marn, & Munagala\n\nRather, we consider an unconstrained budget allocation problem, one in which a voter's\nutility includes a term for the budget de\u001ccit. Let E ⊆{1 . . . M}, I = {1 . . . M} \\ E be\nthe expenditure and income items, respectively. Then the general budget utility function is\nfv(x) = gv(x) −d(�\ne∈E xe −�\ni∈I xi), where d is an increasing function on the de\u001ccit.\nFor example, suppose a voter's disutility was proportional to the square of the budget\nde\u001ccit (she especially dislikes large budget de\u001ccits); then, this term adds complex depen-\ndencies between the budget items. In general, nothing is known about convergence of Algo-\nrithm 1 with such utilities, as the de\u001ccit term may add complex dependencies between the\ndimensions. However, if the voter utility functions are decomposable across the dimensions\nand L∞neighborhoods used, then the results of Section 3.2 can be applied. We propose\nthe following class of decomposable utility functions for the budgeting problem, achieved\nby assuming that the cost for the de\u001ccit is linear, and call the class \u0010decomposable with a\nlinear cost for de\u001ccit,\" or DLCD.\n\nDe\u001cnition 4. Let fv(x) be DLCD if\n\nfv(x) =\n\nM\n�\n\nm=1\nfm\nv (xm) −wv\n\n��\n\ne∈E",
+          "quoted_text_sha256": "1e6c3af22e5deec45c62a49d9c6bbd86f29f6679dd2ceeacc9f7ba326cc1a1dd"
+        }
+      ],
+      "source_location": "cited publication:645-680",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Source Definition 4 / DLCD: decomposable utility with a linear cost for the budget deficit."
+      "statement": "Source Definition 4 / DLCD: decomposable utility with a linear cost for the budget deficit.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.paper_definition4_dlcd_formulaSpec"
+      ]
     },
     "source_definition4_dlcd_budget_utility": {
       "aliases": [
         "dlcdBudgetUtility"
       ],
-      "source_location": "Definition 4",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.dlcdBudgetUtility"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.dlcdBudgetUtility",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.dlcdBudgetUtilitySpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 680,
+          "line_start": 645,
+          "publication_locator": "cited publication",
+          "quoted_text": "\n325\n\n\f\nGarg, Kamble, Goel, Marn, & Munagala\n\nRather, we consider an unconstrained budget allocation problem, one in which a voter's\nutility includes a term for the budget de\u001ccit. Let E ⊆{1 . . . M}, I = {1 . . . M} \\ E be\nthe expenditure and income items, respectively. Then the general budget utility function is\nfv(x) = gv(x) −d(�\ne∈E xe −�\ni∈I xi), where d is an increasing function on the de\u001ccit.\nFor example, suppose a voter's disutility was proportional to the square of the budget\nde\u001ccit (she especially dislikes large budget de\u001ccits); then, this term adds complex depen-\ndencies between the budget items. In general, nothing is known about convergence of Algo-\nrithm 1 with such utilities, as the de\u001ccit term may add complex dependencies between the\ndimensions. However, if the voter utility functions are decomposable across the dimensions\nand L∞neighborhoods used, then the results of Section 3.2 can be applied. We propose\nthe following class of decomposable utility functions for the budgeting problem, achieved\nby assuming that the cost for the de\u001ccit is linear, and call the class \u0010decomposable with a\nlinear cost for de\u001ccit,\" or DLCD.\n\nDe\u001cnition 4. Let fv(x) be DLCD if\n\nfv(x) =\n\nM\n�\n\nm=1\nfm\nv (xm) −wv\n\n��\n\ne∈E",
+          "quoted_text_sha256": "1e6c3af22e5deec45c62a49d9c6bbd86f29f6679dd2ceeacc9f7ba326cc1a1dd"
+        }
+      ],
+      "source_location": "cited publication:645-680",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Definition 4: DLCD finite-budget utility formula."
+      "statement": "Definition 4: DLCD finite-budget utility formula.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.dlcdBudgetUtilitySpec"
+      ]
     },
     "theorem1_lp_normed_dual_cases": {
-      "source_location": "Theorem 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.theorem1_lp_normed_dual_cases"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.theorem1_lp_normed_dual_cases",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.theorem1_lp_normed_dual_casesSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 450,
+          "line_start": 430,
+          "publication_locator": "cited publication",
+          "quoted_text": "3.1 Spatial Utilities\n\nHere we consider spatial utility functions, where the utilities of each voters can be expressed\nin the form of some kind of spatial distance from their ideal solutions. First, we consider\nthe following kind of utilities.\n\nDe\u001cnition 1. Lp normed utilities. The voter utility function is Lp normed if fv(x) =\n−∥x −xv∥p, ∀x ∈X.\n\nUnder such utilities, for p = 1, 2 and ∞, restricting voters to a ball in the dual norm\nleads to convergence to the societal optimum.\n\nTheorem 1. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are Lp\n\nnormed, and voters respond to query (1) according to either Model A or Model B. Then,\nILV with Lq neighborhoods converges to the societal optimal point w.p. 1 when (p, q) = (2, 2),\n(1, ∞), or (∞, 1).\n\n322\n\n\f",
+          "quoted_text_sha256": "e972d44284ec748469ef9b35d543247e75eff79efe0ae771380a53a22766aa09"
+        }
+      ],
+      "source_location": "cited publication:430-450",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Theorem 1 source statement: under C1-C3, Lp-normed utilities, Model A or Model B responses, and norm pairs (p,q) = (2,2), (1,infinity), or (infinity,1), ILV with Lq neighborhoods converges almost surely to the societal optimal point."
+      "statement": "Theorem 1 source statement: under C1-C3, Lp-normed utilities, Model A or Model B responses, and norm pairs (p,q) = (2,2), (1,infinity), or (infinity,1), ILV with Lq neighborhoods converges almost surely to the societal optimal point.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.theorem1_lp_normed_dual_casesSpec"
+      ]
     },
     "theorem1_norm_pair_l1_linf": {
-      "source_location": "Theorem 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.theorem1_norm_pair_l1_linf"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.theorem1_norm_pair_l1_linf",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.theorem1_norm_pair_l1_linfSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 450,
+          "line_start": 430,
+          "publication_locator": "cited publication",
+          "quoted_text": "3.1 Spatial Utilities\n\nHere we consider spatial utility functions, where the utilities of each voters can be expressed\nin the form of some kind of spatial distance from their ideal solutions. First, we consider\nthe following kind of utilities.\n\nDe\u001cnition 1. Lp normed utilities. The voter utility function is Lp normed if fv(x) =\n−∥x −xv∥p, ∀x ∈X.\n\nUnder such utilities, for p = 1, 2 and ∞, restricting voters to a ball in the dual norm\nleads to convergence to the societal optimum.\n\nTheorem 1. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are Lp\n\nnormed, and voters respond to query (1) according to either Model A or Model B. Then,\nILV with Lq neighborhoods converges to the societal optimal point w.p. 1 when (p, q) = (2, 2),\n(1, ∞), or (∞, 1).\n\n322\n\n\f",
+          "quoted_text_sha256": "e972d44284ec748469ef9b35d543247e75eff79efe0ae771380a53a22766aa09"
+        }
+      ],
+      "source_location": "cited publication:430-450",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Theorem 1 source subcase: one allowed norm pair is (p,q) = (1, infinity)."
+      "statement": "Theorem 1 source subcase: one allowed norm pair is (p,q) = (1, infinity).",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.theorem1_norm_pair_l1_linfSpec"
+      ]
     },
     "theorem1_norm_pair_l2_l2": {
-      "source_location": "Theorem 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.theorem1_norm_pair_l2_l2"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.theorem1_norm_pair_l2_l2",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.theorem1_norm_pair_l2_l2Spec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 450,
+          "line_start": 430,
+          "publication_locator": "cited publication",
+          "quoted_text": "3.1 Spatial Utilities\n\nHere we consider spatial utility functions, where the utilities of each voters can be expressed\nin the form of some kind of spatial distance from their ideal solutions. First, we consider\nthe following kind of utilities.\n\nDe\u001cnition 1. Lp normed utilities. The voter utility function is Lp normed if fv(x) =\n−∥x −xv∥p, ∀x ∈X.\n\nUnder such utilities, for p = 1, 2 and ∞, restricting voters to a ball in the dual norm\nleads to convergence to the societal optimum.\n\nTheorem 1. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are Lp\n\nnormed, and voters respond to query (1) according to either Model A or Model B. Then,\nILV with Lq neighborhoods converges to the societal optimal point w.p. 1 when (p, q) = (2, 2),\n(1, ∞), or (∞, 1).\n\n322\n\n\f",
+          "quoted_text_sha256": "e972d44284ec748469ef9b35d543247e75eff79efe0ae771380a53a22766aa09"
+        }
+      ],
+      "source_location": "cited publication:430-450",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Theorem 1 source subcase: one allowed norm pair is (p,q) = (2,2)."
+      "statement": "Theorem 1 source subcase: one allowed norm pair is (p,q) = (2,2).",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.theorem1_norm_pair_l2_l2Spec"
+      ]
     },
     "theorem1_norm_pair_linf_l1": {
-      "source_location": "Theorem 1",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.theorem1_norm_pair_linf_l1"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.theorem1_norm_pair_linf_l1",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.theorem1_norm_pair_linf_l1Spec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 450,
+          "line_start": 430,
+          "publication_locator": "cited publication",
+          "quoted_text": "3.1 Spatial Utilities\n\nHere we consider spatial utility functions, where the utilities of each voters can be expressed\nin the form of some kind of spatial distance from their ideal solutions. First, we consider\nthe following kind of utilities.\n\nDe\u001cnition 1. Lp normed utilities. The voter utility function is Lp normed if fv(x) =\n−∥x −xv∥p, ∀x ∈X.\n\nUnder such utilities, for p = 1, 2 and ∞, restricting voters to a ball in the dual norm\nleads to convergence to the societal optimum.\n\nTheorem 1. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are Lp\n\nnormed, and voters respond to query (1) according to either Model A or Model B. Then,\nILV with Lq neighborhoods converges to the societal optimal point w.p. 1 when (p, q) = (2, 2),\n(1, ∞), or (∞, 1).\n\n322\n\n\f",
+          "quoted_text_sha256": "e972d44284ec748469ef9b35d543247e75eff79efe0ae771380a53a22766aa09"
+        }
+      ],
+      "source_location": "cited publication:430-450",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Theorem 1 source subcase: one allowed norm pair is (p,q) = (infinity,1)."
+      "statement": "Theorem 1 source subcase: one allowed norm pair is (p,q) = (infinity,1).",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.theorem1_norm_pair_linf_l1Spec"
+      ]
     },
     "theorem2_modelB_holder_dual_norms": {
-      "source_location": "Theorem 2",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.theorem2_modelB_holder_dual_norms"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.theorem2_modelB_holder_dual_norms",
+        "evidence_mode": "definitionally_realizes",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.theorem2_modelB_holder_dual_normsSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 480,
+          "line_start": 460,
+          "publication_locator": "cited publication",
+          "quoted_text": "rule is not equivalent to SSGM in general, and we leave the convergence to the societal\noptimum for general (p, q) as an open question.\nFurther, note that even if each voter could scale their utility function arbitrarily, the\nalgorithm would converge to the same point.\nHowever, the general result does hold for general dual norms (p, q) if one assumes the\nalternative behavior model.\n\nTheorem 2. Suppose that conditions C1, C2, and C3 are satis\u001ced, the voter utilities are\nLp normed, and voters respond to query (1) according to Model B. Then, ILV with Lq\n\nneighborhoods converges to the societal optimal point w.p. 1 for any p > 0 and q > 0 such\nthat 1/p + 1/q = 1.\n\nThe proof is contained in the appendix. It uses the following property of Lp normed\nutilities: the Lq norm of the gradient of these utilities at any point other than the ideal\npoint is constant. This fact, along with the voter behavior model, allows the algorithm to\nimplicitly capture the magnitude of the gradient of the utilities, and thus a direct mapping\nto SSGM is obtained.\nNote that the above result holds even if we assume that a voter moves to her ideal point\nxv in case it falls within the neighborhood (since, as explained earlier, the probability of\nsampling such a voter decreases fast enough).",
+          "quoted_text_sha256": "d015a94c968f18394adc10e1d00b701d8a0cee3a2245cfe7a3216154e8ba862e"
+        }
+      ],
+      "source_location": "cited publication:460-480",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Theorem 2 source statement: under C1-C3, Lp-normed utilities, Model B responses, and p > 0, q > 0 with 1/p + 1/q = 1, ILV with Lq neighborhoods converges almost surely to the societal optimal point."
+      "statement": "Theorem 2 source statement: under C1-C3, Lp-normed utilities, Model B responses, and p > 0, q > 0 with 1/p + 1/q = 1, ILV with Lq neighborhoods converges almost surely to the societal optimal point.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.theorem2_modelB_holder_dual_normsSpec"
+      ]
     },
     "theorem3_convergent_l2_modelB_is_directional_equilibrium": {
       "aliases": [
         "theorem3_statement_of_full_sampled_projected_source_semantics_univ"
       ],
-      "source_location": "Theorem 3",
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GKGMM19IterativeLocalVoting.theorem3_statement_of_full_sampled_projected_source_semantics_univ"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GKGMM19IterativeLocalVoting.theorem3_statement_of_full_sampled_projected_source_semantics_univ",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GKGMM19IterativeLocalVoting.theorem3_statement_of_full_sampled_projected_source_semantics_univSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 620,
+          "line_start": 590,
+          "publication_locator": "cited publication",
+          "quoted_text": "ited to simulations. We show that with the radius decreasing as O(1\n\nt ), the algorithm indeed\n\u001cnds directional equilibria in the following sense: if under a few conditions a trajectory of\nthe algorithm converges to a point, then that point is a directional equilibrium.\n\nTheorem 3. Suppose that C1, C2, and C3 are satis\u001ced, and let G(x) ≜Ev\n�\n∇fv(x)\n∥∇fv(x)∥2\n\n�\n.\n\nSuppose, G(x) is uniformly continuous, L2 movement norm constraints are used, and voters\nmove according to Model B. If a trajectory {x}∞\nt=1 of the algorithm converges to x∗, i.e.\nxt →x∗, then x∗is a directional equilibrium, i.e. G(x∗) = 0.\n\nThe proof is in the appendix. It relies heavily on the continuity assumption: if a point x\nis not a directional equilibrium, then the algorithm with step sizes O(1\n\nt ) will with probability\n1 leave any small region surrounding x: the net drift of the voter movements is away from\nthe region. We note that the necessary assumptions hold for all utility functions for which\nconvergence holds, using the L2 norm algorithm (e.g. weighted Euclidean utilities). It is\nfurther possible to characterize other utility functions for which the equivalence holds: with\nappropriate conditions on the distribution of voters and how f di\u001bers among voters, the\nconditions on G can be met.\nWe further conjecture that even under voter Model A, if Algorithm 2 converges, the \u001cxed\npoint is a Directional Equilibrium. Note that as rt →0, fv(y) can be linearly approximated",
+          "quoted_text_sha256": "775553732f11747cd56db2b1a62e6e4b392cc366b34c8ce6059496cb6ce9b569"
+        }
+      ],
+      "source_location": "cited publication:590-620",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-      "statement": "Theorem 3 source statement: under C1-C3, G(x) = E_v[grad f_v(x)/||grad f_v(x)||_2] uniformly continuous, L2 movement norm constraints, and Model B responses, with probability 1 any convergent infinite ILV trajectory has a directional-equilibrium limit, i.e. if x_t -> x*, then G(x*) = 0. Equivalently, the event that a trajectory converges to a non-directional-equilibrium limit has probability zero."
+      "statement": "Theorem 3 source statement: under C1-C3, G(x) = E_v[grad f_v(x)/||grad f_v(x)||_2] uniformly continuous, L2 movement norm constraints, and Model B responses, with probability 1 any convergent infinite ILV trajectory has a directional-equilibrium limit, i.e. if x_t -> x*, then G(x*) = 0. Equivalently, the event that a trajectory converges to a non-directional-equilibrium limit has probability zero.",
+      "support_lean_declarations": [
+        "GKGMM19IterativeLocalVoting.theorem3_statement_of_full_sampled_projected_source_semantics_univSpec"
+      ]
     }
   },
   "paper": "GKGMM19IterativeLocalVoting",
+  "paper_interface_namespace": "GKGMM19IterativeLocalVoting",
   "schema": 1,
+  "semantic_contract_schema": 1,
+  "source_artifact_sha256": "b2804cac8b04427d373a22cc469e34b495be043e406e29a1f126bdd61f07f6cc",
+  "source_coverage_mode": "named_theoretical_statements",
   "source_curated": true,
   "source_inventory_kind": "source_curated",
-  "source_inventory_policy": "Source-curated inventory refreshed for complete source-to-dashboard coverage. Main-text definitions/examples/remarks/propositions and appendix theorems are represented by dashboard rows; GCG appendix lemmas are split into review-legible lemma-family rows.",
+  "source_inventory_policy": "Source-curated inventory refreshed for complete source-to-dashboard coverage. Main-text definitions/examples/remarks/propositions and appendix theorems are represented by dashboard rows; GCG appendix lemmas are split into review-legible lemma-family rows. Canonical v11 review binds one transparent PaperInterface Spec to each selected source claim; retained source claims without a current Spec route remain explicit audit work rather than disappearing from the inventory.",
+  "source_spec_correspondence_schema": 1,
   "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358"
 }

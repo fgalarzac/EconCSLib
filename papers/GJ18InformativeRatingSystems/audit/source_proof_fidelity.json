@@ -1,64 +1,39 @@
 {
-  "schema": 2,
-  "paper": "GJ18InformativeRatingSystems",
-  "source_artifact_path": "source.tar.gz",
-  "source_artifact_sha256": "b5378ae6f1ada1674d9f07dd4c1405655a9109e89a9977debab1b89d599f19de",
-  "review_status": "defects_recorded",
-  "governing_corrected_model": {
-    "kind": "author_approved_corrected_model",
-    "scope_id": "GJ18-corrected-model-2026-07-24",
-    "approval_artifact": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
-    "approval_artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
-    "base_archive_path": "source.tar.gz",
-    "base_archive_sha256": "b5378ae6f1ada1674d9f07dd4c1405655a9109e89a9977debab1b89d599f19de",
-    "model_spec_declaration": "GJ18InformativeRatingSystems.ClarifiedSourceModel",
-    "target_result_declarations": [
-      "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_model_theorem1_state_rate",
-      "GJ18InformativeRatingSystems.PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate"
-    ],
-    "correction_ids": [
-      "GJ18-CORR-SELLER-CARRIER-2026-07-24",
-      "GJ18-CORR-MATCH-RATES-2026-07-24",
-      "GJ18-CORR-AGGREGATE-INDEX-2026-07-24",
-      "GJ18-CORR-RATING-CARRIER-2026-07-24",
-      "GJ18-CORR-IID-STATE-LAW-2026-07-24",
-      "GJ18-CORR-ADJACENT-INDEX-2026-07-24",
-      "GJ18-CORR-EXTENDED-RATE-2026-07-24",
-      "GJ18-CORR-APPENDIX-DISCRETE-PROOF-2026-07-24"
-    ],
-    "archival_equivalence_claimed": false
-  },
   "author_confirmed_clarifications": [
     {
-      "id": "GJ18-AUTHOR-CLARIFICATION-MATCH-RATES-2026-07-24",
-      "recorded_at": "2026-07-24",
       "claim": "For every seller type theta, 0 < g(theta) <= 1.",
-      "provenance": "Author clarification relayed by the repository user on 2026-07-24; this is not a literal assertion of the pinned source.tar.gz text.",
       "governing_model_effect": "The corrected-model theorems may treat positive rates as author-confirmed. Their Lean signatures retain hpositive_sample explicitly, while the finite source-model record separately carries the at-most-one-match schedule; no literal-archive derivation of the clarification is claimed.",
-      "literal_archive_effect": "The archive itself states that g is nondecreasing and gives the floor-count formula, but it does not state the strict lower bound in the reviewed span. The literal archive remains a partial source-fidelity target."
+      "id": "GJ18-AUTHOR-CLARIFICATION-MATCH-RATES-2026-07-24",
+      "literal_archive_effect": "The archive itself states that g is nondecreasing and gives the floor-count formula, but it does not state the strict lower bound in the reviewed span. The literal archive remains a partial source-fidelity target.",
+      "provenance": "Author clarification relayed by the repository user on 2026-07-24; this is not a literal assertion of the pinned cited publication text.",
+      "recorded_at": "2026-07-24"
     },
     {
-      "id": "GJ18-AUTHOR-CLARIFICATION-IID-2026-07-24",
-      "recorded_at": "2026-07-24",
       "claim": "Ratings are conditionally IID given seller type and independent across sellers.",
-      "provenance": "Author clarification relayed by the repository user on 2026-07-24; this is not a theorem extracted from the pinned source.tar.gz recurrence.",
       "governing_model_effect": "ClarifiedSourceModel records stateLaw k = iidFloorSourceStateLaw M sampleRate k as the checked finite product-law realization, with direct bridges to the source-state P_k, weak-inversion event, and W_k formulas.",
-      "literal_archive_effect": "The archive's mu_k recurrence still lacks a formal derivation of that product law, so the literal source recurrence and its type-score conditioning remain separate open obligations."
+      "id": "GJ18-AUTHOR-CLARIFICATION-IID-2026-07-24",
+      "literal_archive_effect": "The archive's mu_k recurrence still lacks a formal derivation of that product law, so the literal source recurrence and its type-score conditioning remain separate open obligations.",
+      "provenance": "Author clarification relayed by the repository user on 2026-07-24; this is not a theorem extracted from the pinned cited publication recurrence.",
+      "recorded_at": "2026-07-24"
     },
     {
-      "id": "GJ18-AUTHOR-CLARIFICATION-UNIFORM-TYPE-PRIOR-2026-07-24",
-      "recorded_at": "2026-07-24",
       "claim": "The finite ordered seller carrier has an explicit uniform type prior, and the corrected model records that PMF rather than treating uniform pair averaging as a substitute for a population law.",
-      "provenance": "The pinned archive says types are independently and uniformly drawn at adjectivesmodel.tex:22, while the explicit PMF and its connection to the corrected finite model are author-confirmed clarifications relayed by the repository user on 2026-07-24.",
       "governing_model_effect": "ClarifiedSourceModel contains type_prior and type_prior_uniform, and PaperInterface.author_confirmed_clarified_uniform_type_prior checks the equality to clarifiedUniformTypePrior.",
-      "literal_archive_effect": "The archive's joint mu_k type-score conditioning is still not derived from that prior. The clarified record governs the corrected model but does not close the literal archive recurrence."
+      "id": "GJ18-AUTHOR-CLARIFICATION-UNIFORM-TYPE-PRIOR-2026-07-24",
+      "literal_archive_effect": "The archive's joint mu_k type-score conditioning is still not derived from that prior. The clarified record governs the corrected model but does not close the literal archive recurrence.",
+      "provenance": "The pinned archive says types are independently and uniformly drawn at cited publication:22, while the explicit PMF and its connection to the corrected finite model are author-confirmed clarifications relayed by the repository user on 2026-07-24.",
+      "recorded_at": "2026-07-24"
     }
   ],
   "checked_model_records": [
     {
+      "checked_consequences": [
+        "PaperInterface.author_confirmed_clarified_uniform_type_prior",
+        "PaperInterface.author_confirmed_clarified_iid_state_law",
+        "PaperInterface.author_confirmed_clarified_model_theorem1_state_rate",
+        "PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate"
+      ],
       "declaration": "GJ18InformativeRatingSystems.ClarifiedSourceModel",
-      "kind": "author_confirmed_corrected_model_record",
-      "source_relation": "This is a governing corrected-model completion, not a direct formalization of the pinned mu_k recurrence.",
       "fields": [
         "seller_type_count_pos",
         "at_least_two_seller_types",
@@ -70,337 +45,49 @@
         "stateLaw",
         "conditional_iid_ratings_and_independent_seller_histories"
       ],
-      "checked_consequences": [
-        "PaperInterface.author_confirmed_clarified_uniform_type_prior",
-        "PaperInterface.author_confirmed_clarified_iid_state_law",
-        "PaperInterface.author_confirmed_clarified_model_theorem1_state_rate",
-        "PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate"
-      ],
-      "remaining_literal_boundary": "No theorem derives the record's stateLaw field or the source conditional type-score law from the archive's displayed recurrence."
+      "kind": "author_confirmed_corrected_model_record",
+      "remaining_literal_boundary": "No theorem derives the record's stateLaw field or the source conditional type-score law from the archive's displayed recurrence.",
+      "source_relation": "This is a governing corrected-model completion, not a direct formalization of the pinned mu_k recurrence."
     }
   ],
   "checked_rate_diagnostics": [
     {
       "claim": "For the source score range [0,1] and nonnegative match rates, the legacy unrestricted Real pairwise threshold-rate infimum is exactly zero because evaluating below the score lower bound makes the Real.sSup-based one-law rates default to zero.",
-      "status": "diagnostic about the legacy formal Real codomain, not a claim that the paper's intended large-deviation exponent is zero",
+      "corrected_counterpart": "The support-safe WithTop pairwise rate has a finite real representative and is strictly positive under the clarified nontrivial ordinal model and positive rates.",
+      "corrected_evidence_declarations": [
+        "GJ18InformativeRatingSystems.source_pairwiseThresholdRateTop_has_finite_real_representative",
+        "GJ18InformativeRatingSystems.source_pairwiseThresholdRateTop_pos"
+      ],
       "evidence_declarations": [
         "GJ18InformativeRatingSystems.PaperInterface.source_fidelity_diagnostic_unrestricted_real_pairwise_rate_mismatch",
         "GJ18InformativeRatingSystems.source_legacy_real_pairwiseThresholdRate_eq_zero",
         "EconCSLib.Probability.pairwiseSellerThresholdRate_eq_zero_of_score_lower_bound"
       ],
-      "corrected_counterpart": "The support-safe WithTop pairwise rate has a finite real representative and is strictly positive under the clarified nontrivial ordinal model and positive rates.",
-      "corrected_evidence_declarations": [
-        "GJ18InformativeRatingSystems.source_pairwiseThresholdRateTop_has_finite_real_representative",
-        "GJ18InformativeRatingSystems.source_pairwiseThresholdRateTop_pos"
-      ]
-    }
-  ],
-  "reviewed_proof_scopes": [
-    {
-      "source_locator": "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 20-90)",
-      "semantic_scope": "Finite ordered seller types, floor match counts, ordinal rating laws, aggregate-score definition, the stated system-state recurrence, and the conditional pairwise and uniform-ranking objectives.",
-      "outcome": "defect_recorded"
-    },
-    {
-      "source_locator": "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 99-127)",
-      "semantic_scope": "The convergence prose and Theorem 1's adjacent-pair large-deviation formula, including the real-valued Legendre display and its finite index range.",
-      "outcome": "defect_recorded"
-    },
-    {
-      "source_locator": "Appendix C, Section Proofs (source.tar.gz entry appendix_theory.tex, lines 7-104)",
-      "semantic_scope": "The Appendix weak-inversion large-deviation lemma, the P_k complement-rate transfer, and the reduction from all pairs to adjacent pairs in the W_k rate proof.",
-      "outcome": "defect_recorded"
-    }
-  ],
-  "defects": [
-    {
-      "id": "GJ18-AGGREGATE-INDEX-01",
-      "source_locator": "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 54-59)",
-      "source_claim": "The aggregate score is described as the average of n_k(theta) ratings and divided by n_k(theta), but the displayed summation runs from 0 through n_k(theta), hence has n_k(theta)+1 terms.",
-      "defect_kind": "index_or_integrality",
-      "affected_source_locators": [
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 54-59)"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The denominator, prose, and zero-sample convention determine the intended n_k(theta)-term average. Correcting that finite index slip leaves the substantive aggregate-score definition unchanged.",
-      "repair_obligation": "Represent exactly floor(k g(theta)) rating observations and prove the average formula over that finite family, retaining the stated zero-sample convention separately.",
-      "acceptance_condition": "The reviewed aggregate-score row ranges over Fin (floorSampleCount sampleRate theta k), so its cardinality is exactly the denominator's sample count.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "PaperInterface.source_definition_aggregate_score_formula unfolds to the average indexed by the finite type of exactly floor(k g(theta)) samples.",
-      "governing_disposition": "repaired_in_governing_proof",
-      "correction_id": "GJ18-CORR-AGGREGATE-INDEX-2026-07-24",
-      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-AGGREGATE-INDEX-2026-07-24)",
-      "conclusion_relation": "same",
-      "does_not_claim_archive_derivation": true
-    },
-    {
-      "id": "GJ18-THEOREM1-ADJACENT-INDEX-01",
-      "source_locator": "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 111-125; entry appendix_theory.tex, lines 77-95)",
-      "source_claim": "Theorem 1 prints a minimum over 0 <= i < M while using theta_(i+1), even though the source declares types theta_i only for 0 <= i < M; the Appendix also writes comparison indices with an upper endpoint M.",
-      "defect_kind": "index_or_integrality",
-      "affected_source_locators": [
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 22-23)",
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 111-125)",
-        "Appendix C, Section Proofs (source.tar.gz entry appendix_theory.tex, lines 77-95)"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The stated ordered set has M elements, so the meaningful adjacent pairs are exactly those with i+1<M. Restricting to that carrier repairs the endpoint typo without changing the advertised adjacent-pair minimum.",
-      "repair_obligation": "Use a finite adjacent-index carrier whose elements represent exactly the valid pairs (theta_i, theta_(i+1)).",
-      "acceptance_condition": "The checked rate endpoint quantifies over finiteChainAdjacentIndex n rather than an index range that can name theta_n.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate uses ClarifiedSourceModel.correctedTheorem1Rate, whose finiteChainAdjacentIndex range contains exactly valid adjacent pairs and whose visible M>=2 record field supplies nonemptiness.",
-      "governing_disposition": "repaired_in_governing_proof",
-      "correction_id": "GJ18-CORR-ADJACENT-INDEX-2026-07-24",
-      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-ADJACENT-INDEX-2026-07-24)",
-      "conclusion_relation": "same",
-      "does_not_claim_archive_derivation": true
-    },
-    {
-      "id": "GJ18-PAIR-CARRIER-NORMALIZATION-01",
-      "source_locator": "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 85-90)",
-      "source_claim": "The displayed coefficient 2/(M(M-1)) is a uniform average only over the strict ordered quality-pair carrier theta_1>theta_2. A generic pair carrier or an unstated cardinality would change the objective.",
-      "defect_kind": "normalization_or_scaling",
-      "affected_source_locators": [
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 78-90)"
-      ],
-      "statement_impact": "proof_only",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "This was a source-to-formalization mapping risk, not a change to the paper's objective. The exact strict-pair carrier and its cardinality are now checked.",
-      "repair_obligation": "Define the comparison carrier by strict finite order, prove its cardinality M(M-1)/2, and derive the displayed coefficient as the inverse uniform-pair weight when M>=2.",
-      "acceptance_condition": "A reviewed theorem proves both the literal W_k formula and its equality to the uniform strict-pair average under the nonzero-denominator condition.",
-      "resolution": "repaired_in_lean",
-      "resolution_evidence": "PaperInterface.source_definition_uniform_ranking_objective_formula and source_definition_uniform_ranking_normalization use sourceStateWk, finiteChainOrderedPair_card, and sourceStateWk_eq_sourceStateUniformWk.",
-      "governing_disposition": "repaired_in_governing_proof",
-      "correction_id": "GJ18-CORR-SELLER-CARRIER-2026-07-24",
-      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-SELLER-CARRIER-2026-07-24)",
-      "conclusion_relation": "same",
-      "does_not_claim_archive_derivation": true
-    },
-    {
-      "id": "GJ18-QUALITY-TAIL-BOTTOM-01",
-      "source_locator": "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 40-51)",
-      "source_claim": "The source says the cumulative upper-tail probability R(theta,y|Y) is strictly increasing in theta for every displayed rating y. At the lowest rating, however, the upper-tail event is the whole finite scale and has probability one for every theta, so literal strictness there is impossible.",
-      "defect_kind": "domain_or_endpoint",
-      "affected_source_locators": [
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 32-40)",
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 45-51)"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The author-approved corrected model restricts strict cross-type tail separation to nonbottom cutoffs. The governing proof is complete under that visible clause; the impossible literal bottom-tail assertion remains an archival delta rather than an inferred premise.",
-      "repair_obligation": "State strict cross-type upper-tail separation only for displayed cutoffs above the bottom rating, and prove the weak all-cutoff dominance used by the finite comparison argument.",
-      "acceptance_condition": "The source-model record exposes the above-bottom condition explicitly and no row asserts strict bottom-tail separation or derives it by name.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "Assumptions.source_strict_ordinal_quality_tail_increase_above_bottom excludes t=0, and SourceModelBridge.FiniteOrdinalSourceModel uses that corrected predicate.",
-      "governing_disposition": "replaced_by_authorized_correction",
-      "correction_id": "GJ18-CORR-RATING-CARRIER-2026-07-24",
-      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-RATING-CARRIER-2026-07-24)",
-      "conclusion_relation": "restricted_domain",
-      "does_not_claim_archive_derivation": true
-    },
-    {
-      "id": "GJ18-TERMINAL-SUPPORT-01",
-      "source_locator": "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 40-51)",
-      "source_claim": "Strict decrease between displayed cumulative-tail cutoffs gives positive mass at each nonterminal rating but supplies no cutoff above the terminal rating and therefore does not imply positive terminal mass for every seller. In particular, the low seller's terminal atom may be zero.",
-      "defect_kind": "domain_or_endpoint",
-      "affected_source_locators": [
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 40-51)",
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 99-125)"
-      ],
-      "statement_impact": "proof_only",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The governing proof handles actual support extrema and the binary low-terminal-zero case without adding terminal full support. That repair is complete for the authorized model; it does not validate any stronger archive-support inference.",
-      "repair_obligation": "Avoid a terminal-full-support premise unless separately stated; select the lower seller's actual support maximum, and treat the binary terminal-zero endpoint by its exact rate.",
-      "acceptance_condition": "The source-model certificate proves the rate without a universal terminal-mass premise and contains an explicit binary zero-terminal branch.",
-      "resolution": "repaired_in_lean",
-      "resolution_evidence": "SourceModelBridge.ordinalSourcePairwiseLdpCertificate selects support extrema semantically; ordinalSourceSinglePairwiseLdpCertificate_binary has a separate low-terminal-zero endpoint calculation.",
-      "governing_disposition": "repaired_in_governing_proof",
-      "correction_id": "GJ18-CORR-RATING-CARRIER-2026-07-24",
-      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-RATING-CARRIER-2026-07-24)",
-      "conclusion_relation": "same",
-      "does_not_claim_archive_derivation": true
-    },
-    {
-      "id": "GJ18-POSITIVE-MATCH-RATE-01",
-      "source_locator": "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 26-29; entry appendix_theory.tex, lines 7-22)",
-      "source_claim": "The source archive assumes only that g is nondecreasing while using k g(theta) as a diverging sample size in its convergence and large-deviation claims. A nondecreasing match function may be zero at one or more seller types, in which case the corresponding sample count need not diverge. The author has subsequently confirmed the governing clarification 0<g(theta)<=1, but that clarification is not literal archive text.",
-      "defect_kind": "quantifier_or_uniformity",
-      "affected_source_locators": [
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 26-29)",
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 99-125)",
-        "Appendix C, Section Proofs (source.tar.gz entry appendix_theory.tex, lines 7-22)"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "Positive rates are an author-approved governing clause, not an implication of the archive's monotonicity condition. The corrected theorem is complete on that restricted domain and preserves the archive-only gap as an explicit delta.",
-      "repair_obligation": "Either derive positivity from an explicit source condition or record the author-confirmed 0<g(theta)<=1 clarification as a governing addition before claiming pairwise or aggregate convergence.",
-      "acceptance_condition": "Every corrected Appendix, convergence, and Theorem 1 row has an explicit hpositive_sample premise, and the metadata identifies the positive-rate clarification as author-confirmed rather than source-derived.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "ClarifiedSourceModel.match_rate_bounds records 0<g(theta)<=1 for every type, and the checked Appendix/convergence paths retain the same condition in their source-model bridge obligations.",
-      "governing_disposition": "replaced_by_authorized_correction",
-      "correction_id": "GJ18-CORR-MATCH-RATES-2026-07-24",
-      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-MATCH-RATES-2026-07-24)",
-      "conclusion_relation": "restricted_domain",
-      "does_not_claim_archive_derivation": true
-    },
-    {
-      "id": "GJ18-NONTRIVIAL-RATING-SCALE-01",
-      "source_locator": "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 32-40; entry adjectivesmodel.tex, lines 99-102)",
-      "source_claim": "The source calls Y a finite ordered scale but does not state that it has at least two rating levels. On a singleton scale, the strict score and nonbottom strict-tail conditions are vacuous and cannot yield a positive separation exponent.",
-      "defect_kind": "domain_or_endpoint",
-      "affected_source_locators": [
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 32-40)",
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 99-102)"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The author-approved corrected model excludes the one-level scale with an explicit nontriviality condition. The governing result is complete on that restricted carrier, without claiming that the archive supplied the condition.",
-      "repair_obligation": "Require a nontrivial finite ordinal scale before deriving strict expected-score gaps, positive rates, or convergence to one.",
-      "acceptance_condition": "The corrected asymptotic rows explicitly assume hm : 1<=m, which makes the rating carrier Fin (m+1) contain at least two levels.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "ClarifiedSourceModel.nontrivial_rating_scale makes 1<=m part of the governing model record; SourceRatePositivity proves strict separation only under the corresponding nontrivial carrier condition.",
-      "governing_disposition": "replaced_by_authorized_correction",
-      "correction_id": "GJ18-CORR-RATING-CARRIER-2026-07-24",
-      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-RATING-CARRIER-2026-07-24)",
-      "conclusion_relation": "restricted_domain",
-      "does_not_claim_archive_derivation": true
-    },
-    {
-      "id": "GJ18-IID-STATE-COMPLETION-01",
-      "source_locator": "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 40-40; entry adjectivesmodel.tex, lines 67-73)",
-      "source_claim": "The source archive describes a one-rating distribution conditional on seller type and then gives a joint-state recurrence, but it does not prove that the score histories at horizon k have the independent finite product law used by an IID large-deviation calculation. The author has subsequently confirmed conditional IID ratings and cross-seller independence as the governing clarification, but that is not a theorem of the archive recurrence.",
-      "defect_kind": "logical_dependency",
-      "affected_source_locators": [
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 40-40)",
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 67-73)",
-        "Appendix C, Section Proofs (source.tar.gz entry appendix_theory.tex, lines 7-22)"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The author-approved governing model explicitly replaces the archive recurrence route with a conditionally iid finite product law. The corrected proof is complete for that model; no derivation of iid from the archive recurrence is asserted.",
-      "repair_obligation": "For the corrected target, record the conditionally iid finite product law and prove its state-level P_k, weak-inversion, and W_k bridges. A future archive-equivalence project would additionally need a typed derivation from the printed recurrence.",
-      "acceptance_condition": "ClarifiedSourceModel.stateLaw is visibly equal to iidFloorSourceStateLaw at every horizon, and SourceStateCompletion proves the P_k, weak-inversion, and W_k bridges used by the corrected rate proof.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "ClarifiedSourceModel.conditional_iid_ratings_and_independent_seller_histories supplies the governing product-law equality; SourceStateCompletion proves direct P_k, weak-inversion, and W_k bridges without claiming an archive recurrence derivation.",
-      "governing_disposition": "replaced_by_authorized_correction",
-      "correction_id": "GJ18-CORR-IID-STATE-LAW-2026-07-24",
-      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-IID-STATE-LAW-2026-07-24)",
-      "conclusion_relation": "replaced",
-      "does_not_claim_archive_derivation": true
-    },
-    {
-      "id": "GJ18-STATE-RECURRENCE-INDEX-01",
-      "source_locator": "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 67-73)",
-      "source_claim": "The displayed recurrence writes mu_(k+1) while its membership set and score transition use E_k, n_k, and n_(k-1), with no base state or indexing convention that identifies this as a transition from mu_k to mu_(k+1). It also mixes a conditional state description with integrals over theta and score without a typed finite or measure-theoretic state space.",
-      "defect_kind": "index_or_integrality",
-      "affected_source_locators": [
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 67-73)"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The author-approved governing model replaces the ambiguous archive recurrence with an explicit finite product state law. This closes the corrected target while retaining the recurrence as an archival delta that no theorem claims to derive.",
-      "repair_obligation": "For the corrected target, use the explicitly recorded finite state law. A future archive-equivalence project would need to specify a state space, initial law, transition indices, and conditioning convention before deriving the P_k/W_k state marginals.",
-      "acceptance_condition": "The corrected theorem is stated over ClarifiedSourceModel.stateLaw, whose conditional iid product-law equality is visible, rather than over an inferred time shift or untyped archive recurrence.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "ClarifiedSourceModel.stateLaw and its conditional_iid_ratings_and_independent_seller_histories field provide the governing state evolution; PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate uses that record without asserting a theorem for the archive recurrence.",
-      "governing_disposition": "replaced_by_authorized_correction",
-      "correction_id": "GJ18-CORR-IID-STATE-LAW-2026-07-24",
-      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-IID-STATE-LAW-2026-07-24)",
-      "conclusion_relation": "replaced",
-      "does_not_claim_archive_derivation": true
-    },
-    {
-      "id": "GJ18-UNIFORM-TYPE-PRIOR-01",
-      "source_locator": "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 22-24; entry adjectivesmodel.tex, lines 67-90)",
-      "source_claim": "The source says seller types are independently and uniformly drawn, and its mu_k is a joint distribution over type and score. The author-confirmed clarified model now records an explicit uniform type PMF, but the archive itself does not derive its conditional score laws from that population state or connect it to the displayed recurrence.",
-      "defect_kind": "event_or_measure",
-      "affected_source_locators": [
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 22-24)",
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 67-90)"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The author-approved corrected model records an explicit uniform finite type prior and uses the finite comparison carrier directly. That is a complete governing-model clause, while the archive's population conditioning remains a separate archival delta.",
-      "repair_obligation": "For the corrected target, make the uniform PMF and strict ordered-pair carrier explicit. A future archive-equivalence project would additionally need to derive the conditional score law from a joint type-score state and the printed recurrence.",
-      "acceptance_condition": "ClarifiedSourceModel.type_prior equals clarifiedUniformTypePrior and the W_k theorem uses the checked strict-pair carrier; no result claims to derive archive population conditioning from mu_k.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "PaperInterface.author_confirmed_clarified_uniform_type_prior checks ClarifiedSourceModel.type_prior against clarifiedUniformTypePrior, while SourceStateCompletion remains explicit that it conditions on an already selected finiteChainOrderedPair.",
-      "governing_disposition": "replaced_by_authorized_correction",
-      "correction_id": "GJ18-CORR-SELLER-CARRIER-2026-07-24",
-      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-SELLER-CARRIER-2026-07-24)",
-      "conclusion_relation": "replaced",
-      "does_not_claim_archive_derivation": true
-    },
-    {
-      "id": "GJ18-APPENDIX-DISCRETE-INTEGRAL-01",
-      "source_locator": "Appendix C, Section Proofs (source.tar.gz entry appendix_theory.tex, lines 7-22)",
-      "source_claim": "The proof rewrites a finite/discrete score-comparison probability as a continuum integral over a in R, substitutes pointwise large-deviation expressions inside that integral, and invokes a Laplace principle without establishing the required discrete-event or uniform asymptotic transfer.",
-      "defect_kind": "event_or_measure",
-      "affected_source_locators": [
-        "Appendix C, Section Proofs (source.tar.gz entry appendix_theory.tex, lines 7-22)",
-        "Appendix C, Section Proofs (source.tar.gz entry appendix_theory.tex, lines 44-69)"
-      ],
-      "statement_impact": "proof_only",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The governing proof directly establishes the finite iid weak-inversion rate and fixed event comparison. It replaces the archive's unsupported continuum-integral transfer without claiming that transfer was validated.",
-      "repair_obligation": "Prove the weak score-inversion rate directly for finite product laws, including support endpoints and floor sample counts, without replacing a discrete probability by an unjustified continuum integral.",
-      "acceptance_condition": "The checked result gives an exponential-rate certificate for the state-level non-strict inversion event under the explicit IID completion and identifies it with the support-safe threshold rate.",
-      "resolution": "repaired_in_lean",
-      "resolution_evidence": "PaperInterface.source_appendix_problessthan_score_gap_rate_iid_completion transports the finite PairwiseThresholdRateTopLdpCertificate through the proved source-state IID weak-inversion bridge.",
-      "governing_disposition": "repaired_in_governing_proof",
-      "correction_id": "GJ18-CORR-APPENDIX-DISCRETE-PROOF-2026-07-24",
-      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-APPENDIX-DISCRETE-PROOF-2026-07-24)",
-      "conclusion_relation": "same",
-      "does_not_claim_archive_derivation": true
-    },
-    {
-      "id": "GJ18-PKLD-CONSTANT-SANDWICH-01",
-      "source_locator": "Appendix C, Section Proofs (source.tar.gz entry appendix_theory.tex, lines 44-69)",
-      "source_claim": "The Appendix changes 1-P_k to 2 Pr(score gap<0)+Pr(score gap=0) and then says the weak-inversion rate follows directly, but it omits the event algebra and fixed-constant sandwich needed to transfer the normalized logarithmic rate from Pr(score gap<=0).",
-      "defect_kind": "logical_dependency",
-      "affected_source_locators": [
-        "Appendix C, Section Proofs (source.tar.gz entry appendix_theory.tex, lines 38-69)"
-      ],
-      "statement_impact": "proof_only",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The omitted comparison is a repairable proof step. The corrected finite IID theorem establishes the complement-error rate through a checked certificate without changing the substantive pairwise endpoint of that corrected model.",
-      "repair_obligation": "Establish the exact complement identity and prove a positive fixed-factor comparison with the weak inversion event before transferring its exponential rate.",
-      "acceptance_condition": "The source-facing P_k-LD row produces an ExponentialRateCertificate for 1-sourceStatePairwisePk rather than merely citing the weak-inversion theorem by name.",
-      "resolution": "repaired_in_lean",
-      "resolution_evidence": "PaperInterface.source_appendix_pk_ld_complement_rate_iid_completion uses the checked finite complement-error certificate after the source-state IID P_k bridge.",
-      "governing_disposition": "repaired_in_governing_proof",
-      "correction_id": "GJ18-CORR-APPENDIX-DISCRETE-PROOF-2026-07-24",
-      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-APPENDIX-DISCRETE-PROOF-2026-07-24)",
-      "conclusion_relation": "same",
-      "does_not_claim_archive_derivation": true
-    },
-    {
-      "id": "GJ18-EXTENDED-RATE-CODOMAIN-01",
-      "source_locator": "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 111-125; entry appendix_theory.tex, lines 7-8 and 44-53)",
-      "source_claim": "The source writes I(a|theta) as a real supremum over all a in R. In the finite [0,1]-score model, evaluating below zero makes the legacy Real.sSup-based one-law functions default to zero; consequently the unrestricted legacy real pairwise infimum is exactly zero, not the intended positive exponent. Out-of-support thresholds instead have infinite large-deviation cost in the correct extended codomain.",
-      "defect_kind": "domain_or_endpoint",
-      "affected_source_locators": [
-        "Section 5 (source.tar.gz entry adjectivesmodel.tex, lines 111-125)",
-        "Appendix C, Section Proofs (source.tar.gz entry appendix_theory.tex, lines 7-8)",
-        "Appendix C, Section Proofs (source.tar.gz entry appendix_theory.tex, lines 44-53)"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The literal real display remains an archival diagnostic because its unrestricted infimum is zero in the checked finite model. The author-approved theorem instead proves a finite real representative of a support-safe extended rate; no equality to the archive display is claimed.",
-      "repair_obligation": "Use an extended support-safe rate, or prove and state a restriction to thresholds where the real representation is finite, before identifying the source's rate with a large-deviation exponent. Do not repair the issue by silently using the legacy real infimum, which is zero here.",
-      "acceptance_condition": "The corrected theorem uses sourcePaperRateFunctionTop and HasExtendedExponentialRate, while checked diagnostics establish both the legacy real pairwise-rate-zero fact and a positive finite representative for the WithTop rate.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "SourceRatePositivity.source_legacy_real_pairwiseThresholdRate_eq_zero proves the legacy unrestricted real pairwise infimum is zero; SourceModelBridge.source_pairwiseThresholdRateTop_has_finite_real_representative establishes the finite support-safe alternative used by PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate.",
-      "governing_disposition": "replaced_by_authorized_correction",
-      "correction_id": "GJ18-CORR-EXTENDED-RATE-2026-07-24",
-      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-EXTENDED-RATE-2026-07-24)",
-      "conclusion_relation": "corrected_codomain",
-      "does_not_claim_archive_derivation": true
+      "status": "diagnostic about the legacy formal Real codomain, not a claim that the paper's intended large-deviation exponent is zero"
     }
   ],
   "defect_entry_schema": {
+    "conclusion_relation_values": [
+      "same",
+      "restricted_domain",
+      "corrected_codomain",
+      "replaced"
+    ],
+    "defect_kind_values": [
+      "algebra_or_sign",
+      "inequality_direction",
+      "quantifier_or_uniformity",
+      "domain_or_endpoint",
+      "index_or_integrality",
+      "event_or_measure",
+      "normalization_or_scaling",
+      "logical_dependency",
+      "other"
+    ],
+    "governing_disposition_values": [
+      "repaired_in_governing_proof",
+      "replaced_by_authorized_correction"
+    ],
     "required": [
       "id",
       "source_locator",
@@ -420,16 +107,11 @@
       "conclusion_relation",
       "does_not_claim_archive_derivation"
     ],
-    "defect_kind_values": [
-      "algebra_or_sign",
-      "inequality_direction",
-      "quantifier_or_uniformity",
-      "domain_or_endpoint",
-      "index_or_integrality",
-      "event_or_measure",
-      "normalization_or_scaling",
-      "logical_dependency",
-      "other"
+    "resolution_values": [
+      "repaired_in_lean",
+      "open_proof_obligation",
+      "corrected_source_statement",
+      "resolved_in_current_source"
     ],
     "statement_impact_values": [
       "proof_only",
@@ -440,28 +122,345 @@
       "formalized_note",
       "formalized_with_caveat",
       "partially_formalized"
-    ],
-    "resolution_values": [
-      "repaired_in_lean",
-      "open_proof_obligation",
-      "corrected_source_statement",
-      "resolved_in_current_source"
-    ],
-    "governing_disposition_values": [
-      "repaired_in_governing_proof",
-      "replaced_by_authorized_correction"
-    ],
-    "conclusion_relation_values": [
-      "same",
-      "restricted_domain",
-      "corrected_codomain",
-      "replaced"
     ]
   },
+  "defects": [
+    {
+      "acceptance_condition": "The reviewed aggregate-score row ranges over Fin (floorSampleCount sampleRate theta k), so its cardinality is exactly the denominator's sample count.",
+      "affected_source_locators": [
+        "Section 5 (cited publication entry cited publication, lines 54-59)"
+      ],
+      "conclusion_relation": "same",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-AGGREGATE-INDEX-2026-07-24)",
+      "correction_id": "GJ18-CORR-AGGREGATE-INDEX-2026-07-24",
+      "defect_kind": "index_or_integrality",
+      "does_not_claim_archive_derivation": true,
+      "governing_disposition": "repaired_in_governing_proof",
+      "id": "GJ18-AGGREGATE-INDEX-01",
+      "repair_obligation": "Represent exactly floor(k g(theta)) rating observations and prove the average formula over that finite family, retaining the stated zero-sample convention separately.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "PaperInterface.source_definition_aggregate_score_formula unfolds to the average indexed by the finite type of exactly floor(k g(theta)) samples.",
+      "source_claim": "The aggregate score is described as the average of n_k(theta) ratings and divided by n_k(theta), but the displayed summation runs from 0 through n_k(theta), hence has n_k(theta)+1 terms.",
+      "source_locator": "Section 5 (cited publication entry cited publication, lines 54-59)",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The denominator, prose, and zero-sample convention determine the intended n_k(theta)-term average. Correcting that finite index slip leaves the substantive aggregate-score definition unchanged."
+    },
+    {
+      "acceptance_condition": "The checked rate endpoint quantifies over finiteChainAdjacentIndex n rather than an index range that can name theta_n.",
+      "affected_source_locators": [
+        "Section 5 (cited publication entry cited publication, lines 22-23)",
+        "Section 5 (cited publication entry cited publication, lines 111-125)",
+        "Appendix C, Section Proofs (cited publication entry cited publication, lines 77-95)"
+      ],
+      "conclusion_relation": "same",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-ADJACENT-INDEX-2026-07-24)",
+      "correction_id": "GJ18-CORR-ADJACENT-INDEX-2026-07-24",
+      "defect_kind": "index_or_integrality",
+      "does_not_claim_archive_derivation": true,
+      "governing_disposition": "repaired_in_governing_proof",
+      "id": "GJ18-THEOREM1-ADJACENT-INDEX-01",
+      "repair_obligation": "Use a finite adjacent-index carrier whose elements represent exactly the valid pairs (theta_i, theta_(i+1)).",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate uses ClarifiedSourceModel.correctedTheorem1Rate, whose finiteChainAdjacentIndex range contains exactly valid adjacent pairs and whose visible M>=2 record field supplies nonemptiness.",
+      "source_claim": "Theorem 1 prints a minimum over 0 <= i < M while using theta_(i+1), even though the source declares types theta_i only for 0 <= i < M; the Appendix also writes comparison indices with an upper endpoint M.",
+      "source_locator": "Section 5 (cited publication entry cited publication, lines 111-125; entry cited publication, lines 77-95)",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The stated ordered set has M elements, so the meaningful adjacent pairs are exactly those with i+1<M. Restricting to that carrier repairs the endpoint typo without changing the advertised adjacent-pair minimum."
+    },
+    {
+      "acceptance_condition": "A reviewed theorem proves both the literal W_k formula and its equality to the uniform strict-pair average under the nonzero-denominator condition.",
+      "affected_source_locators": [
+        "Section 5 (cited publication entry cited publication, lines 78-90)"
+      ],
+      "conclusion_relation": "same",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-SELLER-CARRIER-2026-07-24)",
+      "correction_id": "GJ18-CORR-SELLER-CARRIER-2026-07-24",
+      "defect_kind": "normalization_or_scaling",
+      "does_not_claim_archive_derivation": true,
+      "governing_disposition": "repaired_in_governing_proof",
+      "id": "GJ18-PAIR-CARRIER-NORMALIZATION-01",
+      "repair_obligation": "Define the comparison carrier by strict finite order, prove its cardinality M(M-1)/2, and derive the displayed coefficient as the inverse uniform-pair weight when M>=2.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "PaperInterface.source_definition_uniform_ranking_objective_formula and source_definition_uniform_ranking_normalization use sourceStateWk, finiteChainOrderedPair_card, and sourceStateWk_eq_sourceStateUniformWk.",
+      "source_claim": "The displayed coefficient 2/(M(M-1)) is a uniform average only over the strict ordered quality-pair carrier theta_1>theta_2. A generic pair carrier or an unstated cardinality would change the objective.",
+      "source_locator": "Section 5 (cited publication entry cited publication, lines 85-90)",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "This was a source-to-formalization mapping risk, not a change to the paper's objective. The exact strict-pair carrier and its cardinality are now checked."
+    },
+    {
+      "acceptance_condition": "The source-model record exposes the above-bottom condition explicitly and no row asserts strict bottom-tail separation or derives it by name.",
+      "affected_source_locators": [
+        "Section 5 (cited publication entry cited publication, lines 32-40)",
+        "Section 5 (cited publication entry cited publication, lines 45-51)"
+      ],
+      "conclusion_relation": "restricted_domain",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-RATING-CARRIER-2026-07-24)",
+      "correction_id": "GJ18-CORR-RATING-CARRIER-2026-07-24",
+      "defect_kind": "domain_or_endpoint",
+      "does_not_claim_archive_derivation": true,
+      "governing_disposition": "replaced_by_authorized_correction",
+      "id": "GJ18-QUALITY-TAIL-BOTTOM-01",
+      "repair_obligation": "State strict cross-type upper-tail separation only for displayed cutoffs above the bottom rating, and prove the weak all-cutoff dominance used by the finite comparison argument.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "Assumptions.source_strict_ordinal_quality_tail_increase_above_bottom excludes t=0, and SourceModelBridge.FiniteOrdinalSourceModel uses that corrected predicate.",
+      "source_claim": "The source says the cumulative upper-tail probability R(theta,y|Y) is strictly increasing in theta for every displayed rating y. At the lowest rating, however, the upper-tail event is the whole finite scale and has probability one for every theta, so literal strictness there is impossible.",
+      "source_locator": "Section 5 (cited publication entry cited publication, lines 40-51)",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The author-approved corrected model restricts strict cross-type tail separation to nonbottom cutoffs. The governing proof is complete under that visible clause; the impossible literal bottom-tail assertion remains an archival delta rather than an inferred premise."
+    },
+    {
+      "acceptance_condition": "The source-model certificate proves the rate without a universal terminal-mass premise and contains an explicit binary zero-terminal branch.",
+      "affected_source_locators": [
+        "Section 5 (cited publication entry cited publication, lines 40-51)",
+        "Section 5 (cited publication entry cited publication, lines 99-125)"
+      ],
+      "conclusion_relation": "same",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-RATING-CARRIER-2026-07-24)",
+      "correction_id": "GJ18-CORR-RATING-CARRIER-2026-07-24",
+      "defect_kind": "domain_or_endpoint",
+      "does_not_claim_archive_derivation": true,
+      "governing_disposition": "repaired_in_governing_proof",
+      "id": "GJ18-TERMINAL-SUPPORT-01",
+      "repair_obligation": "Avoid a terminal-full-support premise unless separately stated; select the lower seller's actual support maximum, and treat the binary terminal-zero endpoint by its exact rate.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "SourceModelBridge.ordinalSourcePairwiseLdpCertificate selects support extrema semantically; ordinalSourceSinglePairwiseLdpCertificate_binary has a separate low-terminal-zero endpoint calculation.",
+      "source_claim": "Strict decrease between displayed cumulative-tail cutoffs gives positive mass at each nonterminal rating but supplies no cutoff above the terminal rating and therefore does not imply positive terminal mass for every seller. In particular, the low seller's terminal atom may be zero.",
+      "source_locator": "Section 5 (cited publication entry cited publication, lines 40-51)",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The governing proof handles actual support extrema and the binary low-terminal-zero case without adding terminal full support. That repair is complete for the authorized model; it does not validate any stronger archive-support inference."
+    },
+    {
+      "acceptance_condition": "Every corrected Appendix, convergence, and Theorem 1 row has an explicit hpositive_sample premise, and the metadata identifies the positive-rate clarification as author-confirmed rather than source-derived.",
+      "affected_source_locators": [
+        "Section 5 (cited publication entry cited publication, lines 26-29)",
+        "Section 5 (cited publication entry cited publication, lines 99-125)",
+        "Appendix C, Section Proofs (cited publication entry cited publication, lines 7-22)"
+      ],
+      "conclusion_relation": "restricted_domain",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-MATCH-RATES-2026-07-24)",
+      "correction_id": "GJ18-CORR-MATCH-RATES-2026-07-24",
+      "defect_kind": "quantifier_or_uniformity",
+      "does_not_claim_archive_derivation": true,
+      "governing_disposition": "replaced_by_authorized_correction",
+      "id": "GJ18-POSITIVE-MATCH-RATE-01",
+      "repair_obligation": "Either derive positivity from an explicit source condition or record the author-confirmed 0<g(theta)<=1 clarification as a governing addition before claiming pairwise or aggregate convergence.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "ClarifiedSourceModel.match_rate_bounds records 0<g(theta)<=1 for every type, and the checked Appendix/convergence paths retain the same condition in their source-model bridge obligations.",
+      "source_claim": "The source archive assumes only that g is nondecreasing while using k g(theta) as a diverging sample size in its convergence and large-deviation claims. A nondecreasing match function may be zero at one or more seller types, in which case the corresponding sample count need not diverge. The author has subsequently confirmed the governing clarification 0<g(theta)<=1, but that clarification is not literal archive text.",
+      "source_locator": "Section 5 (cited publication entry cited publication, lines 26-29; entry cited publication, lines 7-22)",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "Positive rates are an author-approved governing clause, not an implication of the archive's monotonicity condition. The corrected theorem is complete on that restricted domain and preserves the archive-only gap as an explicit delta."
+    },
+    {
+      "acceptance_condition": "The corrected asymptotic rows explicitly assume hm : 1<=m, which makes the rating carrier Fin (m+1) contain at least two levels.",
+      "affected_source_locators": [
+        "Section 5 (cited publication entry cited publication, lines 32-40)",
+        "Section 5 (cited publication entry cited publication, lines 99-102)"
+      ],
+      "conclusion_relation": "restricted_domain",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-RATING-CARRIER-2026-07-24)",
+      "correction_id": "GJ18-CORR-RATING-CARRIER-2026-07-24",
+      "defect_kind": "domain_or_endpoint",
+      "does_not_claim_archive_derivation": true,
+      "governing_disposition": "replaced_by_authorized_correction",
+      "id": "GJ18-NONTRIVIAL-RATING-SCALE-01",
+      "repair_obligation": "Require a nontrivial finite ordinal scale before deriving strict expected-score gaps, positive rates, or convergence to one.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "ClarifiedSourceModel.nontrivial_rating_scale makes 1<=m part of the governing model record; SourceRatePositivity proves strict separation only under the corresponding nontrivial carrier condition.",
+      "source_claim": "The source calls Y a finite ordered scale but does not state that it has at least two rating levels. On a singleton scale, the strict score and nonbottom strict-tail conditions are vacuous and cannot yield a positive separation exponent.",
+      "source_locator": "Section 5 (cited publication entry cited publication, lines 32-40; entry cited publication, lines 99-102)",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The author-approved corrected model excludes the one-level scale with an explicit nontriviality condition. The governing result is complete on that restricted carrier, without claiming that the archive supplied the condition."
+    },
+    {
+      "acceptance_condition": "ClarifiedSourceModel.stateLaw is visibly equal to iidFloorSourceStateLaw at every horizon, and SourceStateCompletion proves the P_k, weak-inversion, and W_k bridges used by the corrected rate proof.",
+      "affected_source_locators": [
+        "Section 5 (cited publication entry cited publication, lines 40-40)",
+        "Section 5 (cited publication entry cited publication, lines 67-73)",
+        "Appendix C, Section Proofs (cited publication entry cited publication, lines 7-22)"
+      ],
+      "conclusion_relation": "replaced",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-IID-STATE-LAW-2026-07-24)",
+      "correction_id": "GJ18-CORR-IID-STATE-LAW-2026-07-24",
+      "defect_kind": "logical_dependency",
+      "does_not_claim_archive_derivation": true,
+      "governing_disposition": "replaced_by_authorized_correction",
+      "id": "GJ18-IID-STATE-COMPLETION-01",
+      "repair_obligation": "For the corrected target, record the conditionally iid finite product law and prove its state-level P_k, weak-inversion, and W_k bridges. A future archive-equivalence project would additionally need a typed derivation from the printed recurrence.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "ClarifiedSourceModel.conditional_iid_ratings_and_independent_seller_histories supplies the governing product-law equality; SourceStateCompletion proves direct P_k, weak-inversion, and W_k bridges without claiming an archive recurrence derivation.",
+      "source_claim": "The source archive describes a one-rating distribution conditional on seller type and then gives a joint-state recurrence, but it does not prove that the score histories at horizon k have the independent finite product law used by an IID large-deviation calculation. The author has subsequently confirmed conditional IID ratings and cross-seller independence as the governing clarification, but that is not a theorem of the archive recurrence.",
+      "source_locator": "Section 5 (cited publication entry cited publication, lines 40-40; entry cited publication, lines 67-73)",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The author-approved governing model explicitly replaces the archive recurrence route with a conditionally iid finite product law. The corrected proof is complete for that model; no derivation of iid from the archive recurrence is asserted."
+    },
+    {
+      "acceptance_condition": "The corrected theorem is stated over ClarifiedSourceModel.stateLaw, whose conditional iid product-law equality is visible, rather than over an inferred time shift or untyped archive recurrence.",
+      "affected_source_locators": [
+        "Section 5 (cited publication entry cited publication, lines 67-73)"
+      ],
+      "conclusion_relation": "replaced",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-IID-STATE-LAW-2026-07-24)",
+      "correction_id": "GJ18-CORR-IID-STATE-LAW-2026-07-24",
+      "defect_kind": "index_or_integrality",
+      "does_not_claim_archive_derivation": true,
+      "governing_disposition": "replaced_by_authorized_correction",
+      "id": "GJ18-STATE-RECURRENCE-INDEX-01",
+      "repair_obligation": "For the corrected target, use the explicitly recorded finite state law. A future archive-equivalence project would need to specify a state space, initial law, transition indices, and conditioning convention before deriving the P_k/W_k state marginals.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "ClarifiedSourceModel.stateLaw and its conditional_iid_ratings_and_independent_seller_histories field provide the governing state evolution; PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate uses that record without asserting a theorem for the archive recurrence.",
+      "source_claim": "The displayed recurrence writes mu_(k+1) while its membership set and score transition use E_k, n_k, and n_(k-1), with no base state or indexing convention that identifies this as a transition from mu_k to mu_(k+1). It also mixes a conditional state description with integrals over theta and score without a typed finite or measure-theoretic state space.",
+      "source_locator": "Section 5 (cited publication entry cited publication, lines 67-73)",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The author-approved governing model replaces the ambiguous archive recurrence with an explicit finite product state law. This closes the corrected target while retaining the recurrence as an archival delta that no theorem claims to derive."
+    },
+    {
+      "acceptance_condition": "ClarifiedSourceModel.type_prior equals clarifiedUniformTypePrior and the W_k theorem uses the checked strict-pair carrier; no result claims to derive archive population conditioning from mu_k.",
+      "affected_source_locators": [
+        "Section 5 (cited publication entry cited publication, lines 22-24)",
+        "Section 5 (cited publication entry cited publication, lines 67-90)"
+      ],
+      "conclusion_relation": "replaced",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-SELLER-CARRIER-2026-07-24)",
+      "correction_id": "GJ18-CORR-SELLER-CARRIER-2026-07-24",
+      "defect_kind": "event_or_measure",
+      "does_not_claim_archive_derivation": true,
+      "governing_disposition": "replaced_by_authorized_correction",
+      "id": "GJ18-UNIFORM-TYPE-PRIOR-01",
+      "repair_obligation": "For the corrected target, make the uniform PMF and strict ordered-pair carrier explicit. A future archive-equivalence project would additionally need to derive the conditional score law from a joint type-score state and the printed recurrence.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "PaperInterface.author_confirmed_clarified_uniform_type_prior checks ClarifiedSourceModel.type_prior against clarifiedUniformTypePrior, while SourceStateCompletion remains explicit that it conditions on an already selected finiteChainOrderedPair.",
+      "source_claim": "The source says seller types are independently and uniformly drawn, and its mu_k is a joint distribution over type and score. The author-confirmed clarified model now records an explicit uniform type PMF, but the archive itself does not derive its conditional score laws from that population state or connect it to the displayed recurrence.",
+      "source_locator": "Section 5 (cited publication entry cited publication, lines 22-24; entry cited publication, lines 67-90)",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The author-approved corrected model records an explicit uniform finite type prior and uses the finite comparison carrier directly. That is a complete governing-model clause, while the archive's population conditioning remains a separate archival delta."
+    },
+    {
+      "acceptance_condition": "The checked result gives an exponential-rate certificate for the state-level non-strict inversion event under the explicit IID completion and identifies it with the support-safe threshold rate.",
+      "affected_source_locators": [
+        "Appendix C, Section Proofs (cited publication entry cited publication, lines 7-22)",
+        "Appendix C, Section Proofs (cited publication entry cited publication, lines 44-69)"
+      ],
+      "conclusion_relation": "same",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-APPENDIX-DISCRETE-PROOF-2026-07-24)",
+      "correction_id": "GJ18-CORR-APPENDIX-DISCRETE-PROOF-2026-07-24",
+      "defect_kind": "event_or_measure",
+      "does_not_claim_archive_derivation": true,
+      "governing_disposition": "repaired_in_governing_proof",
+      "id": "GJ18-APPENDIX-DISCRETE-INTEGRAL-01",
+      "repair_obligation": "Prove the weak score-inversion rate directly for finite product laws, including support endpoints and floor sample counts, without replacing a discrete probability by an unjustified continuum integral.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "PaperInterface.source_appendix_problessthan_score_gap_rate_iid_completion transports the finite PairwiseThresholdRateTopLdpCertificate through the proved source-state IID weak-inversion bridge.",
+      "source_claim": "The proof rewrites a finite/discrete score-comparison probability as a continuum integral over a in R, substitutes pointwise large-deviation expressions inside that integral, and invokes a Laplace principle without establishing the required discrete-event or uniform asymptotic transfer.",
+      "source_locator": "Appendix C, Section Proofs (cited publication entry cited publication, lines 7-22)",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The governing proof directly establishes the finite iid weak-inversion rate and fixed event comparison. It replaces the archive's unsupported continuum-integral transfer without claiming that transfer was validated."
+    },
+    {
+      "acceptance_condition": "The source-facing P_k-LD row produces an ExponentialRateCertificate for 1-sourceStatePairwisePk rather than merely citing the weak-inversion theorem by name.",
+      "affected_source_locators": [
+        "Appendix C, Section Proofs (cited publication entry cited publication, lines 38-69)"
+      ],
+      "conclusion_relation": "same",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-APPENDIX-DISCRETE-PROOF-2026-07-24)",
+      "correction_id": "GJ18-CORR-APPENDIX-DISCRETE-PROOF-2026-07-24",
+      "defect_kind": "logical_dependency",
+      "does_not_claim_archive_derivation": true,
+      "governing_disposition": "repaired_in_governing_proof",
+      "id": "GJ18-PKLD-CONSTANT-SANDWICH-01",
+      "repair_obligation": "Establish the exact complement identity and prove a positive fixed-factor comparison with the weak inversion event before transferring its exponential rate.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "PaperInterface.source_appendix_pk_ld_complement_rate_iid_completion uses the checked finite complement-error certificate after the source-state IID P_k bridge.",
+      "source_claim": "The Appendix changes 1-P_k to 2 Pr(score gap<0)+Pr(score gap=0) and then says the weak-inversion rate follows directly, but it omits the event algebra and fixed-constant sandwich needed to transfer the normalized logarithmic rate from Pr(score gap<=0).",
+      "source_locator": "Appendix C, Section Proofs (cited publication entry cited publication, lines 44-69)",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The omitted comparison is a repairable proof step. The corrected finite IID theorem establishes the complement-error rate through a checked certificate without changing the substantive pairwise endpoint of that corrected model."
+    },
+    {
+      "acceptance_condition": "The corrected theorem uses sourcePaperRateFunctionTop and HasExtendedExponentialRate, while checked diagnostics establish both the legacy real pairwise-rate-zero fact and a positive finite representative for the WithTop rate.",
+      "affected_source_locators": [
+        "Section 5 (cited publication entry cited publication, lines 111-125)",
+        "Appendix C, Section Proofs (cited publication entry cited publication, lines 7-8)",
+        "Appendix C, Section Proofs (cited publication entry cited publication, lines 44-53)"
+      ],
+      "conclusion_relation": "corrected_codomain",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md (Corrected Clauses: GJ18-CORR-EXTENDED-RATE-2026-07-24)",
+      "correction_id": "GJ18-CORR-EXTENDED-RATE-2026-07-24",
+      "defect_kind": "domain_or_endpoint",
+      "does_not_claim_archive_derivation": true,
+      "governing_disposition": "replaced_by_authorized_correction",
+      "id": "GJ18-EXTENDED-RATE-CODOMAIN-01",
+      "repair_obligation": "Use an extended support-safe rate, or prove and state a restriction to thresholds where the real representation is finite, before identifying the source's rate with a large-deviation exponent. Do not repair the issue by silently using the legacy real infimum, which is zero here.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "SourceRatePositivity.source_legacy_real_pairwiseThresholdRate_eq_zero proves the legacy unrestricted real pairwise infimum is zero; SourceModelBridge.source_pairwiseThresholdRateTop_has_finite_real_representative establishes the finite support-safe alternative used by PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate.",
+      "source_claim": "The source writes I(a|theta) as a real supremum over all a in R. In the finite [0,1]-score model, evaluating below zero makes the legacy Real.sSup-based one-law functions default to zero; consequently the unrestricted legacy real pairwise infimum is exactly zero, not the intended positive exponent. Out-of-support thresholds instead have infinite large-deviation cost in the correct extended codomain.",
+      "source_locator": "Section 5 (cited publication entry cited publication, lines 111-125; entry cited publication, lines 7-8 and 44-53)",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The literal real display remains an archival diagnostic because its unrestricted infimum is zero in the checked finite model. The author-approved theorem instead proves a finite real representative of a support-safe extended rate; no equality to the archive display is claimed."
+    }
+  ],
+  "governing_corrected_model": {
+    "approval_artifact": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
+    "approval_artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
+    "archival_equivalence_claimed": false,
+    "base_archive_path": "cited publication",
+    "base_archive_sha256": "b5378ae6f1ada1674d9f07dd4c1405655a9109e89a9977debab1b89d599f19de",
+    "correction_ids": [
+      "GJ18-CORR-SELLER-CARRIER-2026-07-24",
+      "GJ18-CORR-MATCH-RATES-2026-07-24",
+      "GJ18-CORR-AGGREGATE-INDEX-2026-07-24",
+      "GJ18-CORR-RATING-CARRIER-2026-07-24",
+      "GJ18-CORR-IID-STATE-LAW-2026-07-24",
+      "GJ18-CORR-ADJACENT-INDEX-2026-07-24",
+      "GJ18-CORR-EXTENDED-RATE-2026-07-24",
+      "GJ18-CORR-APPENDIX-DISCRETE-PROOF-2026-07-24"
+    ],
+    "kind": "author_approved_corrected_model",
+    "model_spec_declaration": "GJ18InformativeRatingSystems.ClarifiedSourceModel",
+    "scope_id": "GJ18-corrected-model-2026-07-24",
+    "target_result_declarations": [
+      "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_model_theorem1_state_rate",
+      "GJ18InformativeRatingSystems.PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate"
+    ]
+  },
+  "paper": "GJ18InformativeRatingSystems",
   "policy": [
     "Review the pinned TeX mathematics by source location and expanded model semantics. Lean declaration names route evidence but do not establish source fidelity.",
     "Do not turn a missing source proof step into an unnamed theorem premise. Positive sample rates and conditional IID ratings are author-confirmed governing additions recorded above; the nontrivial rating scale and extended-rate codomain remain explicit corrections, and none is silently attributed to the pinned archive.",
     "The literal mu_k recurrence, uniform type-population conditioning, and real-only rate display remain archival deltas. The checked finite IID results formalize the author-approved corrected model, not evidence that those literal source gaps disappeared.",
     "Every defect records whether the governing result repairs the issue or replaces it by an authorized correction, with a source anchor and conclusion relation. A later archive-equivalence repair must preserve those anchors and satisfy the recorded acceptance condition without relying on declaration names."
-  ]
+  ],
+  "review_status": "defects_recorded",
+  "reviewed_proof_scopes": [
+    {
+      "outcome": "defect_recorded",
+      "semantic_scope": "Finite ordered seller types, floor match counts, ordinal rating laws, aggregate-score definition, the stated system-state recurrence, and the conditional pairwise and uniform-ranking objectives.",
+      "source_locator": "Section 5 (cited publication entry cited publication, lines 20-90)"
+    },
+    {
+      "outcome": "defect_recorded",
+      "semantic_scope": "The convergence prose and Theorem 1's adjacent-pair large-deviation formula, including the real-valued Legendre display and its finite index range.",
+      "source_locator": "Section 5 (cited publication entry cited publication, lines 99-127)"
+    },
+    {
+      "outcome": "defect_recorded",
+      "semantic_scope": "The Appendix weak-inversion large-deviation lemma, the P_k complement-rate transfer, and the reduction from all pairs to adjacent pairs in the W_k rate proof.",
+      "source_locator": "Appendix C, Section Proofs (cited publication entry cited publication, lines 7-104)"
+    }
+  ],
+  "schema": 2,
+  "source_artifact_sha256": "b5378ae6f1ada1674d9f07dd4c1405655a9109e89a9977debab1b89d599f19de"
 }

@@ -1,0 +1,237 @@
+{
+  "generator": "python3 scripts/public_source_display_projection.py",
+  "paper_id": "PKG25NoFreeLunch",
+  "private_source_map_sha256": "4350b06843496f7ffe8d237c02dfd9813ea38a3b6855c4e130a522aa6878fef4",
+  "public_manifest_path": "papers/PKG25NoFreeLunch/audit/public_source_display_projection.json",
+  "public_source_map_sha256": "758283904e6e777f9d0e825c3fc98bd574c9b47f126464b965133aba2a1a2dd2",
+  "raw_source_artifact_included": false,
+  "raw_source_display_material": "selected_byte_pinned_source_anchor_quotes",
+  "schema": 1,
+  "selected_source_item_ids": [
+    "source_definition_agree",
+    "source_definition_collaboration_setting",
+    "source_definition_collaboration_strategy",
+    "source_definition_correct",
+    "source_definition_disagree",
+    "source_definition_incorrect",
+    "source_definition_non_collaboration",
+    "source_definition_predictor",
+    "source_definition_reliability",
+    "source_definition_rounding_classifier",
+    "source_definition_strategy_accuracy",
+    "source_lemma8_bad_tuple",
+    "source_proposition6_linear_combination",
+    "source_proposition7_fixed_deferral",
+    "source_proposition9_constant_tie_label",
+    "source_theorem1_no_free_lunch",
+    "source_unnumbered_iff_restatement"
+  ],
+  "selected_source_items": {
+    "source_definition_agree": {
+      "source_anchors": [
+        {
+          "line_end": 92,
+          "line_start": 83,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{definition}\\label{def:correct}\nFor a collaboration setting $(\\DD, P_1,\\cdots,P_n)$ and $x\\in \\XX,$ we say that\n\\begin{itemize}\n    \\item agent $i$ is \\textbf{correct} on $x$ if $$\\Yhat_i(x) = \\round{\\Pr_{(X,Y)\\sim \\DD}[Y=1\\,|\\,X=x]}$$\n    \\item agent $i$ is \\textbf{incorrect} on $x$ if $$\\Yhat_i(x) \\neq \\round{\\Pr_{(X,Y)\\sim \\DD}[Y=1\\,|\\,X=x]}$$\n    \\item agents $i$ and $j$ \\textbf{agree} on $x$ if $$\\Yhat_i(x) = \\Yhat_j(x)$$\n    \\item agents $i$ and $j$ \\textbf{disagree} on $x$ if $$\\Yhat_i(x) \\neq \\Yhat_j(x).$$\n\\end{itemize}\nFor each of these statements, we can replace $i$ or $j$ with a collaboration strategy $\\CC$.\n\\end{definition}",
+          "quoted_text_sha256": "91eff8451998dd89ce55272f1bf47fb8b74180e36625e5036b0131c0031fd377"
+        }
+      ],
+      "source_kind": "predicate_vocabulary"
+    },
+    "source_definition_collaboration_setting": {
+      "source_anchors": [
+        {
+          "line_end": 19,
+          "line_start": 13,
+          "publication_locator": "cited publication",
+          "quoted_text": "We may now define collaboration settings.\n\\begin{definition}A \\textbf{collaboration setting} is an ordered tuple \n\\begin{equation}\n    S=(\\DD, P_1, \\cdots, P_n),\n\\end{equation}\nwhere $\\DD$ is a probability distribution over $\\XX\\times \\{0,1\\}$ and $P_1,\\cdots,P_n$ are each calibrated predictors on $\\DD$. \n\\end{definition}",
+          "quoted_text_sha256": "8c678388c8c2fb76233378163dc027a5b016aae5d811219c67b76c83eb16fe7d"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "source_definition_collaboration_strategy": {
+      "source_anchors": [
+        {
+          "line_end": 35,
+          "line_start": 27,
+          "publication_locator": "cited publication",
+          "quoted_text": "A collaboration strategy is a way to combine the predicted probabilities of each agent to make a classification.\n\\begin{definition}\nA \\textbf{collaboration strategy} is a deterministic function $\\CC: [0,1]^n \\rightarrow \\{0,1\\}.$\n\\end{definition}\nHere, $\\CC$ should be interpreted as a function that takes in $n$ predicted probabilities and returns a 0-1 classification. Given a collaboration setting $S=(\\DD, P_1, \\cdots, P_n)$, a collaboration strategy $\\CC$ induces the classifier\n\\begin{equation}\n    \\Yhat_\\CC: \\XX \\rightarrow \\{0,1\\},\\quad x \\mapsto \\CC(P_1(x),\\cdots,P_n(x)).\n\\end{equation}\nLet $\\acc_\\CC(S)$ denote the 0-1 accuracy of $\\Yhat_\\CC$ on $\\DD$. In other words, for each $x\\in \\XX$, each agent $i$ produces a predicted probability $P_i(x).$ The collaboration strategy aggregates these predictions into a binary classification. ",
+          "quoted_text_sha256": "39408bb86ecb815294e145490039f0fa3af42f92f67dee7dc77b26c61bfa1632"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "source_definition_correct": {
+      "source_anchors": [
+        {
+          "line_end": 92,
+          "line_start": 83,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{definition}\\label{def:correct}\nFor a collaboration setting $(\\DD, P_1,\\cdots,P_n)$ and $x\\in \\XX,$ we say that\n\\begin{itemize}\n    \\item agent $i$ is \\textbf{correct} on $x$ if $$\\Yhat_i(x) = \\round{\\Pr_{(X,Y)\\sim \\DD}[Y=1\\,|\\,X=x]}$$\n    \\item agent $i$ is \\textbf{incorrect} on $x$ if $$\\Yhat_i(x) \\neq \\round{\\Pr_{(X,Y)\\sim \\DD}[Y=1\\,|\\,X=x]}$$\n    \\item agents $i$ and $j$ \\textbf{agree} on $x$ if $$\\Yhat_i(x) = \\Yhat_j(x)$$\n    \\item agents $i$ and $j$ \\textbf{disagree} on $x$ if $$\\Yhat_i(x) \\neq \\Yhat_j(x).$$\n\\end{itemize}\nFor each of these statements, we can replace $i$ or $j$ with a collaboration strategy $\\CC$.\n\\end{definition}",
+          "quoted_text_sha256": "91eff8451998dd89ce55272f1bf47fb8b74180e36625e5036b0131c0031fd377"
+        }
+      ],
+      "source_kind": "predicate_vocabulary"
+    },
+    "source_definition_disagree": {
+      "source_anchors": [
+        {
+          "line_end": 92,
+          "line_start": 83,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{definition}\\label{def:correct}\nFor a collaboration setting $(\\DD, P_1,\\cdots,P_n)$ and $x\\in \\XX,$ we say that\n\\begin{itemize}\n    \\item agent $i$ is \\textbf{correct} on $x$ if $$\\Yhat_i(x) = \\round{\\Pr_{(X,Y)\\sim \\DD}[Y=1\\,|\\,X=x]}$$\n    \\item agent $i$ is \\textbf{incorrect} on $x$ if $$\\Yhat_i(x) \\neq \\round{\\Pr_{(X,Y)\\sim \\DD}[Y=1\\,|\\,X=x]}$$\n    \\item agents $i$ and $j$ \\textbf{agree} on $x$ if $$\\Yhat_i(x) = \\Yhat_j(x)$$\n    \\item agents $i$ and $j$ \\textbf{disagree} on $x$ if $$\\Yhat_i(x) \\neq \\Yhat_j(x).$$\n\\end{itemize}\nFor each of these statements, we can replace $i$ or $j$ with a collaboration strategy $\\CC$.\n\\end{definition}",
+          "quoted_text_sha256": "91eff8451998dd89ce55272f1bf47fb8b74180e36625e5036b0131c0031fd377"
+        }
+      ],
+      "source_kind": "predicate_vocabulary"
+    },
+    "source_definition_incorrect": {
+      "source_anchors": [
+        {
+          "line_end": 92,
+          "line_start": 83,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{definition}\\label{def:correct}\nFor a collaboration setting $(\\DD, P_1,\\cdots,P_n)$ and $x\\in \\XX,$ we say that\n\\begin{itemize}\n    \\item agent $i$ is \\textbf{correct} on $x$ if $$\\Yhat_i(x) = \\round{\\Pr_{(X,Y)\\sim \\DD}[Y=1\\,|\\,X=x]}$$\n    \\item agent $i$ is \\textbf{incorrect} on $x$ if $$\\Yhat_i(x) \\neq \\round{\\Pr_{(X,Y)\\sim \\DD}[Y=1\\,|\\,X=x]}$$\n    \\item agents $i$ and $j$ \\textbf{agree} on $x$ if $$\\Yhat_i(x) = \\Yhat_j(x)$$\n    \\item agents $i$ and $j$ \\textbf{disagree} on $x$ if $$\\Yhat_i(x) \\neq \\Yhat_j(x).$$\n\\end{itemize}\nFor each of these statements, we can replace $i$ or $j$ with a collaboration strategy $\\CC$.\n\\end{definition}",
+          "quoted_text_sha256": "91eff8451998dd89ce55272f1bf47fb8b74180e36625e5036b0131c0031fd377"
+        }
+      ],
+      "source_kind": "predicate_vocabulary"
+    },
+    "source_definition_non_collaboration": {
+      "source_anchors": [
+        {
+          "line_end": 54,
+          "line_start": 42,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{definition}\\label{def:non-collaborative}\n    A collaboration strategy $\\CC:[0,1]^n\\rightarrow \\{0,1\\}$ is \\textbf{non-collaborative} if there exists $k\\in [n]$ and $\\alpha\\in \\{0,1\\}$ such that \n    \\begin{equation}\n    \\CC(p_1,p_2,\\cdots,p_n) = \n        \\begin{cases}\n        \\round{p_k} &\\quad \\text{$p_k\\neq \\frac{1}{2}$} \\\\\n            \\alpha &\\quad \\text{$p_k=\\frac{1}{2}$}\n        \\end{cases}\n    \\end{equation}\n    for all $(p_1,p_2,\\cdots,p_n)\\in (0,1)^n$.\n\\end{definition}\n\nA collaboration strategy is non-collaborative if it essentially always defers to the classification of a single agent $k\\in [n]$. The definition admits two exceptions. First, when $p_k = \\frac{1}{2}$, the collaboration may select either $0$ or $1$, but must always select the same such value; this choice has no effect on the accuracy of the classifier, so this exception can be essentially ignored. Second, the collaboration strategy need not select $\\round{p_k}$ when $(p_1,p_2,\\cdots,p_n)\\notin (0,1)^n$---i.e., when $p_i\\in \\{0,1\\}$ for some $i\\in [n]$; this exception is somewhat more interesting, and we will return to it after stating our main result.",
+          "quoted_text_sha256": "22b99c90033bde8ad74b659b81910f46ba32598d6c68ae12b9d448115a7ea051"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "source_definition_predictor": {
+      "source_anchors": [
+        {
+          "line_end": 11,
+          "line_start": 7,
+          "publication_locator": "cited publication",
+          "quoted_text": "A \\vocab{predictor} is a function $P: \\XX\\rightarrow [0,1]$. A predictor $P$ is \\vocab{calibrated} on $\\DD$ if\n\\begin{equation}\n    \\Pr_{(X,Y)\\sim \\DD}[Y=1\\,|\\,P(X)=p] = p\n\\end{equation}\nfor all $p\\in [0,1]$ (more precisely, for all $p\\in \\text{Image}(P)$). ",
+          "quoted_text_sha256": "d5e1efbbeba7375dafb5d6f67b4b2360980958154c5fbab530926666a7101339"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "source_definition_reliability": {
+      "source_anchors": [
+        {
+          "line_end": 40,
+          "line_start": 37,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{definition}\n    A collaboration strategy $\\CC:[0,1]^n\\rightarrow \\{0,1\\}$ is \\textbf{reliable} if $\\acc_\\CC(S) \\ge \\min_{i\\in [n]} \\acc_i(S)$ for all collaboration settings $S$.\n\\end{definition}\nIn words, a collaboration strategy is reliable if and only if it always performs at least as well as the \\textit{least accurate} agent.",
+          "quoted_text_sha256": "027480e0a5198d7e8e4b45b4e73930cd8ea2e9ab8fd9b2ae60fe7e3dc698f598"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "source_definition_rounding_classifier": {
+      "source_anchors": [
+        {
+          "line_end": 24,
+          "line_start": 21,
+          "publication_locator": "cited publication",
+          "quoted_text": "The predictor $P_i$ induces the classifier $\\Yhat_i: x\\mapsto \\round{P_i(x)},$ where $\\round{\\cdot}$ is the rounding operator (without loss of generality, set $\\round{0.5}=1$). $\\Yhat_i$ achieves 0-1 accuracy\n\\begin{equation}\n    \\acc_i(S) := \\EE_{(X,Y)\\sim \\DD}[\\max\\{P_i(X), 1 - P_i(X)\\}].\n\\end{equation}",
+          "quoted_text_sha256": "25965b5d6528b879c9ef5bab7fbe7ec3f8737fbd8140c2887853c21b29e63ccf"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "source_definition_strategy_accuracy": {
+      "source_anchors": [
+        {
+          "line_end": 35,
+          "line_start": 35,
+          "publication_locator": "cited publication",
+          "quoted_text": "Let $\\acc_\\CC(S)$ denote the 0-1 accuracy of $\\Yhat_\\CC$ on $\\DD$. In other words, for each $x\\in \\XX$, each agent $i$ produces a predicted probability $P_i(x).$ The collaboration strategy aggregates these predictions into a binary classification. ",
+          "quoted_text_sha256": "fcf462465c0ba7e274145f073e800c99f590ea4fedb462bcd0fb80049030c5a4"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "source_lemma8_bad_tuple": {
+      "source_anchors": [
+        {
+          "line_end": 169,
+          "line_start": 162,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{lemma}\\label{lem:counterexample}\n    Consider a collaboration strategy $\\CC$. Suppose that there exists a tuple $(p_1,p_2,\\cdots,p_n)\\in (0,1)^n$ where $p_k\\neq \\frac{1}{2}$ and $\\CC(p_1,p_2,\\cdots,p_n)\\neq \\round{p_k}.$ Then there exists a collaboration setting $S_k$ such that\n    \\begin{itemize}\n        \\item[(i)] $\\acc_k(S_k)>\\acc_\\CC(S_k)$,\n        \\item[(ii)]\n        $\\acc_i(S_k)\\ge \\acc_\\CC(S_k)$ for all $i\\neq k$.\n    \\end{itemize}\n\\end{lemma}",
+          "quoted_text_sha256": "6c20fe84362d7dff1d572a9f1d2b779779d9ff588c8604762aef0fffe2d5ce61"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_proposition6_linear_combination": {
+      "source_anchors": [
+        {
+          "line_end": 107,
+          "line_start": 100,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{proposition}\\label{prop:linear-combination} \\textbf{Linear combinations of settings.}\n    Consider $\\ell$ collaboration settings $S_1, \\cdots, S_\\ell$. Then for all $(\\lambda_1, \\cdots, \\lambda_\\ell)\\in \\Delta^\\ell$, there exists a collaboration setting $S$ such that\n    \\begin{align}\n        \\acc_i(S) &= \\sum_{m=1}^\\ell \\lambda_m \\acc_i(S_m)\\label{eq:monstera-1}\\\\\n        \\acc_\\CC(S) &= \\sum_{m=1}^\\ell \\lambda_m \\acc_\\CC(S_m)\\label{eq:monstera-2}\n    \\end{align}\n    for all $i\\in [n]$ and collaboration strategies $\\CC$.\n\\end{proposition}",
+          "quoted_text_sha256": "0eb2f0b52e977c9987683b01f775c1208d9c8f93b5837b5a2064847e67758e9c"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "source_proposition7_fixed_deferral": {
+      "source_anchors": [
+        {
+          "line_end": 154,
+          "line_start": 152,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{proposition}\\label{prop:part1}\n    For a collaboration strategy $\\CC$, if $\\acc_\\CC(S)\\ge \\min_{i\\in [n]}\\acc_i(S)$ for all collaboration settings $S$, then there must exist $k\\in [n]$ such that for all $(p_1,p_2,\\cdots,p_n)\\in (0,1)^n$ where $p_k\\neq \\frac{1}{2},$ $\\CC(p_1,p_2,\\cdots,p_n)=\\round{p_k}.$ \n\\end{proposition}",
+          "quoted_text_sha256": "25d4ab78ee0ff24dfcd2a6d834fb7475866c7fe892bcc6005f387c3a871a3147"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "source_proposition9_constant_tie_label": {
+      "source_anchors": [
+        {
+          "line_end": 246,
+          "line_start": 241,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{proposition}\\label{prop:part2}\n    Consider a collaboration strategy $\\CC$ such that there exists $k\\in [n]$ such that for all $(p_1,p_2,\\cdots,p_n)\\in (0,1)^n$ where $p_k\\neq \\frac{1}{2},$ $\\CC(p_1,p_2,\\cdots,p_n)=\\round{p_k}.$ Then, if $\\acc_\\CC(S)\\ge \\min_{i\\in [n]}\\acc_i(S)$ for all collaboration settings $S$, there must exist $\\alpha\\in \\{0,1\\}$ such that for all $(p_1,p_2,\\cdots,p_n)\\in (0,1)^n$ where $p_k=\\frac{1}{2},$\n    \\begin{equation}\\label{eq:horse}\n        \\CC(p_1,p_2,\\cdots,p_n)=\\alpha.\n    \\end{equation}\n\\end{proposition}",
+          "quoted_text_sha256": "b796a407c58d3d3d620a865d9686bb5644a06eccb40075d8db9dd0243cf1989e"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "source_theorem1_no_free_lunch": {
+      "source_anchors": [
+        {
+          "line_end": 63,
+          "line_start": 56,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\setcounter{theorem}{0}\n\\begin{theorem}\\label{thm:main}\n    Every reliable collaboration strategy is non-collaborative.\n    \n\n\n    \n\\end{theorem}",
+          "quoted_text_sha256": "74007306dcbe99b42d704d9bcb2ee0fde4d11c0249645b35c53bc82b5342d08f"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "source_unnumbered_iff_restatement": {
+      "source_anchors": [
+        {
+          "line_end": 148,
+          "line_start": 135,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\subsection{Main Proof}\nIn the remainder of this section, we prove \\Cref{thm:main} in full. We first rewrite \\Cref{thm:main} in an equivalent formulation.\n\n\\setcounter{theorem}{0}\n\\begin{theorem}\nFor a collaboration strategy $\\CC$, $\\acc_\\CC(S) \\ge \\min_{i\\in [n]}\\acc_i(S)$ for all collaboration settings $S$ if and only if there exists $k\\in [n]$ and $\\alpha \\in \\{0,1\\}$ such that for all $(p_1,p_2,\\cdots,p_n)\\in (0,1)^n$:\n\n\\begin{enumerate}\n    \\item[(i)] If $p_k\\neq \\frac{1}{2},$ then\n    $\\CC(p_1,p_2,\\cdots,p_n)=\\round{p_k}.$\n    \\item[(ii)] If $p_k=\\frac{1}{2}$, then\n        $\\CC(p_1,p_2,\\cdots,p_n) = \\alpha.$\n\\end{enumerate}\n\\end{theorem}",
+          "quoted_text_sha256": "361af09604f7c405fcb3fca8a7b44c43c5425632341b7140c4138c5bf6a47c40"
+        }
+      ],
+      "source_kind": "theorem"
+    }
+  },
+  "source_artifact_sha256": "50352a0df5c4722ad67ac01ec17d3fa4c9a79687453b8751587664092fe573cc",
+  "source_coverage_mode": "named_theoretical_statements"
+}

@@ -1,0 +1,679 @@
+{
+  "generator": "python3 scripts/public_source_display_projection.py",
+  "paper_id": "MSVV07AdWords",
+  "private_source_map_sha256": "79b75e1b7c792a9b28356d26fe47f93c5e3729db32e74b3025671d1dd8a67214",
+  "public_manifest_path": "papers/MSVV07AdWords/audit/public_source_display_projection.json",
+  "public_source_map_sha256": "801469a093a62039a7fb18d666eadb4f7504b4f99d6e364280962257c51b1287",
+  "raw_source_artifact_included": false,
+  "raw_source_display_material": "selected_byte_pinned_source_anchor_quotes",
+  "schema": 1,
+  "selected_source_item_ids": [
+    "assumption_epsilon_range",
+    "assumption_full_distinct_query_history",
+    "paperCanAssign_iff",
+    "paperFeasible_iff",
+    "paperMsvvRatio_formula",
+    "paperSlotsPerPageDistinct_iff",
+    "paperSmallBidsLimitFamily_fields",
+    "paperTradeoff_formula",
+    "section2_competitive_ratio_definition",
+    "section3_slab_and_current_slab_definition",
+    "section4_bidder_type_definition",
+    "section4_factor_revealing_primal_dual_lp_formulas",
+    "section4_lemma1_balance_pays_no_later_slab",
+    "section4_lemma2_factor_revealing_lp_constraint",
+    "section4_lemma3_displayed_primal_dual_witnesses_optimal",
+    "section4_lemma3_factor_revealing_lp_optimality",
+    "section4_type_count_x_definition",
+    "section5_alg_query_revenue_definition",
+    "section5_alpha_type_count_definition",
+    "section5_beta_slab_spend_definition",
+    "section5_bidder_type_definition",
+    "section5_delta_prefix_definition",
+    "section5_exact_type_spend_simplifying_assumption",
+    "section5_lemma5_tradeoff_rhs_eq_base_add_delta",
+    "section5_lemma6_per_query_tradeoff",
+    "section5_lemma7_weighted_perturbation_bound",
+    "section5_opt_query_revenue_definition",
+    "section5_query_slab_definition",
+    "section5_query_type_definition",
+    "section5_slab_fiber_beta_accounting_formula",
+    "section5_tradeoff_revealing_primal_dual_lp_formulas",
+    "section5_type_fiber_alpha_accounting_formula",
+    "section6_alpha_i_definition",
+    "section6_beta_i_aggregate_definition",
+    "section6_beta_ij_definition",
+    "section6_current_type_definition",
+    "section8_switching_query_distribution_model",
+    "theorem8_balance_msvv_competitive_of_small_bids_limit_family",
+    "theorem8_corrected_unspent_fraction_formula",
+    "theorem8_dual_induced_tradeoff_formula",
+    "theorem9HardDistribution_uniform",
+    "theorem9_base_instance_balance_revenue_claim",
+    "theorem9_hard_instance_round_bids_and_optimum",
+    "theorem9_no_randomized_online_algorithm_beats_msvv_ratio"
+  ],
+  "selected_source_items": {
+    "assumption_epsilon_range": {
+      "source_anchors": [
+        {
+          "line_end": 205,
+          "line_start": 203,
+          "publication_locator": "cited publication",
+          "quoted_text": "Throughout this paper we will make the assumption that each bid is small compared to the\ncorresponding budget, i.e., maxj cij is small compared to bi , for all i. For the applications of\nthis problem mentioned in the Introduction, this is a reasonable assumption.",
+          "quoted_text_sha256": "21c53ba187b4560521e53bc87f97c7a41e4cbf80a3267f5c479ea380c56bf728"
+        },
+        {
+          "line_end": 773,
+          "line_start": 718,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 8 For function ψk defined as\nψk (i) :=\n\nk−1\nX\nj=i\n\n1\nyj∗ = 1 − (1 − )k−i+1\nk\n\nthe competitive ratio of the algorithm is (1 − 1e ), as k tends to infinity.\nProof :\nBy Lemma 4, the optimal solution to L(π, ψ) and D(π, ψ) has value l · y ∗ . By\nLemma 5 this equals (b + ∆) · y ∗ ≤ N/e + ∆ · y ∗ (since b · y ∗ ≤ N/e, from Section 4).\nNow,\n∗\n\n∆·y =\n\nk−1\nX\n\ny ∗i ((α1 − β1 ) + . . . + (αi − βi )\n\nk−1\nX\n\n∗\n(αi − βi )(yi∗ + . . . + yk−1\n)\n\nk−1\nX\n\n(αi − βi )ψ(i)\n\ni=1\n\n=\n\ni=1\n\n=\n\ni=1\n\n≤\n\nN\n,\nk\n\nwhere the last equality follows from our choice of the function ψ, and the inequality follows\nfrom Lemma 7. As k tends to infinity, we get that the competitive ratio of our algorithm is\n(1 − 1e ).",
+          "quoted_text_sha256": "6ef939cbe600a3647ff45735199a85c0646cea4846db728bed3e4c51b8cc2bfc"
+        }
+      ],
+      "source_kind": "assumption"
+    },
+    "assumption_full_distinct_query_history": {
+      "source_anchors": [
+        {
+          "line_end": 202,
+          "line_start": 198,
+          "publication_locator": "cited publication",
+          "quoted_text": "The adwords problem is the following: There are N bidders, each with a specified daily budget\nbi . Q is a set of query words. Each bidder i specifies a bid ciq for query word q ∈ Q. A\nsequence q1 q2 . . . qM of query words qj ∈ Q arrive online during the day, and each query qj\nmust be assigned to some bidder i (for a revenue of ciqj ). The objective is to maximize the\ntotal revenue at the end of the day while respecting the daily budgets of the bidders.",
+          "quoted_text_sha256": "83f0fded1708b958f27bbb06581e44010902a9d14925f95885bdafca87ad5fea"
+        },
+        {
+          "line_end": 914,
+          "line_start": 897,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 9 No randomized online algorithm can have a competitive ratio better than 1 − 1/e\nfor the b-matching problem, for large b.\nProof : By Yao’s Lemma [Yao77], it suffices to present a distribution over inputs such that\nany deterministic algorithm obtains at most 1 − 1/e of the optimal allocation on the average.\nConsider first the worst case input for the algorithm BALANCE with N bidders, each with\na budget of 1. In this instance, the queries enter in N rounds, with 1/\u000f number of queries in\neach round. We denote by Qi the queries of round i, which are identical to each other. For\nevery i = 1, .., N , bidders i through N bid \u000f for each of the queries of round i, while bidders 1\nthrough i − 1 bid 0 for these queries. The optimal assignment is clearly the one in which all\nthe queries of round i are allocated to bidder i, achieving a revenue of N . One can show that\nBALANCE will achieve only N (1 − 1/e) revenue on this input.\nNow consider all the inputs which can be derived from the above input by permutation of the\nnumbers of the bidders and take the uniform distribution D over all these inputs. Formally, D\ncan be described as follows: Pick a random permutation π of the bidders. The queries enter\nin rounds in the order Q1 , Q2 , ..., QN . Bidders π(i), π(i + 1), ..., π(N ) bid \u000f for the queries Qi\nand the other bidders bid 0 for these queries. The optimal allocation for any permutation\nπ remains N , by allocating the queries Qi to bidder π(i). We wish to bound the expected\nrevenue of any deterministic algorithm over inputs from the distribution D.",
+          "quoted_text_sha256": "51937472d66a6e92f29de5f6deb56e1ec0c5267de7ced7ce045550ed943b0bef"
+        }
+      ],
+      "source_kind": "assumption"
+    },
+    "paperCanAssign_iff": {
+      "source_anchors": [
+        {
+          "line_end": 205,
+          "line_start": 198,
+          "publication_locator": "cited publication",
+          "quoted_text": "The adwords problem is the following: There are N bidders, each with a specified daily budget\nbi . Q is a set of query words. Each bidder i specifies a bid ciq for query word q ∈ Q. A\nsequence q1 q2 . . . qM of query words qj ∈ Q arrive online during the day, and each query qj\nmust be assigned to some bidder i (for a revenue of ciqj ). The objective is to maximize the\ntotal revenue at the end of the day while respecting the daily budgets of the bidders.\nThroughout this paper we will make the assumption that each bid is small compared to the\ncorresponding budget, i.e., maxj cij is small compared to bi , for all i. For the applications of\nthis problem mentioned in the Introduction, this is a reasonable assumption.",
+          "quoted_text_sha256": "f4793e420e8b0bd2ae86c5d574e9115402e8f2f5dd1d4ce1235a9288e8180ea9"
+        },
+        {
+          "line_end": 239,
+          "line_start": 237,
+          "publication_locator": "cited publication",
+          "quoted_text": "Discrete Version of the Algorithm\nWhen a new query arrives, let the bid of bidder i be c(i). Allocate the query to the\nbidder i who maximizes c(i) × ψk (slab(i)).",
+          "quoted_text_sha256": "9e26766295633aa5ef34cb38dad13e6434504c11661b9fa9bde86fd982139652"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "paperFeasible_iff": {
+      "source_anchors": [
+        {
+          "line_end": 205,
+          "line_start": 198,
+          "publication_locator": "cited publication",
+          "quoted_text": "The adwords problem is the following: There are N bidders, each with a specified daily budget\nbi . Q is a set of query words. Each bidder i specifies a bid ciq for query word q ∈ Q. A\nsequence q1 q2 . . . qM of query words qj ∈ Q arrive online during the day, and each query qj\nmust be assigned to some bidder i (for a revenue of ciqj ). The objective is to maximize the\ntotal revenue at the end of the day while respecting the daily budgets of the bidders.\nThroughout this paper we will make the assumption that each bid is small compared to the\ncorresponding budget, i.e., maxj cij is small compared to bi , for all i. For the applications of\nthis problem mentioned in the Introduction, this is a reasonable assumption.",
+          "quoted_text_sha256": "f4793e420e8b0bd2ae86c5d574e9115402e8f2f5dd1d4ce1235a9288e8180ea9"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "paperMsvvRatio_formula": {
+      "source_anchors": [
+        {
+          "line_end": 56,
+          "line_start": 53,
+          "publication_locator": "cited publication",
+          "quoted_text": "\fIn this paper, we present a deterministic algorithm achieving a competitive ratio of 1 − 1/e for\nthis problem, under the assumption that bids are small compared to budgets. The algorithm\nis simple and time efficient. In Section 7 we show that no randomized algorithm can achieve\na better competitive ratio, even under this assumption of small bids.",
+          "quoted_text_sha256": "3d8f1369b1a50e696a2c74a6436854b6af3fe5ac79db6837f8db157959999de1"
+        },
+        {
+          "line_end": 729,
+          "line_start": 718,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 8 For function ψk defined as\nψk (i) :=\n\nk−1\nX\nj=i\n\n1\nyj∗ = 1 − (1 − )k−i+1\nk\n\nthe competitive ratio of the algorithm is (1 − 1e ), as k tends to infinity.",
+          "quoted_text_sha256": "c65d5d6d0c5c0d5f33360b776ad866e4524d4529e2b32690b4c082e315821071"
+        }
+      ],
+      "source_kind": "formula"
+    },
+    "paperSlotsPerPageDistinct_iff": {
+      "source_anchors": [
+        {
+          "line_end": 64,
+          "line_start": 57,
+          "publication_locator": "cited publication",
+          "quoted_text": "In Section 6 we show how our algorithm and analysis can be generalized to the following more\nrealistic situations while still maintaining the same competitive ratio:\n• A bidder pays only if the user clicks on his ad.\n• Advertisers have different daily budgets.\n• Instead of charging a bidder his actual bid, the search engine company charges him the\nnext highest bid.\n• Multiple ads can appear with the results of a query.\n• Advertisers enter at different times.",
+          "quoted_text_sha256": "24977bf5b66528cd90ce9acbf14f4b8fc40fed43253d08786bccf9c8b1106d0b"
+        },
+        {
+          "line_end": 831,
+          "line_start": 825,
+          "publication_locator": "cited publication",
+          "quoted_text": "In this section we show how our algorithm and analysis can be generalized to the following\nsituations:\n1. Advertisers have different daily budgets.\n2. The optimal allocation does not exhaust all the money of advertisers\n3. Advertisers enter at different times.\n4. More than one ad can appear with the results of a query. The most general situation is\nthat with each query we are provided a number specifying the maximum number of ads.",
+          "quoted_text_sha256": "0cff9c8d4154ddbc4bbfcd682a48edd9dc1f376440700d6006b8c8402bf84ef1"
+        },
+        {
+          "line_end": 868,
+          "line_start": 866,
+          "publication_locator": "cited publication",
+          "quoted_text": "4: If the arriving query q requires nq number of advertisements to be placed, then allocate it\nto the bidders with the top nq values of the product of bid and ψ(current type). The proof of\nthe competitive ratio remains unchanged.",
+          "quoted_text_sha256": "dc8d7dca4f8110830f8ae9e3820007f345c28dd47e673d6ce21f976e02e02dfb"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "paperSmallBidsLimitFamily_fields": {
+      "source_anchors": [
+        {
+          "line_end": 773,
+          "line_start": 718,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 8 For function ψk defined as\nψk (i) :=\n\nk−1\nX\nj=i\n\n1\nyj∗ = 1 − (1 − )k−i+1\nk\n\nthe competitive ratio of the algorithm is (1 − 1e ), as k tends to infinity.\nProof :\nBy Lemma 4, the optimal solution to L(π, ψ) and D(π, ψ) has value l · y ∗ . By\nLemma 5 this equals (b + ∆) · y ∗ ≤ N/e + ∆ · y ∗ (since b · y ∗ ≤ N/e, from Section 4).\nNow,\n∗\n\n∆·y =\n\nk−1\nX\n\ny ∗i ((α1 − β1 ) + . . . + (αi − βi )\n\nk−1\nX\n\n∗\n(αi − βi )(yi∗ + . . . + yk−1\n)\n\nk−1\nX\n\n(αi − βi )ψ(i)\n\ni=1\n\n=\n\ni=1\n\n=\n\ni=1\n\n≤\n\nN\n,\nk\n\nwhere the last equality follows from our choice of the function ψ, and the inequality follows\nfrom Lemma 7. As k tends to infinity, we get that the competitive ratio of our algorithm is\n(1 − 1e ).",
+          "quoted_text_sha256": "6ef939cbe600a3647ff45735199a85c0646cea4846db728bed3e4c51b8cc2bfc"
+        },
+        {
+          "line_end": 819,
+          "line_start": 785,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 7 gives us\nX\n\nψ(i)αi ≤\n\ni\n\nwhere the choice of ψ is:\n\nX\n\nψ(i)βi\n\ni\n\n1\nψ(i) = 1 − (1 − )k−i+1\nk\n\nCombining these relations we get:\nk\nX\n\nαi\n\ni=1\n\nk−i+1\nN\n≤\nk\ne\n\nBut the left side of the inequality above is precisely the amount of money left unspent at the\nend of the algorithm. This establishes that the competitive ratio is 1 − 1/e.",
+          "quoted_text_sha256": "f5f5fa5821761a55fdad52752800788738c1cc010a366ac7db0b9161ed2fa558"
+        }
+      ],
+      "source_kind": "assumption"
+    },
+    "paperTradeoff_formula": {
+      "source_anchors": [
+        {
+          "line_end": 239,
+          "line_start": 232,
+          "publication_locator": "cited publication",
+          "quoted_text": "Definition: At any time during the run of the algorithm, we will denote by slab(i) the\ncurrently active slab for bidder i.\nLet ψk : [1 . . . k] → R+ be the following (monotonically decreasing) function:\nψk (i) = 1 − e−(1−i/k)\nNote that ψk → ψ as k → ∞.\nDiscrete Version of the Algorithm\nWhen a new query arrives, let the bid of bidder i be c(i). Allocate the query to the\nbidder i who maximizes c(i) × ψk (slab(i)).",
+          "quoted_text_sha256": "cd105777ceb6e21c58f95e626a9308ae1978dc12879bcff7664863db9978bd27"
+        },
+        {
+          "line_end": 729,
+          "line_start": 718,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 8 For function ψk defined as\nψk (i) :=\n\nk−1\nX\nj=i\n\n1\nyj∗ = 1 − (1 − )k−i+1\nk\n\nthe competitive ratio of the algorithm is (1 − 1e ), as k tends to infinity.",
+          "quoted_text_sha256": "c65d5d6d0c5c0d5f33360b776ad866e4524d4529e2b32690b4c082e315821071"
+        }
+      ],
+      "source_kind": "formula"
+    },
+    "section2_competitive_ratio_definition": {
+      "source_anchors": [
+        {
+          "line_end": 208,
+          "line_start": 198,
+          "publication_locator": "cited publication",
+          "quoted_text": "The adwords problem is the following: There are N bidders, each with a specified daily budget\nbi . Q is a set of query words. Each bidder i specifies a bid ciq for query word q ∈ Q. A\nsequence q1 q2 . . . qM of query words qj ∈ Q arrive online during the day, and each query qj\nmust be assigned to some bidder i (for a revenue of ciqj ). The objective is to maximize the\ntotal revenue at the end of the day while respecting the daily budgets of the bidders.\nThroughout this paper we will make the assumption that each bid is small compared to the\ncorresponding budget, i.e., maxj cij is small compared to bi , for all i. For the applications of\nthis problem mentioned in the Introduction, this is a reasonable assumption.\nAn online algorithm is said to be α-competitive if for every instance, the ratio of the revenue\nof the online algorithm to the revenue of the best off-line algorithm is at least α.\nWhile presenting the algorithm and the proofs, we will make the simplifying assumptions that",
+          "quoted_text_sha256": "ee0a14f9dba6ccb27698338ced01f3b848e7d8e05103b3c4546d6968b4bbdc23"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section3_slab_and_current_slab_definition": {
+      "source_anchors": [
+        {
+          "line_end": 233,
+          "line_start": 225,
+          "publication_locator": "cited publication",
+          "quoted_text": "Our algorithm rectifies this situation by taking into consideration not only the bids but also\nthe unspent budget of each bidder. For the analysis it is convenient to discretize the budgets\nas follows: we pick a large integer k, and discretize the budget of each bidder into k equal\n5\n\n\fparts (called slabs) numbered 1 through k. Each bidder spends money in slab j before moving\nto slab j + 1.\nDefinition: At any time during the run of the algorithm, we will denote by slab(i) the\ncurrently active slab for bidder i.",
+          "quoted_text_sha256": "eff078c49a1e6d6d0a83f828280322c1887cc8a7699bdde3c3a4aea8d6c979a7"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section4_bidder_type_definition": {
+      "source_anchors": [
+        {
+          "line_end": 264,
+          "line_start": 247,
+          "publication_locator": "cited publication",
+          "quoted_text": "In this section we analyze the performance of our algorithm in the special case when all bids\nare equal. This is exactly the algorithm BALANCE of [KP00]. We give a simpler analysis\nof this algorithm using the notion of a factor-revealing LP. This technique was implicit in\n[MRJW77, GK98, MMSV01] and was formalized and made explicit in [JMS02, JMM+ 03]. We\nwill see how to extend the analysis to the general case in Section 5. For another simple proof\nfor BALANCE see [AL06].\nWe will assume for simplicity that in the optimum solution, each of the N players spends\nhis entire budget, and thus the total revenue is N (the proof is similar even without this\nassumption, and we provide it in Section 6). Recall that BALANCE awards each query to the\ninterested bidder who has the maximum unspent budget. We wish to lower bound the total\nrevenue achieved by BALANCE. Let us define the type of a bidder according to the fraction\nof budget spent by that bidder at the end of the algorithm BALANCE: say that the bidder\nis of type j if the fraction of his budget spent at the end of the algorithm lies in the range\n((j − 1)/k, j/k]. By convention a bidder who spends none of his budget is assigned type 1.\nClearly bidders of type j for small values of j contribute little to the total revenue. The factor\nrevealing LP for the performance of the algorithm BALANCE will proceed by bounding the\nnumber of such bidders of type j.\nLemma 1 If OPT assigns query q to a bidder B of type j ≤ k − 1, then BALANCE pays for",
+          "quoted_text_sha256": "e73b8bf49834c4f89c4ae9236438a8cce36c7c768c08d470a671a7d0e733af74"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section4_factor_revealing_primal_dual_lp_formulas": {
+      "source_anchors": [
+        {
+          "line_end": 456,
+          "line_start": 344,
+          "publication_locator": "cited publication",
+          "quoted_text": "The revenue of the algorithm is\nBAL ≥\n\nk−1\nX\n\ni\nk xi +\n\ni=1\n\n= N−\n\nN−\n\nk−1\nX\ni=1\n\nk−1\nX\n\nxi\n\n!\n\n− Nk\n\nk−i\nN\nk xi − k\n\ni=1\n\nTo find a P\nlower bound on the performance of BALANCE we want to find the minimum value\nk−1 k−i\nN\nthat N − i=1\nk xi − k can take over the feasible {xi }s. This gives the following LP, which\n7\n\n\fwe call L. In both the constraints below, i ranges from 1 to k − 1.\n\nmaximize\n\nΦ=\n\nk−1\nX\n\nk−i\nk xi\n\ni=1\n\nsubject to\n\n∀i:\n\ni\nX\ni\ni−j\n)xj ≤ N\n(1 +\nk\nk\nj=1\n\n∀ i : xi ≥ 0\n\nLet us also write down the dual LP, D, which we will use in the case of arbitrary bids.\n\nminimize\n\nk−1\nX\n\ni\nk N yi\n\ni=1\n\nsubject to\n\n∀i:\n\nk−1\nX\nk−i\nj−i\n)yj ≥\n(1 +\nk\nk\nj=i\n\n∀ i : yi ≥ 0\n\nDefine A, b, c so the primal LP, L, can be written as\nmax c · x\n\ns.t. Ax ≤ b x ≥ 0.\n\nand the dual LP, D, can be written as\nmin b · y\n\ns.t. AT y ≥ c\n\ny ≥ 0.\n\nLemma 3 As k → ∞, the value Φ of the linear programs L and D goes to Ne",
+          "quoted_text_sha256": "5ca7f5710a739a4db879aaab5cf40f496dac93b7949b71bd8242691cd30fcd9f"
+        }
+      ],
+      "source_kind": "formula"
+    },
+    "section4_lemma1_balance_pays_no_later_slab": {
+      "source_anchors": [
+        {
+          "line_end": 272,
+          "line_start": 264,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 1 If OPT assigns query q to a bidder B of type j ≤ k − 1, then BALANCE pays for\nq from some slab i such that i ≤ j.\nThe lemma follows immediately from the criterion used by BALANCE for assigning queries\nto bidders: B has type j ≤ k − 1 and therefore spends at most j/k < 1 fraction of his budget\nat the end of BALANCE. It follows that when query q arrives, B is available to BALANCE\n6\n\n\ffor allocating q, and therefore B must allocate q to some bidder who has spent at most j/k\nfraction of his budget.",
+          "quoted_text_sha256": "a7a0c1646494405278c219d201c9f4e23d1c4e0684b4bb6d1558c1f77009f3d8"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "section4_lemma2_factor_revealing_lp_constraint": {
+      "source_anchors": [
+        {
+          "line_end": 330,
+          "line_start": 273,
+          "publication_locator": "cited publication",
+          "quoted_text": "For simplicity we will assume that bidders of type i spend exactly i/k fraction of their budget,\nand that queries do not straddle slabs. The latter is justified by the fact that bids are small\ncompared to budgets (e.g. taking bids to be smaller than k12 of the budget). The total error\nresulting from this simplification is at most N/k and is negligible, once we take k to be large\nenough. Now, for i = 1, 2, . . . , k − 1, let xi be the number of bidders of type(i). Let βi denote\nthe total money spent by the bidders from slab i in the run of BALANCE. It is easy to see\n(Figure 1) that β1 = N/k, and for 2 ≤ i ≤ k, βi = N/k − (x1 + . . . + xi−1 )/k.\n1\n\n3/k\nSLAB 3\n2/k\nTYPE 2\n\n1/k\n0\n\nxk\n\nx3\n\nx2\n\nx1\n\nFigure 1: The bidders are ordered from right to left in order of increasing type. We have labeled here\nthe bidders of type 2 and the money in slab 3.\nLemma 2\n\ni\nX\ni−j\ni\n(1 +\n)xj ≤ N\nk\nk\n\n∀ i, 1 ≤ i ≤ k − 1 :\n\nj=1\n\nProof :\n\nBy Lemma 1,\ni\nX\n\nxj ≤\n\ni\nX\nj=1\n\nj=1\n\ni\n",
+          "quoted_text_sha256": "273edcf2810af2a90847123b311d1f7e3a8496b48e4b975c23e4e5779ee9932f"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "section4_lemma3_displayed_primal_dual_witnesses_optimal": {
+      "source_anchors": [
+        {
+          "line_end": 490,
+          "line_start": 456,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 3 As k → ∞, the value Φ of the linear programs L and D goes to Ne\nProof : On setting all the primal constraints to equality and solving the resulting system,\nwe get a feasible solution x∗i ≥ 0. Similarly, we can set all the dual constraints to equality and\nsolve the resulting system to get a feasible dual solution.\nThese two feasible solutions are:\nx∗i = Nk (1 − k1 )i−1\n\nfor i = 1, .., k − 1\n\nyi∗ = k1 (1 − k1 )k−i−1\n\nfor i = 1, .., k − 1\n\nClearly they satisfy all complementary slackness conditions, hence they are also optimal solutions of the primal and dual programs.\n8\n\n\fThis gives an optimal objective function value of\nΦ = c · x∗ = b · y ∗\n=\n\nk−1\nX\n\nN\n1 i−1\n( k−i\nk ) k (1 − k )\n\ni=1\n\n= N (1 − k1 )k\nAs we make the discretization finer (i.e. as k → ∞) Φ tends to Ne .\n\u0003\nRecall that the size of the matching is at least N − Φ − Nk , hence it tends to N (1 − 1e ). Since\nOPT is N , the competitive ratio is at least 1 − 1e .",
+          "quoted_text_sha256": "60d7974f3757097e64fd2c5e1bf1fc9d7b01ea79b77105915375f49bd69d69ed"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "section4_lemma3_factor_revealing_lp_optimality": {
+      "source_anchors": [
+        {
+          "line_end": 490,
+          "line_start": 456,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 3 As k → ∞, the value Φ of the linear programs L and D goes to Ne\nProof : On setting all the primal constraints to equality and solving the resulting system,\nwe get a feasible solution x∗i ≥ 0. Similarly, we can set all the dual constraints to equality and\nsolve the resulting system to get a feasible dual solution.\nThese two feasible solutions are:\nx∗i = Nk (1 − k1 )i−1\n\nfor i = 1, .., k − 1\n\nyi∗ = k1 (1 − k1 )k−i−1\n\nfor i = 1, .., k − 1\n\nClearly they satisfy all complementary slackness conditions, hence they are also optimal solutions of the primal and dual programs.\n8\n\n\fThis gives an optimal objective function value of\nΦ = c · x∗ = b · y ∗\n=\n\nk−1\nX\n\nN\n1 i−1\n( k−i\nk ) k (1 − k )\n\ni=1\n\n= N (1 − k1 )k\nAs we make the discretization finer (i.e. as k → ∞) Φ tends to Ne .\n\u0003\nRecall that the size of the matching is at least N − Φ − Nk , hence it tends to N (1 − 1e ). Since\nOPT is N , the competitive ratio is at least 1 − 1e .",
+          "quoted_text_sha256": "60d7974f3757097e64fd2c5e1bf1fc9d7b01ea79b77105915375f49bd69d69ed"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "section4_type_count_x_definition": {
+      "source_anchors": [
+        {
+          "line_end": 279,
+          "line_start": 273,
+          "publication_locator": "cited publication",
+          "quoted_text": "For simplicity we will assume that bidders of type i spend exactly i/k fraction of their budget,\nand that queries do not straddle slabs. The latter is justified by the fact that bids are small\ncompared to budgets (e.g. taking bids to be smaller than k12 of the budget). The total error\nresulting from this simplification is at most N/k and is negligible, once we take k to be large\nenough. Now, for i = 1, 2, . . . , k − 1, let xi be the number of bidders of type(i). Let βi denote\nthe total money spent by the bidders from slab i in the run of BALANCE. It is easy to see\n(Figure 1) that β1 = N/k, and for 2 ≤ i ≤ k, βi = N/k − (x1 + . . . + xi−1 )/k.",
+          "quoted_text_sha256": "269c16c81bfdf5472cdf86a973f86108acc5dcbbc4569cc7e9d3a30d5bc45f0a"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section5_alg_query_revenue_definition": {
+      "source_anchors": [
+        {
+          "line_end": 586,
+          "line_start": 579,
+          "publication_locator": "cited publication",
+          "quoted_text": "We are interested in comparing the performance of our algorithm (abbreviated as ALG) with\nthe optimal algorithm OPT. The following definitions focus on some relevant parameters comparing how ALG and OPT treat a query q:\n10\n\n\fDefinition: Let ALG(q) (OPT(q)) denote the revenue earned by the algorithm (OPT) for\nquery q. Say that a query q is of type i if OPT assigns it to a bidder of type i, and say that q\nlies in slab i if the algorithm pays for it from slab i.\nLemma 6 For each query q such that 1 ≤ type(q) ≤ k − 1,",
+          "quoted_text_sha256": "5c48e2208941357fd7d3f788879126b4b14c48eb1b8a2db93cd993761375ee4e"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section5_alpha_type_count_definition": {
+      "source_anchors": [
+        {
+          "line_end": 520,
+          "line_start": 509,
+          "publication_locator": "cited publication",
+          "quoted_text": "Here is how we proceed instead: For every monotonically decreasing tradeoff function ψ and\nevery instance π of the adwords problem and write a new LP L(π, ψ) for our algorithm using\ntradeoff function ψ run on the instance π. Of course, once we specify the algorithm as well\nas the input instance, the actual allocations of queries to bidders is completely determined.\nIn particular, the number αi of bidders of type i is fixed. L(π, ψ) is the seemingly trivial\nLP obtained by taking the left hand side of each inequality in the factor revealing LP L and\nsubstituting xi = αi to obtain the right hand side. Formally:\nRecall the LP L from the previous section:\nmax c · x\n\ns.t. Ax ≤ b x ≥ 0\n",
+          "quoted_text_sha256": "b1abb16d730b56130cd9bf07cb2b94dfb5e12aad055ad92cd77a4d93ae2c49be"
+        },
+        {
+          "line_end": 566,
+          "line_start": 550,
+          "publication_locator": "cited publication",
+          "quoted_text": "The structure of the algorithm does constrain how the LP L differs from L(π, ψ). This is what\nwe will explore now.\nAs in the analysis of BALANCE, we divide the budget of each bidder into k equal slabs,\nnumbered 1 to k. Money in slab i is spent before moving to slab i + 1. We say that a bidder\nis of type j if the fraction of his budget spent at the end of the algorithm lies in the range\n((j − 1)/k, j/k]. By convention a bidder who spends none of his budget is assigned type 1. As\nbefore, we make the simplifying assumption (at the cost of a negligible error term) that bidders\nof type j spend exactly j/k fraction of their budget. Let αj denote the number of bidders of\ntype j. Let βi denote the total money spent by the bidders from slab i in the run of the\nalgorithm. It is easy to see that β1 = N/k, and for 2 ≤ i ≤ k, βi = N/k − (α1 + . . . + αi−1 )/k.\nLet ∆(π, ψ) be a k − 1 dimensional vector whose ith component is (α1 − β1 ) + . . . + (αi − βi ).\nThe following lemma relates the right hand side of the LPs L and L(π, ψ).\nLemma 5\nProof :\n\nl = b + ∆(π, ψ).\nConsider the ith components of the three vectors. We need to prove:",
+          "quoted_text_sha256": "cb81b6c0eeffd5931666d261f4f11855326c9d575bad43fb7967822e0a1ab6cb"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section5_beta_slab_spend_definition": {
+      "source_anchors": [
+        {
+          "line_end": 569,
+          "line_start": 550,
+          "publication_locator": "cited publication",
+          "quoted_text": "The structure of the algorithm does constrain how the LP L differs from L(π, ψ). This is what\nwe will explore now.\nAs in the analysis of BALANCE, we divide the budget of each bidder into k equal slabs,\nnumbered 1 to k. Money in slab i is spent before moving to slab i + 1. We say that a bidder\nis of type j if the fraction of his budget spent at the end of the algorithm lies in the range\n((j − 1)/k, j/k]. By convention a bidder who spends none of his budget is assigned type 1. As\nbefore, we make the simplifying assumption (at the cost of a negligible error term) that bidders\nof type j spend exactly j/k fraction of their budget. Let αj denote the number of bidders of\ntype j. Let βi denote the total money spent by the bidders from slab i in the run of the\nalgorithm. It is easy to see that β1 = N/k, and for 2 ≤ i ≤ k, βi = N/k − (α1 + . . . + αi−1 )/k.\nLet ∆(π, ψ) be a k − 1 dimensional vector whose ith component is (α1 − β1 ) + . . . + (αi − βi ).\nThe following lemma relates the right hand side of the LPs L and L(π, ψ).\nLemma 5\nProof :\n\nl = b + ∆(π, ψ).\nConsider the ith components of the three vectors. We need to prove:\n\ni−2\nα1 (1 + i−1",
+          "quoted_text_sha256": "9d8cca84fbf2d027db9b3ba3ced2d25b6b33262bb0ae1673b12da8bac906059e"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section5_bidder_type_definition": {
+      "source_anchors": [
+        {
+          "line_end": 563,
+          "line_start": 550,
+          "publication_locator": "cited publication",
+          "quoted_text": "The structure of the algorithm does constrain how the LP L differs from L(π, ψ). This is what\nwe will explore now.\nAs in the analysis of BALANCE, we divide the budget of each bidder into k equal slabs,\nnumbered 1 to k. Money in slab i is spent before moving to slab i + 1. We say that a bidder\nis of type j if the fraction of his budget spent at the end of the algorithm lies in the range\n((j − 1)/k, j/k]. By convention a bidder who spends none of his budget is assigned type 1. As\nbefore, we make the simplifying assumption (at the cost of a negligible error term) that bidders\nof type j spend exactly j/k fraction of their budget. Let αj denote the number of bidders of\ntype j. Let βi denote the total money spent by the bidders from slab i in the run of the\nalgorithm. It is easy to see that β1 = N/k, and for 2 ≤ i ≤ k, βi = N/k − (α1 + . . . + αi−1 )/k.\nLet ∆(π, ψ) be a k − 1 dimensional vector whose ith component is (α1 − β1 ) + . . . + (αi − βi ).\nThe following lemma relates the right hand side of the LPs L and L(π, ψ).\nLemma 5\nProof :",
+          "quoted_text_sha256": "1970cca9c3436c0947d5eefcc46ccd7967923d2bc58068583ba226f6c51eca72"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section5_delta_prefix_definition": {
+      "source_anchors": [
+        {
+          "line_end": 577,
+          "line_start": 566,
+          "publication_locator": "cited publication",
+          "quoted_text": "Consider the ith components of the three vectors. We need to prove:\n\ni−2\nα1 (1 + i−1\nk ) + α2 (1 + k ) + . . . + αi\n\n= iN\nk + (α1 − β1 ) + . . . + (αi − βi ).\n\nThis equation follows using the fact that βi = N/k − (α1 + . . . + αi−1 )/k .\n\n\u0003",
+          "quoted_text_sha256": "5ef262f08331fd138e92a28d5e71c7043e9322758ff7d653e199f35d652b8ac3"
+        },
+        {
+          "line_end": 560,
+          "line_start": 560,
+          "publication_locator": "cited publication",
+          "quoted_text": "Let ∆(π, ψ) be a k − 1 dimensional vector whose ith component is (α1 − β1 ) + . . . + (αi − βi ).",
+          "quoted_text_sha256": "55db5b5c0218e3c4f55c573b9415e45149d22d722e8cb8cd1651dfa2866720c4"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section5_exact_type_spend_simplifying_assumption": {
+      "source_anchors": [
+        {
+          "line_end": 564,
+          "line_start": 556,
+          "publication_locator": "cited publication",
+          "quoted_text": "before, we make the simplifying assumption (at the cost of a negligible error term) that bidders\nof type j spend exactly j/k fraction of their budget. Let αj denote the number of bidders of\ntype j. Let βi denote the total money spent by the bidders from slab i in the run of the\nalgorithm. It is easy to see that β1 = N/k, and for 2 ≤ i ≤ k, βi = N/k − (α1 + . . . + αi−1 )/k.\nLet ∆(π, ψ) be a k − 1 dimensional vector whose ith component is (α1 − β1 ) + . . . + (αi − βi ).\nThe following lemma relates the right hand side of the LPs L and L(π, ψ).\nLemma 5\nProof :\n",
+          "quoted_text_sha256": "f54fd41701d34e07d6440d896d4ee7d7cb9149fa8cf1a73839e4abaefcf39ed2"
+        }
+      ],
+      "source_kind": "assumption"
+    },
+    "section5_lemma5_tradeoff_rhs_eq_base_add_delta": {
+      "source_anchors": [
+        {
+          "line_end": 577,
+          "line_start": 560,
+          "publication_locator": "cited publication",
+          "quoted_text": "Let ∆(π, ψ) be a k − 1 dimensional vector whose ith component is (α1 − β1 ) + . . . + (αi − βi ).\nThe following lemma relates the right hand side of the LPs L and L(π, ψ).\nLemma 5\nProof :\n\nl = b + ∆(π, ψ).\nConsider the ith components of the three vectors. We need to prove:\n\ni−2\nα1 (1 + i−1\nk ) + α2 (1 + k ) + . . . + αi\n\n= iN\nk + (α1 − β1 ) + . . . + (αi − βi ).\n\nThis equation follows using the fact that βi = N/k − (α1 + . . . + αi−1 )/k .\n\n\u0003",
+          "quoted_text_sha256": "771814742be9191bc66676777fb9ff92386490ea78e0698fea25e562c53ca118"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "section5_lemma6_per_query_tradeoff": {
+      "source_anchors": [
+        {
+          "line_end": 593,
+          "line_start": 583,
+          "publication_locator": "cited publication",
+          "quoted_text": "\fDefinition: Let ALG(q) (OPT(q)) denote the revenue earned by the algorithm (OPT) for\nquery q. Say that a query q is of type i if OPT assigns it to a bidder of type i, and say that q\nlies in slab i if the algorithm pays for it from slab i.\nLemma 6 For each query q such that 1 ≤ type(q) ≤ k − 1,\nOPT(q)ψ(type(q)) ≤ ALG(q)ψ(slab(q)).\n\nProof : Consider the arrival of q during the run of the algorithm. Since type(q) ≤ k − 1, the\nbidder b to whom OPT assigned this query is still actively bidding from some slab j ≤ type(q)\nat this time. The inequality in the lemma follows from the criterion used by the algorithm to\nassign queries, together with the monotonicity of ψ.\n\u0003",
+          "quoted_text_sha256": "25b1cd4c1b7cba8de60a50491a6165adf315eeddd4e2476095da3708c70b58fa"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "section5_lemma7_weighted_perturbation_bound": {
+      "source_anchors": [
+        {
+          "line_end": 699,
+          "line_start": 597,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 7\n\nψ(i)(αi − βi ) ≤\n\ni=1\n\nProof :\n\nN\n.\nk\n\nWe start by observing that for 1 ≤ i ≤ k − 1:\nX\n\nOPT(q) = αi\n\nX\n\nALG(q) = βi\n\nq:type(q)=i\n\nq:slab(q)=i\n\nBy Lemma 6\nX\n\n[OPT(q)ψ(type(q)) − ALG(q)ψ(slab(q))]\n\nq:type(q)≤k−1\n\n≤ 0.\n\nNext observe that\nX\n\nOPT(q)ψ(type(q))\n\nq:type(q)≤k−1\n\n=\n\nk−1\nX\n\nX\n\nOPT(q)ψ(i)\n\ni=1 q:type(q)=i\n\n=\n\nk−1\nX\n\nψ(i)αi .\n\ni=1\n\nAnd\nX\n\nALG(q)ψ(slab(q))\n\nq:type(q)≤k−1\n\n11\n\n\fX\n\n≤\n\nALG(q)ψ(slab(q))\n\nq:slab(q)≤k\n\nX\n\n≤\n\nALG(q)ψ(slab(q)) +\n\nq:slab(q)≤k−1\n\n=\n\nk−1\nX\n\nX\n\nALG(q)ψ(i) +\n\ni=1 q:slab(q)=i\n\n=\n\nk−1\nX\n\nψ(i)βi +",
+          "quoted_text_sha256": "6e9b259a93747fa2d0a784392b53aca1b1d97a936e51ebeae258442a86350476"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "section5_opt_query_revenue_definition": {
+      "source_anchors": [
+        {
+          "line_end": 586,
+          "line_start": 579,
+          "publication_locator": "cited publication",
+          "quoted_text": "We are interested in comparing the performance of our algorithm (abbreviated as ALG) with\nthe optimal algorithm OPT. The following definitions focus on some relevant parameters comparing how ALG and OPT treat a query q:\n10\n\n\fDefinition: Let ALG(q) (OPT(q)) denote the revenue earned by the algorithm (OPT) for\nquery q. Say that a query q is of type i if OPT assigns it to a bidder of type i, and say that q\nlies in slab i if the algorithm pays for it from slab i.\nLemma 6 For each query q such that 1 ≤ type(q) ≤ k − 1,",
+          "quoted_text_sha256": "5c48e2208941357fd7d3f788879126b4b14c48eb1b8a2db93cd993761375ee4e"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section5_query_slab_definition": {
+      "source_anchors": [
+        {
+          "line_end": 586,
+          "line_start": 579,
+          "publication_locator": "cited publication",
+          "quoted_text": "We are interested in comparing the performance of our algorithm (abbreviated as ALG) with\nthe optimal algorithm OPT. The following definitions focus on some relevant parameters comparing how ALG and OPT treat a query q:\n10\n\n\fDefinition: Let ALG(q) (OPT(q)) denote the revenue earned by the algorithm (OPT) for\nquery q. Say that a query q is of type i if OPT assigns it to a bidder of type i, and say that q\nlies in slab i if the algorithm pays for it from slab i.\nLemma 6 For each query q such that 1 ≤ type(q) ≤ k − 1,",
+          "quoted_text_sha256": "5c48e2208941357fd7d3f788879126b4b14c48eb1b8a2db93cd993761375ee4e"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section5_query_type_definition": {
+      "source_anchors": [
+        {
+          "line_end": 586,
+          "line_start": 579,
+          "publication_locator": "cited publication",
+          "quoted_text": "We are interested in comparing the performance of our algorithm (abbreviated as ALG) with\nthe optimal algorithm OPT. The following definitions focus on some relevant parameters comparing how ALG and OPT treat a query q:\n10\n\n\fDefinition: Let ALG(q) (OPT(q)) denote the revenue earned by the algorithm (OPT) for\nquery q. Say that a query q is of type i if OPT assigns it to a bidder of type i, and say that q\nlies in slab i if the algorithm pays for it from slab i.\nLemma 6 For each query q such that 1 ≤ type(q) ≤ k − 1,",
+          "quoted_text_sha256": "5c48e2208941357fd7d3f788879126b4b14c48eb1b8a2db93cd993761375ee4e"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section5_slab_fiber_beta_accounting_formula": {
+      "source_anchors": [
+        {
+          "line_end": 617,
+          "line_start": 597,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 7\n\nψ(i)(αi − βi ) ≤\n\ni=1\n\nProof :\n\nN\n.\nk\n\nWe start by observing that for 1 ≤ i ≤ k − 1:\nX\n\nOPT(q) = αi\n\nX\n\nALG(q) = βi\n",
+          "quoted_text_sha256": "6a24b178eeb87035d88290f9bb990d143e4c2e36e9569bb4a734346e86498895"
+        }
+      ],
+      "source_kind": "formula"
+    },
+    "section5_tradeoff_revealing_primal_dual_lp_formulas": {
+      "source_anchors": [
+        {
+          "line_end": 549,
+          "line_start": 509,
+          "publication_locator": "cited publication",
+          "quoted_text": "Here is how we proceed instead: For every monotonically decreasing tradeoff function ψ and\nevery instance π of the adwords problem and write a new LP L(π, ψ) for our algorithm using\ntradeoff function ψ run on the instance π. Of course, once we specify the algorithm as well\nas the input instance, the actual allocations of queries to bidders is completely determined.\nIn particular, the number αi of bidders of type i is fixed. L(π, ψ) is the seemingly trivial\nLP obtained by taking the left hand side of each inequality in the factor revealing LP L and\nsubstituting xi = αi to obtain the right hand side. Formally:\nRecall the LP L from the previous section:\nmax c · x\n\ns.t. Ax ≤ b x ≥ 0\n\nLet a be a k − 1 dimensional vector whose ith component is αi . Let Aa = l. We denote the\nfollowing LP by L(π, ψ):\nmax c · x\n\ns.t. Ax ≤ l\n\nx≥0\n9\n\n\fThe dual LP is denoted by D(π, ψ) and is:\nmin l · y\n\ns.t. AT y ≥ c\n\ny≥0\n\nClearly, any one LP L(π, ψ) offers no insight into the performance of our algorithm; after\nall the right hand sides of the inequalities are expressed in terms of the unknown number of\nbidders of type i. Nevertheless, the entire family L(π, ψ) does contain useful information which\nis revealed by considering the duals of these LP’s.\nSince L(π, ψ) differs from L only in the right hand side, the dual D(π, ψ) differs from D only\nin the dual objective function; the constraints remain unchanged. Hence solution y ∗ of D is\nfeasible for D(π, ψ) as well. Recall that this solution was obtained by setting all nontrivial\ninequalities of D to equality.\nNow by construction, if we set all the nontrivial inequalities of LP L(π, ψ) to equality we get a\nfeasible solution, namely a. Clearly, a and y ∗ satisfy all complementary slackness conditions.\nTherefore they are both optimal. Hence we get:\nLemma 4 For any instance π and monotonically decreasing tradeoff function ψ, y ∗ is an\noptimal solution to D(π, ψ).",
+          "quoted_text_sha256": "4b00117d2f4e7c18d02b2148f462d45276a32ba305fab30ff83e0e6c6c19abe6"
+        }
+      ],
+      "source_kind": "formula"
+    },
+    "section5_type_fiber_alpha_accounting_formula": {
+      "source_anchors": [
+        {
+          "line_end": 617,
+          "line_start": 597,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 7\n\nψ(i)(αi − βi ) ≤\n\ni=1\n\nProof :\n\nN\n.\nk\n\nWe start by observing that for 1 ≤ i ≤ k − 1:\nX\n\nOPT(q) = αi\n\nX\n\nALG(q) = βi\n",
+          "quoted_text_sha256": "6a24b178eeb87035d88290f9bb990d143e4c2e36e9569bb4a734346e86498895"
+        }
+      ],
+      "source_kind": "formula"
+    },
+    "section6_alpha_i_definition": {
+      "source_anchors": [
+        {
+          "line_end": 852,
+          "line_start": 842,
+          "publication_locator": "cited publication",
+          "quoted_text": "P j\ni\n[ i−1\nj βi . Let αi be the\nk Bj , k Bj ) of his budget. Let βi =\nP amount of money that the optimal\nallocation gets from the bins of final type i. Let α = i αi , be the total amount of money\nobtained in the optimal allocation.\nNow the relations used in the direct proof at the end of Section 5 become\nP\nα − ij=1 αj",
+          "quoted_text_sha256": "019d950a030677b8ca1c30b477c7af22aa7e1ced30e161ce876dfdbfe5dae887"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section6_beta_i_aggregate_definition": {
+      "source_anchors": [
+        {
+          "line_end": 850,
+          "line_start": 842,
+          "publication_locator": "cited publication",
+          "quoted_text": "P j\ni\n[ i−1\nj βi . Let αi be the\nk Bj , k Bj ) of his budget. Let βi =\nP amount of money that the optimal\nallocation gets from the bins of final type i. Let α = i αi , be the total amount of money\nobtained in the optimal allocation.\nNow the relations used in the direct proof at the end of Section 5 become",
+          "quoted_text_sha256": "a38e2d1cba17e3c139be95e27c2cc669278726d2210df6b4993a86902b0075ba"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section6_beta_ij_definition": {
+      "source_anchors": [
+        {
+          "line_end": 850,
+          "line_start": 842,
+          "publication_locator": "cited publication",
+          "quoted_text": "P j\ni\n[ i−1\nj βi . Let αi be the\nk Bj , k Bj ) of his budget. Let βi =\nP amount of money that the optimal\nallocation gets from the bins of final type i. Let α = i αi , be the total amount of money\nobtained in the optimal allocation.\nNow the relations used in the direct proof at the end of Section 5 become",
+          "quoted_text_sha256": "a38e2d1cba17e3c139be95e27c2cc669278726d2210df6b4993a86902b0075ba"
+        },
+        {
+          "line_end": 846,
+          "line_start": 840,
+          "publication_locator": "cited publication",
+          "quoted_text": "\fThe proof of the competitive ratio changes minimally: Let the budget of bidder j be Bj . For\ni = 1, .., k, define βij to be the amount of money spent by the bidder j from the interval\nP j\ni\n[ i−1\nj βi . Let αi be the\nk Bj , k Bj ) of his budget. Let βi =",
+          "quoted_text_sha256": "dbee4baa638aee1c4c1a8f8421d6c9804f7734745ed65c429dcd324c6f9f34b4"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section6_current_type_definition": {
+      "source_anchors": [
+        {
+          "line_end": 841,
+          "line_start": 833,
+          "publication_locator": "cited publication",
+          "quoted_text": "6. A winning bidder pays only an amount equal to the next highest bid.\n1, 2, 3: We say that the current type of a bidder at some time during the run of the algorithm\nis j if he has spent between (j −1)/k and j/k fraction of his budget at that time. The algorithm\nallocates the next query to the bidder who maximizes the product of his bid and ψ(current\ntype).\n13\n\n\fThe proof of the competitive ratio changes minimally: Let the budget of bidder j be Bj . For\ni = 1, .., k, define βij to be the amount of money spent by the bidder j from the interval",
+          "quoted_text_sha256": "fec79c1cdcaf986ec3ef0a236011580983c041b577a1c94a297547364520abba"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section8_switching_query_distribution_model": {
+      "source_anchors": [
+        {
+          "line_end": 960,
+          "line_start": 949,
+          "publication_locator": "cited publication",
+          "quoted_text": "\foffline problem. Though this is NP-complete for large bids, in the realistic case where the bids\nare small compared to budgets, a 1 − \u000f approximation can be obtained by linear programming\n[BHJ+ 04]. In practice, the query distribution fluctuates over time, varying with time of day,\nspecial events, etc. Therefore it is desirable to have a very simple, time efficient online allocation\nscheme.\nLet us start by giving a model for the query sequence that formalizes both their statistical\nnature as well as their unpredictable fluctuations. In this model, the queries are drawn from an\narbitrary fixed distribution for a period of time. The distribution is switched by an adversary\na number of times each day. Our goal is to design an online algorithm that achieves a 1 − o(1)\nperformance ratio against any fixed probability distribution, while achieving a good worst-case\nperformance ratio when the distribution is switched suddenly (or evolves rapidly).\nWe believe a simple modification of our algorithm achieves this. Here is a concrete proposal:",
+          "quoted_text_sha256": "d6021bcea99a23e060ddb7d8792af1bf0f7cef9d7aeebf5036ae7379e14380d4"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "theorem8_balance_msvv_competitive_of_small_bids_limit_family": {
+      "source_anchors": [
+        {
+          "line_end": 773,
+          "line_start": 718,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 8 For function ψk defined as\nψk (i) :=\n\nk−1\nX\nj=i\n\n1\nyj∗ = 1 − (1 − )k−i+1\nk\n\nthe competitive ratio of the algorithm is (1 − 1e ), as k tends to infinity.\nProof :\nBy Lemma 4, the optimal solution to L(π, ψ) and D(π, ψ) has value l · y ∗ . By\nLemma 5 this equals (b + ∆) · y ∗ ≤ N/e + ∆ · y ∗ (since b · y ∗ ≤ N/e, from Section 4).\nNow,\n∗\n\n∆·y =\n\nk−1\nX\n\ny ∗i ((α1 − β1 ) + . . . + (αi − βi )\n\nk−1\nX\n\n∗\n(αi − βi )(yi∗ + . . . + yk−1\n)\n\nk−1\nX\n\n(αi − βi )ψ(i)\n\ni=1\n\n=\n\ni=1\n\n=\n\ni=1\n\n≤\n\nN\n,\nk\n\nwhere the last equality follows from our choice of the function ψ, and the inequality follows\nfrom Lemma 7. As k tends to infinity, we get that the competitive ratio of our algorithm is\n(1 − 1e ).",
+          "quoted_text_sha256": "6ef939cbe600a3647ff45735199a85c0646cea4846db728bed3e4c51b8cc2bfc"
+        },
+        {
+          "line_end": 819,
+          "line_start": 785,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 7 gives us\nX\n\nψ(i)αi ≤\n\ni\n\nwhere the choice of ψ is:\n\nX\n\nψ(i)βi\n\ni\n\n1\nψ(i) = 1 − (1 − )k−i+1\nk\n\nCombining these relations we get:\nk\nX\n\nαi\n\ni=1\n\nk−i+1\nN\n≤\nk\ne\n\nBut the left side of the inequality above is precisely the amount of money left unspent at the\nend of the algorithm. This establishes that the competitive ratio is 1 − 1/e.",
+          "quoted_text_sha256": "f5f5fa5821761a55fdad52752800788738c1cc010a366ac7db0b9161ed2fa558"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem8_corrected_unspent_fraction_formula": {
+      "source_anchors": [
+        {
+          "line_end": 563,
+          "line_start": 550,
+          "publication_locator": "cited publication",
+          "quoted_text": "The structure of the algorithm does constrain how the LP L differs from L(π, ψ). This is what\nwe will explore now.\nAs in the analysis of BALANCE, we divide the budget of each bidder into k equal slabs,\nnumbered 1 to k. Money in slab i is spent before moving to slab i + 1. We say that a bidder\nis of type j if the fraction of his budget spent at the end of the algorithm lies in the range\n((j − 1)/k, j/k]. By convention a bidder who spends none of his budget is assigned type 1. As\nbefore, we make the simplifying assumption (at the cost of a negligible error term) that bidders\nof type j spend exactly j/k fraction of their budget. Let αj denote the number of bidders of\ntype j. Let βi denote the total money spent by the bidders from slab i in the run of the\nalgorithm. It is easy to see that β1 = N/k, and for 2 ≤ i ≤ k, βi = N/k − (α1 + . . . + αi−1 )/k.\nLet ∆(π, ψ) be a k − 1 dimensional vector whose ith component is (α1 − β1 ) + . . . + (αi − βi ).\nThe following lemma relates the right hand side of the LPs L and L(π, ψ).\nLemma 5\nProof :",
+          "quoted_text_sha256": "1970cca9c3436c0947d5eefcc46ccd7967923d2bc58068583ba226f6c51eca72"
+        },
+        {
+          "line_end": 819,
+          "line_start": 800,
+          "publication_locator": "cited publication",
+          "quoted_text": "1\nψ(i) = 1 − (1 − )k−i+1\nk\n\nCombining these relations we get:\nk\nX\n\nαi\n\ni=1\n\nk−i+1\nN\n≤\nk\ne\n\nBut the left side of the inequality above is precisely the amount of money left unspent at the\nend of the algorithm. This establishes that the competitive ratio is 1 − 1/e.",
+          "quoted_text_sha256": "5fcfb7dc982a7cc1b4527c97486882a5b28054694be37ec1fa8b362619d009ec"
+        }
+      ],
+      "source_kind": "formula"
+    },
+    "theorem8_dual_induced_tradeoff_formula": {
+      "source_anchors": [
+        {
+          "line_end": 731,
+          "line_start": 713,
+          "publication_locator": "cited publication",
+          "quoted_text": "The lemma follows from these three inequalities.\n\u0003\nThe final step consists of choosing the correct tradeoff function ψ as a function of the dual\noptimal solution y ∗ itself, so that for every instance π, the value of the optimal solution to\nL(π, ψ) is at most that of L.\nTheorem 8 For function ψk defined as\nψk (i) :=\n\nk−1\nX\nj=i\n\n1\nyj∗ = 1 − (1 − )k−i+1\nk\n\nthe competitive ratio of the algorithm is (1 − 1e ), as k tends to infinity.\nProof :\nBy Lemma 4, the optimal solution to L(π, ψ) and D(π, ψ) has value l · y ∗ . By",
+          "quoted_text_sha256": "ac977ecde3f5c3d9917abea57a6c91d87171705fd0854e012618553d840b9e1a"
+        }
+      ],
+      "source_kind": "formula"
+    },
+    "theorem9HardDistribution_uniform": {
+      "source_anchors": [
+        {
+          "line_end": 914,
+          "line_start": 897,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 9 No randomized online algorithm can have a competitive ratio better than 1 − 1/e\nfor the b-matching problem, for large b.\nProof : By Yao’s Lemma [Yao77], it suffices to present a distribution over inputs such that\nany deterministic algorithm obtains at most 1 − 1/e of the optimal allocation on the average.\nConsider first the worst case input for the algorithm BALANCE with N bidders, each with\na budget of 1. In this instance, the queries enter in N rounds, with 1/\u000f number of queries in\neach round. We denote by Qi the queries of round i, which are identical to each other. For\nevery i = 1, .., N , bidders i through N bid \u000f for each of the queries of round i, while bidders 1\nthrough i − 1 bid 0 for these queries. The optimal assignment is clearly the one in which all\nthe queries of round i are allocated to bidder i, achieving a revenue of N . One can show that\nBALANCE will achieve only N (1 − 1/e) revenue on this input.\nNow consider all the inputs which can be derived from the above input by permutation of the\nnumbers of the bidders and take the uniform distribution D over all these inputs. Formally, D\ncan be described as follows: Pick a random permutation π of the bidders. The queries enter\nin rounds in the order Q1 , Q2 , ..., QN . Bidders π(i), π(i + 1), ..., π(N ) bid \u000f for the queries Qi\nand the other bidders bid 0 for these queries. The optimal allocation for any permutation\nπ remains N , by allocating the queries Qi to bidder π(i). We wish to bound the expected\nrevenue of any deterministic algorithm over inputs from the distribution D.",
+          "quoted_text_sha256": "51937472d66a6e92f29de5f6deb56e1ec0c5267de7ced7ce045550ed943b0bef"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "theorem9_base_instance_balance_revenue_claim": {
+      "source_anchors": [
+        {
+          "line_end": 908,
+          "line_start": 897,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 9 No randomized online algorithm can have a competitive ratio better than 1 − 1/e\nfor the b-matching problem, for large b.\nProof : By Yao’s Lemma [Yao77], it suffices to present a distribution over inputs such that\nany deterministic algorithm obtains at most 1 − 1/e of the optimal allocation on the average.\nConsider first the worst case input for the algorithm BALANCE with N bidders, each with\na budget of 1. In this instance, the queries enter in N rounds, with 1/\u000f number of queries in\neach round. We denote by Qi the queries of round i, which are identical to each other. For\nevery i = 1, .., N , bidders i through N bid \u000f for each of the queries of round i, while bidders 1\nthrough i − 1 bid 0 for these queries. The optimal assignment is clearly the one in which all\nthe queries of round i are allocated to bidder i, achieving a revenue of N . One can show that\nBALANCE will achieve only N (1 − 1/e) revenue on this input.\nNow consider all the inputs which can be derived from the above input by permutation of the",
+          "quoted_text_sha256": "9bd7e7dbfdb79ddf8be5bfab4bb32627981730c59f8be01b78eef45133da4ee0"
+        }
+      ],
+      "source_kind": "claim"
+    },
+    "theorem9_hard_instance_round_bids_and_optimum": {
+      "source_anchors": [
+        {
+          "line_end": 918,
+          "line_start": 897,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 9 No randomized online algorithm can have a competitive ratio better than 1 − 1/e\nfor the b-matching problem, for large b.\nProof : By Yao’s Lemma [Yao77], it suffices to present a distribution over inputs such that\nany deterministic algorithm obtains at most 1 − 1/e of the optimal allocation on the average.\nConsider first the worst case input for the algorithm BALANCE with N bidders, each with\na budget of 1. In this instance, the queries enter in N rounds, with 1/\u000f number of queries in\neach round. We denote by Qi the queries of round i, which are identical to each other. For\nevery i = 1, .., N , bidders i through N bid \u000f for each of the queries of round i, while bidders 1\nthrough i − 1 bid 0 for these queries. The optimal assignment is clearly the one in which all\nthe queries of round i are allocated to bidder i, achieving a revenue of N . One can show that\nBALANCE will achieve only N (1 − 1/e) revenue on this input.\nNow consider all the inputs which can be derived from the above input by permutation of the\nnumbers of the bidders and take the uniform distribution D over all these inputs. Formally, D\ncan be described as follows: Pick a random permutation π of the bidders. The queries enter\nin rounds in the order Q1 , Q2 , ..., QN . Bidders π(i), π(i + 1), ..., π(N ) bid \u000f for the queries Qi\nand the other bidders bid 0 for these queries. The optimal allocation for any permutation\nπ remains N , by allocating the queries Qi to bidder π(i). We wish to bound the expected\nrevenue of any deterministic algorithm over inputs from the distribution D.\nFix any deterministic algorithm. Let qij be the fraction of queries from Qi that bidder j is\nallocated. We have:\n(\n1",
+          "quoted_text_sha256": "45db1288731647a7846eeba55232edf59a21d18e3eee5026a56988bedcd28c5c"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "theorem9_no_randomized_online_algorithm_beats_msvv_ratio": {
+      "source_anchors": [
+        {
+          "line_end": 938,
+          "line_start": 897,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 9 No randomized online algorithm can have a competitive ratio better than 1 − 1/e\nfor the b-matching problem, for large b.\nProof : By Yao’s Lemma [Yao77], it suffices to present a distribution over inputs such that\nany deterministic algorithm obtains at most 1 − 1/e of the optimal allocation on the average.\nConsider first the worst case input for the algorithm BALANCE with N bidders, each with\na budget of 1. In this instance, the queries enter in N rounds, with 1/\u000f number of queries in\neach round. We denote by Qi the queries of round i, which are identical to each other. For\nevery i = 1, .., N , bidders i through N bid \u000f for each of the queries of round i, while bidders 1\nthrough i − 1 bid 0 for these queries. The optimal assignment is clearly the one in which all\nthe queries of round i are allocated to bidder i, achieving a revenue of N . One can show that\nBALANCE will achieve only N (1 − 1/e) revenue on this input.\nNow consider all the inputs which can be derived from the above input by permutation of the\nnumbers of the bidders and take the uniform distribution D over all these inputs. Formally, D\ncan be described as follows: Pick a random permutation π of the bidders. The queries enter\nin rounds in the order Q1 , Q2 , ..., QN . Bidders π(i), π(i + 1), ..., π(N ) bid \u000f for the queries Qi\nand the other bidders bid 0 for these queries. The optimal allocation for any permutation\nπ remains N , by allocating the queries Qi to bidder π(i). We wish to bound the expected\nrevenue of any deterministic algorithm over inputs from the distribution D.\nFix any deterministic algorithm. Let qij be the fraction of queries from Qi that bidder j is\nallocated. We have:\n(\n1\nif j ≥ i,\nEπ [qij ] ≤ N −i+1\n0\nif j < i.\nTo see this, note that there are N − i + 1 bidders who are bidding for queries Qi . The\ndeterministic algorithm allocates some fraction of these queries to some bidders who bid for\nthem, and leaves the rest of the queries unallocated. If j ≥ i then bidder j is a random\nbidder among the bidders bidding for these queries and hence is allocated an average amount\n1\nof the queries which were allocated from Qi (where the average is taken over random\nof N −i+1\npermutations of the bidders). On the other hand, if j < i, then bidder j bids 0 for queries in\nQi and is not allocated any of these queries in any permutation.\nThus we get that the\namount of money spent by a bidder j at the end of the algorithm\nPjexpected\n1\nis at most min{1, i=1 N −i+1 }. By summing this over j = 1, .., N , we get that the expected\nrevenue of the deterministic algorithm over the distributional input D is at most N (1 − 1/e).\nThis finishes the proof of the theorem.",
+          "quoted_text_sha256": "30dcbe0b173508e184b8584f7b8c73d4dd92fea4dbe51d88c6265fe4e41002ec"
+        }
+      ],
+      "source_kind": "theorem"
+    }
+  },
+  "source_artifact_sha256": "fb4c0a197b196279e47b3606734c945c937c3691a0f7025b3d889eec1868c105",
+  "source_coverage_mode": "named_theoretical_statements"
+}

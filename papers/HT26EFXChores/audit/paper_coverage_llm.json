@@ -13,7 +13,7 @@
       "review_rows": [
         "appendix_no_two_a_items"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076: \\begin{proposition}\n    In an EFX allocation, no bundle contains two or more items from $A$.\n\\end{proposition}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:2074-2076: \\begin{proposition}\n    In an EFX allocation, no bundle contains two or more items from $A$.\n\\end{proposition}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "9ede6f40070dee1e3fe91dd4f6a88f11622e994c452f7cde53e3ee553474d898",
@@ -34,7 +34,7 @@
       "review_rows": [
         "appendix_p1_p2_lower_bounds"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106: \\begin{proposition}\n    In an EFX allocation, $p_1\\ge r$ and $p_2\\ge r$.\n\\end{proposition}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:2104-2106: \\begin{proposition}\n    In an EFX allocation, $p_1\\ge r$ and $p_2\\ge r$.\n\\end{proposition}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "51a44cebf8d548e15da0d31653f82d5b088daaff23209d7dbd5d7be25ab50ee1",
@@ -55,7 +55,7 @@
       "review_rows": [
         "balanced_orientation"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:1019-1031: \\begin{lemma}[Balanced orientation]\\label{lem:balancedorientation}\nLet $G=(V,E)$ be a multigraph and let $(b_i)_{i\\in V}$ be nonnegative\nintegers satisfying $\\sum_{i\\in V}b_i=|E|$.  There exists an assignment of\nevery edge to one of its endpoints such that vertex $i$ receives exactly\n$b_i$ edges if and only if\n\\begin{equation}\\label{eqn:orientation}\n    \\sum_{i\\in U}b_i\\le \\operatorname{inc}_G(U)\n \\qquad\\text{for every }U\\subseteq V.\n\\end{equation}\n\nIf we have \\(\\sum_{i\\in V}b_i\\le |E|\\) instead, and \\eqref{eqn:orientation} is satisfied, then one can assign some edges to their endpoints so that vertex \\(i\\)\nreceives exactly \\(b_i\\) edges, leaving the remaining edges unassigned.\n\\end{lemma}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:1019-1031: \\begin{lemma}[Balanced orientation]\\label{lem:balancedorientation}\nLet $G=(V,E)$ be a multigraph and let $(b_i)_{i\\in V}$ be nonnegative\nintegers satisfying $\\sum_{i\\in V}b_i=|E|$.  There exists an assignment of\nevery edge to one of its endpoints such that vertex $i$ receives exactly\n$b_i$ edges if and only if\n\\begin{equation}\\label{eqn:orientation}\n    \\sum_{i\\in U}b_i\\le \\operatorname{inc}_G(U)\n \\qquad\\text{for every }U\\subseteq V.\n\\end{equation}\n\nIf we have \\(\\sum_{i\\in V}b_i\\le |E|\\) instead, and \\eqref{eqn:orientation} is satisfied, then one can assign some edges to their endpoints so that vertex \\(i\\)\nreceives exactly \\(b_i\\) edges, leaving the remaining edges unassigned.\n\\end{lemma}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "04ecbea0a4db6998a06e63485aa62776f3d9346a36b368d77baa96d01839771c",
@@ -76,7 +76,7 @@
       "review_rows": [
         "canonicalSmallChoreAllocation_iff_source_definition"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:751-756: \\begin{definition}\n    An allocation $P=(P_1,P_2,P_3,P_4)$ of $M_{01}$ is \\emph{canonical} if, for each agent $i$, $|P_i|\\in\\{a,a+1\\}$ and $P_i$ contains $\\min\\{|P_i|, n_i\\}$ items that are small for agent $i$.\n    In a canonical allocation with $b>0$, agents receiving $a$ items are called \\emph{short} agents, and agents receiving $a+1$ items are called \\emph{long} agents.\n    For $b=0$ and $a>0$, every agent in a canonical is both long and short.\n    For $b>0$, an allocation $P=(P_1,P_2,P_3,P_4)$ is \\emph{super-canonical} if it is canonical and satisfies $c_i(P_i)\\leq c_i(P_j)-r$ for every short agent $i$ and every long agent $j$.\n\\end{definition}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:751-756: \\begin{definition}\n    An allocation $P=(P_1,P_2,P_3,P_4)$ of $M_{01}$ is \\emph{canonical} if, for each agent $i$, $|P_i|\\in\\{a,a+1\\}$ and $P_i$ contains $\\min\\{|P_i|, n_i\\}$ items that are small for agent $i$.\n    In a canonical allocation with $b>0$, agents receiving $a$ items are called \\emph{short} agents, and agents receiving $a+1$ items are called \\emph{long} agents.\n    For $b=0$ and $a>0$, every agent in a canonical is both long and short.\n    For $b>0$, an allocation $P=(P_1,P_2,P_3,P_4)$ is \\emph{super-canonical} if it is canonical and satisfies $c_i(P_i)\\leq c_i(P_j)-r$ for every short agent $i$ and every long agent $j$.\n\\end{definition}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "b7dfd121c2acd8261a9aab46faeb495a5f57b96a116923f068b468da2b3d912b",
@@ -97,7 +97,7 @@
       "review_rows": [
         "canonical_allocation_properties"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:760-767: \\begin{lemma}\\label{lem:canonical}\n    We have the following properties regarding canonical allocations.\n    \\begin{enumerate}[label=(\\alph*)]\n        \\item Every canonical allocation is EFX. For $b=0$, every canonical allocation is envy-free.\n        \\item For any $b>0$, there always exists a super-canonical allocation.\n        \\item If $a>0$ and $b=2$, for any partition $N_1,N_2$ of $N$ with $|N_1|=|N_2|=2$, there exist $i\\in N_1$ and $j\\in N_2$ such that there exists a super-canonical allocation $P$ with $|P_i|=|P_j|=a$.\n    \\end{enumerate}\n\\end{lemma}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:760-767: \\begin{lemma}\\label{lem:canonical}\n    We have the following properties regarding canonical allocations.\n    \\begin{enumerate}[label=(\\alph*)]\n        \\item Every canonical allocation is EFX. For $b=0$, every canonical allocation is envy-free.\n        \\item For any $b>0$, there always exists a super-canonical allocation.\n        \\item If $a>0$ and $b=2$, for any partition $N_1,N_2$ of $N$ with $|N_1|=|N_2|=2$, there exist $i\\in N_1$ and $j\\in N_2$ such that there exists a super-canonical allocation $P$ with $|P_i|=|P_j|=a$.\n    \\end{enumerate}\n\\end{lemma}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "d5ec2a021be063665e802efc8396f0167049e01cbc674d4164d18e2de5105496",
@@ -118,7 +118,7 @@
       "review_rows": [
         "composition"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:706-724: \\begin{lemma}[Composition]\\label{lem:composition}\nLet $P=(P_1,\\ldots,P_n)$ be an allocation of some items and $B=(B_1,\\ldots,B_n)$ an allocation of disjoint\nitems.  If\n\\[\n c_i(P_i)\\le c_i(P_j)\\qquad\\forall i,j\n\\]\nand\n\\[\n c_i(B_i)-1\\le c_i(B_j)\\qquad\\forall i,j,\n\\]\nthen the combined allocation $X_i=P_i\\cup B_i$ is EFX. %provided every agent whose second inequality is tight has a small item in her final bundle.\nMore generally, $X$ is EFX whenever\n\\[\n c_i(P_i)-c_i(P_j)\n \\le c_i(B_j)-c_i(B_i)+\\min_{g\\in X_i}c_i(g)\n \\qquad\\forall i,j.\n\\]\nIf the inequalities above hold only for a particular pair of agents $(i,j)$, then $i$ does not strongly envy $j$.\n\\end{lemma}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:706-724: \\begin{lemma}[Composition]\\label{lem:composition}\nLet $P=(P_1,\\ldots,P_n)$ be an allocation of some items and $B=(B_1,\\ldots,B_n)$ an allocation of disjoint\nitems.  If\n\\[\n c_i(P_i)\\le c_i(P_j)\\qquad\\forall i,j\n\\]\nand\n\\[\n c_i(B_i)-1\\le c_i(B_j)\\qquad\\forall i,j,\n\\]\nthen the combined allocation $X_i=P_i\\cup B_i$ is EFX. %provided every agent whose second inequality is tight has a small item in her final bundle.\nMore generally, $X$ is EFX whenever\n\\[\n c_i(P_i)-c_i(P_j)\n \\le c_i(B_j)-c_i(B_i)+\\min_{g\\in X_i}c_i(g)\n \\qquad\\forall i,j.\n\\]\nIf the inequalities above hold only for a particular pair of agents $(i,j)$, then $i$ does not strongly envy $j$.\n\\end{lemma}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "ebba0328ae31a57d5d640867c1b0e1714a02f10dfdbf12cd2b78fa651b91a4a3",
@@ -139,7 +139,7 @@
       "review_rows": [
         "efxForChores_iff_source_definition"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:260-275: \\begin{definition}[EFX for chores]\nAn allocation $X=(X_1,\\ldots,X_n)$ is \\emph{EFX} if for every pair of agents $i,j$ we have either\n\\begin{itemize}\n    \\item $X_i=\\emptyset$, or\n    \\item for every item $g\\in X_i$, $c_i(X_i\\setminus\\{g\\})\\le c_i(X_j).$\n\\end{itemize}\nEquivalently, if\n\\[\n    \\tau_i(X):=\\tau_i(X_i):=\n    \\begin{cases}\n        0, & X_i=\\emptyset,\\\\\n        c_i(X_i)-\\min_{g\\in X_i}c_i(g), & X_i\\ne\\emptyset,\n    \\end{cases}\n\\]\nthen $X$ is EFX if and only if $\\tau_i(X)\\le c_i(X_j)$ for all $i,j$.\n\\end{definition}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:260-275: \\begin{definition}[EFX for chores]\nAn allocation $X=(X_1,\\ldots,X_n)$ is \\emph{EFX} if for every pair of agents $i,j$ we have either\n\\begin{itemize}\n    \\item $X_i=\\emptyset$, or\n    \\item for every item $g\\in X_i$, $c_i(X_i\\setminus\\{g\\})\\le c_i(X_j).$\n\\end{itemize}\nEquivalently, if\n\\[\n    \\tau_i(X):=\\tau_i(X_i):=\n    \\begin{cases}\n        0, & X_i=\\emptyset,\\\\\n        c_i(X_i)-\\min_{g\\in X_i}c_i(g), & X_i\\ne\\emptyset,\n    \\end{cases}\n\\]\nthen $X$ is EFX if and only if $\\tau_i(X)\\le c_i(X_j)$ for all $i,j$.\n\\end{definition}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "5b20a0f5805306e16a1f858dd0e9d14e147a15061ee98ad9dbe35e5a8cb666e5",
@@ -160,7 +160,7 @@
       "review_rows": [
         "efx_pareto_incompatibility"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:416-418: \\begin{theorem}\\label{thm:EFXPO}\n    For every $n\\geq 4$ and $r>\\lceil n/2\\rceil+1$, there exists a $(1,r)$-bi-valued instance with $n$ agents where every EFX allocation is not Pareto-optimal.\n\\end{theorem}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:416-418: \\begin{theorem}\\label{thm:EFXPO}\n    For every $n\\geq 4$ and $r>\\lceil n/2\\rceil+1$, there exists a $(1,r)$-bi-valued instance with $n$ agents where every EFX allocation is not Pareto-optimal.\n\\end{theorem}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "4101e562577522ef3f6dcb25ee16f56498405b55d6096d5796c63c0dbbc912e5",
@@ -181,7 +181,7 @@
       "review_rows": [
         "efx_po_cost_lower_bounds"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:502-504: \\begin{proposition}\\label{prop:r+1r+2}\n    For every agent $i$, we have $c_i(X_i)\\geq r+1$. Moreover, there exists an agent $i$ with $c_i(X_i)\\geq r+2$.\n\\end{proposition}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:502-504: \\begin{proposition}\\label{prop:r+1r+2}\n    For every agent $i$, we have $c_i(X_i)\\geq r+1$. Moreover, there exists an agent $i$ with $c_i(X_i)\\geq r+2$.\n\\end{proposition}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "5c7b64a7d1d762763cab362f240cc785082568060c33b32479c04a8801809bd8",
@@ -202,7 +202,7 @@
       "review_rows": [
         "efx_po_every_agent_large"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:461-463: \\begin{proposition}\\label{prop:PO-exist-large}\n    For every $X_i$, there exists $g\\in X_i$ with $c_i(g)=r$.\n\\end{proposition}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:461-463: \\begin{proposition}\\label{prop:PO-exist-large}\n    For every $X_i$, there exists $g\\in X_i$ with $c_i(g)=r$.\n\\end{proposition}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "b535ec8357f488908b55a7f231a51b1940e11d2deca51837ad2abd4dc9866cdb",
@@ -223,7 +223,7 @@
       "review_rows": [
         "envyFreeForChores_iff_source_definition"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:253-255: \\begin{definition}[EF for chores]\nAn allocation $X=(X_1,\\ldots,X_n)$ is \\emph{envy-free} if for every pair of agents $i,j$ we have $c_i(X_i)\\leq c_i(X_j)$.\n\\end{definition}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:253-255: \\begin{definition}[EF for chores]\nAn allocation $X=(X_1,\\ldots,X_n)$ is \\emph{envy-free} if for every pair of agents $i,j$ we have $c_i(X_i)\\leq c_i(X_j)$.\n\\end{definition}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "31706455a9c99ce301d9bbdc755923bff724cebf9c2ffeefc79270e2005742ae",
@@ -244,7 +244,7 @@
       "review_rows": [
         "exceptional_residue_combination"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712: \\begin{lemma}\\label{lem:easycombine}\n    Suppose $P=(P_1,P_2,P_3,P_4)$ is a canonical allocation of $M_{01}$. Suppose some items of \\(M_2\\) are used for gap-filling, all assigned to short agents, such that \\(P\\) is extended to an envy-free allocation.\n    If the residual of $M_2$ is of an exceptional configuration with exceptional agents $i$ and $j$ and both agents are long agents in the canonical allocation, then there exists an EFX allocation for $M_{01}\\cup M_2$.\n\\end{lemma}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:1709-1712: \\begin{lemma}\\label{lem:easycombine}\n    Suppose $P=(P_1,P_2,P_3,P_4)$ is a canonical allocation of $M_{01}$. Suppose some items of \\(M_2\\) are used for gap-filling, all assigned to short agents, such that \\(P\\) is extended to an envy-free allocation.\n    If the residual of $M_2$ is of an exceptional configuration with exceptional agents $i$ and $j$ and both agents are long agents in the canonical allocation, then there exists an EFX allocation for $M_{01}\\cup M_2$.\n\\end{lemma}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "8d7d8838e301e7ad24e451800e4bfe120a09b5c3670c277ccbbb89516202d992",
@@ -265,7 +265,7 @@
       "review_rows": [
         "four_agent_bi_valued_efx_exists"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:532-534: \\begin{theorem}\\label{thm:four}\n    For four agents, there exists an EFX allocation in every bi-valued instance.\n\\end{theorem}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:532-534: \\begin{theorem}\\label{thm:four}\n    For four agents, there exists an EFX allocation in every bi-valued instance.\n\\end{theorem}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "2f5abe6d869b87e8f89be9256fdc97d1d8de1f1471c103b29f70084528e0ed9f",
@@ -286,7 +286,7 @@
       "review_rows": [
         "m2_efx_allocation"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:1045-1047: \\begin{lemma}[EFX Allocation of $M_2$]\\label{lem:M2}\nThere is an EFX allocation of $M_2$.\n\\end{lemma}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:1045-1047: \\begin{lemma}[EFX Allocation of $M_2$]\\label{lem:M2}\nThere is an EFX allocation of $M_2$.\n\\end{lemma}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "49604e99d700417a60ae5a81e0372f8c3f91a8996efdb96149bdab22e6602b8c",
@@ -307,7 +307,7 @@
       "review_rows": [
         "m2_efx_allocation_properties"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:1419-1462: \\begin{lemma}[Properties of the EFX allocations in Lemma~\\ref{lem:M2}]\\label{lem:M2properties}\nThe EFX allocation $B=(B_1,\\ldots,B_4)$ ensured by Lemma~\\ref{lem:M2} can be chosen to satisfy the\nfollowing additional properties.\n\\begin{enumerate}[label=(\\roman*)]\n\\item Except in the two configurations described in~(ii), every possible envy is certified by removing a small item.  More precisely,\nwhenever $B_i$ contains an item that is small for agent $i$,\n\\[\n c_i(B_i)-1\\le c_i(B_j)\\qquad\\forall j\\in N,\n\\]\nwhereas every agent whose bundle contains only large items is envy-free:\n\\[\n c_i(B_i)\\le c_i(B_j)\\qquad\\forall j\\in N.\n\\]\n\n\\item Up to relabeling, the only configurations in which an agent whose\nbundle contains only large items may fail to be envy-free, and hence\nmust use a large item as the EFX-removal item, are the following.\n\\begin{enumerate}[label=(\\alph*)]\n\\item All items have type $(3,4)$ and\n\\[\n |R|=4q+3.\n\\]\nThen agents $1,2$ receive $q$ and $q+1$ items, respectively, in either\norder, while agents $3,4$ receive $q+1$ items each.  We are free to choose\nwhich of agents $1,2$ receives $q+1$ items, and this agent is the unique agent who use a large item as the EFX-removal item.\n\n\\item The multiset $R$ consists of one item of type $(1,2)$ and\n$4q+3$ items of type $(3,4)$.  One of agents $1,2$ receives the unique\ntype-$(1,2)$ item together with $q$ type-$(3,4)$ items, the other receives\n$q+1$ type-$(3,4)$ items, and agents $3,4$ receive $q+1$ type-$(3,4)$\nitems each.  We are free to choose which of agents $1,2$ receives the unique\ntype-$(1,2)$ item.  The other agent is the unique agent who must use a large\nitem as the EFX-removal item.\n\\end{enumerate}\n\n\\item If every edge of $R$ has type $(1,2)$ or $(3,4)$, with\n$x_{34}\\ge x_{12}\\ge 0$, then the allocation can be chosen so that agent $1$\nis envy-free:\n\\[\n c_1(B_1)\\le c_1(B_j)\\qquad\\forall j\\in N.\n\\]\nThe same statement holds with agent $2$ in place of agent $1$.\n\\end{enumerate}\n\\end{lemma}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:1419-1462: \\begin{lemma}[Properties of the EFX allocations in Lemma~\\ref{lem:M2}]\\label{lem:M2properties}\nThe EFX allocation $B=(B_1,\\ldots,B_4)$ ensured by Lemma~\\ref{lem:M2} can be chosen to satisfy the\nfollowing additional properties.\n\\begin{enumerate}[label=(\\roman*)]\n\\item Except in the two configurations described in~(ii), every possible envy is certified by removing a small item.  More precisely,\nwhenever $B_i$ contains an item that is small for agent $i$,\n\\[\n c_i(B_i)-1\\le c_i(B_j)\\qquad\\forall j\\in N,\n\\]\nwhereas every agent whose bundle contains only large items is envy-free:\n\\[\n c_i(B_i)\\le c_i(B_j)\\qquad\\forall j\\in N.\n\\]\n\n\\item Up to relabeling, the only configurations in which an agent whose\nbundle contains only large items may fail to be envy-free, and hence\nmust use a large item as the EFX-removal item, are the following.\n\\begin{enumerate}[label=(\\alph*)]\n\\item All items have type $(3,4)$ and\n\\[\n |R|=4q+3.\n\\]\nThen agents $1,2$ receive $q$ and $q+1$ items, respectively, in either\norder, while agents $3,4$ receive $q+1$ items each.  We are free to choose\nwhich of agents $1,2$ receives $q+1$ items, and this agent is the unique agent who use a large item as the EFX-removal item.\n\n\\item The multiset $R$ consists of one item of type $(1,2)$ and\n$4q+3$ items of type $(3,4)$.  One of agents $1,2$ receives the unique\ntype-$(1,2)$ item together with $q$ type-$(3,4)$ items, the other receives\n$q+1$ type-$(3,4)$ items, and agents $3,4$ receive $q+1$ type-$(3,4)$\nitems each.  We are free to choose which of agents $1,2$ receives the unique\ntype-$(1,2)$ item.  The other agent is the unique agent who must use a large\nitem as the EFX-removal item.\n\\end{enumerate}\n\n\\item If every edge of $R$ has type $(1,2)$ or $(3,4)$, with\n$x_{34}\\ge x_{12}\\ge 0$, then the allocation can be chosen so that agent $1$\nis envy-free:\n\\[\n c_1(B_1)\\le c_1(B_j)\\qquad\\forall j\\in N.\n\\]\nThe same statement holds with agent $2$ in place of agent $1$.\n\\end{enumerate}\n\\end{lemma}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "26d93c0410e20346a11ef90fd1da9ad518b0697396805e8274c8ad93e62035d3",
@@ -328,7 +328,7 @@
       "review_rows": [
         "m34_insertion"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:577-581: \\begin{lemma}[Insertion of an $M_{34}$ item]\\label{lem:insertion}\nLet $X$ be an EFX allocation of a set of chores $T$.  Let $g\\in M_{34}$ be a\nchore that is small for at least three agents.  Then there is an EFX\nallocation of $T\\cup\\{g\\}$.\n\\end{lemma}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:577-581: \\begin{lemma}[Insertion of an $M_{34}$ item]\\label{lem:insertion}\nLet $X$ be an EFX allocation of a set of chores $T$.  Let $g\\in M_{34}$ be a\nchore that is small for at least three agents.  Then there is an EFX\nallocation of $T\\cup\\{g\\}$.\n\\end{lemma}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "93159117397425d7e6a0fb0a3c8f2b2010ab244d20e5a7645590cfd9f7909bf3",
@@ -349,7 +349,7 @@
       "review_rows": [
         "paretoOptimalForChores_iff_source_definition"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:280-287: \\begin{definition}[Pareto-Optimality]\n    An allocation $Y=(Y_1,\\ldots,Y_n)$ \\emph{Pareto-dominates} an allocation $X=(X_1,\\ldots,X_n)$ if\n    \\begin{itemize}\n        \\item $c_i(Y_i)\\leq c_i(X_i)$ holds for all $i\\in\\{1,\\ldots,n\\}$, and\n        \\item there exists $i\\in\\{1,\\ldots,n\\},\\;$ $c_i(Y_i)<c_i(X_i)$.\n    \\end{itemize}\n    An allocation $X=(X_1,\\ldots,X_n)$ is \\emph{Pareto-optimal} if it is not Pareto-dominated by any allocation.\n\\end{definition}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:280-287: \\begin{definition}[Pareto-Optimality]\n    An allocation $Y=(Y_1,\\ldots,Y_n)$ \\emph{Pareto-dominates} an allocation $X=(X_1,\\ldots,X_n)$ if\n    \\begin{itemize}\n        \\item $c_i(Y_i)\\leq c_i(X_i)$ holds for all $i\\in\\{1,\\ldots,n\\}$, and\n        \\item there exists $i\\in\\{1,\\ldots,n\\},\\;$ $c_i(Y_i)<c_i(X_i)$.\n    \\end{itemize}\n    An allocation $X=(X_1,\\ldots,X_n)$ is \\emph{Pareto-optimal} if it is not Pareto-dominated by any allocation.\n\\end{definition}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "a85e88dd896a82e0db13338b043279a15d09c97d41e5fbaa79efd241d74e972e",
@@ -370,7 +370,7 @@
       "review_rows": [
         "tri_four_no_a_bundle_expensive"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:363-365: \\begin{proposition}\n    For any agent $i$, we have $c_i(X_1)\\geq 20$.\n\\end{proposition}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:363-365: \\begin{proposition}\n    For any agent $i$, we have $c_i(X_1)\\geq 20$.\n\\end{proposition}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "8cc58dbd45c33a9b0366b026fce140556034a3e5d535b8c82ff61b08b1fb9c2f",
@@ -391,7 +391,7 @@
       "review_rows": [
         "tri_four_no_two_large"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:340-342: \\begin{proposition}\n    No agent can receive more than one item in $A$.\n\\end{proposition}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:340-342: \\begin{proposition}\n    No agent can receive more than one item in $A$.\n\\end{proposition}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "519f7407c2d9bab8fe59284d273ac3ebcc2af786280d903414a897194f681247",
@@ -412,7 +412,7 @@
       "review_rows": [
         "tri_valued_nonexistence"
       ],
-      "source_evidence": "Pinned source anchor papers/HT26EFXChores/source/EFXadditivechores.tex:304-306: \\begin{theorem}\\label{thm:tri}\n    For any $n\\geq 4$, there exists a tri-valued instance with $n$ agents where no EFX allocation exists.\n\\end{theorem}",
+      "source_evidence": "Pinned source anchor papers/HT26EFXChores/cited publication:304-306: \\begin{theorem}\\label{thm:tri}\n    For any $n\\geq 4$, there exists a tri-valued instance with $n$ agents where no EFX allocation exists.\n\\end{theorem}",
       "source_grounded": true,
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "dbdb41946fbcb0b2de01144584e89a0ac55e0efaa39d6aa1113fb1b9e7bc95a2",
@@ -428,7 +428,6 @@
   "prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins",
   "review_surface_sha256": "888ed473e140578014b2ef555a2ebc51363cc53ab3722ff695d0b634d396c0a1",
   "schema": 1,
-  "source_artifact_path": "papers/HT26EFXChores/source/EFXadditivechores.tex",
   "source_artifact_sha256": "d6bb00d52184df636e5b690f5baa9da36aac2795b114cae10a113b5f32da9ba1",
   "source_coverage_mode": "named_theoretical_statements",
   "source_grounded": true,

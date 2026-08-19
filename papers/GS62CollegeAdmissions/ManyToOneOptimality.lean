@@ -394,7 +394,7 @@ theorem refinedSeatDeferredAcceptance_applicant_optimal
     deferredAcceptanceState_satisfies_rejected_pair_impossible_no_outside_tie
       refined seatCollege
       (refined_men_acceptably_strict quota val_applicant happNoZero)
-      (college_seat_women_strict quota val_college hcollegeStrict)
+      (college_seat_women_strict quota val_college hcollegeStrict).acceptablyStrict
       (refined_men_no_outside_tie quota val_applicant happNoZero)
   exact da_is_men_optimal_of_rejected_pair_impossible refined seatCollege
     (deferredAcceptanceState_satisfies_invariants_closed refined seatCollege)
@@ -1162,8 +1162,8 @@ theorem collegeProposingRefinedSeatDA_college_optimal
   let seatDA := deferredAcceptance seatValue applicantValue
   have hseatStrict : MenAcceptableStrictPreferenceProfile seatValue := by
     exact college_seat_men_acceptably_strict quota val_college hcollegeStrict
-  have happStrict : WomenStrictPreferenceProfile applicantValue := by
-    exact refined_women_strict quota val_applicant happNoZero
+  have happStrict : WomenAcceptableStrictPreferenceProfile applicantValue := by
+    exact (refined_women_strict quota val_applicant happNoZero).acceptablyStrict
   have hseatNoZero : MenNoOutsideTie seatValue := by
     exact college_seat_men_no_outside_tie quota val_college hcollegeNoZero
   have hrejected : DARejectedPairImpossibleInvariant seatValue applicantValue

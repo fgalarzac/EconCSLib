@@ -1,137 +1,136 @@
 {
-  "schema": 2,
+  "checked_proof_steps": [
+    {
+      "checked_conclusion": "For every natural n at least four, Lean constructs a tri-valued additive chore instance with no feasible EFX allocation.",
+      "id": "HT26-TRI-NONEXISTENCE-01",
+      "scope": "The public endpoint `tri_valued_nonexistence` has exactly `tri_valued_nonexistenceSpec`; the four-agent and Appendix propositions are separately exposed and proved.",
+      "source_locator": "cited publication:304-418; 2074-2136",
+      "source_step": "Build the displayed finite tri-valued instance and derive the no-EFX contradiction from the large-item and minimum-cost counting propositions; extend it to every n at least four in Appendix A."
+    },
+    {
+      "checked_conclusion": "For every n at least four and r greater than ceil(n/2)+1, Lean constructs a `(1,r)` instance in which no EFX allocation is Pareto-optimal.",
+      "id": "HT26-EFX-PO-INCOMPATIBILITY-01",
+      "scope": "The group sizes, item counts, strict r bound, EFX subpropositions, and the Pareto-improvement conclusion are visible in the public specifications.",
+      "source_locator": "cited publication:416-531",
+      "source_step": "Use the two-group `(1,r)` construction, show every EFX bundle has a large item and the stated cost lower bounds, then construct a Pareto improvement for an arbitrary EFX allocation."
+    },
+    {
+      "checked_conclusion": "Lean proves EFX-preserving M34 insertion and both the unit-slack and general cost-gap composition implications.",
+      "id": "HT26-M34-AND-COMPOSITION-01",
+      "scope": "The composition API isolates the inequality argument; allocation-of-pool bookkeeping is retained by its callers whenever a source construction is combined.",
+      "source_locator": "cited publication:577-725",
+      "source_step": "Insert an M34 item through the acyclic most-envy graph and obtain the direct cost-gap composition inequalities for a prefix and residue."
+    },
+    {
+      "checked_conclusion": "Lean proves the named canonical, balanced-orientation, M2-existence, M2-properties, and exceptional-residue-combination lemmas with concrete constructors rather than a supplied allocation certificate.",
+      "id": "HT26-M01-M2-RESIDUE-01",
+      "scope": "The M2-property endpoint includes the ordinary small-item slack/large-only envy-free alternatives, the two exceptional shapes, and the preferred endpoint property for complementary pair types.",
+      "source_locator": "cited publication:760-1739",
+      "source_step": "Construct canonical and super-canonical M01 prefixes, orient M2 multigraph edges, characterize the two exceptional M2 residues, and combine a gap-filled prefix with a selected residue allocation."
+    },
+    {
+      "checked_conclusion": "For every finite four-agent bi-valued additive chore instance, Lean constructs a feasible EFX allocation.",
+      "id": "HT26-FOUR-AGENT-BIVALUED-EXISTENCE-01",
+      "scope": "`four_agent_bi_valued_efx_exists` is the exact public source theorem. The high-ratio proof has no remaining outer graph or residue dispatcher boundary.",
+      "source_locator": "cited publication:532-576; 1053-1739; 1740-3501",
+      "source_step": "Handle low ratios by the source reverse-first-round round robin; for high ratios partition into M01, M2, and M34, close the b modulo four concatenation cases and insert M34 chores; then undo positive normalization and cover equal-value and binary profiles."
+    }
+  ],
+  "defects": [],
+  "model_conventions": [
+    {
+      "checked_scope": "`EconCSLib/SocialChoice/FairDivision/Chores.lean` defines additive cost, feasibility-facing lemmas, envy-freeness, EFX, and the empty-bundle convention. `PaperInterface.lean` uses these predicates in every source-facing statement.",
+      "classification": "source_text_model_convention",
+      "formal_meaning": "A chore pool is a finite set; an allocation is represented by finite bundles satisfying `IsAllocationOf`; each agent's cost is the finite sum `additiveChoreCost`; and chore EFX removes an item from the envious agent's own bundle.",
+      "id": "HT26-FINITE-ADDITIVE-CHORES-01",
+      "recursive_field_source_scope": {
+        "entries": [
+          {
+            "field_chain": [
+              {
+                "field": "chores",
+                "structure": "EconCSLib.FairDivision.AdditiveChoreInstance"
+              }
+            ],
+            "permitted_classifications": [
+              "approved_source_convention"
+            ],
+            "root_record": "EconCSLib.FairDivision.AdditiveChoreInstance",
+            "source_item": "four_agent_bi_valued_efx_exists",
+            "source_locator": "cited publication:245-277"
+          },
+          {
+            "field_chain": [
+              {
+                "field": "cost",
+                "structure": "EconCSLib.FairDivision.AdditiveChoreInstance"
+              }
+            ],
+            "permitted_classifications": [
+              "approved_source_convention"
+            ],
+            "root_record": "EconCSLib.FairDivision.AdditiveChoreInstance",
+            "source_item": "four_agent_bi_valued_efx_exists",
+            "source_locator": "cited publication:245-277"
+          },
+          {
+            "field_chain": [
+              {
+                "field": "nonneg",
+                "structure": "EconCSLib.FairDivision.AdditiveChoreInstance"
+              }
+            ],
+            "permitted_classifications": [
+              "approved_source_convention"
+            ],
+            "root_record": "EconCSLib.FairDivision.AdditiveChoreInstance",
+            "source_item": "four_agent_bi_valued_efx_exists",
+            "source_locator": "cited publication:245-277"
+          }
+        ],
+        "schema": 1
+      },
+      "source_locator": "cited publication:245-277",
+      "why_needed": "The paper gives these primitives in prose and displayed definitions. Lean keeps feasibility separate from the raw allocation function so that every paper-facing existence theorem can state both partition feasibility and EFX explicitly."
+    },
+    {
+      "checked_scope": "`BiValuedReduction.lean`, `FullBiValuedDispatch.lean`, `ConstantBiValued.lean`, `BinaryChores.lean`, and the rescaling theorems in `Chores.lean` prove this bridge without an additional paper-facing premise.",
+      "classification": "source_text_model_convention",
+      "formal_meaning": "For distinct positive values `p < q`, Lean rescales the additive cost profile by `1/p`, proves EFX is invariant under that positive rescaling, and dispatches the normalized `{1,q/p}` instance by whether `q/p <= 2` or `2 < q/p`.",
+      "id": "HT26-POSITIVE-BIVALUED-NORMALIZATION-01",
+      "source_locator": "cited publication:289-298; 532-548",
+      "why_needed": "The paper introduces the normalized `(1,r)` presentation after defining general nonnegative bi-valued costs. The public theorem retains the literal general bi-valued quantification; constant-valued and binary `{0,q}` profiles are handled separately rather than being excluded by normalization."
+    },
+    {
+      "checked_scope": "`PoolPartition.lean`, `BalancedOrientation.lean`, `M2Orientation.lean`, `B1Dispatch.lean`, `B2Dispatch.lean`, and `B3OuterDispatch.lean`.",
+      "classification": "source_text_model_convention",
+      "formal_meaning": "For normalized high-ratio instances, an M2 chore is represented by the two-element finite set of agents for whom it is small; multiplicities of these pairs form the source multigraph. M01 and M34 are represented by the corresponding cardinality predicates on the same small-agent set.",
+      "id": "HT26-M2-EDGE-REPRESENTATION-01",
+      "source_locator": "cited publication:548-576; 1000-1052",
+      "why_needed": "The source shifts between chore pools and a multigraph. The explicit finite-set representation makes the pool partition, endpoint ownership, graph relabelling, and allocation feasibility checkable in the same model."
+    }
+  ],
   "paper": "HT26EFXChores",
-  "source_artifact_path": "source/EFXadditivechores.tex",
-  "source_artifact_sha256": "d6bb00d52184df636e5b690f5baa9da36aac2795b114cae10a113b5f32da9ba1",
-  "source_archive_path": "papers/HT26EFXChores/source-audited.tar",
-  "source_archive_sha256": "c7b7c1d55065c9a7b31909b943b1ac36aa834402a2381126eb8c801ced380f0f",
   "review_status": "reviewed_no_defects",
   "reviewed_proof_scopes": [
     {
-      "source_locator": "source/EFXadditivechores.tex:245-277; 304-418; 2074-2136",
+      "outcome": "no_defect",
       "semantic_scope": "The finite additive-chore model, the tri-valued counterexample, the arbitrary-n Appendix A construction, and the EFX counting contradictions used for Theorems 1 and 2.",
-      "outcome": "no_defect"
+      "source_locator": "cited publication:245-277; 304-418; 2074-2136"
     },
     {
-      "source_locator": "source/EFXadditivechores.tex:532-725; 760-1052; 1419-1462; 1709-1739",
+      "outcome": "no_defect",
       "semantic_scope": "The four-agent bi-valued existence theorem and its M34 insertion, composition, canonical-prefix, balanced-orientation, M2-residue, and exceptional-combination lemmas.",
-      "outcome": "no_defect"
+      "source_locator": "cited publication:532-725; 760-1052; 1419-1462; 1709-1739"
     },
     {
-      "source_locator": "source/EFXadditivechores.tex:1053-1739; 1740-3501",
+      "outcome": "no_defect",
       "semantic_scope": "The M2 graph allocation and the b=0,1,2,3 concatenation analysis, including the source's relabelling, gap-filling, exceptional-residue, and modulus case distinctions.",
-      "outcome": "no_defect"
+      "source_locator": "cited publication:1053-1739; 1740-3501"
     }
   ],
-  "model_conventions": [
-    {
-      "id": "HT26-FINITE-ADDITIVE-CHORES-01",
-      "source_locator": "source/EFXadditivechores.tex:245-277",
-      "classification": "source_text_model_convention",
-      "formal_meaning": "A chore pool is a finite set; an allocation is represented by finite bundles satisfying `IsAllocationOf`; each agent's cost is the finite sum `additiveChoreCost`; and chore EFX removes an item from the envious agent's own bundle.",
-      "why_needed": "The paper gives these primitives in prose and displayed definitions. Lean keeps feasibility separate from the raw allocation function so that every paper-facing existence theorem can state both partition feasibility and EFX explicitly.",
-      "checked_scope": "`EconCSLib/SocialChoice/FairDivision/Chores.lean` defines additive cost, feasibility-facing lemmas, envy-freeness, EFX, and the empty-bundle convention. `PaperInterface.lean` uses these predicates in every source-facing statement.",
-      "recursive_field_source_scope": {
-        "schema": 1,
-        "entries": [
-          {
-            "source_item": "four_agent_bi_valued_efx_exists",
-            "root_record": "EconCSLib.FairDivision.AdditiveChoreInstance",
-            "field_chain": [
-              {
-                "structure": "EconCSLib.FairDivision.AdditiveChoreInstance",
-                "field": "chores"
-              }
-            ],
-            "source_locator": "source/EFXadditivechores.tex:245-277",
-            "permitted_classifications": [
-              "approved_source_convention"
-            ]
-          },
-          {
-            "source_item": "four_agent_bi_valued_efx_exists",
-            "root_record": "EconCSLib.FairDivision.AdditiveChoreInstance",
-            "field_chain": [
-              {
-                "structure": "EconCSLib.FairDivision.AdditiveChoreInstance",
-                "field": "cost"
-              }
-            ],
-            "source_locator": "source/EFXadditivechores.tex:245-277",
-            "permitted_classifications": [
-              "approved_source_convention"
-            ]
-          },
-          {
-            "source_item": "four_agent_bi_valued_efx_exists",
-            "root_record": "EconCSLib.FairDivision.AdditiveChoreInstance",
-            "field_chain": [
-              {
-                "structure": "EconCSLib.FairDivision.AdditiveChoreInstance",
-                "field": "nonneg"
-              }
-            ],
-            "source_locator": "source/EFXadditivechores.tex:245-277",
-            "permitted_classifications": [
-              "approved_source_convention"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "id": "HT26-POSITIVE-BIVALUED-NORMALIZATION-01",
-      "source_locator": "source/EFXadditivechores.tex:289-298; 532-548",
-      "classification": "source_text_model_convention",
-      "formal_meaning": "For distinct positive values `p < q`, Lean rescales the additive cost profile by `1/p`, proves EFX is invariant under that positive rescaling, and dispatches the normalized `{1,q/p}` instance by whether `q/p <= 2` or `2 < q/p`.",
-      "why_needed": "The paper introduces the normalized `(1,r)` presentation after defining general nonnegative bi-valued costs. The public theorem retains the literal general bi-valued quantification; constant-valued and binary `{0,q}` profiles are handled separately rather than being excluded by normalization.",
-      "checked_scope": "`BiValuedReduction.lean`, `FullBiValuedDispatch.lean`, `ConstantBiValued.lean`, `BinaryChores.lean`, and the rescaling theorems in `Chores.lean` prove this bridge without an additional paper-facing premise."
-    },
-    {
-      "id": "HT26-M2-EDGE-REPRESENTATION-01",
-      "source_locator": "source/EFXadditivechores.tex:548-576; 1000-1052",
-      "classification": "source_text_model_convention",
-      "formal_meaning": "For normalized high-ratio instances, an M2 chore is represented by the two-element finite set of agents for whom it is small; multiplicities of these pairs form the source multigraph. M01 and M34 are represented by the corresponding cardinality predicates on the same small-agent set.",
-      "why_needed": "The source shifts between chore pools and a multigraph. The explicit finite-set representation makes the pool partition, endpoint ownership, graph relabelling, and allocation feasibility checkable in the same model.",
-      "checked_scope": "`PoolPartition.lean`, `BalancedOrientation.lean`, `M2Orientation.lean`, `B1Dispatch.lean`, `B2Dispatch.lean`, and `B3OuterDispatch.lean`."
-    }
-  ],
-  "checked_proof_steps": [
-    {
-      "id": "HT26-TRI-NONEXISTENCE-01",
-      "source_locator": "source/EFXadditivechores.tex:304-418; 2074-2136",
-      "source_step": "Build the displayed finite tri-valued instance and derive the no-EFX contradiction from the large-item and minimum-cost counting propositions; extend it to every n at least four in Appendix A.",
-      "checked_conclusion": "For every natural n at least four, Lean constructs a tri-valued additive chore instance with no feasible EFX allocation.",
-      "scope": "The public endpoint `tri_valued_nonexistence` has exactly `tri_valued_nonexistenceSpec`; the four-agent and Appendix propositions are separately exposed and proved."
-    },
-    {
-      "id": "HT26-EFX-PO-INCOMPATIBILITY-01",
-      "source_locator": "source/EFXadditivechores.tex:416-531",
-      "source_step": "Use the two-group `(1,r)` construction, show every EFX bundle has a large item and the stated cost lower bounds, then construct a Pareto improvement for an arbitrary EFX allocation.",
-      "checked_conclusion": "For every n at least four and r greater than ceil(n/2)+1, Lean constructs a `(1,r)` instance in which no EFX allocation is Pareto-optimal.",
-      "scope": "The group sizes, item counts, strict r bound, EFX subpropositions, and the Pareto-improvement conclusion are visible in the public specifications."
-    },
-    {
-      "id": "HT26-M34-AND-COMPOSITION-01",
-      "source_locator": "source/EFXadditivechores.tex:577-725",
-      "source_step": "Insert an M34 item through the acyclic most-envy graph and obtain the direct cost-gap composition inequalities for a prefix and residue.",
-      "checked_conclusion": "Lean proves EFX-preserving M34 insertion and both the unit-slack and general cost-gap composition implications.",
-      "scope": "The composition API isolates the inequality argument; allocation-of-pool bookkeeping is retained by its callers whenever a source construction is combined."
-    },
-    {
-      "id": "HT26-M01-M2-RESIDUE-01",
-      "source_locator": "source/EFXadditivechores.tex:760-1739",
-      "source_step": "Construct canonical and super-canonical M01 prefixes, orient M2 multigraph edges, characterize the two exceptional M2 residues, and combine a gap-filled prefix with a selected residue allocation.",
-      "checked_conclusion": "Lean proves the named canonical, balanced-orientation, M2-existence, M2-properties, and exceptional-residue-combination lemmas with concrete constructors rather than a supplied allocation certificate.",
-      "scope": "The M2-property endpoint includes the ordinary small-item slack/large-only envy-free alternatives, the two exceptional shapes, and the preferred endpoint property for complementary pair types."
-    },
-    {
-      "id": "HT26-FOUR-AGENT-BIVALUED-EXISTENCE-01",
-      "source_locator": "source/EFXadditivechores.tex:532-576; 1053-1739; 1740-3501",
-      "source_step": "Handle low ratios by the source reverse-first-round round robin; for high ratios partition into M01, M2, and M34, close the b modulo four concatenation cases and insert M34 chores; then undo positive normalization and cover equal-value and binary profiles.",
-      "checked_conclusion": "For every finite four-agent bi-valued additive chore instance, Lean constructs a feasible EFX allocation.",
-      "scope": "`four_agent_bi_valued_efx_exists` is the exact public source theorem. The high-ratio proof has no remaining outer graph or residue dispatcher boundary."
-    }
-  ],
-  "defects": []
+  "schema": 2,
+  "source_archive_path": "papers/HT26EFXChores/cited publication",
+  "source_archive_sha256": "c7b7c1d55065c9a7b31909b943b1ac36aa834402a2381126eb8c801ced380f0f",
+  "source_artifact_sha256": "d6bb00d52184df636e5b690f5baa9da36aac2795b114cae10a113b5f32da9ba1"
 }

@@ -252,32 +252,32 @@
         {
           "id": "source_seats",
           "kind": "parameter",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "statement": "The named lemma ranges over a natural district magnitude M."
         },
         {
           "id": "source_share",
           "kind": "parameter",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "statement": "The named lemma ranges over a real Republican vote share y_R."
         },
         {
           "id": "source_positive",
           "kind": "assumption",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "statement": "The displayed share domain has the strict lower bound 0<y_R."
         },
         {
           "id": "source_upper",
           "kind": "assumption",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "statement": "The displayed share domain has the weak upper bound y_R<=1."
         },
         {
           "id": "source_conclusion",
           "kind": "conclusion",
           "source_item": "lemma_c1_pav_min_argmax_interval",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "source_statement_sha256": "286a11de6d49fc0ba8f9849f739ccd474b1f4569994b7f3cdd5289c9a5dd4fd1",
           "statement": "Lemma C.1: for y_R in (0,1], the paper's leftmost PAV maximizing Republican seat count equals the unique integer ell satisfying y_R(M+1)-1 <= ell < y_R(M+1)."
         }
@@ -290,7 +290,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "lemma_c1_pav_min_argmax_interval",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "source_statement_sha256": "286a11de6d49fc0ba8f9849f739ccd474b1f4569994b7f3cdd5289c9a5dd4fd1",
           "source_support_scope": "The route binds the complete named source result, including its displayed domain, hypotheses, relational interpretation where relevant, and all stated conclusion components; the comparison is by formulas and quantified objects rather than a matching title."
         }
@@ -555,32 +555,32 @@
         {
           "id": "source_seats",
           "kind": "parameter",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "statement": "The named lemma ranges over a natural district magnitude M."
         },
         {
           "id": "source_share",
           "kind": "parameter",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "statement": "The named lemma ranges over a real Republican vote share y_R."
         },
         {
           "id": "source_positive",
           "kind": "assumption",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "statement": "The displayed share domain has the strict lower bound 0<y_R."
         },
         {
           "id": "source_upper",
           "kind": "assumption",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "statement": "The displayed share domain has the weak upper bound y_R<=1."
         },
         {
           "id": "source_conclusion",
           "kind": "conclusion",
           "source_item": "lemma_c1_pav_min_argmax_interval",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "source_statement_sha256": "286a11de6d49fc0ba8f9849f739ccd474b1f4569994b7f3cdd5289c9a5dd4fd1",
           "statement": "Lemma C.1: for y_R in (0,1], the paper's leftmost PAV maximizing Republican seat count equals the unique integer ell satisfying y_R(M+1)-1 <= ell < y_R(M+1)."
         }
@@ -593,7 +593,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "lemma_c1_pav_min_argmax_interval",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "source_statement_sha256": "286a11de6d49fc0ba8f9849f739ccd474b1f4569994b7f3cdd5289c9a5dd4fd1",
           "source_support_scope": "The route binds the complete named source result, including its displayed domain, hypotheses, relational interpretation where relevant, and all stated conclusion components; the comparison is by formulas and quantified objects rather than a matching title."
         }
@@ -1592,224 +1592,224 @@
         {
           "id": "source_voter_carrier",
           "kind": "parameter",
-          "source_location": "source.txt:394-408",
+          "source_location": "cited publication:394-408",
           "statement": "A finite voter carrier represents the district electorate; this is representation data for the source's finite voters."
         },
         {
           "id": "source_candidate_carrier",
           "kind": "parameter",
-          "source_location": "source.txt:394-408",
+          "source_location": "cited publication:394-408",
           "statement": "A finite candidate carrier represents the candidates whose ballot rankings and STV tallies are used by the source rule."
         },
         {
           "id": "source_voter_equality",
           "kind": "parameter",
-          "source_location": "source.txt:394-408",
+          "source_location": "cited publication:394-408",
           "statement": "Decidable equality on the finite voter carrier is an implementation representation of finite roster membership, not an added behavioral restriction."
         },
         {
           "id": "source_candidate_equality",
           "kind": "parameter",
-          "source_location": "source.txt:394-408",
+          "source_location": "cited publication:394-408",
           "statement": "Decidable equality on the finite candidate carrier is an implementation representation of finite roster membership, not an added electoral condition."
         },
         {
           "id": "source_party_voters",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "One finite voter roster represents the voters belonging to the Republican party in the two-party district."
         },
         {
           "id": "source_other_party_voters",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "One finite voter roster represents the voters belonging to the Democratic party in the two-party district."
         },
         {
           "id": "source_all_voters",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "One finite roster represents all voters in the district."
         },
         {
           "id": "source_ballots",
           "kind": "parameter",
-          "source_location": "source.txt:394-408",
+          "source_location": "cited publication:394-408",
           "statement": "A ballot profile supplies the ranked ballots on which tallying, election, elimination, and transfer operate."
         },
         {
           "id": "source_party_candidates",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "One finite candidate roster represents the Republican candidates."
         },
         {
           "id": "source_other_party_candidates",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "One finite candidate roster represents the Democratic candidates."
         },
         {
           "id": "source_initial_active",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The active candidate universe is the two named party rosters, recorded as source-model vocabulary rather than a hidden larger-candidate extension."
         },
         {
           "id": "source_seats",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The district has a natural magnitude M, the number of seats in the displayed proposition."
         },
         {
           "id": "source_turnout_count",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The district has a natural voter count V used in its turnout and share conditions."
         },
         {
           "id": "source_party_share",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The real number y_R is the Republican share used in both the STV and PAV rounded-seat conclusions."
         },
         {
           "id": "source_transfer_policy",
           "kind": "parameter",
-          "source_location": "source.txt:492-498",
+          "source_location": "cited publication:492-498",
           "statement": "The STV rule ranges over a surplus-preserving ballot-routed transfer implementation, including the source's fractional and whole-vote examples."
         },
         {
           "id": "source_positive_share",
           "kind": "assumption",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "statement": "The closeout records the approved positive-share convention 0<y_R; the zero-share branch is excluded rather than silently totalized."
         },
         {
           "id": "source_share_upper",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "A party fraction has the weak upper bound y_R<=1."
         },
         {
           "id": "source_turnout_bound",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The displayed turnout condition is M(M+1)<=V."
         },
         {
           "id": "source_party_capacity",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "There are at least M Republican candidates."
         },
         {
           "id": "source_other_capacity",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "There are at least M Democratic candidates."
         },
         {
           "id": "source_party_solid",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "Republican voters rank every Republican candidate above every Democratic candidate."
         },
         {
           "id": "source_other_solid",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "Democratic voters rank every Democratic candidate above every Republican candidate."
         },
         {
           "id": "source_turnout_cardinality",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The represented all-voter roster has cardinality V, connecting the finite model to the source turnout symbol."
         },
         {
           "id": "source_voter_partition",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The two party voter rosters exhaust the district electorate."
         },
         {
           "id": "source_voter_disjoint",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The two party voter rosters are disjoint, so each voter belongs to exactly one party."
         },
         {
           "id": "source_candidate_disjoint",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The Republican and Democratic candidate rosters are disjoint."
         },
         {
           "id": "source_party_active",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "Every Republican candidate is active at the start of the STV count."
         },
         {
           "id": "source_other_active",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "Every Democratic candidate is active at the start of the STV count."
         },
         {
           "id": "source_active_universe",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "No extra active candidates occur beyond the two named party rosters; this records the source two-party active-candidate-universe convention."
         },
         {
           "id": "source_party_share_count",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The Republican roster size equals y_R times V in the real-share interpretation."
         },
         {
           "id": "source_other_share_count",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The Democratic roster size equals (1-y_R) times V in the real-share interpretation."
         },
         {
           "id": "source_terminal_state",
           "kind": "parameter",
-          "source_location": "source.txt:394-408",
+          "source_location": "cited publication:394-408",
           "statement": "A terminal STV state is an outcome candidate only after it is generated from the source-specified count."
         },
         {
           "id": "source_legal_execution",
           "kind": "assumption",
-          "source_location": "source.txt:492-498",
+          "source_location": "cited publication:492-498",
           "statement": "The terminal state is reached from the canonical unit-weight finite-electorate initial state by the reflexive-transitive closure of the lawful ballot-routed transition."
         },
         {
           "id": "source_stopping_condition",
           "kind": "assumption",
-          "source_location": "source.txt:394-408",
+          "source_location": "cited publication:394-408",
           "statement": "The reached state satisfies the STV stopping condition for an M-seat district."
         },
         {
           "id": "source_pav_count",
           "kind": "parameter",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "statement": "A natural PAV Republican seat count is considered as an arbitrary witness of the paper's leftmost finite maximizing relation."
         },
         {
           "id": "source_pav_selector",
           "kind": "assumption",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "statement": "The PAV count satisfies the relational finite leftmost min-arg-max definition from the source, rather than an unexamined chosen implementation witness."
         },
         {
           "id": "source_conclusion",
           "kind": "conclusion",
           "source_item": "proposition1_stv_pav_rounded_seats",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "source_statement_sha256": "a14a64b9018c044310f874252343500d6a517aa6dfce92b1664326c27184b023",
           "statement": "Proposition 1: in a two-party M-seat district with V >= M(M+1), at least M candidates per party, solid coalitions, and D-favoring ties, both the STV and PAV Republican seat counts are in {floor(y_R M), ceil(y_R M)}."
         }
@@ -1822,7 +1822,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "proposition1_stv_pav_rounded_seats",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "source_statement_sha256": "a14a64b9018c044310f874252343500d6a517aa6dfce92b1664326c27184b023",
           "source_support_scope": "The route binds the complete named source result, including its displayed domain, hypotheses, relational interpretation where relevant, and all stated conclusion components; the comparison is by formulas and quantified objects rather than a matching title."
         }
@@ -2711,194 +2711,194 @@
         {
           "id": "source_voter_carrier",
           "kind": "parameter",
-          "source_location": "source.txt:394-408",
+          "source_location": "cited publication:394-408",
           "statement": "A finite voter carrier represents the district electorate; this is representation data for the source's finite voters."
         },
         {
           "id": "source_candidate_carrier",
           "kind": "parameter",
-          "source_location": "source.txt:394-408",
+          "source_location": "cited publication:394-408",
           "statement": "A finite candidate carrier represents the candidates whose ballot rankings and STV tallies are used by the source rule."
         },
         {
           "id": "source_voter_equality",
           "kind": "parameter",
-          "source_location": "source.txt:394-408",
+          "source_location": "cited publication:394-408",
           "statement": "Decidable equality on the finite voter carrier is an implementation representation of finite roster membership, not an added behavioral restriction."
         },
         {
           "id": "source_candidate_equality",
           "kind": "parameter",
-          "source_location": "source.txt:394-408",
+          "source_location": "cited publication:394-408",
           "statement": "Decidable equality on the finite candidate carrier is an implementation representation of finite roster membership, not an added electoral condition."
         },
         {
           "id": "source_party_voters",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "One finite voter roster represents the voters belonging to the Republican party in the two-party district."
         },
         {
           "id": "source_other_party_voters",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "One finite voter roster represents the voters belonging to the Democratic party in the two-party district."
         },
         {
           "id": "source_all_voters",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "One finite roster represents all voters in the district."
         },
         {
           "id": "source_ballots",
           "kind": "parameter",
-          "source_location": "source.txt:394-408",
+          "source_location": "cited publication:394-408",
           "statement": "A ballot profile supplies the ranked ballots on which tallying, election, elimination, and transfer operate."
         },
         {
           "id": "source_party_candidates",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "One finite candidate roster represents the Republican candidates."
         },
         {
           "id": "source_other_party_candidates",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "One finite candidate roster represents the Democratic candidates."
         },
         {
           "id": "source_initial_active",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The active candidate universe is the two named party rosters, recorded as source-model vocabulary rather than a hidden larger-candidate extension."
         },
         {
           "id": "source_seats",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The district has a natural magnitude M, the number of seats in the displayed proposition."
         },
         {
           "id": "source_turnout_count",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The district has a natural voter count V used in its turnout and share conditions."
         },
         {
           "id": "source_party_share",
           "kind": "parameter",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The real number y_R is the Republican share used in both the STV and PAV rounded-seat conclusions."
         },
         {
           "id": "source_transfer_policy",
           "kind": "parameter",
-          "source_location": "source.txt:492-498",
+          "source_location": "cited publication:492-498",
           "statement": "The STV rule ranges over a surplus-preserving ballot-routed transfer implementation, including the source's fractional and whole-vote examples."
         },
         {
           "id": "source_positive_share",
           "kind": "assumption",
-          "source_location": "source.txt:2414-2433",
+          "source_location": "cited publication:2414-2433",
           "statement": "The closeout records the approved positive-share convention 0<y_R; the zero-share branch is excluded rather than silently totalized."
         },
         {
           "id": "source_share_upper",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "A party fraction has the weak upper bound y_R<=1."
         },
         {
           "id": "source_turnout_bound",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The displayed turnout condition is M(M+1)<=V."
         },
         {
           "id": "source_party_capacity",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "There are at least M Republican candidates."
         },
         {
           "id": "source_other_capacity",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "There are at least M Democratic candidates."
         },
         {
           "id": "source_party_solid",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "Republican voters rank every Republican candidate above every Democratic candidate."
         },
         {
           "id": "source_other_solid",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "Democratic voters rank every Democratic candidate above every Republican candidate."
         },
         {
           "id": "source_turnout_cardinality",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The represented all-voter roster has cardinality V, connecting the finite model to the source turnout symbol."
         },
         {
           "id": "source_voter_partition",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The two party voter rosters exhaust the district electorate."
         },
         {
           "id": "source_voter_disjoint",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The two party voter rosters are disjoint, so each voter belongs to exactly one party."
         },
         {
           "id": "source_candidate_disjoint",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The Republican and Democratic candidate rosters are disjoint."
         },
         {
           "id": "source_party_active",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "Every Republican candidate is active at the start of the STV count."
         },
         {
           "id": "source_other_active",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "Every Democratic candidate is active at the start of the STV count."
         },
         {
           "id": "source_active_universe",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "No extra active candidates occur beyond the two named party rosters; this records the source two-party active-candidate-universe convention."
         },
         {
           "id": "source_party_share_count",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The Republican roster size equals y_R times V in the real-share interpretation."
         },
         {
           "id": "source_other_share_count",
           "kind": "assumption",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "statement": "The Democratic roster size equals (1-y_R) times V in the real-share interpretation."
         },
         {
           "id": "source_conclusion",
           "kind": "conclusion",
           "source_item": "proposition1_stv_pav_rounded_seats",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "source_statement_sha256": "a14a64b9018c044310f874252343500d6a517aa6dfce92b1664326c27184b023",
           "statement": "Proposition 1: in a two-party M-seat district with V >= M(M+1), at least M candidates per party, solid coalitions, and D-favoring ties, both the STV and PAV Republican seat counts are in {floor(y_R M), ceil(y_R M)}."
         }
@@ -2911,7 +2911,7 @@
           "route_kind": "direct",
           "semantic_relation": "equivalent",
           "source_item": "proposition1_stv_pav_rounded_seats",
-          "source_location": "source.txt:485-490",
+          "source_location": "cited publication:485-490",
           "source_statement_sha256": "a14a64b9018c044310f874252343500d6a517aa6dfce92b1664326c27184b023",
           "source_support_scope": "The route binds the complete named source result, including its displayed domain, hypotheses, relational interpretation where relevant, and all stated conclusion components; the comparison is by formulas and quantified objects rather than a matching title."
         }

@@ -206,6 +206,24 @@ REQUIRED_LLM_DEFECT_SUPPORT_PROMPT_VERSION = (
 REQUIRED_LLM_REVIEW_SURFACE_PROMPT_VERSION = "review-surface-v2-semantic-paper-facing"
 REQUIRED_LLM_ASSUMPTION_PROMPT_VERSION = "assumption-provenance-v4-verbatim-source-anchor-exact-premise"
 PAPER_STATEMENT_MAP_FILE = f"{PAPER_AUDIT_DIR}/paper_statement_map.json"
+# A public release deliberately omits the complete byte-pinned source artifact.
+# This small, generated manifest freezes only the selected review surface and
+# its already-published excerpts.  It is a *display* aid: strict audit gates
+# continue to require the local source bytes and never consult this file.
+PUBLIC_SOURCE_DISPLAY_PROJECTION_FILE = (
+    f"{PAPER_AUDIT_DIR}/public_source_display_projection.json"
+)
+PUBLIC_SOURCE_DISPLAY_PROJECTION_SCHEMA = 1
+PUBLIC_SOURCE_DISPLAY_PROJECTION_FIELD = "publication_source_display_projection"
+PUBLIC_SOURCE_DISPLAY_PROJECTION_GENERATOR = (
+    "python3 scripts/public_source_display_projection.py"
+)
+PUBLIC_SOURCE_DISPLAY_PROJECTION_MANIFEST = (
+    "audit/public_source_display_projection.json"
+)
+PUBLIC_SOURCE_DISPLAY_PROJECTION_STATE = "release_projected_excerpt"
+LOCAL_SOURCE_CONNECTION_STATE = "locally_byte_verified"
+PUBLICATION_SOURCE_LOCATOR = "cited publication"
 # This is an explicit human-scope disposition for a source-visible claim.  It
 # is deliberately not a source classification: the claim remains visible in
 # the inventory and must carry byte-pinned source evidence.
@@ -3697,7 +3715,10 @@ def paper_coverage_inventory(
     # applies; their dedicated validators still enforce their anchor/approval
     # contracts.
     for item_id, item in full_inventory.items():
-        if source_item_has_explicit_nonordinary_obligation(item):
+        if (
+            item_id not in presentation_aliases
+            and source_item_has_explicit_nonordinary_obligation(item)
+        ):
             selected_inventory[item_id] = item
     return full_inventory, selected_inventory, mode, mode_error
 
@@ -3962,6 +3983,365 @@ SEMANTIC_CONTEXT_ROLES = frozenset(
         "stated_antecedent",
     }
 )
+
+
+def _public_display_anchor_bundle(
+    anchors: object,
+    *,
+    label: str,
+) -> tuple[tuple[tuple[int, int, str, str, str], ...], str]:
+    """Return one safe public-excerpt anchor bundle, or a precise error.
+
+    This is intentionally not a substitute for :func:`source_anchor_file_error`.
+    It validates only the self-contained release excerpt identity that a public
+    packet can display after the private audit has removed the source file.
+    """
+
+    if not isinstance(anchors, list) or not anchors:
+        return (), f"{label} has no source anchors"
+    out: list[tuple[int, int, str, str, str]] = []
+    for index, raw_anchor in enumerate(anchors):
+        anchor_label = f"{label} source anchor {index}"
+        if not isinstance(raw_anchor, Mapping):
+            return (), f"{anchor_label} is not an object"
+        # A public display projection must never retain a filesystem path.  A
+        # map that still has one must use the strict local-byte path instead.
+        if "path" in raw_anchor:
+            return (), f"{anchor_label} retains a local source path"
+        line_start = raw_anchor.get("line_start")
+        line_end = raw_anchor.get("line_end")
+        locator = str(raw_anchor.get("publication_locator") or "").strip()
+        quote = raw_anchor.get("quoted_text")
+        digest = str(raw_anchor.get("quoted_text_sha256") or "").strip().lower()
+        if (
+            not isinstance(line_start, int)
+            or isinstance(line_start, bool)
+            or line_start < 1
+            or not isinstance(line_end, int)
+            or isinstance(line_end, bool)
+            or line_end < line_start
+        ):
+            return (), f"{anchor_label} lacks a valid line span"
+        if locator != PUBLICATION_SOURCE_LOCATOR:
+            return (), f"{anchor_label} has no public publication locator"
+        if not isinstance(quote, str) or not quote:
+            return (), f"{anchor_label} has no quoted_text"
+        normalized_quote = quote.replace("\r\n", "\n").replace("\r", "\n")
+        actual_digest = hashlib.sha256(normalized_quote.encode("utf-8")).hexdigest()
+        if not re.fullmatch(r"[0-9a-f]{64}", digest) or digest != actual_digest:
+            return (), f"{anchor_label} quoted_text_sha256 is stale"
+        out.append((line_start, line_end, locator, normalized_quote, digest))
+    return tuple(out), ""
+
+
+def _public_display_context_bundles(
+    record: Mapping[str, Any],
+    *,
+    field: str,
+    label: str,
+) -> tuple[tuple[tuple[str, tuple[tuple[int, int, str, str, str], ...]], ...], str]:
+    """Return ordered display-only semantic-context identities.
+
+    ``paper_statement_map.json`` uses ``semantic_context_requirements``;
+    the frozen public manifest uses the shorter ``semantic_context``.  The
+    two representations intentionally carry only a role and exact anchors.
+    """
+
+    raw_contexts = record.get(field)
+    if raw_contexts is None:
+        return (), ""
+    if not isinstance(raw_contexts, list):
+        return (), f"{label} {field} is not a list"
+    out: list[tuple[str, tuple[tuple[int, int, str, str, str], ...]]] = []
+    for index, raw_context in enumerate(raw_contexts):
+        context_label = f"{label} semantic context {index}"
+        if not isinstance(raw_context, Mapping):
+            return (), f"{context_label} is not an object"
+        role = str(raw_context.get("semantic_role") or "").strip()
+        if role not in SEMANTIC_CONTEXT_ROLES:
+            return (), f"{context_label} has no permitted semantic_role"
+        anchors, error = _public_display_anchor_bundle(
+            raw_context.get("source_anchor_evidence")
+            if field == "semantic_context_requirements"
+            else raw_context.get("source_anchors"),
+            label=context_label,
+        )
+        if error:
+            return (), error
+        out.append((role, anchors))
+    return tuple(out), ""
+
+
+def _public_display_record_matches_manifest(
+    source_record: Mapping[str, Any],
+    manifest_item: Mapping[str, Any],
+    *,
+    label: str,
+) -> str:
+    """Check one projected source record against its frozen manifest entry."""
+
+    actual_anchors, actual_error = _public_display_anchor_bundle(
+        source_record.get("source_anchor_evidence"), label=label
+    )
+    if actual_error:
+        return actual_error
+    expected_anchors, expected_error = _public_display_anchor_bundle(
+        manifest_item.get("source_anchors"), label=f"{label} manifest"
+    )
+    if expected_error:
+        return expected_error
+    if actual_anchors != expected_anchors:
+        return f"{label} source anchors do not match the frozen public manifest"
+    actual_contexts, actual_context_error = _public_display_context_bundles(
+        source_record,
+        field="semantic_context_requirements",
+        label=label,
+    )
+    if actual_context_error:
+        return actual_context_error
+    expected_contexts, expected_context_error = _public_display_context_bundles(
+        manifest_item,
+        field="semantic_context",
+        label=f"{label} manifest",
+    )
+    if expected_context_error:
+        return expected_context_error
+    if actual_contexts != expected_contexts:
+        return f"{label} semantic context does not match the frozen public manifest"
+    return ""
+
+
+def public_source_display_projection_state(folder: Path) -> dict[str, Any]:
+    """Validate a release-only source-excerpt manifest without source bytes.
+
+    The private audit's byte-level source checks intentionally do *not* call
+    this helper.  It exists solely for a public dashboard/packet to identify a
+    cryptographically bound, frozen display surface after raw source files and
+    private source paths have been omitted from the release.
+    """
+
+    source_map = paper_statement_map_payload(folder)
+    marker = source_map.get(PUBLIC_SOURCE_DISPLAY_PROJECTION_FIELD)
+    if marker is None:
+        return {
+            "active": False,
+            "valid": False,
+            "errors": (),
+            "selected_source_item_ids": (),
+            "source_coverage_mode": "",
+        }
+    errors: list[str] = []
+    if not isinstance(marker, Mapping):
+        errors.append("public source display marker is not an object")
+    else:
+        if marker.get("schema") != PUBLIC_SOURCE_DISPLAY_PROJECTION_SCHEMA:
+            errors.append("public source display marker has an unsupported schema")
+        if marker.get("manifest") != PUBLIC_SOURCE_DISPLAY_PROJECTION_MANIFEST:
+            errors.append("public source display marker names an unexpected manifest")
+        if marker.get("raw_source_bytes_included") is not False:
+            errors.append("public source display marker does not declare omitted raw source bytes")
+
+    map_path = folder / PAPER_STATEMENT_MAP_FILE
+    try:
+        map_sha256 = hashlib.sha256(_dashboard_read_bytes(map_path)).hexdigest()
+    except OSError as exc:
+        errors.append("cannot read public paper statement map: " + str(exc))
+        map_sha256 = ""
+    manifest_path = folder / PUBLIC_SOURCE_DISPLAY_PROJECTION_FILE
+    manifest = _dashboard_json_payload(manifest_path)
+    if manifest is None:
+        errors.append("public source display manifest is unreadable")
+        manifest = {}
+
+    expected_manifest_path = (
+        f"papers/{folder.name}/{PUBLIC_SOURCE_DISPLAY_PROJECTION_FILE}"
+    )
+    source_mode, source_mode_error = source_coverage_mode_from_map(source_map)
+    if source_mode_error:
+        errors.append("public source display map has an invalid source coverage mode")
+    if manifest:
+        if manifest.get("schema") != PUBLIC_SOURCE_DISPLAY_PROJECTION_SCHEMA:
+            errors.append("public source display manifest has an unsupported schema")
+        if manifest.get("generator") != PUBLIC_SOURCE_DISPLAY_PROJECTION_GENERATOR:
+            errors.append("public source display manifest has an unexpected generator")
+        if str(manifest.get("paper_id") or "").strip() != folder.name:
+            errors.append("public source display manifest names a different paper")
+        if manifest.get("public_manifest_path") != expected_manifest_path:
+            errors.append("public source display manifest has an unexpected public path")
+        if manifest.get("raw_source_artifact_included") is not False:
+            errors.append("public source display manifest does not declare omitted raw source bytes")
+        if (
+            manifest.get("raw_source_display_material")
+            != "selected_byte_pinned_source_anchor_quotes"
+        ):
+            errors.append("public source display manifest has an unexpected source material policy")
+        if str(manifest.get("public_source_map_sha256") or "").strip().lower() != map_sha256:
+            errors.append("public source display manifest does not match the public source map")
+        for field in (
+            "private_source_map_sha256",
+            "public_source_map_sha256",
+            "source_artifact_sha256",
+        ):
+            if not re.fullmatch(
+                r"[0-9a-f]{64}", str(manifest.get(field) or "").strip().lower()
+            ):
+                errors.append(f"public source display manifest has no valid {field}")
+        if source_mode and manifest.get("source_coverage_mode") != source_mode:
+            errors.append("public source display manifest source coverage mode differs from the map")
+
+    raw_ids = manifest.get("selected_source_item_ids") if manifest else None
+    raw_items = manifest.get("selected_source_items") if manifest else None
+    selected_ids: list[str] = []
+    if not isinstance(raw_ids, list):
+        errors.append("public source display manifest selected_source_item_ids is not a list")
+    else:
+        selected_ids = [str(item_id).strip() for item_id in raw_ids]
+        if any(not item_id for item_id in selected_ids):
+            errors.append("public source display manifest has an empty selected source-item ID")
+        if selected_ids != sorted(selected_ids) or len(selected_ids) != len(set(selected_ids)):
+            errors.append("public source display manifest selected source-item IDs are not unique sorted IDs")
+    if not isinstance(raw_items, Mapping):
+        errors.append("public source display manifest selected_source_items is not an object")
+        raw_items = {}
+    if set(raw_items) != set(selected_ids):
+        errors.append("public source display manifest item records do not match selected source-item IDs")
+    map_items = source_map.get("items") if isinstance(source_map.get("items"), Mapping) else {}
+    for item_id in selected_ids:
+        map_item = map_items.get(item_id)
+        manifest_item = raw_items.get(item_id)
+        if not isinstance(map_item, Mapping):
+            errors.append(f"public source display item `{item_id}` is absent from the map")
+            continue
+        if not isinstance(manifest_item, Mapping):
+            errors.append(f"public source display item `{item_id}` is not an object")
+            continue
+        error = _public_display_record_matches_manifest(
+            map_item,
+            manifest_item,
+            label=f"public source display item `{item_id}`",
+        )
+        if error:
+            errors.append(error)
+
+    valid = not errors
+    return {
+        "active": True,
+        "valid": valid,
+        "errors": tuple(sorted(set(errors))),
+        "manifest": manifest if valid else {},
+        "selected_source_item_ids": tuple(selected_ids) if valid else (),
+        "source_coverage_mode": source_mode if valid else "",
+        "state": PUBLIC_SOURCE_DISPLAY_PROJECTION_STATE if valid else "",
+    }
+
+
+def public_source_display_coverage_surface(folder: Path) -> dict[str, Any]:
+    """Return the frozen source-item denominator for browser display only.
+
+    This helper intentionally does not call :func:`paper_coverage_inventory`.
+    In a public release there is no raw source artifact to re-index, and using
+    this frozen selection must never make a CLI source-index or audit gate pass.
+    """
+
+    state = public_source_display_projection_state(folder)
+    if not state.get("valid"):
+        return {
+            "available": False,
+            "state": "",
+            "selected_source_item_ids": (),
+            "source_item_count": 0,
+            "source_coverage_mode": "",
+            "display_only": False,
+            "raw_source_locally_revalidated": False,
+            "audit_current": False,
+        }
+    selected_ids = tuple(state.get("selected_source_item_ids") or ())
+    return {
+        "available": True,
+        "state": PUBLIC_SOURCE_DISPLAY_PROJECTION_STATE,
+        "selected_source_item_ids": selected_ids,
+        "source_item_count": len(selected_ids),
+        "source_coverage_mode": str(state.get("source_coverage_mode") or ""),
+        "display_only": True,
+        "raw_source_locally_revalidated": False,
+        "audit_current": False,
+    }
+
+
+def source_anchor_display_state(
+    folder: Path,
+    source_record: Mapping[str, Any],
+    *,
+    source_item_key: str = "",
+) -> tuple[str, str]:
+    """Return a rendering-only source-connection state or the strict error.
+
+    A local checkout always takes the exact byte-reading path first.  Only a
+    valid public marker plus a manifest whose excerpts exactly bind this
+    record can use ``release_projected_excerpt``.  Callers must keep that
+    state display-only; it is not a current audit or source-byte receipt.
+    """
+
+    strict_error = source_anchor_file_error(folder, source_record)
+    if not strict_error:
+        return LOCAL_SOURCE_CONNECTION_STATE, ""
+    state = public_source_display_projection_state(folder)
+    if not state.get("valid"):
+        return "", strict_error
+    manifest = state.get("manifest")
+    selected_items = (
+        manifest.get("selected_source_items")
+        if isinstance(manifest, Mapping)
+        and isinstance(manifest.get("selected_source_items"), Mapping)
+        else {}
+    )
+    key = str(source_item_key or "").strip()
+    if key and isinstance(selected_items.get(key), Mapping):
+        error = _public_display_record_matches_manifest(
+            source_record,
+            selected_items[key],
+            label=f"source item `{key}`",
+        )
+        if not error:
+            return PUBLIC_SOURCE_DISPLAY_PROJECTION_STATE, ""
+    # A material library primitive may be connected directly to a source
+    # definition that serves as context for a selected source claim rather
+    # than to that claim's primary presentation.  Allow that exact individual
+    # excerpt bundle too, but never a subset or a rearrangement of a bundle.
+    actual_anchors, actual_error = _public_display_anchor_bundle(
+        source_record.get("source_anchor_evidence"), label="source connection"
+    )
+    actual_contexts, actual_context_error = _public_display_context_bundles(
+        source_record,
+        field="semantic_context_requirements",
+        label="source connection",
+    )
+    if not actual_error and not actual_context_error and not actual_contexts:
+        for item_id, raw_item in selected_items.items():
+            if not isinstance(raw_item, Mapping):
+                continue
+            expected_anchors, expected_error = _public_display_anchor_bundle(
+                raw_item.get("source_anchors"),
+                label=f"public source display item `{item_id}`",
+            )
+            if not expected_error and actual_anchors == expected_anchors:
+                return PUBLIC_SOURCE_DISPLAY_PROJECTION_STATE, ""
+            raw_contexts = raw_item.get("semantic_context")
+            if not isinstance(raw_contexts, list):
+                continue
+            for context_index, raw_context in enumerate(raw_contexts):
+                if not isinstance(raw_context, Mapping):
+                    continue
+                context_anchors, context_error = _public_display_anchor_bundle(
+                    raw_context.get("source_anchors"),
+                    label=(
+                        f"public source display item `{item_id}` "
+                        f"semantic context {context_index}"
+                    ),
+                )
+                if not context_error and actual_anchors == context_anchors:
+                    return PUBLIC_SOURCE_DISPLAY_PROJECTION_STATE, ""
+    return "", strict_error
 
 
 def source_semantic_input_bundle(
@@ -9011,18 +9391,31 @@ def _declaration_assignment_index(
     delimiters: list[str],
     block_comment_depth: int,
     in_string: bool,
-    top_level_let: bool,
-) -> tuple[int | None, list[str], int, bool, bool]:
+    top_level_let: int | None,
+) -> tuple[int | None, list[str], int, bool, int | None]:
     """Find an outer declaration `:=` while preserving theorem `let` types.
 
     Lean theorem types can contain local `let` bindings, including an inner
     `:=`.  This lightweight lexer intentionally recognizes only enough Lean
     surface syntax to distinguish those from the declaration assignment.  A
-    failure to recognize an outer assignment is a cache miss, never a source
-    binding to a truncated theorem statement.
+    top-level `let` is carried as its layout indentation rather than a Boolean:
+    its body starts at that indentation on a later line, after which a later
+    `:=` is the declaration assignment.  A failure to recognize an outer
+    assignment is a cache miss, never a source binding to a truncated theorem
+    statement.
     """
 
     matching = {"(": ")", "[": "]", "{": "}", "⟨": "⟩", "⟪": "⟫", "⟦": "⟧"}
+    leading_indent = len(line) - len(line.lstrip())
+    if (
+        top_level_let is not None
+        and line.strip()
+        and leading_indent <= top_level_let
+        and not line.lstrip().startswith("let ")
+    ):
+        # Layout marks the end of a multiline `let` binding.  The following
+        # source proposition may itself contain the declaration's outer `:=`.
+        top_level_let = None
     i = 0
     while i < len(line):
         if block_comment_depth:
@@ -9064,7 +9457,7 @@ def _declaration_assignment_index(
             i += 1
             continue
         if not delimiters and character == ";":
-            top_level_let = False
+            top_level_let = None
             i += 1
             continue
         if not delimiters and line.startswith(":=", i) and not top_level_let:
@@ -9074,7 +9467,7 @@ def _declaration_assignment_index(
             while end < len(line) and (line[end].isalnum() or line[end] in "_'"):
                 end += 1
             if line[i:end] == "let":
-                top_level_let = True
+                top_level_let = leading_indent
             i = end
             continue
         i += 1
@@ -9088,7 +9481,7 @@ def collect_review_decl_text(lines: list[str], start: int, kind: str) -> tuple[s
     delimiters: list[str] = []
     block_comment_depth = 0
     in_string = False
-    top_level_let = False
+    top_level_let: int | None = None
     j = start
     while j < len(lines):
         sig_line = lines[j]
@@ -14091,6 +14484,11 @@ def _source_inventory_item_requires_proof_evidence(
     """
 
     source_kind = str(item.get("source_kind") or "").strip().lower()
+    if source_item_effective_route_policy(item)["is_support_only"]:
+        # A named intermediate result remains in the source inventory and
+        # needs its explicit support route, but it is not a second direct
+        # theorem-proof obligation once the map has classified it as support.
+        return False
     # A source definition or premise is review-visible, but it is not proof
     # evidence merely because the inventory correctly records it as a claim or
     # governing condition.  These lanes require exact source-to-Lean
@@ -15273,6 +15671,14 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
     )
     statement_map_path = folder / PAPER_STATEMENT_MAP_FILE
     statement_map_payload = paper_statement_map_payload(folder)
+    raw_map_items = (
+        statement_map_payload.get("items")
+        if isinstance(statement_map_payload, dict)
+        else None
+    )
+    presentation_aliases, _presentation_alias_errors = source_presentation_aliases(
+        raw_map_items
+    )
     deep_source_coverage_attestation = deep_source_coverage_attestation_error(
         statement_map_payload, source_coverage_mode
     )
@@ -15374,7 +15780,11 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
         if key not in full_inventory and key not in set(coverage_item_bindings.values())
     )
     out_of_mode_coverage = sorted(
-        key for key in audit_items if key in full_inventory and key not in inventory
+        key
+        for key in audit_items
+        if key in full_inventory
+        and key not in inventory
+        and key not in presentation_aliases
     )
     missing_statement_digest = sorted(
         key
@@ -17120,6 +17530,7 @@ def human_review_library_prerequisites(
         source_digest = ""
         source_error = ""
         source_locator = ""
+        source_connection_state = ""
         if source_item_key and source_item is None:
             source_error = (
                 f"registered source item `{source_item_key}` is absent from the statement map"
@@ -17127,6 +17538,14 @@ def human_review_library_prerequisites(
         elif source_item is not None:
             source_locator = str(source_item.get("source_location") or "not recorded")
             source_error = source_anchor_file_error(folder, source_item)
+            if source_error:
+                source_connection_state, display_error = source_anchor_display_state(
+                    folder,
+                    source_item,
+                    source_item_key=source_item_key,
+                )
+                if not display_error:
+                    source_error = ""
             if not source_error:
                 source_input, source_digest, source_error = source_semantic_input_bundle(
                     source_item, require_context_roles=True
@@ -17138,6 +17557,13 @@ def human_review_library_prerequisites(
             # validation and context-role restrictions as a map item.
             source_locator = str(raw.get("source_location") or "not recorded")
             source_error = source_anchor_file_error(folder, raw)
+            if source_error:
+                source_connection_state, display_error = source_anchor_display_state(
+                    folder,
+                    raw,
+                )
+                if not display_error:
+                    source_error = ""
             if not source_error:
                 source_input, source_digest, source_error = source_semantic_input_bundle(
                     raw, require_context_roles=True
@@ -17175,6 +17601,10 @@ def human_review_library_prerequisites(
             and raw.get("library_line_start") == definition_line_start
             and raw.get("library_line_end") == definition_line_end
             and has_metadata
+            # A public display projection can show the already-pinned excerpt,
+            # but it deliberately cannot make a local source-byte semantic
+            # screen current.
+            and source_connection_state != PUBLIC_SOURCE_DISPLAY_PROJECTION_STATE
         )
         if ledger_error:
             review_status = ledger_error
@@ -17186,6 +17616,8 @@ def human_review_library_prerequisites(
             review_status = source_error
         elif not judgment:
             review_status = "source connection is registered; semantic judgment is pending"
+        elif source_connection_state == PUBLIC_SOURCE_DISPLAY_PROJECTION_STATE:
+            review_status = "release-projected excerpt (display only)"
         elif not current:
             review_status = "recorded library semantic judgment is stale or incomplete"
         else:
@@ -17216,6 +17648,10 @@ def human_review_library_prerequisites(
                 "verbatim_source_input": source_input,
                 "source_input_bundle_sha256": source_digest,
                 "source_connection_error": source_error,
+                "source_connection_state": source_connection_state,
+                "source_connection_display_only": (
+                    source_connection_state == PUBLIC_SOURCE_DISPLAY_PROJECTION_STATE
+                ),
                 "semantic_judgment": judgment or "not recorded",
                 "semantic_reason": str(raw.get("reason") or "").strip(),
                 "semantic_current": current,
@@ -17264,7 +17700,7 @@ def _human_review_intake_order(folder: Path) -> dict[str, int]:
 
 
 def human_review_claim_items(folder: Path, items: list[ReviewItem]) -> list[dict[str, Any]]:
-    """Project raw Lean declarations to one human row per source claim.
+    """Project raw Lean declarations to source-claim and assumption review rows.
 
     A transparent ``Spec`` and its paired theorem are deliberately separate
     Lean declarations: the former is the auditable paper statement and the
@@ -17273,6 +17709,8 @@ def human_review_claim_items(folder: Path, items: list[ReviewItem]) -> list[dict
     for evidence gates while showing the Spec once, with the proof endpoint
     named on that row.  The source-map/intake order is the claim-DAG reading
     order; unmapped legacy declarations remain visible after those claims.
+    Explicit source-model assumptions retain their separate provenance
+    category downstream.
     """
 
     item_by_full_name = {
@@ -17504,7 +17942,10 @@ def human_review_presentation_sections(
     it is not a second ordering authority.  The approved source/DAG
     linearization remains fixed; headings are inserted around its contiguous
     runs.  A title can therefore recur as ``(continued)`` when a prerequisite
-    from another source section must be shown first.
+    from another source section must be shown first.  Explicit source-model
+    assumptions are rendered in one automatic ``Source-model assumptions``
+    section; they use a separate provenance lane and therefore do not belong
+    to the source-claim section partition.
     """
 
     status = _dashboard_json_payload(folder / DEFAULT_PAPER_STATUS_FILE)
@@ -17514,9 +17955,42 @@ def human_review_presentation_sections(
         if isinstance(review_surface, Mapping)
         else None
     )
-    ordered_names = [str(row.get("full_name") or "").strip() for row in claim_rows]
+    configured_assumption_names = review_assumption_names(folder)
+
+    def is_assumption_card(row: Mapping[str, Any]) -> bool:
+        full_name = str(row.get("full_name") or "").strip()
+        short_name = full_name.rsplit(".", 1)[-1]
+        return bool(
+            row.get("is_assumption")
+            or full_name in configured_assumption_names
+            or short_name in configured_assumption_names
+        )
+
+    source_claim_rows = [row for row in claim_rows if not is_assumption_card(row)]
+    assumption_rows = [row for row in claim_rows if is_assumption_card(row)]
+    ordered_names = [
+        str(row.get("full_name") or "").strip() for row in source_claim_rows
+    ]
+    assumption_names = [
+        str(row.get("full_name") or "").strip() for row in assumption_rows
+    ]
+
+    def append_assumption_section(
+        sections: list[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
+        if assumption_names:
+            sections.append(
+                {
+                    "title": "Source-model assumptions",
+                    "kind": "source_model_assumptions",
+                    "names": assumption_names,
+                }
+            )
+        return sections
+
     if not configured:
-        return [{"title": "Source claims", "names": ordered_names}]
+        sections = [{"title": "Source claims", "names": ordered_names}] if ordered_names else []
+        return append_assumption_section(sections)
     if not isinstance(configured, list) or not configured:
         raise ValueError("review_surface.presentation_sections must be a nonempty list")
 
@@ -17576,7 +18050,7 @@ def human_review_presentation_sections(
             else configured_title + " (continued" + ("" if occurrence == 2 else " " + str(occurrence - 1)) + ")"
         )
         sections.append({"title": displayed_title, "names": [full_name]})
-    return sections
+    return append_assumption_section(sections)
 
 
 def browser_review_item(item: Mapping[str, Any]) -> dict[str, Any]:
@@ -17661,13 +18135,19 @@ def gather_paper_data(
             and isinstance(packet_cache.get("library_semantic_target_errors"), Mapping)
             else None
         )
+        # Assumptions have their own source-provenance review lane.  They are
+        # visible browser cards but are not semantic prerequisites of a paper
+        # source claim and must not enlarge that claim-only input surface.
+        source_claim_rows = [
+            item for item in human_claims if not bool(item.get("is_assumption"))
+        ]
         semantic_targets = {
             str(item.get("full_name") or "").strip(): {
                 "prerequisite_declarations": item.get(
                     "paper_semantic_prerequisite_declarations", ()
                 )
             }
-            for item in human_claims
+            for item in source_claim_rows
             if str(item.get("full_name") or "").strip()
         }
         paper_prerequisites = review_dashboard_packet.paper_semantic_prerequisites(
@@ -17675,7 +18155,7 @@ def gather_paper_data(
             semantic_targets,
             semantic_targets_by_name_override=cached_paper_targets,
         )
-        library_review_inputs: list[Mapping[str, Any]] = [*human_claims]
+        library_review_inputs: list[Mapping[str, Any]] = [*source_claim_rows]
         library_review_inputs.extend(
             {
                 "library_review_owner_declarations": prerequisite.get(
@@ -17715,6 +18195,12 @@ def gather_paper_data(
                 "surface_audit": review_surface_audit_summary(folder, all_items),
                 "statement_audit": statement_summary,
                 "paper_coverage_audit": paper_coverage_audit_summary(folder, all_items),
+                # This optional public-release projection supplies a frozen
+                # browser denominator only.  It never changes the strict
+                # source inventory used by CLI checks or closeout evidence.
+                "public_source_display_surface": public_source_display_coverage_surface(
+                    folder
+                ),
                 "assumption_audit": assumption_provenance_audit_summary(folder, all_items),
             }
         )
@@ -17876,8 +18362,9 @@ def build_review_status(papers: list[dict[str, Any]], reviews: list[dict[str, An
     rows: list[dict[str, Any]] = []
     for paper in papers:
         paper_name = paper["name"]
-        # The interactive surface has one row per paper source claim.  A
-        # paired theorem proves its Spec but is not a second review target.
+        # The interactive surface has one row per paper source claim, plus
+        # explicit source-model assumptions in their separate provenance lane.
+        # A paired theorem proves its Spec but is not a second review target.
         display_items = paper.get("human_claims")
         if not isinstance(display_items, list) or not display_items:
             display_items = paper["items"]
@@ -19862,6 +20349,45 @@ HTML_PAGE = """
       return claims.length ? claims : (paper.items || []);
     }
 
+    function isSourceModelAssumption(item) {
+      return Boolean(item && item.is_assumption);
+    }
+
+    function reviewSurfaceCounts(paper) {
+      const sections = claimPresentationSections(paper);
+      const sourceClaims = sections
+        .filter((section) => presentationSectionKind(section) === "source_claims")
+        .reduce((count, section) => count + section.items.length, 0);
+      const sourceModelAssumptions = sections
+        .filter((section) => presentationSectionKind(section) === "source_model_assumptions")
+        .reduce((count, section) => count + section.items.length, 0);
+      return {
+        reviewCards: sourceClaims + sourceModelAssumptions,
+        sourceClaims,
+        sourceModelAssumptions,
+      };
+    }
+
+    function reviewSurfaceCountLabel(counts) {
+      const claims = `${counts.sourceClaims} paper source claim${counts.sourceClaims === 1 ? "" : "s"}`;
+      if (!counts.sourceModelAssumptions) {
+        return claims;
+      }
+      return `${claims} + ${counts.sourceModelAssumptions} source-model assumption${counts.sourceModelAssumptions === 1 ? "" : "s"}`;
+    }
+
+    function presentationSectionKind(section) {
+      return section && section.kind === "source_model_assumptions"
+        ? "source_model_assumptions"
+        : "source_claims";
+    }
+
+    function presentationSectionItemNoun(section) {
+      return presentationSectionKind(section) === "source_model_assumptions"
+        ? "source-model assumption"
+        : "source claim";
+    }
+
     function reviewAnchorId(paper, kind, name) {
       return `review-${safeId(paper)}-${safeId(kind)}-${safeId(name)}`;
     }
@@ -19880,12 +20406,30 @@ HTML_PAGE = """
           .filter(Boolean);
         if (selected.length) {
           selected.forEach((claim) => seen.add(claim.full_name || claim.name));
-          sections.push({ title: section.title || "Source claims", items: selected });
+          const kind = presentationSectionKind(section);
+          sections.push({
+            title: section.title || (kind === "source_model_assumptions" ? "Source-model assumptions" : "Source claims"),
+            kind,
+            items: selected,
+          });
         }
       }
       const remaining = claims.filter((claim) => !seen.has(claim.full_name || claim.name));
-      if (remaining.length) {
-        sections.push({ title: configured.length ? "Other source claims" : "Source claims", items: remaining });
+      const remainingSourceClaims = remaining.filter((claim) => !isSourceModelAssumption(claim));
+      const remainingAssumptions = remaining.filter(isSourceModelAssumption);
+      if (remainingSourceClaims.length) {
+        sections.push({
+          title: configured.length ? "Other source claims" : "Source claims",
+          kind: "source_claims",
+          items: remainingSourceClaims,
+        });
+      }
+      if (remainingAssumptions.length) {
+        sections.push({
+          title: "Source-model assumptions",
+          kind: "source_model_assumptions",
+          items: remainingAssumptions,
+        });
       }
       return sections;
     }
@@ -20094,7 +20638,8 @@ HTML_PAGE = """
     }
 
     function makeHumanReviewSurfacePanel(paper) {
-      const claims = displayItems(paper);
+      const counts = reviewSurfaceCounts(paper);
+      const publicSourceDisplay = paper.public_source_display_surface || {};
       const prerequisites = Array.isArray(paper.human_review_prerequisites)
         ? paper.human_review_prerequisites
         : [];
@@ -20106,11 +20651,14 @@ HTML_PAGE = """
       const librarySuffix = libraryAudit.row_count
         ? ` · ${libraryAudit.current_matches || 0}/${libraryAudit.row_count} prerequisite checks current`
         : "";
-      heading.textContent = `Review packet: ${claims.length} paper source claim${claims.length === 1 ? "" : "s"}${librarySuffix}`;
+      heading.textContent = `Review surface: ${reviewSurfaceCountLabel(counts)}${librarySuffix}`;
       panel.appendChild(heading);
       const text = document.createElement("div");
       text.className = "paper-source-subtle";
-      text.textContent = "The paper-claim denominator is the source-claim count above. Review the semantic prerequisites first, then the counted source-claim cards below.";
+      const frozenSourceSurface = publicSourceDisplay.available
+        ? ` Source-coverage denominator: ${publicSourceDisplay.source_item_count || 0} frozen source item${(publicSourceDisplay.source_item_count || 0) === 1 ? "" : "s"} (${publicSourceDisplay.state || "release_projected_excerpt"}; display only, raw source is not locally revalidated).`
+        : "";
+      text.textContent = "The paper-claim denominator is the source-claim count above. Review the semantic prerequisites first, then the counted source-claim cards below." + (counts.sourceModelAssumptions ? ` ${counts.sourceModelAssumptions} source-model assumption${counts.sourceModelAssumptions === 1 ? "" : "s"} appear in their own separately audited section and are not part of that denominator.` : "") + frozenSourceSurface;
       panel.appendChild(text);
       if (prerequisites.length) {
         const sectionHeading = document.createElement("h4");
@@ -20139,6 +20687,12 @@ HTML_PAGE = """
             locator.className = "small muted";
             locator.textContent = `Source locator: ${prerequisite.source_locator || "not recorded"}`;
             body.appendChild(locator);
+            if (prerequisite.source_connection_display_only) {
+              const connection = document.createElement("div");
+              connection.className = "small muted";
+              connection.textContent = `Source connection: ${prerequisite.source_connection_state || "release_projected_excerpt"}`;
+              body.appendChild(connection);
+            }
             body.appendChild(
               makeStatementBox("Verbatim paper-source connection", sourceInput, {
                 html: renderVerbatimSourceInput(sourceInput),
@@ -20183,7 +20737,7 @@ HTML_PAGE = """
       const claimsHeading = document.createElement("h4");
       claimsHeading.className = "paper-source-heading";
       claimsHeading.id = reviewAnchorId(paper.name, "source-claims", "section");
-      claimsHeading.textContent = `Step 2 — paper source claims (${claims.length}; counted below)`;
+      claimsHeading.textContent = `Step 2 — paper source claims (${counts.sourceClaims}; counted below)`;
       panel.appendChild(claimsHeading);
       return panel;
     }
@@ -20230,10 +20784,11 @@ HTML_PAGE = """
         const sectionId = reviewAnchorId(paper.name, "source-section", section.title);
         addLink(`${section.title} (${section.items.length})`, sectionId, false);
         for (const claim of section.items) {
-          const label = claim.human_claim_title || claim.name || "Source claim";
+          const itemNoun = presentationSectionItemNoun(section);
+          const label = claim.human_claim_title || claim.name || itemNoun;
           addLink(
             label,
-            reviewAnchorId(paper.name, "source-claim", claim.name),
+            reviewAnchorId(paper.name, itemNoun, claim.name),
             true
           );
         }
@@ -21103,12 +21658,13 @@ HTML_PAGE = """
         const paperRows = statusRows.filter(
           (row) => row.paper === paper.name && visibleNames.has(row.theorem)
         );
-        const total = visibleNames.size;
+        const counts = reviewSurfaceCounts(paper);
+        const total = counts.reviewCards;
         const reviewed = paperRows.filter((row) => row.has_review).length;
         const attention = paperRows.filter((row) => row.needs_attention || row.latest_matches === false).length;
         const node = document.querySelector(`[data-paper-progress="${paper.name}"]`);
         if (node) {
-          node.textContent = `${reviewed}/${total} reviewed; ${attention} need action`;
+          node.textContent = `${reviewed}/${total} review card${total === 1 ? "" : "s"} reviewed; ${reviewSurfaceCountLabel(counts)}; ${attention} need action`;
         }
       }
     }
@@ -21246,7 +21802,8 @@ HTML_PAGE = """
         const progress = document.createElement("div");
         progress.className = "paper-progress";
         progress.dataset.paperProgress = paper.name;
-        progress.textContent = `0/${visibleItems.length} reviewed; ${visibleItems.length} source claims`;
+        const counts = reviewSurfaceCounts(paper);
+        progress.textContent = `0/${counts.reviewCards} review card${counts.reviewCards === 1 ? "" : "s"} reviewed; ${reviewSurfaceCountLabel(counts)}`;
         header.appendChild(heading);
         header.appendChild(progress);
         summary.appendChild(header);
@@ -21268,12 +21825,13 @@ HTML_PAGE = """
           const sectionCell = document.createElement("th");
           sectionCell.colSpan = 1;
           sectionCell.className = "review-section-label";
-          sectionCell.textContent = `${section.title} (${section.items.length} source claim${section.items.length === 1 ? "" : "s"})`;
+          const itemNoun = presentationSectionItemNoun(section);
+          sectionCell.textContent = `${section.title} (${section.items.length} ${itemNoun}${section.items.length === 1 ? "" : "s"})`;
           sectionRow.appendChild(sectionCell);
           body.appendChild(sectionRow);
           for (const item of section.items) {
             const rowInfo = makeRow(paper.name, item);
-            rowInfo.row.id = reviewAnchorId(paper.name, "source-claim", item.name);
+            rowInfo.row.id = reviewAnchorId(paper.name, itemNoun, item.name);
             body.appendChild(rowInfo.row);
           }
         }

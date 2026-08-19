@@ -177,7 +177,7 @@ theorem paper_batched_da_round_preserves_rejected_pair_impossible
       (paper_batched_da_round val_m val_w s) := by
   exact daStateAfterSchedule_satisfies_rejected_pair_impossible_no_outside_tie
     val_m val_w s (paper_batched_active_schedule val_m s)
-    hstrictM hstrictW hnozero hinv hrejected
+    hstrictM hstrictW.acceptablyStrict hnozero hinv hrejected
 
 theorem paper_batched_da_rounds_from_preserves_rejected_pair_impossible
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)

@@ -1,0 +1,686 @@
+{
+  "generator": "python3 scripts/public_source_display_projection.py",
+  "paper_id": "GJ19OptimalBinaryRatingSystems",
+  "private_source_map_sha256": "4744d432fce2fa41930eb8f55d39178c0ccf963768b55aafdeb9bef573413101",
+  "public_manifest_path": "papers/GJ19OptimalBinaryRatingSystems/audit/public_source_display_projection.json",
+  "public_source_map_sha256": "396d98efef8f22b23b2b9968b01f3131d5f814dad58e034ca1454469de8e5ff1",
+  "raw_source_artifact_included": false,
+  "raw_source_display_material": "selected_byte_pinned_source_anchor_quotes",
+  "schema": 1,
+  "selected_source_item_ids": [
+    "appendixB1_active_set",
+    "appendixB1_transition_kernel",
+    "appendixC5_rate_notation_eq23",
+    "corollaryC1_rate_tends_to_zero",
+    "corollaryC2_mesh_tends_to_zero",
+    "corollaryC3_monotone_first_level_bound",
+    "corollaryC4_kendall_spearman_subsequence",
+    "definitionC1_kendall_spearman",
+    "definition_bernoulli_kl",
+    "definition_large_deviation_rate",
+    "definition_lexicographic_objective",
+    "definition_pairwise_accuracy_eq1",
+    "definition_step_rule_partition_levels",
+    "definition_weighted_objective_eq2",
+    "experiment_empirical_question_response",
+    "experiment_random_question_observations",
+    "known_type_experiment_definition",
+    "known_type_neighbor_extension",
+    "lemma31_equalization_eq4",
+    "lemmaB1_matching_rate_shift",
+    "lemmaB2_fixed_finite_slln_step",
+    "lemmaB3_fixed_finite_slln_ranking_step",
+    "lemmaC10_spearman_reduction",
+    "lemmaC11_kendall_equispaced",
+    "lemmaC12_spearman_equispaced",
+    "lemmaC1_pairwise_error_rate",
+    "lemmaC2_binary_complement_rate",
+    "lemmaC3_piecewise_constant_rate",
+    "lemmaC4_positive_rate_iff_step",
+    "lemmaC5_uniform_doubled_chain",
+    "lemmaC6_monotone_penultimate_bound",
+    "lemmaC7_uniform_refinement_rate",
+    "lemmaC8_uniform_first_level_bound",
+    "lemmaC9_nested_bisection_runtime",
+    "model_empirical_reputation_score",
+    "model_state_measure",
+    "section4_response_mixture",
+    "theorem31_discretization_value",
+    "theorem32_approximation_runtime",
+    "theoremB1_quantile_representation",
+    "theoremB1_uniform_subsequence",
+    "theoremC1_laplace_principle",
+    "unknown_type_experiment_definition",
+    "unknown_type_percentile_extension"
+  ],
+  "selected_source_items": {
+    "appendixB1_active_set": {
+      "source_anchors": [
+        {
+          "line_end": 1828,
+          "line_start": 1820,
+          "publication_locator": "cited publication",
+          "quoted_text": "\nFormal specification of system state update\n\nRecall that µk (Θ, X) is the mass of items with true quality θ ∈ Θ ⊆ [0, 1] and a reputation score\nx ∈ X ⊆ [0, 1] at time k. Let Ek = {θ : nk (θ) = nk−1 (θ) + 1}. These are the items who receive an\nadditional rating at time k; for all θ ∈ Ekc , nk (θ) = nk−1 (θ). Our system is completely deterministic,\nand evolves according to the distributions of the individual seller dynamics.\nFor each θ ∈ Ek , x, x0 , define ω(θ, x, x0 ) as follows:\nω(θ, x, x0 ) = β(θ)I{nk (θ)x − nk−1 (θ)x0 = 1} + (1 − β(θ))I{nk (θ)x − nk−1 (θ)x0 = 0}.",
+          "quoted_text_sha256": "ec57d9856e071deebe2ab297bd432a4b0ff1860137b16b62ddae087e83219e33"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "appendixB1_transition_kernel": {
+      "source_anchors": [
+        {
+          "line_end": 1831,
+          "line_start": 1828,
+          "publication_locator": "cited publication",
+          "quoted_text": "ω(θ, x, x0 ) = β(θ)I{nk (θ)x − nk−1 (θ)x0 = 1} + (1 − β(θ))I{nk (θ)x − nk−1 (θ)x0 = 0}.\nThen ω gives the probability of transition from x0 to x when an item receives a rating. We then\nhave:\nZ Z",
+          "quoted_text_sha256": "88144f52dae47043dd3f7219353f37bbfec24516f43dc2a0d15da803fcd1b9b9"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "appendixC5_rate_notation_eq23": {
+      "source_anchors": [
+        {
+          "line_end": 2714,
+          "line_start": 2670,
+          "publication_locator": "cited publication",
+          "quoted_text": "\nAdditional necessary lemmas\n\nNow, we begin the set-up that will lead to a proof for Theorem 3.2. It turns out that proving the\ntheorem requires, in the process, essentially proving our convergence result with M → ∞, Theorem B.1. For Theorem 3.2, we need a lower bound for t1 as a function of M . This seems hard\nto do in general. Luckily, in our case, there is a property for how t∗ changes when M is doubled.\nUsing this property, we can derive that t∗1 ≥ O(M −3 ).\n−1\nRecall that step-wise increasing β with M intervals Si = [si , si+1 ) has levels {ti }M\ni=0 , where\nt0 = 1, tM −1 = 1, and s0 , 0, sM , 1.\nFurthermore, we use the following notation for the large deviation rate\n#\n\"\ng\ng\n\nri = −(gi−1 + gi ) log (1 − ti−1 )\n\ngi−1\ngi−1 +gi\n\n(1 − ti )\n\ngi\ngi−1 +gi\n\ni−1\ngi−1 +gi\n\n+ ti−1\n\ng\n\ni\n+gi\n\nti i−1\n\n(23)\n\nfor i ∈ {1 . . . M − 1}, which implies r1 = −g1 log(1 − t1 ) and rM −1 = −gM −2 log(tM −2 ).\nWe further use rM −1 to be the rate achieved by the optimal βM with M intervals.\n−1\nLemma C.5. Suppose g uniform, i.e. gi = 1, ∀i and that βM has values√{ti }M",
+          "quoted_text_sha256": "7fdf1e2afb1870296b7314615311fbc9af3c45e0991dab5952ec60d83d9eba9e"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "corollaryC1_rate_tends_to_zero": {
+      "source_anchors": [
+        {
+          "line_end": 3042,
+          "line_start": 3041,
+          "publication_locator": "cited publication",
+          "quoted_text": "Corollary C.1. Suppose g uniform, i.e. gi = 1, ∀i. ∀\u000f > 0, ∃M s.t. ∀M 0 ≥ M , rM < \u000f.\n0",
+          "quoted_text_sha256": "608f8745407b7f7b953983a38c7dc39928829fa094fd93c2677450d109b8354f"
+        }
+      ],
+      "source_kind": "corollary"
+    },
+    "corollaryC2_mesh_tends_to_zero": {
+      "source_anchors": [
+        {
+          "line_end": 3125,
+          "line_start": 3094,
+          "publication_locator": "cited publication",
+          "quoted_text": "k − tk−1 < δ.\n\nProof. This corollary follows directly from Corollary C.1. If the rates are upper bounded, then so\nare the level differences.\nWe first find where the rate is minimized given a width between levels of δ\nhp\ni\np\nxm = arg min −2 log\n(1 − x − δ)(1 − x) + x(x + δ)\nx\n\n1 1\n= − δ\n2 2\nThen given an upper bound of \u000f on the rate, there is a bound on δ determined by the largest\npossible difference at levels symmetric around 21 .\n\" r\n\n1\n1\nr = −2 log 2 ( − δ)( + δ)\n2\n2\n\u0002\n\u0003\n= − log 1 − 4δ 2\n1p\n≥ \u000f when δ >\n1 − e−\u000f\n2\n",
+          "quoted_text_sha256": "037b0e821221b2707066b02392b035c950229b3faabbaf798a79a6f224f01abe"
+        },
+        {
+          "line_end": 3094,
+          "line_start": 3093,
+          "publication_locator": "cited publication",
+          "quoted_text": "Corollary C.2. Suppose g uniform, i.e. gi = 1, ∀i. ∀δ > 0, ∃N s.t. ∀M ≥ N , maxk tM\nk − tk−1 < δ.",
+          "quoted_text_sha256": "741810b14cc415abed1d3522527e33165ce2d8187495e5d9d460a25284300fdb"
+        }
+      ],
+      "source_kind": "corollary"
+    },
+    "corollaryC3_monotone_first_level_bound": {
+      "source_anchors": [
+        {
+          "line_end": 3274,
+          "line_start": 3268,
+          "publication_locator": "cited publication",
+          "quoted_text": "1 ≥ CM\n\nProof. The result follows from noting that tM\n1 with uniform matching lower bounds the first value\nwith any other monotonically non-decreasing g, which is a direct application of Lemma B.1 – scale\ng such that g1 = 1. Then, gj ≥ 1, j > 1 and g0 ≤ 1. Then, the condition of the lemma holds.\nLemma C.9. The run-time of NestedBisection is O(M log2 1δ ), where δ is the bisection grid width",
+          "quoted_text_sha256": "1e0be324e60b52543b587e6fe3de9b5426421b689c99d1466c3de8c0ca5a7808"
+        },
+        {
+          "line_end": 3268,
+          "line_start": 3267,
+          "publication_locator": "cited publication",
+          "quoted_text": "Corollary C.3. With monotonically non-decreasing g, ∃C > 0 s.t. ∀M, tM\n1 ≥ CM",
+          "quoted_text_sha256": "9cace519642501d6c672a05b08b06a96f2062c963711490fdeb92af0cd7857b2"
+        }
+      ],
+      "source_kind": "corollary"
+    },
+    "corollaryC4_kendall_spearman_subsequence": {
+      "source_anchors": [
+        {
+          "line_end": 3593,
+          "line_start": 3590,
+          "publication_locator": "cited publication",
+          "quoted_text": "uniformly as N → ∞.\nProof. For Kendall’s tau and Spearman’s rho, {si } is spaced such that ∀i, j, si − si−1 = sj − sj−1 .\nThus, xθ = θ meets the criterion.\n",
+          "quoted_text_sha256": "47ee5123dd993eebcbea6a19ff6282a8f8d81232b1360dca4370758491b1cb82"
+        },
+        {
+          "line_end": 3590,
+          "line_start": 3589,
+          "publication_locator": "cited publication",
+          "quoted_text": "Corollary C.4. For Kendall’s tau and Spearman’s rho correlation measures, ∃β s.t. β2N → β\nuniformly as N → ∞.",
+          "quoted_text_sha256": "a7ca7d81609b1d49cb51816709202055db1cf6a89196fa2d1b70bceaa7fce0aa"
+        }
+      ],
+      "source_kind": "corollary"
+    },
+    "definitionC1_kendall_spearman": {
+      "source_anchors": [
+        {
+          "line_end": 3614,
+          "line_start": 3595,
+          "publication_locator": "cited publication",
+          "quoted_text": "\nKendall’s tau and Spearman’s rho related proofs\n\nDefinition C.1 (see e.g. Embrechts et al. (2003); Nelsen (2007)). The population version of\nKendall-tau correlation between item true quality and rating scores is proportional to\nZ\nτ\nPk (θ1 , θ2 )dθ1 dθ2\nWk , 2\nθ1 >θ2\n\nSimilarly, given items with qualities θ1 , θ2 , θ3 , the population version of Spearman’s rho correlation\nbetween item true quality and rating scores is\nZ\nρ\nPk (θ1 , θ3 )dθ1 dθ2 dθ3\nWk , 6\nθ1 >θ2 ,θ3\n\nLemma C.10. Spearman’s ρ can also be written as being proportional to",
+          "quoted_text_sha256": "bc85a44d9e9b98a8d097812d892fbec02d51d7d1dea05bfacf2e2ff33d6c35cf"
+        },
+        {
+          "line_end": 3612,
+          "line_start": 3598,
+          "publication_locator": "cited publication",
+          "quoted_text": "Definition C.1 (see e.g. Embrechts et al. (2003); Nelsen (2007)). The population version of\nKendall-tau correlation between item true quality and rating scores is proportional to\nZ\nτ\nPk (θ1 , θ2 )dθ1 dθ2\nWk , 2\nθ1 >θ2\n\nSimilarly, given items with qualities θ1 , θ2 , θ3 , the population version of Spearman’s rho correlation\nbetween item true quality and rating scores is\nZ\nρ\nPk (θ1 , θ3 )dθ1 dθ2 dθ3\nWk , 6\nθ1 >θ2 ,θ3",
+          "quoted_text_sha256": "03fa759bc3b90af65f10d17fd2cd61d6ad8ed84d1d34e580a28659f21ea42290"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_bernoulli_kl": {
+      "source_anchors": [
+        {
+          "line_end": 526,
+          "line_start": 519,
+          "publication_locator": "cited publication",
+          "quoted_text": "We further note that the choice of M is not conse6\nb\n1−b\nquential; in the Appendix Section B.4 we show that\nKL(a||b) = a log a + (1 − a) log 1−a is the Kullbackin an appropriate sense, a sequence of optimal βM\nLeibler (KL) divergence between Bernoulli random varifor\neach M converges as M gets large.\nables with success probabilities a and b respectively.",
+          "quoted_text_sha256": "41b18049f15026b6b889c376aa5a3727ef9f014f516f16770262910447aedf69"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_large_deviation_rate": {
+      "source_anchors": [
+        {
+          "line_end": 360,
+          "line_start": 321,
+          "publication_locator": "cited publication",
+          "quoted_text": "Large deviations & discretization\n\nRecall the question: What β yields the highest value\nof Wk ?. We now refine objective Wk and constrain β\nto form a non-degenerate, feasible optimization task.\nLarge deviation rate function. Wk is not one\nobjective: it has a different value per time k, and\nno single β simultaneously optimizes Wk for all\n3\nWe use θ1 θ2 (θ1 − θ2 ), (1 − θ1 )(1 − θ2 )(θ1 − θ2 ), and\n1\n( 2 − θ1 )2 ( 12 − θ2 )2 (θ1 − θ2 ) as examples.\n\nk.4 Considering asymptotic performance is also\ninsufficient: when β is strictly increasing in θ,\nlimk→∞ Pk (θ1 , θ2 |β) = 1 ∀θ1 , θ2 by the law of large\nnumbers. Thus, W , limk→∞ Wk = 1, and any such\nβ is asymptotically optimal.\nFor this reason, we consider maximization of the\nrate at which Wk converges, i.e., how fast the estimated item ranking converges to the true item ranking. We use a large deviations approach (Dembo\nand Zeitouni, 2010) to quantify this convergence\nrate. Formally, given sequence Yk ≤ limk→∞ Yk =\nY , the large deviations rate of convergence is\n− limk→∞ k1 log(Y − Yk ) = c. If c exists then Yk approaches Y exponentially fast: Y − Yk = e−kc+o(k) .\nThen, we wish to choose β to maximize Wk ’s large\ndeviations rate, r = − limk→∞ k1 log(W − Wk ).\nDiscretizing β. Unfortunately, even this problem\nis degenerate if we consider continuous β: for any β\nthat is not piecewise constant, the large deviations\nrate of convergence is zero, i.e., convergence of Wk\nto its limit is only polynomially fast, and characterizing the dependence of this convergence rate on β\nis intractable. Thus, the rate of convergence for Wk\nis not a satisfactory objective with continuous β.\nWe make progress by discretizing β; in particular,\nwe restrict attention to optimization over stepwise\nincreasing β functions.5 Among stepwise increasing\nβ, the large deviations rate of Wk to its limiting\nvalue W can be shown to be nondegenerate, i.e. ∃c >\n0 s.t. W − Wk = e−kc+o(k) . (See Lemma C.4 in the\nAppendix for further discussion.)",
+          "quoted_text_sha256": "d3e9b81c737c209cf3096359fd724deb714ee4b3d6976831456f15e64a875b22"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_lexicographic_objective": {
+      "source_anchors": [
+        {
+          "line_end": 476,
+          "line_start": 459,
+          "publication_locator": "cited publication",
+          "quoted_text": "Our optimization problem: Within the class of\nstepwise increasing functions with M levels, find the\nβ that is optimal, i.e. is\n\nFor Kendall’s τ and Spearman’s ρ, the optimal intervals are simply equispaced in [0, 1], i.e. Si∗ =\n[ Mi , i+1\nM ), because the entire item quality distribution is equally important. For other objective weight\nfunctions w, the difficulty of finding the optimal subsets S ∗ depends on the properties of w. Since S ∗ is\ntrivial for Kendall’s τ and Spearman’s ρ – and w\nis just an analytic tool that formalizes a platform’s\ngoals – we focus on finding the optimal levels t∗ .\n\n(1) Asymptotically optimal. It yields the highest limiting value of Wk . AND\n(2) Rate optimal. It yields the fastest large deviations rate r among asymptotically optimal β.\n\u0001\nA remarkable result of our paper is a O M log2 M\n\u000f\nprocedure to find an optimal β with M levels.",
+          "quoted_text_sha256": "edbdafd57cd8416a0d2fafbe6302d29f317de34b9ac2934443fa577d4597cf5a"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_pairwise_accuracy_eq1": {
+      "source_anchors": [
+        {
+          "line_end": 256,
+          "line_start": 238,
+          "publication_locator": "cited publication",
+          "quoted_text": "Platform objective. The platform wishes to rank\nthe items accurately. Given β and θ1 > θ2 , define:\n\u0001\nPk (θ1 , θ2 |β) =µk xk (θ1 ) > xk (θ2 )|θ1 , θ2\n\u0001\n− µk xk (θ1 ) < xk (θ2 )|θ1 , θ2\n(1)\n\nItems. The system consists of a set [0, 1] of items,\nwhere each item is associated with a unique (but unknown) quality θ ∈ [0, 1]; i.e., the system consists of\na continuum of a unit mass of items whose unknown\nqualities are uniform2 in [0, 1]. Below, we discretize\nthe continuous quality space [0, 1] into M types, to\ncalculate a stepwise increasing β. We will make clear\nwhy we introduce a continuum but then discretize.\n\nThis expression captures observed score ranking’s\naccuracy. When θ1 > θ2 but xk (θ1 ) < xk (θ2 ), the\nranking mistakenly orders θ1 below θ2 . A good system has large Pk (θ1 , θ2 |β). Integrating across items",
+          "quoted_text_sha256": "df89e81673b9b4076b73e49a1489d6102ac222482927399a878d527c71ca18e4"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_step_rule_partition_levels": {
+      "source_anchors": [
+        {
+          "line_end": 368,
+          "line_start": 354,
+          "publication_locator": "cited publication",
+          "quoted_text": "We make progress by discretizing β; in particular,\nwe restrict attention to optimization over stepwise\nincreasing β functions.5 Among stepwise increasing\nβ, the large deviations rate of Wk to its limiting\nvalue W can be shown to be nondegenerate, i.e. ∃c >\n0 s.t. W − Wk = e−kc+o(k) . (See Lemma C.4 in the\nAppendix for further discussion.)\nNotationally, we will calculate an optimal stepwise\nincreasing β with M levels, i.e. there are M intervals\nSi ⊂ [0, 1] and levels ti such that when θ1 , θ2 ∈ Si ,\nthen β(θ1 ) = β(θ2 ) , ti . The challenge is calculating an optimal S ∗ = {Si } and t∗ = {ti }.\nThe physical interpretation is that we group the\nitems into M subsets (types) Si ⊂ [0, 1]. When\nitems θ1 , θ2 are in the same subset, then their asymptotic reputation scores are the same, limk xk (θ1 ) =\nlimk xk (θ2 ) , ti . These items cannot be distinguished from one another even asymptotically.",
+          "quoted_text_sha256": "98e796118753eaa105894b5b3e30fd9cfd3ff607df907bc9f3be71ba1f85c5df"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "definition_weighted_objective_eq2": {
+      "source_anchors": [
+        {
+          "line_end": 288,
+          "line_start": 257,
+          "publication_locator": "cited publication",
+          "quoted_text": "creates the following objective for each time k:\nZ\nWk =\nw(θ1 , θ2 )Pk (θ1 , θ2 |β)dθ1 dθ2\n(2)\n\nMatching with buyers. Items accumulate ratings\nover time by matching with buyers. We assume the\n\nWeight function w(θ1 , θ2 ) > 0 indicates how much\nthe platform cares about not mistaking a quality θ1\nitem with Ra quality θ2 item. We consider scaled w\nsuch that θ1 >θ2 w(θ1 , θ2 )dθ1 dθ2 = 1.\n\n1\nNote that a rating is not the same as a reward; buyers\noften give positive ratings after bad experiences.\n2\nAny distribution can be handled by considering θ to\nbe the item’s quantile rather than its absolute quality.\n\nθ1 >θ2\n\nOur first question then becomes: What β yields the\nhighest value of Wk ? As discussed above, the plat-\n\n\fDesigning Optimal Binary Rating Systems\n\nform influences β through the design of its rating\nsystem. The optimal choice of β sets the benchmark.\nDiscussion. Objective function. The specification\n(2) of the objective is quite rich. It contains scaled",
+          "quoted_text_sha256": "c6e49964340d44cb742d6e68e90322ebb88ea42bccc3434cd3654d859fb4d623"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "experiment_empirical_question_response": {
+      "source_anchors": [
+        {
+          "line_end": 2027,
+          "line_start": 2005,
+          "publication_locator": "cited publication",
+          "quoted_text": "\nLearning ψ(θ, y) through experiments\n\nNow, we show how a platform would run an experiment to decide to learn ψ(θ, y). In particular,\none potential issue is that the platform does not have any items with know quality that it can use\nas representative items in its optimization. In this case, we show that it can use ratings within the\nexperiment itself to identify these representative items. The results essentially follow from the law\nof large numbers.\nWe assume that |Θ| = L representative items i ∈ {1 . . . L} are in the experiment, and each are\nmatched N times. The experiment proceeds as follows: every time an item is matched, show the\nbuyer a random question from Y. For each word y ∈ Y, track the empirical ψ̂(i, y), the proportion\nof times a positive response was given to question y. Alternatively, if Y is totally ordered (i.e. a\npositive rating for a given y also implies positive ratings would be given to all “easier” y 0 ), and\ncan be phrased as a multiple choice question, data collection can be faster: e.g., as we do in our\nexperiments: Y consists of a set of totally ordered adjectives that can describe the item; the rater is\nasked to pick an adjective out of the set; this is interpreted as the item receiving a positive answer\nto the questions induced by the chosen answer and all worse adjectives, and a negative answer to\nall better adjectives.\nFirst, suppose the platform approximately knows the quality θi of each item i, and θi are evenly\ndistributed in [0, 1]. Suppose the items are ordered by index, i.e. θ1 < θ2 < · · · < θL . Then let\nψ̂(θ, y) = ψ̂(i, y) when θ ∈ [θi−1 , θi ]. Call this procedure KnownTypeExperiment.\nLemma B.2. Suppose ψ(θ, y) is Lipschitz continuous in θ. With KnownTypeExperiment, ψ̂(i, y) →\nψ(θi , y)∀y uniformly as N → ∞. As L → ∞, ψ̂(θ, y) → ψ(θ, y)∀θ uniformly.",
+          "quoted_text_sha256": "898d73ba83bb657cabe3115fba547c5e1ad05e1acea95d501a18a99c2874fe9b"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "experiment_random_question_observations": {
+      "source_anchors": [
+        {
+          "line_end": 2027,
+          "line_start": 2005,
+          "publication_locator": "cited publication",
+          "quoted_text": "\nLearning ψ(θ, y) through experiments\n\nNow, we show how a platform would run an experiment to decide to learn ψ(θ, y). In particular,\none potential issue is that the platform does not have any items with know quality that it can use\nas representative items in its optimization. In this case, we show that it can use ratings within the\nexperiment itself to identify these representative items. The results essentially follow from the law\nof large numbers.\nWe assume that |Θ| = L representative items i ∈ {1 . . . L} are in the experiment, and each are\nmatched N times. The experiment proceeds as follows: every time an item is matched, show the\nbuyer a random question from Y. For each word y ∈ Y, track the empirical ψ̂(i, y), the proportion\nof times a positive response was given to question y. Alternatively, if Y is totally ordered (i.e. a\npositive rating for a given y also implies positive ratings would be given to all “easier” y 0 ), and\ncan be phrased as a multiple choice question, data collection can be faster: e.g., as we do in our\nexperiments: Y consists of a set of totally ordered adjectives that can describe the item; the rater is\nasked to pick an adjective out of the set; this is interpreted as the item receiving a positive answer\nto the questions induced by the chosen answer and all worse adjectives, and a negative answer to\nall better adjectives.\nFirst, suppose the platform approximately knows the quality θi of each item i, and θi are evenly\ndistributed in [0, 1]. Suppose the items are ordered by index, i.e. θ1 < θ2 < · · · < θL . Then let\nψ̂(θ, y) = ψ̂(i, y) when θ ∈ [θi−1 , θi ]. Call this procedure KnownTypeExperiment.\nLemma B.2. Suppose ψ(θ, y) is Lipschitz continuous in θ. With KnownTypeExperiment, ψ̂(i, y) →\nψ(θi , y)∀y uniformly as N → ∞. As L → ∞, ψ̂(θ, y) → ψ(θ, y)∀θ uniformly.",
+          "quoted_text_sha256": "898d73ba83bb657cabe3115fba547c5e1ad05e1acea95d501a18a99c2874fe9b"
+        }
+      ],
+      "source_kind": "algorithm"
+    },
+    "known_type_experiment_definition": {
+      "source_anchors": [
+        {
+          "line_end": 2027,
+          "line_start": 2005,
+          "publication_locator": "cited publication",
+          "quoted_text": "\nLearning ψ(θ, y) through experiments\n\nNow, we show how a platform would run an experiment to decide to learn ψ(θ, y). In particular,\none potential issue is that the platform does not have any items with know quality that it can use\nas representative items in its optimization. In this case, we show that it can use ratings within the\nexperiment itself to identify these representative items. The results essentially follow from the law\nof large numbers.\nWe assume that |Θ| = L representative items i ∈ {1 . . . L} are in the experiment, and each are\nmatched N times. The experiment proceeds as follows: every time an item is matched, show the\nbuyer a random question from Y. For each word y ∈ Y, track the empirical ψ̂(i, y), the proportion\nof times a positive response was given to question y. Alternatively, if Y is totally ordered (i.e. a\npositive rating for a given y also implies positive ratings would be given to all “easier” y 0 ), and\ncan be phrased as a multiple choice question, data collection can be faster: e.g., as we do in our\nexperiments: Y consists of a set of totally ordered adjectives that can describe the item; the rater is\nasked to pick an adjective out of the set; this is interpreted as the item receiving a positive answer\nto the questions induced by the chosen answer and all worse adjectives, and a negative answer to\nall better adjectives.\nFirst, suppose the platform approximately knows the quality θi of each item i, and θi are evenly\ndistributed in [0, 1]. Suppose the items are ordered by index, i.e. θ1 < θ2 < · · · < θL . Then let\nψ̂(θ, y) = ψ̂(i, y) when θ ∈ [θi−1 , θi ]. Call this procedure KnownTypeExperiment.\nLemma B.2. Suppose ψ(θ, y) is Lipschitz continuous in θ. With KnownTypeExperiment, ψ̂(i, y) →\nψ(θi , y)∀y uniformly as N → ∞. As L → ∞, ψ̂(θ, y) → ψ(θ, y)∀θ uniformly.",
+          "quoted_text_sha256": "898d73ba83bb657cabe3115fba547c5e1ad05e1acea95d501a18a99c2874fe9b"
+        }
+      ],
+      "source_kind": "algorithm"
+    },
+    "known_type_neighbor_extension": {
+      "source_anchors": [
+        {
+          "line_end": 2031,
+          "line_start": 2018,
+          "publication_locator": "cited publication",
+          "quoted_text": "can be phrased as a multiple choice question, data collection can be faster: e.g., as we do in our\nexperiments: Y consists of a set of totally ordered adjectives that can describe the item; the rater is\nasked to pick an adjective out of the set; this is interpreted as the item receiving a positive answer\nto the questions induced by the chosen answer and all worse adjectives, and a negative answer to\nall better adjectives.\nFirst, suppose the platform approximately knows the quality θi of each item i, and θi are evenly\ndistributed in [0, 1]. Suppose the items are ordered by index, i.e. θ1 < θ2 < · · · < θL . Then let\nψ̂(θ, y) = ψ̂(i, y) when θ ∈ [θi−1 , θi ]. Call this procedure KnownTypeExperiment.\nLemma B.2. Suppose ψ(θ, y) is Lipschitz continuous in θ. With KnownTypeExperiment, ψ̂(i, y) →\nψ(θi , y)∀y uniformly as N → ∞. As L → ∞, ψ̂(θ, y) → ψ(θ, y)∀θ uniformly.\nProof. The proof follows directly from the Strong Law of Large Numbers. As N → ∞, ∀i, ψ̂(i, x) →\nψ(θi , x) uniformly. Now, let L → ∞. ∀\u000f, ∃L0 s.t. ∀L > L0 , ∀θ, ∃i s.t. |θ −θi | < \u000f. ψ(θ, x) is Lipschitz\nin θ by assumption, and so ψ̂(θ, x) → ψ(θ, x) uniformly.\nWe now relax the assumption that the platform has an existing set of items with known qualities.",
+          "quoted_text_sha256": "86dda81062e4a9acca71e805e295c03c3358000d99bbbe150da6ba122b597b49"
+        }
+      ],
+      "source_kind": "algorithm"
+    },
+    "lemma31_equalization_eq4": {
+      "source_anchors": [
+        {
+          "line_end": 549,
+          "line_start": 530,
+          "publication_locator": "cited publication",
+          "quoted_text": "Algorithm to find the optimal levels We now\ndescribe how to find t∗ , the maximizer of r(t).\nThe following lemma describes a system of equations\nto find the t∗ that maximizes r. It states that t∗\nequalizes the rates at which each interval i is separated from its neighbors. The proof involves manipulation of r and convexity, and is in the appendix.\nLemma 3.1. The unique solution t∗ to the following\nsystem of equations maximizes r(t):\nr(t0 , t1 ) = r(t1 , t2 ) = · · · = r(tM −2 , tM −1 )\n\n(4)\n\nt0 = 0, tM −1 = 1\n\u0014\u0012\ngi−1\ngi\nr(ti−1 , ti ) , − log (1 − ti−1 ) gi−1 +gi (1 − ti ) gi−1 +gi\ngi−1\n\ngi\n",
+          "quoted_text_sha256": "6a72fc14dcff2e543c6a7e64b0dc1bfb8d2d51b71d5f8cb91d9c9a4bda528df7"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "lemmaB1_matching_rate_shift": {
+      "source_anchors": [
+        {
+          "line_end": 1949,
+          "line_start": 1927,
+          "publication_locator": "cited publication",
+          "quoted_text": "\nFormalization of effect of matching rates shifting\n\nMatching concentrating at the top items moves mass of β(θ) away from high θ, and subsequently\nmass of H(y) away from the questions that help distinguish the top items, as observed in Figures 1b and 3b above. Informally, this occurs because when matching concentrates, top items are\naccumulating many ratings more ratings comparatively, and so the amount of information needed\nper rating is comparatively less. We formalize this intuition in Lemma B.1 below.\nThe lemma states that if matching rates shift such that there is an index k above which matching\nrates increase and below which they decrease, then correspondingly the levels of β, (i.e. ti ) become\ncloser together above k.\nLemma B.1. Suppose k, g, g̃ such that ∀j ∈ {k+1 . . . M −1}, gj ≥ g̃j , and ∀j ∈ {0 . . . k−1}, gj ≤ g̃j ,\nand gk = g̃k . Then, t∗k ≥ t̃∗k .\nProof. This proof is similar to that of Lemma 3.1, except that with the matching function changing\nthe overall rate function can either increase, decrease, or stay the same. Suppose the overall rate\nfunction decreased or stayed the same when the matching function changed from g̃ to g. Then\ngM −2 > g̃M −2 and the target rate is no larger, and so t∗M −2 > t̃∗M −2 . Then, t∗M −3 > t̃∗M −3 (a smaller\nwidth is needed because the matching rates are higher and the rate is no larger, and the next value\nalso increased). This shifting continues until t∗k+1 > t̃∗k+1 . Then, t∗k > t̃∗k .\nSuppose instead that the overall rate function increased when the matching function changed\nfrom g̃ to g. Then g1 < g̃1 and the target rate is larger, and so t∗1 > t̃∗1 . Then, t∗2 > t̃∗2 (a larger\nwidth is needed and the previous value also increased). This shifting continues until t∗k−1 > t̃∗k−1 .\nThen, t∗k > t̃∗k .\n",
+          "quoted_text_sha256": "1f2a0134bc31f6e7ba81ea5d6940abe8956d75519da0dce71580fe63d8a3f425"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "lemmaB2_fixed_finite_slln_step": {
+      "source_anchors": [
+        {
+          "line_end": 2031,
+          "line_start": 2005,
+          "publication_locator": "cited publication",
+          "quoted_text": "\nLearning ψ(θ, y) through experiments\n\nNow, we show how a platform would run an experiment to decide to learn ψ(θ, y). In particular,\none potential issue is that the platform does not have any items with know quality that it can use\nas representative items in its optimization. In this case, we show that it can use ratings within the\nexperiment itself to identify these representative items. The results essentially follow from the law\nof large numbers.\nWe assume that |Θ| = L representative items i ∈ {1 . . . L} are in the experiment, and each are\nmatched N times. The experiment proceeds as follows: every time an item is matched, show the\nbuyer a random question from Y. For each word y ∈ Y, track the empirical ψ̂(i, y), the proportion\nof times a positive response was given to question y. Alternatively, if Y is totally ordered (i.e. a\npositive rating for a given y also implies positive ratings would be given to all “easier” y 0 ), and\ncan be phrased as a multiple choice question, data collection can be faster: e.g., as we do in our\nexperiments: Y consists of a set of totally ordered adjectives that can describe the item; the rater is\nasked to pick an adjective out of the set; this is interpreted as the item receiving a positive answer\nto the questions induced by the chosen answer and all worse adjectives, and a negative answer to\nall better adjectives.\nFirst, suppose the platform approximately knows the quality θi of each item i, and θi are evenly\ndistributed in [0, 1]. Suppose the items are ordered by index, i.e. θ1 < θ2 < · · · < θL . Then let\nψ̂(θ, y) = ψ̂(i, y) when θ ∈ [θi−1 , θi ]. Call this procedure KnownTypeExperiment.\nLemma B.2. Suppose ψ(θ, y) is Lipschitz continuous in θ. With KnownTypeExperiment, ψ̂(i, y) →\nψ(θi , y)∀y uniformly as N → ∞. As L → ∞, ψ̂(θ, y) → ψ(θ, y)∀θ uniformly.\nProof. The proof follows directly from the Strong Law of Large Numbers. As N → ∞, ∀i, ψ̂(i, x) →\nψ(θi , x) uniformly. Now, let L → ∞. ∀\u000f, ∃L0 s.t. ∀L > L0 , ∀θ, ∃i s.t. |θ −θi | < \u000f. ψ(θ, x) is Lipschitz\nin θ by assumption, and so ψ̂(θ, x) → ψ(θ, x) uniformly.\nWe now relax the assumption that the platform has an existing set of items with known qualities.",
+          "quoted_text_sha256": "c2c2ba79abc917ae29bfa4d0e07a46e3fbc5e818d81b9d3bbfadb322b95d5358"
+        }
+      ],
+      "source_kind": "claim"
+    },
+    "lemmaB3_fixed_finite_slln_ranking_step": {
+      "source_anchors": [
+        {
+          "line_end": 2060,
+          "line_start": 2032,
+          "publication_locator": "cited publication",
+          "quoted_text": "Suppose instead the platform has many items L of unknown quality who are expected to match N\ntimes each over the experiment time period. For each item, the platform would again ask questions\nfrom Y, drawn according to any distribution (with positive mass on each question). Then generate\nψ̂(θ, y) as follows: first, rank the items according to their ratings during the experiment itself.\nThen, for each y, ψ̂(θ, y) is\nthe empirical\nperformance of the θth percentile item in the ranking, i.e.\n\u0002 i−1\n\u0003\ni\nψ̂(θ, y) = ψ̂(θi , y) for θ ∈ L , L . Call this procedure UnknownTypeExperiment.\nLemma B.3. Suppose ψ(θ, y) is Lipschitz continuous in θ. With UnknownTypeExperiment, ψ̂(θ, y) →\nψ(θ, y)∀y, θ uniformly as L, N → ∞.\nProof. Fix L. Denote each item in the experiment as i ∈ {1 . . . L} (with true quality θi 6= θj ),\nand each item has N samples. Without loss of generality, assume the items are indexed according\nto their rank on the average of their scores on the samples, defined as the percentage of positive\nratings received. i = 1 is then the worst item, and i = L is the best item according to scores in the\nexperiment.\nFor ψ(θ, x) increasing in θ, as N → ∞, P r(θi > θj |i < j) → 0 almost surely by SLLN, and for\na fixed L, {θi } this convergence\u0002is uniform.\nFurthermore, by SLLN, ψ̂(i, x) → ψ(θi , x) as N → ∞.\n\u0003\ni−1 i\nRecall ψ̂(θ, x) = ψ̂(i, x) for θ ∈ L , L .\n10\n\n\fNow, let L → ∞. ∀\u000f, ∃L0 s.t. ∀L > L0 , ∀θ, ∃i s.t. |θ − θi | < \u000f. ψ(θ, x) is Lipschitz in θ by\nassumption, and so ψ̂(θ, x) → ψ(θ, x) uniformly.\n",
+          "quoted_text_sha256": "ee68bb9230e2b3d283af18883803eb35c8d5d375c49951d253e236b791805ad1"
+        }
+      ],
+      "source_kind": "claim"
+    },
+    "lemmaC10_spearman_reduction": {
+      "source_anchors": [
+        {
+          "line_end": 3697,
+          "line_start": 3615,
+          "publication_locator": "cited publication",
+          "quoted_text": "i.e. with w(θ1 , θ2 ) = (θ1 − θ2 ).\nProof. Recall Pk (θ1 , θ3 ) =\nP r((θ1 − θ2 )(xk1 − xk3 ) > 0)\nZ\nZ\n=\nP r(xk1 − xk3 > 0)dθ1 dθ2 dθ3 +\nθ1 >θ2 ,θ3\n\nZ\n=\n\nP r(xk1 − xk3 > 0)\n\nR\n\nθ1 >θ2 (θ1 −θ2 )Pk (θ1 , θ2 )dθ1 dθ2 ,\n\nP r(xk1 − xk3 < 0)dθ1 dθ2 dθ3\n\nθ1 <θ2 ,θ3\n\n\u0014Z θ1\n\n\u0015\n\nZ\n\nP r(xk1 − xk3 < 0)\n\n\u0014Z 1\n\n\u0015\n\ndθ2 dθ1 dθ3 +\ndθ2 dθ1 dθ3\nθ ,θ\nθ2 =0\nθ1 ,θ3\nθ2 =θ1\nZ 1 3h\ni\n=\nP r(xk1 − xk3 > 0)θ1 ] + P r(xk1 − xk3 < 0)(1 − θ1 ) dθ1 dθ3\nθ ,θ\nZ 1 3h\nh\nii\n=\nP r(xk1 − xk3 < 0) + θ1 P r(xk1 − xk3 > 0) − P r(xk1 − xk3 < 0) dθ1 dθ3\nθ1 ,θ3\n\n24\n\n\fSimilarly,\nP r((θ1 − θ2 )(xk1 − xk3 ) < 0) =\nZ\nh\nh\nii\n=\nP r(xk1 − xk3 > 0) + θ1 P r(xk1 − xk3 < 0) − P r(xk1 − xk3 > 0) dθ1 dθ3\nθ ,θ\nZ 1 3h\nh\nii\n=\nP r(xk3 − xk1 > 0) + θ3 P r(xk3 − xk1 < 0) − P r(xk3 − xk1 > 0) dθ1 dθ3\nθ1 ,θ3\n\nWhere the second equality follows from θ1 , θ3 interchangeable. Then\nZ\nWkρ = 3\n(θ1 − θ2 )Pk (θ1 , θ2 )dθ1 dθ2\nθ1 ,θ2\nZ\n6(θ1 − θ2 )Pk (θ1 , θ2 )dθ1 dθ2\n=\nθ1 >θ2\n\nNote that Spearman’s ρ is similar to Kendall’s τ with an additional weighting for how far apart\nthe two values that are flipped are.\nLemma C.11. When w is constant, i.e. for Kendall’s τ rank correlation, the intervals s that",
+          "quoted_text_sha256": "80b9751bb49ff5cb1dd17a47e098cde213a43e47b1166d130429ea9f60c32125"
+        },
+        {
+          "line_end": 3615,
+          "line_start": 3614,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma C.10. Spearman’s ρ can also be written as being proportional to\ni.e. with w(θ1 , θ2 ) = (θ1 − θ2 ).",
+          "quoted_text_sha256": "a94208d2a8bf5def0d7936a04f568e47dcac968c4b18743f5fb459cc65c56f6a"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "lemmaC11_kendall_equispaced": {
+      "source_anchors": [
+        {
+          "line_end": 3712,
+          "line_start": 3698,
+          "publication_locator": "cited publication",
+          "quoted_text": "maximize (20),\nX\nX Z\nw(θ1 , θ2 )d(θ1 , θ2 ) =\n(si+1 − si )(sj+1 − sj )\n(27)\n0≤i<j<M\n\nθ2 ∈Si ,θ1 ∈Sj\n\n0≤i<j<M\n\n, are {si = Mi }M\ni=0 .\nLemma C.12. When w is (θ1 − θ2 ), i.e. for Spearman’s ρ rank correlation, the intervals s that",
+          "quoted_text_sha256": "dfb46156b223c621c8c3b2377a4a3eafd41730ce18ae57ce1504e8e136da88fc"
+        },
+        {
+          "line_end": 3711,
+          "line_start": 3697,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma C.11. When w is constant, i.e. for Kendall’s τ rank correlation, the intervals s that\nmaximize (20),\nX\nX Z\nw(θ1 , θ2 )d(θ1 , θ2 ) =\n(si+1 − si )(sj+1 − sj )\n(27)\n0≤i<j<M\n\nθ2 ∈Si ,θ1 ∈Sj\n\n0≤i<j<M\n\n, are {si = Mi }M\ni=0 .",
+          "quoted_text_sha256": "9b38c09b2dca9fa7494c7d4950efa614f0a500f01ac106b391a757d63f4277c0"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "lemmaC12_spearman_equispaced": {
+      "source_anchors": [
+        {
+          "line_end": 3760,
+          "line_start": 3713,
+          "publication_locator": "cited publication",
+          "quoted_text": "maximize (20),\nX Z\nw(θ1 , θ2 )d(θ1 , θ2 )\n(28)\n0≤i<j<M\n\nθ2 ∈Si ,θ1 ∈Sj\n\nare {si = Mi }M\ni=0 , i.e. the same as those for Kendall’s τ .\nProof.\nX\n0≤i<j<M\n\nZ\nw(θ1 , θ2 )d(θ1 , θ2 ) =\nθ2 ∈Si ,θ1 ∈Sj\n\nZ\n\nX\n\n(θ1 − θ2 )d(θ1 , θ2 )\n\n0≤i<j<M\n\n=\n\nθ2 ∈Si ,θ1 ∈Sj\n\n\u0012\n\nX\n0<i<j≤M\n\nsj + sj−1 si + si−1\n−\n2\n2\n\n\u0013\n(si − si−1 )(sj − sj−1 )\n\nFinding an asymptotically optimal {si } then is a constrained third order polynomial maximization\ni=M , as for Kendall’s tau\nproblem with M variables. The maximum is achieved at {si = Mi }i=0\ncorrelation.\n",
+          "quoted_text_sha256": "c8cba583c3a4eec4485eeca02b9fc1e1b069416594807c2ff40f6cdd02e41fcf"
+        },
+        {
+          "line_end": 3722,
+          "line_start": 3712,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma C.12. When w is (θ1 − θ2 ), i.e. for Spearman’s ρ rank correlation, the intervals s that\nmaximize (20),\nX Z\nw(θ1 , θ2 )d(θ1 , θ2 )\n(28)\n0≤i<j<M\n\nθ2 ∈Si ,θ1 ∈Sj\n\nare {si = Mi }M\ni=0 , i.e. the same as those for Kendall’s τ .",
+          "quoted_text_sha256": "14e300f97e3837a9626202ceadf60c160e1183468ab246b50c5e5fbe2e18e2ed"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "lemmaC1_pairwise_error_rate": {
+      "source_anchors": [
+        {
+          "line_end": 2131,
+          "line_start": 2083,
+          "publication_locator": "cited publication",
+          "quoted_text": "\nRate functions for Pk (θ1 , θ2 )\n\nLemma C.1.\n1\nlim − log [µ((xk (θ1 ) − xk (θ2 )) ≤ 0|θ1 , θ2 )] = inf {g(θ1 )I(a|θ1 ) + g(θ2 )I(a|θ2 )}\na∈R\nk→∞ k\nwhere I(a|`) = supz {za − Λ(z|θ)}, and Λ(z|θ) is the log moment generating function of a single\nsample from x(θ1 ) and g(θ) is the sampling rate.\nProof. limk→∞ − k1 log [µ((xk (θ1 ) − xk (θ2 )) ≤ 0|θ1 , θ2 )]\n\u0015\n\u0014Z\n1\nµ((xk (θ1 ) = a|θ1 )µ(xk (θ2 ) ≥ a|θ2 )da\n= lim − log\nk→∞ k\n\u0014Za∈R\n\u0015\n1\n−kg(θ1 )I(a|θ1 ) −kg(θ2 )I(a|θ2 )\n= lim − log\ne\ne\nda\nk→∞ k\na∈R\n= inf {g(θ1 )I(a|θ1 ) + g(θ2 )I(a|θ2 )}\n\n(1)\n(2)\nLaplace principle\n\na∈R\n\n(3)\n\nWhere (2) is a basic result from large deviations, where kg(θi ) is the number of samples item\nof quality θi has received.\nNote that this lemma also appears in Glynn and Juneja (2004), which uses the Gartner-Ellis\nTheorem in the proof. Our proof is conceptually similar but instead uses Laplace’s principle.\n1−b\nRecall that KL(a||b) = a log ab + (1 − a) log 1−a\nis the Kullback-Leibler (KL) divergence between\nBernoulli random variables with success probabilities a and b respectively. It is well known that\nfor a Bernoulli random variable with success probability t,\nI(a|t) = KL(a||t)\n11\n",
+          "quoted_text_sha256": "06dbd9a9d88edfc98175763b3d6a6e509a4426c09e15417b563dbf8925c217e2"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "lemmaC2_binary_complement_rate": {
+      "source_anchors": [
+        {
+          "line_end": 2161,
+          "line_start": 2133,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma C.2. Let θ1 > θ2 and I(a|θ) = KL(a||β(θ)). Further, Let P k (θ1 , θ2 ) = 1 − Pk (θ1 , θ2 ).\nThen,\n1\n− lim log P k (θ1 , θ2 ) = inf {g(θ1 )I(a|θ1 ) + g(θ2 )I(a|θ2 )} ,\n(4)\na∈R\nk→∞ k\nProof. Follows directly from Lemma C.1.\n− lim\n\n1\n\nk→∞ k\n\nlog P k (θ1 , θ2 |β)\n\n1\n= lim − log [1 + µk (xk (θ1 ) − xk (θ2 ) < 0|θ1 , θ2 ) − µk (xk (θ1 ) − xk (θ2 ) > 0|θ1 , θ2 )]\nk→∞ k\n1\n= lim − log [2µk (xk (θ1 ) − xk (θ2 ) < 0|θ1 , θ2 ) + µk (xk (θ1 ) − xk (θ2 ) = 0|θ1 , θ2 )]\nk→∞ k\n1\n= lim − log [µk (xk (θ1 ) − xk (θ2 ) ≤ 0|θ1 , θ2 )]\nk→∞ k\n= inf {g(θ1 )I(a|θ1 ) + g(θ2 )I(a|θ2 )}\nLemma C.1\na∈R\n",
+          "quoted_text_sha256": "30a284c43bd8e5416b57563b91f821278abdaf1e0b9651f2e05fe95338974ee7"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "lemmaC3_piecewise_constant_rate": {
+      "source_anchors": [
+        {
+          "line_end": 2364,
+          "line_start": 2227,
+          "publication_locator": "cited publication",
+          "quoted_text": "\nRate function for Wk\n\nOur next lemma shows that we can obtain a nontrivial large deviations rate for Wk when β is a\nstep-wise increasing\nR function.\nRecall Wk = θ1 >θ2 w(θ1 , θ2 )Pk (θ1 , θ2 |β)d(θ1 , θ2 ).\nLet P k (θ1 , θ2 ) = 1 − Pk (θ1 , θ2 ).\nR\nFurther, let W k = (limk Wk ) − Wk = θ1 >θ2 w(θ1 , θ2 )P k (θ1 , θ2 |β)d(θ1 , θ2 ). (recall we assumed\nw integrates to 1 without loss of generality).\nLemma C.3. Suppose β is piecewise constant with M levels {ti }. Let gi , inf θ∈Si g(θ) = g(si )\nThen,\n1\n− lim log W k = min inf {gi+1 I(a|ti+1 ) + gi I(a|ti )} , r,\n(6)\n0≤i≤M −2 a∈R\nk→∞ k\nwhere I(a|t) = KL(a||t) as defined in Lemma C.2.\nProof. When β is step-wise increasing with M levels {ti }, then\nX Z\nWk =\nw(θ1 , θ2 )P k (θ1 , θ2 |β)d(θ1 , θ2 )\n0≤i<j<M\n\nθ2 ∈Si ,θ1 ∈Sj\n\nas P k (θ1 , θ2 ) = 0 when β(θ1 ) = β(θ2 ).\n\n13\n\n\f− limk→∞ k1 log W k\n1\n= − lim log\nk→∞ k\n1\n= − lim log\nk→∞ k\n\nZ\nw(θ1 , θ2 )P k (θ1 , θ2 |β)d(θ1 , θ2 )\nX Z\nw(θ1 , θ2 )P k (θ1 , θ2 |β)d(θ1 , θ2 )\n\n0≤i<j<M\n\n=\n=\n\nmin\n\ninf\n\n(8)\n\nθ2 ∈Si ,θ1 ∈Sj\n\n\" Z\n#!\n1\n= − max\nlim\nlog\nw(θ1 , θ2 )P k (θj , θi |β)d(θ1 , θ2 )\n0≤i<j<M k→∞ k\nθ2 ∈Si ,θ1 ∈Sj\n\u0013\n\u0012\n\u0003\n1\u0002\n= − max\nsup\nlog w(θ1 , θ2 )P k (θj , θi |β)\nlim\n0≤i<j<M θ1 ∈Sj ,θ2 ∈Si k→∞ k\n\u0012\n\u0013\n1\n= − max\nsup\nlim log P k (θj , θi |β)\n0≤i<j<M θ1 ∈Sj ,θ2 ∈Si k→∞ k\n\u0012\n\u0013\n1\n− lim log P k (θj , θi |β)\n= min\ninf\n0≤i<j<M θ1 ∈Sj ,θ2 ∈Si\nk→∞ k\n=\n\n(7)\n\nθ1 >θ2\n\ninf {g(θ1 )I(a|tj ) + g(θ2 )I(a|ti )}\n\n0≤i<j<M θ1 ∈Sj ,θ2 ∈Si a∈R\n\n(9)\n(10)\n(11)\n(12)\n(13)\n\nmin\n\ninf {gj I(a|tj ) + gi I(a|ti )}\n\n(14)\n\nmin\n\ninf {gi+1 I(a|ti+1 ) + gi I(a|ti )}\n\n(15)\n\n0≤i<j<M a∈R\n\n0≤i<M −1 a∈R\n\nThe last line follows from adjacent ti , ti+1 dominating the rate due to monotonicity properties.\nLine (10) follows from Theorem C.1.\n\u0011i\nh\n\u0010P\nN \u000f\n\u000f\n= maxN\nLine (9) follows from: ∀a\u000fi ≥ 0, lim sup\u000f→0 \u000f log\na\ni lim sup\u000f→0 \u000f log(ai ), which\ni\ni\nis a finite case version (with fewer assumptions) of Theorem C.1. See, e.g., Lemma 1.2.15 in (Dembo\nand Zeitouni, 2010) for a proof of this property.\n",
+          "quoted_text_sha256": "80899135cab14588101a0c2f3161898ca21ed820b5f21da45ad337f49e78ff5b"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "lemmaC4_positive_rate_iff_step": {
+      "source_anchors": [
+        {
+          "line_end": 2399,
+          "line_start": 2366,
+          "publication_locator": "cited publication",
+          "quoted_text": "Proof. =⇒ follows directly from Lemma C.3: inf a∈R {gi+1 I(a|ti+1 ) + gi I(a|ti )} > 0 when ti 6= ti+1 ,\nwhich holds when β is piece-wise constant with the appropriate number of levels.\n⇐= Consider β that is not piece-wise constant. Recall that we further assume that β is nondecreasing, and discontinuous only on a measure 0 set. Following algebra steps similar to those in\nLemma C.3, but for general β:\nZ\n1\n1\nlog W k = − lim log\nw(θ1 , θ2 )P k (θ1 , θ2 |β)d(θ1 , θ2 )\nk→∞ k\nk→∞ k\nθ1 >θ2\n\u0012\n\u0013\n1\n= inf − lim log P k (θj , θi |β)\nθ1 >θ2\nk→∞ k\n=0\n\n− lim\n\n(16)\n(17)\n(18)\n\nWhere the last line follows from β continuous at some θ1 , and so limθ2 →θ1 P k (θ1 , θ2 |β) = 1.\nIntuitively, what goes wrong with continuous β is that P k (θ1 , θ2 |β) does not converge uniformly:\n∀\u000f, k, ∃θ2 6= θ1 P k (θ1 , θ2 ) > \u000f\n14\n\n\fi.e. close by items are very hard to distinguish from one another. Then, because the large deviations\nrate of W k is dominated by the worst rates under the integral, we don’t get a positive rate.\n",
+          "quoted_text_sha256": "bc9e7b797ac1d2ca5d376ad425fbe3c297b673c4e7ea2fd8a3bc720481d73328"
+        },
+        {
+          "line_end": 2365,
+          "line_start": 2365,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma C.4. β(θ) is piecewise constant ⇐⇒ ∃c(β) > 0 s.t. − limk→∞ k1 log(W k ) = c(β).",
+          "quoted_text_sha256": "2c77cf18fa3af3c6a0046a3366de0d3a917202c03fe15c924251dd43c48009d7"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "lemmaC5_uniform_doubled_chain": {
+      "source_anchors": [
+        {
+          "line_end": 2895,
+          "line_start": 2715,
+          "publication_locator": "cited publication",
+          "quoted_text": "i=0\u0001 . Then β2M −1\n2M −2\n1\n0\n0\n0\nhas values {ti }i=0 , where t2i = ti , ∀i ∈ {0 . . . M − 1}, t1 = 2 1 − 1 − t1 and t02M −3 =\n√\n1\n2 (1 + tM −2 ).\n\nProof. We first set the values t02i = ti and then optimally choose the remaining values t0k , k odd.\nThen, we show that the resulting large deviation rates between all adjacent pairs are equal. Then,\nby the proof of Lemma 3.1, which showed that equalizing the rates between adjacent intervals is a\n−2\nsufficient condition for optimality, β2M −1 has the levels {t0i }2M\ni=0 .\nLet r0 denote rates between adjacent t0 as r does for t. Supposing t02 = t1 , we find t01 such that\n0\nr1 = r20 and t01 < t02 .\n\u0014q\n\u0015\nq\n0\n0\n0\n0\n0\n− log(1 − t1 ) = −2 log\n(1 − t1 )(1 − t2 ) + t1 t2\nq\n=⇒ 1 − t01 = (1 − t01 )(1 − t02 ) + t01 t02 + 2 (1 − t01 )(1 − t02 )t01 t02\n\u0012\n\u0013\nq\n\u0001\n√\n1\n1\n0\n0\n=⇒ t1 =\n1 − 1 − t2 =\n1 − 1 − t1\n2\n2\n1\n0\n0\n0\nSimilarly, r2M\n−3 = r2M −2 when t2M −3 = 2 (1 +\nby choosing such t01 , t02M −3 .\n\n√\n\n0\n0\ntM −2 ). It follows that r10 = r20 = r2M\n−3 = r2M −2\n\n17\n\n\f0\nNext, we find t0k ∈ (t0k−1 , t0k+1 ) for k ∈ {3, 5, . . . 2M − 5} such that the rates rk0 = rk+1\n.\n\nq\nq\nhq\ni\nhq\ni\n0\n0\n0\n0\n0\n0\n(1 − tk )(1 − tk−1 ) + tk tk−1 = −2 log\n(1 − tk )(1 − tk+1 ) + t0k t0k+1\n−2 log\nq\n2\nq\n0\n0\n1\n−\nt\n−\n1\n−\nt\nk+1\nk−1\nc\n\nq\nq\n=⇒ t0k =\n, where c = \n1+c\n0\n0\n− t\nt\nk−1\n\nk+1\n\nNow, we show that rk0 = rj0 , ∀j, k by showing that the difference between each rate ri and its\n0 is constant. r = r , ∀j, k by assumption and so r 0 = r 0 , ∀j, k follows.\nanalogous rate r2i\nj\nk\nj\nk\n√\n1\n0\n(1\n+\nt\n).\nThus\nif\nr\n=\n− log x for some x, then\nrM −1 = − log tM −2 and r2M\n=\n−\nlog\ni\nM\n−2\n−2\n2\n√\nr2i = − log 21 (1 + x) would imply that all the rates are equal. Thus, it is sufficient to show that\nq\ni2 1 h\ni\nhq\np\np\n(1 − t02i−1 )(1 − t02i ) + t02i−1 t02i =\n1 + (1 − ti−1 )(1 − ti ) + ti−1 ti\n2\n\"s\u0012\n#2\nr\n\u0013\ni\np\np\nc\nc\n1h\n≡\n1−\n1 + (1 − ti−1 )(1 − ti ) + ti−1 ti\n(1 − ti ) +\nti =\n1+c\n1+c\n2\n\u00152\n\u0014√\n√\n1 − ti − 1 − ti−1\n√\nwhere c =\n√\nti−1 − ti\n\n(24)\n(25)\n\nThe proof for (25) is algebraically tedious and is shown in Remark C.3 below.",
+          "quoted_text_sha256": "b47957cfc070f8e8acfc50598d35f0c0f6b8be8fd9d33e887194c5f2673a2ba3"
+        },
+        {
+          "line_end": 2724,
+          "line_start": 2714,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma C.5. Suppose g uniform, i.e. gi = 1, ∀i and that βM has values√{ti }M\ni=0\u0001 . Then β2M −1\n2M −2\n1\n0\n0\n0\nhas values {ti }i=0 , where t2i = ti , ∀i ∈ {0 . . . M − 1}, t1 = 2 1 − 1 − t1 and t02M −3 =\n√\n1\n2 (1 + tM −2 ).",
+          "quoted_text_sha256": "ce9babdd751efbbe53ff36491e86dd2ff7e95e022d4d6de2e30e8746e15eea06"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "lemmaC6_monotone_penultimate_bound": {
+      "source_anchors": [
+        {
+          "line_end": 3159,
+          "line_start": 3131,
+          "publication_locator": "cited publication",
+          "quoted_text": "Proof. Note that, with uniform matching, ∀x ∈ (0, 1], y ∈ [0, 1 − x] the rate with values ti−1 =\ny, ti = y + x is no more than the last with tM −2 = 1 − x. With width x, in other words, the extreme\npoints have a larger rates than the middle points. For i ∈\n/ {1, M − 1}:\nri = inf {gi−1 KL(a||ti−1 ) + gi KL(a||ti )}\na\n\n= inf {KL(a||y) + KL(a||y + x)}\nuniform matching\na\nh\ni\n1\n1\n1\n1\n= −2 log (1 − y) 2 (1 − y − x) 2 + y 2 (y + x) 2\n(26)\nh\ni\n= − log (1 − y)(1 − y − x) + y(y + x) + 2 [(1 − y)(1 − y − x)y(y + x)]1/2\n≤ − log(1 − x)\nWhere line (26) follows from line (22).\nBy the proof of Lemma 3.1, the optimal levels equalize the rates between each level. Then,\nwhen g is non-decreasing, gM −2 ≥ g` , ∀` ∈ {1 . . . M − 3}. Then, at the same level differences, the\nrate corresponding to the last level is no smaller. Thus, to equalize the rates, the last width must\nbe no larger than any other width. Thus, tM −2 ≥ 1 − L1 .\nN +1 −1\n",
+          "quoted_text_sha256": "2256579dcddaf95e2576642fd3acf4ab95617d6358d5df1f4f9360f47d2263bf"
+        },
+        {
+          "line_end": 3130,
+          "line_start": 3130,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma C.6. Suppose g is non-decreasing in θ. Then, tM −2 ≥ 1 − M1−1 .",
+          "quoted_text_sha256": "2fc52521fc7ed1478bbd872684f905f52a64ed6d20d853743e17865cdff8de5a"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "lemmaC7_uniform_refinement_rate": {
+      "source_anchors": [
+        {
+          "line_end": 3168,
+          "line_start": 3160,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma C.7. With uniform matching (gi = 1), r2\n\n20\n\nN\n\n≥ 15 r2 .\n\n\f1",
+          "quoted_text_sha256": "f780bcf9f7f9696604972ffa598e37c6c05349168e6f1a3391f665f484c5a49d"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "lemmaC8_uniform_first_level_bound": {
+      "source_anchors": [
+        {
+          "line_end": 3267,
+          "line_start": 3234,
+          "publication_locator": "cited publication",
+          "quoted_text": "1 ≥ CM\n\nProof. By Lemma C.7, ∃C2 > 0 s.t. rM ≥ C2 5−dlog2 M e . Then\nM\n− log(1 − tM\n1 )=r\n\n≥ C2 5−dlog2 M e\nh\ni\n−dlog2 M e\n=⇒ tM\n1 ≥ 1 − exp −C2 5\nh\ni\n− 1\n≥ 1 − exp −C3 M log5 2\ne−1\n− 1\nC3 M log5 2\ne\nM\n=⇒ ∃C > 0 s.t. t1 ≥ CM −3\n\ne−x ≤ 1 −\n\n≥\n\ne−1\nx for x ∈ [0, 1]\ne\n\n−3 .\nCorollary C.3. With monotonically non-decreasing g, ∃C > 0 s.t. ∀M, tM",
+          "quoted_text_sha256": "5d25c40b28e4a991b9b15ab7800c2ccaa40efb16ce7fa19972e6cc63e16b3f7a"
+        },
+        {
+          "line_end": 3234,
+          "line_start": 3233,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma C.8. With uniform matching (gi = 1), ∃C > 0 s.t. ∀M, tM\n1 ≥ CM",
+          "quoted_text_sha256": "56f30bb8dd75d22d5c0f3335d1aeaed8735f58bad6558d35134526753a35dee7"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "lemmaC9_nested_bisection_runtime": {
+      "source_anchors": [
+        {
+          "line_end": 3279,
+          "line_start": 3275,
+          "publication_locator": "cited publication",
+          "quoted_text": "and M is the number of intervals.\nProof. The outer bisection, in main, runs at most log2 2δ + 1 iterations. Each outer iteration calls\nBisectNextLevel M − 3 times, and the inner bisection in each call runs for at most log2 2δ iterations.\nThus the run-time of algorithm is O(M log2 1δ ).\n",
+          "quoted_text_sha256": "57bbdb5bc0be9a965caf42e9e3a45c96fe31812795e311dbc2deeacf56e16bad"
+        },
+        {
+          "line_end": 3275,
+          "line_start": 3274,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma C.9. The run-time of NestedBisection is O(M log2 1δ ), where δ is the bisection grid width\nand M is the number of intervals.",
+          "quoted_text_sha256": "04bc2c6f0b063941f59584d1139a42651ca38aa8f17fb9c602615bd25ca451c7"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "model_empirical_reputation_score": {
+      "source_anchors": [
+        {
+          "line_end": 237,
+          "line_start": 219,
+          "publication_locator": "cited publication",
+          "quoted_text": "Aggregating ratings and ranking sellers.\nThese ratings are aggregated into a reputation score,\nxk (θ), at each time k. The score is the fraction\nof positive ratings received up to time k: xk (θ) ,\nPnk (θ)\n1\n`=0 y` (θ) with x0 (θ) , 0 for all θ. Thus,\nnk (θ)\nxk (θ) ∼ nk1(θ) Binomial(β(θ), nk (θ)).\nSystem state. The state of the system is given by a\njoint distribution µk (Θ, X), which gives the mass of\nitems of quality θ ∈ Θ ⊂ [0, 1] with aggregate score\nxk (θ) ∈ X ⊂ [0, 1] at time k. Because our model is\na continuum, the evolution of the system state µk\nfollows a deterministic dynamical system.\nWe have described these dynamics at the level of individual items; however, such statements should be\ninterpreted as describing the evolution of the joint\ndistribution µk . The state update for µk is determined by the mass of items that match and the distributions of their ratings. A formal description of\nthe state evolution is in Appendix Section B.1.",
+          "quoted_text_sha256": "16d8c91805a65787520dd33f4737942cb7e349be05b27bac9849217452fefc43"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "model_state_measure": {
+      "source_anchors": [
+        {
+          "line_end": 237,
+          "line_start": 228,
+          "publication_locator": "cited publication",
+          "quoted_text": "System state. The state of the system is given by a\njoint distribution µk (Θ, X), which gives the mass of\nitems of quality θ ∈ Θ ⊂ [0, 1] with aggregate score\nxk (θ) ∈ X ⊂ [0, 1] at time k. Because our model is\na continuum, the evolution of the system state µk\nfollows a deterministic dynamical system.\nWe have described these dynamics at the level of individual items; however, such statements should be\ninterpreted as describing the evolution of the joint\ndistribution µk . The state update for µk is determined by the mass of items that match and the distributions of their ratings. A formal description of\nthe state evolution is in Appendix Section B.1.",
+          "quoted_text_sha256": "3da73bd7208a8d7849cfd4c7c768f0a516e06418ae66aba61e21eb08f1b45f7c"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section4_response_mixture": {
+      "source_anchors": [
+        {
+          "line_end": 668,
+          "line_start": 642,
+          "publication_locator": "cited publication",
+          "quoted_text": "Resources available to platform. We suppose\nthe platform has a set Y of possible binary questions that it could ask a buyer, e.g., “Are you satisfied with your experience” or “Is this experience\nyour best on our platform?”. Informally, at each\nrating opportunity (i.e., match made), the rater can\nbe shown a single question y ∈ Y. Let ψ(θ, y) be the\nprobability an item quality θ would receive a positive\nrating when the rater is asked question y ∈ Y.\nWe further suppose the platform has a set Θ of representative items for which it has access to item quality. Θ, then, is the granularity at which the platform\ncan collect data about historical performance, or\notherwise get expert labels. (We assume M \u001d |Θ|).\nUsing known set Θ, the platform can run an experiment to create an estimate ψ̂(θ, y), ∀y ∈ Y, θ ∈ Θ.\nDesign heuristic. How can the platform build an\neffective rating system using these primitives and\nβ? We consider the following heuristic design: the\nplatform randomly shows a question y ∈ Y to each\nbuyer. The choice of the platform is a distribution\nH(y) over y ∈ Y; in other words, for the platform\nthe design of the system amounts to choosing the frequency with which each question is shown. At each\nrating opportunity, y is chosen from Y according to\nH, independently across opportunities.\nClearly, the probability that\nP an item θ receives a\npositive rating is: β̃(θ) , y∈Y ψ(θ, y)H(y).\nWe want a distribution H such that β̃(θ) = β(θ) for\nall θ ∈ [0, 1], i.e., that the positive rating probability\nfor each item is exactly the optimal value. However,\nthere may not exist any set of questions Y with associated ψ and choice of H such that β̃ = β.7",
+          "quoted_text_sha256": "a1c3c5655e75448f09090b920f312428648a066a6e8dfa2666ab2dea03dbee0d"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "theorem31_discretization_value": {
+      "source_anchors": [
+        {
+          "line_end": 507,
+          "line_start": 488,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 3.1. The β defined by the following\nSuppose we started with a set of M items. Then the\nchoices of S ∗ and t∗ is optimal:\nonly remaining challenge is to equalize the rates at\nR\nP\nwhich each item is separated from others: the large\n∗\nS = arg max 0≤i<j<M θ2 ∈Si ,θ1 ∈Sj w(θ1 , θ2 )d(θ1 , θ2 )\ndeviations rate is unaffected by the weight function\n∗\n6\nw (it does not appear in the simplification of r(t)).\nt = arg max r(t), where gi , inf θ∈Si g(θ) and\nIn other words, given a discrete set of M items\n1\n(equiv, given S ∗ ), calculating the optimal t is equivr(t) , − lim log(W − Wk )\n(3)\nalent to solving a maximin problem for the rates at\nk→∞ k",
+          "quoted_text_sha256": "ed386f9f8d91a79e9b0d4cbb986427e7cb86e42315f8bb78151b1e7c52657e7b"
+        },
+        {
+          "line_end": 534,
+          "line_start": 488,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 3.1. The β defined by the following\nSuppose we started with a set of M items. Then the\nchoices of S ∗ and t∗ is optimal:\nonly remaining challenge is to equalize the rates at\nR\nP\nwhich each item is separated from others: the large\n∗\nS = arg max 0≤i<j<M θ2 ∈Si ,θ1 ∈Sj w(θ1 , θ2 )d(θ1 , θ2 )\ndeviations rate is unaffected by the weight function\n∗\n6\nw (it does not appear in the simplification of r(t)).\nt = arg max r(t), where gi , inf θ∈Si g(θ) and\nIn other words, given a discrete set of M items\n1\n(equiv, given S ∗ ), calculating the optimal t is equivr(t) , − lim log(W − Wk )\n(3)\nalent to solving a maximin problem for the rates at\nk→∞ k\nwhich\neach type is distinguished from each of the\n= min inf {gi+1 KL(a||ti+1 ) + gi KL(a||ti )}\n0≤i≤M −2 a∈R\nothers. Thus, the algorithm below also solves the\ninverse bandits problem in which we wish to rank\nThe proof is in the Appendix. The main hurdle is\nthe M arms, and we can choose the structure of the\nshowing that the continuum of rates for Pk (θ1 , θ2 )\n(binary) observations at each arm.\nfor each pair θ1 , θ2 translates into a rate for Wk .\nWe further note that the choice of M is not conse6\nb\n1−b\nquential; in the Appendix Section B.4 we show that\nKL(a||b) = a log a + (1 − a) log 1−a is the Kullbackin an appropriate sense, a sequence of optimal βM\nLeibler (KL) divergence between Bernoulli random varifor\neach M converges as M gets large.\nables with success probabilities a and b respectively.\n\n\fDesigning Optimal Binary Rating Systems\n\nAlgorithm to find the optimal levels We now\ndescribe how to find t∗ , the maximizer of r(t).\nThe following lemma describes a system of equations\nto find the t∗ that maximizes r. It states that t∗\nequalizes the rates at which each interval i is separated from its neighbors. The proof involves manipulation of r and convexity, and is in the appendix.",
+          "quoted_text_sha256": "cc9b2867b085c8178aa8900d5c14cd639755254b9474e5ba737156902562cfe3"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem32_approximation_runtime": {
+      "source_anchors": [
+        {
+          "line_end": 598,
+          "line_start": 588,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 3.2. \u0001NestedBisection finds an \u000f-optimal t\nin O M log2 M\noperations, where \u000f-optimal means\n\u000f\nthat r(t) is within additive constant \u000f of optimal.\nThe proof is in the appendix. The main difficulty\nis finding a Lipschitz constant \u000f(δ) for how much\nthe rate changes with a shift δ in a level ti . This\nrequires lower bounding t1 as a function of M . In\npractice, the algorithm runs instantaneously on a\nmodern machine (e.g. for M = 200).",
+          "quoted_text_sha256": "b80dba72ca65dfddc92df6cf4f973ea878a0241acccfbbe1722ad520de278fc4"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theoremB1_quantile_representation": {
+      "source_anchors": [
+        {
+          "line_end": 1979,
+          "line_start": 1951,
+          "publication_locator": "cited publication",
+          "quoted_text": "\nLimit of β as M → ∞\n\nw denote the optimal β with M intervals for weight function w, with intervals {S wM } =\nLet βM\ni\nwM\nwM . Let q\nwM , swM ), i.e. the quantile of\n{[si , swM\n)}\nand\nlevels\nt\n(θ)\n=\ni/M\nwhen\nθ\n∈\n[s\nwM\ni+1\ni\ni+1\ninterval item of type θ is in.\nThen, we have the following convergence result for βM .\n\nTheorem B.1. Let g be uniform. Suppose w such that qwM converges uniformly. Then, ∀C ∈",
+          "quoted_text_sha256": "9bd460d942026e80a3d9ac3d777f6190dcd6b3329e6e858db821281cdc018f2a"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "theoremB1_uniform_subsequence": {
+      "source_anchors": [
+        {
+          "line_end": 2003,
+          "line_start": 1980,
+          "publication_locator": "cited publication",
+          "quoted_text": "w\nw uniformly as N → ∞.\nN, ∃β w s.t. βC2\nN +1 → β\nThe proof is technical and is below. We leverage the fact that, for g uniform, the levels of β2M\ncan be analytically written as a function of the levels of βM . We believe (numerically observe)\nthat this theorem holds for the entire sequence as opposed to the each such subsequence, and for\ngeneral matching functions g. However, our proof technique does not carry over, and the proof\nwould leverage more global properties of the optimal βM .\nFurthermore, the condition on w is light. For example, it holds for Kendall’s τ , Spearman’s ρ,\nand all other examples mentioned in this work.\nThis convergence result suggests that the choice of M when calculating a asymptotic and rate\noptimal β is not consequential. As M increases, the limiting value of Wk increases to 1 (i.e. the\nasymptotic value increases), but the optimal rate decreases to 0. As discussed above, with strictly\nincreasing and continuous β, the asymptotic value is 1 but the large deviations rate does not exist,\ni.e. convergence is polynomial.\nThis result could potentially be strengthened as follows: first, show convergence on the entire\nsequence as opposed to these exponential subsequences, as conjectured; second, show desirable\nproperties of the limiting function itself. It is conceivable but not necessarily true that the limiting\n9\n\n\ffunction is “better” than other strictly continuous increasing functions in some rate sense, even\nthough the comparison through large deviations rate is degenerate.\n",
+          "quoted_text_sha256": "ed4d61a1632a124d323f246f90cbdb6bc8d5f45222a1817dece3af91e380c3f1"
+        },
+        {
+          "line_end": 2025,
+          "line_start": 1979,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem B.1. Let g be uniform. Suppose w such that qwM converges uniformly. Then, ∀C ∈\nw\nw uniformly as N → ∞.\nN, ∃β w s.t. βC2\nN +1 → β\nThe proof is technical and is below. We leverage the fact that, for g uniform, the levels of β2M\ncan be analytically written as a function of the levels of βM . We believe (numerically observe)\nthat this theorem holds for the entire sequence as opposed to the each such subsequence, and for\ngeneral matching functions g. However, our proof technique does not carry over, and the proof\nwould leverage more global properties of the optimal βM .\nFurthermore, the condition on w is light. For example, it holds for Kendall’s τ , Spearman’s ρ,\nand all other examples mentioned in this work.\nThis convergence result suggests that the choice of M when calculating a asymptotic and rate\noptimal β is not consequential. As M increases, the limiting value of Wk increases to 1 (i.e. the\nasymptotic value increases), but the optimal rate decreases to 0. As discussed above, with strictly\nincreasing and continuous β, the asymptotic value is 1 but the large deviations rate does not exist,\ni.e. convergence is polynomial.\nThis result could potentially be strengthened as follows: first, show convergence on the entire\nsequence as opposed to these exponential subsequences, as conjectured; second, show desirable\nproperties of the limiting function itself. It is conceivable but not necessarily true that the limiting\n9\n\n\ffunction is “better” than other strictly continuous increasing functions in some rate sense, even\nthough the comparison through large deviations rate is degenerate.\n\nB.5\n\nLearning ψ(θ, y) through experiments\n\nNow, we show how a platform would run an experiment to decide to learn ψ(θ, y). In particular,\none potential issue is that the platform does not have any items with know quality that it can use\nas representative items in its optimization. In this case, we show that it can use ratings within the\nexperiment itself to identify these representative items. The results essentially follow from the law\nof large numbers.\nWe assume that |Θ| = L representative items i ∈ {1 . . . L} are in the experiment, and each are\nmatched N times. The experiment proceeds as follows: every time an item is matched, show the\nbuyer a random question from Y. For each word y ∈ Y, track the empirical ψ̂(i, y), the proportion\nof times a positive response was given to question y. Alternatively, if Y is totally ordered (i.e. a\npositive rating for a given y also implies positive ratings would be given to all “easier” y 0 ), and\ncan be phrased as a multiple choice question, data collection can be faster: e.g., as we do in our\nexperiments: Y consists of a set of totally ordered adjectives that can describe the item; the rater is\nasked to pick an adjective out of the set; this is interpreted as the item receiving a positive answer\nto the questions induced by the chosen answer and all worse adjectives, and a negative answer to\nall better adjectives.\nFirst, suppose the platform approximately knows the quality θi of each item i, and θi are evenly\ndistributed in [0, 1]. Suppose the items are ordered by index, i.e. θ1 < θ2 < · · · < θL . Then let\nψ̂(θ, y) = ψ̂(i, y) when θ ∈ [θi−1 , θi ]. Call this procedure KnownTypeExperiment.",
+          "quoted_text_sha256": "f12106ceeee0b89699499f5e2ed3f113538ea6743723a7ec6dd9d767db67e7a8"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theoremC1_laplace_principle": {
+      "source_anchors": [
+        {
+          "line_end": 2223,
+          "line_start": 2163,
+          "publication_locator": "cited publication",
+          "quoted_text": "\nLaplace’s principle with sequence of rate functions\n\nIn order to derive a rate function for W k = (limk Wk ) − Wk , we need to be able to relate its rate to\nthat of P k (θ1 , θ2 ). The following theorem, related to Laplace’s principle for large deviations allows\nus to do so.\nTheorem C.1. Suppose that X is compact with finite Lebesgue measure µ(X) < ∞. Suppose that\nϕ(x) has an essential infimum ϕ on X, that ϕn (x) has an essential infimum ϕn , that both ϕ and\nall ϕn are nonnegative, and that ϕn → ϕ uniformly:\nlim sup |ϕn (x) − ϕ(x)| = 0.\n\nn→∞ x∈X\n\nThen:\n\n1\nlog\nn→∞ n\n\nZ\n\nlim\n\ne−nϕn (x) dx = −ϕ.\n\n(5)\n\nX\n\nProof. First, we note that for all x and n, e−nϕn (x) ≤ e−nϕn . Therefore, letting (∗) denote the\nLHS of (5), we have:\nZ\n1\n(∗) ≤ lim log\ne−nϕn dx = −ϕ,\nn→∞ n\nX\nwhere the last limit follows from the fact that ϕn converges uniformly to ϕ, so that ϕn → ϕ.\nNext, for \u000f > 0 let An (\u000f) = {x : ϕn (x) ≤ ϕn + \u000f} and let A(\u000f) = {x : ϕ(x) ≤ ϕ + \u000f}. It\nfollows (again by uniform convergence) that for all sufficiently large n, A(\u000f/2) ⊆ An (\u000f), so that\nµ(A(\u000f/2)) ≤ µ(An (\u000f)) for all sufficiently large n. Further, µ(A(\u000f/2)) > 0, since ϕ is the essential\ninfimum.\nSince:\nZ\ne−nϕn (x) dx ≥ µ(An (\u000f))e−n(ϕn +\u000f) ,\nX\n\n12\n\n\fit follows that:\n\n1\nlog µ(An (\u000f)).\nn→∞ n\nTo complete the proof, observe that since µ(An (\u000f)) is bounded below by a positive constant for all\nsufficiently large n, the last limit is zero. Therefore:\n(∗) ≥ −ϕ − \u000f + lim\n\n(∗) ≥ −ϕ − \u000f.\nSince \u000f was arbitrary, this completes the proof.\nRemark C.1. Let X = [0, 1] × [0, 1], ϕn (θ1 , θ2 ) = − n1 log P n (θ1 , θ2 ). Then, all the conditions for",
+          "quoted_text_sha256": "00f250c400e0e400605f791eea20d114c6c7e4388aa07a7aabe6bb8c308cd1d8"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "unknown_type_experiment_definition": {
+      "source_anchors": [
+        {
+          "line_end": 2044,
+          "line_start": 2032,
+          "publication_locator": "cited publication",
+          "quoted_text": "Suppose instead the platform has many items L of unknown quality who are expected to match N\ntimes each over the experiment time period. For each item, the platform would again ask questions\nfrom Y, drawn according to any distribution (with positive mass on each question). Then generate\nψ̂(θ, y) as follows: first, rank the items according to their ratings during the experiment itself.\nThen, for each y, ψ̂(θ, y) is\nthe empirical\nperformance of the θth percentile item in the ranking, i.e.\n\u0002 i−1\n\u0003\ni\nψ̂(θ, y) = ψ̂(θi , y) for θ ∈ L , L . Call this procedure UnknownTypeExperiment.\nLemma B.3. Suppose ψ(θ, y) is Lipschitz continuous in θ. With UnknownTypeExperiment, ψ̂(θ, y) →\nψ(θ, y)∀y, θ uniformly as L, N → ∞.",
+          "quoted_text_sha256": "94546f575c4e1a2690ad68e521da37e898f30983d9a67302c1bc15467487d3d0"
+        }
+      ],
+      "source_kind": "algorithm"
+    },
+    "unknown_type_percentile_extension": {
+      "source_anchors": [
+        {
+          "line_end": 2060,
+          "line_start": 2032,
+          "publication_locator": "cited publication",
+          "quoted_text": "Suppose instead the platform has many items L of unknown quality who are expected to match N\ntimes each over the experiment time period. For each item, the platform would again ask questions\nfrom Y, drawn according to any distribution (with positive mass on each question). Then generate\nψ̂(θ, y) as follows: first, rank the items according to their ratings during the experiment itself.\nThen, for each y, ψ̂(θ, y) is\nthe empirical\nperformance of the θth percentile item in the ranking, i.e.\n\u0002 i−1\n\u0003\ni\nψ̂(θ, y) = ψ̂(θi , y) for θ ∈ L , L . Call this procedure UnknownTypeExperiment.\nLemma B.3. Suppose ψ(θ, y) is Lipschitz continuous in θ. With UnknownTypeExperiment, ψ̂(θ, y) →\nψ(θ, y)∀y, θ uniformly as L, N → ∞.\nProof. Fix L. Denote each item in the experiment as i ∈ {1 . . . L} (with true quality θi 6= θj ),\nand each item has N samples. Without loss of generality, assume the items are indexed according\nto their rank on the average of their scores on the samples, defined as the percentage of positive\nratings received. i = 1 is then the worst item, and i = L is the best item according to scores in the\nexperiment.\nFor ψ(θ, x) increasing in θ, as N → ∞, P r(θi > θj |i < j) → 0 almost surely by SLLN, and for\na fixed L, {θi } this convergence\u0002is uniform.\nFurthermore, by SLLN, ψ̂(i, x) → ψ(θi , x) as N → ∞.\n\u0003\ni−1 i\nRecall ψ̂(θ, x) = ψ̂(i, x) for θ ∈ L , L .\n10\n\n\fNow, let L → ∞. ∀\u000f, ∃L0 s.t. ∀L > L0 , ∀θ, ∃i s.t. |θ − θi | < \u000f. ψ(θ, x) is Lipschitz in θ by\nassumption, and so ψ̂(θ, x) → ψ(θ, x) uniformly.\n",
+          "quoted_text_sha256": "ee68bb9230e2b3d283af18883803eb35c8d5d375c49951d253e236b791805ad1"
+        }
+      ],
+      "source_kind": "algorithm"
+    }
+  },
+  "source_artifact_sha256": "d0575ebda40cce734106cc22a7da0bd8c5eb4dd04925c82af8fc6d30dc85a870",
+  "source_coverage_mode": "named_theoretical_statements"
+}

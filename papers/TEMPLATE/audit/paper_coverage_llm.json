@@ -1,0 +1,21 @@
+{
+  "audit_kind": "source_to_dashboard_llm",
+  "comment": "Pending placeholder. This sidecar is not audit evidence until each canonical source-paper statement has a current semantic coverage judgment tied to the current source inventory and dashboard surface.",
+  "items": {},
+  "paper": "TEMPLATE",
+  "paper_statement_inventory_sha256": "",
+  "prompt_summary": [
+    "For each source inventory item, identify the exact dashboard row(s) that cover the mathematical content.",
+    "A covered verdict requires semantic coverage of the source hypotheses, objects, quantifiers, constants, formulas, and conclusions, not just a matching title or phrase.",
+    "If a linked Lean row has extra replay/certificate/process/bridge/source-row premises, mark the source item covered_with_boundary or partially_covered unless those premises are separately derived from source primitives.",
+    "Include source_evidence from the paper and dashboard_evidence from the row; exact-key or theorem-name matching is only a scaffold."
+  ],
+  "prompt_version": "paper-coverage-v2-source-grounded-source-to-dashboard",
+  "review_surface_sha256": "",
+  "schema": 1,
+  "seed_scaffold": false,
+  "source_grounded": true,
+  "validated_at": "",
+  "validator": "",
+  "validator_type": ""
+}

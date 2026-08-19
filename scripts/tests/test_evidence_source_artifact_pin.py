@@ -9,6 +9,7 @@ import json
 import sys
 import tempfile
 import unittest
+from copy import deepcopy
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -735,6 +736,63 @@ class CorrectedSourceTargetMapTests(unittest.TestCase):
     def test_valid_corrected_target_is_anchored_to_its_archival_source(self) -> None:
         self.write_ledger()
         self.assertEqual(self.findings(self.payload()), [])
+
+    def test_repeated_corrected_presentation_inherits_canonical_endpoint(self) -> None:
+        """An alias cannot be forced to recreate its canonical proof route."""
+
+        self.write_ledger()
+        payload = self.payload()
+        items = payload["items"]
+        assert isinstance(items, dict)
+        canonical = items["opaque_source_key"]
+        assert isinstance(canonical, dict)
+        alias = deepcopy(canonical)
+        alias.pop("lean_declarations")
+        alias["claim_bearing"] = False
+        alias["inventory_role"] = "source_presentation_alias"
+        alias["source_presentation_alias"] = {
+            "schema": 1,
+            "canonical_source_item": "opaque_source_key",
+            "relation": "repeated_source_presentation",
+            "semantic_basis": "The second source presentation has the same corrected target.",
+            "validator": "independent source-presentation reviewer",
+            "validated_at": "2026-08-19T00:00:00Z",
+        }
+        items["repeated_presentation"] = alias
+
+        self.assertEqual(self.findings(payload), [])
+
+        (self.audit / "paper_statement_map.json").write_text(
+            json.dumps(payload), encoding="utf-8"
+        )
+        target = canonical["corrected_target"]
+        assert isinstance(target, dict)
+        coverage = {
+            "coverage": "covered_corrected_target",
+            "target_kind": "approved_corrected_target",
+            "review_rows": ["opaque_complete_endpoint"],
+            "statement_sha256": target["approval"]["target_statement_sha256"],
+            "archival_statement_sha256": hashlib.sha256(
+                str(canonical["statement"]).encode("utf-8")
+            ).hexdigest(),
+            "corrected_target_sha256": target["corrected_target_sha256"],
+            "governing_defect_ids": ["FIXTURE-SOURCE-DEFECT"],
+            "archival_equivalence_claimed": False,
+        }
+        (self.audit / "paper_coverage_llm.json").write_text(
+            json.dumps(
+                {
+                    "items": {
+                        "opaque_source_key": coverage,
+                        "repeated_presentation": deepcopy(coverage),
+                    }
+                }
+            ),
+            encoding="utf-8",
+        )
+        self.assertEqual(
+            GATE.corrected_target_coverage_findings(self.paper, "formalized"), []
+        )
 
     def test_corrected_target_has_one_primary_endpoint_and_no_proof_helper(self) -> None:
         """A repaired target cannot be routed through a collection of helpers."""
@@ -3580,6 +3638,25 @@ class SourceRecordJudgmentTests(unittest.TestCase):
                 )
                 self.assertEqual(len(findings), 1)
                 self.assertIn(expected_message, findings[0].message)
+
+    def test_strict_v11_source_spec_contract_replaces_legacy_semantic_lane(self) -> None:
+        """The v11 occurrence gate, not v10 aggregate coverage, is authoritative."""
+
+        status = {
+            "review_surface": {
+                "llm_statement_review": {
+                    "require_explicit_source_routes": True
+                },
+                "require_source_spec_correspondence": True,
+            }
+        }
+
+        self.assertEqual(
+            GATE.explicit_source_route_semantic_model_findings(
+                self.paper, "formalized", status
+            ),
+            [],
+        )
 
     def test_explicit_source_routes_honor_configured_source_record_paths(self) -> None:
         key = "semantic-model::paper_row"

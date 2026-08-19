@@ -2873,4 +2873,392 @@ theorem finite_coordinate_full_sampled_projected_paper_consequences
     proof_finiteCoordinateILVFullProjectedPaperConsequences_of_fullSampledProjectedSourceSemantics_ssgmConvergence
       M S
 
+/-- Transparent v11 semantic target for `conditions_c123_formula`. -/
+def conditions_c123_formulaSpec
+    (solutionSpace_nonempty_bounded_closed_convex
+      uniqueIdealSolutions
+      idealDistribution_bounded_measurable_density : Prop) : Prop :=
+  (solutionSpace_nonempty_bounded_closed_convex ∧
+      uniqueIdealSolutions ∧
+        idealDistribution_bounded_measurable_density) ↔
+    solutionSpace_nonempty_bounded_closed_convex ∧
+      uniqueIdealSolutions ∧
+        idealDistribution_bounded_measurable_density
+
+/-- Transparent v11 semantic target for `theorem1_norm_pair_l2_l2`. -/
+def theorem1_norm_pair_l2_l2Spec : Prop :=
+  Theorem1NormPair SourceNorm.l2 SourceNorm.l2
+
+/-- Transparent v11 semantic target for `theorem1_norm_pair_l1_linf`. -/
+def theorem1_norm_pair_l1_linfSpec : Prop :=
+  Theorem1NormPair SourceNorm.l1 SourceNorm.linfty
+
+/-- Transparent v11 semantic target for `theorem1_norm_pair_linf_l1`. -/
+def theorem1_norm_pair_linf_l1Spec : Prop :=
+  Theorem1NormPair SourceNorm.linfty SourceNorm.l1
+
+/-- Transparent v11 semantic target for `algorithm1_radius_formula`. -/
+def algorithm1_radius_formulaSpec (r0 : ℝ) (t : ℕ) : Prop :=
+  ilvRadius r0 t = r0 / (t : ℝ)
+
+/-- Transparent v11 semantic target for `algorithm1_radius_tendsto_zero`. -/
+def algorithm1_radius_tendsto_zeroSpec (r0 : ℝ) : Prop :=
+  Filter.Tendsto (ilvRadius r0) Filter.atTop (nhds 0)
+
+/-- Transparent v11 semantic target for `algorithm1_radius_sq_summable`. -/
+def algorithm1_radius_sq_summableSpec (r0 : ℝ) : Prop :=
+  Summable (fun t : ℕ => (ilvRadius r0 (t + 1)) ^ 2)
+
+/-- Transparent v11 semantic target for `algorithm1_radius_sum_tendsto_atTop`. -/
+def algorithm1_radius_sum_tendsto_atTopSpec {r0 : ℝ} (hr0 : 0 < r0) : Prop :=
+  Filter.Tendsto
+    (fun n : ℕ => ∑ t ∈ Finset.range n, ilvRadius r0 (t + 1))
+    Filter.atTop Filter.atTop
+
+/-- Transparent v11 semantic target for `algorithm1_radius_not_summable`. -/
+def algorithm1_radius_not_summableSpec {r0 : ℝ} (hr0 : 0 < r0) : Prop :=
+  ¬ Summable (fun t : ℕ => ilvRadius r0 (t + 1))
+
+/-- Transparent v11 semantic target for `algorithm1_radius_ssgm_step_size_conditions`. -/
+def algorithm1_radius_ssgm_step_size_conditionsSpec {r0 : ℝ} (hr0 : 0 < r0) : Prop :=
+  SSGMStepSizeConditions (ilvRadius r0)
+
+/-- Transparent v11 semantic target for `algorithm1_local_neighborhood_formula`. -/
+def algorithm1_local_neighborhood_formulaSpec {Point : Type*}
+    (G : ILVGeometryFormulaData Point) (q : SourceNorm)
+    (center candidate : Point) (r : ℝ) : Prop :=
+  candidate ∈ localNeighborhoodFormulaData G q center r ↔
+    candidate ∈ G.solutionSpace ∧
+      G.normDistance q candidate center ≤ r
+
+/-- Transparent v11 semantic target for `algorithm1_norm_projection_formula`. -/
+def algorithm1_norm_projection_formulaSpec {Point : Type*}
+    (G : ILVGeometryFormulaData Point) (q : SourceNorm)
+    (project : Point → Point) : Prop :=
+  isNormProjectionOntoFormulaData G q project ↔
+    ∀ y, project y ∈ G.solutionSpace ∧
+      IsMinOn (fun x => G.normDistance q x y) G.solutionSpace (project y)
+
+/-- Transparent v11 semantic target for `algorithm1_projected_update_formula`. -/
+def algorithm1_projected_update_formulaSpec
+    {Point : Type*} (project : Point → Point) (raw next : Point) : Prop :=
+  Algorithm1ProjectedUpdate project raw next ↔ next = project raw
+
+/-- Transparent v11 semantic target for `algorithm1_projected_trajectory_feasible_of_normProjection`. -/
+def algorithm1_projected_trajectory_feasible_of_normProjectionSpec
+    {Point : Type*} {G : ILVGeometryFormulaData Point} {q : SourceNorm}
+    {project : Point → Point} {raw trajectory : ℕ → Point}
+    (hproject : isNormProjectionOntoFormulaData G q project)
+    (h0 : trajectory 0 ∈ G.solutionSpace)
+    (hupdate :
+      ∀ t : ℕ, Algorithm1ProjectedUpdate project (raw t) (trajectory (t + 1))) : Prop :=
+  ∀ t : ℕ, trajectory t ∈ G.solutionSpace
+
+/-- Transparent v11 semantic target for `algorithm1_window_stable_formula`. -/
+def algorithm1_window_stable_formulaSpec {Point : Type*}
+    (G : ILVGeometryFormulaData Point) (q : SourceNorm)
+    (trajectory : ℕ → Point) (t N : ℕ) (epsilon : ℝ) : Prop :=
+  algorithm1WindowStableFormulaData G q trajectory t N epsilon ↔
+    ∀ l m,
+      l ∈ Finset.Icc (t - N) t →
+        m ∈ Finset.Icc (t - N) t →
+          G.normDistance q (trajectory l) (trajectory m) ≤ epsilon
+
+/-- Transparent v11 semantic target for `algorithm1_stop_condition_formula`. -/
+def algorithm1_stop_condition_formulaSpec {Point : Type*}
+    (G : ILVGeometryFormulaData Point) (q : SourceNorm)
+    (trajectory : ℕ → Point) (T N t : ℕ) (epsilon : ℝ) : Prop :=
+  algorithm1StopConditionFormulaData G q trajectory T N t epsilon ↔
+    t = T ∨ algorithm1WindowStableFormulaData G q trajectory t N epsilon
+
+/-- Transparent v11 semantic target for `modelA_response_formula`. -/
+def modelA_response_formulaSpec {Voter Point : Type*}
+    (U : ILVUtilityFormulaData Voter Point) (q : SourceNorm)
+    (center : Point) (r : ℝ) (voter : Voter) (response : Point) : Prop :=
+  modelAResponseFormulaData U q center r voter response ↔
+    response ∈ localNeighborhoodFormulaData U.geometry q center r ∧
+      ∀ candidate, candidate ∈ localNeighborhoodFormulaData U.geometry q center r →
+        U.utility voter candidate ≤ U.utility voter response
+
+/-- Transparent v11 semantic target for `modelA_response_isMaxOn_formula`. -/
+def modelA_response_isMaxOn_formulaSpec {Voter Point : Type*}
+    (U : ILVUtilityFormulaData Voter Point) (q : SourceNorm)
+    (center : Point) (r : ℝ) (voter : Voter) (response : Point) : Prop :=
+  modelAResponseFormulaData U q center r voter response ↔
+    response ∈ localNeighborhoodFormulaData U.geometry q center r ∧
+      IsMaxOn (U.utility voter)
+        (localNeighborhoodFormulaData U.geometry q center r) response
+
+/-- Transparent v11 semantic target for `modelB_finite_response_formula`. -/
+def modelB_finite_response_formulaSpec
+    {Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (q : SourceNorm) (center : Coord → ℝ) (r : ℝ)
+    (gradient response : Coord → ℝ) : Prop :=
+  ModelBFiniteResponseAt q center r gradient response ↔
+    response =
+      fun i => center i + r *
+        (gradient i / finiteCoordinateNorm q gradient)
+
+/-- Transparent v11 semantic target for `modelB_finite_response_neg_lp_cost_gradient_formula`. -/
+def modelB_finite_response_neg_lp_cost_gradient_formulaSpec
+    {Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    {p q : ℝ} (hdual : HolderDualFinite p q)
+    {center ideal : Coord → ℝ} (hcoord : ∀ i, center i ≠ ideal i)
+    (r : ℝ) (response : Coord → ℝ) : Prop :=
+  ModelBFiniteResponseAt (SourceNorm.lp q) center r
+      (fun i => -lpCostGradientCandidate p (fun j => center j - ideal j) i)
+      response ↔
+    response =
+      fun i => center i - r *
+        lpCostGradientCandidate p (fun j => center j - ideal j) i
+
+/-- Transparent v11 semantic target for `definition1_lp_normed_utilities_formula`. -/
+def definition1_lp_normed_utilities_formulaSpec
+    {Voter Point : Type*}
+    (U : ILVUtilityFormulaData Voter Point) (ideal : Voter → Point)
+    (p : SourceNorm) : Prop :=
+  isLpNormedUtilitiesFormulaData U ideal p ↔
+    ∀ v x, U.utility v x = -U.normDistance p x (ideal v)
+
+/-- Transparent v11 semantic target for `modelA_response_lp_normed_cost_minimizer_formula`. -/
+def modelA_response_lp_normed_cost_minimizer_formulaSpec
+    {Voter Point : Type*}
+    (U : ILVUtilityFormulaData Voter Point) (p q : SourceNorm)
+    (ideal : Voter → Point)
+    (center : Point) (r : ℝ) (voter : Voter) (response : Point)
+    (hUtil : isLpNormedUtilitiesFormulaData U ideal p) : Prop :=
+  modelAResponseFormulaData U q center r voter response ↔
+    response ∈ localNeighborhoodFormulaData U.geometry q center r ∧
+      IsMinOn (fun candidate => U.normDistance p candidate (ideal voter))
+        (localNeighborhoodFormulaData U.geometry q center r) response
+
+/-- Transparent v11 semantic target for `definition1_finite_coordinate_l1_formula`. -/
+def definition1_finite_coordinate_l1_formulaSpec
+    {Voter Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (utility : Voter → (Coord → ℝ) → ℝ) (ideal : Voter → Coord → ℝ) : Prop :=
+  (∀ v x, utility v x =
+      -finiteCoordinateDistance SourceNorm.l1 x (ideal v)) ↔
+    ∀ v x, utility v x =
+      -EconCSLib.FiniteDimensionalNorms.l1
+        (fun m => x m - ideal v m)
+
+/-- Transparent v11 semantic target for `definition1_finite_coordinate_l2_formula`. -/
+def definition1_finite_coordinate_l2_formulaSpec
+    {Voter Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (utility : Voter → (Coord → ℝ) → ℝ) (ideal : Voter → Coord → ℝ) : Prop :=
+  (∀ v x, utility v x =
+      -finiteCoordinateDistance SourceNorm.l2 x (ideal v)) ↔
+    ∀ v x, utility v x =
+      -EconCSLib.FiniteDimensionalNorms.l2
+        (fun m => x m - ideal v m)
+
+/-- Transparent v11 semantic target for `definition1_finite_coordinate_linf_formula`. -/
+def definition1_finite_coordinate_linf_formulaSpec
+    {Voter Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (utility : Voter → (Coord → ℝ) → ℝ) (ideal : Voter → Coord → ℝ) : Prop :=
+  (∀ v x, utility v x =
+      -finiteCoordinateDistance SourceNorm.linfty x (ideal v)) ↔
+    ∀ v x, utility v x =
+      -EconCSLib.FiniteDimensionalNorms.linf
+        (fun m => x m - ideal v m)
+
+/-- Transparent v11 semantic target for `definition1_finite_coordinate_lp_formula`. -/
+def definition1_finite_coordinate_lp_formulaSpec
+    {Voter Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (utility : Voter → (Coord → ℝ) → ℝ) (ideal : Voter → Coord → ℝ)
+    (p : ℝ) : Prop :=
+  (∀ v x, utility v x =
+      -finiteCoordinateDistance (SourceNorm.lp p) x (ideal v)) ↔
+    ∀ v x, utility v x =
+      -EconCSLib.FiniteDimensionalNorms.lp p
+        (fun m => x m - ideal v m)
+
+/-- Transparent v11 semantic target for `lemma3_gradient_candidate_source_formula`. -/
+def lemma3_gradient_candidate_source_formulaSpec
+    {Coord : Type*} [Fintype Coord]
+    {p : ℝ} (hp : 0 < p) (d : Coord → ℝ) : Prop :=
+  lpCostGradientCandidate p d =
+    fun i => (|d i| ^ (p - 1) * (d i / |d i|)) /
+      (EconCSLib.FiniteDimensionalNorms.lp p d) ^ (p - 1)
+
+/-- Transparent v11 semantic target for `lemma3_finite_holder_dual_gradient_candidate_norm_formula`. -/
+def lemma3_finite_holder_dual_gradient_candidate_norm_formulaSpec
+    {Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    {p q : ℝ} (hdual : HolderDualFinite p q)
+    {x ideal : Coord → ℝ} (hcoord : ∀ i, x i ≠ ideal i) : Prop :=
+  finiteCoordinateNorm (SourceNorm.lp q)
+    (lpCostGradientCandidate p (fun i => x i - ideal i)) = 1
+
+/-- Transparent v11 semantic target for `lemma3_gradient_candidate_hasFDerivAt_formula`. -/
+def lemma3_gradient_candidate_hasFDerivAt_formulaSpec
+    {Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    {p : ℝ} (hp : 1 < p)
+    {x ideal : Coord → ℝ} (hcoord : ∀ i, x i ≠ ideal i) : Prop :=
+  HasFDerivAt
+    (fun y : Coord → ℝ =>
+      EconCSLib.FiniteDimensionalNorms.lp p
+        (fun i => y i - ideal i))
+    (EconCSLib.FiniteDimensionalNorms.coordinateLinearFunctional
+      (lpCostGradientCandidate p (fun i => x i - ideal i))) x
+
+/-- Transparent v11 semantic target for `lemma3_coordinate_equality_bad_event_null_from_boundedDensity`. -/
+def lemma3_coordinate_equality_bad_event_null_from_boundedDensitySpec
+    {Coord : Type*} [Fintype Coord] [MeasurableSpace (Coord → ℝ)]
+    {ν μ : Measure (Coord → ℝ)} {C : ℝ≥0∞}
+    (hbd : EconCSLib.Probability.HasBoundedDensity ν μ C)
+    (x : Coord → ℝ)
+    (hcoord : ∀ i, ν (coordinateEqualityHyperplane x i) = 0) : Prop :=
+  μ (coordinateEqualityBadEvent x) = 0
+
+/-- Transparent v11 semantic target for `lemma3_coordinate_equality_bad_event_null_from_productMeasure`. -/
+def lemma3_coordinate_equality_bad_event_null_from_productMeasureSpec
+    {Coord : Type*} [Fintype Coord]
+    (ρ : Measure ℝ) [SigmaFinite ρ] [NoAtoms ρ]
+    {μ : Measure (Coord → ℝ)} {C : ℝ≥0∞}
+    (hbd :
+      EconCSLib.Probability.HasBoundedDensity
+        (Measure.pi (fun _ : Coord => ρ)) μ C)
+    (x : Coord → ℝ) : Prop :=
+  μ (coordinateEqualityBadEvent x) = 0
+
+/-- Transparent v11 semantic target for `lemma3_coordinate_noncollision_ae_from_productMeasure`. -/
+def lemma3_coordinate_noncollision_ae_from_productMeasureSpec
+    {Coord : Type*} [Fintype Coord]
+    (ρ : Measure ℝ) [SigmaFinite ρ] [NoAtoms ρ]
+    {μ : Measure (Coord → ℝ)} {C : ℝ≥0∞}
+    (hbd :
+      EconCSLib.Probability.HasBoundedDensity
+        (Measure.pi (fun _ : Coord => ρ)) μ C)
+    (x : Coord → ℝ) : Prop :=
+  ∀ᵐ ideal ∂μ, ∀ i, x i ≠ ideal i
+
+/-- Transparent v11 semantic target for `c3_product_density_coordinate_noncollision_ae`. -/
+def c3_product_density_coordinate_noncollision_aeSpec
+    {Coord : Type*} [Fintype Coord]
+    (D : FiniteCoordinateIdealDistributionData Coord) (x : Coord → ℝ) : Prop :=
+  ∀ᵐ ideal ∂D.idealMeasure, ∀ i, x i ≠ ideal i
+
+/-- Transparent v11 semantic target for `definition2_weighted_euclidean_utilities_formula`. -/
+def definition2_weighted_euclidean_utilities_formulaSpec
+    {Voter Point Component : Type*}
+    (utility : Voter → Point → ℝ)
+    (W : WeightedEuclideanStructure Voter Point Component) : Prop :=
+  (W.weightsAndIdealsDistributionCondition ∧
+    ∀ v x, utility v x = -W.components.sum
+      (fun k => (W.weight v k / W.weightNorm2 v) * W.componentDistance k x v)) ↔
+    W.weightsAndIdealsDistributionCondition ∧
+      ∀ v x, utility v x = -W.components.sum
+        (fun k => (W.weight v k / W.weightNorm2 v) * W.componentDistance k x v)
+
+/-- Transparent v11 semantic target for `definition3_decomposable_utilities_formula`. -/
+def definition3_decomposable_utilities_formulaSpec
+    {Voter Point Coord : Type*}
+    (utility : Voter → Point → ℝ)
+    (D : DecomposableStructure Voter Point Coord) : Prop :=
+  (D.coordinateUtilitiesConcave ∧
+    ∀ v x, utility v x =
+      D.coords.sum (fun m => D.coordinateUtility m v (D.coordinate m x))) ↔
+    D.coordinateUtilitiesConcave ∧
+      ∀ v x, utility v x =
+        D.coords.sum (fun m => D.coordinateUtility m v (D.coordinate m x))
+
+/-- Transparent v11 semantic target for the source definition `dlcdBudgetUtility`. -/
+def dlcdBudgetUtilitySpec
+    {Dim : Type*} [Fintype Dim]
+    (isExpense : Dim → Bool) (componentUtility : Dim → ℝ → ℝ)
+    (deficitWeight : ℝ) (x : Dim → ℝ) : Prop :=
+  dlcdBudgetUtility isExpense componentUtility deficitWeight x = ((∑ m : Dim, componentUtility m (x m)) -
+    deficitWeight *
+      ((∑ m : Dim, if isExpense m then x m else 0) -
+        (∑ m : Dim, if isExpense m then 0 else x m)))
+
+/-- Transparent v11 semantic target for the source definition `paper_definition4_dlcd_formula`. -/
+def paper_definition4_dlcd_formulaSpec
+    {Dim : Type*} [Fintype Dim]
+    (utility : (Dim → ℝ) → ℝ)
+    (isExpense : Dim → Bool) (componentUtility : Dim → ℝ → ℝ)
+    (deficitWeight : ℝ) : Prop :=
+  paper_definition4_dlcd_formula utility isExpense componentUtility deficitWeight = (0 ≤ deficitWeight ∧
+    (∀ m : Dim, ConcaveOn ℝ Set.univ (componentUtility m)) ∧
+      ∀ x : Dim → ℝ,
+        utility x =
+          dlcdBudgetUtility isExpense componentUtility deficitWeight x)
+
+/-- Transparent v11 semantic target for the source definition `theorem1_lp_normed_dual_cases`. -/
+def theorem1_lp_normed_dual_casesSpec
+    {Voter Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (E : ILVEnvironment Voter (Coord → ℝ)) : Prop :=
+  theorem1_lp_normed_dual_cases E = (theorem1Statement E)
+
+/-- Transparent v11 semantic target for the source definition `theorem2_modelB_holder_dual_norms`. -/
+def theorem2_modelB_holder_dual_normsSpec
+    {Voter Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (E : ILVEnvironment Voter (Coord → ℝ)) : Prop :=
+  theorem2_modelB_holder_dual_norms E = (theorem2Statement E)
+
+/-- Transparent v11 semantic target for the source definition `proposition1_weighted_euclidean_l2`. -/
+def proposition1_weighted_euclidean_l2Spec
+    {Voter Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (E : ILVEnvironment Voter (Coord → ℝ)) : Prop :=
+  proposition1_weighted_euclidean_l2 E = (proposition1Statement E)
+
+/-- Transparent v11 semantic target for the source definition `proposition2_decomposable_linf_medians`. -/
+def proposition2_decomposable_linf_mediansSpec
+    {Voter : Type} {Coord : Type} [Fintype Coord] [Nonempty Coord]
+    (E : ILVEnvironment Voter (Coord → ℝ)) : Prop :=
+  proposition2_decomposable_linf_medians E = (proposition2Statement E)
+
+/-- Transparent v11 semantic target for `theorem3_statement_of_full_sampled_projected_source_semantics_univ`. -/
+def theorem3_statement_of_full_sampled_projected_source_semantics_univSpec
+    {Voter Coord : Type*} [Fintype Voter]
+    [MeasurableSpace Voter] [MeasurableSingletonClass Voter]
+    [Fintype Coord] [Nonempty Coord]
+    (E : ILVEnvironment Voter (Coord → ℝ))
+    (M : FiniteCoordinateTheorem3SampledProjectedSourceSemantics E)
+    (hUniv : E.solutionSpace = (Set.univ : Set (Coord → ℝ))) : Prop :=
+  theorem3Statement E
+
+/-- Transparent v11 semantic target for `appendix_theorem4_expected_subgradient_boundary`. -/
+def appendix_theorem4_expected_subgradient_boundarySpec
+    {Theta Coord : Type*} [MeasurableSpace Theta] [Fintype Coord]
+    (mu : Measure Theta) [IsProbabilityMeasure mu]
+    (solutionSpace : Set (Coord → ℝ))
+    (sampleCost : Theta → (Coord → ℝ) → ℝ)
+    (x : Coord → ℝ) (sampleGradient : Theta → Coord → ℝ)
+    (hX_nonempty : solutionSpace.Nonempty)
+    (hX_bounded : Bornology.IsBounded solutionSpace)
+    (hX_closed : IsClosed solutionSpace)
+    (hX_convex : Convex ℝ solutionSpace)
+    (hx : x ∈ solutionSpace)
+    (hcost_integrable :
+      ∀ y, y ∈ solutionSpace →
+        Integrable (fun theta => sampleCost theta y) mu)
+    (hgradient_integrable :
+      ∀ i, Integrable (fun theta => sampleGradient theta i) mu)
+    (hsample_convex :
+      ∀ theta, ConvexOn ℝ solutionSpace (sampleCost theta))
+    (hexpected_continuous :
+      ContinuousAt (fun y => ∫ theta, sampleCost theta y ∂mu) x)
+    (hsample :
+      ∀ theta,
+        FiniteSubgradientWithinAt
+          (sampleCost theta) solutionSpace x (sampleGradient theta)) : Prop :=
+  ExpectedSubgradientTheoremStatement
+    mu solutionSpace sampleCost x sampleGradient
+
+/-- Transparent v11 semantic target for `appendix_theorem5_ssgm_convergence_boundary`. -/
+def appendix_theorem5_ssgm_convergence_boundarySpec
+    {Omega Coord : Type*} {mOmega : MeasurableSpace Omega}
+    [Fintype Coord] [Nonempty Coord]
+    (mu : Measure Omega) [IsProbabilityMeasure mu]
+    (filtration : Filtration (Ω := Omega) ℕ mOmega)
+    (solutionSpace : Set (Coord → ℝ))
+    (objective : (Coord → ℝ) → ℝ)
+    (project : (Coord → ℝ) → Coord → ℝ)
+    (trajectory meanSubgradient noise : ℕ → Omega → Coord → ℝ)
+    (bias : ℕ → Coord → ℝ)
+    (radius : ℕ → ℝ) (xstar : Coord → ℝ) : Prop :=
+  AppendixTheorem5Statement mu filtration solutionSpace objective project
+    trajectory meanSubgradient noise bias radius xstar
+
 end GKGMM19IterativeLocalVoting

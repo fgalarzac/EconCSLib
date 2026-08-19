@@ -58,7 +58,7 @@ python3 scripts/review_dashboard.py --paper @@PAPER_ID@@ --serve
 \end{ReviewVerbatim}
 Open \url{http://127.0.0.1:8765/} in a browser and keep that terminal running
 while reviewing. The dashboard records saved annotations in this paper's local
-review trace.
+reviewer-owned review record.
 
 @@CONTENTS@@
 

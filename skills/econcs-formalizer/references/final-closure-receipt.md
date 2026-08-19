@@ -76,6 +76,12 @@ selects this lane. It requires a current, source-anchor-based ledger covering
 the normal selected scope, a current `PaperInterface` closure, and the focused
 build. It does **not** require a replacement raw scan merely because a prior
 machine record is historical. It is never inferred from a final report alone.
+For a v11 source-Spec closeout, that ledger is exactly
+`audit/v11_raw_source_spec_screening.json`, not a validation report or an
+arbitrary summary. The integrity gate separately verifies its complete
+one-source-claim/one-direct-Spec coverage, raw source and Spec hashes, and
+`matches` verdicts. It also verifies current source-to-library review for every
+material reusable declaration on that selected Spec surface.
 
 Both lanes require the exact current source, statement map, interface closure,
 review ledger, protocol, and successful focused build shown above. A receipt

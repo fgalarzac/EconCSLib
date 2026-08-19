@@ -4,15 +4,18 @@
 from __future__ import annotations
 
 import argparse
+from html import unescape as html_unescape
 import hashlib
 import json
 import os
 import pwd
 import re
+import shutil
 import stat
 import subprocess
 import sys
 import tempfile
+from urllib.parse import unquote
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 try:
@@ -23,6 +26,30 @@ try:
     from public_release_artifact_policy import public_release_artifact_issues
 except ModuleNotFoundError:  # pragma: no cover - module-style import.
     from scripts.public_release_artifact_policy import public_release_artifact_issues
+try:
+    from public_release_projection import (
+        PUBLIC_PROJECTION_GENERATOR,
+        PUBLIC_SOURCE_DISPLAY_PROJECTION_FIELD,
+        PUBLIC_SOURCE_DISPLAY_PROJECTION_MANIFEST,
+        PUBLIC_SOURCE_DISPLAY_PROJECTION_SCHEMA,
+        ProjectionError,
+        project_bytes,
+        public_source_excerpt_route_is_permitted,
+        source_excerpt_field_is_bound,
+        source_excerpt_safety_issue,
+    )
+except ModuleNotFoundError:  # pragma: no cover - module-style import.
+    from scripts.public_release_projection import (
+        PUBLIC_PROJECTION_GENERATOR,
+        PUBLIC_SOURCE_DISPLAY_PROJECTION_FIELD,
+        PUBLIC_SOURCE_DISPLAY_PROJECTION_MANIFEST,
+        PUBLIC_SOURCE_DISPLAY_PROJECTION_SCHEMA,
+        ProjectionError,
+        project_bytes,
+        public_source_excerpt_route_is_permitted,
+        source_excerpt_field_is_bound,
+        source_excerpt_safety_issue,
+    )
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -50,9 +77,10 @@ PRIVATE_REMOTE_RE = re.compile(
     re.IGNORECASE,
 )
 FORBIDDEN_PUBLIC_PATH_RE = re.compile(
-    r"(?:^|/)(?:\.review_traces|\.audit_source|sources|source_tex)(?:/|$)|"
+    r"(?:^|/)(?:\.review_traces|\.audit_source|source|sources|source_tex)(?:/|$)|"
     r"(?:^|/)(?:source(?:[._-][^/]*)?\.(?:txt|pdf|tex|tar|tgz|zip|gz)|"
     r"arxiv_source\.(?:tar|tgz|zip|gz))$|"
+    r"\.(?:zip|tar|tgz|gz|bz2|xz|7z|rar)$|"
     r"(?:^|/)(?:PRIVATE_[^/]*|[^/]*_HANDOFF_[^/]*)$",
     re.IGNORECASE,
 )
@@ -65,6 +93,59 @@ GENERATED_PUBLIC_STATUS_PATHS = frozenset(
     }
 )
 PUBLIC_STATUS_GENERATOR = "python3 scripts/sync_paper_status.py"
+PUBLIC_SOURCE_DISPLAY_PROJECTION_GENERATOR = (
+    "python3 scripts/public_source_display_projection.py"
+)
+PUBLIC_SOURCE_DISPLAY_PROJECTION_MATERIAL = (
+    "selected_byte_pinned_source_anchor_quotes"
+)
+SESSION_INSIGHTS_PREFIX = "skills/econcs-session-insights/"
+# The public entrypoint explains how to mine a local Codex history without
+# committing it.  The ledger records approved durable course corrections.  No
+# other session-derived material belongs in a public candidate without a new
+# explicit decision.
+PUBLIC_SESSION_INSIGHTS_PATHS = frozenset(
+    {
+        "skills/econcs-session-insights/SKILL.md",
+        "skills/econcs-session-insights/references/user-feedback-course-corrections.md",
+    }
+)
+PUBLIC_CONTRIBUTOR_WORKFLOW_PATHS = frozenset(
+    {
+        *PUBLIC_SESSION_INSIGHTS_PATHS,
+        "skills/econcs-formalizer/SKILL.md",
+        "skills/econcs-formalizer/references/formalization-handbook.md",
+        "skills/econcs-formalizer/references/post-formalization-closeout.md",
+        "skills/econcs-formalizer/references/public-private-sync.md",
+        "skills/econcs-formalizer/templates/FORMALIZATION_PLAN.md",
+        "skills/econcs-prover/SKILL.md",
+        "skills/lean-community-conventions/SKILL.md",
+        "skills/lean-community-conventions/references/econcs-adoption-plan.md",
+        "docs/AGENT_FORMALIZATION_WORKFLOW.md",
+        "docs/FORMALIZATION_AUDIT_PROCEDURE_OVERVIEW.tex",
+        "docs/NEW_CONTRIBUTOR_WORKFLOW.md",
+        "docs/INDEPENDENT_AUDIT_GUIDE.md",
+        "docs/PAPER_STATUS.md",
+        "docs/STATUS.md",
+        "docs/VALIDATION_MODEL.md",
+        "config/formalization_engine_revisions.json",
+    }
+)
+# The landing page may give this one concrete, contributor-facing recommendation
+# without exposing a private checkout, source cache, or session archive.  This
+# is deliberately an exact path-and-text exception, not a site-wide exemption.
+PUBLIC_SITE_PRIVATE_WORKFLOW_GUIDANCE = (
+    "New paper formalizations should start in a private workflow and be\n"
+    "            proposed to enter the library through a pull request when ready."
+)
+PUBLIC_SITE_PRIVATE_WORKFLOW_SENTINEL = "__APPROVED_PUBLIC_WORKFLOW_GUIDANCE__"
+# The rendered overview is the PDF form of the explicitly approved contributor
+# workflow guide.  It may use the same private-draft terminology as its TeX
+# source, but still undergoes every source-artifact, local-path, and URL check.
+PUBLIC_CONTRIBUTOR_WORKFLOW_PDF_PATHS = frozenset(
+    {"docs/FORMALIZATION_AUDIT_PROCEDURE_OVERVIEW.pdf"}
+)
+PUBLICATION_LOCATOR = "cited publication"
 TRUSTED_STATUS_SYNC = Path(__file__).resolve().with_name("sync_paper_status.py")
 SOURCE_TEXT_COMPANION_PATH_FIELDS = frozenset(
     {"canonical_text", "visual_primary_scan", "transcript_input_scan"}
@@ -89,6 +170,7 @@ class AllowlistEntry:
     generator: str | None
     public_base_blob_sha256: str | None = None
     candidate_blob_sha256: str | None = None
+    private_source_blob_sha256: str | None = None
 
 
 @dataclass(frozen=True)
@@ -517,6 +599,12 @@ def parse_allowlist(raw: bytes, *, source: str) -> list[AllowlistEntry]:
             if raw_public_base_blob_sha256 is not None
             else None
         )
+        raw_private_source_blob_sha256 = raw.get("private_source_blob_sha256")
+        private_source_blob_sha256 = (
+            str(raw_private_source_blob_sha256).strip().lower()
+            if raw_private_source_blob_sha256 is not None
+            else None
+        )
         raw_candidate_blob_sha256 = raw.get("candidate_blob_sha256")
         candidate_blob_sha256 = (
             str(raw_candidate_blob_sha256).strip().lower()
@@ -534,6 +622,7 @@ def parse_allowlist(raw: bytes, *, source: str) -> list[AllowlistEntry]:
             )
         if provenance not in {
             "private_blob",
+            "private_projection",
             "public_generated",
             "public_base_deletion",
             "public_base_edit",
@@ -541,7 +630,7 @@ def parse_allowlist(raw: bytes, *, source: str) -> list[AllowlistEntry]:
         }:
             raise ValueError(
                 f"allowlist entry {candidate} provenance must be private_blob, "
-                "public_generated, public_base_deletion, public_base_edit, or "
+                "private_projection, public_generated, public_base_deletion, public_base_edit, or "
                 "public_base_addition"
             )
         if provenance == "private_blob":
@@ -555,11 +644,42 @@ def parse_allowlist(raw: bytes, *, source: str) -> list[AllowlistEntry]:
                 )
             if (
                 public_base_blob_sha256 is not None
+                or private_source_blob_sha256 is not None
                 or candidate_blob_sha256 is not None
             ):
                 raise ValueError(
                     f"private_blob allowlist entry {candidate} cannot declare "
                     "public-base edit digests"
+                )
+        elif provenance == "private_projection":
+            if source_commit is None or not SHA1_RE.fullmatch(source_commit):
+                raise ValueError(
+                    f"private_projection entry {candidate} needs a 40-hex source_commit"
+                )
+            if generator != PUBLIC_PROJECTION_GENERATOR:
+                raise ValueError(
+                    f"private_projection entry {candidate} must declare generator "
+                    f"{PUBLIC_PROJECTION_GENERATOR!r}"
+                )
+            if public_base_blob_sha256 is not None:
+                raise ValueError(
+                    f"private_projection entry {candidate} cannot declare a "
+                    "public_base_blob_sha256"
+                )
+            if not SHA256_RE.fullmatch(private_source_blob_sha256 or ""):
+                raise ValueError(
+                    f"private_projection entry {candidate} needs a 64-hex "
+                    "private_source_blob_sha256"
+                )
+            if not SHA256_RE.fullmatch(candidate_blob_sha256 or ""):
+                raise ValueError(
+                    f"private_projection entry {candidate} needs a 64-hex "
+                    "candidate_blob_sha256"
+                )
+            if private_source_blob_sha256 == candidate_blob_sha256:
+                raise ValueError(
+                    f"private_projection entry {candidate} must pin distinct private "
+                    "source and candidate blob digests"
                 )
         elif provenance == "public_generated":
             if kind != "file" or candidate not in GENERATED_PUBLIC_STATUS_PATHS:
@@ -577,6 +697,7 @@ def parse_allowlist(raw: bytes, *, source: str) -> list[AllowlistEntry]:
                 )
             if (
                 public_base_blob_sha256 is not None
+                or private_source_blob_sha256 is not None
                 or candidate_blob_sha256 is not None
             ):
                 raise ValueError(
@@ -584,12 +705,17 @@ def parse_allowlist(raw: bytes, *, source: str) -> list[AllowlistEntry]:
                     "public-base edit digests"
                 )
         elif provenance == "public_base_deletion":
-            if source_commit is not None or generator is not None:
+            if (
+                source_commit is not None
+                or generator is not None
+                or private_source_blob_sha256 is not None
+            ):
                 raise ValueError(
                     f"public_base_deletion entry {candidate} cannot declare source_commit or generator"
                 )
             if (
                 public_base_blob_sha256 is not None
+                or private_source_blob_sha256 is not None
                 or candidate_blob_sha256 is not None
             ):
                 raise ValueError(
@@ -597,7 +723,11 @@ def parse_allowlist(raw: bytes, *, source: str) -> list[AllowlistEntry]:
                     "public-base edit digests"
                 )
         elif provenance == "public_base_edit":
-            if source_commit is not None or generator is not None:
+            if (
+                source_commit is not None
+                or generator is not None
+                or private_source_blob_sha256 is not None
+            ):
                 raise ValueError(
                     f"public_base_edit entry {candidate} cannot declare source_commit or generator"
                 )
@@ -617,7 +747,11 @@ def parse_allowlist(raw: bytes, *, source: str) -> list[AllowlistEntry]:
                     "candidate blob digests"
                 )
         else:
-            if source_commit is not None or generator is not None:
+            if (
+                source_commit is not None
+                or generator is not None
+                or private_source_blob_sha256 is not None
+            ):
                 raise ValueError(
                     f"public_base_addition entry {candidate} cannot declare "
                     "source_commit or generator"
@@ -649,6 +783,7 @@ def parse_allowlist(raw: bytes, *, source: str) -> list[AllowlistEntry]:
                 generator,
                 public_base_blob_sha256,
                 candidate_blob_sha256,
+                private_source_blob_sha256,
             )
         )
     return entries
@@ -849,6 +984,19 @@ def public_arxiv_tex_artifact_paths(
         raw_path = payload.get("source_artifact_path")
         expected_sha256 = str(payload.get("source_artifact_sha256") or "").strip().lower()
         artifact = _paper_local_candidate_path(paper_dir=paper_dir, raw_path=raw_path)
+        # A release-projected map intentionally omits the private source-file
+        # path. A single checked-in ``source/*.tex`` file remains eligible as
+        # official arXiv source when its bytes match the retained map digest.
+        # A directory or an ambiguous collection never inherits this exception.
+        if artifact is None:
+            candidates = sorted(
+                path
+                for path in candidate_paths
+                if PurePosixPath(path).parent == paper_dir / "source"
+                and PurePosixPath(path).suffix.lower() == ".tex"
+            )
+            if len(candidates) == 1:
+                artifact = candidates[0]
         if artifact not in candidate_paths:
             continue
         if not re.match(r"https?://(?:export\.)?arxiv\.org/(?:abs|e-print)/", source_url):
@@ -964,16 +1112,951 @@ def source_artifact_leakage_issues(
     return issues
 
 
+def _candidate_json_object(
+    repo: Path,
+    candidate_ref: str,
+    path: str,
+    *,
+    label: str,
+) -> tuple[dict[str, object] | None, bytes | None, list[str]]:
+    """Read one candidate JSON object without falling back to its worktree.
+
+    Public display projections are bound to the committed candidate tree.  In
+    particular, this helper never opens a local source artifact or substitutes
+    current private bytes for the candidate's displayed excerpts.
+    """
+
+    try:
+        raw = _git_bytes(repo, ["show", f"{candidate_ref}:{path}"])
+    except RuntimeError as exc:
+        return None, None, [f"{label}: cannot read candidate JSON: {exc}"]
+    try:
+        payload = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        return None, raw, [f"{label}: candidate JSON is invalid: {exc}"]
+    if not isinstance(payload, dict):
+        return None, raw, [f"{label}: candidate JSON must be an object"]
+    return payload, raw, []
+
+
+def _valid_sha256(value: object) -> str | None:
+    """Return one canonical SHA-256 string, or ``None`` for an invalid value."""
+
+    if not isinstance(value, str):
+        return None
+    normalized = value.strip().lower()
+    return normalized if SHA256_RE.fullmatch(normalized) else None
+
+
+def _valid_display_anchor_errors(
+    public_anchor: object,
+    manifest_anchor: object,
+    *,
+    label: str,
+) -> list[str]:
+    """Compare one public-map anchor to its display-manifest anchor.
+
+    The candidate map is already the public projection, so a ``path`` field is
+    itself an error.  We nevertheless remove it for the exact-content
+    comparison in order to describe the intended correspondence precisely and
+    to produce a useful diagnostic for an accidentally unprojected map.
+    """
+
+    errors: list[str] = []
+    if not isinstance(public_anchor, dict):
+        return [f"{label}: projected-map anchor is not an object"]
+    if not isinstance(manifest_anchor, dict):
+        return [f"{label}: display-manifest anchor is not an object"]
+    if "path" in public_anchor:
+        errors.append(f"{label}: projected-map anchor retains a source path")
+    if "path" in manifest_anchor:
+        errors.append(f"{label}: display-manifest anchor retains a source path")
+    public_without_path = {
+        key: value for key, value in public_anchor.items() if key != "path"
+    }
+    if public_without_path != manifest_anchor:
+        errors.append(
+            f"{label}: display-manifest anchor does not exactly match the projected map"
+        )
+    for surface, anchor in (
+        ("projected-map", public_without_path),
+        ("display-manifest", manifest_anchor),
+    ):
+        if anchor.get("publication_locator") != PUBLICATION_LOCATOR:
+            errors.append(f"{label}: {surface} anchor lacks publication_locator `cited publication`")
+        line_start = anchor.get("line_start")
+        line_end = anchor.get("line_end")
+        if (
+            not isinstance(line_start, int)
+            or isinstance(line_start, bool)
+            or line_start < 1
+        ):
+            errors.append(f"{label}: {surface} anchor has an invalid line_start")
+        if (
+            not isinstance(line_end, int)
+            or isinstance(line_end, bool)
+            or not isinstance(line_start, int)
+            or isinstance(line_start, bool)
+            or line_end < line_start
+        ):
+            errors.append(f"{label}: {surface} anchor has an invalid line_end")
+        quote = anchor.get("quoted_text")
+        quote_sha256 = _valid_sha256(anchor.get("quoted_text_sha256"))
+        if not isinstance(quote, str) or not quote:
+            errors.append(f"{label}: {surface} anchor has no quoted_text")
+        elif quote_sha256 is None:
+            errors.append(f"{label}: {surface} anchor has an invalid quoted_text_sha256")
+        elif _sha256_bytes(quote.encode("utf-8")) != quote_sha256:
+            errors.append(f"{label}: {surface} anchor quoted_text_sha256 does not match quoted_text")
+    return errors
+
+
+def _display_anchor_bundle_issues(
+    public_anchors: object,
+    manifest_anchors: object,
+    *,
+    label: str,
+) -> list[str]:
+    if not isinstance(public_anchors, list):
+        return [f"{label}: projected-map source_anchor_evidence is not a list"]
+    if not isinstance(manifest_anchors, list):
+        return [f"{label}: display-manifest source_anchors is not a list"]
+    errors: list[str] = []
+    if not public_anchors:
+        errors.append(f"{label}: projected-map source_anchor_evidence is empty")
+    if not manifest_anchors:
+        errors.append(f"{label}: display-manifest source_anchors is empty")
+    if len(public_anchors) != len(manifest_anchors):
+        errors.append(f"{label}: display-manifest source anchor count does not match the projected map")
+    for index, public_anchor in enumerate(public_anchors):
+        if index >= len(manifest_anchors):
+            break
+        errors.extend(
+            _valid_display_anchor_errors(
+                public_anchor,
+                manifest_anchors[index],
+                label=f"{label} source anchor {index}",
+            )
+        )
+    return errors
+
+
+def _display_selected_item_issues(
+    public_item: object,
+    manifest_item: object,
+    *,
+    item_id: str,
+) -> list[str]:
+    """Validate the displayed direct and contextual anchors for one source item."""
+
+    label = f"selected source item `{item_id}`"
+    if not isinstance(public_item, dict):
+        return [f"{label}: absent from the projected source map"]
+    if not isinstance(manifest_item, dict):
+        return [f"{label}: absent from the display manifest"]
+    errors: list[str] = []
+    public_kind = public_item.get("source_kind")
+    manifest_kind = manifest_item.get("source_kind")
+    if not isinstance(public_kind, str) or not public_kind.strip():
+        errors.append(f"{label}: projected-map source_kind is not a nonempty string")
+    if public_kind != manifest_kind:
+        errors.append(f"{label}: display-manifest source_kind does not match the projected map")
+    errors.extend(
+        _display_anchor_bundle_issues(
+            public_item.get("source_anchor_evidence"),
+            manifest_item.get("source_anchors"),
+            label=label,
+        )
+    )
+
+    public_context = public_item.get("semantic_context_requirements", [])
+    manifest_context = manifest_item.get("semantic_context", [])
+    if not isinstance(public_context, list):
+        errors.append(f"{label}: projected-map semantic_context_requirements is not a list")
+        return errors
+    if not isinstance(manifest_context, list):
+        errors.append(f"{label}: display-manifest semantic_context is not a list")
+        return errors
+    if len(public_context) != len(manifest_context):
+        errors.append(f"{label}: display-manifest semantic context count does not match the projected map")
+    for index, context in enumerate(public_context):
+        if index >= len(manifest_context):
+            break
+        context_label = f"{label} semantic context {index}"
+        manifest_record = manifest_context[index]
+        if not isinstance(context, dict):
+            errors.append(f"{context_label}: projected-map record is not an object")
+            continue
+        if not isinstance(manifest_record, dict):
+            errors.append(f"{context_label}: display-manifest record is not an object")
+            continue
+        if context.get("semantic_role") != manifest_record.get("semantic_role"):
+            errors.append(f"{context_label}: semantic_role does not match the projected map")
+        errors.extend(
+            _display_anchor_bundle_issues(
+                context.get("source_anchor_evidence"),
+                manifest_record.get("source_anchors"),
+                label=context_label,
+            )
+        )
+    return errors
+
+
+def _private_source_map_binding_issues(
+    *,
+    manifest_private_sha256: str,
+    map_path: str,
+    entries: list[AllowlistEntry],
+    private_repo: Path | None,
+) -> list[str]:
+    """Bind a displayed private-map digest when this release exports that map.
+
+    A previously released, unchanged map has already been checked in its own
+    candidate.  For a map changed in this candidate, the allowlist's exact
+    private provenance is the authoritative binding.  This does not read a
+    source artifact or characterize the public excerpt as a fresh byte audit.
+    """
+
+    entry = matching_allowlist_entry(map_path, entries)
+    if entry is None or entry.source_commit is None:
+        return []
+    if entry.provenance == "private_projection":
+        if entry.private_source_blob_sha256 != manifest_private_sha256:
+            return [
+                f"{map_path}: display manifest private_source_map_sha256 does not match "
+                "the allowlisted private source-map blob"
+            ]
+        return []
+    if entry.provenance != "private_blob" or private_repo is None:
+        return []
+    try:
+        private_blob = _git_bytes(
+            private_repo, ["show", f"{entry.source_commit}:{map_path}"]
+        )
+    except RuntimeError as exc:
+        return [
+            f"{map_path}: cannot bind display manifest private_source_map_sha256 "
+            f"to allowlisted private map: {exc}"
+        ]
+    if _sha256_bytes(private_blob) != manifest_private_sha256:
+        return [
+            f"{map_path}: display manifest private_source_map_sha256 does not match "
+            "the allowlisted private source map"
+        ]
+    return []
+
+
+def public_source_display_projection_issues(
+    candidate_repo: Path,
+    candidate_ref: str,
+    entries: list[AllowlistEntry],
+    *,
+    private_repo: Path | None = None,
+) -> list[str]:
+    """Validate candidate-only review displays without reopening private sources.
+
+    A map with the public display marker must carry a matching, committed
+    display manifest.  The manifest is only a safe presentation binding: it
+    proves that the candidate's selected excerpts, hashes, and coverage mode
+    agree with the projected map.  It deliberately does *not* make the public
+    candidate a replacement for the private byte-pinned source audit.
+    """
+
+    candidate_paths = set(
+        _git(candidate_repo, ["ls-tree", "-r", "--name-only", candidate_ref]).splitlines()
+    )
+    map_paths = sorted(
+        path
+        for path in candidate_paths
+        if path.startswith("papers/")
+        and path.endswith("/audit/paper_statement_map.json")
+    )
+    issues: list[str] = []
+    for map_path in map_paths:
+        map_payload, map_bytes, map_errors = _candidate_json_object(
+            candidate_repo,
+            candidate_ref,
+            map_path,
+            label=map_path,
+        )
+        issues.extend(map_errors)
+        if map_payload is None or map_bytes is None:
+            continue
+        marker = map_payload.get(PUBLIC_SOURCE_DISPLAY_PROJECTION_FIELD)
+        if marker is None:
+            continue
+        if not isinstance(marker, dict):
+            issues.append(f"{map_path}: public display-projection marker must be an object")
+            continue
+        paper_dir = PurePosixPath(map_path).parents[1]
+        expected_manifest = str(paper_dir / PUBLIC_SOURCE_DISPLAY_PROJECTION_MANIFEST)
+        if marker.get("schema") != PUBLIC_SOURCE_DISPLAY_PROJECTION_SCHEMA:
+            issues.append(f"{map_path}: public display-projection marker has the wrong schema")
+        if marker.get("manifest") != PUBLIC_SOURCE_DISPLAY_PROJECTION_MANIFEST:
+            issues.append(f"{map_path}: public display-projection marker has the wrong manifest path")
+        if marker.get("raw_source_bytes_included") is not False:
+            issues.append(f"{map_path}: public display-projection marker must declare raw_source_bytes_included=false")
+        if expected_manifest not in candidate_paths:
+            issues.append(f"{map_path}: marked public map is missing `{expected_manifest}`")
+            continue
+        manifest_payload, _manifest_bytes, manifest_errors = _candidate_json_object(
+            candidate_repo,
+            candidate_ref,
+            expected_manifest,
+            label=expected_manifest,
+        )
+        issues.extend(manifest_errors)
+        if manifest_payload is None:
+            continue
+
+        if manifest_payload.get("schema") != PUBLIC_SOURCE_DISPLAY_PROJECTION_SCHEMA:
+            issues.append(f"{expected_manifest}: display manifest has the wrong schema")
+        if manifest_payload.get("generator") != PUBLIC_SOURCE_DISPLAY_PROJECTION_GENERATOR:
+            issues.append(f"{expected_manifest}: display manifest has an unexpected generator")
+        if manifest_payload.get("paper_id") != paper_dir.name:
+            issues.append(f"{expected_manifest}: display manifest paper_id does not match its paper directory")
+        if manifest_payload.get("public_manifest_path") != expected_manifest:
+            issues.append(f"{expected_manifest}: display manifest public_manifest_path does not match its candidate path")
+        if manifest_payload.get("raw_source_artifact_included") is not False:
+            issues.append(f"{expected_manifest}: display manifest must declare raw_source_artifact_included=false")
+        if manifest_payload.get("raw_source_display_material") != PUBLIC_SOURCE_DISPLAY_PROJECTION_MATERIAL:
+            issues.append(f"{expected_manifest}: display manifest has unexpected source display material")
+
+        expected_public_map_sha256 = _sha256_bytes(map_bytes)
+        actual_public_map_sha256 = _valid_sha256(
+            manifest_payload.get("public_source_map_sha256")
+        )
+        if actual_public_map_sha256 is None:
+            issues.append(f"{expected_manifest}: display manifest has no valid public_source_map_sha256")
+        elif actual_public_map_sha256 != expected_public_map_sha256:
+            issues.append(f"{expected_manifest}: display manifest public_source_map_sha256 does not match the candidate projected map")
+
+        private_source_map_sha256 = manifest_payload.get("private_source_map_sha256")
+        if private_source_map_sha256 is not None:
+            normalized_private_map_sha256 = _valid_sha256(private_source_map_sha256)
+            if normalized_private_map_sha256 is None:
+                issues.append(f"{expected_manifest}: display manifest has an invalid private_source_map_sha256")
+            else:
+                issues.extend(
+                    _private_source_map_binding_issues(
+                        manifest_private_sha256=normalized_private_map_sha256,
+                        map_path=map_path,
+                        entries=entries,
+                        private_repo=private_repo,
+                    )
+                )
+
+        public_artifact_sha256 = _valid_sha256(map_payload.get("source_artifact_sha256"))
+        manifest_artifact_sha256 = _valid_sha256(
+            manifest_payload.get("source_artifact_sha256")
+        )
+        if public_artifact_sha256 is None:
+            issues.append(f"{map_path}: projected source map has no valid source_artifact_sha256")
+        if manifest_artifact_sha256 is None:
+            issues.append(f"{expected_manifest}: display manifest has no valid source_artifact_sha256")
+        elif manifest_artifact_sha256 != public_artifact_sha256:
+            issues.append(f"{expected_manifest}: display manifest source_artifact_sha256 does not match the projected source map")
+        public_coverage_mode = map_payload.get("source_coverage_mode")
+        manifest_coverage_mode = manifest_payload.get("source_coverage_mode")
+        if not isinstance(public_coverage_mode, str) or not public_coverage_mode.strip():
+            issues.append(f"{map_path}: projected source map has no valid source_coverage_mode")
+        if manifest_coverage_mode != public_coverage_mode:
+            issues.append(f"{expected_manifest}: display manifest source_coverage_mode does not match the projected source map")
+
+        selected_ids = manifest_payload.get("selected_source_item_ids")
+        selected_items = manifest_payload.get("selected_source_items")
+        if not isinstance(selected_ids, list) or any(
+            not isinstance(item_id, str) or not item_id for item_id in selected_ids
+        ):
+            issues.append(f"{expected_manifest}: selected_source_item_ids must be a list of nonempty strings")
+            continue
+        if selected_ids != sorted(set(selected_ids)):
+            issues.append(f"{expected_manifest}: selected_source_item_ids must be sorted and unique")
+        if not isinstance(selected_items, dict):
+            issues.append(f"{expected_manifest}: selected_source_items must be an object")
+            continue
+        if set(selected_items) != set(selected_ids):
+            issues.append(f"{expected_manifest}: selected_source_items keys do not match selected_source_item_ids")
+            continue
+        public_items = map_payload.get("items")
+        if not isinstance(public_items, dict):
+            issues.append(f"{map_path}: projected source map items must be an object")
+            continue
+        for item_id in selected_ids:
+            issues.extend(
+                _display_selected_item_issues(
+                    public_items.get(item_id),
+                    selected_items.get(item_id),
+                    item_id=item_id,
+                )
+            )
+    return sorted(set(issues))
+
+
 def forbidden_candidate_path_issues(
     repo: Path, candidate_ref: str = "HEAD"
 ) -> list[str]:
+    approved_source_tex, _ = approved_public_source_tex_paths(repo, candidate_ref)
     return [
         f"forbidden private/source artifact path in public candidate: {path}"
         for path in sorted(
             _git(repo, ["ls-tree", "-r", "--name-only", candidate_ref]).splitlines()
         )
-        if FORBIDDEN_PUBLIC_PATH_RE.search(path)
+        if FORBIDDEN_PUBLIC_PATH_RE.search(path) and path not in approved_source_tex
     ]
+
+
+def session_insights_path_issues(
+    repo: Path, candidate_ref: str = "HEAD"
+) -> list[str]:
+    """Reject unreviewed session-derived files outside the two approved guides.
+
+    This is intentionally a path allowlist rather than a content heuristic:
+    a new trace export can be benign-looking while still disclosing a user's
+    private session history.  The entrypoint and its approved ledger remain
+    available as explicitly user-approved workflow guidance.
+    """
+
+    paths = _git(repo, ["ls-tree", "-r", "--name-only", candidate_ref]).splitlines()
+    return [
+        "unapproved session-insights artifact in public candidate: " + path
+        for path in sorted(paths)
+        if path.startswith(SESSION_INSIGHTS_PREFIX)
+        and path not in PUBLIC_SESSION_INSIGHTS_PATHS
+    ]
+
+
+PUBLIC_ARTIFACT_CONTENT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    (
+        "local filesystem path",
+        re.compile(
+            r"(?<![A-Za-z0-9_.-])/(?:tmp|home)(?=$|/)(?:/[^\s,;:()\[\]{}]+)*"
+        ),
+    ),
+    (
+        "private audit-source path",
+        re.compile(r"(?<![A-Za-z0-9_.-])(?:[A-Za-z0-9_.-]+/)*\.audit_source(?:/[^\s,;:()\[\]{}]+)*"),
+    ),
+    (
+        "private TeX audit-source path",
+        re.compile(r"(?<![A-Za-z0-9_.-])\.?audit\\_source\b", re.IGNORECASE),
+    ),
+    (
+        "non-public source transcript locator",
+        re.compile(
+            r"(?<![A-Za-z0-9_.-])(?:"
+            r"(?:[A-Za-z0-9_.-]+/)*(?:sources?|source_tex|audit)/"
+            r"[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*\.(?:txt|tex|pdf|html|tar(?:\.gz)?)"
+            r"|source(?:[_-][A-Za-z0-9_.-]+)\.(?:txt|tex|pdf|html|tar(?:\.gz)?)"
+            r"|source\.txt"
+            r")(?![A-Za-z0-9_-])",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "non-public source artifact locator",
+        re.compile(
+            r"(?<![A-Za-z0-9_.-])(?:"
+            r"(?:[A-Za-z0-9_.-]+/)*"
+            r"|\.scratch/\$PAPER/)"
+            r"source\.(?:pdf|tar(?:\.gz)?)(?![A-Za-z0-9_-])",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "private source-extraction wording",
+        re.compile(r"\bprivate\s+(?:text|source)(?:[-\s]+)?extraction\b", re.IGNORECASE),
+    ),
+    ("remediation-handoff wording", re.compile(r"\bremediation\s+handoff\b", re.IGNORECASE)),
+    (
+        "unresolved-handoff wording",
+        re.compile(r"\bunresolved\s+mathematical\s+handoff\b", re.IGNORECASE),
+    ),
+    (
+        "agent remediation workflow wording",
+        re.compile(r"\bcodex\b[^\n]{0,160}?\bremediation\b", re.IGNORECASE),
+    ),
+    ("local PDF-cache wording", re.compile(r"\blocal\s+PDF\s+cache\b", re.IGNORECASE)),
+    ("local source-cache wording", re.compile(r"\bsource\s+cache\b", re.IGNORECASE)),
+    ("private PAPER_NOTES reference", re.compile(r"\bPAPER_NOTES\.md\b", re.IGNORECASE)),
+    (
+        "private repository identity",
+        re.compile(r"\bEconCSLib-private(?:-archive-[0-9]+)?\b", re.IGNORECASE),
+    ),
+    (
+        "private artifact route",
+        re.compile(r"(?:data-private-local-href|/private-artifacts(?:/|$))", re.IGNORECASE),
+    ),
+    (
+        "private workflow reference",
+        re.compile(
+            r"\b(?:trusted\s+)?private\s+(?:origin(?:/main)?|source(?:\s+(?:review|commit|artifact|text))?|"
+            r"checkout|workspace|workflow|repository(?:\s+context)?|collaboration\s+space|"
+            r"(?:proof\s+body|intake|closeout|handoff)|Git\s+objects|by-default|by\s+sorry|"
+            r"paper(?:\s+(?:folder|thread|development))?|"
+            r"(?:plans?|approvals?|planning|history|incubator|target-setting\s+phase))\b",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "local review-trace path",
+        re.compile(r"(?:^|[\s`])\.review_traces(?:/[^\s`]+)?", re.IGNORECASE),
+    ),
+    (
+        "local scratch-workflow path",
+        re.compile(r"(?:^|[\s`])\.scratch(?:/[^\s`]+)?", re.IGNORECASE),
+    ),
+    (
+        "external reviewer-approval filesystem path",
+        re.compile(r"~/.config/econcslib(?:/|$)", re.IGNORECASE),
+    ),
+)
+_PUBLIC_HTTP_URL_RE = re.compile(r"https?://[^\s<>()\[\]{}]+", re.IGNORECASE)
+_PRIVATE_PUBLIC_URL_RE = re.compile(
+    r"(?:econcslib-private|private-artifacts|\.audit_source|\.review_traces)",
+    re.IGNORECASE,
+)
+_GENERIC_SOURCE_TRANSCRIPT_LOCATOR_RE = re.compile(
+    r"(?<![A-Za-z0-9_.-])(?:[A-Za-z0-9_.-]+/)*"
+    r"[A-Za-z0-9_.-]+\.(?:txt|tex|pdf|html|tar(?:\.gz)?)(?::\d+(?:-\d+)?)?"
+    r"(?![A-Za-z0-9_-])",
+    re.IGNORECASE,
+)
+_SOURCE_LOCATOR_ROUTE_KEYS = frozenset(
+    {
+        "affected_source_locators",
+        "archival_source_locator",
+        "artifact_path",
+        "companion_html_path",
+        "extracted_tex_path",
+        "non_target_source_inventory",
+        "printed_source_locations",
+        "semantic_basis",
+        "semantic_match",
+        "source_evidence",
+        "source_expression",
+        "source_anchor",
+        "source_anchor_evidence",
+        "source_anchors",
+        "source_location",
+        "source_locator",
+        "source_pdf",
+        "source_restatement_evidence",
+        "source_stage",
+        "source_support_scope",
+        "source_term_use_anchor",
+        "source_text",
+        "statement",
+    }
+)
+
+
+def _decoded_url_for_policy(url: str) -> str:
+    """Decode bounded URL escapes before checking an internal route."""
+
+    decoded = url
+    for _ in range(3):
+        next_decoded = html_unescape(unquote(decoded))
+        if next_decoded == decoded:
+            break
+        decoded = next_decoded
+    return decoded
+
+
+def _decoded_text_for_policy(value: str) -> str:
+    """Decode inert HTML/URL encodings before boundary-pattern checks."""
+
+    decoded = value
+    for _ in range(3):
+        next_decoded = html_unescape(unquote(decoded))
+        if next_decoded == decoded:
+            break
+        decoded = next_decoded
+    return decoded
+
+
+def _source_locator_route_has_local_transcript(
+    value: str, route: tuple[str, ...]
+) -> bool:
+    """Whether a source-locator field still names an unavailable transcript."""
+
+    return (
+        any(component in _SOURCE_LOCATOR_ROUTE_KEYS for component in route)
+        and _GENERIC_SOURCE_TRANSCRIPT_LOCATOR_RE.search(value) is not None
+    )
+
+
+def _is_audit_sidecar_path(relative_path: str) -> bool:
+    """Whether a JSON artifact is an audit sidecar rather than a review map.
+
+    Audit sidecars may name the internal transcript that supported a review.
+    The filename carries provenance, not source bytes. Dashboard-facing maps,
+    statuses, packets, and prose remain citation-centered.
+    """
+
+    path = PurePosixPath(relative_path)
+    return (
+        len(path.parts) == 4
+        and path.parts[0] == "papers"
+        and path.parts[2] == "audit"
+        and path.suffix.lower() == ".json"
+        and path.name
+        not in {"paper_statement_map.json", "public_source_display_projection.json"}
+    )
+
+
+PUBLIC_SOURCE_EXCERPT_FIELDS = frozenset(
+    {"quoted_text", "source_excerpt", "source_quote"}
+)
+
+
+def _private_public_url_issue(value: str) -> str | None:
+    """Return a boundary error for a URL that names a non-public surface."""
+
+    for match in _PUBLIC_HTTP_URL_RE.finditer(value):
+        if _PRIVATE_PUBLIC_URL_RE.search(_decoded_url_for_policy(match.group(0))):
+            return "private repository or artifact URL"
+    return None
+
+
+def _mask_approved_source_tex_references(value: str, approved_paths: set[str]) -> str:
+    """Hide only known official-source paths during local-path hygiene scans.
+
+    A checked-in arXiv TeX artifact is user-approved evidence.  Its exact
+    repository path can therefore appear in public documentation without being
+    mistaken for a private transcript locator.  The generic placeholder used
+    in the release checklist is likewise documentation, not an actual source
+    path.  No other ``source/`` path receives this exception.
+    """
+
+    result = value.replace("papers/<Paper>/source/<file>.tex", "APPROVED_SOURCE_TEX")
+    for path in approved_paths:
+        result = result.replace(path, "APPROVED_SOURCE_TEX")
+    return result
+
+
+def _mask_json_source_tex_references(
+    value: object, approved_paths: set[str]
+) -> object:
+    """Return a scan-only JSON copy with approved TeX paths neutralized."""
+
+    if isinstance(value, dict):
+        return {
+            key: _mask_json_source_tex_references(child, approved_paths)
+            for key, child in value.items()
+        }
+    if isinstance(value, list):
+        return [
+            _mask_json_source_tex_references(child, approved_paths) for child in value
+        ]
+    if isinstance(value, str):
+        return _mask_approved_source_tex_references(value, approved_paths)
+    return value
+
+
+def _public_artifact_string_issues(
+    value: object,
+    *,
+    relative_path: str,
+    route: tuple[str, ...] = (),
+    source_excerpt: bool = False,
+) -> list[tuple[str, str]]:
+    """Find release-private wording while respecting approved source excerpts."""
+
+    issues: list[tuple[str, str]] = []
+    if isinstance(value, dict):
+        bound_excerpt_fields = {
+            key
+            for key in PUBLIC_SOURCE_EXCERPT_FIELDS
+            if source_excerpt_field_is_bound(value, key)
+            and public_source_excerpt_route_is_permitted(
+                relative_path, (*route, key)
+            )
+        }
+        for key, child in value.items():
+            if not isinstance(key, str):
+                continue
+            issues.extend(
+                _public_artifact_string_issues(
+                    child,
+                    relative_path=relative_path,
+                    route=(*route, key),
+                    source_excerpt=(
+                        source_excerpt
+                        or (key in bound_excerpt_fields and isinstance(child, str))
+                    ),
+                )
+            )
+        return issues
+    if isinstance(value, list):
+        for index, child in enumerate(value):
+            issues.extend(
+                _public_artifact_string_issues(
+                    child,
+                    relative_path=relative_path,
+                    route=(*route, str(index)),
+                    source_excerpt=source_excerpt,
+                )
+            )
+        return issues
+    if not isinstance(value, str):
+        return issues
+    if source_excerpt:
+        issue = source_excerpt_safety_issue(value)
+        if issue is not None:
+            issues.append((".".join(route) or "$", issue))
+        return issues
+    policy_value = _decoded_text_for_policy(value)
+    permits_internal_transcript_filename = _is_audit_sidecar_path(relative_path)
+    if (
+        not permits_internal_transcript_filename
+        and _source_locator_route_has_local_transcript(policy_value, route)
+    ):
+        issues.append((".".join(route) or "$", "non-public source transcript locator"))
+    url_issue = _private_public_url_issue(policy_value)
+    if url_issue is not None:
+        issues.append((".".join(route) or "$", url_issue))
+    scan_value = _PUBLIC_HTTP_URL_RE.sub("PUBLIC_HTTP_URL", policy_value)
+    for label, pattern in PUBLIC_ARTIFACT_CONTENT_PATTERNS:
+        if label == "non-public source transcript locator" and permits_internal_transcript_filename:
+            continue
+        if pattern.search(scan_value):
+            issues.append((".".join(route) or "$", label))
+    return issues
+
+
+def approved_public_source_tex_paths(
+    repo: Path, candidate_ref: str
+) -> tuple[set[str], list[str]]:
+    """Return exact official-arXiv TeX excerpts permitted in a public tree.
+
+    Source TeX is user-approved evidence only when it is actually the
+    byte-pinned source surface of that paper.  The check deliberately rejects
+    an arbitrary ``papers/*/source/*.tex`` file: it must have an arXiv source
+    URL and hash-match the paper map's declared source artifact.
+    """
+
+    paths = sorted(
+        path
+        for path in _git(repo, ["ls-tree", "-r", "--name-only", candidate_ref]).splitlines()
+        if re.fullmatch(r"papers/[^/]+/source/[^/]+\.tex", path)
+    )
+    approved: set[str] = set()
+    issues: list[str] = []
+    for path in paths:
+        paper = PurePosixPath(path).parts[1]
+        map_path = f"papers/{paper}/audit/paper_statement_map.json"
+        try:
+            payload = json.loads(_git_bytes(repo, ["show", f"{candidate_ref}:{map_path}"]))
+        except (RuntimeError, json.JSONDecodeError) as exc:
+            issues.append(
+                f"{path}: public source TeX lacks a readable paper statement map ({exc})"
+            )
+            continue
+        if not isinstance(payload, dict):
+            issues.append(f"{path}: public source TeX paper statement map must be an object")
+            continue
+        source_url = str(payload.get("source_url") or "").strip()
+        if not re.match(
+            r"https?://(?:export\.)?arxiv\.org/(?:abs|e-print|pdf)/",
+            source_url,
+            flags=re.IGNORECASE,
+        ):
+            issues.append(
+                f"{path}: public source TeX requires an official arXiv source_url"
+            )
+            continue
+        expected_sha = _valid_sha256(payload.get("source_artifact_sha256"))
+        if expected_sha is None:
+            issues.append(
+                f"{path}: public source TeX paper statement map has no valid source_artifact_sha256"
+            )
+            continue
+        actual_sha = _sha256_bytes(_git_bytes(repo, ["show", f"{candidate_ref}:{path}"]))
+        if actual_sha != expected_sha:
+            issues.append(
+                f"{path}: public source TeX hash does not match the paper statement map"
+            )
+            continue
+        approved.add(path)
+    return approved, issues
+
+
+def public_artifact_content_issues(
+    repo: Path,
+    candidate_ref: str,
+    _changes: list[CandidateChange] | None = None,
+) -> list[str]:
+    """Reject private audit mechanics in every public-facing text artifact.
+
+    The policy intentionally permits user-approved source excerpts and official
+    arXiv TeX.  It scans the complete release-relevant ``papers/``, ``docs/``,
+    ``site/``, and human-facing skill-documentation tree rather than only a
+    candidate diff: an inherited public blob with a local audit path must not
+    become invisible merely because it was not touched by the last release
+    commit.  It additionally covers root contributor documentation and release
+    configuration, while deliberately excluding implementation code: a public
+    reviewer tool may legitimately operate on a local checkout.  The one
+    explicitly approved session-feedback ledger is excluded by exact path, not
+    by a broad skill-directory exception.  The optional third argument is
+    retained for callers of the earlier helper signature and intentionally has
+    no bearing on the complete-tree check.
+    """
+
+    approved_source_tex, source_tex_issues = approved_public_source_tex_paths(
+        repo, candidate_ref
+    )
+    issues: list[str] = list(source_tex_issues)
+    for path in sorted(
+        _git(repo, ["ls-tree", "-r", "--name-only", candidate_ref]).splitlines()
+    ):
+        pure = PurePosixPath(path)
+        if path in PUBLIC_CONTRIBUTOR_WORKFLOW_PATHS:
+            continue
+        is_human_skill_document = (
+            path.startswith("skills/") and pure.suffix in {".md", ".txt", ".tex", ".json"}
+        )
+        is_root_reader_document = (
+            len(pure.parts) == 1
+            and pure.suffix.lower() in {".md", ".txt", ".tex", ".html", ".json"}
+        )
+        is_release_configuration = (
+            path.startswith("config/")
+            and pure.suffix.lower() in {".json", ".md", ".txt", ".toml"}
+        )
+        if not (
+            path.startswith("papers/")
+            or path.startswith("docs/")
+            or path.startswith("site/")
+            or is_human_skill_document
+            or is_root_reader_document
+            or is_release_configuration
+        ):
+            continue
+        if path in approved_source_tex:
+            continue
+        try:
+            raw = _git_bytes(repo, ["show", f"{candidate_ref}:{path}"])
+            text = raw.decode("utf-8")
+        except (RuntimeError, UnicodeDecodeError):
+            continue
+        if path.endswith(".json"):
+            try:
+                payload = json.loads(text)
+            except json.JSONDecodeError:
+                issues.append(f"{path}: public JSON artifact is not valid JSON")
+                continue
+            for route, label in _public_artifact_string_issues(
+                _mask_json_source_tex_references(payload, approved_source_tex),
+                relative_path=path,
+            ):
+                issues.append(f"{path}: {label} at {route}")
+            continue
+        if pure.name == ".gitignore":
+            # Ignore patterns may intentionally name local source/cache
+            # directories so they cannot be committed.  They are not public
+            # provenance or reader-facing content; actual artifacts remain
+            # forbidden by the independent path policy above.
+            continue
+        scan_text = _decoded_text_for_policy(
+            _mask_approved_source_tex_references(text, approved_source_tex)
+        )
+        if path == "site/index.html":
+            scan_text = scan_text.replace(
+                PUBLIC_SITE_PRIVATE_WORKFLOW_GUIDANCE,
+                PUBLIC_SITE_PRIVATE_WORKFLOW_SENTINEL,
+            )
+        url_issue = _private_public_url_issue(scan_text)
+        if url_issue is not None:
+            issues.append(f"{path}: {url_issue}")
+        scan_text = _PUBLIC_HTTP_URL_RE.sub("PUBLIC_HTTP_URL", scan_text)
+        for label, pattern in PUBLIC_ARTIFACT_CONTENT_PATTERNS:
+            if pattern.search(scan_text):
+                issues.append(f"{path}: {label}")
+    return issues
+
+
+def human_review_packet_pdf_content_issues(
+    repo: Path, candidate_ref: str = "HEAD"
+) -> list[str]:
+    """Scan every committed public PDF for the same private-workflow leaks.
+
+    Rendered reports and dependency DAGs are independently downloadable from
+    the public repository, so scanning only their TeX source is insufficient.
+    The temporary files hold candidate Git blobs solely long enough for
+    ``pdftotext`` to inspect them; no private source artifact is opened or
+    regenerated here.
+    """
+
+    pdf_paths = sorted(
+        path
+        for path in _git(repo, ["ls-tree", "-r", "--name-only", candidate_ref]).splitlines()
+        if path.lower().endswith(".pdf")
+        and (
+            path.startswith("papers/")
+            or path.startswith("docs/")
+            or path.startswith("site/")
+            or "/" not in path
+        )
+    )
+    if not pdf_paths:
+        return []
+    if shutil.which("pdftotext") is None:
+        return [
+            "cannot inspect committed public PDF text: pdftotext is unavailable"
+        ]
+    issues: list[str] = []
+    for pdf_path in pdf_paths:
+        try:
+            pdf_bytes = _git_bytes(repo, ["show", f"{candidate_ref}:{pdf_path}"])
+        except RuntimeError as exc:
+            issues.append(f"{pdf_path}: cannot read committed public PDF: {exc}")
+            continue
+        with tempfile.TemporaryDirectory(prefix="econcslib-public-pdf-") as directory:
+            temporary_directory = Path(directory)
+            input_path = temporary_directory / "public.pdf"
+            output_path = temporary_directory / "public.txt"
+            input_path.write_bytes(pdf_bytes)
+            try:
+                result = subprocess.run(
+                    ["pdftotext", "-enc", "UTF-8", str(input_path), str(output_path)],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    check=False,
+                )
+            except OSError as exc:
+                issues.append(
+                    f"{pdf_path}: cannot inspect committed public PDF with pdftotext: {exc}"
+                )
+                continue
+            if result.returncode != 0:
+                detail = result.stderr.strip() or result.stdout.strip() or "unknown failure"
+                issues.append(
+                    f"{pdf_path}: pdftotext failed while scanning committed public PDF: {detail}"
+                )
+                continue
+            try:
+                text = output_path.read_text(encoding="utf-8", errors="replace")
+            except OSError as exc:
+                issues.append(
+                    f"{pdf_path}: pdftotext produced no readable text output: {exc}"
+                )
+                continue
+        policy_text = _decoded_text_for_policy(text)
+        url_issue = _private_public_url_issue(policy_text)
+        if url_issue is not None:
+            issues.append(f"{pdf_path}: {url_issue} in committed public PDF text")
+        scan_text = _PUBLIC_HTTP_URL_RE.sub("PUBLIC_HTTP_URL", policy_text)
+        for label, pattern in PUBLIC_ARTIFACT_CONTENT_PATTERNS:
+            if (
+                pdf_path in PUBLIC_CONTRIBUTOR_WORKFLOW_PDF_PATHS
+                and label == "private workflow reference"
+            ):
+                continue
+            if pattern.search(scan_text):
+                issues.append(f"{pdf_path}: {label} in committed public PDF text")
+    return sorted(set(issues))
 
 
 def _status_string_leaves(
@@ -1276,6 +2359,24 @@ def candidate_history(
     return history, issues
 
 
+def _candidate_uses_public_source_display_marker(path: str, blob: bytes) -> bool:
+    """Return whether a projected source map opted into the display marker.
+
+    The marker is intentionally opt-in: papers without a current private
+    display manifest retain their ordinary strict public projection.  A
+    malformed candidate map simply returns ``False`` here; the exact
+    projection comparison and the JSON/marker guard then report the failure.
+    """
+
+    if not path.endswith("/audit/paper_statement_map.json"):
+        return False
+    try:
+        payload = json.loads(blob.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return False
+    return isinstance(payload, dict) and PUBLIC_SOURCE_DISPLAY_PROJECTION_FIELD in payload
+
+
 def source_provenance_issues(
     candidate_repo: Path,
     private_repo: Path,
@@ -1342,7 +2443,7 @@ def source_provenance_issues(
                 {
                     item.source_commit
                     for item in entries
-                    if item.provenance == "private_blob"
+                    if item.provenance in {"private_blob", "private_projection"}
                     and item.source_commit is not None
                 }
             ):
@@ -1422,6 +2523,70 @@ def source_provenance_issues(
                     "candidate_blob_sha256"
                 )
             continue
+        if entry.provenance == "private_projection":
+            try:
+                candidate_entry = _tree_entry(candidate_repo, candidate_ref, change.path)
+                source_entry = _tree_entry(private_repo, entry.source_commit or "", change.path)
+                candidate_blob = _git_bytes(
+                    candidate_repo, ["show", f"{candidate_ref}:{change.path}"]
+                )
+                source_blob = _git_bytes(
+                    private_repo, ["show", f"{entry.source_commit}:{change.path}"]
+                )
+            except RuntimeError as exc:
+                issues.append(
+                    f"{change.path}: cannot verify private projection provenance: {exc}"
+                )
+                continue
+            if candidate_entry is None or source_entry is None:
+                issues.append(
+                    f"{change.path}: candidate or private source tree entry is missing"
+                )
+                continue
+            if (
+                candidate_entry.mode != source_entry.mode
+                or candidate_entry.object_type != source_entry.object_type
+            ):
+                issues.append(
+                    f"{change.path}: candidate Git mode/type differs from private source "
+                    f"commit {entry.source_commit}"
+                )
+            actual_source_sha256 = _sha256_bytes(source_blob)
+            actual_candidate_sha256 = _sha256_bytes(candidate_blob)
+            if actual_source_sha256 != entry.private_source_blob_sha256:
+                issues.append(
+                    f"{change.path}: private source blob does not match allowlisted "
+                    "private_source_blob_sha256"
+                )
+            if actual_candidate_sha256 != entry.candidate_blob_sha256:
+                issues.append(
+                    f"{change.path}: candidate blob does not match allowlisted "
+                    "candidate_blob_sha256"
+                )
+            try:
+                projected_blob = project_bytes(
+                    change.path,
+                    source_blob,
+                    include_source_display_marker=_candidate_uses_public_source_display_marker(
+                        change.path, candidate_blob
+                    ),
+                )
+            except ProjectionError as exc:
+                issues.append(
+                    f"{change.path}: trusted public projection failed: {exc}"
+                )
+                continue
+            if projected_blob == source_blob:
+                issues.append(
+                    f"{change.path}: public projection did not change the private blob; "
+                    "use private_blob provenance"
+                )
+            if candidate_blob != projected_blob:
+                issues.append(
+                    f"{change.path}: candidate blob does not equal the trusted public "
+                    "projection of its private source"
+                )
+            continue
         assert entry.source_commit is not None
         try:
             candidate_entry = _tree_entry(candidate_repo, candidate_ref, change.path)
@@ -1496,7 +2661,7 @@ def private_source_commit_issues(
     issues: list[str] = []
     checked: set[str] = set()
     for entry in entries:
-        if entry.provenance != "private_blob" or entry.source_commit is None:
+        if entry.provenance not in {"private_blob", "private_projection"} or entry.source_commit is None:
             continue
         if entry.source_commit in checked:
             continue
@@ -1714,7 +2879,7 @@ def run_guard(
             {
                 entry.source_commit
                 for entry in entries
-                if entry.provenance == "private_blob"
+                if entry.provenance in {"private_blob", "private_projection"}
                 and entry.source_commit is not None
             }
         )
@@ -1767,11 +2932,11 @@ def run_guard(
                         f"must use public_generated provenance: {change.path}"
                     )
                 if (
-                    entry.provenance == "public_generated"
+                    entry.provenance in {"public_generated", "private_projection"}
                     and candidate_history_commit.commit != candidate_commit
                 ):
                     issues.append(
-                        f"public-generated path may change only in the final candidate commit: "
+                        f"generated/projection path may change only in the final candidate commit: "
                         f"{change.path} in {candidate_history_commit.commit}"
                     )
         issues.extend(
@@ -1794,7 +2959,23 @@ def run_guard(
         )
     )
     issues.extend(source_artifact_leakage_issues(repo, candidate_commit))
+    issues.extend(
+        public_source_display_projection_issues(
+            repo,
+            candidate_commit,
+            entries,
+            private_repo=private_repo,
+        )
+    )
     issues.extend(forbidden_candidate_path_issues(repo, candidate_commit))
+    issues.extend(session_insights_path_issues(repo, candidate_commit))
+    issues.extend(
+        public_artifact_content_issues(
+            repo,
+            candidate_commit,
+        )
+    )
+    issues.extend(human_review_packet_pdf_content_issues(repo, candidate_commit))
     issues.extend(candidate_public_artifact_policy_issues(repo, candidate_commit))
     issues.extend(generated_status_freshness_issues(repo, candidate_commit))
     for issue in dependency_closure_issues(

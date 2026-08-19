@@ -297,6 +297,170 @@ Source status: direct source formula
 abbrev theorem4_2_uniform_random_max_envy_probability_bound :=
   @LMMS04FairDivision.ProofInterface.theorem4_2_uniform_random_max_envy_probability_bound
 
+/- Elaborator support for Specs of polymorphic theorem aliases.
+
+The target is the alias's exact proposition type, obtained from Lean's
+environment rather than reconstructed from a lossy pretty-printed expression.
+-/
+open Lean Elab Term Meta
+
+syntax "v11PropositionTypeOf " ident : term
+
+elab_rules : term
+  | `(v11PropositionTypeOf $identifier:ident) => do
+    let name ← resolveGlobalConstNoOverload identifier
+    let info ← getConstInfo name
+    let proposition := info.type
+    let sort ← inferType proposition
+    unless sort.isProp do
+      throwError "v11PropositionTypeOf expects a proposition-valued declaration"
+    return proposition
+
+/-- Transparent v11 semantic target for the source definition `envy`. -/
+def envySpec (v : Valuation Agent Item) (A : Allocation Agent Item)
+    (i j : Agent) : Prop :=
+  envy v A i j = (max 0 (v.value i (A j) - v.value i (A i)))
+
+/-- Transparent v11 semantic target for the source definition `envyFree`. -/
+def envyFreeSpec (v : Valuation Agent Item) (A : Allocation Agent Item) : Prop :=
+  envyFree v A = (∀ i j, v.value i (A j) ≤ v.value i (A i))
+
+/-- Transparent v11 semantic target for the source definition `envyBoundedBy`. -/
+def envyBoundedBySpec (v : Valuation Agent Item) (A : Allocation Agent Item)
+    (alpha : ℝ) : Prop :=
+  envyBoundedBy v A alpha = (∀ i j, envy v A i j ≤ alpha)
+
+/-- Transparent v11 semantic target for the source definition `maxMarginal`. -/
+def maxMarginalSpec (v : Valuation Agent Item) : Prop :=
+  maxMarginal v = (LMMS04FairDivision.paper_max_marginal v)
+
+/-- Transparent v11 semantic target for the source definition `isAllocationOf`. -/
+def isAllocationOfSpec (A : Allocation Agent Item) (goods : Finset Item) : Prop :=
+  isAllocationOf A goods = (IsAllocationOf A goods)
+
+/-- Transparent v11 semantic target for the source abbreviation `lemma2_2_acyclic_reduction`. -/
+def lemma2_2_acyclic_reductionSpec : Prop :=
+  v11PropositionTypeOf lemma2_2_acyclic_reduction
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem2_1_bounded_envy_allocation_exists`. -/
+def theorem2_1_bounded_envy_allocation_existsSpec : Prop :=
+  v11PropositionTypeOf theorem2_1_bounded_envy_allocation_exists
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem2_1_alpha_bounded_allocation_exists`. -/
+def theorem2_1_alpha_bounded_allocation_existsSpec : Prop :=
+  v11PropositionTypeOf theorem2_1_alpha_bounded_allocation_exists
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem2_1_algorithm_correct_list_toFinset`. -/
+def theorem2_1_algorithm_correct_list_toFinsetSpec : Prop :=
+  v11PropositionTypeOf theorem2_1_algorithm_correct_list_toFinset
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem2_3_real_interval_supported_atom_bound`. -/
+def theorem2_3_real_interval_supported_atom_boundSpec : Prop :=
+  v11PropositionTypeOf theorem2_3_real_interval_supported_atom_bound
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem3_1_eventually_minimum_envy_lower_bound_from_twoBit_adaptive_queries`. -/
+def theorem3_1_eventually_minimum_envy_lower_bound_from_twoBit_adaptive_queriesSpec : Prop :=
+  v11PropositionTypeOf theorem3_1_eventually_minimum_envy_lower_bound_from_twoBit_adaptive_queries
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem3_1_eventually_minimum_envy_ratio_lower_bound_from_twoBit_adaptive_queries`. -/
+def theorem3_1_eventually_minimum_envy_ratio_lower_bound_from_twoBit_adaptive_queriesSpec : Prop :=
+  v11PropositionTypeOf theorem3_1_eventually_minimum_envy_ratio_lower_bound_from_twoBit_adaptive_queries
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem3_2_graham_certificate_to_envy_ratio_bound`. -/
+def theorem3_2_graham_certificate_to_envy_ratio_boundSpec : Prop :=
+  v11PropositionTypeOf theorem3_2_graham_certificate_to_envy_ratio_bound
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem3_2_graham_factor_eq_seven_fifths`. -/
+def theorem3_2_graham_factor_eq_seven_fifthsSpec : Prop :=
+  v11PropositionTypeOf theorem3_2_graham_factor_eq_seven_fifths
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee`. -/
+def theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guaranteeSpec : Prop :=
+  v11PropositionTypeOf theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem3_3_claim34_fixed_rounding_ratio_endpoint`. -/
+def theorem3_3_claim34_fixed_rounding_ratio_endpointSpec : Prop :=
+  v11PropositionTypeOf theorem3_3_claim34_fixed_rounding_ratio_endpoint
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem3_3_claim34_capped_weighted_supply_ratio_endpoint`. -/
+def theorem3_3_claim34_capped_weighted_supply_ratio_endpointSpec : Prop :=
+  v11PropositionTypeOf theorem3_3_claim34_capped_weighted_supply_ratio_endpoint
+
+/-- Transparent v11 semantic target for the source abbreviation `claim3_4_bounded_optimal_of_exact_allocations_with_nonempty_positive_goods`. -/
+def claim3_4_bounded_optimal_of_exact_allocations_with_nonempty_positive_goodsSpec : Prop :=
+  v11PropositionTypeOf claim3_4_bounded_optimal_of_exact_allocations_with_nonempty_positive_goods
+
+/-- Transparent v11 semantic target for the source abbreviation `claim3_4_identical_utilities_bounded_optimum_bound`. -/
+def claim3_4_identical_utilities_bounded_optimum_boundSpec : Prop :=
+  v11PropositionTypeOf claim3_4_identical_utilities_bounded_optimum_bound
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem3_3_ratio_transfer_certificate_epsilon_of_agentwise_additive_loads`. -/
+def theorem3_3_ratio_transfer_certificate_epsilon_of_agentwise_additive_loadsSpec : Prop :=
+  v11PropositionTypeOf theorem3_3_ratio_transfer_certificate_epsilon_of_agentwise_additive_loads
+
+/-- Transparent v11 semantic target for the source abbreviation `lemma3_5_additive_transfer_epsilon_bound`. -/
+def lemma3_5_additive_transfer_epsilon_boundSpec : Prop :=
+  v11PropositionTypeOf lemma3_5_additive_transfer_epsilon_bound
+
+/-- Transparent v11 semantic target for `directMechanism_fields`. -/
+def directMechanism_fieldsSpec
+    (Agent Item : Type*) (M : directMechanism Agent Item) : Prop :=
+  M = { allocation := M.allocation }
+
+/-- Transparent v11 semantic target for `randomizedDirectMechanism_fields`. -/
+def randomizedDirectMechanism_fieldsSpec
+    (Agent Item : Type*) (M : randomizedDirectMechanism Agent Item) : Prop :=
+  M = { allocationLaw := M.allocationLaw }
+
+/-- Transparent v11 semantic target for the source definition `truthful`. -/
+def truthfulSpec [DecidableEq Agent] (M : directMechanism Agent Item) : Prop :=
+  truthful M = (LMMS04FairDivision.paper_fair_division_truthful M)
+
+/-- Transparent v11 semantic target for the source definition `randomizedTruthful`. -/
+def randomizedTruthfulSpec
+    [Fintype (Allocation Agent Item)] [DecidableEq (Allocation Agent Item)]
+    [DecidableEq Agent]
+    (M : randomizedDirectMechanism Agent Item) : Prop :=
+  randomizedTruthful M = (LMMS04FairDivision.paper_randomized_fair_division_truthful M)
+
+/-- Transparent v11 semantic target for `theorem4_1_source_goods_content`. -/
+def theorem4_1_source_goods_contentSpec : Prop :=
+  theorem4_1_source_goods = Finset.univ ∧
+    Fintype.card Theorem41.LMMS41Agent = 2 ∧
+      theorem4_1_source_goods.card = 10 ∧
+        Theorem41.lmms41EggItems.card = 8
+
+/-- Transparent v11 semantic target for `theorem4_1_true_report_formula`. -/
+def theorem4_1_true_report_formulaSpec : Prop :=
+  theorem4_1_true_report =
+    Theorem41.lmms41AdditiveReport Theorem41.lmms41TrueWeight ∧
+    ∀ agent item,
+      Theorem41.lmms41TrueWeight agent item =
+        if agent = Theorem41.LMMS41Agent.player1 then
+          if item = Theorem41.LMMS41Item.a then (9 : ℝ) / 20
+          else if item = Theorem41.LMMS41Item.b then (7 : ℝ) / 20
+          else (1 : ℝ) / 40
+        else
+          if item = Theorem41.LMMS41Item.a then (7 : ℝ) / 20
+          else if item = Theorem41.LMMS41Item.b then (9 : ℝ) / 20
+          else (1 : ℝ) / 40
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem4_1_source_not_truthful_envy_free_whenever_exists`. -/
+def theorem4_1_source_not_truthful_envy_free_whenever_existsSpec : Prop :=
+  v11PropositionTypeOf theorem4_1_source_not_truthful_envy_free_whenever_exists
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem4_1_source_minimum_envy_not_truthful`. -/
+def theorem4_1_source_minimum_envy_not_truthfulSpec : Prop :=
+  v11PropositionTypeOf theorem4_1_source_minimum_envy_not_truthful
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem4_2_uniform_random_mechanism_truthful`. -/
+def theorem4_2_uniform_random_mechanism_truthfulSpec : Prop :=
+  v11PropositionTypeOf theorem4_2_uniform_random_mechanism_truthful
+
+/-- Transparent v11 semantic target for the source abbreviation `theorem4_2_uniform_random_max_envy_probability_bound`. -/
+def theorem4_2_uniform_random_max_envy_probability_boundSpec : Prop :=
+  v11PropositionTypeOf theorem4_2_uniform_random_max_envy_probability_bound
+
 end
 
 end PaperInterface

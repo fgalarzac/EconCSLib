@@ -392,7 +392,7 @@ private theorem college_batches_invariants_and_rejections
           (ManyToOneOptimality.refined_men_acceptably_strict
             quota val_applicant happNoZero)
           (ManyToOneOptimality.college_seat_women_strict
-            quota val_college hcollegeStrict)
+            quota val_college hcollegeStrict).acceptablyStrict
           (ManyToOneOptimality.refined_men_no_outside_tie
             quota val_applicant happNoZero)
           hinv hrejected
@@ -462,7 +462,7 @@ theorem paper_gs62_college_waiting_list_refines_seat_da
       (ManyToOneOptimality.refined_men_acceptably_strict
         quota val_applicant happNoZero)
       (ManyToOneOptimality.college_seat_women_strict
-        quota val_college hcollegeStrict)
+        quota val_college hcollegeStrict).acceptablyStrict
       (ManyToOneOptimality.refined_men_no_outside_tie
         quota val_applicant happNoZero)
   change (⟨final.m_match, final.w_match, final.consistent⟩ :

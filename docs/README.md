@@ -26,14 +26,8 @@ or what a completed formalization proves without reading proof internals.
 - [paper-formalization-quickstart/README.md](paper-formalization-quickstart/README.md):
   concise prompt and steering guide for starting or managing a paper
   formalization.
-- [PUBLIC_REPOSITORY_WORKFLOW.md](PUBLIC_REPOSITORY_WORKFLOW.md): public/private
-  repository split, completed-paper imports, and private partial-paper policy.
-- [PRIVATE_DEVELOPMENT_WORKFLOW.md](PRIVATE_DEVELOPMENT_WORKFLOW.md):
-  public-based private repository workflow and private-to-public paper PR path.
 - [PUBLIC_RELEASE_CHECKLIST.md](PUBLIC_RELEASE_CHECKLIST.md): checks before a
   public announcement or broad external contribution request.
-- [REPOSITORY_LAUNCH_PLAN.md](REPOSITORY_LAUNCH_PLAN.md): current launch plan
-  for the public/private split and Pages activation.
 - [PAGES_PUBLISHING.md](PAGES_PUBLISHING.md): static-site publishing steps for
   GitHub Pages.
 - Paper-level `FINAL_VALIDATION_REPORT.md`, `PaperInterface.lean`, and
@@ -61,12 +55,8 @@ They may assume Lean familiarity and may be more detailed.
 - [PROBABILITY_LIBRARY_ROADMAP.md](PROBABILITY_LIBRARY_ROADMAP.md) and
   [OPTIMIZATION_LIBRARY_ROADMAP.md](OPTIMIZATION_LIBRARY_ROADMAP.md): reusable
   library roadmaps.
-- [ECONCS_LIBRARY_EXTRACTION_PLAN.md](ECONCS_LIBRARY_EXTRACTION_PLAN.md):
-  cross-paper extraction and cleanup plan for probability, rankings,
-  stochastic processes, continuous analysis, and design optimization.
-- [LARGE_DEVIATIONS_LIBRARY_PLAN.md](LARGE_DEVIATIONS_LIBRARY_PLAN.md):
-  shared LDP, Chernoff, Laplace-principle, and binary-rate extraction plan for
-  the GGSG19, GJ18, and GJ19 paper scaffolds.
+- [ECONCSLIB_DOMAIN_INDEX.md](ECONCSLIB_DOMAIN_INDEX.md): reusable library
+  modules and linked domain-specific roadmaps for cross-paper extraction work.
 
 Agent skills live under [`skills/`](../skills/). Use
 [`skills/econcs-formalizer/`](../skills/econcs-formalizer/) for paper workflow,

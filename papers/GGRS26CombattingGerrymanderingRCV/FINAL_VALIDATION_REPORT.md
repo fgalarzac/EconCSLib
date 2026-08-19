@@ -12,9 +12,16 @@ Independent human review has not been recorded.
 ## 2. Closeout Status
 
 - Completion status: formalized.
+- Normal scope: Lemma C.1 and Proposition 1.
+- Results: the PAV selector and the two-party STV/PAV rounded seat-share result
+  cover all legal ballot-routed transfer choices.
 - One-sentence recap: the PAV selector lemma and the two-party STV/PAV rounded
   seat-share proposition are proved for the source model, including all legal
   ballot-routed surplus transfers and a nonempty execution domain.
+- Review packet: [human review packet](docs/HUMAN_REVIEW_PACKET.pdf) presents
+  the source excerpts, semantic Lean targets, supporting library definitions,
+  and reviewer annotations in claim-dependency order.
+- Human review: independent sign-off has not yet been recorded.
 - No named-theory proof obligation remains open.
 
 ## 3. Source and Scope
@@ -22,7 +29,7 @@ Independent human review has not been recorded.
 - Paper: *Combatting Gerrymandering with Ranked Choice Voting: an Experimental
   Analysis of Multi-member Districts in the United States*.
 - Public source: [Operations Research](https://doi.org/10.1287/opre.2024.1167).
-- Audited source: `source.txt`, SHA256
+- Audited source: `cited publication`, SHA256
   `57762234dc7b4a41d10b7f05110551853ab717136eca7b9216da9425cfb8bce5`.
 - Source inventory: `audit/paper_statement_map.json`.
 - Human-facing Lean surface: `PaperInterface.lean`.
@@ -232,7 +239,7 @@ Independent human dashboard review: 0/4 rows. No human row-level approval is inf
 <!-- BEGIN GENERATED SOURCE COVERAGE LEDGER -->
 ### Current Canonical Evidence
 - Coverage scope: named theoretical statements.
-- Source inventory: 2 source statements from `source.txt`.
+- Source inventory: 2 source statements from `cited publication`.
 - Coverage result: 2 covered.
 - Coverage review: coverage ledger recorded; Agent check by Codex GGRS26 current semantic closeout auditor 2026-07-30; 2026-07-30.
 - Row-local statement checks: 2/2 linked row references have a completed canonical statement check; repeated links are counted per source row.

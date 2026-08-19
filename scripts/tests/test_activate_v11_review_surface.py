@@ -42,6 +42,50 @@ class ActivateV11ReviewSurfaceTests(unittest.TestCase):
         self.assertEqual(activated["human_review"]["total_rows"], 2)
         self.assertEqual(activated["human_review"]["mismatch_rows"], 0)
 
+    def test_activation_accepts_a_root_namespace_paper_interface_module(self) -> None:
+        """Legacy modules may expose review Specs directly under the paper namespace."""
+
+        activated = activate(
+            {},
+            {
+                "paper": "Fixture",
+                "items": {
+                    "claim": {
+                        "semantic_contract": {
+                            "spec_declaration": "Fixture.claimSpec",
+                            "evidence_declaration": "Fixture.claim_proof",
+                        }
+                    }
+                },
+            },
+            paper="Fixture",
+        )
+
+        self.assertEqual(activated["review_surface"]["include_names"], ["claimSpec"])
+        self.assertEqual(
+            activated["review_surface"]["proposition_spec_proofs"],
+            {"claimSpec": "claim_proof"},
+        )
+
+    def test_activation_uses_an_explicit_interface_namespace(self) -> None:
+        activated = activate(
+            {},
+            {
+                "paper": "FolderId",
+                "paper_interface_namespace": "EconCSLib.Example.Paper",
+                "items": {
+                    "claim": {
+                        "semantic_contract": {
+                            "spec_declaration": "EconCSLib.Example.Paper.PaperInterface.claimSpec",
+                            "evidence_declaration": "EconCSLib.Example.Paper.PaperInterface.claim_proof",
+                        }
+                    }
+                },
+            },
+            paper="FolderId",
+        )
+        self.assertEqual(activated["review_surface"]["include_names"], ["claimSpec"])
+
 
 if __name__ == "__main__":
     unittest.main()

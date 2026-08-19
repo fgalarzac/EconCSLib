@@ -457,13 +457,13 @@
         {
           "line_end": 248,
           "line_start": 244,
-          "path": "papers/HT26EFXChores/source/EFXadditivechores.tex",
+          "publication_locator": "cited publication",
           "quoted_text": "\\section{Preliminaries}\nA set $M$ of $m$ chores $g_1,\\ldots,g_m$ is allocated to a set $N$ of $n$ agents $1,\\ldots,n$.\nWe will use ``item'' and ``chore'' interchangeably in this paper to refer to an element in $M$.\nEach agent $i$'s cost function $c_i:2^M\\to\\mathbb{R}_{\\geq0}$ is additive:\n$$c_i(S)=\\sum_{g\\in S}c_i(\\{g\\}).$$",
           "quoted_text_sha256": "28aa2b400deb20d52cb77f1d9ecdf588a7cb68f8df19c67caa07afd6d8ed2dcf"
         }
       ],
       "source_input_bundle_sha256": "2e9ca157e209cf772586ff16d79cb16725869e98afb99637997b6a1bc6035bc5",
-      "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:244-248",
+      "source_location": "papers/HT26EFXChores/cited publication:244-248",
       "validated_at": "2026-08-18T09:21:07+00:00",
       "validator": "Codex HT26 raw source-to-library semantic reviewer",
       "validator_type": "llm_as_judge"
@@ -530,13 +530,13 @@
         {
           "line_end": 248,
           "line_start": 244,
-          "path": "papers/HT26EFXChores/source/EFXadditivechores.tex",
+          "publication_locator": "cited publication",
           "quoted_text": "\\section{Preliminaries}\nA set $M$ of $m$ chores $g_1,\\ldots,g_m$ is allocated to a set $N$ of $n$ agents $1,\\ldots,n$.\nWe will use ``item'' and ``chore'' interchangeably in this paper to refer to an element in $M$.\nEach agent $i$'s cost function $c_i:2^M\\to\\mathbb{R}_{\\geq0}$ is additive:\n$$c_i(S)=\\sum_{g\\in S}c_i(\\{g\\}).$$",
           "quoted_text_sha256": "28aa2b400deb20d52cb77f1d9ecdf588a7cb68f8df19c67caa07afd6d8ed2dcf"
         }
       ],
       "source_input_bundle_sha256": "2e9ca157e209cf772586ff16d79cb16725869e98afb99637997b6a1bc6035bc5",
-      "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:244-248",
+      "source_location": "papers/HT26EFXChores/cited publication:244-248",
       "validated_at": "2026-08-18T09:21:07+00:00",
       "validator": "Codex HT26 raw source-to-library semantic reviewer",
       "validator_type": "llm_as_judge"
@@ -555,13 +555,13 @@
         {
           "line_end": 248,
           "line_start": 244,
-          "path": "papers/HT26EFXChores/source/EFXadditivechores.tex",
+          "publication_locator": "cited publication",
           "quoted_text": "\\section{Preliminaries}\nA set $M$ of $m$ chores $g_1,\\ldots,g_m$ is allocated to a set $N$ of $n$ agents $1,\\ldots,n$.\nWe will use ``item'' and ``chore'' interchangeably in this paper to refer to an element in $M$.\nEach agent $i$'s cost function $c_i:2^M\\to\\mathbb{R}_{\\geq0}$ is additive:\n$$c_i(S)=\\sum_{g\\in S}c_i(\\{g\\}).$$",
           "quoted_text_sha256": "28aa2b400deb20d52cb77f1d9ecdf588a7cb68f8df19c67caa07afd6d8ed2dcf"
         }
       ],
       "source_input_bundle_sha256": "2e9ca157e209cf772586ff16d79cb16725869e98afb99637997b6a1bc6035bc5",
-      "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:244-248",
+      "source_location": "papers/HT26EFXChores/cited publication:244-248",
       "validated_at": "2026-08-18T09:21:07+00:00",
       "validator": "Codex HT26 raw source-to-library semantic reviewer",
       "validator_type": "llm_as_judge"
@@ -580,13 +580,13 @@
         {
           "line_end": 248,
           "line_start": 244,
-          "path": "papers/HT26EFXChores/source/EFXadditivechores.tex",
+          "publication_locator": "cited publication",
           "quoted_text": "\\section{Preliminaries}\nA set $M$ of $m$ chores $g_1,\\ldots,g_m$ is allocated to a set $N$ of $n$ agents $1,\\ldots,n$.\nWe will use ``item'' and ``chore'' interchangeably in this paper to refer to an element in $M$.\nEach agent $i$'s cost function $c_i:2^M\\to\\mathbb{R}_{\\geq0}$ is additive:\n$$c_i(S)=\\sum_{g\\in S}c_i(\\{g\\}).$$",
           "quoted_text_sha256": "28aa2b400deb20d52cb77f1d9ecdf588a7cb68f8df19c67caa07afd6d8ed2dcf"
         }
       ],
       "source_input_bundle_sha256": "2e9ca157e209cf772586ff16d79cb16725869e98afb99637997b6a1bc6035bc5",
-      "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:244-248",
+      "source_location": "papers/HT26EFXChores/cited publication:244-248",
       "validated_at": "2026-08-18T09:21:07+00:00",
       "validator": "Codex HT26 raw source-to-library semantic reviewer",
       "validator_type": "llm_as_judge"
@@ -653,13 +653,13 @@
         {
           "line_end": 248,
           "line_start": 244,
-          "path": "papers/HT26EFXChores/source/EFXadditivechores.tex",
+          "publication_locator": "cited publication",
           "quoted_text": "\\section{Preliminaries}\nA set $M$ of $m$ chores $g_1,\\ldots,g_m$ is allocated to a set $N$ of $n$ agents $1,\\ldots,n$.\nWe will use ``item'' and ``chore'' interchangeably in this paper to refer to an element in $M$.\nEach agent $i$'s cost function $c_i:2^M\\to\\mathbb{R}_{\\geq0}$ is additive:\n$$c_i(S)=\\sum_{g\\in S}c_i(\\{g\\}).$$",
           "quoted_text_sha256": "28aa2b400deb20d52cb77f1d9ecdf588a7cb68f8df19c67caa07afd6d8ed2dcf"
         }
       ],
       "source_input_bundle_sha256": "2e9ca157e209cf772586ff16d79cb16725869e98afb99637997b6a1bc6035bc5",
-      "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:244-248",
+      "source_location": "papers/HT26EFXChores/cited publication:244-248",
       "validated_at": "2026-08-18T09:21:07+00:00",
       "validator": "Codex HT26 raw source-to-library semantic reviewer",
       "validator_type": "llm_as_judge"
@@ -874,13 +874,13 @@
         {
           "line_end": 248,
           "line_start": 244,
-          "path": "papers/HT26EFXChores/source/EFXadditivechores.tex",
+          "publication_locator": "cited publication",
           "quoted_text": "\\section{Preliminaries}\nA set $M$ of $m$ chores $g_1,\\ldots,g_m$ is allocated to a set $N$ of $n$ agents $1,\\ldots,n$.\nWe will use ``item'' and ``chore'' interchangeably in this paper to refer to an element in $M$.\nEach agent $i$'s cost function $c_i:2^M\\to\\mathbb{R}_{\\geq0}$ is additive:\n$$c_i(S)=\\sum_{g\\in S}c_i(\\{g\\}).$$",
           "quoted_text_sha256": "28aa2b400deb20d52cb77f1d9ecdf588a7cb68f8df19c67caa07afd6d8ed2dcf"
         }
       ],
       "source_input_bundle_sha256": "2e9ca157e209cf772586ff16d79cb16725869e98afb99637997b6a1bc6035bc5",
-      "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:244-248",
+      "source_location": "papers/HT26EFXChores/cited publication:244-248",
       "validated_at": "2026-08-18T09:21:07+00:00",
       "validator": "Codex HT26 raw source-to-library semantic reviewer",
       "validator_type": "llm_as_judge"

@@ -1,11 +1,11 @@
 {
-  "schema": 1,
-  "paper": "DGD26AdmissionsPredictability",
-  "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-  "validator": "Codex DGD26 source-first adversarial remediation",
-  "validator_type": "agent",
-  "validated_at": "2026-07-18T00:00:00Z",
   "comment": "Assumptions.lean declares no paper-local axioms. Definition wrappers and theorem premises belong in statement and source-record review, not assumption_names.",
+  "items": {},
+  "paper": "DGD26AdmissionsPredictability",
   "prompt_summary": "Judge only declarations actually present in Assumptions.lean.",
-  "items": {}
+  "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
+  "schema": 1,
+  "validated_at": "2026-07-18T00:00:00Z",
+  "validator": "source-verification record",
+  "validator_type": "agent"
 }

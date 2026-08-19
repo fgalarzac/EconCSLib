@@ -4,7 +4,7 @@ Updated: 2026-07-31
 
 ## 1. Human Verdict
 
-Formalized. The source-first remediation now represents every one of the 66
+Formalized. The source verification now represents every one of the 66
 inventoried mathematical items. It removes a non-source no-tie premise from
 Proposition 1 by proving the exact-equality case under the paper's independent
 uniform tie breaking, and it implements the formerly missing efficient dynamic
@@ -37,9 +37,9 @@ release certification is claimed.
 The canonical pinned source is
 [arXiv:1906.08160](https://arxiv.org/pdf/1906.08160) / HCOMP 2019:
 
-- archive: `source.tar.gz`, SHA-256
+- archive: `cited publication`, SHA-256
   `667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a`;
-- extracted TeX: `source_tex/arxiv.tex`, SHA-256
+- extracted TeX: `cited publication`, SHA-256
   `be8a698dbe73835afaf8cd6079c7fc6a6a566fcaef25fc948c1e9be23771af32`.
 
 The independent source inventory covers the finite ranking model, all three
@@ -372,7 +372,7 @@ supports a stated mathematical comparison.
 <!-- BEGIN GENERATED SOURCE COVERAGE LEDGER -->
 ### Current Canonical Evidence
 - Coverage scope: full inventory shown because scope metadata needs repair (paper_statement_map.json must explicitly set source_coverage_mode before a source-coverage closeout).
-- Source inventory: 66 source statements from `source.tar.gz`.
+- Source inventory: 66 source statements from `cited publication`.
 - Coverage result: 28 covered, 38 support only.
 - Coverage review: coverage ledger recorded; Agent check by Codex GGSG19 strict contract revalidation 2026-07-23; 2026-07-23.
 - Row-local statement checks: 0/30 linked row references have a completed canonical statement check; repeated links are counted per source row.

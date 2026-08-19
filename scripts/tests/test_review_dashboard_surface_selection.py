@@ -232,6 +232,133 @@ class ReviewDashboardSurfaceSelectionTests(unittest.TestCase):
                 ],
             )
 
+    def test_presentation_sections_append_source_model_assumptions(self) -> None:
+        """Assumptions use their own visible section, outside the Spec partition."""
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            folder = Path(temp_dir) / "SectionedPaper"
+            folder.mkdir()
+            (folder / "status.json").write_text(
+                json.dumps(
+                    {
+                        "review_surface": {
+                            "assumption_names": ["modelAssumption"],
+                            "presentation_sections": [
+                                {"title": "Main", "names": ["mainSpec"]},
+                                {"title": "Appendix", "names": ["appendixSpec"]},
+                            ],
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            rows = [
+                {"full_name": "SectionedPaper.mainSpec"},
+                {"full_name": "SectionedPaper.appendixSpec"},
+                {
+                    "full_name": "SectionedPaper.modelAssumption",
+                    "is_assumption": True,
+                },
+            ]
+            self.assertEqual(
+                review_dashboard.human_review_presentation_sections(folder, rows),
+                [
+                    {"title": "Main", "names": ["SectionedPaper.mainSpec"]},
+                    {"title": "Appendix", "names": ["SectionedPaper.appendixSpec"]},
+                    {
+                        "title": "Source-model assumptions",
+                        "kind": "source_model_assumptions",
+                        "names": ["SectionedPaper.modelAssumption"],
+                    },
+                ],
+            )
+
+    def test_presentation_sections_still_reject_unmapped_nonassumption_card(self) -> None:
+        """The automatic assumption section cannot hide an ordinary source card."""
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            folder = Path(temp_dir) / "SectionedPaper"
+            folder.mkdir()
+            (folder / "status.json").write_text(
+                json.dumps(
+                    {
+                        "review_surface": {
+                            "presentation_sections": [
+                                {"title": "Main", "names": ["mainSpec"]}
+                            ]
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            rows = [
+                {"full_name": "SectionedPaper.mainSpec"},
+                {"full_name": "SectionedPaper.unmappedSpec"},
+            ]
+            with self.assertRaisesRegex(
+                ValueError, "presentation sections must cover every source card"
+            ):
+                review_dashboard.human_review_presentation_sections(folder, rows)
+
+    def test_repeated_corrected_presentation_is_not_readded_to_coverage(self) -> None:
+        """A source alias inherits the canonical correction rather than a route."""
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            folder = Path(temp_dir) / "AliasPaper"
+            audit = folder / "audit"
+            audit.mkdir(parents=True)
+            canonical = {
+                "source_kind": "lemma",
+                "source_location": "source.txt:1",
+                "statement": "Corrected claim.",
+                "coverage_status": "corrected_source_statement",
+                "corrected_target": {"schema": 1, "statement": "Corrected claim."},
+            }
+            alias = {
+                "source_kind": "lemma",
+                "source_location": "source.txt:4",
+                "statement": "Corrected claim.",
+                "coverage_status": "corrected_source_statement",
+                "corrected_target": {"schema": 1, "statement": "Corrected claim."},
+                "source_presentation_alias": {
+                    "schema": 1,
+                    "canonical_source_item": "canonical",
+                    "relation": "repeated_source_presentation",
+                    "semantic_basis": "The later presentation repeats the same lemma.",
+                    "validator": "independent source presentation review",
+                    "validated_at": "2026-08-19T00:00:00Z",
+                },
+            }
+            (audit / "paper_statement_map.json").write_text(
+                json.dumps({"items": {"canonical": canonical, "alias": alias}}),
+                encoding="utf-8",
+            )
+
+            _full, selected, _mode, error = review_dashboard.paper_coverage_inventory(
+                folder
+            )
+
+        self.assertEqual(error, "")
+        self.assertIn("canonical", selected)
+        self.assertNotIn("alias", selected)
+
+    def test_dashboard_labels_source_model_assumptions_separately(self) -> None:
+        """The browser must not fold assumption cards into the source-claim count."""
+
+        page = review_dashboard.HTML_PAGE
+        self.assertIn("function reviewSurfaceCounts(paper)", page)
+        self.assertIn(
+            'presentationSectionKind(section) === "source_model_assumptions"',
+            page,
+        )
+        self.assertIn("reviewCards: sourceClaims + sourceModelAssumptions", page)
+        self.assertIn("source-model assumption", page)
+        self.assertIn("presentationSectionItemNoun(section)", page)
+        self.assertNotIn(
+            "`0/${visibleItems.length} reviewed; ${visibleItems.length} source claims`",
+            page,
+        )
+
     def test_v11_include_order_is_the_explicit_claim_reading_order_without_intake(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             folder = Path(temp_dir) / "OrderedPaper"
@@ -341,6 +468,33 @@ class ReviewDashboardSurfaceSelectionTests(unittest.TestCase):
         unparenthesized = next(row for row in parsed if row[1] == "unparenthesized")
         self.assertIn("let rho : Nat := 0; rho = 0 ∧ True", unparenthesized[3])
         self.assertNotIn(":= by", unparenthesized[3])
+
+    def test_parser_recognizes_outer_assignment_after_multiline_layout_let(self) -> None:
+        """A layout `let` in a theorem type must not consume later declarations."""
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            interface = Path(temp_dir) / "PaperInterface.lean"
+            interface.write_text(
+                "namespace Fixture\n"
+                "theorem layout_let :\n"
+                "    let rho : Nat := 0\n"
+                "    rho = 0 ∧ True := by\n"
+                "  simp\n"
+                "abbrev followingSpec : Prop := True\n"
+                "theorem following : followingSpec := by trivial\n"
+                "end Fixture\n",
+                encoding="utf-8",
+            )
+            parsed = review_dashboard.parse_review_source_declarations(interface)
+
+        layout_let = next(row for row in parsed if row[1] == "layout_let")
+        self.assertIn("let rho : Nat := 0", layout_let[3])
+        self.assertIn("rho = 0 ∧ True", layout_let[3])
+        self.assertNotIn(":= by", layout_let[3])
+        self.assertEqual(
+            [row[1] for row in parsed],
+            ["layout_let", "followingSpec", "following"],
+        )
 
     def test_direct_map_route_rebinds_stale_cache_statement_without_lean_work(self) -> None:
         """A current explicit route repairs an old comment-backed cache row."""

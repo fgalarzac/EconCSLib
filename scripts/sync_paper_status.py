@@ -108,18 +108,23 @@ SITE_REQUIRED_STATIC_COPY = {
 PAPER_README_BEGIN = "<!-- BEGIN GENERATED PAPER FOLDER README -->"
 PAPER_README_END = "<!-- END GENERATED PAPER FOLDER README -->"
 LEGACY_README_NOTES = "docs/FORMALIZATION_NOTES.md"
+TEMPLATE_README_PLAN = "docs/FORMALIZATION_PLAN.md"
 GITHUB_MAIN = "https://github.com/nikhgarg/EconCSLib/blob/main/"
 # The public site links its generated artifacts to the published repository.
-# The private localhost preview server exposes the same repo-relative files
-# under this route, and the small static rewrite below selects that route only
-# when the page is actually being viewed on localhost.
-LOCAL_PRIVATE_ARTIFACT_PREFIX = "/private-artifacts/"
+# The localhost preview server exposes the same repo-relative files under this
+# neutral route, and the small static rewrite below selects it only when the
+# page is actually being viewed on localhost.
+LOCAL_ARTIFACT_PREFIX = "/artifacts/"
 PAPER_FACING_HUMAN_REVIEW_SURFACE = "paper_facing_excluding_deep_audit_v1"
 NORMAL_SOURCE_PRESENTATIONS_HUMAN_REVIEW_SURFACE = (
     "normal_source_presentations_v1"
 )
 SOURCE_CLAIMS_HUMAN_REVIEW_SURFACE = "source_claims_v1"
 CATALOG = PAPERS / "catalog.json"
+PUBLIC_SOURCE_DISPLAY_PROJECTION_MARKER = "publication_source_display_projection"
+PUBLIC_SOURCE_DISPLAY_PROJECTION_SCHEMA = 1
+PUBLIC_SOURCE_DISPLAY_MANIFEST = "audit/public_source_display_projection.json"
+SHA256_HEX_RE = re.compile(r"[0-9a-f]{64}")
 
 STATUS_LABELS = {
     "formalized": "Formalized",
@@ -530,6 +535,75 @@ def source_map_deep_only_review_rows(folder: Path, payload: dict[str, Any]) -> s
     }
 
 
+def public_display_projection_inventory_pin_matches(
+    folder: Path,
+    inventory: Mapping[str, Any],
+    *,
+    public_map_sha256: str,
+) -> bool:
+    """Recognize a guarded public display projection of a private source map.
+
+    Public releases may intentionally omit the raw source artifact while
+    retaining exact quoted anchors.  In that display-only representation the
+    paper-local status continues to pin the reviewed *private* map digest; the
+    companion manifest binds it to the changed public map bytes.  This helper
+    is deliberately only a status-rendering compatibility check.  It does not
+    make source bytes locally auditable or relax the strict audit/CLI gates.
+    The release-candidate guard independently verifies the private commit and
+    every manifest binding.
+    """
+
+    map_path = folder / "audit" / "paper_statement_map.json"
+    source_map = load_json_object(map_path)
+    marker = source_map.get(PUBLIC_SOURCE_DISPLAY_PROJECTION_MARKER)
+    if not isinstance(marker, Mapping):
+        return False
+    if (
+        type(marker.get("schema")) is not int
+        or marker.get("schema") != PUBLIC_SOURCE_DISPLAY_PROJECTION_SCHEMA
+        or marker.get("manifest") != PUBLIC_SOURCE_DISPLAY_MANIFEST
+        or marker.get("raw_source_bytes_included") is not False
+    ):
+        return False
+    # A path-preserving private map must use its exact local digest rather than
+    # this display-only compatibility lane.
+    if str(source_map.get("source_artifact_path") or "").strip():
+        return False
+
+    manifest_path = folder / PUBLIC_SOURCE_DISPLAY_MANIFEST
+    manifest = load_json_object(manifest_path)
+    if type(manifest.get("schema")) is not int or manifest.get("schema") != 1:
+        return False
+    try:
+        expected_manifest_path = manifest_path.relative_to(ROOT).as_posix()
+    except ValueError:
+        return False
+    if manifest.get("public_manifest_path") != expected_manifest_path:
+        return False
+    if manifest.get("raw_source_artifact_included") is not False:
+        return False
+
+    private_map_sha256 = str(manifest.get("private_source_map_sha256") or "").lower()
+    recorded_map_sha256 = str(inventory.get("map_sha256") or "").lower()
+    manifest_public_map_sha256 = str(manifest.get("public_source_map_sha256") or "").lower()
+    if not all(
+        SHA256_HEX_RE.fullmatch(value)
+        for value in (private_map_sha256, recorded_map_sha256, manifest_public_map_sha256)
+    ):
+        return False
+    if private_map_sha256 != recorded_map_sha256:
+        return False
+    if manifest_public_map_sha256 != public_map_sha256:
+        return False
+
+    map_source_sha256 = str(source_map.get("source_artifact_sha256") or "").lower()
+    manifest_source_sha256 = str(manifest.get("source_artifact_sha256") or "").lower()
+    return (
+        SHA256_HEX_RE.fullmatch(map_source_sha256) is not None
+        and map_source_sha256 == manifest_source_sha256
+    )
+
+
 def paper_facing_human_review_total(
     folder: Path, payload: dict[str, Any]
 ) -> int | None:
@@ -594,7 +668,15 @@ def paper_facing_human_review_total(
                 f"{payload.get('id', folder.name)}: normal source-presentation inventory must pin {expected_map_path}"
             )
         map_sha256 = file_sha256(folder / "audit" / "paper_statement_map.json")
-        if str(inventory.get("map_sha256") or "").strip().lower() != map_sha256:
+        recorded_map_sha256 = str(inventory.get("map_sha256") or "").strip().lower()
+        if (
+            recorded_map_sha256 != map_sha256
+            and not public_display_projection_inventory_pin_matches(
+                folder,
+                inventory,
+                public_map_sha256=map_sha256,
+            )
+        ):
             raise ValueError(
                 f"{payload.get('id', folder.name)}: normal source-presentation inventory is stale against the current source map"
             )
@@ -2500,10 +2582,16 @@ def generated_paper_readme_block(
     packet_path = human_review_packet_path(folder, payload)
     interface_path = paper_interface_path(folder, payload)
     audit_path = audit_surface_path(folder, payload)
-    notes_path = str((folder / LEGACY_README_NOTES).relative_to(ROOT))
-    include_notes = (ROOT / notes_path).exists() or legacy_readme_body(
-        folder
-    ) is not None
+    if folder == ROOT / "papers" / "TEMPLATE":
+        notes_path = str((folder / TEMPLATE_README_PLAN).relative_to(ROOT))
+        notes_label = "Formalization plan"
+        include_notes = (ROOT / notes_path).exists()
+    else:
+        notes_path = str((folder / LEGACY_README_NOTES).relative_to(ROOT))
+        notes_label = "Additional documentation"
+        include_notes = (ROOT / notes_path).exists() or legacy_readme_body(
+            folder
+        ) is not None
     corrected_scope = author_approved_corrected_scope(payload)
     json_links = [
         markdown_file_link(folder, path, label)
@@ -2573,7 +2661,7 @@ def generated_paper_readme_block(
     link_lines.append("- Source/status JSON: " + "; ".join(json_links) + ".")
     if include_notes:
         link_lines.append(
-            f"- Additional documentation: {markdown_file_link(folder, notes_path, Path(notes_path).name)}"
+            f"- {notes_label}: {markdown_file_link(folder, notes_path, Path(notes_path).name)}"
         )
 
     lines = [
@@ -2734,18 +2822,18 @@ def github_link(path: str) -> str:
     return GITHUB_MAIN + path
 
 
-def local_private_artifact_link(path: str) -> str:
+def local_artifact_link(path: str) -> str:
     """Return the localhost-only route for one repo-relative paper artifact."""
 
-    return LOCAL_PRIVATE_ARTIFACT_PREFIX + quote(path.lstrip("/"), safe="/")
+    return LOCAL_ARTIFACT_PREFIX + quote(path.lstrip("/"), safe="/")
 
 
 def artifact_anchor(label: str, path: str) -> str:
-    """Render a public link with a private-local override for preview only."""
+    """Render a public link with a localhost-only artifact override."""
 
     return (
         f'<a href="{html_escape(github_link(path))}" '
-        f'data-private-local-href="{html_escape(local_private_artifact_link(path))}">'
+        f'data-local-artifact-href="{html_escape(local_artifact_link(path))}">'
         f"{html_escape(label)}</a>"
     )
 

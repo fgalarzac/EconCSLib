@@ -1,340 +1,339 @@
 {
-  "schema": 2,
+  "defects": [
+    {
+      "acceptance_condition": "A paper-facing theorem derives non-zero instability from feasibility, q-acceptance, q>0, and q<|U|.",
+      "affected_source_locators": [
+        "cited publication:281-285",
+        "cited publication:241-244"
+      ],
+      "defect_kind": "domain_or_endpoint",
+      "id": "DGD26-NOZERO-NONTRIVIAL-01",
+      "repair_obligation": "State and prove the no-zero endpoint with positive capacity and an input pool strictly larger than capacity.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "paper_no_zero_instability_under_capacity_statement exposes exactly the corrected domain and conclusion.",
+      "source_claim": "The printed no-zero-instability clause omits q>0 and a nontrivial universe with more than q applicants.",
+      "source_locator": "cited publication:281-285; cited publication:241-244",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "These are minor implicit nondegeneracy conditions; Lean proves the advertised capacity phenomenon on its mathematically meaningful domain."
+    },
+    {
+      "acceptance_condition": "The contradiction follows under exactly q≥1 and q<|U|.",
+      "affected_source_locators": [
+        "cited publication:54-66"
+      ],
+      "defect_kind": "logical_dependency",
+      "id": "DGD26-INCOMPATIBILITY-DISJOINT-SETS-01",
+      "repair_obligation": "Prove monotonicity/q-acceptance incompatibility from one q-set plus one additional applicant, without a 2q-cardinality premise.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "paper_monotonicity_q_acceptance_incompatible_statement proves the endpoint under the original theorem conditions.",
+      "source_claim": "The proof assumes two disjoint q-element sets although |U|>q alone does not imply |U|≥2q.",
+      "source_locator": "cited publication:62-66",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The theorem endpoint is correct and Lean proves it by a one-extra-applicant argument, so the flaw is confined to the printed proof route."
+    },
+    {
+      "acceptance_condition": "The corrected cross-pool equality is a theorem after deriving substitutability from q-acceptance and 1-instability.",
+      "affected_source_locators": [
+        "cited publication:422-433"
+      ],
+      "defect_kind": "other",
+      "id": "DGD26-REMOVABLE-SELF-EQUALITY-01",
+      "repair_obligation": "Replace the second X₁ by X₂ and prove the intended equality from equal chosen sets.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "paper_corrected_consistency_of_removable_sets_statement proves the intended equality.",
+      "source_claim": "The lemma conclusion prints V_C(X₁)=V_C(X₁), while the proof and use require V_C(X₁)=V_C(X₂).",
+      "source_locator": "cited publication:422-425",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "This is an obvious self-equality typo; Lean proves the intended cross-pool equality and no substantive claim changes."
+    },
+    {
+      "acceptance_condition": "Lean proves every positive even 2k bound improves to 2k-1 under consistency.",
+      "affected_source_locators": [
+        "cited publication:333-338"
+      ],
+      "defect_kind": "index_or_integrality",
+      "id": "DGD26-TIGHT-DK-TYPO-01",
+      "repair_obligation": "Read the corollary as excluding tightly d-unstable rules for positive even d.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "paper_no_consistent_tightly_even_instability_statement proves the corrected parametric claim.",
+      "source_claim": "The corollary says tightly dk-unstable although d is the even instability parameter and k is not part of the statement.",
+      "source_locator": "cited publication:333-336",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The typo does not alter the corollary's intended no-positive-even-tightness endpoint, which Lean proves parametrically."
+    },
+    {
+      "acceptance_condition": "Both at-most and exact insertion/removal variability predicates are proved equivalent.",
+      "affected_source_locators": [
+        "cited publication:397-416"
+      ],
+      "defect_kind": "other",
+      "id": "DGD26-APPEND-REMOVE-SLASH-01",
+      "repair_obligation": "Use X=⋃_i X'_i=X₀∪{x'_1,…,x'_m} in the second direction.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "The two append/remove equivalence rows expose the corrected endpoint.",
+      "source_claim": "The union expression contains the stray token /X'_i instead of X'_i.",
+      "source_locator": "cited publication:410",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "This is a typesetting token in an intermediate construction; the maximum-equality endpoint is represented by checked equivalence theorems."
+    },
+    {
+      "acceptance_condition": "The formal statement uses insert/remove pools with the intended identity.",
+      "affected_source_locators": [
+        "cited publication:435-442"
+      ],
+      "defect_kind": "other",
+      "id": "DGD26-RANKING-M-PAREN-01",
+      "repair_obligation": "Read the identity as X'\\{x'}=X.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "The ranking-m paper-facing rows use X and insert x X consistently.",
+      "source_claim": "The proof prints X'\\{x'})=X with an unmatched closing parenthesis.",
+      "source_locator": "cited publication:441",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The unmatched parenthesis is typographical and does not itself change the intended set identity."
+    },
+    {
+      "acceptance_condition": "The selector-level instability proof derives the capacity contradiction without a self-comparison.",
+      "affected_source_locators": [
+        "cited publication:634-646"
+      ],
+      "defect_kind": "other",
+      "id": "DGD26-LAP-SELF-CARDINALITY-01",
+      "repair_obligation": "Use q-acceptance to compare C(X') with C(X), not with itself.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "paper_lap_assignment_one_instability_statement",
+      "source_claim": "The LAP instability proof ends with |C(X')|>|C(X')|, an impossible self-comparison; the intended comparison is |C(X')|>|C(X)|=q.",
+      "source_locator": "cited publication:644-646",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The self-comparison is a local proof typo; the real-weight canonical LAP instability theorem proves the intended endpoint."
+    },
+    {
+      "acceptance_condition": "Lean derives fresh-applicant nonselection from positive even distance and concludes inconsistency.",
+      "affected_source_locators": [
+        "cited publication:314-331"
+      ],
+      "defect_kind": "other",
+      "id": "DGD26-EVEN-MEMBERSHIP-TYPO-01",
+      "repair_obligation": "Replace object/set inequality by nonmembership and connect it to the indicator parity.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "paper_even_distance_iff_inconsistent_statement",
+      "source_claim": "The proof writes x'≠C(X') where the required assertion is x'∉C(X').",
+      "source_locator": "cited publication:327-330",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "This is a set-membership typo in the parity argument and does not change the theorem's intended endpoint."
+    },
+    {
+      "acceptance_condition": "The formal class-count argument distinguishes the two assigned applicants.",
+      "affected_source_locators": [
+        "cited publication:656-666"
+      ],
+      "defect_kind": "index_or_integrality",
+      "id": "DGD26-LAP-REPEATED-INDEX-01",
+      "repair_obligation": "Compare x_{s_i} and x_{s_j} under their shared order and exclude the nonminimal one.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "paper_lap_assigned_strictly_outranks_rejected_statement and the canonical distinct-order variability theorem",
+      "source_claim": "The proof says one of x_{s_j} or x_{s_j} is excluded; the first occurrence should be x_{s_i}.",
+      "source_locator": "cited publication:664",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The repeated index is a minor local typo; it does not change the distinct-slot-order variability claim."
+    },
+    {
+      "acceptance_condition": "The q-representative model is built over an asymmetric, transitive, distinct-pair total relation.",
+      "affected_source_locators": [
+        "cited publication:192-200"
+      ],
+      "defect_kind": "domain_or_endpoint",
+      "id": "DGD26-TOTAL-ORDER-DISTINCT-01",
+      "repair_obligation": "Restrict strict-order completeness to x₁≠x₂.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "paper_definition_total_order uses the coherent strict-total-order predicate.",
+      "source_claim": "Completeness is printed for all x₁,x₂, which conflicts with asymmetry when x₁=x₂; the standard strict-order condition compares distinct pairs.",
+      "source_locator": "cited publication:192-194",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The standard distinct-pair repair is minor and is exactly the semantics used throughout the paper and Lean."
+    },
+    {
+      "acceptance_condition": "Lean constructs the score/threshold rule and derives independence and zero instability without assuming independence.",
+      "affected_source_locators": [
+        "cited publication:161-169",
+        "cited publication:247-264",
+        "cited publication:681-685"
+      ],
+      "defect_kind": "logical_dependency",
+      "id": "DGD26-ML-FIXED-THRESHOLD-ROUTE-01",
+      "repair_obligation": "Define the fixed-threshold predictor and representation relation, then prove that representing C forces pool-independent labels.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "paper_ml_fixed_threshold_representation_zero_unstable_statement",
+      "source_claim": "The paper's fixed-score formula is asserted to induce independence and therefore zero instability, but Lean starts from abstract independence.",
+      "source_locator": "cited publication:161-169; cited publication:681-685",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error."
+    },
+    {
+      "acceptance_condition": "Lean proves both the representability construction and the impossibility of representing instability/variability above one from the displayed model.",
+      "affected_source_locators": [
+        "cited publication:247-268",
+        "cited publication:681-685"
+      ],
+      "defect_kind": "logical_dependency",
+      "id": "DGD26-ML-RANK-EMBEDDING-ROUTE-01",
+      "repair_obligation": "Define t_q(X), construct scores for the relevant total order, and prove equivalence between rank-threshold decisions and top-q choice.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "paper_rank_threshold_formula_statement, paper_ml_rank_threshold_representation_bounds_statement, and paper_ml_rank_threshold_can_represent_exact_one_statement",
+      "source_claim": "The rank-threshold formula and real-score embedding are not constructed; Lean starts from q-representativeness.",
+      "source_locator": "cited publication:247-268; cited publication:681-685",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error."
+    },
+    {
+      "acceptance_condition": "Lean proves 1-instability for all four classes and exact variability 1,2,3,6 with explicit witnesses.",
+      "affected_source_locators": [
+        "cited publication:337-357",
+        "cited publication:687-695"
+      ],
+      "defect_kind": "logical_dependency",
+      "id": "DGD26-PROGRAM-WITNESSES-01",
+      "repair_obligation": "Define all four program choice rules and construct applicant-pool witnesses attaining each claimed variability.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "the four paper_*_program_properties_statement rows",
+      "source_claim": "Proposition 2's four concrete program classes and exact variability witnesses are not instantiated in Lean.",
+      "source_locator": "cited publication:346-357; cited publication:687-695",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error."
+    },
+    {
+      "acceptance_condition": "The forward q-representative theorem proves exact variability one on the source domain without an unexplained Lean premise.",
+      "affected_source_locators": [
+        "cited publication:447-460"
+      ],
+      "defect_kind": "domain_or_endpoint",
+      "id": "DGD26-QREP-DISPLACEMENT-01",
+      "repair_obligation": "Either derive HasDisplacement from explicit source domain conditions or state and analyze the degenerate case.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "paper_q_representative_forward_exact_statement derives displacement from positive nontrivial capacity",
+      "source_claim": "Exact variability one for a q-representative rule requires a nondegenerate displacement witness in Lean, while the source theorem omits that condition.",
+      "source_locator": "cited publication:447-460",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error."
+    },
+    {
+      "acceptance_condition": "A paper-facing theorem states and proves all quantifiers in 1≤m≤n and the intended single-order/minimal-representation clause.",
+      "affected_source_locators": [
+        "cited publication:314-322",
+        "cited publication:669-674"
+      ],
+      "defect_kind": "quantifier_or_uniformity",
+      "id": "DGD26-THEOREM2-LOWER-QUEUE-01",
+      "repair_obligation": "Specify whether n is a minimal queue count and prove the lower bound plus the exact m=1 equivalence under those conditions.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "paper_sequential_q_representative_variability_range_statement and paper_variability_one_iff_single_order_statement",
+      "source_claim": "Theorem 2 states 1≤m≤n and identifies m=1 with n=1, but the lower bound and n=1 language require a nondegenerate/minimal queue representation that is not specified.",
+      "source_locator": "cited publication:314-322; cited publication:669-674",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error."
+    },
+    {
+      "acceptance_condition": "The equality V_C(X)=A_C(X∪{x'}) is proved under exactly the source assumptions.",
+      "affected_source_locators": [
+        "cited publication:435-442"
+      ],
+      "defect_kind": "domain_or_endpoint",
+      "id": "DGD26-RANKING-M-CARDINALITY-01",
+      "repair_obligation": "Prove the lemma for undersized X as well, or establish that the source context entails q≤|X|.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "paper_acceptant_one_instability_variability_borderline_eq_waitlisted_after_changing_insert_statement has no cardinality premise",
+      "source_claim": "The Lean ranking-m routes require q≤|X|, an extra condition absent from the source lemma.",
+      "source_locator": "cited publication:435-442",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error."
+    },
+    {
+      "acceptance_condition": "The forward theorem starts from even positive distance and concludes inconsistency without hxNotChosen as an input.",
+      "affected_source_locators": [
+        "cited publication:314-331"
+      ],
+      "defect_kind": "logical_dependency",
+      "id": "DGD26-EVEN-PARITY-BRIDGE-01",
+      "repair_obligation": "Use the calculating-instability formula to derive nonselection from positive even distance under q-acceptance.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "paper_even_distance_iff_inconsistent_statement derives nonselection from parity",
+      "source_claim": "The forward Lean row assumes the inserted applicant is not chosen instead of deriving that fact from positive even choice distance.",
+      "source_locator": "cited publication:314-331",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error."
+    },
+    {
+      "acceptance_condition": "The LAP instability and distinct-order variability theorems are proved from the source model without unique-selector or one-way-classifier assumptions.",
+      "affected_source_locators": [
+        "cited publication:610-666"
+      ],
+      "defect_kind": "domain_or_endpoint",
+      "id": "DGD26-LAP-SEMANTIC-WORLD-01",
+      "repair_obligation": "Formalize the source real-weight assignment model, construct or quotient optimizers appropriately, derive local ordering from objective optimality, and count exact induced-order classes.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "the LAP model and canonical instability/variability rows now use real weights and exact quotient classes",
+      "source_claim": "The source LAP uses real weights, per-slot no ties, objective-optimal assignments, and exact equality of induced orders; Lean uses integer weights, a supplied unique optimizer selector, and a noncanonical one-way class map.",
+      "source_locator": "cited publication:610-666",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error."
+    }
+  ],
   "paper": "DGD26AdmissionsPredictability",
-  "source_artifact_path": "source_tex/arxiv_source.tar",
-  "source_artifact_sha256": "0d57324d02fc64c4c6b627c71c71cbbf93610b7f0b4b2138da1b436bb9234434",
   "review_status": "defects_recorded",
   "reviewed_proof_scopes": [
     {
-      "source_locator": "source_tex/main.tex:152-200",
+      "outcome": "defect_recorded",
       "semantic_scope": "Machine-learning score formulas, finite choice functions, labels, q-acceptance, strict total orders, and top-q queues.",
-      "outcome": "defect_recorded"
+      "source_locator": "cited publication:152-200"
     },
     {
-      "source_locator": "source_tex/main.tex:203-288",
+      "outcome": "defect_recorded",
       "semantic_scope": "Choice distance, instability, variability, ML representation, substitutability, and all three clauses of Theorem 1.",
-      "outcome": "defect_recorded"
+      "source_locator": "cited publication:203-288"
     },
     {
-      "source_locator": "source_tex/main.tex:301-322",
+      "outcome": "defect_recorded",
       "semantic_scope": "Sequential composition and the upper, lower, and single-order clauses of Theorem 2.",
-      "outcome": "defect_recorded"
+      "source_locator": "cited publication:301-322"
     },
     {
-      "source_locator": "source_tex/main.tex:337-357",
+      "outcome": "defect_recorded",
       "semantic_scope": "The four concrete NYC program classes and Proposition 2 exact variability claims.",
-      "outcome": "defect_recorded"
+      "source_locator": "cited publication:337-357"
     },
     {
-      "source_locator": "source_tex/appendix.tex:12-354",
+      "outcome": "defect_recorded",
       "semantic_scope": "Choice-property lemmas, distance algebra, zero instability, independence, one-instability, parity, and tight-instability constructions.",
-      "outcome": "defect_recorded"
+      "source_locator": "cited publication:12-354"
     },
     {
-      "source_locator": "source_tex/appendix.tex:356-540",
+      "outcome": "defect_recorded",
       "semantic_scope": "General variability, append/remove equivalence, ranking-m, q-representative equivalence, sequential substitutability, and additive variability.",
-      "outcome": "defect_recorded"
+      "source_locator": "cited publication:356-540"
     },
     {
-      "source_locator": "source_tex/appendix.tex:610-695",
+      "outcome": "defect_recorded",
       "semantic_scope": "Linear-assignment model and proofs, ML representation proof, and the concrete program-witness proof sketch.",
-      "outcome": "defect_recorded"
+      "source_locator": "cited publication:610-695"
     }
   ],
-  "defects": [
-    {
-      "id": "DGD26-NOZERO-NONTRIVIAL-01",
-      "source_locator": "source_tex/main.tex:281-285; source_tex/appendix.tex:241-244",
-      "source_claim": "The printed no-zero-instability clause omits q>0 and a nontrivial universe with more than q applicants.",
-      "defect_kind": "domain_or_endpoint",
-      "affected_source_locators": [
-        "source_tex/main.tex:281-285",
-        "source_tex/appendix.tex:241-244"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "These are minor implicit nondegeneracy conditions; Lean proves the advertised capacity phenomenon on its mathematically meaningful domain.",
-      "repair_obligation": "State and prove the no-zero endpoint with positive capacity and an input pool strictly larger than capacity.",
-      "acceptance_condition": "A paper-facing theorem derives non-zero instability from feasibility, q-acceptance, q>0, and q<|U|.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "paper_no_zero_instability_under_capacity_statement exposes exactly the corrected domain and conclusion."
-    },
-    {
-      "id": "DGD26-INCOMPATIBILITY-DISJOINT-SETS-01",
-      "source_locator": "source_tex/appendix.tex:62-66",
-      "source_claim": "The proof assumes two disjoint q-element sets although |U|>q alone does not imply |U|≥2q.",
-      "defect_kind": "logical_dependency",
-      "affected_source_locators": [
-        "source_tex/appendix.tex:54-66"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The theorem endpoint is correct and Lean proves it by a one-extra-applicant argument, so the flaw is confined to the printed proof route.",
-      "repair_obligation": "Prove monotonicity/q-acceptance incompatibility from one q-set plus one additional applicant, without a 2q-cardinality premise.",
-      "acceptance_condition": "The contradiction follows under exactly q≥1 and q<|U|.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "paper_monotonicity_q_acceptance_incompatible_statement proves the endpoint under the original theorem conditions."
-    },
-    {
-      "id": "DGD26-REMOVABLE-SELF-EQUALITY-01",
-      "source_locator": "source_tex/appendix.tex:422-425",
-      "source_claim": "The lemma conclusion prints V_C(X₁)=V_C(X₁), while the proof and use require V_C(X₁)=V_C(X₂).",
-      "defect_kind": "other",
-      "affected_source_locators": [
-        "source_tex/appendix.tex:422-433"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "This is an obvious self-equality typo; Lean proves the intended cross-pool equality and no substantive claim changes.",
-      "repair_obligation": "Replace the second X₁ by X₂ and prove the intended equality from equal chosen sets.",
-      "acceptance_condition": "The corrected cross-pool equality is a theorem after deriving substitutability from q-acceptance and 1-instability.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "paper_corrected_consistency_of_removable_sets_statement proves the intended equality."
-    },
-    {
-      "id": "DGD26-TIGHT-DK-TYPO-01",
-      "source_locator": "source_tex/appendix.tex:333-336",
-      "source_claim": "The corollary says tightly dk-unstable although d is the even instability parameter and k is not part of the statement.",
-      "defect_kind": "index_or_integrality",
-      "affected_source_locators": [
-        "source_tex/appendix.tex:333-338"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The typo does not alter the corollary's intended no-positive-even-tightness endpoint, which Lean proves parametrically.",
-      "repair_obligation": "Read the corollary as excluding tightly d-unstable rules for positive even d.",
-      "acceptance_condition": "Lean proves every positive even 2k bound improves to 2k-1 under consistency.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "paper_no_consistent_tightly_even_instability_statement proves the corrected parametric claim."
-    },
-    {
-      "id": "DGD26-APPEND-REMOVE-SLASH-01",
-      "source_locator": "source_tex/appendix.tex:410",
-      "source_claim": "The union expression contains the stray token /X'_i instead of X'_i.",
-      "defect_kind": "other",
-      "affected_source_locators": [
-        "source_tex/appendix.tex:397-416"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "This is a typesetting token in an intermediate construction; the maximum-equality endpoint is represented by checked equivalence theorems.",
-      "repair_obligation": "Use X=⋃_i X'_i=X₀∪{x'_1,…,x'_m} in the second direction.",
-      "acceptance_condition": "Both at-most and exact insertion/removal variability predicates are proved equivalent.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "The two append/remove equivalence rows expose the corrected endpoint."
-    },
-    {
-      "id": "DGD26-RANKING-M-PAREN-01",
-      "source_locator": "source_tex/appendix.tex:441",
-      "source_claim": "The proof prints X'\\{x'})=X with an unmatched closing parenthesis.",
-      "defect_kind": "other",
-      "affected_source_locators": [
-        "source_tex/appendix.tex:435-442"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The unmatched parenthesis is typographical and does not itself change the intended set identity.",
-      "repair_obligation": "Read the identity as X'\\{x'}=X.",
-      "acceptance_condition": "The formal statement uses insert/remove pools with the intended identity.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "The ranking-m paper-facing rows use X and insert x X consistently."
-    },
-    {
-      "id": "DGD26-LAP-SELF-CARDINALITY-01",
-      "source_locator": "source_tex/appendix.tex:644-646",
-      "source_claim": "The LAP instability proof ends with |C(X')|>|C(X')|, an impossible self-comparison; the intended comparison is |C(X')|>|C(X)|=q.",
-      "defect_kind": "other",
-      "affected_source_locators": [
-        "source_tex/appendix.tex:634-646"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The self-comparison is a local proof typo; the real-weight canonical LAP instability theorem proves the intended endpoint.",
-      "repair_obligation": "Use q-acceptance to compare C(X') with C(X), not with itself.",
-      "acceptance_condition": "The selector-level instability proof derives the capacity contradiction without a self-comparison.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "paper_lap_assignment_one_instability_statement"
-    },
-    {
-      "id": "DGD26-EVEN-MEMBERSHIP-TYPO-01",
-      "source_locator": "source_tex/appendix.tex:327-330",
-      "source_claim": "The proof writes x'≠C(X') where the required assertion is x'∉C(X').",
-      "defect_kind": "other",
-      "affected_source_locators": [
-        "source_tex/appendix.tex:314-331"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "This is a set-membership typo in the parity argument and does not change the theorem's intended endpoint.",
-      "repair_obligation": "Replace object/set inequality by nonmembership and connect it to the indicator parity.",
-      "acceptance_condition": "Lean derives fresh-applicant nonselection from positive even distance and concludes inconsistency.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "paper_even_distance_iff_inconsistent_statement"
-    },
-    {
-      "id": "DGD26-LAP-REPEATED-INDEX-01",
-      "source_locator": "source_tex/appendix.tex:664",
-      "source_claim": "The proof says one of x_{s_j} or x_{s_j} is excluded; the first occurrence should be x_{s_i}.",
-      "defect_kind": "index_or_integrality",
-      "affected_source_locators": [
-        "source_tex/appendix.tex:656-666"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The repeated index is a minor local typo; it does not change the distinct-slot-order variability claim.",
-      "repair_obligation": "Compare x_{s_i} and x_{s_j} under their shared order and exclude the nonminimal one.",
-      "acceptance_condition": "The formal class-count argument distinguishes the two assigned applicants.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "paper_lap_assigned_strictly_outranks_rejected_statement and the canonical distinct-order variability theorem"
-    },
-    {
-      "id": "DGD26-TOTAL-ORDER-DISTINCT-01",
-      "source_locator": "source_tex/main.tex:192-194",
-      "source_claim": "Completeness is printed for all x₁,x₂, which conflicts with asymmetry when x₁=x₂; the standard strict-order condition compares distinct pairs.",
-      "defect_kind": "domain_or_endpoint",
-      "affected_source_locators": [
-        "source_tex/main.tex:192-200"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The standard distinct-pair repair is minor and is exactly the semantics used throughout the paper and Lean.",
-      "repair_obligation": "Restrict strict-order completeness to x₁≠x₂.",
-      "acceptance_condition": "The q-representative model is built over an asymmetric, transitive, distinct-pair total relation.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "paper_definition_total_order uses the coherent strict-total-order predicate."
-    },
-    {
-      "id": "DGD26-ML-FIXED-THRESHOLD-ROUTE-01",
-      "source_locator": "source_tex/main.tex:161-169; source_tex/appendix.tex:681-685",
-      "source_claim": "The paper's fixed-score formula is asserted to induce independence and therefore zero instability, but Lean starts from abstract independence.",
-      "defect_kind": "logical_dependency",
-      "affected_source_locators": [
-        "source_tex/main.tex:161-169",
-        "source_tex/main.tex:247-264",
-        "source_tex/appendix.tex:681-685"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error.",
-      "repair_obligation": "Define the fixed-threshold predictor and representation relation, then prove that representing C forces pool-independent labels.",
-      "acceptance_condition": "Lean constructs the score/threshold rule and derives independence and zero instability without assuming independence.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "paper_ml_fixed_threshold_representation_zero_unstable_statement"
-    },
-    {
-      "id": "DGD26-ML-RANK-EMBEDDING-ROUTE-01",
-      "source_locator": "source_tex/main.tex:247-268; source_tex/appendix.tex:681-685",
-      "source_claim": "The rank-threshold formula and real-score embedding are not constructed; Lean starts from q-representativeness.",
-      "defect_kind": "logical_dependency",
-      "affected_source_locators": [
-        "source_tex/main.tex:247-268",
-        "source_tex/appendix.tex:681-685"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error.",
-      "repair_obligation": "Define t_q(X), construct scores for the relevant total order, and prove equivalence between rank-threshold decisions and top-q choice.",
-      "acceptance_condition": "Lean proves both the representability construction and the impossibility of representing instability/variability above one from the displayed model.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "paper_rank_threshold_formula_statement, paper_ml_rank_threshold_representation_bounds_statement, and paper_ml_rank_threshold_can_represent_exact_one_statement"
-    },
-    {
-      "id": "DGD26-PROGRAM-WITNESSES-01",
-      "source_locator": "source_tex/main.tex:346-357; source_tex/appendix.tex:687-695",
-      "source_claim": "Proposition 2's four concrete program classes and exact variability witnesses are not instantiated in Lean.",
-      "defect_kind": "logical_dependency",
-      "affected_source_locators": [
-        "source_tex/main.tex:337-357",
-        "source_tex/appendix.tex:687-695"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error.",
-      "repair_obligation": "Define all four program choice rules and construct applicant-pool witnesses attaining each claimed variability.",
-      "acceptance_condition": "Lean proves 1-instability for all four classes and exact variability 1,2,3,6 with explicit witnesses.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "the four paper_*_program_properties_statement rows"
-    },
-    {
-      "id": "DGD26-QREP-DISPLACEMENT-01",
-      "source_locator": "source_tex/appendix.tex:447-460",
-      "source_claim": "Exact variability one for a q-representative rule requires a nondegenerate displacement witness in Lean, while the source theorem omits that condition.",
-      "defect_kind": "domain_or_endpoint",
-      "affected_source_locators": [
-        "source_tex/appendix.tex:447-460"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error.",
-      "repair_obligation": "Either derive HasDisplacement from explicit source domain conditions or state and analyze the degenerate case.",
-      "acceptance_condition": "The forward q-representative theorem proves exact variability one on the source domain without an unexplained Lean premise.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "paper_q_representative_forward_exact_statement derives displacement from positive nontrivial capacity"
-    },
-    {
-      "id": "DGD26-THEOREM2-LOWER-QUEUE-01",
-      "source_locator": "source_tex/main.tex:314-322; source_tex/appendix.tex:669-674",
-      "source_claim": "Theorem 2 states 1≤m≤n and identifies m=1 with n=1, but the lower bound and n=1 language require a nondegenerate/minimal queue representation that is not specified.",
-      "defect_kind": "quantifier_or_uniformity",
-      "affected_source_locators": [
-        "source_tex/main.tex:314-322",
-        "source_tex/appendix.tex:669-674"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error.",
-      "repair_obligation": "Specify whether n is a minimal queue count and prove the lower bound plus the exact m=1 equivalence under those conditions.",
-      "acceptance_condition": "A paper-facing theorem states and proves all quantifiers in 1≤m≤n and the intended single-order/minimal-representation clause.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "paper_sequential_q_representative_variability_range_statement and paper_variability_one_iff_single_order_statement"
-    },
-    {
-      "id": "DGD26-RANKING-M-CARDINALITY-01",
-      "source_locator": "source_tex/appendix.tex:435-442",
-      "source_claim": "The Lean ranking-m routes require q≤|X|, an extra condition absent from the source lemma.",
-      "defect_kind": "domain_or_endpoint",
-      "affected_source_locators": [
-        "source_tex/appendix.tex:435-442"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error.",
-      "repair_obligation": "Prove the lemma for undersized X as well, or establish that the source context entails q≤|X|.",
-      "acceptance_condition": "The equality V_C(X)=A_C(X∪{x'}) is proved under exactly the source assumptions.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "paper_acceptant_one_instability_variability_borderline_eq_waitlisted_after_changing_insert_statement has no cardinality premise"
-    },
-    {
-      "id": "DGD26-EVEN-PARITY-BRIDGE-01",
-      "source_locator": "source_tex/appendix.tex:314-331",
-      "source_claim": "The forward Lean row assumes the inserted applicant is not chosen instead of deriving that fact from positive even choice distance.",
-      "defect_kind": "logical_dependency",
-      "affected_source_locators": [
-        "source_tex/appendix.tex:314-331"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error.",
-      "repair_obligation": "Use the calculating-instability formula to derive nonselection from positive even distance under q-acceptance.",
-      "acceptance_condition": "The forward theorem starts from even positive distance and concludes inconsistency without hxNotChosen as an input.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "paper_even_distance_iff_inconsistent_statement derives nonselection from parity"
-    },
-    {
-      "id": "DGD26-LAP-SEMANTIC-WORLD-01",
-      "source_locator": "source_tex/appendix.tex:610-666",
-      "source_claim": "The source LAP uses real weights, per-slot no ties, objective-optimal assignments, and exact equality of induced orders; Lean uses integer weights, a supplied unique optimizer selector, and a noncanonical one-way class map.",
-      "defect_kind": "domain_or_endpoint",
-      "affected_source_locators": [
-        "source_tex/appendix.tex:610-666"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The missing route is fully proved. Any added positivity, nontriviality, tie-free, or well-posedness condition is the explicit mathematical reading of the source model rather than a caveat-worthy paper error.",
-      "repair_obligation": "Formalize the source real-weight assignment model, construct or quotient optimizers appropriately, derive local ordering from objective optimality, and count exact induced-order classes.",
-      "acceptance_condition": "The LAP instability and distinct-order variability theorems are proved from the source model without unique-selector or one-way-classifier assumptions.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "the LAP model and canonical instability/variability rows now use real weights and exact quotient classes"
-    }
-  ]
+  "schema": 2,
+  "source_artifact_sha256": "0d57324d02fc64c4c6b627c71c71cbbf93610b7f0b4b2138da1b436bb9234434"
 }

@@ -1,4 +1,4 @@
-import EOS07GSP.ProofInterface
+import EOS07GSP.Implementation
 
 /-!
 # EOS07 Theorem 8: full price-history strategy layer

@@ -21,6 +21,7 @@ _CANONICAL_AUDIT_FILENAMES = frozenset(
         "lean_to_tex_llm.json",
         "paper_coverage_llm.json",
         "paper_statement_map.json",
+        "public_source_display_projection.json",
         "review_surface_llm.json",
         "source_proof_fidelity.json",
         "source_record_audit.json",
@@ -70,6 +71,7 @@ _SOURCE_BUNDLE_RE = re.compile(
     r"\.(?:txt|pdf|tex|tar|tgz|zip|gz)$",
     re.IGNORECASE,
 )
+_ARCHIVE_SUFFIXES = frozenset({".zip", ".tar", ".tgz", ".gz", ".bz2", ".xz", ".7z", ".rar"})
 _TOKEN_SPLIT_RE = re.compile(r"[._-]+")
 _CONTRIBUTOR_TEMPLATE_PLANS = frozenset(
     {
@@ -268,6 +270,18 @@ def public_release_artifact_issues(
                 normalized,
                 "source, extraction, trace, or generated cache directory "
                 f"{private_components[0]!r} must remain private",
+            )
+        if any(component.lower() == "source" for component in directory_parts) and normalized not in public_source_paths:
+            add(
+                "unapproved-source-subtree",
+                normalized,
+                "only one exact validated official arXiv TeX path may appear beneath papers/<paper>/source",
+            )
+        if path.suffix.lower() in _ARCHIVE_SUFFIXES:
+            add(
+                "archive-artifact",
+                normalized,
+                "archive artifacts are not public release inputs",
             )
         if _SOURCE_BUNDLE_RE.fullmatch(path.name) and normalized not in public_source_paths:
             add(

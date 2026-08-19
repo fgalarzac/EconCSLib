@@ -1,92 +1,91 @@
 {
-  "schema": 2,
+  "defects": [
+    {
+      "acceptance_condition": "Lean proves the general corrected suffix-sum exponent k-i and corrected unspent coefficient (k-i)/k, and proves concrete finite instances where both printed +1 expressions differ.",
+      "affected_source_locators": [
+        "cited publication:713-731",
+        "cited publication:777-819"
+      ],
+      "defect_kind": "index_or_integrality",
+      "id": "MSVV07-T8-TRADEOFF-EXPONENT-01",
+      "repair_obligation": "Evaluate the finite geometric suffix sum of the displayed y_j* witness and the type-i unspent fraction using the paper's one-indexed bounds, then compare both with the printed +1 expressions.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "theorem8_dual_induced_tradeoff_formula proves the corrected suffix identity and theorem8_dual_induced_tradeoff_ne_printed_exponent_at_k2 refutes the printed exponent at k=2,i=1; theorem8_corrected_unspent_fraction_formula proves the corrected coefficient and theorem8_unspent_fraction_ne_printed_at_k2 refutes the printed coefficient at the same finite index.",
+      "source_claim": "The source defines psi_k(i) as the suffix sum of y_j* from j=i through k-1 and prints the closed form 1-(1-1/k)^(k-i+1). The simple proof repeats the same shift by calling (k-i+1)/k precisely the unspent fraction of a type-i bidder whose exact spent fraction is i/k.",
+      "source_locator": "cited publication:713-731 and 777-819, Theorem 8 dual-suffix formula and simple-proof unspent coefficient",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "Summing the displayed geometric dual witness y_j*=(1/k)(1-1/k)^(k-j-1) from j=i through k-1 gives 1-(1-1/k)^(k-i), not exponent k-i+1. Likewise, exact spent fraction i/k leaves (k-i)/k unspent, not (k-i+1)/k. Both discrepancies are the same O(1/k) finite-index shift and do not change the k-to-infinity competitive-ratio conclusion. Lean proves both corrected identities and concrete k=2 refutations, so this is one minor corrected indexing note rather than a substantial paper caveat."
+    },
+    {
+      "acceptance_condition": "Lean proves the three phase contributions sum to 3N/5, proves this differs from 31N/50 for positive N, and proves 3/5 < 1 - 1/e.",
+      "affected_source_locators": [
+        "cited publication:1191-1214",
+        "cited publication:1215-1220"
+      ],
+      "defect_kind": "normalization_or_scaling",
+      "id": "MSVV07-APPENDIX-REVENUE-ARITHMETIC-01",
+      "repair_obligation": "Sum the revenue contributions stated for all three phases and compare the corrected factor 3/5 with the paper's 1 - 1/e benchmark.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "appendix_highest_bid_phase_total_eq_three_fifths proves the source's zero-phase-3 contributions total 3N/5; appendix_highest_bid_phase_total_ne_printed_062 refutes 31N/50 for positive N; appendix_three_fifths_lt_msvv_ratio proves the numerical strict comparison. The state-derived execution and its true value are covered by the separate phase-3 residual defect.",
+      "source_claim": "After 0.4N rounds with m bids of a, 0.1N rounds with m bids of 2a, and a third phase whose queries are all discarded, the source says the algorithm makes 0.62N.",
+      "source_locator": "cited publication:1191-1220, Appendix three-phase construction and displayed algorithm revenue",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "Under the source's stated zero-phase-3 account, the printed phase counts force 0.4N + 0.2N + 0 = 0.6N, not 0.62N. This is a local bookkeeping error. A separate recorded defect corrects the false phase-2 exhaustion claim and derives the true execution value; that value also remains strictly below 1-1/e. Neither defect changes the intended qualitative counterexample, so this is a formalized note rather than a substantial paper caveat."
+    },
+    {
+      "acceptance_condition": "Lean proves a positive phase-3 residual, a feasible state-derived highest-bid fluid execution that serves it, online value 9/10-(1/2)log(9/5), optimal offline value one, and a strict ratio below 1-1/e.",
+      "affected_source_locators": [
+        "cited publication:1191-1208",
+        "cited publication:1215-1220"
+      ],
+      "defect_kind": "normalization_or_scaling",
+      "id": "MSVV07-APPENDIX-PHASE3-RESIDUAL-02",
+      "repair_obligation": "Derive phase-1 and phase-2 tail spend from the allocation history, compute the remaining phase-3 budget and service, and compare the resulting online/offline ratio with 1-1/e.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "appendix_naive_highest_bid_fluid_rule proves the within-phase choice conditions; appendix_naive_three_phase_fluid_construction proves feasibility, allocation-derived decision states, positive residual, and tail exhaustion after phase 3; appendix_naive_algorithm_true_revenue_formula proves the corrected online value; appendix_optimum_revenue_formula proves offline optimum one; appendix_naive_true_ratio_conclusion proves the true factor is below 1-1/e.",
+      "source_claim": "The source says bidders 0.5N+1 through N have spent all their money after phase 2, so every phase-3 query is discarded, and uses that execution to claim algorithm revenue 0.62N.",
+      "source_locator": "cited publication:1191-1220, Appendix phase-2 exhaustion, phase-3 discard, and algorithm factor",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "In the small-bids fluid limit, a tail bidder spends log(9/5) in phase 1 and 2/5 in phase 2, leaving the positive residual 3/5-log(9/5). The algorithm therefore serves positive phase-3 mass and has true normalized value 9/10-(1/2)log(9/5), rather than either printed 0.62 or the zero-phase-3 bookkeeping total 0.6. Lean proves the corrected execution feasible, proves its allocation-derived state updates and optimal offline value one, and proves the true factor remains strictly below 1-1/e. The intended qualitative conclusion is unchanged, so this is an ordinary formalized note, not a substantial caveat."
+    }
+  ],
   "paper": "MSVV07AdWords",
-  "source_artifact_path": "MSVV07AdWords.txt",
-  "source_artifact_sha256": "fb4c0a197b196279e47b3606734c945c937c3691a0f7025b3d889eec1868c105",
   "review_status": "defects_recorded",
   "reviewed_proof_scopes": [
     {
-      "source_locator": "MSVV07AdWords.txt:198-241, Sections 2--3 model and discretized algorithm",
+      "outcome": "no_defect",
       "semantic_scope": "The AdWords instance and competitive-ratio definitions, greedy 1/2 example, slab/current-slab construction, finite psi_k formula and convergence sentence, discrete scaled-bid runner, and qualitative simple/time-efficient claim.",
-      "outcome": "no_defect"
+      "source_locator": "cited publication:198-241, Sections 2--3 model and discretized algorithm"
     },
     {
-      "source_locator": "MSVV07AdWords.txt:247-819, Sections 4--5 LP analyses and Theorem 8",
+      "outcome": "defect_recorded",
       "semantic_scope": "Bidder/query type and slab accounting, factor-revealing and tradeoff-revealing primal/dual formulas, Lemmas 1--7, displayed primal/dual witnesses, finite objective and N/e limit, exact-tightness assertion, dual-derived tradeoff formula, and both Theorem 8 proof routes.",
-      "outcome": "defect_recorded"
+      "source_locator": "cited publication:247-819, Sections 4--5 LP analyses and Theorem 8"
     },
     {
-      "source_locator": "MSVV07AdWords.txt:825-938, Section 6 extensions and Theorem 9",
+      "outcome": "no_defect",
       "semantic_scope": "Different budgets, nonexhaustive optimum, click-through rates, delayed availability, next-price variants, multiple slots, and the randomized-online lower-bound construction and conclusion.",
-      "outcome": "no_defect"
+      "source_locator": "cited publication:825-938, Section 6 extensions and Theorem 9"
     },
     {
-      "source_locator": "MSVV07AdWords.txt:1168-1224, Appendix A counterexample for the naive algorithm",
+      "outcome": "defect_recorded",
       "semantic_scope": "The finite three-phase 0/a/2a construction, its claimed algorithm and OPT revenues, the strict-below-1-1/e conclusion, and the asserted kappa > 1 parametric family.",
-      "outcome": "defect_recorded"
+      "source_locator": "cited publication:1168-1224, Appendix A counterexample for the naive algorithm"
     },
     {
-      "source_locator": "MSVV07AdWords.txt:941-1008, Section 8 Discussion",
+      "outcome": "no_defect",
       "semantic_scope": "The cited offline-complexity context, fixed-distribution/adversarial-switching model, weighted effective-bid proposal, weight-adjustment heuristic, explicitly open 1-o(1) guarantee question, historical MSVV05 Refusal correction, replicated-bidder RANKING heuristic, common-generalization suggestion, and open question about the scope of the tradeoff method.",
-      "outcome": "no_defect"
+      "source_locator": "cited publication:941-1008, Section 8 Discussion"
     },
     {
-      "source_locator": "MSVV07AdWords.txt:1008-1018, Section 8 gaming discussion",
+      "outcome": "no_defect",
       "semantic_scope": "The expressly heuristic ghost-bidder budget-depletion resilience discussion, with no formal performance or incentive-compatibility theorem stated for Balance.",
-      "outcome": "no_defect"
+      "source_locator": "cited publication:1008-1018, Section 8 gaming discussion"
     }
   ],
-  "defects": [
-    {
-      "id": "MSVV07-T8-TRADEOFF-EXPONENT-01",
-      "source_locator": "MSVV07AdWords.txt:713-731 and 777-819, Theorem 8 dual-suffix formula and simple-proof unspent coefficient",
-      "source_claim": "The source defines psi_k(i) as the suffix sum of y_j* from j=i through k-1 and prints the closed form 1-(1-1/k)^(k-i+1). The simple proof repeats the same shift by calling (k-i+1)/k precisely the unspent fraction of a type-i bidder whose exact spent fraction is i/k.",
-      "defect_kind": "index_or_integrality",
-      "affected_source_locators": [
-        "MSVV07AdWords.txt:713-731",
-        "MSVV07AdWords.txt:777-819"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "Summing the displayed geometric dual witness y_j*=(1/k)(1-1/k)^(k-j-1) from j=i through k-1 gives 1-(1-1/k)^(k-i), not exponent k-i+1. Likewise, exact spent fraction i/k leaves (k-i)/k unspent, not (k-i+1)/k. Both discrepancies are the same O(1/k) finite-index shift and do not change the k-to-infinity competitive-ratio conclusion. Lean proves both corrected identities and concrete k=2 refutations, so this is one minor corrected indexing note rather than a substantial paper caveat.",
-      "repair_obligation": "Evaluate the finite geometric suffix sum of the displayed y_j* witness and the type-i unspent fraction using the paper's one-indexed bounds, then compare both with the printed +1 expressions.",
-      "acceptance_condition": "Lean proves the general corrected suffix-sum exponent k-i and corrected unspent coefficient (k-i)/k, and proves concrete finite instances where both printed +1 expressions differ.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "theorem8_dual_induced_tradeoff_formula proves the corrected suffix identity and theorem8_dual_induced_tradeoff_ne_printed_exponent_at_k2 refutes the printed exponent at k=2,i=1; theorem8_corrected_unspent_fraction_formula proves the corrected coefficient and theorem8_unspent_fraction_ne_printed_at_k2 refutes the printed coefficient at the same finite index."
-    },
-    {
-      "id": "MSVV07-APPENDIX-REVENUE-ARITHMETIC-01",
-      "source_locator": "MSVV07AdWords.txt:1191-1220, Appendix three-phase construction and displayed algorithm revenue",
-      "source_claim": "After 0.4N rounds with m bids of a, 0.1N rounds with m bids of 2a, and a third phase whose queries are all discarded, the source says the algorithm makes 0.62N.",
-      "defect_kind": "normalization_or_scaling",
-      "affected_source_locators": [
-        "MSVV07AdWords.txt:1191-1214",
-        "MSVV07AdWords.txt:1215-1220"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "Under the source's stated zero-phase-3 account, the printed phase counts force 0.4N + 0.2N + 0 = 0.6N, not 0.62N. This is a local bookkeeping error. A separate recorded defect corrects the false phase-2 exhaustion claim and derives the true execution value; that value also remains strictly below 1-1/e. Neither defect changes the intended qualitative counterexample, so this is a formalized note rather than a substantial paper caveat.",
-      "repair_obligation": "Sum the revenue contributions stated for all three phases and compare the corrected factor 3/5 with the paper's 1 - 1/e benchmark.",
-      "acceptance_condition": "Lean proves the three phase contributions sum to 3N/5, proves this differs from 31N/50 for positive N, and proves 3/5 < 1 - 1/e.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "appendix_highest_bid_phase_total_eq_three_fifths proves the source's zero-phase-3 contributions total 3N/5; appendix_highest_bid_phase_total_ne_printed_062 refutes 31N/50 for positive N; appendix_three_fifths_lt_msvv_ratio proves the numerical strict comparison. The state-derived execution and its true value are covered by the separate phase-3 residual defect."
-    },
-    {
-      "id": "MSVV07-APPENDIX-PHASE3-RESIDUAL-02",
-      "source_locator": "MSVV07AdWords.txt:1191-1220, Appendix phase-2 exhaustion, phase-3 discard, and algorithm factor",
-      "source_claim": "The source says bidders 0.5N+1 through N have spent all their money after phase 2, so every phase-3 query is discarded, and uses that execution to claim algorithm revenue 0.62N.",
-      "defect_kind": "normalization_or_scaling",
-      "affected_source_locators": [
-        "MSVV07AdWords.txt:1191-1208",
-        "MSVV07AdWords.txt:1215-1220"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "In the small-bids fluid limit, a tail bidder spends log(9/5) in phase 1 and 2/5 in phase 2, leaving the positive residual 3/5-log(9/5). The algorithm therefore serves positive phase-3 mass and has true normalized value 9/10-(1/2)log(9/5), rather than either printed 0.62 or the zero-phase-3 bookkeeping total 0.6. Lean proves the corrected execution feasible, proves its allocation-derived state updates and optimal offline value one, and proves the true factor remains strictly below 1-1/e. The intended qualitative conclusion is unchanged, so this is an ordinary formalized note, not a substantial caveat.",
-      "repair_obligation": "Derive phase-1 and phase-2 tail spend from the allocation history, compute the remaining phase-3 budget and service, and compare the resulting online/offline ratio with 1-1/e.",
-      "acceptance_condition": "Lean proves a positive phase-3 residual, a feasible state-derived highest-bid fluid execution that serves it, online value 9/10-(1/2)log(9/5), optimal offline value one, and a strict ratio below 1-1/e.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "appendix_naive_highest_bid_fluid_rule proves the within-phase choice conditions; appendix_naive_three_phase_fluid_construction proves feasibility, allocation-derived decision states, positive residual, and tail exhaustion after phase 3; appendix_naive_algorithm_true_revenue_formula proves the corrected online value; appendix_optimum_revenue_formula proves offline optimum one; appendix_naive_true_ratio_conclusion proves the true factor is below 1-1/e."
-    }
-  ]
+  "schema": 2,
+  "source_artifact_sha256": "fb4c0a197b196279e47b3606734c945c937c3691a0f7025b3d889eec1868c105"
 }

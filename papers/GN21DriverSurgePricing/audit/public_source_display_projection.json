@@ -1,0 +1,361 @@
+{
+  "generator": "python3 scripts/public_source_display_projection.py",
+  "paper_id": "GN21DriverSurgePricing",
+  "private_source_map_sha256": "f37b6f60e8d063b1d284faf6bc35dd8b87f8ecde3bd3b333708428f79694a620",
+  "public_manifest_path": "papers/GN21DriverSurgePricing/audit/public_source_display_projection.json",
+  "public_source_map_sha256": "6b416d032b8dfb1e1d9396decf3666b8af689c762e9d447b8a7bdd081f758d20",
+  "raw_source_artifact_included": false,
+  "raw_source_display_material": "selected_byte_pinned_source_anchor_quotes",
+  "schema": 1,
+  "selected_source_item_ids": [
+    "model_policy_equalities_modulo_null_sets",
+    "review_lemma10_nonsurge_derivative_positive_of_acceptAll_bounds",
+    "review_lemma1_measured_dynamic_reward_decomposition",
+    "review_lemma2_switch_probability_formula",
+    "review_lemma3_measured_time_fraction_formula",
+    "review_lemma4_single_state_threshold_uniqueness",
+    "review_lemma6_upper_endpoint_derivative_formula",
+    "review_lemma7_affine_positive_additive_response_quasi_convex",
+    "review_lemma8_affine_negative_additive_response_quasi_concave",
+    "review_lemma9_surge_derivative_positive_of_acceptAll_bounds",
+    "review_proposition3_1_affine_single_state_ic",
+    "review_theorem1_single_state_threshold_best_response",
+    "review_theorem2_multiplicative_policy_shape_source_claim",
+    "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_states",
+    "review_theorem3_structured_pricing",
+    "source_definition_incentive_compatible",
+    "source_definition_surge_state",
+    "source_lemma5_full_variational_policy_forms",
+    "source_theorem4_full_structural_policy_forms"
+  ],
+  "selected_source_items": {
+    "model_policy_equalities_modulo_null_sets": {
+      "source_anchors": [
+        {
+          "line_end": 3692,
+          "line_start": 3660,
+          "publication_locator": "cited publication",
+          "quoted_text": "Recall in the dynamic model that we constrain σi to be measurable, open, subsets of the R+ . Then,\nσi can be written as a countable union of disjoint subsets of R+ , i.e. σi = ∪∞\nk=0 (`k , uk ). We further\nassume that uk 6= `m , for any k, m; we can do so without loss of generality by making a measure 0\nchange to σi , by adding uk = `m to σi .\n∂\nSuppose u is an upper-endpoint of σi , ie. ∃k such that u = uk . Then, we use ∂u\nH(σi ) to denote\n∂\nthe derivative of the set function H with respect to u at σi . Similarly, ∂` H(σi ) is the derivative of\nH at σi with respect to a lower-endpoint of σi .\n∂\n∂\nWe derive ∂u\nR(w, {σ1 , σ2 }), ∂`\nR(w, {σ1 , σ2 }). We will make it clear in each instance whether u\n∂\nrefers to the derivative\nor ` is an endpoint of σ1 or σ2 . For all the derivatives in this subsection ∂u\n∂\nwith respect to an upper endpoint in σi , and ∂` refers to a derivative at a lower endpoint of σi .\nNote that\n∂\n∂\nR(w, {σ1 , σ2 }) = − R(w, {σ1 , σ2 }).\n∂u\n∂`\nFurthermore:\n• We use σ in the function argument when the function depends on policies in both states, and\nσi when it only depends on the policy in state i.\n• We use ∝ to denote that “two functions of u have the same sign except where f (u) = 0”,\nrather than proportional to.\n• All policy equalities are up to measure 0.",
+          "quoted_text_sha256": "22dd236e0fac98ba281d0891557c43616586233443d50a9a878e7107fc15ea8c"
+        },
+        {
+          "line_end": 4152,
+          "line_start": 4105,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 6. Let R(w, σ) be as defined in Lemma 1. Then, ∂u\n\u0013\n\u0012\n\u0013 \u0012\nqi→j (u)\nQj\nQi\nwi (u) Qi Qj\nr(u, i, w, σ) ,\n+\n−\nRj +\nRi\n∆ji +\nu\nu\nTi\nTj\nTi\nTj\n\nProof. Proof.\nµi ({σj , σ2 }) =\n\nQj Ti\nQj Ti + Qi Tj\n\nR(w, σ) = µ1 (σ)R1 (w1 , σ1 ) + µ2 (σ)R2 (w2 , σ2 )\n\u0015\n\u0014\n1\n[Q2 W1 + Q1 W2 ]\n=\nQ2 T1 + Q1 T2\nWi\nRi (σi ) =\nTi\n\u0014\n\u0015\nZ\n∂\n∂\nQi =\nλi→j + λi\nqi→j (τ )dFi (τ ) = λi qi→j (u)fi (u)\n∂u\n∂u\nτ ∈σi",
+          "quoted_text_sha256": "793af4f4959ea93651a1cba0f90ff6cdd769433dddac9653c06d3c08cd6b147b"
+        }
+      ],
+      "source_kind": "model"
+    },
+    "review_lemma10_nonsurge_derivative_positive_of_acceptAll_bounds": {
+      "source_anchors": [
+        {
+          "line_end": 3853,
+          "line_start": 3834,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 10. Fix arbitrary σ2 , and thus Q2 , T2 , R2 . Let Q̄1 , T̄1 be the respective values of Q1 , T1 at\nσ1 = (0, ∞). Let w1 (τ ) = mτ + zq1→2 (τ ), where m = R2 .\nIf\n−\n\nz\n1\n(T2 λ1→2 + Q2 )\n<\n<\nR2\nQ2 (λ1→2 T̄1 − Q̄1 ) + λ1→2 (T2 λ1→2 + Q2 )\n(Q̄1 − λ1→2 )\n\n∂\nThen ∂u\nR(w, σ) > 0, for all u, σ1 . Furthermore, the constraint set is feasible regardless of the\nprimitives.\n\nD.4",
+          "quoted_text_sha256": "58d7d4a53009deb93a889acaa52b36e7896023568c88058507ebed1923af1cd6"
+        },
+        {
+          "line_end": 3829,
+          "line_start": 3828,
+          "publication_locator": "cited publication",
+          "quoted_text": "We can now do the same thing for the first state, assuming that w1 (τ ) is of the form w1 (τ ) =\nmτ + zq1→2 (τ ), where now z ≤ 0 and m = R2 . In the next lemma, we consider u an upper endpoint",
+          "quoted_text_sha256": "46228488438e2137d8f82c6017fbf4d7396b233d8aab83c0a801b8b9dd912897"
+        },
+        {
+          "line_end": 4751,
+          "line_start": 4750,
+          "publication_locator": "cited publication",
+          "quoted_text": "\fProof. Proof. Similar to previous proof. Suppose we have w1 (u) = mu + zq1→2 (u), for some\nm = R2 , z ≤ 0.",
+          "quoted_text_sha256": "49fbdb06e34fd3708a3a16f4c32b42d6e43e7c54e8211733500378fd4cec4eca"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "review_lemma1_measured_dynamic_reward_decomposition": {
+      "source_anchors": [
+        {
+          "line_end": 367,
+          "line_start": 324,
+          "publication_locator": "cited publication",
+          "quoted_text": "\fLemma 1. In the dynamic model, the earnings rate can be decomposed into each state i earnings\nrate Ri (wi , σi ) and fraction of time µi (σ) spent in state i:\nR(w, σ) = µ1 (σ)R1 (w1 , σ1 ) + µ2 (σ)R2 (w2 , σ2 )\n\nwith probability 1.\n\ni (σi )\nAs in the single-state model, Ri (wi , σi ) = W\nTi (σi ) , where\n\nZ\n1\nWi (σi ) =\nwi (τ )dFi (τ ),\nFi (σi ) τ ∈σi\n\n1\n1\nTi (σi ) =\n+\nλi Fi (σi ) Fi (σi )\n\nZ\nτ dFi (τ )\nτ ∈σi\n\nWe prove the result by defining a new renewal process, in which a single reward renewal cycle\nis: the time between the driver is open in state 1 to the next time the driver is open in state 1\nafter being open in state 2 at least once. In other words, each renewal cycle is composed of some\nnumber (potentially zero) of sub-cycles in which the driver is open in state 1 and then is open in\nstate 1 again after a completed trip; one sub-cycle starting with the driver open in state 1 and\nending with being open in state 2 (either after a completed trip or a state transition while open);\nsome number (potentially zero) of sub-cycles in which the driver is open in state 2 and then is open\nin state 2 again after a completed trip; and finally one sub-cycle starting in state 2 and ending with\nthe driver open in state 1.\nGiven the number of such renewal reward cycles completed up to time t, the total earnings on\ntrips starting in each state (earnings in each sub-cycle) are independent of each other, and then we\nuse Wald’s identity (Wald, 1973) to separate µi (σ) and Ri (σi ).\nNote that Ti (σi ) is not exactly the expected length of time in a single sub-cycle in a state\ngiven σi , but rather is proportional to it; the multiplicative constant λi Fi (σi1)+λi→j cancels out with\nthe same constant in the expected earnings in a single sub-cycle in a state given σi . This constant\nemerges from the primitives: when the driver is open in state i, there are two competing exponential\nclocks (with rates λi Fi (σi ) and λi→j , respectively) that determine whether the driver will accept a\nrequest before the world state changes.",
+          "quoted_text_sha256": "cc70fea615bd41e399606f0cfdeee647cc198f0d76d67ca2e304a740ae6facaa"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "review_lemma2_switch_probability_formula": {
+      "source_anchors": [
+        {
+          "line_end": 670,
+          "line_start": 657,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 2. Suppose the world is in state i at time t. Let qi→j (s) denote the probability that the\nworld will be in state j 6= i at time t + s. Then,\ni\nh\nλi→j\nqi→j (s) =\n1 − e−(λi→j +λj→i )s\nλi→j + λj→i\nNote that qi→j (s) is not just the probability that the world state transitions once during time\n(t, t + s), but the probability that it transitions an odd number of times. This formulation emerges\nthrough a standard analysis of two-state CTMCs, in which this probability can be found through\nthe inverse of the Laplace transform of the inverse of the resolvent of the Q-matrix for the system.\nIncorporating this value in closed form is the main hurdle in extending our results to general systems\nwith more than two states. Using this formulation, the following lemma shows µi (σ).",
+          "quoted_text_sha256": "9e925256e420c66168c368c033a415bfbbd0019bf684025dfbdcb73540d62bdf"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "review_lemma3_measured_time_fraction_formula": {
+      "source_anchors": [
+        {
+          "line_end": 696,
+          "line_start": 671,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 3. Let Ti (σi ) be as defined in Lemma 1. The fraction of time a driver following strategy\nσ = {σ1 , σ2 } spends either open in state i or on a trip started in state i is\nλi Fi (σi )Ti (σi )Qj (σj )\nλj Fj (σj )Tj (σj )Qi (σi ) + λi Fi (σi )Ti (σi )Qj (σj )\nZ\nQi (σi ) = λi→j + λi\nqi→j (τ )dFi (τ )\nµi (σ) =\n\nwhere\n\nτ ∈σi\n\nWe prove this lemma by finding the expected number of sub-cycles in each state i, i.e., within a\nlarger renewal reward cycle as defined, the expected number of sub-cycles that start with the driver\n12\n\n\fbeing open in state i. This expectation is the mean of a geometric random variable parameterized\nby the probability that the driver will next be open in state j, given the driver is currently open in\nstate i. Qi (σi ) is proportional to this probability. (As with Ti (σi ), there is a normalizing constant\n1\nλi Fi (σi )+λi→j ); the larger it is, the fewer sub-cycles spent in state i. It has two components: the\nfirst is the probability that the state changes before the driver accepts a trip request; the second\nis the probability that the world state is j when the driver completes a trip. Thus, the numerator\nin µi (σ) is proportional to the length of a sub-cycle in state i, times the fraction of sub-cycles that\nare started in state i. The larger Qj (σj ) or Ti (σi ), the more time the driver spends in state i.",
+          "quoted_text_sha256": "a18684afe6314420f3c1a00e8b6c72c8f62ff741bda9eec041ad5bb3d7fc9d22"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "review_lemma4_single_state_threshold_uniqueness": {
+      "source_anchors": [
+        {
+          "line_end": 2853,
+          "line_start": 2841,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 4. Consider the single-state model. There exists an optimal policy σ ∗ of the form σ ∗ =\n)\n∗\n∗\n∗\n{τ : w(τ\nτ ≥ c } such that R(σ ) = c . Furthermore, this policy is the unique optimal policy, up to\n)\n∗\nsets of measure 0 and up to modifications (subtractions) of sets {τ : w(τ\nτ = c }.\n)\n≥ c∗ },",
+          "quoted_text_sha256": "f1ad31d0831f7eed596f6a14a3684beb19a8cfd4da7f83fc77324ef5abfa39f8"
+        },
+        {
+          "line_end": 2379,
+          "line_start": 2375,
+          "publication_locator": "cited publication",
+          "quoted_text": "−10\n−20\n\n(699.0, 3598.0]\n1",
+          "quoted_text_sha256": "5c7aa8d6d471dd1d3df07f1ff0964e81c5fed3e68df95982b31e2125ee5fafa6"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "review_lemma6_upper_endpoint_derivative_formula": {
+      "source_anchors": [
+        {
+          "line_end": 3767,
+          "line_start": 3724,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 6. Let R(w, σ) be as defined in Lemma 1. Then, ∂u\n\u0013\n\u0012\n\u0013 \u0012\nqi→j (u)\nQj\nQi\nwi (u) Qi Qj\nr(u, i, w, σ) ,\n+\n−\nRj +\nRi\n∆ji +\nu\nu\nTi\nTj\nTi\nTj\n\nIn other words, r(u, i, w, σ) has the same sign as the derivative of the overall reward with respect\nto u (an upper endpoint of σi ) at w, σ, but it is not necessarily monotonic with it.\nRemark 1. Given assumptions on Fi , wi :\n• Ri (σ), R(σ), µi are continuous in σ\n∂\n• ∂u\nR(w, σ), r(u, i, w, σ) are both continuous in u (for fixed σ), and continuous in σ.\n\n•\n\nqi→j (u)\nis strictly decreasing in u.\nu\n\n• If ∆ji < 0 (i = 2 the surge state) and wiu(u) is non-decreasing in u, then r(u, i, w, σ) is\n∂\nR(w, σ) is negative up to a certain point\nstrictly increasing in u for a fixed σ. Thus, ∂u\nU ∈ (0, ∞) ∪ {∞} and then positive thereafter.\n• If ∆ji > 0 (i = 1 the non-surge state) and wiu(u) is non-increasing in u, then r(u, i, w, σ)\n∂\nis strictly decreasing in u for a fixed σ. Thus, ∂u\nR(w, σ) is positive up to a certain point",
+          "quoted_text_sha256": "1d5f32d181f84f49fac1d5c4923f9d080f5a0f9f160fa925c8c4772edde141c3"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "review_lemma7_affine_positive_additive_response_quasi_convex": {
+      "source_anchors": [
+        {
+          "line_end": 3774,
+          "line_start": 3773,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 7. Suppose wi (τ ) = mτ + a, where m, a > 0. Then, r(u, i, w, σ) is strictly quasi-convex in\nu, for each fixed σ where ∆ji ≤ 0.",
+          "quoted_text_sha256": "b9307411a83659ef3e668fce4a8ec8eafdbe68d0bd2c958ee0adab7eda725dac"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "review_lemma8_affine_negative_additive_response_quasi_concave": {
+      "source_anchors": [
+        {
+          "line_end": 3809,
+          "line_start": 3775,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 8. Suppose wi (τ ) = mτ + a, where m > 0 and a < 0. Then, r(u, i, w, σ) is strictly\nquasi-concave in u, for each fixed σ where ∆ji ≥ 0.\nD.3.4\n\nLemmas for IC policy\n\nRemark 2.\nLet\nThen\n\nwi (u) = mu + zqi→j (u)\nWi = m(Ti − 1) + z(Qi − λi→j )\n∂\nR(w, σ) ∝ qi→j (u) [(Rj − m)Tj Ti + mTj + zQj Ti + zTj λi→j ]\n∂u\n+ u [Qi Tj (m − Rj ) + Qj (m − zQi + zλi→j )]\nq\n\nRemark 3. limu→0 i→ju\n\n(u)\n\n= λi→j .\n\nRemark 4. λi→j Ti − Qi ≥ 0 and maximized when σi = (0, ∞). Similarly, Qi ≥ 0 and maximized\nwhen σi = (0, ∞).\n\n∂\nIn the next lemma, we consider u an upper endpoint of σ2 , and so ∂u\nR(w = {w1 , w2 }, σ =\n{σ1 , σ2 }) is a derivative with respect to an upper endpoint of σ2 .\n\n57\n\n\fLemma 9. Fix arbitrary σ1 , and thus Q1 , T1 , R1 . Let Q̄2 , T̄2 be the respective values of Q2 , T2 at",
+          "quoted_text_sha256": "9f9c3fe1e246620a660108ab809e9b9671899ef18f4adc994c6244762e9ed3bc"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "review_lemma9_surge_derivative_positive_of_acceptAll_bounds": {
+      "source_anchors": [
+        {
+          "line_end": 3833,
+          "line_start": 3809,
+          "publication_locator": "cited publication",
+          "quoted_text": "\fLemma 9. Fix arbitrary σ1 , and thus Q1 , T1 , R1 . Let Q̄2 , T̄2 be the respective values of Q2 , T2 at\nσ2 = (0, ∞). Let w2 (τ ) = mτ + zq2→1 (τ ), where m > R1 .\nIf\nz\nT1 (λ2→1 T̄2 − Q̄2 ) − (Q1 + T1 λ2→1 )\nQ̄2 T1 + Q1\n\u0001<\n<\nm\n−\nR\nQ1 (Q̄2 − λ2→1 )\nQ1 (λ2→1 T̄2 − Q̄2 ) + λ2→1 (Q1 + T1 λ2→1 )\n1\n∂\nThen ∂u\nR(w, σ) > 0, for all u, σ2 . Furthermore, the constraint set is feasible regardless of the\nprimitives.\n\nWe can now do the same thing for the first state, assuming that w1 (τ ) is of the form w1 (τ ) =\nmτ + zq1→2 (τ ), where now z ≤ 0 and m = R2 . In the next lemma, we consider u an upper endpoint\n∂\nof σ1 , and so ∂u\nR(w = {w1 , w2 }, σ = {σ1 , σ2 }) is a derivative with respect to an upper endpoint of\nσ1 . Then,",
+          "quoted_text_sha256": "89ca906c12ece7190870e4c10d9a66a0848a06457ac29c04b06620b498c7dd34"
+        },
+        {
+          "line_end": 708,
+          "line_start": 704,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 3. Let R1 < R2 be target earning rates during non-surged and surge states, respectively.\nThere exist prices w = {w1 , w2 } of the form\nwi (τ ) = mi τ + zi qi→j (τ ),\nwhere m1 , m2 , z2 ≥ 0 (but z1 may be either positive or negative), such that the optimal driver policy\nis to accept every trip in the surge state and all trips up to a certain length in the non-surge state.",
+          "quoted_text_sha256": "66c0d84d45f928253634517d07a8ff7039df2c423771af2d3f3790ee804200ff"
+        },
+        {
+          "line_end": 4588,
+          "line_start": 4587,
+          "publication_locator": "cited publication",
+          "quoted_text": "Proof. Proof.\nSuppose we have w2 (u) = mu + zq2→1 (u), for some m > R1 , z ≥ 0.",
+          "quoted_text_sha256": "8a25456ad90adb247755b8568356d47786852d4cfd7cf3252d3cffb7f4051139"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "review_proposition3_1_affine_single_state_ic": {
+      "source_anchors": [
+        {
+          "line_end": 548,
+          "line_start": 498,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 1 establishes that, in a single-state model with Poisson job arrivals, the length of the\njob is not important, only the hourly rate while busy on the job. The optimal cw in the policy is\n7\nThis practice is not consistent across marketplaces and locations. For example, in California as of January 2020,\nUber shows the driver the destination and payment estimate at request time. Incentive compatible pricing is an\nimportant stepping stone to showing this information.\n8\nWe note that destination discrimination is against Uber’s guidelines and could lead to deactivation (Uber, 2019a).\n9\nLyft has recently experimented with paying drivers for the time it takes to pick up the rider (Auerbach, 2019).\n\n9\n\n\f)\nnot necessarily cw = sup w(τ\nτ : drivers must trade off the earnings rate while on a trip with their\nutilization rate; the more trips that a driver rejects, the longer the wait for an acceptable trip. In\nthe appendix we prove the result by, starting at an arbitrary policy σ, making changes to the policy\nthat increase the earnings rate while on a job without decreasing the utilization rate. Thus, each\nsuch change improves the reward R(w, σ), and the sequence of changes results in a policy of the\nabove form, for some threshold c0 . Then, this threshold c0 can be optimized, leading to an optimal\npolicy of this form.\nAn immediate corollary of Theorem 1 is that w(τ ) = mτ , for m > 0, is IC. In other words, if the\n)\nplatform pays a constant rate w(τ\nτ = m to busy drivers, then in the single-state model it is in the\ndriver’s best interest to accept every trip. This result is driven by the following insight for Poisson\narrivals: while receiving long trip requests is more beneficial to drivers in the single-state setting as\nthey increase one’s utilization rate (the driver is busy for a longer time until the next open period),\nrejecting short trips to cherry-pick long trips decreases utilization by the same amount.10 Further\nnote that, given an earnings rate target R, calculating the multiplier m and thus an IC pricing\npolicy is trivial.\nOn the other hand, affine pricing may not be incentive compatible because short trips are worth\n)\na\nmore per unit time than are long trips: w(τ\nτ = m + τ . The optimal policy may thus be to accept\n∗\ntrips in σ = (0, T ) for some T . However, our next proposition establishes that affine pricing is\nincentive compatible if the additive component stays small enough as a function of the request\narrival rate:\nWith a single state, w(τ ) = mτ + a is incentive compatible if 0 ≤ a ≤ m\nλ.\nThe sufficient condition has a simple intuition: when open, the expected amount of time the\ndriver must wait for the next request is λ1 ; if on-trip time is valued at m per unit-time, then with\na= m\nλ the additive component can be interpreted as paying for the driver’s expected waiting time.\nThus, while a driver may earn more per hour for a short trip than a long trip with affine pricing,\nsuch a short trip is not worth the time the driver must wait for the next trip request. We further\nnote that the condition in the proposition is not a necessary one; however, deriving necessary and\nsufficient conditions in closed form requires specifying the trip distribution F .",
+          "quoted_text_sha256": "b8a65cbd115481744bf2d7bf85a6a564239e0ccaf6fca09e0a4de07dc8b92e55"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "review_theorem1_single_state_threshold_best_response": {
+      "source_anchors": [
+        {
+          "line_end": 520,
+          "line_start": 455,
+          "publication_locator": "cited publication",
+          "quoted_text": "freely reject it without penalty. Drivers often cannot see the rider’s destination or the trip length\nuntil they pick up the rider (but they can reject a request based on the pick-up time to the rider,\nwithout penalty).7 Some drivers call ahead to find out the rider’s destination or even cancel the\ntrip at the pick-up location, creating negative experiences for both the rider and the driver.8 Our\nnotion of incentive compatibility is ex-post, in which drivers would accept all trips even knowing\nthe trip length. This notion is stronger than an ex-ante setting in which the trip length is not\nrevealed to drivers. Furthermore, in practice, jobs have two components: the time it takes to pick\nup the rider, and the time while the rider is in the driver’s vehicle – and the former component is\ntypically unpaid.9 Our model combines these two components into an overall trip length, which\ndetermines payments.\nMarkovian surge and model limitations. In practice, surge has strong intra-day patterns\n– for example, rush hours have higher average surge values, cf. Appendix Figure 9b. However,\nevolution of surge on finer time scales, on the level of drivers’ individual trip decisions, is more\nvolatile and believably Markovian, cf. Appendix Figure 9c. Our theoretical model assumes that\nsurge is Markovian and binary and the response of a single driver, and further ignores spatial effects.\nWe discuss such issues in Sections A.3 and B.1, and our empirical analysis in Section 6 provides\nevidence that our insights extend to practice despite these theoretical limitations.\n\n3\n\nIncentive compatibility with affine pricing\n\nIn this section, we study the incentive compatibility of affine pricing. In Section 3.1, we first\ncharacterize the driver’s best-response strategy with respect to any pricing function w in the singlestate model. We then observe that multiplicative pricing, a special case of affine pricing where\nw(τ ) = mτ , is incentive compatible. In contrast, in Section 3.2, we show that in the dynamic model,\nmultiplicative pricing may no longer be incentive compatible. We further derive the structure of\noptimal driver policies in each state with respect to affine or multiplicative pricing, which will\nenable numerical study of the incentive compatibility properties of additive and multiplicative\nsurge in Section 5. Section 3.3 discusses the key differences in the two models, setting up Section 4\nwhere we derive incentive compatible pricing functions for the dynamic model.\n\n3.1\n\nSingle-state model: multiplicative pricing is incentive compatible\n\nOur first result is a simple optimal driver policy in the single-state model.\nTheorem\n1. With o\na single state, for each w there exists a constant cw ∈ R+ such that the policy\nn\nw(τ )\n∗\nσ = τ : τ ≥ cw is optimal for the driver with respect to w.\nTheorem 1 establishes that, in a single-state model with Poisson job arrivals, the length of the\njob is not important, only the hourly rate while busy on the job. The optimal cw in the policy is\n7\nThis practice is not consistent across marketplaces and locations. For example, in California as of January 2020,\nUber shows the driver the destination and payment estimate at request time. Incentive compatible pricing is an\nimportant stepping stone to showing this information.\n8\nWe note that destination discrimination is against Uber’s guidelines and could lead to deactivation (Uber, 2019a).\n9\nLyft has recently experimented with paying drivers for the time it takes to pick up the rider (Auerbach, 2019).\n\n9\n\n\f)\nnot necessarily cw = sup w(τ\nτ : drivers must trade off the earnings rate while on a trip with their\nutilization rate; the more trips that a driver rejects, the longer the wait for an acceptable trip. In\nthe appendix we prove the result by, starting at an arbitrary policy σ, making changes to the policy\nthat increase the earnings rate while on a job without decreasing the utilization rate. Thus, each\nsuch change improves the reward R(w, σ), and the sequence of changes results in a policy of the\nabove form, for some threshold c0 . Then, this threshold c0 can be optimized, leading to an optimal\npolicy of this form.\nAn immediate corollary of Theorem 1 is that w(τ ) = mτ , for m > 0, is IC. In other words, if the",
+          "quoted_text_sha256": "ea9ca6a84a57472e96b07197bbf51c7e910eea92a19f72828dba266a860f1462"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "review_theorem2_multiplicative_policy_shape_source_claim": {
+      "source_anchors": [
+        {
+          "line_end": 285,
+          "line_start": 264,
+          "publication_locator": "cited publication",
+          "quoted_text": "\ffollows policy σ = {σ1 , σ2 }, where σi ⊆ R+ indicates the jobs accepted in state i. We assume that\ndriver policies are measurable with respect to F (corresponding Fi in dynamic model); for technical\nreasons, in the dynamic model we also assume that σi consist of a union of open intervals, i.e., are\nopen subsets of R+ . When we write equalities with policies σ, we mean equality up to changes of\nmeasure 0.\nThe driver is long-lived and aims to maximize their own lifetime average hourly earnings on the\nplatform, including both open and busy times. Let R(w, σ, t) denote the (random) total earnings\nfrom jobs accepted from time 0 up to time t if the driver follows policy σ and the payout function\nis w. Then, the driver’s lifetime earnings rate is\nR(w, σ) , lim inf t→∞\n\nR(w, σ, t)\n.\nt\n\nThis earnings rate is a deterministic (non-random) quantity, and is a function of the driver policy\nσ, pricing function w, and the primitives.\nA driver policy σ ∗ is optimal (best-response) with respect to pricing function w if it maximizes\nthe lifetime earnings rate of the driver among all policies: R(w, σ ∗ ) ≥ R(w, σ), for all valid policies\nσ (i.e., measurable with respect to F or Fi , with σi open sets). Then, pricing function w is incentive\ncompatible (IC) if accepting all job requests is optimal with respect to w, i.e., σ = (0, ∞) in\nthe single-state model or σ = {(0, ∞), (0, ∞)} in the dynamic model is optimal with respect to w.",
+          "quoted_text_sha256": "6ced9c4ec3a00f608d1a5c3c15706f4d30fabf93fd032df264a1334573807203"
+        },
+        {
+          "line_end": 442,
+          "line_start": 441,
+          "publication_locator": "cited publication",
+          "quoted_text": "where wi (τ ) = mi τ + ai , with mi ≥ 0 (in the single-state model: w(τ ) = mτ + a, with m ≥ 0; we\nrefer to the case with ai > 0 (ai < 0) as positive (negative) affine pricing). Such pricing functions",
+          "quoted_text_sha256": "0e906160118594d70c7c2fa7259e96ddb8da6bd2120b6db4a5f96fb7e786add3"
+        },
+        {
+          "line_end": 656,
+          "line_start": 560,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 2. If w = {w1 , w2 }, there exists an optimal policy σ = {σ1 , σ2 } (i.e., that maximizes\nR(w, σ)), defined with parameters t1 , t2 , t3 , t4 , t5 , t6 ∈ [0, ∞) ∪ {∞}, such that\n• Non-surge state driver optimal policy σ1 :\n– If w1 is multiplicative or positive affine, σ1 rejects long trips, i.e., σ1 = (0, t1 ).\n– If w1 is negative affine, σ1 rejects short and long trips, i.e., σ1 = (t2 , t3 ).\n10\n\nThis insight is similar to a result of Kamble (2019); however, in our setting the driver’s strategy σ is a subset of\nR+ denoting the job requests accepted, as opposed to a discrete set of prices charged. Further, in our settings the\ndriver responds to the platform’s prices instead of setting prices, enabling a wider range of IC pricing mechanisms.\n\n10\n\n\f• Surge state driver optimal policy σ2 :\n– If w2 is multiplicative or negative affine, σ2 rejects short trips, i.e., σ2 = (t4 , ∞).\n\n– If w2 is positive affine, σ2 rejects medium length trips, i.e., σ2 = (0, t5 ) ∪ (t6 , ∞).\nFurthermore, there exist settings where ti ’s take positive finite values, and in which multiplicative\npricing is not incentive compatible in either state. Finally, only policies of the appropriate form as\nindicated (up to differences of measure 0) can be optimal.\nWe discuss the intuition in the next section. In the appendix, we prove the result for each case\nas follows: fixing σj for j 6= i, we start with an arbitrary open set σi = ∪∞\nk (`k , uk ), recalling that\nopen sets can be written as a countable union of such disjoint intervals. Then, we find ∂u∂ k R(w, σ),\nthe derivative of the set function R(w, σ) with respect to one of the interval upper end-points\nof σi , i.e., uk . This derivative is the infinitesimal change in the overall reward if σi is expanded\nby increasing uk , and it has useful properties. In the surge state with multiplicative pricing, for\n∂\nexample, ∂u\nR(w, σ) has the same sign as a function that is increasing in u, for each fixed σ. With\naffine pricing, it has the same sign as a quasi-convex (positive affine in the surge state) or quasiconcave (negative affine in the non-surge state) function in u, for a fixed σ. Such properties enable\nconstructing a sequence of changes to σi that each do not decrease the reward R(w, σ), with the\nlimit being a policy of the appropriate form. In particular, we can show that any policy that is not\nof the appropriate form above has ∂u∂ k R(w, σ) > 0 for some uk , allowing local improvements until\nadjacent intervals (`k , uk ), (`k+1 , uk+1 ) can be combined or expanded to infinity. The numerics in\nSection 5 provide examples in which multiplicative pricing is not incentive compatible, i.e., where\npolicies of the form above with positive finite constants strictly increase driver earnings over the\ndriver policy that accepts all trip requests.\nThe results of rejecting long trips in non-surge (and short trips in surge) extend to arbitrary\nfunctions where w1τ(τ ) is non-increasing (respectively, w2τ(τ ) is non-decreasing). The other two results\ndo not hold with such generality, as the behavior of the derivative may be arbitrarily complex.\n\n3.3\n\nWhy is multiplicative surge pricing not incentive compatible?\n“I thoroughly dislike short trips ESPECIALLY when I’m picking up in a waning surge zone”\nAnonymous driver\n\nWhat explains the difference between multiplicative pricing being incentive compatible in the singlestate model but not in the dynamic model? In the latter, a driver’s policy affects not just their\nearnings while they are busy, but also the fraction of time during which they are busy during the\nlucrative surge state. In particular, it turns out, accepting short trips during surge may reduce the\namount of time that a driver is on a surge trip! Appendix Figure 7 shows in an example how the\nfraction of time in the surge state µ2 (σ) changes as a function of how many short trips the driver\nrejects.\nThe anonymous driver we quote above identifies the key effect: when surge is short-lived, a\ndriver may only have the chance to complete one surge trip before it ends. Thus, the driver may\nbe better off waiting to receive a longer trip request, as with multiplicative surge they are paid\na higher rate for the full duration of the longer trip. (Of course, there is a trade-off as rejecting\ntoo many trip requests risks not receiving any acceptable request before surge ends). In the surge\nstate, then, multiplicative pricing does not compensate drivers enough to accept short trips that\nmay reduce their future surge earnings. In the non-surge state, analogously, multiplicative pricing\nunder-values long trips that may prevent taking advantage of a future surge.\n11\n\n\fAffine pricing is a first, reasonable attempt at fixing these issues. In the surge state, the additive\nvalue makes the previously under-valued short trips comparatively more valuable, as the earnings\nper unit time w2τ(τ ) = m2 + aτ2 (with a2 > 0) are now higher for short trips. Unfortunately, with\nsuch pricing the structure for the surge optimal policy becomes σ2 = (0, t5 ) ∪ (t6 , ∞) – if the values\nm2 , a2 are not balanced correctly, the additive value is enough to make accepting extremely short\ntrips (0, t5 ) profitable; for medium-length trips τ ∈ (t5 , t6 ), however, the additive value is not large\nenough to make up for the fact that accepting the trip prevents accepting another surged trip\nbefore surge ends. Similarly, negative affine pricing in the non-surge state, w1 (τ ) = m1 τ + a1 , (with\na1 < 0) is now too harsh on very short trips but potentially not enticing enough for long trips.\nNext, we fix these issues and construct incentive compatible pricing schemes for our dynamic\nmodel. Then, in Section 5 we leverage structural results derived here to numerically compare the\nincentive compatibility of additive and multiplicative surge.\n\n4\n\nIncentive Compatible Surge Pricing\n\nWe now present our main result, regarding the structure of incentive compatible pricing in the\ndynamic model. To this aim, in Section 4.1, we characterize µi (σ), how much time the driver\nspends in each state. In Section 4.2, we present incentive compatible prices, under a condition\nR1\non the ratio of per-state earning rate constraints, R\n. Section 4.3 discusses an intuition of the IC\n2\npricing structure in terms of the driver’s opportunity cost.\n\n4.1\n\nTransition probabilities and expected time spent in each state\n\nThe expected fraction of time spent in each state, µi (σ), depends both on the evolution of the\nworld state and the trips a driver accepts. To quantify the effects previewed in Section 3.3, we first\nanalyze the evolution of the world state CTMC.",
+          "quoted_text_sha256": "ff23d56c4a063db6e880b6c85845ed7ee3f144c516ec93b1a3d7505d6670f370"
+        },
+        {
+          "line_end": 3714,
+          "line_start": 3710,
+          "publication_locator": "cited publication",
+          "quoted_text": "We assume throughout:\n• Distribution of jobs F, Fi is a continuous probability measure, i.e., f, fi bounded.\n• There exists a policy in state 2 that dominates state 1: ∃σ2 such that ∆(σ2 , σ1 ) > 0, ∀σ1 ⊆\n(0, ∞).\n• σ, σi constrained to be measurable with respect to F, Fi , and σi are open.",
+          "quoted_text_sha256": "f1493dd615d3d4c839c66c7fbb5c08ca53b9be342ab46bb74e804c4fada44f8f"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_states": {
+      "source_anchors": [
+        {
+          "line_end": 656,
+          "line_start": 560,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 2. If w = {w1 , w2 }, there exists an optimal policy σ = {σ1 , σ2 } (i.e., that maximizes\nR(w, σ)), defined with parameters t1 , t2 , t3 , t4 , t5 , t6 ∈ [0, ∞) ∪ {∞}, such that\n• Non-surge state driver optimal policy σ1 :\n– If w1 is multiplicative or positive affine, σ1 rejects long trips, i.e., σ1 = (0, t1 ).\n– If w1 is negative affine, σ1 rejects short and long trips, i.e., σ1 = (t2 , t3 ).\n10\n\nThis insight is similar to a result of Kamble (2019); however, in our setting the driver’s strategy σ is a subset of\nR+ denoting the job requests accepted, as opposed to a discrete set of prices charged. Further, in our settings the\ndriver responds to the platform’s prices instead of setting prices, enabling a wider range of IC pricing mechanisms.\n\n10\n\n\f• Surge state driver optimal policy σ2 :\n– If w2 is multiplicative or negative affine, σ2 rejects short trips, i.e., σ2 = (t4 , ∞).\n\n– If w2 is positive affine, σ2 rejects medium length trips, i.e., σ2 = (0, t5 ) ∪ (t6 , ∞).\nFurthermore, there exist settings where ti ’s take positive finite values, and in which multiplicative\npricing is not incentive compatible in either state. Finally, only policies of the appropriate form as\nindicated (up to differences of measure 0) can be optimal.\nWe discuss the intuition in the next section. In the appendix, we prove the result for each case\nas follows: fixing σj for j 6= i, we start with an arbitrary open set σi = ∪∞\nk (`k , uk ), recalling that\nopen sets can be written as a countable union of such disjoint intervals. Then, we find ∂u∂ k R(w, σ),\nthe derivative of the set function R(w, σ) with respect to one of the interval upper end-points\nof σi , i.e., uk . This derivative is the infinitesimal change in the overall reward if σi is expanded\nby increasing uk , and it has useful properties. In the surge state with multiplicative pricing, for\n∂\nexample, ∂u\nR(w, σ) has the same sign as a function that is increasing in u, for each fixed σ. With\naffine pricing, it has the same sign as a quasi-convex (positive affine in the surge state) or quasiconcave (negative affine in the non-surge state) function in u, for a fixed σ. Such properties enable\nconstructing a sequence of changes to σi that each do not decrease the reward R(w, σ), with the\nlimit being a policy of the appropriate form. In particular, we can show that any policy that is not\nof the appropriate form above has ∂u∂ k R(w, σ) > 0 for some uk , allowing local improvements until\nadjacent intervals (`k , uk ), (`k+1 , uk+1 ) can be combined or expanded to infinity. The numerics in\nSection 5 provide examples in which multiplicative pricing is not incentive compatible, i.e., where\npolicies of the form above with positive finite constants strictly increase driver earnings over the\ndriver policy that accepts all trip requests.\nThe results of rejecting long trips in non-surge (and short trips in surge) extend to arbitrary\nfunctions where w1τ(τ ) is non-increasing (respectively, w2τ(τ ) is non-decreasing). The other two results\ndo not hold with such generality, as the behavior of the derivative may be arbitrarily complex.\n\n3.3\n\nWhy is multiplicative surge pricing not incentive compatible?\n“I thoroughly dislike short trips ESPECIALLY when I’m picking up in a waning surge zone”\nAnonymous driver\n\nWhat explains the difference between multiplicative pricing being incentive compatible in the singlestate model but not in the dynamic model? In the latter, a driver’s policy affects not just their\nearnings while they are busy, but also the fraction of time during which they are busy during the\nlucrative surge state. In particular, it turns out, accepting short trips during surge may reduce the\namount of time that a driver is on a surge trip! Appendix Figure 7 shows in an example how the\nfraction of time in the surge state µ2 (σ) changes as a function of how many short trips the driver\nrejects.\nThe anonymous driver we quote above identifies the key effect: when surge is short-lived, a\ndriver may only have the chance to complete one surge trip before it ends. Thus, the driver may\nbe better off waiting to receive a longer trip request, as with multiplicative surge they are paid\na higher rate for the full duration of the longer trip. (Of course, there is a trade-off as rejecting\ntoo many trip requests risks not receiving any acceptable request before surge ends). In the surge\nstate, then, multiplicative pricing does not compensate drivers enough to accept short trips that\nmay reduce their future surge earnings. In the non-surge state, analogously, multiplicative pricing\nunder-values long trips that may prevent taking advantage of a future surge.\n11\n\n\fAffine pricing is a first, reasonable attempt at fixing these issues. In the surge state, the additive\nvalue makes the previously under-valued short trips comparatively more valuable, as the earnings\nper unit time w2τ(τ ) = m2 + aτ2 (with a2 > 0) are now higher for short trips. Unfortunately, with\nsuch pricing the structure for the surge optimal policy becomes σ2 = (0, t5 ) ∪ (t6 , ∞) – if the values\nm2 , a2 are not balanced correctly, the additive value is enough to make accepting extremely short\ntrips (0, t5 ) profitable; for medium-length trips τ ∈ (t5 , t6 ), however, the additive value is not large\nenough to make up for the fact that accepting the trip prevents accepting another surged trip\nbefore surge ends. Similarly, negative affine pricing in the non-surge state, w1 (τ ) = m1 τ + a1 , (with\na1 < 0) is now too harsh on very short trips but potentially not enticing enough for long trips.\nNext, we fix these issues and construct incentive compatible pricing schemes for our dynamic\nmodel. Then, in Section 5 we leverage structural results derived here to numerically compare the\nincentive compatibility of additive and multiplicative surge.\n\n4\n\nIncentive Compatible Surge Pricing\n\nWe now present our main result, regarding the structure of incentive compatible pricing in the\ndynamic model. To this aim, in Section 4.1, we characterize µi (σ), how much time the driver\nspends in each state. In Section 4.2, we present incentive compatible prices, under a condition\nR1\non the ratio of per-state earning rate constraints, R\n. Section 4.3 discusses an intuition of the IC\n2\npricing structure in terms of the driver’s opportunity cost.\n\n4.1\n\nTransition probabilities and expected time spent in each state\n\nThe expected fraction of time spent in each state, µi (σ), depends both on the evolution of the\nworld state and the trips a driver accepts. To quantify the effects previewed in Section 3.3, we first\nanalyze the evolution of the world state CTMC.",
+          "quoted_text_sha256": "ff23d56c4a063db6e880b6c85845ed7ee3f144c516ec93b1a3d7505d6670f370"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "review_theorem3_structured_pricing": {
+      "source_anchors": [
+        {
+          "line_end": 285,
+          "line_start": 264,
+          "publication_locator": "cited publication",
+          "quoted_text": "\ffollows policy σ = {σ1 , σ2 }, where σi ⊆ R+ indicates the jobs accepted in state i. We assume that\ndriver policies are measurable with respect to F (corresponding Fi in dynamic model); for technical\nreasons, in the dynamic model we also assume that σi consist of a union of open intervals, i.e., are\nopen subsets of R+ . When we write equalities with policies σ, we mean equality up to changes of\nmeasure 0.\nThe driver is long-lived and aims to maximize their own lifetime average hourly earnings on the\nplatform, including both open and busy times. Let R(w, σ, t) denote the (random) total earnings\nfrom jobs accepted from time 0 up to time t if the driver follows policy σ and the payout function\nis w. Then, the driver’s lifetime earnings rate is\nR(w, σ) , lim inf t→∞\n\nR(w, σ, t)\n.\nt\n\nThis earnings rate is a deterministic (non-random) quantity, and is a function of the driver policy\nσ, pricing function w, and the primitives.\nA driver policy σ ∗ is optimal (best-response) with respect to pricing function w if it maximizes\nthe lifetime earnings rate of the driver among all policies: R(w, σ ∗ ) ≥ R(w, σ), for all valid policies\nσ (i.e., measurable with respect to F or Fi , with σi open sets). Then, pricing function w is incentive\ncompatible (IC) if accepting all job requests is optimal with respect to w, i.e., σ = (0, ∞) in\nthe single-state model or σ = {(0, ∞), (0, ∞)} in the dynamic model is optimal with respect to w.",
+          "quoted_text_sha256": "6ced9c4ec3a00f608d1a5c3c15706f4d30fabf93fd032df264a1334573807203"
+        },
+        {
+          "line_end": 720,
+          "line_start": 704,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 3. Let R1 < R2 be target earning rates during non-surged and surge states, respectively.\nThere exist prices w = {w1 , w2 } of the form\nwi (τ ) = mi τ + zi qi→j (τ ),\nwhere m1 , m2 , z2 ≥ 0 (but z1 may be either positive or negative), such that the optimal driver policy\nis to accept every trip in the surge state and all trips up to a certain length in the non-surge state.\nR1\nFurthermore, for R\n∈ (C, 1), there exist fully incentive compatible prices of this form, where\n2\nC =1−\n\n1 Q2 (λ12 T1 − Q1 ) + Q1 (T2 λ1→2 + Q2 )\n∈ [0, 1),\nT1 Q2 (λ1→2 T1 − Q1 ) + λ1→2 (T2 λ1→2 + Q2 )\n\nand Ti = λi Fi (σi )Ti ((0, ∞)), and Qi = Qi ((0, ∞)). For such prices, the driver policy to accept all\nrequests is the unique optimal driver policy (up to differences of measure 0).",
+          "quoted_text_sha256": "6fa6b56a16a6678c1e3eae560afa30abe4c9128ddc8d4e042fcb4c1db286aecd"
+        },
+        {
+          "line_end": 3714,
+          "line_start": 3697,
+          "publication_locator": "cited publication",
+          "quoted_text": "qi→j (τ )dFi (τ )\nQi , Qi (σi ) = λi→j + λi\nσi\nZ\nτ dFi (τ )\nTi , λi Fi (σi )Ti (σi ) = 1 + λi\nτ ∈σi\nZ\nwi (τ )dFi (τ )\nWi , λi Fi (σi )Wi (σi ) = λi\nτ ∈σi\n\n∆ji , ∆(σj , σi ) = Rj (wj , σj ) − Ri (wi , σi )\nWe assume throughout:\n• Distribution of jobs F, Fi is a continuous probability measure, i.e., f, fi bounded.\n• There exists a policy in state 2 that dominates state 1: ∃σ2 such that ∆(σ2 , σ1 ) > 0, ∀σ1 ⊆\n(0, ∞).\n• σ, σi constrained to be measurable with respect to F, Fi , and σi are open.",
+          "quoted_text_sha256": "fa2956b2b4d1885de7ea20a989c663895bc7a48f0c243bb182bb18eadcb787aa"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "source_definition_incentive_compatible": {
+      "source_anchors": [
+        {
+          "line_end": 287,
+          "line_start": 264,
+          "publication_locator": "cited publication",
+          "quoted_text": "\ffollows policy σ = {σ1 , σ2 }, where σi ⊆ R+ indicates the jobs accepted in state i. We assume that\ndriver policies are measurable with respect to F (corresponding Fi in dynamic model); for technical\nreasons, in the dynamic model we also assume that σi consist of a union of open intervals, i.e., are\nopen subsets of R+ . When we write equalities with policies σ, we mean equality up to changes of\nmeasure 0.\nThe driver is long-lived and aims to maximize their own lifetime average hourly earnings on the\nplatform, including both open and busy times. Let R(w, σ, t) denote the (random) total earnings\nfrom jobs accepted from time 0 up to time t if the driver follows policy σ and the payout function\nis w. Then, the driver’s lifetime earnings rate is\nR(w, σ) , lim inf t→∞\n\nR(w, σ, t)\n.\nt\n\nThis earnings rate is a deterministic (non-random) quantity, and is a function of the driver policy\nσ, pricing function w, and the primitives.\nA driver policy σ ∗ is optimal (best-response) with respect to pricing function w if it maximizes\nthe lifetime earnings rate of the driver among all policies: R(w, σ ∗ ) ≥ R(w, σ), for all valid policies\nσ (i.e., measurable with respect to F or Fi , with σi open sets). Then, pricing function w is incentive\ncompatible (IC) if accepting all job requests is optimal with respect to w, i.e., σ = (0, ∞) in\nthe single-state model or σ = {(0, ∞), (0, ∞)} in the dynamic model is optimal with respect to w.\nIn other words, payment function w is incentive compatible if an earnings-maximizing driver (who\nknows all the primitives, w, and the trip length τ at request time) accepts every trip request.",
+          "quoted_text_sha256": "16ad24a006290547d1abab7379bf1638c0a250a815e779bf1f7b4e9d80720001"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "source_definition_surge_state": {
+      "source_anchors": [
+        {
+          "line_end": 381,
+          "line_start": 377,
+          "publication_locator": "cited publication",
+          "quoted_text": "Finally, we can now precisely define what it means for i = 2 to be the surge state: it has a higher\npotential earning rate than state 1. There exists some policy σ2 such that R2 (w2 , σ2 ) > R1 (w1 , σ1 ),\nfor all σ1 ⊆ R+ . In other words, suppose that instead we were in the single-state setting, where\nthe primitives were set as either (λ1 , F1 , w1 ) or (λ2 , F2 , w2 ). Then the latter set of primitives would\nyield a higher maximum earnings.5",
+          "quoted_text_sha256": "f231f0d0a59b7c84a45074ff2f843ce88999347e0a75be4305ea93a3bd8b600b"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "source_lemma5_full_variational_policy_forms": {
+      "source_anchors": [
+        {
+          "line_end": 3386,
+          "line_start": 3343,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 5. Consider a function R̂(σ) that maps open, measurable subsets σ = ∪∞\nk (`k , uk ) ⊆ (0, ∞)\nto the non-negative reals, and probability measure F such that F is continuous, i.e. f is bounded.\n∂\nLet ∂u\nR̂(σ) denote the partial derivative of R̂ with respect to an upper end-point u of the intervals\nthat make up σ = ∪∞\nk (`k , uk ), i.e., it is the infinitesimal gain in the value of R̂(σ) by adding u to\nthe set σ. Suppose,\n∂\n1. R̂(σ) is continuous in σ, and ∂u\nR̂(σ) exists, for all σ and u.\n∂\n2. ∂u\nR̂(σ) is continuous in u, for each fixed σ.\n∂\n3. ∂u\nR̂(σ) is continuous in σ, for each fixed u.\n∂\nSuppose that there exists a function r(u, σ) that has the same sign as ∂u\nR̂(σ), for all σ, u where\n0\n0\nf (u) > 0. Consider any open measurable subset σ ⊆ (0, ∞), where F (σ ) > 0, and R̂(σ 0 ) > R̂(∅).\n\n50\n\n\fThen the following statement holds for each of the below specific cases: “Suppose ∃\u000f > 0 s.t.\nr(u, σ) is [Property] in u (for a fixed σ), for all σ such that R̂(σ) ≥ R̂(σ 0 ) − \u000f. Then, there exists\na policy σ ∗ of the form [Form] such that R(σ ∗ ) ≥ R(σ 0 ), and the inequality is strict unless σ 0 is\nalso of the same form.”\nProperty\nr(u, σ) > 0 (is positive)\nr(u, σ) is strictly increasing\nr(u, σ) is strictly decreasing\nr(u, σ) is strictly quasi-convex\nr(u, σ) is strictly quasi-concave\n\nForm\nσ ∗ = (0, ∞)\nσ ∗ = (`∗ , ∞), for `∗ ∈ R+\nσ ∗ = (0, u∗ ), for u∗ ∈ R+ ∪ {∞}\nσ ∗ = (0, `∗ ) ∪ (u∗ , ∞), for `∗ , u∗ ∈ R+ ∪ {∞}\nσ ∗ = (`∗ , u∗ ), for `∗ , u∗ ∈ R+ ∪ {∞}",
+          "quoted_text_sha256": "0e1ca62391069834895094d97f6f4c075257e48f0239c8f3d2e8a4737ae85e59"
+        },
+        {
+          "line_end": 3644,
+          "line_start": 3387,
+          "publication_locator": "cited publication",
+          "quoted_text": "\nProof. Proof. The facts that policies not of the appropriate form cannot be optimal follow directly\nfrom the respective structures of the derivatives, as we will show below. However, since the domain\nof the set function R̂ is any subset of R+ , we need to also prove existence of a maximizer of the\nappropriate form. The proof is structured around proving existence of a maximizer in each case,\nbut we will point out where the given facts imply necessity of having the appropriate form.\n∞\nThe general approach is as follows: Start at subset σ 0 ⊆ (0, ∞) = ∪∞\nk (`k , uk ) = ∪k ζk , where\nthe intervals are disjoint and ζk = (`k , uk ) denotes the kth interval. (recall that any open subset of\nR can be uniquely written as the countable union of such disjoint intervals).\nThen, do the following:\n1. Create a sequence σδ0 → σ 0 (as δ → 0), where, for each δ, the set σδ0 is δ-close to σ 0 : F ((σ 0 \\\nσδ0 ) ∪ (σδ0 \\ σ 0 )) < δ.\n2. Show that there exists a σ ∗ of the appropriate form (according to the property that holds\nabove), such that R̂(σδ0 ) ≤ R(σ ∗ ), ∀δ.\nBy continuity of the set function R̂, this implies that R̂(σ 0 ) ≤ R(σ ∗ ).\nThe second step is the main proof step and the only one that depends substantially on the given\nproperty of the function r(u, σ).\n\u0001\nStep one: a sequence σδ0 → σ 0 . Each σδ0 will be of the form σδ0 = (0, L)∪ ∪K\nk=1 (`k , uk ) ∪(B, ∞),\nfor some K, B, L that depend on δ. We construct a σδ0 such that F (σ 0 \\ σδ0 ∪ σδ0 \\ σ 0 ) < δ as follows:\n• F is a finite (probability) measure, and so there exists K such that F (∪∞\nk=K+1 (`k , uk )) < δ/2.\n0\n(Since F (σ ) ≤ 1, it follows by the Cauchy condition).\n• Let B ∈ R s.t. F ((B, ∞)) < δ/4. Let L ∈ R s.t. F ((0, L)) < δ/4. Such B, L exist by\ncondition on F .\n\u0001\n• Set σδ0 = (0, L) ∪ ∪K\nk=1 (`k , uk ) ∪ (B, ∞).\n• For convenience, we re-index the disjoint intervals {ζk }K+2\nk=1 such that they are in increasing\norder, i.e. uk > `k ≥ uk−1 , ∀k > 1, starting at (0, L), with the last interval (B, ∞). If there\nexist any intervals such that `k = uk−1 , replace them with the combined interval (`k−1 , uk ).\nIf {B, ∞} overlaps with the last interval, combine them.\nNote that, by the suppositions, in each case ∃δ0 small enough such that r(u, σ) maintains the\nappropriate property for all σ such that R̂(σ) ≥ R̂(σδ0 ), ∀δ < δ0 .\n51\n\n\fStep 2: showing that R̂(σ ∗ ) ≥\u0001R̂(σ 0 ), where σ ∗ is of the appropriate form. Now, starting\nat σ = σδ0 = (0, L)∪ ∪K\nk=1 (`k , uk ) ∪(B, ∞), we describe a sequence of modifications to σ, such that\neach modification does not reduce the reward R̂(σ). The limit of this sequence of modifications is\na policy σ ∗ of the appropriate form, regardless of the starting σδ0 .\nWe now carry out this step separately for each case. The general argument is that the properties\nforce r(u, σ) to be positive at certain points, which allows expanding the policy until a policy of\nthe appropriate form is reached.\nLet rL (`, σ) = −r(u, σ), i.e., it is a function that has the same sign as the derivative of a lower\nendpoint of σi (the same sign as the infinitesimal loss as removing the point ` from the set σ).\n∂\nR̂(σ) is positive in u, we can\nSetting where r(u, σ) > 0 (is positive). By supposition that ∂u\nincrease u1 (merging with other intervals) while increasing R̂(σ). Thus, we can keep increasing u1 ,\nand u1 → B, and so R((0, ∞)) ≥ R(σδ0 ). For any set σ 0 6= (0, ∞), we can increase the reward by\nexpanding an interval, and so it cannot be optimal. Thus, (0, ∞) is the unique optimal set.\n\nSetting where r(u, σ) is strictly increasing.\nNow, starting at σ = σδ0 , the limit of the sequence of modifications is a policy σ ∗ = (`∗ , ∞).\nBy the supposition that r(u, σ) strictly increasing in u, we have:\nrL (`, σ) strictly decreasing\nrL (`1 , σ) ≤ 0 =⇒ r(u1 , σ) > 0\n∂\n∂\n≡\nR̂(σ) ≤ 0 =⇒\nR̂(σ) > 0\n∂`1\n∂u1\n\n`1 < u1\n\nrL (`1 , σ) > 0 ⇐= r(u1 , σ) ≤ 0\n∂\n∂\n≡\nR̂(σ) > 0 ⇐=\nR̂(σ) ≤ 0\n∂`1\n∂u1\nCase 1: ∃ζ1 , ζ2 ⊂ σ such that `2 > u1 , |ζ1 |, |ζ2 |, i.e. there is more than one interval that\nmakes up σ, and ζ1 , ζ2 are the first and second such intervals, respectively, with positive mass.\nThen we make the following sequence of changes (forming new σ), depending on ∂`∂1 R̂(σ), ∂u∂ 1 R̂(σ):\nSubcase 1A, ∂u∂ 1 R̂(σ) > 0: Increase u1 until u1 = `2 (exit Case 1), or ∂u∂ 1 R̂(σ) ≤ 0 (go to Case\n1B).\nSub-subcase 1AA, ∂`∂1 R̂(σ) < 0, `1 > 0:\n\nSimultaneously, decrease `1 .\n\nSub-subcase 1AB, ∂`∂1 R̂(σ) ≥ 0 or `1 = 0:\n\nHold `1 fixed.\n\nSubcase 1B, ∂u∂ 1 R̂(σ) ≤ 0 =⇒ ∂`∂1 R̂(σ) > 0: Increase `1 until `1 = u1 (exit Case 1), or ∂`∂1 R̂(σ) ≤\n0 (which implies ∂u∂ 1 R̂(σ) > 0, i.e. go to Case 1A).\nEach of these changes increases R̂(σ), due to the direction of the changes in u1 , `1 and the signs\nof the appropriate derivatives. Note that these subcases are mutually-exclusive, and one is true\nas long as there is more than one disjoint interval, ∃ζ1 , ζ2 ⊂ σ, `2 > u1 . Further, note that u1 is\nincreasing in Subcase 1A and constant in Subcase 1B. Thus, with `2 fixed and bounded, eventually:\n\n52\n\n\f• `1 → u1 , in Subcase 1B (i.e. the first interval collapses to mass 0). OR\n• u1 → `2 , in Subcase 1A (i.e. the first interval merges with the second).\nThus, this sequence of changes increases the reward, and results in there being one fewer interval\nthan before (after combining the bottom 2 intervals by adding the point u1 = `2 of 0 measure).\nCase 1 can be iteratively applied until there is just a single interval σ = (`0 , ∞).\nThat the changes can increase the reward for any other σ implies that such σ cannot be optimal.\nCase 2: σ = (`0 , ∞), i.e. there is a single interval that makes up σ\nBy supposition, R̂(σ 0 ) > R̂(∅) and so R̂((`0 , ∞)) > R̂(∅). Further R̂((`, ∞)) is a continuous\nfunction in `. Thus, there exists L such that ∀` > L, R̂((`0 , ∞)) > R̂((`, ∞)).\nThus, there exists `∗ ∈ [0, L] such that R̂((`∗ , ∞)) ≥ R̂((`, ∞)), ∀` ∈ R+ ∪ {∞} (continuous\nfunctions in a compact domain have a maximum).\nSetting where r(u, σ) is strictly decreasing.\nThe proof is extremely similar to the strictly increasing case, with two differences.\nFirst we now need to \u0001modify the starting σ 0 so it does not contain an interval (B, ∞): set\n0\nσδ = (0, L) ∪ ∪K\nk=1 (`k , uk ) \\ (B, ∞).\nSecond, each case from above is duplicated but move the policy in the opposite different to\nincrease the reward. We omit the details of this case for brevity.\nSetting where r(u, σ) is strictly quasi-convex.\nWe show that there exists a σ ∗ = (0, `∗ ) ∪ (u∗ , ∞), for some u∗ , l∗ ∈ R+ , such that R̂(σδ0 ) ≤\nR(σ ∗ ), ∀δ.\nThe key is noting that quasi-convexity of r(u, σ) in u implies that any σ with three intervals\nζ1 , ζ2 , ζ3 can be improved by eliminating the middle interval (or joining it with one of the others).\nCase 1: ∃ disjoint ζ1 = (0, u1 ), ζ2 = (`2 , u2 ), ζ3 = (`3 , u3 ), s.t. |ζ1 |, |ζ2 |, |ζ3 | > 0, i.e. σ is\ncomposed of at least three intervals, and ζ1 , ζ2 , ζ3 are the first three such intervals with positive\nmass. (u3 may be ∞).\nBy supposition, r(uk , σ), is strictly quasi-convex in u, and so rL (`k , σ), is strictly quasi-concave\nin `.\nThen, we have:\n∂\n∂\n∂\n∂\nR̂(σ) ≤ 0 and\nR̂(σ) ≥ 0 =⇒\nR̂(σ) > 0 and\nR̂(σ) < 0\n∂u1\n∂`3\n∂`2\n∂u2\n∂\n∂\n∂\n∂\nR̂(σ) ≤ 0 or\nR̂(σ) ≥ 0 =⇒\nR̂(σ) > 0 or\nR̂(σ) < 0\n∂`2\n∂u2\n∂u1\n∂`3\nThen we make the following sequence of changes (forming new σ):\nSubcase 1A, ∂u∂ 1 R̂(σ) ≤ 0 and ∂`∂3 R̂(σ) ≥ 0 =⇒ ∂`∂2 R̂(σ) > 0 and ∂u∂ 2 R̂(σ) < 0: Increase `2 and\ndecrease u2 simultaneously until `2 = u2 (exit Case 1), ∂u∂ 2 R̂(σ) ≥ 0, or ∂`∂2 R̂(σ) ≤ 0 (go to\n1B or 1C).\nSubcase 1B, ∂u∂ 1 R̂(σ) > 0: Increase u1 until u1 = `2 (exit Case 1), or ∂u∂ 1 R̂(σ) ≤ 0 (go to 1A or\n1C)\nSubcase 1C, ∂`∂3 R̂(σ) < 0: Decrease `3 until u2 = `3 (exit Case 1), or ∂`∂3 R̂(σ) ≥ 0 (go to 1B or\n1A).\n53\n\n\fEach of these changes strictly increase R̂(σ). 1B and 1C may both be true, in which case we\narbitrarily decide between them. At least one of the three subcases is true as long as the Case 1\ncondition holds. Thus, eventually:\n• `2 = u2 , in Subcase 1A (i.e. the middle interval collapses to mass 0). OR\n• u1 = `2 , in Subcase 1B (i.e. the first interval merges with the second). OR\n• u2 = `3 , in Subcase 1C (i.e. the third interval merges with the second).\nThus, this sequence of changes cannot decrease the reward, and results in there being one fewer\ninterval than before. Case 1 can be iteratively applied until there are just two intervals σ =\n(0, t1 ) ∪ (t2 , ∞).\nThat the changes can increase the reward for any other σ implies that such σ cannot be optimal.\nCase 2: σ = (0, t1 ) ∪ (t2 , ∞). We need to show that there exists a maxima (t∗1 , t∗2 ). Specifically, we\nneed to eliminate the possible cases where t1 or t2 increase to infinity, but the asymptotic values\nat ∞ produce lower rewards, which would have implied that the maximum is not achieved.\nBy supposition, R̂(σ 0 ) > R̂(∅) and so R̂((0, t1 ) ∪ (t2 , ∞)) > R̂(∅) for t1 > 0 or t2 < ∞.\nFurther R̂((0, t1 ) ∪ (t2 , ∞)) is a continuous function in t1 , t2 . Thus R̂((0, t1 ) ∪ (t2 , ∞)) → R̂(∅)\nas t1 → 0, t2 → ∞ together.\nFurther, R̂((0, t1 ) ∪ (t2 , ∞)) → R̂((0, ∞)) as t1 → ∞, regardless of how t2 behaves. Similarly,\nfixing t1 , R̂((0, t1 ) ∪ (t2 , ∞)) → R̂((0, t1 )) as t2 → ∞.\n• If R̂((0, t1 ) ∪ (t∗2 (t1 ), ∞)) is increasing for t1 > T1 , for however t∗2 (t1 ) behaves as a function of\nt1 then R̂((0, ∞)) ≥ R̂((0, t1 ) ∪ (t2 , ∞)), ∀t1 > T1 , t2 .\n\n• For any fixed t1 , if R̂((0, t1 ) ∪ (t2 , ∞)) is increasing for t2 > T2 , then R̂((0, t1 )) ≥ R̂((0, t1 ) ∪\n(t2 , ∞)), ∀t2 .\n\nThus, the maximum is achieved: either\n\n1. ∃t∗1 ∈ (0, ∞) : R̂((0, t∗1 )) ≥ R̂((0, t1 ) ∪ (t2 , ∞)), ∀t1 , t2\n2. ∃t∗1 , t∗2 ∈ [0, ∞) : R̂((0, t∗1 ) ∪ (t∗2 , ∞)) ≥ R̂((0, t1 ) ∪ (t2 , ∞)), ∀t1 , t2\nSetting where r(u, σ) is strictly quasi-concave.\nThe proof is extremely similar to the strictly quasi-convex case. However, we now need to\nmodify the starting σ 0 so it does not contain an intervals (0, L) or (B, ∞), and the subsequent\nmodifications also differ directionally.\n\u0001\nLet σδ0 = ∪K\nk=1 (`k , uk ) \\ (0, L) \\ (B, ∞). Now, the key step is noting that strict quasi-concavity\nof r(u, σ) implies that any σ with two intervals ζ1 , ζ2 can be improved by eliminating one (or joining\nthe two).\nCase 1: ∃ disjoint ζ1 = (`1 , u1 ), ζ2 = (`2 , u2 ), s.t. |ζ1 |, |ζ2 | > 0, i.e. σ is composed of at least\ntwo intervals with positive mass, and ζ1 , ζ2 are the first two such intervals.\nBy supposition, r(uk , σ), is strictly quasi-concave in u. Then, rL (`k , σ), is strictly quasi-convex\nin u.\nThen, we have:\n∂\n∂\n∂\nR̂(σ) ≤ 0 and\nR̂(σ) ≤ 0 =⇒\nR̂(σ) > 0\n∂`1\n∂`2\n∂u1\n∂\n∂\n∂\nR̂(σ) ≤ 0 =⇒\nR̂(σ) > 0 or\nR̂(σ) > 0\n∂u1\n∂`1\n∂`2\n54\n\n\fThen we make the following sequence of changes (forming new σ):\nSubcase 1A, ∂`∂1 R̂(σ) ≤ 0 and ∂`∂2 R̂(σ) ≤ 0 =⇒ ∂u∂ 1 R̂(σ) > 0: Increase u1 until u1 = `2 (exit\nCase 1) or ∂u∂ 1 R̂(σ) ≤ 0 (go to 1B or 1C).\nSubcase 1B, ∂`∂1 R̂(σ) > 0: Increase `1 until u1 = `1 (exit Case 1), or ∂`∂1 R̂(σ) ≤ 0 (go to 1A or\n1C)\nSubcase 1C, ∂`∂2 R̂(σ) > 0: Increase `2 until u2 = `2 (exit Case 1), or ∂`∂2 R̂(σ) ≤ 0 (go to 1B or\n1A).\nEach of these changes strictly increase R(σ). 1B and 1C may both be true, in which case arbitrarily\ndecide between them. At least one of the three subcases is true as long as the Case 1 condition\nholds. Thus, eventually:\n• `2 = u1 , in Subcase 1A (i.e. the intervals combine). OR\n• u1 = `1 , in Subcase 1B (i.e. the first interval collapses to mass 0). OR\n• u2 = `2 , in Subcase 1C (i.e. the second interval collapses to mass 0).\nThus, this sequence of changes cannot decrease the reward, and result in there being one fewer\ninterval than before. Case 1 can be iteratively applied until there is just one interval σi = (t1 , t2 ).\nThat the changes can increase the reward for any other σ implies that such σ cannot be optimal.\nCase 2: σi = (t1 , t2 ). As in the same case in the quasi-convex setting. We need to values eliminate\nthe possible cases where t1 or t2 increasing to infinity, but the asymptotic values at ∞ produce\nlower rewards, which would imply that the maximum is not achieved.\nNote that R̂((t1 , t2 )) is a continuous function in t1 , t2 . Thus R̂((t1 , t2 )) → R̂(∅) as t1 → t2 .\nFurther, R̂((t1 , t2 )) → R̂(∅) as t1 → ∞, regardless of how t2 ≥ t1 behaves. Similarly, fixing t1 ,\nR̂((t1 , t2 )) → R̂((t1 , ∞)) as t2 → ∞.\n• If R̂((t1 , t∗2 (t1 ))) is increasing for t1 > T1 , for however t∗2 (t1 ) behaves as a function of t1 then\nR̂(∅) ≥ R̂((t1 , t2 )), ∀t1 > T1 , t2 .\n• For any fixed t1 , if R̂((t1 , t2 )) is increasing for t2 > T2 , then R̂((t1 , ∞)) ≥ R̂((t1 , t2 )), ∀t2 > T2 .\nThus, either\n1. R̂(∅) ≥ R̂((t1 , t2 )), ∀t1 , t2\n2. ∃t∗1 ∈ [0, ∞) : R̂((t∗1 , ∞)) ≥ R̂((t1 , t2 )), ∀t1 , t2\n3. ∃t∗1 , t∗2 ∈ [0, ∞) : R̂(t∗1 , t∗2 ) ≥ R̂((t1 , t2 )), ∀t1 , t2",
+          "quoted_text_sha256": "6a4a8e2187fb1a201a5d8774be78855fa56d0db5b2f16311bb553cf1e4ed59c1"
+        },
+        {
+          "line_end": 3692,
+          "line_start": 3660,
+          "publication_locator": "cited publication",
+          "quoted_text": "Recall in the dynamic model that we constrain σi to be measurable, open, subsets of the R+ . Then,\nσi can be written as a countable union of disjoint subsets of R+ , i.e. σi = ∪∞\nk=0 (`k , uk ). We further\nassume that uk 6= `m , for any k, m; we can do so without loss of generality by making a measure 0\nchange to σi , by adding uk = `m to σi .\n∂\nSuppose u is an upper-endpoint of σi , ie. ∃k such that u = uk . Then, we use ∂u\nH(σi ) to denote\n∂\nthe derivative of the set function H with respect to u at σi . Similarly, ∂` H(σi ) is the derivative of\nH at σi with respect to a lower-endpoint of σi .\n∂\n∂\nWe derive ∂u\nR(w, {σ1 , σ2 }), ∂`\nR(w, {σ1 , σ2 }). We will make it clear in each instance whether u\n∂\nrefers to the derivative\nor ` is an endpoint of σ1 or σ2 . For all the derivatives in this subsection ∂u\n∂\nwith respect to an upper endpoint in σi , and ∂` refers to a derivative at a lower endpoint of σi .\nNote that\n∂\n∂\nR(w, {σ1 , σ2 }) = − R(w, {σ1 , σ2 }).\n∂u\n∂`\nFurthermore:\n• We use σ in the function argument when the function depends on policies in both states, and\nσi when it only depends on the policy in state i.\n• We use ∝ to denote that “two functions of u have the same sign except where f (u) = 0”,\nrather than proportional to.\n• All policy equalities are up to measure 0.",
+          "quoted_text_sha256": "22dd236e0fac98ba281d0891557c43616586233443d50a9a878e7107fc15ea8c"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "source_theorem4_full_structural_policy_forms": {
+      "source_anchors": [
+        {
+          "line_end": 3880,
+          "line_start": 3859,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 4. Consider pricing function w = {w1 , w2 }, where i = 2 is the surge state as defined.\nThen, there exists an optimal policy σ = {σ1 , σ2 } that maximizes R(w, σ), with the following properties.\n• Non-surge state driver optimal policy σ1 :\n– If w1 (τ ) = m1 τ + a1 , for a1 ≥ 0, then σ1 = (0, t1 ), for some t1 ∈ [0, ∞) ∪ {∞}.\n\n– If w1 (τ ) = m1 τ − a1 , for a1 > 0, then σ1 = (t2 , t3 ), for some t2 , t3 ∈ [0, ∞) ∪ {∞}.\n\n∂\n– If w1 such that ∂u\nR(w, σ 0 = {σ10 , σ20 }) > 0 for all σ 0 , where u is an upper endpoint of an\ninterval that makes up σ10 , then σ1 = (0, ∞).\n\n• Surge state driver optimal policy σ2 :\n– If w2 (τ ) = m2 τ − a2 , for a2 ≥ 0, then σ1 = (t4 , ∞), for some t4 ∈ [0, ∞).\n\n– If w2 (τ ) = m2 τ +a2 , for a2 > 0, then σ1 = (0, t5 )∪(t6 , ∞), for some t5 , t6 ∈ [0, ∞)∪{∞}.\n∂\n– If w2 such that ∂u\nR(w, σ 0 = {σ10 , σ20 }) > 0 for all σ 0 , where u is an upper endpoint of an\ninterval that makes up σ20 , then σ2 = (0, ∞).\n\nFurthermore, only policies of the given forms can be optimal.",
+          "quoted_text_sha256": "36dec9382a15fe5f4518ae3dbb37af5f6cbe6e93eb7690291c80148b8bd570e8"
+        },
+        {
+          "line_end": 3943,
+          "line_start": 3884,
+          "publication_locator": "cited publication",
+          "quoted_text": "\f• Start with some arbitrary policy σ = {σ1 , σ2 }.\n• With assumption on the surge state providing higher potential earnings, replace σ2 with a\npolicy that provides higher earnings in state 2 than σ1 does in state 1, without decreasing\ntotal reward.\n• Using Lemma 5, replace σ1 with policy of the appropriate form, without decreasing total\nreward.\n• Using Lemma 5, replace σ2 with policy of the appropriate form, without decreasing total\nreward.\n∂\nLet r(u, i, w, σ) be as defined in Lemma 6, a function that has the same sign as ∂u\nR(w, σ),\nwhere u is an upper endpoint of an interval that is part of σi . Recall that, above, we show\n\n• (Remark 1). ∆(σi , σj ) > 0 and wiτ(τ ) non-decreasing implies r(u, i, w, σ) strictly increasing in\nu ∈ σi .\n• (Remark 1). ∆(σi , σj ) < 0 and wiτ(τ ) non-increasing implies r(u, i, w, σ) strictly decreasing in\nu ∈ σi .\n• (Lemma 7). w(τ ) = mτ + a for m, a > 0 and ∆(σi , σ−i ) ≥ 0 implies r(u, i, w, σ) is strictly\nquasi-convex in u ∈ σi\n• (Lemma 8). w(τ ) = mτ − a for m, a > 0 and ∆(σi , σ−i ) ≤ 0 implies r(u, i, w, σ) is strictly\nquasi-concave in u ∈ σi\nWe need to show that there exists a σ of the appropriate form such that R(w, σ) ≥ R(w, σ 0 ),\nfor all σ 0 .\nStart with arbitrary σ 0 = {σ10 , σ20 } where σ10 , σ20 ⊆ R+ are open, measurable sets, but not of the\ncorrect form in the theorem statement. Invoking Lemma 5 as appropriate, we construct a sequence\nof changes to σ 0 such that the overall reward does not decrease with each change, and the sequence\nends with a policy consistent with the theorem statement.\nStep A First, if R2 (σ20 ) < R1 (σ10 ), then we replace σ20 with a policy σ2A such that R2 (σ2A ) >\nR1 (σ1 ), ∀σ1 .\nLet σ2A be such that ∆(σ2A , σ100 ) > 0, for all σ100 open and measurable. Such σ2A exists by the\ndefinition of the surge state (we in fact define the surge state so that such σ2A exists).\nThen, let σ A , {σ1A = σ10 , σ2A }.\n\nNote that R(w, σ A ) ≥ R(w, σ 0 ): time spent earning reward at the rate of R2 (w2 , σ20 ) is replaced\nby time spent earning at rate R1 (w1 , σ10 ) or earning at rate R2 (w2 , σ2A ); time spent earning\nat R1 (w1 , σ10 ) may be replaced by time earning at rate R2 (w2 , σ2A ).\n\nStep B Now, we replace σ1A with a policy that is of the appropriate form.\nLet R̂(σ1 ) , R(w, {σ1 , σ2A }). By Lemma 5, there exists σ1B such that R(w, {σ1B , σ2A }) ≥\nR(w, {σ1A , σ2A }), and σ1B is of the required form. The inequality is strict if σ1A is not of the\nrequired form.\nNote that all the assumptions of Lemma 5 are met for each appropriate case: σ2B such\nthat ∆(σ2B , σ10 ) > 0, ∀σ10 , and so r(u, i, w, σ) remains decreasing or strictly quasi-concave as\nnecessary.\nLet σ B , {σ1B , σ2B = σ2A }.\n59\n\n\fStep C Now, we replace σ2B with a policy that is of the appropriate form.\nLet R̂(σ2 ) , R(w, {σ1B , σ2 }).\n\nBy Lemma 5, there exists σ2C such that R(w, {σ1B , σ2C }) ≥ R(w, {σ1B , σ2B }), and σ2C is of the\nrequired form according to the table. The inequality is strict if σ2B is not of the required form.\nAs before, all the assumptions of Lemma 5 are met for each appropriate case. σ2B such that\n∆(σ2B , σ10 ) > 0, ∀σ10 , and so r(u, i, w, σ) remains strictly increasing / strictly quasi-convex in\nu for a fixed σ.\nLet σ C , {σ1C = σ1B , σ2C }.\nThus, we have constructed σ ∗ = {σ1∗ = σ1C , σ2∗ = σ2C } such that σ1∗ , σ2∗ correspond to theorem\nstatement for the appropriate cases, respectively, and R(w, σ ∗ ) ≥ R(w, σ), for all σ = {σ1 , σ2 }\nwhere σ1 , σ2 ⊆ R+ are open, measurable sets, with the inequality strict if σ is not of the required\nform.",
+          "quoted_text_sha256": "ebe08a8d8b34c773115dff55cc0857d3988efa6149a9ebdc11d0a3ffd701f312"
+        }
+      ],
+      "source_kind": "theorem"
+    }
+  },
+  "source_artifact_sha256": "6b6668553e576084e0c6c9995964252bed6b14aae113d6ce90f78538a7eb9889",
+  "source_coverage_mode": "named_theoretical_statements"
+}

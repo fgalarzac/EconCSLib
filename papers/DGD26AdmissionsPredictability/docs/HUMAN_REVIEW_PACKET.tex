@@ -1,0 +1,3377 @@
+% Generated human-review packet template.  Source records, Lean statements,
+% and raw-source-to-Spec screening fields are substituted by
+% scripts/review_dashboard_packet.py.
+% Do not hand-edit generated packets; annotate the PDF or reconcile notes into
+% the paper-local human-review log.
+\documentclass[10pt]{article}
+\usepackage[margin=0.43in]{geometry}
+\usepackage{fontspec}
+\setmainfont{Latin Modern Roman}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{fvextra}
+\usepackage{enumitem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.15em}
+\linespread{0.92}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+\DefineVerbatimEnvironment{ReviewVerbatim}{Verbatim}{breaklines=true,breakanywhere=true,fontsize=\scriptsize}
+\newcommand{\reviewerbox}{%
+  \par\noindent\fbox{\parbox{0.96\linewidth}{\rule{0pt}{0.38in}}}\par
+}
+\newcommand{\reviewmatch}[1]{%
+  \par\noindent\textbf{Reviewer check:} $\square$\; #1\par
+  \noindent\emph{If left unchecked, explain the discrepancy or uncertainty below.}\par
+}
+
+\begin{document}
+\fontsize{9}{10}\selectfont
+
+\begin{center}
+{\LARGE Human review packet: DGD26AdmissionsPredictability}\\[0.35em]
+\small Generated from byte-pinned source excerpts, the expanded PaperInterface
+specifications, and hash-bound raw-source-to-Spec screening records.
+\end{center}
+
+\noindent\textbf{Paper:} DGD26AdmissionsPredictability\\
+\textbf{Paper id:} \texttt{DGD26AdmissionsPredictability}\\
+\textbf{Source version:} AAAI 2026 paper; pinned arXiv TeX source archive\\
+\textbf{Source record:} \texttt{audit/paper\_statement\_map.json}\\
+\textbf{Rows:} 63\\
+\textbf{Generated:} 2026-08-18\\
+\textbf{Source URL:} \href{https://ojs.aaai.org/index.php/AAAI/article/view/41179}{official source}
+
+\noindent\fbox{\parbox{0.96\linewidth}{\textbf{Review status:} 0/63 source-claim screens; 0/23 library prerequisite screens. This is a review worksheet while those direct checks remain pending; it is not a final validation receipt.}}\par
+
+
+
+\section*{How to use this packet}
+For each source claim, compare the exact source excerpts with the expanded
+PaperInterface specification. Mark up this PDF or fill the blank reviewer box in the TeX source;
+return the annotated file for reconciliation into the paper-local human-review
+log.
+
+\section*{Open the interactive dashboard}
+The interactive dashboard is an optional alternative to using this PDF; it
+presents the same review surface rather than an additional review requirement.
+After forking and cloning (or pulling) EconCSLib, run the following from the
+repository root. The cache command is needed only the first time in a new clone.
+\begin{ReviewVerbatim}
+cd <your-EconCSLib-checkout>
+lake exe cache get
+python3 scripts/review_dashboard.py --paper DGD26AdmissionsPredictability --serve
+\end{ReviewVerbatim}
+Open \url{http://127.0.0.1:8765/} in a browser and keep that terminal running
+while reviewing. The dashboard records saved annotations in this paper's
+reviewer-owned review record.
+
+\section*{Contents}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-section-bee5354f1438f98f}{Semantic library prerequisites (23; not paper claims)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-prerequisite-aebe54633da60351}{EconCSLib.FiniteChoice.ChoiceRule}
+\item \hyperlink{library-prerequisite-c51ffba76c13d204}{EconCSLib.FiniteChoice.Consistent}
+\item \hyperlink{library-prerequisite-e66298c8dac25baa}{EconCSLib.FiniteChoice.choiceGainTerm}
+\item \hyperlink{library-prerequisite-ba6c40008598cadf}{EconCSLib.FiniteChoice.choiceLossTerm}
+\item \hyperlink{library-prerequisite-66d5b4a54f47387c}{EconCSLib.FiniteChoice.choiceDistance}
+\item \hyperlink{library-prerequisite-29c4c5d3d08823af}{EconCSLib.FiniteChoice.DUnstable}
+\item \hyperlink{library-prerequisite-542ade70cc681808}{EconCSLib.FiniteChoice.Feasible}
+\item \hyperlink{library-prerequisite-ac076d846344765a}{EconCSLib.FiniteChoice.borderlineSet}
+\item \hyperlink{library-prerequisite-84ef92453e2eeb0e}{EconCSLib.FiniteChoice.waitlistedSet}
+\item \hyperlink{library-prerequisite-5f0109fb4b0fbb5d}{EconCSLib.FiniteChoice.GeneralVariabilityAtMost}
+\item \hyperlink{library-prerequisite-94743536b7e3fe31}{EconCSLib.FiniteChoice.GeneralVariabilityExactly}
+\item \hyperlink{library-prerequisite-0de9dc90c34c9fb6}{EconCSLib.FiniteChoice.Independent}
+\item \hyperlink{library-prerequisite-8ee5c1a19c8d4e3a}{EconCSLib.FiniteChoice.Monotonic}
+\item \hyperlink{library-prerequisite-f02e4b75ca5571bf}{EconCSLib.FiniteChoice.QAcceptant}
+\item \hyperlink{library-prerequisite-88c2ddc1c549c716}{EconCSLib.FiniteChoice.StrictTotalOrder}
+\item \hyperlink{library-prerequisite-286eac89d49c4d81}{EconCSLib.FiniteChoice.QRepresentative}
+\item \hyperlink{library-prerequisite-542d5eef4a694a7d}{EconCSLib.FiniteChoice.Substitutable}
+\item \hyperlink{library-prerequisite-bb61a90095edae4b}{EconCSLib.FiniteChoice.TightlyDUnstable}
+\item \hyperlink{library-prerequisite-aa69285c37fbf372}{EconCSLib.FiniteChoice.VariabilityAtMost}
+\item \hyperlink{library-prerequisite-4ccdc8565ec23c71}{EconCSLib.FiniteChoice.VariabilityExactly}
+\item \hyperlink{library-prerequisite-e55d0830fae724cb}{EconCSLib.FiniteChoice.ZeroUnstable}
+\item \hyperlink{library-prerequisite-4a3989697f894599}{EconCSLib.FiniteChoice.linearTopQChoice}
+\item \hyperlink{library-prerequisite-3767c56c4f2cc69a}{EconCSLib.FiniteChoice.sequentialComposition}
+\end{itemize}
+\item \hyperlink{source-section-f10b5f68e4acf3dc}{Source claims (63)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-03de8677e0f95903}{paper\_fixed\_threshold\_formula\_statementSpec}
+\item \hyperlink{source-claim-685dcba90250bf7c}{paper\_choice\_function\_model\_definition\_statementSpec}
+\item \hyperlink{source-claim-d396bf72ee1812a2}{paper\_definition\_choice\_labelSpec}
+\item \hyperlink{source-claim-51b92e4a229b02a5}{paper\_q\_acceptance\_definition\_statementSpec}
+\item \hyperlink{source-claim-9a3be13c89f94ffe}{paper\_total\_order\_definition\_statementSpec}
+\item \hyperlink{source-claim-a21144374ad8e28c}{paper\_definition\_choice\_distanceSpec}
+\item \hyperlink{source-claim-398a4d87fcced6ba}{paper\_d\_instability\_definition\_statementSpec}
+\item \hyperlink{source-claim-62d00d89c6cc151a}{paper\_tight\_d\_instability\_definition\_statementSpec}
+\item \hyperlink{source-claim-be4f0b5bb7e1dd6b}{paper\_variability\_exactly\_definition\_statementSpec}
+\item \hyperlink{source-claim-12cc974d07b19ac2}{paper\_ml\_representation\_definition\_statementSpec}
+\item \hyperlink{source-claim-1e70e813c2db1d8e}{paper\_rank\_threshold\_formula\_statementSpec}
+\item \hyperlink{source-claim-d17644eda5ebe53f}{paper\_substitutability\_definition\_statementSpec}
+\item \hyperlink{source-claim-69b86836fa7d4d06}{paper\_definition\_sequential\_compositionSpec}
+\item \hyperlink{source-claim-1b6dc1033989d2bf}{paper\_monotonicity\_definition\_statementSpec}
+\item \hyperlink{source-claim-899ae3aec5210e2c}{paper\_consistency\_definition\_statementSpec}
+\item \hyperlink{source-claim-ca1d4873227a50e3}{paper\_q\_representativeness\_definition\_statementSpec}
+\item \hyperlink{source-claim-3a97b71dd915eed1}{paper\_zero\_instability\_definition\_statementSpec}
+\item \hyperlink{source-claim-e633cfedc7bfb493}{paper\_independence\_definition\_statementSpec}
+\item \hyperlink{source-claim-8e553b3e026d261e}{paper\_definition\_borderline\_setSpec}
+\item \hyperlink{source-claim-1c2136cbe341a833}{paper\_definition\_waitlisted\_setSpec}
+\item \hyperlink{source-claim-d2f6a286dc057af6}{paper\_general\_variability\_exactly\_definition\_statementSpec}
+\item \hyperlink{source-claim-a009d7013e95842d}{paper\_lap\_model\_definition\_statementSpec}
+\item \hyperlink{source-claim-f902fe2aa64a28cb}{paper\_lap\_slot\_below\_definition\_statementSpec}
+\item \hyperlink{source-claim-ac931f819ad35103}{paper\_lap\_same\_slot\_order\_definition\_statementSpec}
+\item \hyperlink{source-claim-be70d394f2bee79c}{paper\_lap\_assignment\_choice\_formula\_statementSpec}
+\item \hyperlink{source-claim-b05952c99a84b6af}{paper\_independent\_zero\_unstable\_statementSpec}
+\item \hyperlink{source-claim-d920f9b7847b2baa}{paper\_independent\_zero\_unstable\_corollary\_statementSpec}
+\item \hyperlink{source-claim-18a641b7c4365d27}{paper\_no\_consistent\_positive\_tightly\_even\_statementSpec}
+\item \hyperlink{source-claim-1daa198b9d0a1bc3}{paper\_zero\_distance\_statementSpec}
+\item \hyperlink{source-claim-760d01f2c31e3672}{paper\_calculating\_instability\_statementSpec}
+\item \hyperlink{source-claim-72ba750e0e18812e}{paper\_corrected\_consistency\_of\_removable\_sets\_statementSpec}
+\item \hyperlink{source-claim-7d8732899c3f4210}{paper\_lap\_strictly\_higher\_slot\_applicant\_assigned\_statementSpec}
+\item \hyperlink{source-claim-5e3bd8769e715d3c}{paper\_lap\_assigned\_strictly\_outranks\_rejected\_statementSpec}
+\item \hyperlink{source-claim-14ff35045a22028c}{paper\_monotonicity\_term\_statementSpec}
+\item \hyperlink{source-claim-43c4c9b7821d369a}{paper\_monotonicity\_q\_acceptance\_incompatible\_statementSpec}
+\item \hyperlink{source-claim-f926138cb2114337}{paper\_acceptant\_one\_instability\_variability\_borderline\_eq\_waitlisted\_after\_changing\_insert\_statementSpec}
+\item \hyperlink{source-claim-ef4d58145103cd0c}{paper\_substitutability\_term\_statementSpec}
+\item \hyperlink{source-claim-ca2a099855204aca}{paper\_non\_substitutable\_single\_add\_statementSpec}
+\item \hyperlink{source-claim-bc7eeffb236e6569}{paper\_ml\_fixed\_threshold\_representation\_zero\_unstable\_statementSpec}
+\item \hyperlink{source-claim-d21050cec8d233b0}{paper\_ml\_rank\_threshold\_can\_represent\_exact\_one\_statementSpec}
+\item \hyperlink{source-claim-47a9f492a25c4e98}{paper\_ml\_rank\_threshold\_representation\_instability\_bound\_statementSpec}
+\item \hyperlink{source-claim-98ed151e7543b81d}{paper\_ml\_rank\_threshold\_representation\_variability\_bound\_statementSpec}
+\item \hyperlink{source-claim-396063f8f4209701}{paper\_program\_classes\_one\_instability\_statementSpec}
+\item \hyperlink{source-claim-f595f3e6af0e1b40}{paper\_screened\_open\_variability\_one\_statementSpec}
+\item \hyperlink{source-claim-8afe5dc5804dcb73}{paper\_screened\_open\_dia\_variability\_two\_statementSpec}
+\item \hyperlink{source-claim-68c8be83630deedf}{paper\_educational\_option\_variability\_three\_statementSpec}
+\item \hyperlink{source-claim-a241fbe5321a55d3}{paper\_educational\_option\_dia\_variability\_six\_statementSpec}
+\item \hyperlink{source-claim-207dcf4700d4343b}{paper\_sequential\_additive\_variability\_bound\_statementSpec}
+\item \hyperlink{source-claim-fff538b4a617e0f3}{paper\_append\_remove\_variability\_exact\_equivalence\_statementSpec}
+\item \hyperlink{source-claim-e1e0f5f892109672}{paper\_choice\_distance\_triangle\_statementSpec}
+\item \hyperlink{source-claim-f8de55f9c5760a87}{paper\_even\_distance\_iff\_inconsistent\_statementSpec}
+\item \hyperlink{source-claim-3e732abc6f7366e9}{paper\_independent\_substitutable\_monotonic\_statementSpec}
+\item \hyperlink{source-claim-dac748564d615cb6}{paper\_no\_zero\_instability\_under\_capacity\_statementSpec}
+\item \hyperlink{source-claim-4efb65f58e4bc480}{paper\_substitutability\_one\_instability\_equivalence\_statementSpec}
+\item \hyperlink{source-claim-d2442dd19c06f77a}{paper\_theorem1\_tight\_all\_d\_statementSpec}
+\item \hyperlink{source-claim-b3ee09f1e9e6b10d}{paper\_lap\_assignment\_one\_instability\_statementSpec}
+\item \hyperlink{source-claim-a0520310d6532be1}{paper\_lap\_assignment\_slot\_order\_class\_variability\_of\_unique\_global\_optima\_statementSpec}
+\item \hyperlink{source-claim-a9c5e5d5c616ab58}{paper\_q\_representative\_forward\_exact\_statementSpec}
+\item \hyperlink{source-claim-3d12c759820fa6e4}{paper\_q\_representative\_converse\_exact\_statementSpec}
+\item \hyperlink{source-claim-5fcefe7f9430bc35}{paper\_sequential\_composition\_substitutable\_statementSpec}
+\item \hyperlink{source-claim-b564e283fe9ce18d}{paper\_q\_acceptant\_substitutable\_consistent\_statementSpec}
+\item \hyperlink{source-claim-7c749451f4caf111}{paper\_sequential\_q\_representative\_variability\_range\_statementSpec}
+\item \hyperlink{source-claim-26bfa3509b616c5d}{paper\_variability\_one\_iff\_single\_order\_statementSpec}
+\end{itemize}
+\end{itemize}
+
+\clearpage
+\hypertarget{library-section-bee5354f1438f98f}{}
+\section*{Material library prerequisites}
+\hypertarget{library-prerequisite-aebe54633da60351}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}ChoiceRule}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(α : Type u_2) → [DecidableEq α] → Finset α → Finset α
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+abbrev ChoiceRule (α : Type*) [DecidableEq α] := Finset α → Finset α
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-c51ffba76c13d204}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}Consistent}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : EconCSLib.FiniteChoice.ChoiceRule α) {X₁ X₂ : Finset α},
+  C X₂ ⊆ X₁ → X₁ ⊆ X₂ → C X₂ = C X₁
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def Consistent (C : ChoiceRule α) : Prop :=
+  ∀ {X₁ X₂}, C X₂ ⊆ X₁ → X₁ ⊆ X₂ → C X₂ = C X₁
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e66298c8dac25baa}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}choiceGainTerm}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : DecidableEq α] → (C : EconCSLib.FiniteChoice.ChoiceRule α) → (X₁ X₂ : Finset α) → ((X₁ ∩ C X₂) \ C X₁).card
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def choiceGainTerm (C : ChoiceRule α) (X₁ X₂ : Finset α) : ℕ :=
+  ((X₁ ∩ C X₂) \ C X₁).card
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-ba6c40008598cadf}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}choiceLossTerm}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : DecidableEq α] → (C : EconCSLib.FiniteChoice.ChoiceRule α) → (X₁ X₂ : Finset α) → (C X₁ \ C X₂).card
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def choiceLossTerm (C : ChoiceRule α) (X₁ X₂ : Finset α) : ℕ :=
+  (C X₁ \ C X₂).card
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-66d5b4a54f47387c}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}choiceDistance}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : DecidableEq α] →
+    (C : EconCSLib.FiniteChoice.ChoiceRule α) →
+      (X₁ X₂ : Finset α) → EconCSLib.FiniteChoice.choiceGainTerm C X₁ X₂ + EconCSLib.FiniteChoice.choiceLossTerm C X₁ X₂
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def choiceDistance (C : ChoiceRule α) (X₁ X₂ : Finset α) : ℕ :=
+  choiceGainTerm C X₁ X₂ + choiceLossTerm C X₁ X₂
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-29c4c5d3d08823af}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}DUnstable}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (d : ℕ) (C : EconCSLib.FiniteChoice.ChoiceRule α) (X : Finset α),
+  ∀ x ∉ X, EconCSLib.FiniteChoice.choiceDistance C X (insert x X) ≤ d
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def DUnstable (d : ℕ) (C : ChoiceRule α) : Prop :=
+  ∀ X x, x ∉ X → choiceDistance C X (insert x X) ≤ d
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-542ade70cc681808}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}Feasible}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : EconCSLib.FiniteChoice.ChoiceRule α) (X : Finset α), C X ⊆ X
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def Feasible (C : ChoiceRule α) : Prop :=
+  ∀ X, C X ⊆ X
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-ac076d846344765a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}borderlineSet}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : DecidableEq α] →
+    [inst_1 : Fintype α] →
+      (C : EconCSLib.FiniteChoice.ChoiceRule α) → (X : Finset α) → Finset.univ.biUnion fun x => C X \ C (insert x X)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-84ef92453e2eeb0e}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}waitlistedSet}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : DecidableEq α] →
+    [Fintype α] → (C : EconCSLib.FiniteChoice.ChoiceRule α) → (X : Finset α) → X.biUnion fun x => C (X.erase x) \ C X
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def waitlistedSet [Fintype α] (C : ChoiceRule α) (X : Finset α) : Finset α :=
+  X.biUnion fun x => C (X.erase x) \ C X
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-5f0109fb4b0fbb5d}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}GeneralVariabilityAtMost}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] (m : ℕ) (C : EconCSLib.FiniteChoice.ChoiceRule α)
+  (X : Finset α),
+  (EconCSLib.FiniteChoice.borderlineSet C X).card ≤ m ∧ (EconCSLib.FiniteChoice.waitlistedSet C X).card ≤ m
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def GeneralVariabilityAtMost [Fintype α] (m : ℕ) (C : ChoiceRule α) : Prop :=
+  ∀ X, (borderlineSet C X).card ≤ m ∧ (waitlistedSet C X).card ≤ m
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-94743536b7e3fe31}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}GeneralVariabilityExactly}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] (m : ℕ) (C : EconCSLib.FiniteChoice.ChoiceRule α),
+  EconCSLib.FiniteChoice.GeneralVariabilityAtMost m C ∧
+    ((∃ X, (EconCSLib.FiniteChoice.borderlineSet C X).card = m) ∨
+      ∃ X, (EconCSLib.FiniteChoice.waitlistedSet C X).card = m)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def GeneralVariabilityExactly [Fintype α] (m : ℕ) (C : ChoiceRule α) : Prop :=
+  GeneralVariabilityAtMost m C ∧
+    ((∃ X, (borderlineSet C X).card = m) ∨
+      (∃ X, (waitlistedSet C X).card = m))
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-0de9dc90c34c9fb6}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}Independent}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : EconCSLib.FiniteChoice.ChoiceRule α) (x : α),
+  (∀ (X : Finset α), x ∈ X → x ∈ C X) ∨ ∀ (X : Finset α), x ∈ X → x ∉ C X
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def Independent (C : ChoiceRule α) : Prop :=
+  ∀ x, (∀ X, x ∈ X → x ∈ C X) ∨ (∀ X, x ∈ X → x ∉ C X)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-8ee5c1a19c8d4e3a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}Monotonic}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : EconCSLib.FiniteChoice.ChoiceRule α) {X₁ X₂ : Finset α},
+  X₁ ⊆ X₂ → C X₁ ⊆ C X₂
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def Monotonic (C : ChoiceRule α) : Prop :=
+  ∀ {X₁ X₂}, X₁ ⊆ X₂ → C X₁ ⊆ C X₂
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-f02e4b75ca5571bf}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}QAcceptant}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (q : ℕ) (C : EconCSLib.FiniteChoice.ChoiceRule α) (X : Finset α),
+  (C X).card = min q X.card
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def QAcceptant (q : ℕ) (C : ChoiceRule α) : Prop :=
+  ∀ X, (C X).card = min q X.card
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-88c2ddc1c549c716}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}StrictTotalOrder}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} (r : α → α → Prop),
+  (∀ (x : α), ¬r x x) ∧ (∀ {x y z : α}, r x y → r y z → r x z) ∧ ∀ {x y : α}, x ≠ y → r x y ∨ r y x
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def StrictTotalOrder (r : α → α → Prop) : Prop :=
+  (∀ x, ¬ r x x) ∧
+    (∀ {x y z}, r x y → r y z → r x z) ∧
+      (∀ {x y}, x ≠ y → r x y ∨ r y x)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-286eac89d49c4d81}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}QRepresentative}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (q : ℕ) (C : EconCSLib.FiniteChoice.ChoiceRule α),
+  ∃ r,
+    EconCSLib.FiniteChoice.StrictTotalOrder r ∧
+      EconCSLib.FiniteChoice.QAcceptant q C ∧ ∀ {X : Finset α} {x y : α}, x ∈ C X → y ∈ X → y ∉ C X → r x y
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def QRepresentative (q : ℕ) (C : ChoiceRule α) : Prop :=
+  ∃ r : α → α → Prop,
+    StrictTotalOrder r ∧ QAcceptant q C ∧
+      ∀ {X x y}, x ∈ C X → y ∈ X → y ∉ C X → r x y
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-542d5eef4a694a7d}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}Substitutable}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : EconCSLib.FiniteChoice.ChoiceRule α) {X₁ X₂ : Finset α},
+  X₁ ⊆ X₂ → X₁ ∩ C X₂ ⊆ C X₁
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def Substitutable (C : ChoiceRule α) : Prop :=
+  ∀ {X₁ X₂}, X₁ ⊆ X₂ → X₁ ∩ C X₂ ⊆ C X₁
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-bb61a90095edae4b}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}TightlyDUnstable}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (d : ℕ) (C : EconCSLib.FiniteChoice.ChoiceRule α),
+  EconCSLib.FiniteChoice.DUnstable d C ∧ ∀ k < d, ¬EconCSLib.FiniteChoice.DUnstable k C
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def TightlyDUnstable (d : ℕ) (C : ChoiceRule α) : Prop :=
+  DUnstable d C ∧ ∀ k, k < d → ¬ DUnstable k C
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-aa69285c37fbf372}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}VariabilityAtMost}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] (m : ℕ) (C : EconCSLib.FiniteChoice.ChoiceRule α)
+  (X : Finset α), (EconCSLib.FiniteChoice.borderlineSet C X).card ≤ m
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def VariabilityAtMost [Fintype α] (m : ℕ) (C : ChoiceRule α) : Prop :=
+  ∀ X, (borderlineSet C X).card ≤ m
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-4ccdc8565ec23c71}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}VariabilityExactly}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] (m : ℕ) (C : EconCSLib.FiniteChoice.ChoiceRule α),
+  EconCSLib.FiniteChoice.VariabilityAtMost m C ∧ ∃ X, (EconCSLib.FiniteChoice.borderlineSet C X).card = m
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def VariabilityExactly [Fintype α] (m : ℕ) (C : ChoiceRule α) : Prop :=
+  VariabilityAtMost m C ∧ ∃ X, (borderlineSet C X).card = m
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e55d0830fae724cb}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}ZeroUnstable}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : EconCSLib.FiniteChoice.ChoiceRule α) {X₁ X₂ : Finset α},
+  X₁ ⊆ X₂ → EconCSLib.FiniteChoice.choiceDistance C X₁ X₂ = 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def ZeroUnstable (C : ChoiceRule α) : Prop :=
+  ∀ {X₁ X₂}, X₁ ⊆ X₂ → choiceDistance C X₁ X₂ = 0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-4a3989697f894599}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}linearTopQChoice}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : DecidableEq α] →
+    [inst_1 : LinearOrder α] →
+      (q : ℕ) →
+        (a : Finset α) →
+          if h : q ≤ a.card then Finset.image (fun i => ↑((a.orderIsoOfFin ⋯) ⟨↑i, ⋯⟩)) Finset.univ else a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def linearTopQChoice (q : ℕ) : ChoiceRule α :=
+  fun X =>
+    if h : q ≤ X.card then
+      Finset.univ.image
+        (fun i : Fin q =>
+          ((X.orderIsoOfFin (by rfl)
+            ⟨i.1, lt_of_lt_of_le i.2 h⟩ : X) : α))
+    else
+      X
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-3767c56c4f2cc69a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}sequentialComposition}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : DecidableEq α] →
+    (a : List (EconCSLib.FiniteChoice.ChoiceRule α)) →
+      (a_1 : Finset α) →
+        List.brecOn a
+          (fun x f =>
+            (match (motive :=
+                (x : List (EconCSLib.FiniteChoice.ChoiceRule α)) → List.below x → EconCSLib.FiniteChoice.ChoiceRule α)
+                x with
+              | [] => fun x x_1 => ∅
+              | C :: Cs => fun x X =>
+                let chosen := C X;
+                chosen ∪ x.1 (X \ chosen))
+              f)
+          a_1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def sequentialComposition : List (ChoiceRule α) → ChoiceRule α
+  | [] => fun _ => ∅
+  | C :: Cs =>
+      fun X =>
+        let chosen := C X
+        chosen ∪ sequentialComposition Cs (X \ chosen)
+
+/-- Borderline admits displaced by some single added applicant. -/
+def borderlineSet [Fintype α] (C : ChoiceRule α) (X : Finset α) : Finset α :=
+  Finset.univ.biUnion fun x => C X \ C (insert x X)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\clearpage
+\hypertarget{source-claim-03de8677e0f95903}{}
+\hypertarget{source-section-f10b5f68e4acf3dc}{}
+\section*{Source claims}
+\subsection*{Review row 1}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 162-\allowbreak{}170\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Training a machine learning model means selecting a $f$ from a set of possible models, i.e., a hypothesis class.
+Generally, this is done by finding a model which achieves low error on available data (a train set).
+It is typical to use continuous optimization algorithms to first train a continuous \emph{score} function $s:\mathcal X\to [0,1]$ by minimizing the error.
+Then the classification model is defined as
+\begin{align}\label{eq:ml-independent}
+    f(x) = \mathbf 1\{s(x)\geq t\}
+\end{align} based on a fixed threshold value $t$, often $t=0.5$.
+Notice that models of the form~\eqref{eq:ml-independent} predict outcomes independently for each applicant.
+At test time inference, they do not consider the overall applicant pool -- they implicitly model the training time pool, through its effect on the training labels.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (score : α → ℝ) (threshold : ℝ) (X : Finset α) (x : α),
+  x ∈ DGD26AdmissionsPredictability.paperFixedThresholdChoice score threshold X ↔
+    x ∈ X ∧ DGD26AdmissionsPredictability.paper_definition_fixed_threshold_predictor score threshold X x
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_fixed_threshold_formula_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-685dcba90250bf7c}{}
+\section*{Review row 2}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 172-\allowbreak{}181\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\subsection{Choice Functions}
+
+Many admissions processes have capacity constraints (either perceived or actual). This fact gives rise to what we call \textit{cohort-dependence}: an applicant's acceptance decision depends on not only their own characteristics, but also the number and characteristics of other applicants.
+
+\textit{Choice functions} formalize admission decision processes and allow modeling such dependence.
+A choice function describes the behavior of ``choosing'' elements from a set of available options, and is commonly used in economic models. Formally, a choice function over the universe $\calX$ is a function $\choice: 2^\calX \to 2^\calX$ that maps all subsets $X$ of $\calX$ to the accepted set $\choice(X)$, where $\choice(X) \subseteq X$. As our motivation focuses on real applicant datasets, we consider finite subsets.
+
+Recalling admissions data, the binary admissions label $y$ for student $x$ is 1 if $x \in \choice(X)$ and 0 otherwise.
+To aid in our discussion, we will slightly abuse notation to relate pairs $(x_i,y_i)$ to the choice function $\mathcal C(X)$ where $x_i\in X$.
+Define $\mathcal C(X)_i$ as 1 if $x_i\in \mathcal C(X)$ and 0 otherwise; this allows us to write the label $y_i=\mathcal C(X)_i$.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_feasible C ↔ ∀ (X : Finset α), C X ⊆ X
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_choice_function_model_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-d396bf72ee1812a2}{}
+\section*{Review row 3}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 179-\allowbreak{}181\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Recalling admissions data, the binary admissions label $y$ for student $x$ is 1 if $x \in \choice(X)$ and 0 otherwise.
+To aid in our discussion, we will slightly abuse notation to relate pairs $(x_i,y_i)$ to the choice function $\mathcal C(X)$ where $x_i\in X$.
+Define $\mathcal C(X)_i$ as 1 if $x_i\in \mathcal C(X)$ and 0 otherwise; this allows us to write the label $y_i=\mathcal C(X)_i$.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α) (X : Finset α) (x : α),
+  DGD26AdmissionsPredictability.paperChoiceLabel C X x = if x ∈ C X then 1 else 0
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_definition_choice_label
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-51b92e4a229b02a5}{}
+\section*{Review row 4}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 186-\allowbreak{}189\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[$q$-Acceptance]{definition}{qacceptance}
+\label{def:q-acceptance}
+Choice function $\choice$ is $q$-acceptant if $|\choice(X)| = \min\{q, |X|\}$ for all input sets $X$.
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\qacceptance*
+\textit{Intuition}: Capacity of $q$.
+
+\substitutability*
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (q : ℕ) (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_definition_q_acceptance q C ↔ ∀ (X : Finset α), (C X).card = min q X.card
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_q_acceptance_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-9a3be13c89f94ffe}{}
+\section*{Review row 5}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 193-\allowbreak{}195\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{definition}[Total order] \label{def:total_order}
+    A \emph{total order} is a transitive, asymmetric, and complete binary relation $\succ$ over elements of $\calX$; that is, $x_1 \succ x_2$ implies $x_2 \not\succ x_1$, $x_1 \succ x_2$ and $x_2 \succ x_3$ implies $x_1 \succ x_3$, and all $x_1, x_2$ are comparable.
+\end{definition}
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+A strict total order is asymmetric and transitive, and compares every distinct pair of applicants.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 193-\allowbreak{}195\par}
+\paragraph{Recorded basis}
+DGD source clarification:\allowbreak{} strict-\allowbreak{}order completeness ranges over distinct applicant pairs.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} (r : α → α → Prop),
+  DGD26AdmissionsPredictability.paper_definition_total_order r ↔
+    (∀ (x : α), ¬r x x) ∧ (∀ {x y z : α}, r x y → r y z → r x z) ∧ ∀ {x y : α}, x ≠ y → r x y ∨ r y x
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_total_order_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-a21144374ad8e28c}{}
+\section*{Review row 6}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 213-\allowbreak{}218\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[Choice Distance]{definition}{distance} \label{def:distance}
+For a choice function $\choice$ and sets $X_1 \subseteq X_2$, we define the choice distance as:
+\begin{equation}
+r_\choice(X_1, X_2) := |X_1 \cap \choice(X_2) \setminus \choice(X_1)| + |\choice(X_1) \setminus \choice(X_2)|
+\end{equation}
+\end{restatable}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α) (X₁ X₂ : Finset α),
+  EconCSLib.FiniteChoice.choiceDistance C X₁ X₂ = ((X₁ ∩ C X₂) \ C X₁).card + (C X₁ \ C X₂).card
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_definition_choice_distance
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-398a4d87fcced6ba}{}
+\section*{Review row 7}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 222-\allowbreak{}225\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[$d$-Instability]{definition}{defstability}
+\label{def:d-instability}
+Choice function $\choice$ is $d$-unstable if for all $X$, and $X' = X \cup \{x'\}$, we have $r_\choice(X, X') \leq d$ for any nonnegative integer $d$. $\choice$ is called tightly $d$-unstable if it is $d$-unstable but not $(d-1)$-unstable.
+\end{restatable}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (d : ℕ) (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_definition_d_instability d C ↔
+    ∀ (X : Finset α), ∀ x ∉ X, EconCSLib.FiniteChoice.choiceDistance C X (insert x X) ≤ d
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_d_instability_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-62d00d89c6cc151a}{}
+\section*{Review row 8}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 222-\allowbreak{}225\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[$d$-Instability]{definition}{defstability}
+\label{def:d-instability}
+Choice function $\choice$ is $d$-unstable if for all $X$, and $X' = X \cup \{x'\}$, we have $r_\choice(X, X') \leq d$ for any nonnegative integer $d$. $\choice$ is called tightly $d$-unstable if it is $d$-unstable but not $(d-1)$-unstable.
+\end{restatable}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (d : ℕ) (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_definition_tight_d_instability d C ↔
+    DGD26AdmissionsPredictability.paper_definition_d_instability d C ∧
+      ∀ k < d, ¬DGD26AdmissionsPredictability.paper_definition_d_instability k C
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_tight_d_instability_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-be4f0b5bb7e1dd6b}{}
+\section*{Review row 9}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 235-\allowbreak{}243\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+We formalize\footnote{For a more general definition of variability (beyond 1-unstable and $q$-acceptant), see \Cref{sec:variability-appendix}.} this intuition with the following definition.
+
+\begin{restatable}[Variability]{definition}{defvariability}
+\label{def:variability}
+A $1$-unstable, $q$-acceptant choice function $\choice$ has variability $m$ where
+\begin{equation}
+m \coloneqq \max_{X\subset \calX} \left|\bigcup\limits_{x'\in\calX} \choice(X) \setminus \choice(X \cup \{x'\})\right|
+\end{equation}
+\end{restatable}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] (m : ℕ)
+  (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_definition_variability_exactly m C ↔
+    (∀ (X : Finset α), (DGD26AdmissionsPredictability.paper_definition_borderline_set C X).card ≤ m) ∧
+      ∃ X, (DGD26AdmissionsPredictability.paper_definition_borderline_set C X).card = m
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_variability_exactly_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-12cc974d07b19ac2}{}
+\section*{Review row 10}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 248-\allowbreak{}251\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+We first relate the concepts of instability and variability to the practice of machine learning.
+We focus on the representation capabilities of ML models: when is it possible for an ML model to faithfully represent an admissions process?
+Formally, we say that an ML model can represent a choice function $\mathcal C$ if there exists a function $f$ such that for all applicant sets $X$, $f(x_i) = \mathcal C(X)_i$.
+{Note that by focusing on representation, our theory is distribution agnostic, and applies to settings where applicant distributions are affected considerations such as strategic behavior and matching algorithms.}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (predicts : DGD26AdmissionsPredictability.PaperPoolPredictor α)
+  (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_definition_ml_representation predicts C ↔
+    ∀ (X : Finset α), ∀ x ∈ X, predicts X x ↔ x ∈ C X
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_ml_representation_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-1e70e813c2db1d8e}{}
+\section*{Review row 11}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 253-\allowbreak{}259\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Before stating this result, consider a straightforward way to adapt a model~\eqref{eq:ml-independent} to the capacity-constrained setting.
+Given that the ML model is based on continuous scores, we can adjust the decisions to account for a known capacity constraint if we have available the set of all test-time applications.
+In particular, we can rank the applicants by their scores and then select the top $q$.
+This process results in decisions determined by a cohort dependent threshold $t_q(X)$ which is the score of the $q$th ranked applicant:
+\begin{align}\label{eq:ml-rank}
+    f(x; X) = \mathbf 1\{s(x) \geq t_q(X)\}.
+\end{align}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (q : ℕ) (score : α → ℝ) (hinjective : Function.Injective score),
+  0 < q →
+    ∀ (X : Finset α),
+      ∃ threshold,
+        ∀ x ∈ X,
+          DGD26AdmissionsPredictability.paper_definition_rank_threshold_predictor q score hinjective X x ↔
+            threshold ≤ score x
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_rank_threshold_formula_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-d17644eda5ebe53f}{}
+\section*{Review row 12}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 273-\allowbreak{}276\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[Substitutability]{definition}{substitutability}
+\label{def:substitutability}
+Choice function $\choice$ is substitutable if $X_1 \subseteq X_2$ implies $X_1 \cap \choice(X_2) \subseteq \choice(X_1)$.
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+
+\substitutability*
+\textit{Intuition}: Students selected from a larger pool remain selected when the pool shrinks.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_definition_substitutability C ↔ ∀ {X₁ X₂ : Finset α}, X₁ ⊆ X₂ → X₁ ∩ C X₂ ⊆ C X₁
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_substitutability_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-69b86836fa7d4d06}{}
+\section*{Review row 13}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 307-\allowbreak{}311\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[Sequential Composition]{definition}{seqcomposition} \label{def:seq-composition}
+A choice function $\choice$ is a \textit{sequential composition} of functions $\choice_n, \ldots, \choice_1$ if:
+$$\choice(X) = \choice_1(X) \cup \choice_{2}(X_{2}) \cup \cdots \cup \choice_n(X_n)$$
+where $X_{i+1}= X_{i} \setminus \choice_{i}(X_{i})$ and $X_1 = X$.
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\subsubsection{Sequential Composition} \label{sec:seq-proofs}
+A useful class of choice functions are choice functions that can be broken down or defined as a sequential composition of functions $\choice_n, \choice_{n-1}, ..., \choice_1$; that is,
+$\choice(X) = \choice_n(X) \cup \choice_{n-1}(X_{n-1}) \cup ... \cup \choice_1(X_1)$ where $X_i = X_{i+1} \setminus\choice_{i+1}(X_{i+1})$ and $X_n = X$. Sequential composition is particularly useful because it preserves a variety of useful properties. Sequences of $q_i$-acceptant functions are $q$-acceptant, because no duplicate elements are selected by multiple functions, and therefore preserves $q$-acceptance when each function in the sequence has capacity $q_i$ (i.e., $q = q_n + ... + q_1$.)
+\seqcomposition*
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (Cs : List (DGD26AdmissionsPredictability.PaperChoiceRule α)),
+  DGD26AdmissionsPredictability.paper_sequential_composition Cs =
+    DGD26AdmissionsPredictability.sequentialCompositionSource Cs
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_definition_sequential_composition
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-1b6dc1033989d2bf}{}
+\section*{Review row 14}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 484-\allowbreak{}487\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[Monotonicity]{definition}{monotonicity}
+\label{def:monotonicity}
+Choice function $\choice$ is \textit{monotonic} if $X_1 \subseteq X_2$ implies $\choice(X_1) \subseteq \choice(X_2)$.
+\end{restatable}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_definition_monotonicity C ↔ ∀ {X₁ X₂ : Finset α}, X₁ ⊆ X₂ → C X₁ ⊆ C X₂
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_monotonicity_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-899ae3aec5210e2c}{}
+\section*{Review row 15}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 492-\allowbreak{}495\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[Consistency]{definition}{consistency}
+\label{def:consistency}
+Choice function $\choice$ is \textit{consistent} if $\choice(X_2) \subseteq X_1 \subseteq X_2$ implies $\choice(X_2) = \choice(X_1)$.
+\end{restatable}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_definition_consistency C ↔ ∀ {X₁ X₂ : Finset α}, C X₂ ⊆ X₁ → X₁ ⊆ X₂ → C X₂ = C X₁
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_consistency_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-ca1d4873227a50e3}{}
+\section*{Review row 16}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 500-\allowbreak{}507\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[$q$-representativeness]{definition}{qrepresentativeness}
+\label{def:q-representative}
+$q$-acceptant choice function $\choice$ is $q$-representative if there exists a strict total ordering $\succ$ over all $x \in \calX$ and $\choice(X)$ is the top $q$ elements of $X$ for all $X \subseteq \calX$.
+\end{restatable}
+
+\textit{Intuition}: Students are selected according to an exact ranking.
+
+\textbf{Note:} We refer to this property in the main body as being ``characterized by a total order'', or a ``queue'', but this language --- and definition as a property in its own right --- is seen in, e.g., \citet{echenique2015control}.
+
+[Next verbatim source excerpt]
+
+Total orders are frequently used in modeling choice mechanisms; they are often called \textit{preference orderings} or \textit{priority orders} in economic models.
+Intuitively, total orders induce a ranking over candidates and could result from, e.g., ordering applicants based on their GPA.
+We will say that a $q$-acceptant choice function $\mathcal C$ is \textit{characterized by a total order} if there exists a total order $\succ$ such that for any input $X$, the accepted applicants are the top-$q$ elements of $X$ ordered by $\succ$.
+In other words,  $x_1 \succ x_2$ for all $x_1 \in \choice(X), x_2 \not\in\choice(X)$.
+We will refer to the process of sorting elements according to a total order $\succ$ and selecting the top $q$ as a \textit{queue}.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (q : ℕ) (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_definition_q_representativeness q C ↔
+    ∃ r,
+      DGD26AdmissionsPredictability.paper_definition_total_order r ∧
+        DGD26AdmissionsPredictability.paper_definition_q_acceptance q C ∧
+          ∀ {X : Finset α} {x y : α}, x ∈ C X → y ∈ X → y ∉ C X → r x y
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_q_representativeness_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-3a97b71dd915eed1}{}
+\section*{Review row 17}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 654-\allowbreak{}657\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[$0$-Instability]{definition}{zerostability}
+\label{def:zero-instability}
+Choice function $\choice$ is 0-unstable if and only if $r_\choice(X_1, X_2) = 0$ for all $X_1 \subseteq X_2$.
+\end{restatable}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_definition_zero_instability C ↔
+    ∀ {X₁ X₂ : Finset α}, X₁ ⊆ X₂ → EconCSLib.FiniteChoice.choiceDistance C X₁ X₂ = 0
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_zero_instability_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-e633cfedc7bfb493}{}
+\section*{Review row 18}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 671-\allowbreak{}679\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{definition}{Independence}
+\label{def:independence}
+$\choice$ is independent if for
+ for all $x$,
+either $x \in \choice(X)$
+or $x \not\in \choice(X)$ for all $X$ where $x \in X$.
+\end{restatable}
+
+In other words, any element is either always accepted, or always rejected, when available, irrespective of the other elements available in a set $S$.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_definition_independence C ↔
+    ∀ (x : α), (∀ (X : Finset α), x ∈ X → x ∈ C X) ∨ ∀ (X : Finset α), x ∈ X → x ∉ C X
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_independence_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-8e553b3e026d261e}{}
+\section*{Review row 19}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 826-\allowbreak{}830\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+As per \Cref{def:variability}, when appending a new element to the input set $X$, different applicants may become rejected: let the set of ``borderline admits'' $V_\choice(X)$ be
+\begin{equation}
+V_\choice(X) = \bigcup\limits_{x'\in\calX} \choice(X) \setminus \choice(X \cup \{x'\})
+\end{equation}
+which we shall call the ``borderline set'' for short. Notice that this is bounded by $q$, as $|\choice(X)| = q$.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α)
+  (X : Finset α),
+  DGD26AdmissionsPredictability.paper_borderline_set C X = Finset.univ.biUnion fun x => C X \ C (insert x X)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_definition_borderline_set
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-1c2136cbe341a833}{}
+\section*{Review row 20}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 832-\allowbreak{}836\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Conversely, when removing an applicant from $X$, let the set of applicants that might be newly accepted be
+\begin{equation}
+A_\choice(X) = \bigcup_{x^*\in X} \choice(X \setminus \{x^*\}) \setminus \choice(X)
+\end{equation}
+the set of ``waitlisted rejections''; likewise, we shall call this the ``waitlisted set''.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α)
+  (X : Finset α), DGD26AdmissionsPredictability.paper_waitlisted_set C X = X.biUnion fun x => C (X.erase x) \ C X
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_definition_waitlisted_set
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-d2f6a286dc057af6}{}
+\section*{Review row 21}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 838-\allowbreak{}842\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{definition}[Variability, General]
+\label{def:variability-general}
+A choice function $\choice$ has \textit{variability} $m$ where:
+$$m := \max\left\{\max_{X\subset \calX} \left|V_\choice(X)\right|, \max_{X\subset \calX} \left|A_\choice(X)\right| \right\}$$
+\end{definition}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] (m : ℕ)
+  (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_definition_general_variability_exactly m C ↔
+    DGD26AdmissionsPredictability.paper_definition_general_variability_at_most m C ∧
+      ((∃ X, (DGD26AdmissionsPredictability.paper_definition_borderline_set C X).card = m) ∨
+        ∃ X, (DGD26AdmissionsPredictability.paper_definition_waitlisted_set C X).card = m)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_general_variability_exactly_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-a009d7013e95842d}{}
+\section*{Review row 22}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1073-\allowbreak{}1084\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\subsubsection{Linear Assignment Problems} \label{sec:lap-proofs}
+
+We highlight \textit{linear assignment problems} as a generalization of sequential composition.
+The linear sum assignment problem can be represented as a bipartite graph matching.
+One one side of the graph are applicants, and on the other are available admissions slots.
+Edges connect these nodes according to how well suited each applicant is for each slot.
+The admissions decision is made by selecting edges which have maximal sum, subject to the constraint that each applicant and each slot is selected only once.
+
+Consider all edges connecting to slot $s$; then for each element  $x_j \in X$ there is a real number weight $w(x_j, s)$. Then sorting $x \in \calX$ by $w(x,s)$ creates a total ordering, which we call $\succ_s$. Let slot $s'$ be \textit{equivalent} to
+to slot $s$ if and only if $\succ_{s'} = \succ_{s}$.
+We will assume for simplicity that weights are defined such that ties do not occur.
+Let assignment $A$ be the set of pairs $\{(x_{s_1}, s_1), ..., (x_{s_q}, s_q)\}$.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] {σ : Type u_2} [inst_1 : DecidableEq σ] [inst_2 : Fintype σ] (X : Finset α)
+  (w : α → σ → ℝ) (A : DGD26AdmissionsPredictability.LAP.Assignment α σ),
+  DGD26AdmissionsPredictability.lapModel X w A ↔
+    DGD26AdmissionsPredictability.paper_definition_lap_assignment_feasible X A ∧
+      DGD26AdmissionsPredictability.paper_definition_lap_capacity_filling X A ∧
+        DGD26AdmissionsPredictability.paper_definition_lap_objective_optimal X w A
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_lap_model_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-f902fe2aa64a28cb}{}
+\section*{Review row 23}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1081-\allowbreak{}1083\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Consider all edges connecting to slot $s$; then for each element  $x_j \in X$ there is a real number weight $w(x_j, s)$. Then sorting $x \in \calX$ by $w(x,s)$ creates a total ordering, which we call $\succ_s$. Let slot $s'$ be \textit{equivalent} to
+to slot $s$ if and only if $\succ_{s'} = \succ_{s}$.
+We will assume for simplicity that weights are defined such that ties do not occur.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} {σ : Type u_2} [inst : DecidableEq σ] [inst_1 : Fintype σ] (w : α → σ → ℝ) (s : σ) (x y : α),
+  DGD26AdmissionsPredictability.paper_definition_lap_slot_below w s x y ↔ w x s < w y s
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_lap_slot_below_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-ac931f819ad35103}{}
+\section*{Review row 24}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1081-\allowbreak{}1083\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Consider all edges connecting to slot $s$; then for each element  $x_j \in X$ there is a real number weight $w(x_j, s)$. Then sorting $x \in \calX$ by $w(x,s)$ creates a total ordering, which we call $\succ_s$. Let slot $s'$ be \textit{equivalent} to
+to slot $s$ if and only if $\succ_{s'} = \succ_{s}$.
+We will assume for simplicity that weights are defined such that ties do not occur.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} {σ : Type u_2} [DecidableEq σ] [Fintype σ] (w : α → σ → ℝ) (s t : σ),
+  DGD26AdmissionsPredictability.LAP.Assignment.SameSlotOrder w s t ↔ ∀ (x y : α), w x s < w y s ↔ w x t < w y t
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_lap_same_slot_order_definition_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-be70d394f2bee79c}{}
+\section*{Review row 25}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1084-\allowbreak{}1089\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Let assignment $A$ be the set of pairs $\{(x_{s_1}, s_1), ..., (x_{s_q}, s_q)\}$.
+
+\begin{restatable}{lemma}{LAP Ordering}
+\label{lem:lap-ordering}
+Let $x_{s}$ denote the element of $\choice(X)$ assigned to slot $s$. Then for all $x \in X$, $x \in \choice(X)$ if $x \succ_s x_s$, and $x_s \succ_s x$ if $x \not\in \choice(X)$.
+\end{restatable}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] {σ : Type u_2} [inst_1 : DecidableEq σ] [inst_2 : Fintype σ]
+  (select : Finset α → DGD26AdmissionsPredictability.LAP.Assignment α σ) (X : Finset α) (x : α),
+  x ∈ DGD26AdmissionsPredictability.paper_definition_lap_choice_rule select X ↔
+    DGD26AdmissionsPredictability.paper_definition_lap_assigned (select X) x
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_lap_assignment_choice_formula_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-b05952c99a84b6af}{}
+\section*{Review row 26}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 704-\allowbreak{}707\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{corollary}{Only Independent Rules are 0-unstable}
+\label{thm:independent-zero-unstable}
+$\choice$ is $0$-unstable if and only if it is independent, and therefore no $q$-acceptant $\choice$ can be $0$-unstable.
+\end{restatable}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    (DGD26AdmissionsPredictability.paper_definition_independence C ↔
+      DGD26AdmissionsPredictability.paper_definition_zero_instability C)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_independent_zero_unstable_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-d920f9b7847b2baa}{}
+\section*{Review row 27}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 704-\allowbreak{}707\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{corollary}{Only Independent Rules are 0-unstable}
+\label{thm:independent-zero-unstable}
+$\choice$ is $0$-unstable if and only if it is independent, and therefore no $q$-acceptant $\choice$ can be $0$-unstable.
+\end{restatable}
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a feasible q-acceptant choice rule C on a universe with an input pool strictly larger than positive capacity q, C is 0-unstable if and only if it is independent, and C is not 0-unstable.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 704-\allowbreak{}707\par}
+\paragraph{Recorded basis}
+DGD source clarification:\allowbreak{} the no-\allowbreak{}zero conclusion is read on the positive-\allowbreak{}capacity, nontrivial applicant domain.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] {q : ℕ} {C : DGD26AdmissionsPredictability.PaperChoiceRule α},
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    DGD26AdmissionsPredictability.paper_definition_q_acceptance q C →
+      0 < q →
+        ∀ {U : Finset α},
+          q < U.card →
+            (DGD26AdmissionsPredictability.paper_definition_zero_instability C ↔
+                DGD26AdmissionsPredictability.paper_definition_independence C) ∧
+              ¬DGD26AdmissionsPredictability.paper_definition_zero_instability C
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_independent_zero_unstable_corollary_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-18a641b7c4365d27}{}
+\section*{Review row 28}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 796-\allowbreak{}801\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{corollary}{No Consistent Tightly Even Instability}
+\label{cor:even-inconsistency}
+There is no $q$-acceptant and consistent $\choice$ that is tightly $dk$-unstable for even values of $d$.
+\end{restatable}
+
+This follows directly from \Cref{thm:even-inconsistency}.
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For every positive integer k, no q-acceptant consistent choice rule is tightly 2k-unstable.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 796-\allowbreak{}801\par}
+\paragraph{Recorded basis}
+DGD source clarification:\allowbreak{} tightly-\allowbreak{}even instability is parameterized by d=2k for positive k.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] {q k : ℕ} {C : DGD26AdmissionsPredictability.PaperChoiceRule α},
+  0 < k →
+    DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+      DGD26AdmissionsPredictability.paper_definition_q_acceptance q C →
+        DGD26AdmissionsPredictability.paper_definition_consistency C →
+          ¬DGD26AdmissionsPredictability.paper_definition_tight_d_instability (2 * k) C
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_no_consistent_positive_tightly_even_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-1daa198b9d0a1bc3}{}
+\section*{Review row 29}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 661-\allowbreak{}667\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{corollary}{Zero-Distance}
+\label{thm:sub-mon-zero}
+Choice function $\choice$ is 0-unstable if and only if it is both substitutable and monotonic.
+\end{restatable}
+
+
+This immediately follows from the two terms comprising $r_\choice$ mapping onto substitutability and monotonicity.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_definition_zero_instability C ↔
+    DGD26AdmissionsPredictability.paper_definition_substitutability C ∧
+      DGD26AdmissionsPredictability.paper_definition_monotonicity C
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_zero_distance_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-760d01f2c31e3672}{}
+\section*{Review row 30}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 746-\allowbreak{}765\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[Calculating Instability]{lemma}{stablecalc}
+\label{lem:unstable-calc}
+For all $q$-acceptant $\choice$, let $X' = X \cup \{x'\}$ for $|X| \geq q$ and $n = |\choice(X) \setminus \choice(X')|$.  Then
+$r_\choice(X, X') = 2n-\mathbf{1}_{x'\in\choice(X')}$.
+\end{restatable}
+
+\begin{proof}
+\textbf{Informal}
+If input sets differ by one element, but the selected sets differ by $n$ elements, then it must be that $n$ previously accepted elements were rejected and there must be $n$ new accepted elements, at least $n-1$ must have been previously rejected, because the size of the accepted set is fixed.
+
+\textbf{Formal}
+By $q$-acceptance, $|\choice(X)| = |\choice(X')| = q$. Then $|\choice(X) \setminus \choice(X')| = |\choice(X') \setminus \choice(X)| = q-|\choice(X) \cap \choice(X')|$.
+Second, note that $\choice(X') \setminus \choice(X) = (\choice(X') \cap X) \setminus \choice(X)$ if $x' \not\in \choice(X')$, and otherwise $\choice(X') \setminus \choice(X) = \{x'\} \cup \left((\choice(X') \cap X) \setminus \choice(X)\right)$.
+Putting the previous statements together, we get two cases:
+\begin{itemize}
+    \item $x' \not\in \choice(X')$: $|\choice(X) \setminus \choice(X')| = |\choice(X') \setminus \choice(X)| = |X \cap \choice(X') \setminus \choice(X)|$
+    \item $x' \in \choice(X')$: $|\choice(X) \setminus \choice(X')| = |\choice(X') \setminus \choice(X)| = |X \cap \choice(X') \setminus \choice(X)| + 1$
+\end{itemize}
+Then $r_\choice(X, X') = |X \cap \choice(X') \setminus \choice(X)| + |\choice(X) \setminus \choice(X')| = 2|X \cap \choice(X') \setminus \choice(X)| + \mathbf{1}_{x'\in\choice(X')} = 2|\choice(X) \setminus \choice(X')| - \mathbf{1}_{x'\in\choice(X')}$
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] {q : ℕ} {C : DGD26AdmissionsPredictability.PaperChoiceRule α},
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    DGD26AdmissionsPredictability.paper_definition_q_acceptance q C →
+      ∀ {X : Finset α} {x : α},
+        q ≤ X.card →
+          x ∉ X →
+            DGD26AdmissionsPredictability.paper_definition_choice_distance C X (insert x X) =
+              if x ∈ C (insert x X) then 2 * (C X \ C (insert x X)).card - 1 else 2 * (C X \ C (insert x X)).card
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_calculating_instability_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-72ba750e0e18812e}{}
+\section*{Review row 31}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 885-\allowbreak{}896\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[Consistency of Removable Sets]{lemma}{consistentremove}
+\label{lem:consistent-remove}
+Let $\choice$ be 1-unstable and q-acceptant with variability $m$. For any $X_1, X_2$, if $\choice(X_1) = \choice(X_2)$, then $V_\choice(X_1) = V_\choice(X_1)$.
+\end{restatable}
+
+\begin{proof}
+Recall from \Cref{thm:sub-accept-consistent} that $\choice$ must be consistent and so $\choice(\choice(X)) = \choice(X)$ for any $X$.
+
+Consider any $x'$ associated with an element $x^*$ of $V_\choice(X)$, such that $\choice(X) \setminus \choice(X') = \{x^*\}$ (and even more precisely, by $q$-acceptant substitutability, that $\choice(X') = \{x'\} \cup \choice(X) \setminus \{x^*\}$ exactly). Note that $\choice(X') \subseteq \choice(X) \cup \{x'\} \subseteq X'$, and therefore $\choice(\choice(X) \cup \{x'\}) = \choice(X')$ by consistency. This applies to all possible $x'$ (including when $x' \in X$), and therefore, $V_\choice(X) = V_\choice(\choice(X))$.
+
+As this set equality is exact, apply this logic to some $X_2$ and see $V_\choice(X_1) = V_\choice(\choice(X_1)) = V_\choice(\choice(X_2)) = V_\choice(X_2)$.
+\end{proof}
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a feasible q-acceptant substitutable choice rule C, if C(X1)=C(X2), then the borderline sets V_C(X1) and V_C(X2) are equal.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 885-\allowbreak{}896\par}
+\paragraph{Recorded basis}
+DGD source clarification:\allowbreak{} the removable-\allowbreak{}set equality compares the two pools X1 and X2.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] {q : ℕ}
+  {C : DGD26AdmissionsPredictability.PaperChoiceRule α},
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    DGD26AdmissionsPredictability.paper_definition_q_acceptance q C →
+      DGD26AdmissionsPredictability.paper_definition_substitutability C →
+        ∀ {X₁ X₂ : Finset α},
+          C X₁ = C X₂ →
+            DGD26AdmissionsPredictability.paper_definition_borderline_set C X₁ =
+              DGD26AdmissionsPredictability.paper_definition_borderline_set C X₂
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_corrected_consistency_of_removable_sets_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-7d8732899c3f4210}{}
+\section*{Review row 32}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1086-\allowbreak{}1095\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{lemma}{LAP Ordering}
+\label{lem:lap-ordering}
+Let $x_{s}$ denote the element of $\choice(X)$ assigned to slot $s$. Then for all $x \in X$, $x \in \choice(X)$ if $x \succ_s x_s$, and $x_s \succ_s x$ if $x \not\in \choice(X)$.
+\end{restatable}
+
+\textit{Intuition}: Linear assignment problems have a structure that resembles a combination of rankings, even though there is not a fixed sequential order.
+
+\begin{proof}
+This comes by the optimality of the assignment solution. For contradiction, say there is $x^* \succ_s x_s$ where $x^* \not\in \choice(X)$. Then $w(x^*, s) > w(x_s, s)$, and therefore $\{x^*, s\} \cup A \setminus \{x_s, s\}$ leads to a higher sum than $\choice(X)$, contradicting the fact that $A$ is be optimal.
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] {σ : Type u_2} [inst_1 : DecidableEq σ] [inst_2 : Fintype σ] {X : Finset α}
+  {w : α → σ → ℝ} {A : DGD26AdmissionsPredictability.LAP.Assignment α σ},
+  DGD26AdmissionsPredictability.paper_definition_lap_objective_optimal X w A →
+    DGD26AdmissionsPredictability.paper_definition_lap_capacity_filling X A →
+      DGD26AdmissionsPredictability.paper_definition_lap_assignment_feasible X A →
+        ∀ {s : σ} {y x : α},
+          A.matchSlot s = some y →
+            x ∈ X →
+              DGD26AdmissionsPredictability.paper_definition_lap_slot_below w s y x →
+                DGD26AdmissionsPredictability.paper_definition_lap_assigned A x
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_lap_strictly_higher_slot_applicant_assigned_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-5e3bd8769e715d3c}{}
+\section*{Review row 33}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1086-\allowbreak{}1095\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{lemma}{LAP Ordering}
+\label{lem:lap-ordering}
+Let $x_{s}$ denote the element of $\choice(X)$ assigned to slot $s$. Then for all $x \in X$, $x \in \choice(X)$ if $x \succ_s x_s$, and $x_s \succ_s x$ if $x \not\in \choice(X)$.
+\end{restatable}
+
+\textit{Intuition}: Linear assignment problems have a structure that resembles a combination of rankings, even though there is not a fixed sequential order.
+
+\begin{proof}
+This comes by the optimality of the assignment solution. For contradiction, say there is $x^* \succ_s x_s$ where $x^* \not\in \choice(X)$. Then $w(x^*, s) > w(x_s, s)$, and therefore $\{x^*, s\} \cup A \setminus \{x_s, s\}$ leads to a higher sum than $\choice(X)$, contradicting the fact that $A$ is be optimal.
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] {σ : Type u_2} [inst_1 : DecidableEq σ] [inst_2 : Fintype σ] {X : Finset α}
+  {w : α → σ → ℝ} {A : DGD26AdmissionsPredictability.LAP.Assignment α σ},
+  DGD26AdmissionsPredictability.paper_definition_lap_objective_optimal X w A →
+    DGD26AdmissionsPredictability.paper_definition_lap_capacity_filling X A →
+      DGD26AdmissionsPredictability.paper_definition_lap_assignment_feasible X A →
+        ∀ {s : σ} {y x : α},
+          A.matchSlot s = some y →
+            DGD26AdmissionsPredictability.LAP.Assignment.Rejected X A x →
+              DGD26AdmissionsPredictability.LAP.Assignment.SlotNoTies w s →
+                DGD26AdmissionsPredictability.paper_definition_lap_slot_below w s x y
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_lap_assigned_strictly_outranks_rejected_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-14ff35045a22028c}{}
+\section*{Review row 34}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 564-\allowbreak{}573\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[Monotonicity Term]{lemma}{mono-dist}
+\label{lem:monotonicity-term}
+Choice function $\choice$ is monotonic if and only if $|\choice(X_1) \setminus \choice(X_2)| = 0$ for all $X_1 \subseteq X_2$.
+\end{restatable}
+
+\textit{Intuition}:
+For a monotonic choice function, previously accepted candidates are never rejected after the addition of more applicants. Thus labels cannot flip from positive to negative, which is what the second term counts.
+
+\begin{proof}
+Use the same set properties as per \Cref{lem:substitutability-term},  $|\choice(X_1) \setminus \choice(X_2)| = 0$ if and only if $\choice(X_1) \subseteq \choice(X_2)$, which is the definition of monotonicity.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_definition_monotonicity C ↔ ∀ {X₁ X₂ : Finset α}, X₁ ⊆ X₂ → (C X₁ \ C X₂).card = 0
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_monotonicity_term_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-43c4c9b7821d369a}{}
+\section*{Review row 35}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 517-\allowbreak{}529\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[Incompatibility of Monotonicity and $q$-Acceptance]{lemma}{incompatibility}
+\label{thm:mono-accept-mutex}
+For $|\calX| > q \geq 1$, no choice function can be both monotonic and $q$-acceptant.
+\end{restatable}
+
+\textit{Intuition}: %
+For a choice function to be monotonic, it must never reject a previously accepted applicant as the applicant pool grows. This implies that the capacity must be unbounded, which contradicts the strict capacity limit imposed by $q$-acceptance.%
+
+\begin{proof}
+Consider two different sets each of $q$ elements. If $\choice$ is $q$-acceptant, every element must be chosen in each. Then consider their union. If $\choice$ is monotonic, every element in their union would also be accepted, but that would contradict the $q$-acceptant capacity constraint.
+
+Consider two disjoint sets $X_1, X_2 \subseteq \calX$ with $|X_1| = |X_2| = q$. By $q$-acceptance, $\choice(X_1) = X_1$ and $\choice(X_2) = X_2$. By monotonicity, both $\choice(X_1)$ and $\choice(X_2)$ must be subsets of $\choice(X_1 \cup X_2)$. But then $|\choice(X_1 \cup X_2)| \geq |X_1| + |X_2| = 2q > q$, violating $q$-acceptance.
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] {q : ℕ} {C : DGD26AdmissionsPredictability.PaperChoiceRule α},
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    DGD26AdmissionsPredictability.paper_definition_monotonicity C →
+      DGD26AdmissionsPredictability.paper_definition_q_acceptance q C → 0 < q → ∀ {U : Finset α}, q < U.card → False
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_monotonicity_q_acceptance_incompatible_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-f926138cb2114337}{}
+\section*{Review row 36}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 898-\allowbreak{}905\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{lemma}{Ranking m}
+\label{lem:a-v-equal}
+Let $q$-acceptant, $1$-unstable $\choice$ have variability $1$. Then $V_\choice(X) = A_\choice(X \cup \{x'\})$ when $\choice(X \cup \{x'\}) \neq \choice(X)$.
+\end{restatable}
+
+\begin{proof}
+If $\choice(X \cup \{x'\}) \neq \choice(X)$, then $\choice(X \cup \{x'\}) = \{x'\} \cup \choice(X) \setminus x^*$ where $V_\choice(X) = \{x^*\}$ (by consistency, 1-instability, and the definition of variability). Then $X' \setminus \{x'\}) = X$ and so $A_\choice(X') = \{x^*\}$, completing the proof.
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] {q : ℕ}
+  {C : DGD26AdmissionsPredictability.PaperChoiceRule α},
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    DGD26AdmissionsPredictability.paper_definition_q_acceptance q C →
+      DGD26AdmissionsPredictability.paper_definition_d_instability 1 C →
+        DGD26AdmissionsPredictability.paper_definition_variability_at_most 1 C →
+          ∀ {X : Finset α} {x : α},
+            x ∉ X →
+              C (insert x X) ≠ C X →
+                DGD26AdmissionsPredictability.paper_definition_borderline_set C X =
+                  DGD26AdmissionsPredictability.paper_definition_waitlisted_set C (insert x X)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_acceptant_one_instability_variability_borderline_eq_waitlisted_after_changing_insert_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-ef4d58145103cd0c}{}
+\section*{Review row 37}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 552-\allowbreak{}562\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[Substitutability Term]{lemma}{sub-dist}
+\label{lem:substitutability-term}
+Choice function $\choice$ is substitutable if and only if $|X_1 \cap \choice(X_2) \setminus \choice(X_1)| = 0$ for all $X_1 \subseteq X_2$.
+\end{restatable}
+
+\textit{Intuition}:
+For a substitutable choice function, previously rejected candidates are never accepted after the addition of more applicants. Thus labels cannot flip from negative to positive, which is what the first term counts.
+
+\begin{proof}
+For any sets $A, B$, $|A \setminus B| = 0$ if and only if $A \setminus B = \emptyset$, and furthermore $A \setminus B = \emptyset$ if and only if $A \subseteq B$. So $|X_1 \cap \choice(X_2) \setminus \choice(X_1)| = 0$ if and only if $X_1 \cap \choice(X_2) \subseteq \choice(X_1)$, which is the definition of substitutability.
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_definition_substitutability C ↔
+    ∀ {X₁ X₂ : Finset α}, X₁ ⊆ X₂ → ((X₁ ∩ C X₂) \ C X₁).card = 0
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_substitutability_term_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-ca2a099855204aca}{}
+\section*{Review row 38}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 532-\allowbreak{}546\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{lemma}{unsubstitutable}
+\label{lem:unsubstitutable}
+If $\choice$ is not substitutable, there exists some $x^*$, $x'$, $X$ and $X' = X \cup \{x'\}$ where $x^* \in X$ and $x^* \in \choice(X')$ but $x^* \not\in \choice(X)$.
+\end{restatable}
+
+\textit{Intuition}:
+If a choice function is not substitutable, then there is at least one situation where a decision ``flips'' from rejection to acceptance.
+We argue that there has to be some single element $x'$ that causes this ``flip'' when added.
+
+\begin{proof}
+$\choice$ is not substitutable if there exists some  $x^*$ and $X_0 \subseteq X_k$ where $x^* \in X_0$ and $x^* \in \choice(X_k)$ but $x \not\in \choice(X_0)$.
+Let $k$ be such that $k = |X_k \setminus X_0|$.%
+
+We want to show the existence of $x'$. To do this, we identify the ``closest'' sets where this occurs. For each $x \in X_k \setminus X_0$, add elements to $X_0$, constructing $X_0 \subseteq X_1 \subseteq ... \subseteq X_j \subseteq ... \subseteq X_k$, where $X_1 = X_0 \cup \{x_1\}$ and so on. Let $X_j$ be the first in this sequence of sets such that $x^* \in \choice(X_j)$ where $x^* \in \choice(X_j)$ but $x^* \not\in \choice(X_{j-1})$. Then let $x' = x_j$, $X = X_{j-1}$, and $X' = X_j$.
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  ¬DGD26AdmissionsPredictability.paper_definition_substitutability C →
+    ∃ X x xstar, x ∉ X ∧ xstar ∈ X ∧ xstar ∈ C (insert x X) ∧ xstar ∉ C X
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_non_substitutable_single_add_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-bc7eeffb236e6569}{}
+\section*{Review row 39}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 261-\allowbreak{}265\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[ML Representation]{proposition}{mlrepresentation}
+\label{prop:ml-representation}
+A model of the form~\eqref{eq:ml-independent} which makes independent predictions can only represent 0-unstable choice functions.
+A model of the form~\eqref{eq:ml-rank} which ranks applicants can represent a 1-variable, 1-unstable choice function. No such model can represent a choice function with variability or instability greater than one.
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\subsection{Proof of \Cref{prop:ml-representation}} \label{sec:ml-prop-proof}
+
+Recall \Cref{prop:ml-representation}:
+\mlrepresentation*
+
+First consider using an ML model to make decisions; then it can be seen as a choice function with various properties.
+Thus we say that an ML model can represent a choice function with various properties if it can have those properties when viewed as a choice function. %
+
+The first statement follows by noting that any rule of the form~\eqref{eq:ml-independent} must either admit or reject an applicant regardless of the applicant pool, so it must be independent and hence $0$-unstable by \Cref{thm:independent-zero-unstable}. %
+The second and third statements follow by noting that scores in~\eqref{eq:ml-rank} induce a total order by embedding applicants in $\mathbb R$ and selecting accordingly. Therefore any rule of the form~\eqref{eq:ml-rank} is $q$-representative (by definition) and hence has instability and variability exactly one (by \Cref{thm:ranking-variability}), but no greater.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] {C : DGD26AdmissionsPredictability.PaperChoiceRule α} (score : α → ℝ)
+  (threshold : ℝ),
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    DGD26AdmissionsPredictability.paper_definition_ml_representation
+        (DGD26AdmissionsPredictability.paper_definition_fixed_threshold_predictor score threshold) C →
+      DGD26AdmissionsPredictability.paper_definition_zero_instability C
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_ml_fixed_threshold_representation_zero_unstable_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-d21050cec8d233b0}{}
+\section*{Review row 40}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 261-\allowbreak{}269\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[ML Representation]{proposition}{mlrepresentation}
+\label{prop:ml-representation}
+A model of the form~\eqref{eq:ml-independent} which makes independent predictions can only represent 0-unstable choice functions.
+A model of the form~\eqref{eq:ml-rank} which ranks applicants can represent a 1-variable, 1-unstable choice function. No such model can represent a choice function with variability or instability greater than one.
+\end{restatable}
+
+This result shows that standard ML practice coherently applies to admissions data only in limited settings.
+The intuition for this result hinges on the fact that all 1-unstable and 1-variable choice functions correspond to total preference orderings over applicants (formalized in Theorem~\ref{thm:variability}).
+Then the proposition follows from noticing that total preference orderings correspond to  embedding applicants in  $\mathbb{R}$  (by their scores).
+
+[Next verbatim source excerpt]
+
+\subsection{Proof of \Cref{prop:ml-representation}} \label{sec:ml-prop-proof}
+
+Recall \Cref{prop:ml-representation}:
+\mlrepresentation*
+
+First consider using an ML model to make decisions; then it can be seen as a choice function with various properties.
+Thus we say that an ML model can represent a choice function with various properties if it can have those properties when viewed as a choice function. %
+
+The first statement follows by noting that any rule of the form~\eqref{eq:ml-independent} must either admit or reject an applicant regardless of the applicant pool, so it must be independent and hence $0$-unstable by \Cref{thm:independent-zero-unstable}. %
+The second and third statements follow by noting that scores in~\eqref{eq:ml-rank} induce a total order by embedding applicants in $\mathbb R$ and selecting accordingly. Therefore any rule of the form~\eqref{eq:ml-rank} is $q$-representative (by definition) and hence has instability and variability exactly one (by \Cref{thm:ranking-variability}), but no greater.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (q : ℕ),
+  0 < q →
+    ∃ score,
+      ∃ (hinjective : Function.Injective score),
+        DGD26AdmissionsPredictability.paper_definition_tight_d_instability 1
+            (DGD26AdmissionsPredictability.paperRankThresholdChoice q score hinjective) ∧
+          DGD26AdmissionsPredictability.paper_definition_variability_exactly 1
+            (DGD26AdmissionsPredictability.paperRankThresholdChoice q score hinjective)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_ml_rank_threshold_can_represent_exact_one_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-47a9f492a25c4e98}{}
+\section*{Review row 41}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 261-\allowbreak{}269\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[ML Representation]{proposition}{mlrepresentation}
+\label{prop:ml-representation}
+A model of the form~\eqref{eq:ml-independent} which makes independent predictions can only represent 0-unstable choice functions.
+A model of the form~\eqref{eq:ml-rank} which ranks applicants can represent a 1-variable, 1-unstable choice function. No such model can represent a choice function with variability or instability greater than one.
+\end{restatable}
+
+This result shows that standard ML practice coherently applies to admissions data only in limited settings.
+The intuition for this result hinges on the fact that all 1-unstable and 1-variable choice functions correspond to total preference orderings over applicants (formalized in Theorem~\ref{thm:variability}).
+Then the proposition follows from noticing that total preference orderings correspond to  embedding applicants in  $\mathbb{R}$  (by their scores).
+
+[Next verbatim source excerpt]
+
+\subsection{Proof of \Cref{prop:ml-representation}} \label{sec:ml-prop-proof}
+
+Recall \Cref{prop:ml-representation}:
+\mlrepresentation*
+
+First consider using an ML model to make decisions; then it can be seen as a choice function with various properties.
+Thus we say that an ML model can represent a choice function with various properties if it can have those properties when viewed as a choice function. %
+
+The first statement follows by noting that any rule of the form~\eqref{eq:ml-independent} must either admit or reject an applicant regardless of the applicant pool, so it must be independent and hence $0$-unstable by \Cref{thm:independent-zero-unstable}. %
+The second and third statements follow by noting that scores in~\eqref{eq:ml-rank} induce a total order by embedding applicants in $\mathbb R$ and selecting accordingly. Therefore any rule of the form~\eqref{eq:ml-rank} is $q$-representative (by definition) and hence has instability and variability exactly one (by \Cref{thm:ranking-variability}), but no greater.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [Fintype α] {C : DGD26AdmissionsPredictability.PaperChoiceRule α} (q : ℕ)
+  (score : α → ℝ) (hinjective : Function.Injective score),
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    DGD26AdmissionsPredictability.paper_definition_ml_representation
+        (DGD26AdmissionsPredictability.paper_definition_rank_threshold_predictor q score hinjective) C →
+      DGD26AdmissionsPredictability.paper_definition_d_instability 1 C
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_ml_rank_threshold_representation_instability_bound_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-98ed151e7543b81d}{}
+\section*{Review row 42}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 261-\allowbreak{}269\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[ML Representation]{proposition}{mlrepresentation}
+\label{prop:ml-representation}
+A model of the form~\eqref{eq:ml-independent} which makes independent predictions can only represent 0-unstable choice functions.
+A model of the form~\eqref{eq:ml-rank} which ranks applicants can represent a 1-variable, 1-unstable choice function. No such model can represent a choice function with variability or instability greater than one.
+\end{restatable}
+
+This result shows that standard ML practice coherently applies to admissions data only in limited settings.
+The intuition for this result hinges on the fact that all 1-unstable and 1-variable choice functions correspond to total preference orderings over applicants (formalized in Theorem~\ref{thm:variability}).
+Then the proposition follows from noticing that total preference orderings correspond to  embedding applicants in  $\mathbb{R}$  (by their scores).
+
+[Next verbatim source excerpt]
+
+\subsection{Proof of \Cref{prop:ml-representation}} \label{sec:ml-prop-proof}
+
+Recall \Cref{prop:ml-representation}:
+\mlrepresentation*
+
+First consider using an ML model to make decisions; then it can be seen as a choice function with various properties.
+Thus we say that an ML model can represent a choice function with various properties if it can have those properties when viewed as a choice function. %
+
+The first statement follows by noting that any rule of the form~\eqref{eq:ml-independent} must either admit or reject an applicant regardless of the applicant pool, so it must be independent and hence $0$-unstable by \Cref{thm:independent-zero-unstable}. %
+The second and third statements follow by noting that scores in~\eqref{eq:ml-rank} induce a total order by embedding applicants in $\mathbb R$ and selecting accordingly. Therefore any rule of the form~\eqref{eq:ml-rank} is $q$-representative (by definition) and hence has instability and variability exactly one (by \Cref{thm:ranking-variability}), but no greater.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] {C : DGD26AdmissionsPredictability.PaperChoiceRule α}
+  (q : ℕ) (score : α → ℝ) (hinjective : Function.Injective score),
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    DGD26AdmissionsPredictability.paper_definition_ml_representation
+        (DGD26AdmissionsPredictability.paper_definition_rank_threshold_predictor q score hinjective) C →
+      DGD26AdmissionsPredictability.paper_definition_variability_at_most 1 C
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_ml_rank_threshold_representation_variability_bound_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-396063f8f4209701}{}
+\section*{Review row 43}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 347-\allowbreak{}358\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[]{proposition}{empiricalmethods}
+\label{prop:program-variability}
+All considered choice functions ({Ed. Opt}, {Screened/Open}, {Ed. Opt with DIA}, and {Screened/Open with DIA}) are $1$-unstable. Furthermore, their variability is (tightly) equal to their number of queues:
+
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+    \item Screened/Open programs are $1$-variable
+    \item Screened/Open with DIA programs are $2$-variable
+    \item Ed. Opt. programs are $3$-variable
+    \item Ed. Opt with DIA programs are $6$-variable
+\end{itemize}
+
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\subsection{Proof of \Cref{prop:program-variability}} \label{sec:program-prop-proof}
+
+Recall \Cref{prop:program-variability}:
+\empiricalmethods*
+
+We construct applicant sets to prove the variability of each empirical method we study, showing that the upper bound from \Cref{thm:variability} based on the number of queues is tight.
+
+Note that both Screened and Open programs are explicitly a ranking, and therefore have variability $1$ by  \Cref{thm:variability}.
+Screened and Open programs with DIA are upper-bounded by variability 2, as they are composed of two queues. It is easy to see that this upper bound is tight. Consider an applicant pool $X$ where the lowest-ranking students in the DIA queue is lower-ranked than the lowest-ranked student in the non-DIA queue. Then $A_\choice(X)$ contains two elements -- adding a new DIA-qualified student might lead to rejecting the lowest-ranked student in the DIA queue, while a non-DIA student would lead to a change in the non-DIA queue. Similarly, in the three-queue Ed. Opt. case, the variability $3$ bound is tight, as there are applicant pools where adding a single high-, middle-, or low-category student would displace a different student in the corresponding queue. Likewise, the six queues in Ed. Opt. with DIA programs lead to six diffrent students who might be displaced depending on what category a new applicant falls into.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.paper_definition_d_instability 1
+    DGD26AdmissionsPredictability.paper_definition_screened_open_program_choice ∧
+  DGD26AdmissionsPredictability.paper_definition_d_instability 1
+      DGD26AdmissionsPredictability.paper_definition_screened_open_dia_program_choice ∧
+    DGD26AdmissionsPredictability.paper_definition_d_instability 1
+        DGD26AdmissionsPredictability.paper_definition_educational_option_program_choice ∧
+      DGD26AdmissionsPredictability.paper_definition_d_instability 1
+        DGD26AdmissionsPredictability.paper_definition_educational_option_dia_program_choice
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_program_classes_one_instability_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-f595f3e6af0e1b40}{}
+\section*{Review row 44}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 347-\allowbreak{}358\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[]{proposition}{empiricalmethods}
+\label{prop:program-variability}
+All considered choice functions ({Ed. Opt}, {Screened/Open}, {Ed. Opt with DIA}, and {Screened/Open with DIA}) are $1$-unstable. Furthermore, their variability is (tightly) equal to their number of queues:
+
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+    \item Screened/Open programs are $1$-variable
+    \item Screened/Open with DIA programs are $2$-variable
+    \item Ed. Opt. programs are $3$-variable
+    \item Ed. Opt with DIA programs are $6$-variable
+\end{itemize}
+
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\subsection{Proof of \Cref{prop:program-variability}} \label{sec:program-prop-proof}
+
+Recall \Cref{prop:program-variability}:
+\empiricalmethods*
+
+We construct applicant sets to prove the variability of each empirical method we study, showing that the upper bound from \Cref{thm:variability} based on the number of queues is tight.
+
+Note that both Screened and Open programs are explicitly a ranking, and therefore have variability $1$ by  \Cref{thm:variability}.
+Screened and Open programs with DIA are upper-bounded by variability 2, as they are composed of two queues. It is easy to see that this upper bound is tight. Consider an applicant pool $X$ where the lowest-ranking students in the DIA queue is lower-ranked than the lowest-ranked student in the non-DIA queue. Then $A_\choice(X)$ contains two elements -- adding a new DIA-qualified student might lead to rejecting the lowest-ranked student in the DIA queue, while a non-DIA student would lead to a change in the non-DIA queue. Similarly, in the three-queue Ed. Opt. case, the variability $3$ bound is tight, as there are applicant pools where adding a single high-, middle-, or low-category student would displace a different student in the corresponding queue. Likewise, the six queues in Ed. Opt. with DIA programs lead to six diffrent students who might be displaced depending on what category a new applicant falls into.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.paper_definition_variability_exactly 1
+  DGD26AdmissionsPredictability.paper_definition_screened_open_program_choice
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_screened_open_variability_one_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-8afe5dc5804dcb73}{}
+\section*{Review row 45}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 347-\allowbreak{}358\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[]{proposition}{empiricalmethods}
+\label{prop:program-variability}
+All considered choice functions ({Ed. Opt}, {Screened/Open}, {Ed. Opt with DIA}, and {Screened/Open with DIA}) are $1$-unstable. Furthermore, their variability is (tightly) equal to their number of queues:
+
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+    \item Screened/Open programs are $1$-variable
+    \item Screened/Open with DIA programs are $2$-variable
+    \item Ed. Opt. programs are $3$-variable
+    \item Ed. Opt with DIA programs are $6$-variable
+\end{itemize}
+
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\subsection{Proof of \Cref{prop:program-variability}} \label{sec:program-prop-proof}
+
+Recall \Cref{prop:program-variability}:
+\empiricalmethods*
+
+We construct applicant sets to prove the variability of each empirical method we study, showing that the upper bound from \Cref{thm:variability} based on the number of queues is tight.
+
+Note that both Screened and Open programs are explicitly a ranking, and therefore have variability $1$ by  \Cref{thm:variability}.
+Screened and Open programs with DIA are upper-bounded by variability 2, as they are composed of two queues. It is easy to see that this upper bound is tight. Consider an applicant pool $X$ where the lowest-ranking students in the DIA queue is lower-ranked than the lowest-ranked student in the non-DIA queue. Then $A_\choice(X)$ contains two elements -- adding a new DIA-qualified student might lead to rejecting the lowest-ranked student in the DIA queue, while a non-DIA student would lead to a change in the non-DIA queue. Similarly, in the three-queue Ed. Opt. case, the variability $3$ bound is tight, as there are applicant pools where adding a single high-, middle-, or low-category student would displace a different student in the corresponding queue. Likewise, the six queues in Ed. Opt. with DIA programs lead to six diffrent students who might be displaced depending on what category a new applicant falls into.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.paper_definition_variability_exactly 2
+  DGD26AdmissionsPredictability.paper_definition_screened_open_dia_program_choice
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_screened_open_dia_variability_two_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-68c8be83630deedf}{}
+\section*{Review row 46}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 347-\allowbreak{}358\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[]{proposition}{empiricalmethods}
+\label{prop:program-variability}
+All considered choice functions ({Ed. Opt}, {Screened/Open}, {Ed. Opt with DIA}, and {Screened/Open with DIA}) are $1$-unstable. Furthermore, their variability is (tightly) equal to their number of queues:
+
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+    \item Screened/Open programs are $1$-variable
+    \item Screened/Open with DIA programs are $2$-variable
+    \item Ed. Opt. programs are $3$-variable
+    \item Ed. Opt with DIA programs are $6$-variable
+\end{itemize}
+
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\subsection{Proof of \Cref{prop:program-variability}} \label{sec:program-prop-proof}
+
+Recall \Cref{prop:program-variability}:
+\empiricalmethods*
+
+We construct applicant sets to prove the variability of each empirical method we study, showing that the upper bound from \Cref{thm:variability} based on the number of queues is tight.
+
+Note that both Screened and Open programs are explicitly a ranking, and therefore have variability $1$ by  \Cref{thm:variability}.
+Screened and Open programs with DIA are upper-bounded by variability 2, as they are composed of two queues. It is easy to see that this upper bound is tight. Consider an applicant pool $X$ where the lowest-ranking students in the DIA queue is lower-ranked than the lowest-ranked student in the non-DIA queue. Then $A_\choice(X)$ contains two elements -- adding a new DIA-qualified student might lead to rejecting the lowest-ranked student in the DIA queue, while a non-DIA student would lead to a change in the non-DIA queue. Similarly, in the three-queue Ed. Opt. case, the variability $3$ bound is tight, as there are applicant pools where adding a single high-, middle-, or low-category student would displace a different student in the corresponding queue. Likewise, the six queues in Ed. Opt. with DIA programs lead to six diffrent students who might be displaced depending on what category a new applicant falls into.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.paper_definition_variability_exactly 3
+  DGD26AdmissionsPredictability.paper_definition_educational_option_program_choice
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_educational_option_variability_three_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-a241fbe5321a55d3}{}
+\section*{Review row 47}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 347-\allowbreak{}358\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[]{proposition}{empiricalmethods}
+\label{prop:program-variability}
+All considered choice functions ({Ed. Opt}, {Screened/Open}, {Ed. Opt with DIA}, and {Screened/Open with DIA}) are $1$-unstable. Furthermore, their variability is (tightly) equal to their number of queues:
+
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+    \item Screened/Open programs are $1$-variable
+    \item Screened/Open with DIA programs are $2$-variable
+    \item Ed. Opt. programs are $3$-variable
+    \item Ed. Opt with DIA programs are $6$-variable
+\end{itemize}
+
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\subsection{Proof of \Cref{prop:program-variability}} \label{sec:program-prop-proof}
+
+Recall \Cref{prop:program-variability}:
+\empiricalmethods*
+
+We construct applicant sets to prove the variability of each empirical method we study, showing that the upper bound from \Cref{thm:variability} based on the number of queues is tight.
+
+Note that both Screened and Open programs are explicitly a ranking, and therefore have variability $1$ by  \Cref{thm:variability}.
+Screened and Open programs with DIA are upper-bounded by variability 2, as they are composed of two queues. It is easy to see that this upper bound is tight. Consider an applicant pool $X$ where the lowest-ranking students in the DIA queue is lower-ranked than the lowest-ranked student in the non-DIA queue. Then $A_\choice(X)$ contains two elements -- adding a new DIA-qualified student might lead to rejecting the lowest-ranked student in the DIA queue, while a non-DIA student would lead to a change in the non-DIA queue. Similarly, in the three-queue Ed. Opt. case, the variability $3$ bound is tight, as there are applicant pools where adding a single high-, middle-, or low-category student would displace a different student in the corresponding queue. Likewise, the six queues in Ed. Opt. with DIA programs lead to six diffrent students who might be displaced depending on what category a new applicant falls into.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.paper_definition_variability_exactly 6
+  DGD26AdmissionsPredictability.paper_definition_educational_option_dia_program_choice
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_educational_option_dia_variability_six_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-207dcf4700d4343b}{}
+\section*{Review row 48}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 998-\allowbreak{}1003\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[Additive Variability Bound]{theorem}{addvar}
+\label{thm:additive-variability}
+If $\choice$ is a sequential composition of $q$-acceptant, $1$-unstable functions with variabilities $m_1, \ldots, m_n$, then $\choice$ has variability at most $\sum_{i=1}^n m_i$.
+\end{restatable}
+
+Note that this is only an upper bound; we could trivially construct cases where this is not tight. For example, compose a $\choice$ of two $q$-representative choice functions with the same underlying ordering. On the other hand, it is also easy to construct instances in which this upper bound is tight. Consider the composition of $m$ queues which each rank a student by a different subject area exam. Then the addition of a new student to the applicant pool could displace any of $m$ students, depending on the subject area.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] {qs ms : List ℕ}
+  {Cs : List (DGD26AdmissionsPredictability.PaperChoiceRule α)},
+  List.Forall₂
+      (fun q C =>
+        DGD26AdmissionsPredictability.paper_choice_function_feasible C ∧
+          DGD26AdmissionsPredictability.paper_definition_q_acceptance q C ∧
+            DGD26AdmissionsPredictability.paper_definition_d_instability 1 C)
+      qs Cs →
+    List.Forall₂ (fun m C => DGD26AdmissionsPredictability.paper_definition_variability_at_most m C) ms Cs →
+      DGD26AdmissionsPredictability.paper_definition_variability_at_most ms.sum
+        (DGD26AdmissionsPredictability.paper_definition_sequential_composition Cs)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_sequential_additive_variability_bound_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-fff538b4a617e0f3}{}
+\section*{Review row 49}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 850-\allowbreak{}879\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{theorem}{appendremove}
+\label{thm:append-remove-size}
+For $q$-acceptant, 1-unstable $\choice$, and $|\calX| \geq 2q$, the maximum size of the waitlisted set is equal to the maximum size of the borderline set; that is,
+\begin{equation}
+\max_{X\subset \calX} \left| V_\choice(X)\right| = \max_{X\subset \calX} \left| A_\choice(X)\right|
+\end{equation}
+\end{restatable}
+
+In short, if there is a set $X$ with a waitlisted set of size $u$, there must be a set $X_0$ with a borderline set of size (at least) $u$, and vice versa. %
+
+\begin{proof}
+To prove equality, we will prove that 1) $\max_{X\subset \calX} \left| V_\choice(X)\right| \geq \max_{X\subset \calX} \left| A_\choice(X)\right|$ and then that 2) $\max_{X\subset \calX} \left| V_\choice(X)\right| \leq  \max_{X\subset \calX} \left| A_\choice(X)\right|$.
+
+\textbf{Part 1).}
+To prove the first statement, assume that there is some $X$ where the waitlisted set is of cardinality at least $u$, so $x^*_1, ..., x^*_u \in A_\choice(X)$.
+
+Then (recall that $\choice$ is consistent) there are $X_1, ..., X_u \subseteq X$ where $X_i = X \setminus \{x'_i\}$ such that $\choice(X_i) = x^*_i \cup \choice(X) \setminus x'_i$ for $i \in \{1, ..., u\}$. Then consider $X_0 = \bigcap_{i=1}^u X_i = X \setminus \{x'_1, ..., x'_u\}$, and $\choice(X_0)$. It must be that $\choice(X_0) = \{x^*_1, ..., x^*_u\} \cup \choice(X) \setminus \{x'_1, ..., x'_u\}$ by substitutability. I claim that $\{x^*_1, ..., x^*_u\} \subseteq V_\choice(X_0)$, which means $|V_c(X_0)| \geq u$, which would complete the proof.
+
+Assume for contradiction that this is untrue; $\{x^*_1, ..., x^*_u\} \not\subseteq V_\choice(X_0)$. Then some $x^*_i$, say $x^*_u$ (without loss of generality), is not in $V_\choice(X_0)$, which means that $x^*_u \in \choice(\{x'_u\} \cup X_0)$.
+Consider the makeup of $\choice(\{x'_u\} \cup X_0)$. Recall that $\{x'_u\} \cup X_0 = \bigcap_{i=1}^{u-1} X_i = X \setminus \{x'_1, ..., x'_{u-1}\}$. Because of substitutability, as a subset of $X$, we have $\left(\choice(X) \setminus \{x'_1, ..., x'_{u-1}\}\right) \subseteq \{x'_u\} \cup X_0$. From substitutability, as a subset of from $X_1$ through $X_{u-1}$, $\{x^*_2, ..., x^*_{u-1}\}$ are likewise chosen.
+However, consider the size of $\choice(\{x'_u\} \cup X_0)$. $|\choice(X) \setminus \{x'_1, ..., x'_{u-1}\}|$ is of size $q-(u-1)$, because $x'_i \in \choice(X)$ for all $i$. We also know that $|\{x^*_1, ..., x^*_{u-1}\}| = u-1$, and as no  $x^*_i$ is in $\choice(X)$ by definition, all of these elements are distinct. As $x^*_u$ remains by assumption, this adds up to $|\choice(\{x'_u\} \cup X_0)| = q+1$, which violates $q$-acceptance and completes the proof.
+
+\textbf{Part 2).}
+The proof for 2) is extremely similar to the former. Begin with $X_0$ with $V_\choice(X_0) = \{x^*_1, ..., x^*_m\}$, with $x'_1, ..., x'_m$ such that $\choice(X'_1) = \{x'_1\} \cup \choice(X_0) \setminus \{x^*_1\}$. Let $X = \bigcup_{i=1}^m /X'_i = X_0 \cup \{x'_1,...,x'_m\}$ and $X_i = X \setminus \{x'_i\}$. Note that $X_i = X'_1 \cup ... X'_{i-1} \cup X'_{i+1} \cup ... \cup X_m$. %
+Because of $1$-instability, $|\choice(X_0) \setminus \choice(X)| \leq |X_0 \setminus X| = m$. Because of substitutability, any $x \in \choice(X)$ is either in $\choice(X_0)$ or not in $X_0$ and therefore in $\{x'_1, ..., x'_m\}$.
+
+I claim $\choice(X) = \{x'_1,...,x'_m\} \cup \choice(X_0) \setminus \{x^*_1,..., x^*_m\}$. Firstly, $x^*_i \not\in \choice(X)$ because  $x^*_i \not\in \choice(X'_i)$ and $X'_i \subseteq X$, so that would be a substitutability violation. As $\choice(X_0) \setminus \{x^*_1,..., x^*_m\}$ has $q-m$ elements, the only possible elements to fill $\choice(X)$ must be the $m$ elements of $\{x'_1,...,x'_m\}$.
+
+The same argument holds for any $X_i$, but use $X_m$ without loss of generality for ease of notation; $X'_j \subseteq X_m$ for $m \neq j$, so $x^*_j \not\in\choice(X_m)$ by substitutability. With $\choice(X_0) \setminus \{x^*_1,..., x^*_{m-1}\}$ being the only $q-m+1$ elements of $X_0$ that can be in $\choice(X_m)$, the other $m-1$ elements must be $\{x'_1,. .., x'_{m-1}\}$. Then consider the definition of $A_\choice(X)$ and see that $\choice(X \setminus x'_i) \setminus \choice(X) = \{x^*_i\}$ for any $i$, with each $x^*_i$ being unique.
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] {m q : ℕ}
+  {C : DGD26AdmissionsPredictability.PaperChoiceRule α},
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    DGD26AdmissionsPredictability.paper_definition_q_acceptance q C →
+      DGD26AdmissionsPredictability.paper_definition_d_instability 1 C →
+        (DGD26AdmissionsPredictability.paper_definition_general_variability_exactly m C ↔
+          DGD26AdmissionsPredictability.paper_definition_variability_exactly m C)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_append_remove_variability_exact_equivalence_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-e1e0f5f892109672}{}
+\section*{Review row 50}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 576-\allowbreak{}580\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[Triangle Inequality]{theorem}{triangle}
+\label{thm:triangle-ineq}
+For any choice function $\choice$ and sets $X_1 \subseteq X_2 \subseteq X_3$, $r_\choice$ obeys the triangle inequality;
+$$r_\choice(X_1, X_3) \leq r_\choice(X_1, X_2) + r_\choice(X_2, X_3)$$
+\end{restatable}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α) {X₁ X₂ X₃ : Finset α},
+  X₁ ⊆ X₂ →
+    X₂ ⊆ X₃ →
+      DGD26AdmissionsPredictability.paper_definition_choice_distance C X₁ X₃ ≤
+        DGD26AdmissionsPredictability.paper_definition_choice_distance C X₁ X₂ +
+          DGD26AdmissionsPredictability.paper_definition_choice_distance C X₂ X₃
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_choice_distance_triangle_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-f8de55f9c5760a87}{}
+\section*{Review row 51}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 777-\allowbreak{}794\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[Even Instability is Inconsistent]{theorem}{inconsistentstable}
+\label{thm:even-inconsistency}
+For any $q$-acceptant $\choice$, $\choice$ is inconsistent if and only if there exist $X, X' = X \cup \{x'\}$ where $r_\choice(X, X')$ is positive and even.
+\end{restatable}
+
+\textit{Intuition}: for $\choice$ to have an even but nonzero choice distance $r_\choice$, the indicator term in  \Cref{lem:unstable-calc} must be zero; the added $x'$ is not selected. But that means $x'$ is a rejected element that still has an impact, which violates consistency.
+\begin{proof}
+\textbf{Informal}
+First, we prove that an even and positive value of $r_\choice$ implies inconsistency. For $\choice$ to have an even but nonzero choice distance $r_\choice$, the indicator term in  \Cref{lem:unstable-calc} must be zero; the added $x'$ is not selected. But that means $x'$ affects selection without actually being chosen, which violates consistency.
+
+Next, prove that consistency limits the values of $r_\choice$. If $\choice$ is not consistent, then there is some $X, X'$ where the new element $x'$ is not chosen (so the indicator term in \Cref{lem:unstable-calc} is zero and $r_\choice$ is even), but changes the chosen elements. This makes  $r_\choice$ is positive under a fixed capacity constraint.
+
+\textbf{Formal}
+Consider \Cref{lem:unstable-calc}. See that for $r_\choice \neq 0$, $r_\choice$ is odd if and only if $x' \in \choice(X')$ and even if and only if $x' \not\in \choice(X')$. If $x' \not\in \choice(X')$, then $\choice(X') \subseteq X$. %
+So if $x' \not\in \choice(X')$ but $n > 0$, $\choice(X') \subseteq X$ but $\choice(X') \neq \choice(X)$, which proves inconsistency.
+Similarly, if $\choice$ is inconsistent, there is $\choice(X') \subseteq X$ but $\choice(X') \neq \choice(X)$. %
+As $\choice(X') \neq \choice(X)$, $n > 0$, but for $\choice(X') \subseteq X$ to be true, $x' \neq \choice(X')$, and so $r_\choice(X, X')$ is even.
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] {q : ℕ} {C : DGD26AdmissionsPredictability.PaperChoiceRule α},
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    DGD26AdmissionsPredictability.paper_definition_q_acceptance q C →
+      (¬DGD26AdmissionsPredictability.paper_definition_consistency C ↔
+        ∃ X,
+          ∃ x ∉ X,
+            0 < DGD26AdmissionsPredictability.paper_definition_choice_distance C X (insert x X) ∧
+              ∃ k, DGD26AdmissionsPredictability.paper_definition_choice_distance C X (insert x X) = 2 * k)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_even_distance_iff_inconsistent_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-3e732abc6f7366e9}{}
+\section*{Review row 52}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 683-\allowbreak{}707\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{theorem}{Independent Rules are Substitutable and Monotonic}
+\label{thm:independent-sub-mon}
+$\choice$ is independent if and only if it is both substitutable and monotonic.
+\end{restatable}
+
+\textit{Intuition}: The only way for adding applicants to neither hurt those already accepted or help those already rejected is to not affect them at all.
+\begin{proof}
+    Assume $\choice$ is independent.
+
+    \textbf{Informal}
+    Consider how independence implies substitutability and monotonicity. Independence means any element is always accepted or always rejected regardless of applicant pool. Then any $x$ that is accepted in $X_1$ is still accepted in any subset of $X_1$, which satisfies the definition of substitutability, and is accepted in any superset of $X_1$, which satisfies monotonicity.
+
+    To prove that substitutability and monotonicity combine to form independence, consider the behavior they cover. Recall the intuition behind substitutability --- removing applicants does not lead to rejecting those accepted, and the intuition behind monotonicity --- adding applicants does not lead to rejecting those accepted. Given both properties, nothing can affect an acceptance decision at all.
+
+    \textbf{Formal}
+    First, we assume independence and prove $0$-stablility.
+    Recall \Cref{lem:substitutability-term}: $\choice$ is substitutable if and only if $|X_1 \cap \choice(X_2) \setminus \choice(X_1)| = 0$ for all $X_1 \subseteq X_2$. Then for any $x \in X_1$, either $x \in \choice(X_1),\choice(X_2)$ or $x \not\in \choice(X_1),\choice(X_2)$, so $X_1 \cap \choice(X_2) = \choice(X_1)$. Then $|X_1 \cap \choice(X_2) \setminus \choice(X_1)| = 0$ and so $\choice$ is substitutable. Similarly, recall \Cref{lem:monotonicity-term}: $\choice$ is monotonic if and only if $|\choice(X_1) \setminus \choice(X_2)| = 0$ for all $X_1 \subseteq X_2$. Any element $x \in \choice(X_1)$ is in $X_2$ because $\choice(X_1) \subseteq X_1 \subseteq X_2$. By definition of independence, $x \in \choice(X)$ for all $X$ where $x \in X$, so if $x \in \choice(X_1)$, $x \in \choice(X_2)$, so $\choice(X_1) \subseteq \choice(X_2)$.
+
+    To prove that substitutability and monotonicity together imply independence, consider any $x \in X$. If $x \in \choice(X)$, we can show that $x \in \choice(X')$ for any $X'$ where $x \in X'$. By monotonicity, $x \in \choice(X' \cup X)$, and so by substitutability, $x \in \choice(X')$. If $x \not\in \choice(X)$, we can prove $x \not\in \choice(X')$ for any $X'$. If we assumed for contradiction that $x \in \choice(X')$, then the same argument as above proves $x \in \choice(X)$, leading to contradiction.
+\end{proof}
+
+\begin{restatable}{corollary}{Only Independent Rules are 0-unstable}
+\label{thm:independent-zero-unstable}
+$\choice$ is $0$-unstable if and only if it is independent, and therefore no $q$-acceptant $\choice$ can be $0$-unstable.
+\end{restatable}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] (C : DGD26AdmissionsPredictability.PaperChoiceRule α),
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    (DGD26AdmissionsPredictability.paper_definition_independence C ↔
+      DGD26AdmissionsPredictability.paper_definition_substitutability C ∧
+        DGD26AdmissionsPredictability.paper_definition_monotonicity C)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_independent_substitutable_monotonic_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-dac748564d615cb6}{}
+\section*{Review row 53}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 280-\allowbreak{}289\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{theorem}{thminstability}
+\label{thm:instability}
+A $q$-acceptant choice function
+\begin{enumerate}
+    \item cannot be $0$-unstable,
+    \item  is exactly $1$-unstable if and only if it is substitutable,
+    \item can be tightly $d$-unstable for every $1\leq d \leq 2q$.
+\end{enumerate}
+
+\end{restatable}%
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] {q : ℕ} {C : DGD26AdmissionsPredictability.PaperChoiceRule α},
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    DGD26AdmissionsPredictability.paper_definition_q_acceptance q C →
+      0 < q → ∀ {U : Finset α}, q < U.card → ¬DGD26AdmissionsPredictability.paper_definition_zero_instability C
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_no_zero_instability_under_capacity_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-4efb65f58e4bc480}{}
+\section*{Review row 54}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 280-\allowbreak{}289\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{theorem}{thminstability}
+\label{thm:instability}
+A $q$-acceptant choice function
+\begin{enumerate}
+    \item cannot be $0$-unstable,
+    \item  is exactly $1$-unstable if and only if it is substitutable,
+    \item can be tightly $d$-unstable for every $1\leq d \leq 2q$.
+\end{enumerate}
+
+\end{restatable}%
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] {q : ℕ} {C : DGD26AdmissionsPredictability.PaperChoiceRule α},
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    DGD26AdmissionsPredictability.paper_definition_q_acceptance q C →
+      (DGD26AdmissionsPredictability.paper_definition_substitutability C ↔
+        DGD26AdmissionsPredictability.paper_definition_d_instability 1 C)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_substitutability_one_instability_equivalence_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-d2442dd19c06f77a}{}
+\section*{Review row 55}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 280-\allowbreak{}289\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{theorem}{thminstability}
+\label{thm:instability}
+A $q$-acceptant choice function
+\begin{enumerate}
+    \item cannot be $0$-unstable,
+    \item  is exactly $1$-unstable if and only if it is substitutable,
+    \item can be tightly $d$-unstable for every $1\leq d \leq 2q$.
+\end{enumerate}
+
+\end{restatable}%
+
+[Next verbatim source excerpt]
+
+\subsection{Proof of \Cref{thm:instability}} \label{sec:instability-proof}
+
+Recall \Cref{thm:instability}:
+\thminstability*
+
+Putting things together, the first statement of \Cref{thm:instability} comes from \Cref{thm:independent-zero-unstable} and the second from \Cref{thm:sub-unstable-equiv}. The third
+has roots in \Cref{lem:unstable-calc}, which allows us to calculate instability.
+
+Rigorously, we can generate a $d$-unstable $\choice$ for any $1 < d \leq 2q$. Take any $1$-unstable, $q$-acceptant $\choice$ induced by a total order $\succ$ (i.e, is a ranking). Let $n$ be $\frac{d}{2}$, rounded down. Then let $X^* = \{x^*_1, ..., x^*_n\}$ be the $n$ \textit{minimal} elements of $\succ$ (or any $n$ elements that are not among the $n$ maximal elements, if there exist any.) Then modify $\choice$ such that if $X^* \subseteq X$ for any input $X$, $X^* \subseteq \choice(X)$. Then $\choice$ is tightly $2n-1$-unstable. To make $\choice$ $2n$-unstable, let there be some $x'$ such that if $X^* \subseteq X$ but $x' \in X$ as well, then \textit{no} element of $X^*$ is in $\choice(X)$. %
+
+The intuition for the construction is that $X^*$ forms a highly desirable team, even though each element is not individually desirable, nor are partial subsets of $X^*$.
+In the inconsistent case (even instability) $x'$ represents a candidate whose mere presence negates the value of $X^*$ as a team, even when not accepted.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (q d : ℕ),
+  1 ≤ d →
+    d ≤ 2 * q →
+      ∃ β inst C,
+        DGD26AdmissionsPredictability.paper_choice_function_feasible C ∧
+          DGD26AdmissionsPredictability.paper_definition_q_acceptance q C ∧
+            DGD26AdmissionsPredictability.paper_definition_tight_d_instability d C
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_theorem1_tight_all_d_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-b3ee09f1e9e6b10d}{}
+\section*{Review row 56}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1097-\allowbreak{}1109\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[Linear Assignment Instability]{theorem}{LAPstable}
+\label{thm:lap-unstable}
+Linear assignment problems are 1-unstable.
+\end{restatable}
+
+\textit{Intuition}: The ranking-like structure of linear assignment slots maintains substitutability, because each slot maintains a  preference ordering over elements that is independent of the cohort.
+
+\begin{proof}
+Recall that for $q$-acceptant functions, substitutability and 1-instability are equivalent by \Cref{thm:sub-unstable-equiv}.
+
+The proof is by contradiction; assume $\choice$ is not substitutable. As per \Cref{lem:unsubstitutable}, there exists $\choice(X), \choice(X')$ where some $x^* \in X$ is not in $\choice(X)$ but $x^* \in \choice(X')$.
+By \Cref{lem:lap-ordering}, $\choice(X) = \{x_{s_1}, ..., x_{s_q}\}$ tells us we have $x_{s_i} \succ_{s_i} x^*$ for all $i \in \{1, ..., q\}$. For $x^*$ to be in $\choice(X')$, $x_{s_i}$ must also be in $\choice(X')$, meaning that $\choice(X) \subseteq \choice(X')$. However, as $x^* \in \choice(X')$, $|\choice(X')| > |\choice(X')|$, which violates $q$-acceptance, leading to contradiction.
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] {σ : Type u_2} [inst_1 : DecidableEq σ] [inst_2 : Fintype σ] {w : α → σ → ℝ}
+  (hwell : DGD26AdmissionsPredictability.LAP.Assignment.WellPosedObjective w),
+  DGD26AdmissionsPredictability.paper_definition_d_instability 1
+    (DGD26AdmissionsPredictability.paperLAPChoiceRule w hwell)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_lap_assignment_one_instability_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-a0520310d6532be1}{}
+\section*{Review row 57}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1111-\allowbreak{}1129\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[Linear Assignment Variability]{theorem}{LAPvariable}
+\label{thm:lap-variability}
+The variability of a linear assignment problem is upper bounded by the number of distinct preference orderings induced by its slots.
+\end{restatable}
+
+\textit{Intuition}:
+The proof follows from the observation that, if slot $s$ ranks some other element $x$ in the chosen set higher than the element $x_s$ currently assigned to $s$, $x$ cannot be in the variable set. Then, if $k$ slots (say, slots $s_1, ..., s_k$, with assigned elements $x_{s_1}, ..., x_{s_k}$) induce the same preference ordering over elements, then only the minimal element in $\{x_{s_1}, ..., x_{s_k}\}$ according to that preference ordering can be in $V_\choice(X)$.
+
+\begin{proof}
+We want to show that variability is upper bounded by the number of unique orderings. Recall that the variable set $V_\choice(X) \subseteq \choice(X)$ is at most cardinality $q$.
+
+I claim that for any $X$ and $\choice(X)$, $x_{s_i}$ is not in $V_\choice(X)$ if $x_{s_i} \succ_{s_j} x_{s_j}$ for any $j \neq i$.
+To be precise, if $x_{s_i} \in \choice(X)$, and $x_{s_i} \succ_{s_j} x_{s_j}$ for some $j \neq i$, then $x_{s_i} \in \choice(X')$ for any $X' = X \cup \{x'\}$.
+
+The proof of this claim is by contradiction: assume there exists $\choice(X), \choice(X')$ where some $x_{s_i} \succ_{s_j} x_{s_j}$ but $x_{s_i} \not\in \choice(X')$. Firstly, because of the 1-instability proven in \Cref{thm:lap-unstable}, $|\choice(X) \setminus \choice(X')| = 1$, which means by assumption, $\choice(X) \setminus \choice(X') = \{x_{s_i}\}$, which further implies $x_{s_j} \in \choice(X')$. However,  \Cref{lem:lap-ordering} then applies to $x_{s_j}$, where $x_{s_i} \succ_{s_j} x_{s_j}$ implies $x_{s_i} \in \choice(X')$, leading to contradiction.
+
+Secondly, note that if $s_i, s_j$ induce the same total ordering, then either $x_{s_i} \succ_{s_j} x_{s_j}$ or $x_{s_j} \succ_{s_i} x_{s_i}$ (and the same for $\succ_{s_i}$) for any $\choice(X)$, as a property of any total ordering. Then one of either $x_{s_j}$ or $x_{s_j}$ are not in $V_\choice(X)$. It is intuitive to see that this generalizes: if $s_1, ... s_j$ all induce the same ordering $\succ_{s_j}$, there is exactly one minimal element in $x_{s_1}, ..., x_{s_j}$, because any finite subset of a totally ordered set is well-ordered.
+Say that $x_{s_j}$ is the minimal element, w.l.o.g.; then none of $x_{s_1}, ..., x_{s_{j-1}}$ are in $V_\choice(X)$. More generally, let there be $m$ unique orderings, which we notate $\succ_1,..., \succ_m$. Let $k \in \{1,..., m\}$ and let there be $c_k$ slots that induce $\succ_k$. Then we have
+defined sets of size $c_k-1$ elements that cannot be in $V_\choice(X)$. Then $|V_\choice(X)| \leq m$, and therefore the overall variability is at most $m$.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] {σ : Type u_2} [inst_2 : DecidableEq σ]
+  [inst_3 : Fintype σ] {w : α → σ → ℝ} (hwell : DGD26AdmissionsPredictability.LAP.Assignment.WellPosedObjective w),
+  (∀ (s : σ), DGD26AdmissionsPredictability.LAP.Assignment.SlotNoTies w s) →
+    DGD26AdmissionsPredictability.paper_definition_variability_at_most
+      (DGD26AdmissionsPredictability.LAP.Assignment.distinctSlotOrderCount w)
+      (DGD26AdmissionsPredictability.paperLAPChoiceRule w hwell)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_lap_assignment_slot_order_class_variability_of_unique_global_optima_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-a9c5e5d5c616ab58}{}
+\section*{Review row 58}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 910-\allowbreak{}923\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[$q$-Representativeness and $1$-Variability are Equivalent]{theorem}{rankingvariability}
+\label{thm:ranking-variability}
+$\choice$ is $q$-representative if and only if it is $q$-acceptant and $1$-unstable with variability $1$.
+\end{restatable}
+\begin{proof}
+We prove this in two parts: first, that $q$-representativeness implies $1$-variability, and then the converse.
+
+\paragraph{Direction 1} %
+Note that $q$-representativeness implies $q$-acceptance by definition.
+
+Next, we prove that $q$-representativeness implies $1$-instability. Assume for contradiction that some $q$-representative $\choice$ is not substitutable (and therefore not $1$-unstable). Then there exists (by \Cref{lem:unsubstitutable}) some $x^*$, $x'$, $X$ and $X' = X \cup \{x'\}$ where $x^* \in X$ and $x^* \in \choice(X')$ but $x^* \not\in \choice(X)$. By $q$-acceptance, there must be at least one $x$ in $\choice(X)$ that is not in $\choice(X')$ (which must take the place of $x^*$). However, $\choice(X')$ implies that $x^* \succ x$, while $\choice(X)$ implies that $x \succ x^*$ --- violating asymmetry and leading us to contradiction.
+
+Lastly, proving that $q$-representative $\choice$ leads to $m=1$ is relatively intuitive. For any $X$, $\choice(X)$ are the $q$ highest-ranked elements of $X$. Denote $X = \{x_1, x_2, ..., x_k\}$ where $|X| = k$ and $x_1 \succ x_2 \succ ...\succ x_k$. Then $\choice(X) = \{x_1, ..., x_{q^*}\}$ where $q^* = \min\{q, k\}$.
+Assume for contradiction that there is a $q$-representative $\choice$ with variability $m > 1$. Then there exists some $X$ where $|V_\choice(X)| > 1$; say that $\{x^*_a, x^*_b\} \subseteq V_\choice(X)$. Then there exists some $x'_a$ where $\choice(X) \setminus \choice(X \cup x'_a) = \{x^*_a\}$ and similar $x'_b$ for $x^*_b$. The first implies $x^*_b$ is ranked above $x^*_a$, but the second implies the opposite. Then choices cannot be made according to a static ranking and $\choice$ is not $q$-representative, completing the proof by contradiction. %
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] {q : ℕ}
+  {C : DGD26AdmissionsPredictability.PaperChoiceRule α},
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    DGD26AdmissionsPredictability.paper_definition_q_representativeness q C →
+      0 < q →
+        q < Fintype.card α →
+          DGD26AdmissionsPredictability.paper_definition_q_acceptance q C ∧
+            DGD26AdmissionsPredictability.paper_definition_d_instability 1 C ∧
+              DGD26AdmissionsPredictability.paper_definition_variability_exactly 1 C
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_q_representative_forward_exact_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-3d12c759820fa6e4}{}
+\section*{Review row 59}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 910-\allowbreak{}950\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}[$q$-Representativeness and $1$-Variability are Equivalent]{theorem}{rankingvariability}
+\label{thm:ranking-variability}
+$\choice$ is $q$-representative if and only if it is $q$-acceptant and $1$-unstable with variability $1$.
+\end{restatable}
+\begin{proof}
+We prove this in two parts: first, that $q$-representativeness implies $1$-variability, and then the converse.
+
+\paragraph{Direction 1} %
+Note that $q$-representativeness implies $q$-acceptance by definition.
+
+Next, we prove that $q$-representativeness implies $1$-instability. Assume for contradiction that some $q$-representative $\choice$ is not substitutable (and therefore not $1$-unstable). Then there exists (by \Cref{lem:unsubstitutable}) some $x^*$, $x'$, $X$ and $X' = X \cup \{x'\}$ where $x^* \in X$ and $x^* \in \choice(X')$ but $x^* \not\in \choice(X)$. By $q$-acceptance, there must be at least one $x$ in $\choice(X)$ that is not in $\choice(X')$ (which must take the place of $x^*$). However, $\choice(X')$ implies that $x^* \succ x$, while $\choice(X)$ implies that $x \succ x^*$ --- violating asymmetry and leading us to contradiction.
+
+Lastly, proving that $q$-representative $\choice$ leads to $m=1$ is relatively intuitive. For any $X$, $\choice(X)$ are the $q$ highest-ranked elements of $X$. Denote $X = \{x_1, x_2, ..., x_k\}$ where $|X| = k$ and $x_1 \succ x_2 \succ ...\succ x_k$. Then $\choice(X) = \{x_1, ..., x_{q^*}\}$ where $q^* = \min\{q, k\}$.
+Assume for contradiction that there is a $q$-representative $\choice$ with variability $m > 1$. Then there exists some $X$ where $|V_\choice(X)| > 1$; say that $\{x^*_a, x^*_b\} \subseteq V_\choice(X)$. Then there exists some $x'_a$ where $\choice(X) \setminus \choice(X \cup x'_a) = \{x^*_a\}$ and similar $x'_b$ for $x^*_b$. The first implies $x^*_b$ is ranked above $x^*_a$, but the second implies the opposite. Then choices cannot be made according to a static ranking and $\choice$ is not $q$-representative, completing the proof by contradiction. %
+
+\paragraph{Direction 2}
+Assume $q$-acceptance, variability 1, and instability 1. Now we prove $\choice$ is $q$-representative. To be precise, I take this to mean that $\choice$ is indistinguishable from some $q$-representative $\choice$; $\choice$ could be represented by some total ordering over elements of $X$. We show this strict total ordering constructively.
+
+Define $\succ$ such that, if $x_a \in \choice(X)$ but $x_b \not\in\choice(X)$ for any $x_a, x_b \in X$, $x_a \succ x_b$. Note that this implies that the existence of some set $A$ where $x_a \in \choice(A)$ and $A_\choice(A) = \{x_b\}$ by consistency (e.g. $A = \choice(X) \cup \{x_b\}$). This also implies $A'$ where $x_a, x_b \in \choice(A')$, $V_\choice(A') = \{x_b\}$, where $A' = A \setminus \{x\}$ for any $x \neq x_a, x_b$.
+
+Then, we need to prove this relation is asymmetric, transitive, and completeness (or rather, is indistinguishable from a complete relation when examining the induced choice function).
+
+\paragraph{Asymmetry}
+First, we show asymmetry. Assume for contradiction that $a \succ b$ and $b \succ a$. Then there exists $X_a$ where $a, b \in X_a$, $a \in \choice(X_a)$ and $b \not\in \choice(X_a)$, and a similar $X_b$ where $a \not\in \choice(X_b)$ and so on.
+
+Let $X_a = \choice(X_a) \cup \{b\}$ (we can construct such out of any $X_a$, by consistency), where $A_\choice(X_a) = \{b\}$, and denote $\choice(X_a) = \{x^a_1, ..., x^a_{q-1}, a\}$. Construct $X_b$ similarly. Further, let $X'_a = X_a \setminus \{x^a_1\}$, and note that $V_\choice(X_a') = \{b\}$.
+
+Then from here, we add the elements of $X_b$ to $X_a'$, constructing $X_1, X_2,$ and so forth.
+
+Let $X_0 = X_a'$ and sequentially construct a series of $X_t$. Add $x^b_t$ to $X_{t-1}$. If $x_b \not\in \choice(X_{t-1} \cup \{x^b_t\})$, then let $X_t = X_{t-1} \cup \{x^b_t\}$, and $V_\choice(X_t) = \{b\}$ by \Cref{lem:consistent-remove}. If $x^b_t \in \choice(X_{t-1} \cup \{x^b_t\})$, then $b \not\in \choice(X_{t-1} \cup \{x^b_t\})$ and $A_\choice(X_{t-1} \cup \{x^b_t\}) = \{b\}$ (by \Cref{lem:a-v-equal}). Then let $X_t = \{x^b_t\} \cup X_a' \setminus x^a_i$ where $x^a_{i-1} \not\in X_{t-1}$ but $x^a_i \in X_{t-1}$, and $V_\choice(X_t) = \{b\}$ (again, by \Cref{lem:a-v-equal}). Note that $a \in \choice(X_t)$, $b \in X_t$, and specifically $b \in V_\choice(X_t)$, for all $t \in \{0,..., q-2\}$.
+
+Then $X_{q-2}$ will contain $x^b_1,...x^b_{q-2}$. Let $X^* = X_{q-2} \cup \{x^b_{q-1}\}$. Note that adding $x^b_{q-1}$ to $X_{q-2}$ makes $X^* \supseteq X_b$. Then, if $a \in \choice(X^*)$, substitutability is violated, as $a \not\in \choice(X_b)$. If $x^b_{q-1} \not\in \choice(X^*)$, then $\choice(X_{q-2}) = \choice(X^*)$ by consistency, and $a \in \choice(X_{q-2})$. If instead $x^b_{q-1} \in \choice(X^*)$, recall that $V_\choice(X_{q-2}) = \{b\}$, so $a \not\in V_\choice(X_{q-2})$, and $a$ remains in $\choice(X^*)$. Therefore, either possibility leads to contradiction, proving that $\succ$ is asymmetric.
+
+\paragraph{Transitivity}
+Say that $a \succ b$ and $b \succ c$ and we want to prove $a \succ c$. If $a \succ b$, there exists some $X$ where $a, b \in X$, $a \in \choice(X)$, and $b \not\in \choice(X)$. Let $X$ be $\choice(X) \cup \{b\}$, where $a \in \choice(X), b \not\in\choice(X)$ by consistency. Then consider $X \cup \{c\}$. By asymmetry, $c \not\succ b$, so $c \not\in \choice(X\cup \{c\})$. By consistency, then, $\choice(X\cup \{c\}) = \choice(X)$, so $a \in \choice(X\cup \{c\})$ and $a \succ c$, completing the proof.
+
+\paragraph{(Almost)-Completeness}
+See that this relation must exist for all but $q$ elements --- and any arbitrary linear extension thereof generates the same choice function behavior.
+
+For any $a, b$, let there be some $X_0$ where $a, b \not\in \choice(X_0)$. Then remove elements of $\choice(X_t)$ in a sequence $X_0, ..., X_t$ until $A_\choice(X_t) = \{a\}$ or $\{b\}$. This must happen for some value of $t$ because when $|X_t| = q+1$, at least one of $a$ or $b$ are in $\choice(X)$, and due to $1$-instability, both $a$ and $b$ cannot be added to $\choice(X_t)$ at once. The only exception is if there is no such $X_0$ where $a, b \not\in \choice(X_0)$, which can only be true if $a$ is such that $a \in \choice(X)$ for all $X$ (and similarly for $b$). (If $a \not\in \choice(X)$ for some $X$, then substitutability implies $a \not\in \choice(X \cup \{b\})$). However, there can only be $q$ such elements (by $q$-acceptance). Note that any linear extension of this partial order will produce the same choice function behavior; that is, any constructed total ordering that otherwise aligns with $\succ$ will produce the same choice behavior, and thus, $\choice$ can be represented by any such strict total ordering.
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] {q : ℕ}
+  {C : DGD26AdmissionsPredictability.PaperChoiceRule α},
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    DGD26AdmissionsPredictability.paper_definition_q_acceptance q C →
+      DGD26AdmissionsPredictability.paper_definition_d_instability 1 C →
+        DGD26AdmissionsPredictability.paper_definition_variability_exactly 1 C →
+          0 < q → q < Fintype.card α → DGD26AdmissionsPredictability.paper_definition_q_representativeness q C
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_q_representative_converse_exact_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-5fcefe7f9430bc35}{}
+\section*{Review row 60}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 962-\allowbreak{}996\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\paragraph{Sequentially Composed Substitutable Functions Are Substitutable}
+Similarly, we show sequential compositions of substitutable functions are also substitutable.
+\begin{restatable}[Composition Preserves Substitutability]{theorem}{seqsub}
+\label{thm:composition-substitutable}
+Sequential composition of substitutable functions yields a substitutable function.
+\end{restatable}
+
+\textit{Intuition}:
+``Appending'' a substitutable choice function $\choice_2$ before another substitutable function $\choice_1$ affects the inputs to $\choice_1$ in a structured way.
+\begin{proof}
+    Proof by induction.
+    In the base case, for $n = 1$, $\choice(X) = \choice_1(X)$, and as $\choice_1$ is given to be substitutable, $\choice$ is as well.
+
+    For the inductive step, show that $\choice^{n+1}$ is substitutable when comprised of $\choice_{n+1}, \choice_n, ..., \choice_1$, assuming that $\choice^n$ comprised of $\choice_n,...,\choice_1$ is substitutable.
+
+    The definition of substitutability is that $X \subseteq X'$ implies $\choice(X') \cap X \subseteq \choice(X)$. So we need to show $\choice^{n+1}(X') \cap X \subseteq \choice^{n+1}(X)$.
+
+    First, note that $\choice^{n+1}(X) = \choice_{n+1}(X) \cup \choice^n(X \setminus \choice_{n+1}(X))$.
+    Let $S = X \setminus \choice_{n+1}(X)$ and $S' = X' \setminus \choice_{n+1}(X')$. As $S \subseteq X'$, we only need to show that no elements of $S$ are elements of $\choice_{n+1}(X')$. As $\choice_{n+1}$ is substitutable, $\choice_{n+1}(X') \cap X = \choice_{n+1}(X)$. So, any element of $X$ that is in $\choice_{n+1}(X') $ must be in $\choice_{n+1}(X)$, and therefore cannot be in $S = X \setminus \choice_{n+1}(X)$. Therefore, $S \subseteq S'$.
+
+    Now, we can apply the induction hypothesis, so we assume $\choice^n$ is substitutable to get
+
+    \begin{align*}
+        \choice^n(S') \cap S & \subseteq \choice^n(S) && \text{induction hypothesis} \\
+        \choice^n(S') \cap \left(X \setminus \choice_{n+1}(X)\right) & \subseteq \choice^n(S) &&  \text{substitute out $S$}\\      \left(\choice^n(S') \cap X\right) \setminus \left(\choice^n(S') \cap  \choice_{n+1}(X)\right) & \subseteq \choice^n(S) && \text{intersection commutes}\\
+        \choice_{n+1}(X) \cup \left[\left(\choice^n(S') \cap X\right) \setminus \left(\choice^n(S') \cap  \choice_{n+1}(X)\right)\right] & \subseteq \choice_{n+1}(X) \cup \choice^n(S) && \text{add $\choice_{n+1}(X)$} \\ \intertext{Note that $\choice_{n+1}(X) \supseteq\left(\choice^n(S') \cap  \choice_{n+1}(X)\right)$, so the set difference can be simplified out:}
+        \choice_{n+1}(X) \cup \left(\choice^n(S') \cap X\right) & \subseteq \choice_{n+1}(X) \cup \choice^n(S) && \text{equivalent} \\ \intertext{Note that for any sets $A,B,C$, $(A \cup B) \cap C = (A \cap C)\cup (B \cap C) \subseteq A \cup (B \cap C)$, so:
+        }
+        \left(\choice_{n+1}(X) \cup \choice^n(S') \right) \cap X & \subseteq \choice_{n+1}(X) \cup \choice^n(S) && \text{} \\
+        \left(\choice_{n+1}(X) \cup \choice^n(X' \setminus \choice_{n+1}(X')) \right) \cap X & \subseteq \choice_{n+1}(X) \cup \choice^n(X \setminus \choice_{n+1}(X)) &&  \text{substitute out $S$, $S'$}  \\
+        \choice^{n+1}(X') \cap X & \subseteq \choice^{n+1}(X) &&  \text{definition of $\choice^{n+1}$}
+    \end{align*}
+
+    Which is the definition of substitutability, completing the proof.
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] {Cs : List (DGD26AdmissionsPredictability.PaperChoiceRule α)},
+  (∀ C ∈ Cs, DGD26AdmissionsPredictability.paper_choice_function_feasible C) →
+    (∀ C ∈ Cs, DGD26AdmissionsPredictability.paper_definition_substitutability C) →
+      DGD26AdmissionsPredictability.paper_definition_substitutability
+        (DGD26AdmissionsPredictability.paper_definition_sequential_composition Cs)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_sequential_composition_substitutable_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-b564e283fe9ce18d}{}
+\section*{Review row 61}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 733-\allowbreak{}745\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{theorem}{BoundedDistance}
+\label{thm:sub-accept-consistent}
+Any $q$-acceptant, substitutable $\choice$ is consistent.
+\end{restatable}
+
+\begin{proof}
+Consider $X_1, X_2$ where $\choice(X_2) \subseteq X_1 \subseteq X_2$ for substitutable, $q-$acceptant $\choice$. Substitutability guarantees that if $x \in \choice(X_2)$ and $x \in X_1$, $x \in \choice(X_1)$. By construction, this applies to all $x \in \choice(X_2)$, because $\choice(X_2) \subseteq X_1$; therefore, $\choice(X_2) \subseteq \choice(X_1)$. As $|\choice(X_2)| = |\choice(X_1)|$, and $\choice(X_1),\choice(X_2)$ are finite sets, this means that $\choice(X_2) = \choice(X_1)$, which is the definition of consistency.
+\end{proof}
+
+\subsection{\textit{d}-Instability} \label{sec:d-unstable-appendix}
+
+\subsubsection{Proof of \Cref{lem:unstable-calc}} \label{sec:calc-proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] {q : ℕ} {C : DGD26AdmissionsPredictability.PaperChoiceRule α},
+  DGD26AdmissionsPredictability.paper_definition_q_acceptance q C →
+    DGD26AdmissionsPredictability.paper_definition_substitutability C →
+      DGD26AdmissionsPredictability.paper_definition_consistency C
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_q_acceptant_substitutable_consistent_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-7c749451f4caf111}{}
+\section*{Review row 62}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 315-\allowbreak{}322\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{theorem}{thmvariability}
+\label{thm:variability}
+Consider a $q$-acceptant, 1-unstable choice function $\mathcal C$ which
+can be represented as the sequential composition of $n$ choice functions, each characterized by a total order.
+Then $\mathcal C$ has a variability  $m$, where $1 \leq m \leq n$. Furthermore, $\mathcal C$ has variability $1$ if and only if it can be characterized by a single total order, $n=1$.
+\end{restatable}
+In the appendix, we discuss when this upper bound is tight. We also extend this result to choice functions which are not explicitly defined as a fixed sequential composition, such as linear assignment problems.
+\Cref{thm:lap-variability} addresses the context-dependent sequential queues which result from such optimization based admissions.
+
+[Next verbatim source excerpt]
+
+\subsection{Proof of \Cref{thm:variability}} \label{sec:variability-proof}
+
+Recall \Cref{thm:variability}:
+\thmvariability*
+
+We see that the second claim comes exactly from \Cref{thm:ranking-variability}, and that combining it with \Cref{thm:additive-variability} directly gives us the first claim.
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a sequential composition of total-order q-representative queues with positive total capacity on a universe larger than that capacity, there exists m with 1≤m≤n such that the composition has exact variability m.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 315-\allowbreak{}322\par}
+\paragraph{Recorded basis}
+DGD source clarification:\allowbreak{} Theorem 2's range is read on the positive-\allowbreak{}capacity, nontrivial queue domain.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] {qs : List ℕ}
+  {Cs : List (DGD26AdmissionsPredictability.PaperChoiceRule α)},
+  List.Forall₂
+      (fun q C =>
+        DGD26AdmissionsPredictability.paper_choice_function_feasible C ∧
+          DGD26AdmissionsPredictability.paper_definition_q_representativeness q C)
+      qs Cs →
+    0 < qs.sum →
+      qs.sum < Fintype.card α →
+        ∃ m,
+          1 ≤ m ∧
+            m ≤ Cs.length ∧
+              DGD26AdmissionsPredictability.paper_definition_variability_exactly m
+                (DGD26AdmissionsPredictability.paper_definition_sequential_composition Cs)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_sequential_q_representative_variability_range_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-26bfa3509b616c5d}{}
+\section*{Review row 63}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 315-\allowbreak{}323\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{theorem}{thmvariability}
+\label{thm:variability}
+Consider a $q$-acceptant, 1-unstable choice function $\mathcal C$ which
+can be represented as the sequential composition of $n$ choice functions, each characterized by a total order.
+Then $\mathcal C$ has a variability  $m$, where $1 \leq m \leq n$. Furthermore, $\mathcal C$ has variability $1$ if and only if it can be characterized by a single total order, $n=1$.
+\end{restatable}
+In the appendix, we discuss when this upper bound is tight. We also extend this result to choice functions which are not explicitly defined as a fixed sequential composition, such as linear assignment problems.
+\Cref{thm:lap-variability} addresses the context-dependent sequential queues which result from such optimization based admissions.
+Importantly, Theorem~\ref{thm:variability} means that a choice function can be faithfully represented by a machine learning model if and \emph{only if} it is characterized by a total ordering over $\calX$.
+
+[Next verbatim source excerpt]
+
+\subsection{Proof of \Cref{thm:variability}} \label{sec:variability-proof}
+
+Recall \Cref{thm:variability}:
+\thmvariability*
+
+We see that the second claim comes exactly from \Cref{thm:ranking-variability}, and that combining it with \Cref{thm:additive-variability} directly gives us the first claim.
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For a feasible q-acceptant 1-unstable choice rule on a positive-capacity universe larger than q, exact variability one holds if and only if the rule is q-representative, equivalently characterized by one strict total order.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 315-\allowbreak{}323\par}
+\paragraph{Recorded basis}
+DGD source clarification:\allowbreak{} variability one is the one-\allowbreak{}total-\allowbreak{}order characterization on the nondegenerate queue domain.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] {q : ℕ}
+  {C : DGD26AdmissionsPredictability.PaperChoiceRule α},
+  DGD26AdmissionsPredictability.paper_choice_function_feasible C →
+    DGD26AdmissionsPredictability.paper_definition_q_acceptance q C →
+      DGD26AdmissionsPredictability.paper_definition_d_instability 1 C →
+        0 < q →
+          q < Fintype.card α →
+            (DGD26AdmissionsPredictability.paper_definition_variability_exactly 1 C ↔
+              DGD26AdmissionsPredictability.paper_definition_q_representativeness q C)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+DGD26AdmissionsPredictability.PaperInterface.paper_variability_one_iff_single_order_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\end{document}

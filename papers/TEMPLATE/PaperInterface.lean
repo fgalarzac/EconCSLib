@@ -1,57 +1,21 @@
-import TEMPLATE.MainTheorems
-import TEMPLATE.Assumptions
-
 /-!
-# Human-Facing Paper Interface: [Paper Title]
+# Non-Authoritative Paper Interface Template
 
-This is the compact Lean file a human should read after formalization to check
-whether the paper's definitions and named theorem statements were represented
-correctly.
+This legacy template intentionally contains no mathematical declarations. Do
+not copy it to start a formalization. Run
+`python3 scripts/paper_contribution.py new --help` from the repository root and
+use the generated paper scaffold instead.
 
-Rules for completing this file:
+For every generated paper, `PaperInterface.lean` is the sole paper-facing Lean
+surface and the compact file a reviewer reads to check the audited source
+definitions and named results. Keep it in source order and keep assumptions
+visible in theorem signatures.
 
-- Keep the paper's definitions/formatted objects first, in source order.
-- Expose the actual paper formulas here; do not only point to generic library
-  definitions or implementation witnesses.
-- If a named theorem needs a hypothesis that is not derived from earlier Lean
-  declarations, declare that hypothesis in `Assumptions.lean` and list it in
-  `status.json` `review_surface.assumption_names`.
-- Then state the named results directly, with assumptions visible in each
-  theorem signature by referencing named paper assumptions imported from
-  `Assumptions.lean`.
-- Use short proofs that call into `MainTheorems.lean` or lower proof files.
-- Keep exhaustive endpoint aliases and proof-seam checks in `PostPaperAudit.lean`,
-  not here.
-
-## Paper Definitions
-
-- `paperDefinition1_formula`: placeholder for the first exact source formula.
-
-## Named Results
-
-- `paper_theorem_1_statement`: placeholder for the first exact source theorem.
+- Put proofs and internal helpers in `MainTheorems.lean` or lower modules.
+- Use `ProofInterface.lean` or `AuditInterface.lean` only when a compact proof-
+  support surface is genuinely useful. Those files are not alternative paper-
+  facing surfaces and must not carry source-coverage credit.
+- Do not create `PostPaperAudit.lean` or another competing paper-facing ledger.
+- Do not add placeholder propositions or trivial theorems. Generate exact
+  source-shaped statement skeletons through the contribution workflow.
 -/
-
-namespace TEMPLATE
-
-/--
-Definition 1 / first source object.
-
-Replace this placeholder with the raw formula from the paper. A reviewer should
-not need to open imported files to know what this object means.
--/
-abbrev paperDefinition1_formula : Prop := True
-
-/--
-Theorem 1 / first named result.
-
-Replace this placeholder with the exact source theorem statement, using the
-visible paper-facing definitions and named paper assumptions imported from
-`Assumptions.lean`.
--/
-theorem paper_theorem_1_statement
-    (_h_source : assumption_source_model_conditions) :
-    paperDefinition1_formula := by
-  trivial
-
-end TEMPLATE

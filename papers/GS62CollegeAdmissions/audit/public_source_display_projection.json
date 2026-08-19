@@ -1,0 +1,159 @@
+{
+  "generator": "python3 scripts/public_source_display_projection.py",
+  "paper_id": "GS62CollegeAdmissions",
+  "private_source_map_sha256": "583de2606736c14e43c91ea220045e7ddb8da850e6e9d613e5c4ce9d2fc85ba6",
+  "public_manifest_path": "papers/GS62CollegeAdmissions/audit/public_source_display_projection.json",
+  "public_source_map_sha256": "bef4b3f4c735c6663e7a4e9b5c5ffd5988bb4e162538832128503fffe508975c",
+  "raw_source_artifact_included": false,
+  "raw_source_display_material": "selected_byte_pinned_source_anchor_quotes",
+  "schema": 1,
+  "selected_source_item_ids": [
+    "displayed_optimal_assignment_definition",
+    "displayed_unstable_college_assignment_definition",
+    "section3_marriage_instability_definition",
+    "theorem1_stable_marriage_exists",
+    "theorem2_applicant_optimality"
+  ],
+  "selected_source_items": {
+    "displayed_optimal_assignment_definition": {
+      "source_anchors": [
+        {
+          "line_end": 117,
+          "line_start": 115,
+          "publication_locator": "cited publication",
+          "quoted_text": "   DEFINITION. A stableassignment                      applicantis at least\n                                is calledoptimalif every\nas welloffunderit as underanyotherstableassignment.",
+          "quoted_text_sha256": "4d8c09405f53a81337e2e11fa640617a61e54bd29a766ece3f7f00b5604dda60"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "displayed_unstable_college_assignment_definition": {
+      "source_anchors": [
+        {
+          "line_end": 98,
+          "line_start": 93,
+          "publication_locator": "cited publication",
+          "quoted_text": "   DEFINITION. An assignment  ofapplicantstocolleges\n                                                   willbecalledunstableif\nthereare twoapplicantsa and ,Bwhoare assignedtocolleges\n                                                      A andB, respectively,\nalthough        A toB and A prefers: toa.\n        ,3prefers",
+          "quoted_text_sha256": "428be34342d658bf68ae968d7383233831758a9b3964ea12d462d8ffbbaa4f01"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "section3_marriage_instability_definition": {
+      "source_anchors": [
+        {
+          "line_end": 139,
+          "line_start": 133,
+          "publication_locator": "cited publication",
+          "quoted_text": "   A certain communityconsists of n men and n women. Each person ranks\nthose of the opposite sex in accordance with his or her preferencesfora marriage\npartner.We seek a satisfactoryway of marryingoffall membersof the com-\nmunity.Imitatingour earlierdefinition,we call a set of marriagesunstable(and\nhere the suitabilityof the termis quite clear) if under it thereare a man and a\nwoman who are not marriedto each other but prefereach other to theiractual\nmates.",
+          "quoted_text_sha256": "ef0ef634cb9f445ecf54525d6d9d3751f4f1b0eac61054a6486522cfbebd6877"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "theorem1_stable_marriage_exists": {
+      "semantic_context": [
+        {
+          "semantic_role": "model",
+          "source_anchors": [
+            {
+              "line_end": 132,
+              "line_start": 127,
+              "publication_locator": "cited publication",
+              "quoted_text": "   3. Stable assignments and a marriage problem. In trying to settle the\nquestion of the existence of stable assignmentswe were led to look firstat a\nspecial case, in whichthereare the same numberof applicants as colleges and all\nquotas are unity. This situation is, of course, highlyunnatural in the context\nof college admissions, but there is another \"story\" into which it fits quite\nreadily.",
+              "quoted_text_sha256": "d007cd8f3786bd0b1a3d55e0a948c2fe0faac2203874f8c127b95e63dd007da3"
+            }
+          ]
+        },
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 139,
+              "line_start": 133,
+              "publication_locator": "cited publication",
+              "quoted_text": "   A certain communityconsists of n men and n women. Each person ranks\nthose of the opposite sex in accordance with his or her preferencesfora marriage\npartner.We seek a satisfactoryway of marryingoffall membersof the com-\nmunity.Imitatingour earlierdefinition,we call a set of marriagesunstable(and\nhere the suitabilityof the termis quite clear) if under it thereare a man and a\nwoman who are not marriedto each other but prefereach other to theiractual\nmates.",
+              "quoted_text_sha256": "ef0ef634cb9f445ecf54525d6d9d3751f4f1b0eac61054a6486522cfbebd6877"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 139,
+          "line_start": 127,
+          "publication_locator": "cited publication",
+          "quoted_text": "   3. Stable assignments and a marriage problem. In trying to settle the\nquestion of the existence of stable assignmentswe were led to look firstat a\nspecial case, in whichthereare the same numberof applicants as colleges and all\nquotas are unity. This situation is, of course, highlyunnatural in the context\nof college admissions, but there is another \"story\" into which it fits quite\nreadily.\n   A certain communityconsists of n men and n women. Each person ranks\nthose of the opposite sex in accordance with his or her preferencesfora marriage\npartner.We seek a satisfactoryway of marryingoffall membersof the com-\nmunity.Imitatingour earlierdefinition,we call a set of marriagesunstable(and\nhere the suitabilityof the termis quite clear) if under it thereare a man and a\nwoman who are not marriedto each other but prefereach other to theiractual\nmates.",
+          "quoted_text_sha256": "fcfaddea9c7b831c524d93c04c5fa6579b9b9b802e369953353ed082479bdc02"
+        },
+        {
+          "line_end": 185,
+          "line_start": 185,
+          "publication_locator": "cited publication",
+          "quoted_text": "     THEOREM 1. Therealwaysexistsa stablesetofmarriages.",
+          "quoted_text_sha256": "296adf8d97ce71609edac4d6bf4706f2a943821cd0a181e26f1c46c01afeccb9"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "theorem2_applicant_optimality": {
+      "semantic_context": [
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 98,
+              "line_start": 93,
+              "publication_locator": "cited publication",
+              "quoted_text": "   DEFINITION. An assignment  ofapplicantstocolleges\n                                                   willbecalledunstableif\nthereare twoapplicantsa and ,Bwhoare assignedtocolleges\n                                                      A andB, respectively,\nalthough        A toB and A prefers: toa.\n        ,3prefers",
+              "quoted_text_sha256": "428be34342d658bf68ae968d7383233831758a9b3964ea12d462d8ffbbaa4f01"
+            }
+          ]
+        },
+        {
+          "semantic_role": "model_construction",
+          "source_anchors": [
+            {
+              "line_end": 249,
+              "line_start": 232,
+              "publication_locator": "cited publication",
+              "quoted_text": "    4. Stable assignments and the admissions problem. The extension of our\n\"deferred-acceptance\"procedureto the problemofcollegeadmissionsis straight-\nforward.For conveniencewe will assume that ifa college is not willingto accept\na student underany circumstances,as describedin Section 2, then that student\nwill not even be permittedto apply to the college. With this understandingthe\nprocedure follows: First, all students apply to the college of their firstchoice.\nA college with a quota of q then places on its waiting list the q applicants who\nrank highest,or all applicants if there are fewerthan q, and rejects the rest.\nRejected applicants then apply to their second choice and again each college\nselects the top q fromamong the new applicants and those on its waiting list,\nputs these on its new waitinglist,and rejects the rest.The procedureterminates\nwhen every applicant is either on a waiting list or has been rejected by every\ncollege to which he is willingand permittedto apply. At this point each college\n\f14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January\n\nadmits everyoneon its waitinglist and the stable assignmenthas been achieved.\nThe proofthat the assignmentis stable is entirelyanalogous to the proofgiven\nforthe marriageproblemand is leftto the reader.",
+              "quoted_text_sha256": "56b2cff43a0390ed87027adfe588c9477159142f221042d86892d36625545624"
+            }
+          ]
+        },
+        {
+          "semantic_role": "prior_result",
+          "source_anchors": [
+            {
+              "line_end": 252,
+              "line_start": 250,
+              "publication_locator": "cited publication",
+              "quoted_text": "   5. Optimality.We now show that the \"deferredacceptance\" procedurejust\ndescribed yields not only a stable but an optimal assignment of applicants.\nThat is,",
+              "quoted_text_sha256": "e13f76c611d554c5be9696d38ee41db888c1bc6cbc32be5fdc7a5dc691194b7c"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 249,
+          "line_start": 232,
+          "publication_locator": "cited publication",
+          "quoted_text": "    4. Stable assignments and the admissions problem. The extension of our\n\"deferred-acceptance\"procedureto the problemofcollegeadmissionsis straight-\nforward.For conveniencewe will assume that ifa college is not willingto accept\na student underany circumstances,as describedin Section 2, then that student\nwill not even be permittedto apply to the college. With this understandingthe\nprocedure follows: First, all students apply to the college of their firstchoice.\nA college with a quota of q then places on its waiting list the q applicants who\nrank highest,or all applicants if there are fewerthan q, and rejects the rest.\nRejected applicants then apply to their second choice and again each college\nselects the top q fromamong the new applicants and those on its waiting list,\nputs these on its new waitinglist,and rejects the rest.The procedureterminates\nwhen every applicant is either on a waiting list or has been rejected by every\ncollege to which he is willingand permittedto apply. At this point each college\n\f14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January\n\nadmits everyoneon its waitinglist and the stable assignmenthas been achieved.\nThe proofthat the assignmentis stable is entirelyanalogous to the proofgiven\nforthe marriageproblemand is leftto the reader.",
+          "quoted_text_sha256": "56b2cff43a0390ed87027adfe588c9477159142f221042d86892d36625545624"
+        },
+        {
+          "line_end": 255,
+          "line_start": 253,
+          "publication_locator": "cited publication",
+          "quoted_text": "   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven\nby thedeferredacceptanceprocedureas he would be underany otherstableassign-\nment.",
+          "quoted_text_sha256": "ebae604eb5f27c59d340bc8de54bae48c0a13809db969bbeea66c126614a0afa"
+        }
+      ],
+      "source_kind": "theorem"
+    }
+  },
+  "source_artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+  "source_coverage_mode": "named_theoretical_statements"
+}

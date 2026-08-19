@@ -39,7 +39,8 @@ def v11_contract_specs(
     raw_items = source_map.get("items")
     if not isinstance(raw_items, Mapping):
         raise ActivationError("source map has no items object")
-    prefix = namespace + ".PaperInterface."
+    nested_prefix = namespace + ".PaperInterface."
+    root_prefix = namespace + "."
     specs: list[str] = []
     proof_endpoints: dict[str, str] = {}
     for raw_item in raw_items.values():
@@ -49,20 +50,40 @@ def v11_contract_specs(
         if not isinstance(contract, Mapping):
             continue
         spec = str(contract.get("spec_declaration") or "").strip()
-        if not spec.startswith(prefix) or not spec.endswith("Spec"):
+        if spec.startswith(nested_prefix):
+            short_spec = spec[len(nested_prefix) :]
+            proof_prefix = nested_prefix
+        elif spec.startswith(root_prefix):
+            # Older paper modules sometimes place their review declarations
+            # directly in the paper namespace rather than in a nested
+            # `PaperInterface` namespace.  The source file is still the
+            # designated PaperInterface module; accept that layout without
+            # forcing an unrelated theorem refactor.
+            short_spec = spec[len(root_prefix) :]
+            proof_prefix = root_prefix
+        else:
             raise ActivationError(
-                "every selected semantic contract must name a PaperInterface `...Spec`: "
+                "every selected semantic contract must name a paper-interface `...Spec`: "
                 + spec
             )
-        short_spec = spec[len(prefix) :]
+        if not short_spec or "." in short_spec or not short_spec.endswith("Spec"):
+            raise ActivationError(
+                "every selected semantic contract must name a direct paper-interface `...Spec`: "
+                + spec
+            )
         evidence = str(contract.get("evidence_declaration") or "").strip()
         if evidence:
-            if not evidence.startswith(prefix):
+            if not evidence.startswith(proof_prefix):
                 raise ActivationError(
-                    "every selected semantic contract must name a PaperInterface proof "
+                    "every selected semantic contract must name a paper-interface proof "
                     "endpoint: " + evidence
                 )
-            short_evidence = evidence[len(prefix) :]
+            short_evidence = evidence[len(proof_prefix) :]
+            if not short_evidence or "." in short_evidence:
+                raise ActivationError(
+                    "every selected semantic contract must name a direct paper-interface proof "
+                    "endpoint: " + evidence
+                )
         else:
             # Backward-compatible handling for a pre-v11 fixture; real v11
             # maps always bind an explicit theorem endpoint.
@@ -77,9 +98,12 @@ def v11_contract_specs(
 
 
 def activate(status: dict[str, Any], source_map: Mapping[str, Any], *, paper: str) -> dict[str, Any]:
-    namespace = str(source_map.get("paper") or "").strip()
-    if namespace != paper:
+    source_paper = str(source_map.get("paper") or "").strip()
+    if source_paper != paper:
         raise ActivationError("source map paper does not match --paper")
+    namespace = str(source_map.get("paper_interface_namespace") or source_paper).strip()
+    if not namespace:
+        raise ActivationError("source map needs a paper-interface namespace")
     specs, proof_endpoints = v11_contract_specs(source_map, namespace=namespace)
     result = dict(status)
     surface = dict(result.get("review_surface") or {})

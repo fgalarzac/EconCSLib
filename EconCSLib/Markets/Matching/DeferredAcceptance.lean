@@ -148,6 +148,12 @@ def divorceWomanState (s : DAState M W) (w0 : W) : DAState M W where
     (divorceWomanState s w0).w_match w0 = none := by
   simp [divorceWomanState]
 
+/-- Divorcing `w0` leaves every other woman's match unchanged. -/
+theorem divorceWomanState_w_match_of_ne (s : DAState M W) {w w0 : W}
+    (hw : w ≠ w0) :
+    (divorceWomanState s w0).w_match w = s.w_match w := by
+  simp [divorceWomanState, hw]
+
 @[simp] theorem divorceWomanState_m_proposals (s : DAState M W) (w0 : W) :
     (divorceWomanState s w0).m_proposals = s.m_proposals := rfl
 
@@ -165,6 +171,38 @@ theorem divorceWomanState_m_match_of_not_w_match
 
 def IsActiveMan (val_m : M → W → ℝ) (s : DAState M W) (m : M) : Prop :=
   s.m_match m = none ∧ ∃ w ∈ s.m_proposals m, 0 ≤ val_m m w
+
+/--
+Divorcing one woman from a terminated DA state can make at most her former
+holder active.  Every other man's match and proposal opportunities are
+unchanged, so a second active man would already have been active before the
+divorce.
+-/
+theorem atMostOneActiveMan_divorceWomanState_of_no_active
+    (val_m : M → W → ℝ) (s : DAState M W) (w0 : W)
+    (hterminated : ¬ ∃ m, IsActiveMan val_m s m) :
+    ∀ m₁ m₂ : M,
+      IsActiveMan val_m (divorceWomanState s w0) m₁ →
+      IsActiveMan val_m (divorceWomanState s w0) m₂ →
+      m₁ = m₂ := by
+  intro m₁ m₂ hm₁ hm₂
+  have hholder₁ : s.w_match w0 = some m₁ := by
+    by_contra hnot
+    apply hterminated
+    refine ⟨m₁, ?_⟩
+    refine ⟨?_, ?_⟩
+    · simpa [divorceWomanState, hnot] using hm₁.1
+    · rcases hm₁.2 with ⟨w, hw, hval⟩
+      exact ⟨w, by simpa [divorceWomanState] using hw, hval⟩
+  have hholder₂ : s.w_match w0 = some m₂ := by
+    by_contra hnot
+    apply hterminated
+    refine ⟨m₂, ?_⟩
+    refine ⟨?_, ?_⟩
+    · simpa [divorceWomanState, hnot] using hm₂.1
+    · rcases hm₂.2 with ⟨w, hw, hval⟩
+      exact ⟨w, by simpa [divorceWomanState] using hw, hval⟩
+  exact Option.some.inj (hholder₁.symm.trans hholder₂)
 
 def BestRemainingWoman (val_m : M → W → ℝ) (s : DAState M W) (m : M) (w : W) : Prop :=
   w ∈ s.m_proposals m ∧ 0 ≤ val_m m w ∧
@@ -2135,6 +2173,32 @@ def DAInvariants (val_m : M → W → ℝ) (val_w : W → M → ℝ) (s : DAStat
   WomanRejectionInvariant val_w s ∧
   ManProposalOrderInvariant val_m s
 
+/--
+If every woman finds every man individually rational, then a woman who is
+currently single has not rejected any proposal.  Equivalently, her name still
+appears in every man's remaining-proposal set.
+
+This is the DA-state form of the standard deferred-decisions observation that
+the set of proposals already made is disjoint from the set of single women.
+-/
+theorem mem_m_proposals_of_woman_single_of_women_nonneg
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ) (s : DAState M W)
+    (hinv : DAInvariants val_m val_w s)
+    (hwomen_nonneg : ∀ w m, 0 ≤ val_w w m)
+    {w : W} (hsingle : s.w_match w = none) (m : M) :
+    w ∈ s.m_proposals m := by
+  by_contra hnot_mem
+  have hnot_match : s.m_match m ≠ some w := by
+    intro hmatch
+    have hwoman_match : s.w_match w = some m :=
+      (s.consistent m w).1 hmatch
+    rw [hsingle] at hwoman_match
+    simp at hwoman_match
+  rcases hinv.2.2.2.1 w m hnot_mem hnot_match with hnegative | ⟨m', hm', _⟩
+  · exact (not_lt_of_ge (hwomen_nonneg w m)) hnegative
+  · rw [hsingle] at hm'
+    simp at hm'
+
 def DAInvariantsExceptWoman
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)
     (s : DAState M W) (w0 : W) : Prop :=
@@ -2991,6 +3055,10 @@ def MenStrictPreferenceProfile (val_m : M → W → ℝ) : Prop :=
 def MenNoOutsideTie (val_m : M → W → ℝ) : Prop :=
   ∀ m w, val_m m w ≠ 0
 
+/-- No man is exactly tied with a woman's outside option. -/
+def WomenNoOutsideTie (val_w : W → M → ℝ) : Prop :=
+  ∀ w m, val_w w m ≠ 0
+
 /--
 Men have strict preferences on the acceptable region.  This supports
 incomplete-list markets where multiple unacceptable alternatives may tie.
@@ -3083,6 +3151,22 @@ theorem daStateAfterSchedule_relabelMen_of_acceptablyStrict {M' : Type*}
 /-- Women have strict preferences over men. -/
 def WomenStrictPreferenceProfile (val_w : W → M → ℝ) : Prop :=
   ∀ w m m', val_w w m = val_w w m' → m = m'
+
+/--
+Women have strict preferences on the individually-rational region.  This is
+the optional-market analogue of `WomenStrictPreferenceProfile`: alternatives
+that are both below the outside option may tie without affecting DA choices.
+-/
+def WomenAcceptableStrictPreferenceProfile (val_w : W → M → ℝ) : Prop :=
+  ∀ w m m', 0 ≤ val_w w m → 0 ≤ val_w w m' →
+    val_w w m = val_w w m' → m = m'
+
+theorem WomenStrictPreferenceProfile.acceptablyStrict
+    {val_w : W → M → ℝ}
+    (hstrict : WomenStrictPreferenceProfile val_w) :
+    WomenAcceptableStrictPreferenceProfile val_w := by
+  intro w m m' _ _ heq
+  exact hstrict w m m' heq
 
 /--
 All potential pairs are acceptable to both sides. This is the marriage-problem
@@ -3520,7 +3604,7 @@ lemma rejectStep_preserves_rejected_pair_impossible_no_outside_tie
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)
     (s : DAState M W) {m : M} {w : W}
     (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
-    (hstrictW : WomenStrictPreferenceProfile val_w)
+    (hstrictW : WomenAcceptableStrictPreferenceProfile val_w)
     (hnozero : MenNoOutsideTie val_m)
     (hact : IsActiveMan val_m s m)
     (hwbest : BestRemainingWoman val_m s m w)
@@ -3532,7 +3616,7 @@ lemma rejectStep_preserves_rejected_pair_impossible_no_outside_tie
     (hrejected : DARejectedPairImpossibleInvariant val_m val_w s) :
     DARejectedPairImpossibleInvariant val_m val_w
       { s with m_proposals := removeProposal s m w } := by
-  rcases hinv with ⟨hmanIR, _hwomanIR, hmatchedProposed, _hwomanReject,
+  rcases hinv with ⟨hmanIR, hwomanIR, hmatchedProposed, _hwomanReject,
     hproposalOrder⟩
   intro mu hstable m0 w0 hnotNew hnotMatchNew
   rcases not_mem_of_not_mem_removeProposal s hnotNew with hnotOld | ⟨hm0, hw0⟩
@@ -3563,7 +3647,12 @@ lemma rejectStep_preserves_rejected_pair_impossible_no_outside_tie
         have hwomanPref : val_w w m < val_w w a := by
           have hneq : val_w w m ≠ val_w w a := by
             intro heq
-            exact hne ((hstrictW w m a heq).symm)
+            have ha_nonneg : 0 ≤ val_w w a :=
+              hwomanIR w a hcur
+            have hm_nonneg : 0 ≤ val_w w m := by
+              rw [heq]
+              exact ha_nonneg
+            exact hne ((hstrictW w m a hm_nonneg ha_nonneg heq).symm)
           exact lt_of_le_of_ne hle hneq
         refine stable_matching_excludes_rejected_pair_no_outside_tie
           val_m val_w s mu hstrictM hnozero hrejected hstable hne
@@ -3636,7 +3725,7 @@ lemma acceptStep_preserves_rejected_pair_impossible_no_outside_tie
 theorem daStep_preserves_rejected_pair_impossible_no_outside_tie
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)
     (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
-    (hstrictW : WomenStrictPreferenceProfile val_w)
+    (hstrictW : WomenAcceptableStrictPreferenceProfile val_w)
     (hnozero : MenNoOutsideTie val_m) :
     ∀ s, DAInvariants val_m val_w s →
       DARejectedPairImpossibleInvariant val_m val_w s →
@@ -3671,7 +3760,7 @@ theorem daStep_preserves_rejected_pair_impossible_no_outside_tie
 theorem daStepByMan_preserves_rejected_pair_impossible_no_outside_tie
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)
     (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
-    (hstrictW : WomenStrictPreferenceProfile val_w)
+    (hstrictW : WomenAcceptableStrictPreferenceProfile val_w)
     (hnozero : MenNoOutsideTie val_m) :
     ∀ s m, DAInvariants val_m val_w s →
       DARejectedPairImpossibleInvariant val_m val_w s →
@@ -3704,7 +3793,7 @@ lemma foldl_daStep_preserves_rejected_pair_impossible_no_outside_tie
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)
     (steps : List ℕ) (s : DAState M W)
     (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
-    (hstrictW : WomenStrictPreferenceProfile val_w)
+    (hstrictW : WomenAcceptableStrictPreferenceProfile val_w)
     (hnozero : MenNoOutsideTie val_m)
     (hinv : DAInvariants val_m val_w s)
     (hrejected : DARejectedPairImpossibleInvariant val_m val_w s) :
@@ -3724,7 +3813,7 @@ lemma foldl_daStepByMan_preserves_rejected_pair_impossible_no_outside_tie
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)
     (schedule : List M) (s : DAState M W)
     (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
-    (hstrictW : WomenStrictPreferenceProfile val_w)
+    (hstrictW : WomenAcceptableStrictPreferenceProfile val_w)
     (hnozero : MenNoOutsideTie val_m)
     (hinv : DAInvariants val_m val_w s)
     (hrejected : DARejectedPairImpossibleInvariant val_m val_w s) :
@@ -3744,7 +3833,7 @@ theorem daStateAfterSchedule_satisfies_rejected_pair_impossible_no_outside_tie
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)
     (start : DAState M W) (schedule : List M)
     (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
-    (hstrictW : WomenStrictPreferenceProfile val_w)
+    (hstrictW : WomenAcceptableStrictPreferenceProfile val_w)
     (hnozero : MenNoOutsideTie val_m)
     (hinvStart : DAInvariants val_m val_w start)
     (hrejectedStart : DARejectedPairImpossibleInvariant val_m val_w start) :
@@ -3758,7 +3847,7 @@ theorem daStateAfterSchedule_satisfies_rejected_pair_impossible_no_outside_tie
 theorem deferredAcceptanceState_satisfies_rejected_pair_impossible_no_outside_tie
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)
     (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
-    (hstrictW : WomenStrictPreferenceProfile val_w)
+    (hstrictW : WomenAcceptableStrictPreferenceProfile val_w)
     (hnozero : MenNoOutsideTie val_m) :
     DARejectedPairImpossibleInvariant val_m val_w
       (deferredAcceptanceState val_m val_w) := by

@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts import review_dashboard  # noqa: E402
+from scripts import audit_evidence_integrity as integrity  # noqa: E402
 from scripts.source_coverage_scope import (  # noqa: E402
     NAMED_THEORETICAL_STATEMENTS,
     SOURCE_PROSE_DEFINITION_PRESENTATIONS_FIELD,
@@ -220,6 +221,152 @@ class ProseDefinitionCoverageTests(unittest.TestCase):
             self.assertEqual(
                 set(canonical), {"misleading_theorem_key", "caption_like_key"}
             )
+
+    def test_prose_ledger_does_not_hide_unrelated_numbered_definitions(self) -> None:
+        """One prose definition refines no other Definition heading by default."""
+
+        source_text = (
+            "Definition 1. A first object has the first property.\n"
+            "\n"
+            "Definition 2. A second object has the second property.\n"
+            "\n"
+            "Definition 3. A third object has the third property.\n"
+            "\n"
+            "4 Revenue setup\n"
+            "We use R to denote auction revenue. R is the sum of all sale prices.\n"
+        )
+
+        def anchor(start: int, end: int | None = None) -> dict[str, object]:
+            final = end or start
+            quote = "\n".join(source_text.rstrip("\n").split("\n")[start - 1 : final])
+            return {
+                "path": "source.txt",
+                "line_start": start,
+                "line_end": final,
+                "quoted_text": quote,
+                "quoted_text_sha256": hashlib.sha256(quote.encode("utf-8")).hexdigest(),
+            }
+
+        prose_clause = "We use R to denote auction revenue. R is the sum of all sale prices."
+        prose_presentation = {
+            "schema": 1,
+            "presentation_kind": "definition",
+            "defined_entity_kind": "object",
+            "defined_object": "R",
+            "definitional_clause": prose_clause,
+            "scope_disposition": SOURCE_PROSE_DEFINITION_NORMAL_SCOPE,
+            "source_anchor": anchor(8),
+        }
+        prose_statement = "Auction revenue is the sum of all sale prices."
+        prose_reconciliation = {
+            "schema": SOURCE_PROSE_DEFINITION_RECONCILIATION_SCHEMA,
+            "relation": SOURCE_PROSE_DEFINITION_RECONCILIATION_RELATION,
+            "presentation_sha256": source_prose_definition_presentation_sha256(
+                prose_presentation
+            ),
+            "source_item_statement_sha256": source_prose_definition_statement_sha256(
+                {"statement": prose_statement}
+            ),
+            "judgment": SOURCE_PROSE_DEFINITION_RECONCILIATION_JUDGMENT,
+            "semantic_basis": "The exact prose clause defines auction revenue.",
+            "validator": "independent prose-definition semantic judge",
+            "validator_type": "human",
+            "validated_at": "2026-08-19T00:00:00Z",
+        }
+        digest = hashlib.sha256(source_text.encode("utf-8")).hexdigest()
+        payload: dict[str, object] = {
+            "schema": 1,
+            "source_artifact_path": "source.txt",
+            "source_artifact_sha256": digest,
+            "source_coverage_mode": NAMED_THEORETICAL_STATEMENTS,
+            "source_anchor_evidence_required": True,
+            "source_named_result_inventory_review": {
+                "schema": 1,
+                "complete": True,
+                "validator": "independent source-only named-result index",
+                "validated_at": "2026-08-19T00:00:00Z",
+                "method": "Independent source-heading and prose-definition inventory.",
+                "source_artifact_sha256": digest,
+                "prose_definition_presentations": [prose_presentation],
+                "discovered_prose_definition_sha256": (
+                    source_prose_definition_presentations_sha256([prose_presentation])
+                ),
+            },
+            "items": {
+                "first": {
+                    "source_kind": "definition",
+                    "claim_bearing": True,
+                    "statement": "A first object has the first property.",
+                    "source_anchor_evidence": [anchor(1)],
+                    "lean_declarations": ["Fixture.first"],
+                },
+                "second": {
+                    "source_kind": "definition",
+                    "claim_bearing": True,
+                    "statement": "A second object has the second property.",
+                    "source_anchor_evidence": [anchor(3)],
+                    "lean_declarations": ["Fixture.second"],
+                },
+                "third": {
+                    "source_kind": "definition",
+                    "claim_bearing": True,
+                    "statement": "A third object has the third property.",
+                    "source_anchor_evidence": [anchor(5)],
+                    "lean_declarations": ["Fixture.third"],
+                },
+                "revenue": {
+                    "source_kind": "definition",
+                    "claim_bearing": True,
+                    "statement": prose_statement,
+                    "source_anchor_evidence": [anchor(8)],
+                    "lean_declarations": ["Fixture.revenue"],
+                    SOURCE_PROSE_DEFINITION_RECONCILIATION_FIELD: prose_reconciliation,
+                },
+            },
+        }
+        source_presentations = integrity.extract_named_result_presentations(
+            source_text, source_format="text"
+        )
+        review = payload["source_named_result_inventory_review"]
+        assert isinstance(review, dict)
+        review["discovered_named_result_sha256"] = (
+            integrity.named_result_presentations_sha256(
+                [
+                    presentation
+                    for presentation in source_presentations
+                    if integrity.source_named_presentation_in_coverage_scope(
+                        presentation.kind, NAMED_THEORETICAL_STATEMENTS
+                    )
+                ]
+            )
+        )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            paper = self._paper(root, payload, source_text=source_text)
+            self.assertEqual(
+                source_index_byte_pinned_anchor_item_ids(
+                    paper,
+                    payload,
+                    NAMED_THEORETICAL_STATEMENTS,
+                    repository_root=root,
+                ),
+                {"first", "second", "third", "revenue"},
+            )
+            previous_root = integrity.ROOT
+            integrity.ROOT = root
+            try:
+                self.assertEqual(
+                    integrity.source_named_result_inventory_findings(
+                        paper,
+                        "formalized",
+                        paper / "audit" / "paper_statement_map.json",
+                        payload,
+                    ),
+                    [],
+                )
+            finally:
+                integrity.ROOT = previous_root
 
     def test_kind_or_names_without_source_reconciliation_cannot_select(self) -> None:
         payload = self._payload()

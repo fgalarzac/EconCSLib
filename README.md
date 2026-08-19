@@ -30,9 +30,10 @@ python3 scripts/paper_contribution.py doctor
 PAPER=ABC24ShortTitle
 PAPER_URL=https://arxiv.org/abs/2401.01234
 SOURCE_VERSION='arXiv v2'
-SOURCE_ARTIFACT=".scratch/$PAPER/source.pdf"
-STATEMENT_SPEC=".scratch/$PAPER/statement-spec.json"
-mkdir -p ".scratch/$PAPER"
+WORK_DIR="${HOME}/econcslib-review/$PAPER"
+SOURCE_ARTIFACT="$WORK_DIR/paper.pdf"
+STATEMENT_SPEC="$WORK_DIR/statement-spec.json"
+mkdir -p "$WORK_DIR"
 # Copy or download the exact v2 source bytes here before continuing.
 test -f "$SOURCE_ARTIFACT"
 python3 scripts/paper_contribution.py init-spec \
@@ -59,8 +60,8 @@ python3 scripts/paper_contribution.py new "$PAPER_URL" \
   --statement-spec "$STATEMENT_SPEC"
 ```
 
-Both local inputs stay under the Git-ignored `.scratch/` tree. Do not stage or
-commit the source artifact or statement spec.
+Keep both inputs outside the repository. Do not stage or commit the source
+artifact or statement spec.
 
 Develop in `papers/ABC24ShortTitle/`, then use:
 
@@ -74,8 +75,8 @@ After publication is approved, set the paper-local
 the candidate before `prepare-pr`. That command runs the full local,
 source-present acceptance check. Pull-request CI verifies the same paper in
 public-checkout mode but does not replace that source-grounded closeout. See
-[`docs/contributing/README.md`](docs/contributing/README.md) for the short path
-and [`docs/NEW_CONTRIBUTOR_WORKFLOW.md`](docs/NEW_CONTRIBUTOR_WORKFLOW.md) for
+[`CONTRIBUTING.md`](CONTRIBUTING.md) for the short path and
+[`docs/NEW_CONTRIBUTOR_WORKFLOW.md`](docs/NEW_CONTRIBUTOR_WORKFLOW.md) for
 details.
 
 When using a coding agent, give it the paper URL, exact source version, and
@@ -156,5 +157,5 @@ of a library of concepts for Economics and Computation.
 - [docs/PAPER_STATUS.md](docs/PAPER_STATUS.md): public paper status.
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): repository architecture.
 - [docs/ECONCSLIB_DOMAIN_INDEX.md](docs/ECONCSLIB_DOMAIN_INDEX.md): library modules by domain.
-- [docs/PRIVATE_DEVELOPMENT_WORKFLOW.md](docs/PRIVATE_DEVELOPMENT_WORKFLOW.md): private development and public PR workflow.
+- [docs/NEW_CONTRIBUTOR_WORKFLOW.md](docs/NEW_CONTRIBUTOR_WORKFLOW.md): public repository and contribution workflow.
 - [docs/LEAN_STYLE.md](docs/LEAN_STYLE.md) and [docs/STATUS.md](docs/STATUS.md): contribution conventions.

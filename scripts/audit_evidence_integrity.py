@@ -115,6 +115,7 @@ try:
         filter_source_map_items_for_proof_obligations,
         source_index_byte_pinned_anchor_item_ids,
         source_prose_definition_inventory_errors,
+        source_prose_definition_replaced_named_presentation_spans,
         source_vocabulary_definition_binding_item_ids,
         source_named_result_environment_kinds_from_map,
         source_presentation_aliases,
@@ -140,6 +141,7 @@ except ModuleNotFoundError:  # pragma: no cover - supports module-style imports.
         filter_source_map_items_for_proof_obligations,
         source_index_byte_pinned_anchor_item_ids,
         source_prose_definition_inventory_errors,
+        source_prose_definition_replaced_named_presentation_spans,
         source_vocabulary_definition_binding_item_ids,
         source_named_result_environment_kinds_from_map,
         source_presentation_aliases,
@@ -5332,10 +5334,12 @@ def corrected_target_coverage_findings(
     map_items = map_payload.get("items")
     if not isinstance(map_items, dict):
         return []
+    presentation_aliases, _alias_errors = source_presentation_aliases(map_items)
     corrected_items = {
         str(key).strip(): item
         for key, item in map_items.items()
         if isinstance(item, dict)
+        and str(key).strip() not in presentation_aliases
         and str(item.get("coverage_status") or "").strip().lower()
         == CORRECTED_SOURCE_STATEMENT_STATUS
     }
@@ -5427,7 +5431,11 @@ def corrected_target_coverage_findings(
                 f"{key}: coverage must set archival_equivalence_claimed to false"
             )
     for key, raw_coverage in raw_items.items():
-        if not isinstance(raw_coverage, dict) or str(key).strip() in corrected_items:
+        if (
+            not isinstance(raw_coverage, dict)
+            or str(key).strip() in corrected_items
+            or str(key).strip() in presentation_aliases
+        ):
             continue
         coverage = re.sub(
             r"\s+",
@@ -6366,6 +6374,13 @@ def source_named_result_inventory_findings(
         add_receipt_errors()
         return findings
     source_coverage_mode, _mode_error = source_coverage_mode_from_map(payload)
+    replaced_definition_spans = source_prose_definition_replaced_named_presentation_spans(
+        folder,
+        payload,
+        presentations,
+        repository_root=ROOT,
+        file_bytes_override=file_bytes_override,
+    )
     # The receipt covers the semantic source surface selected by the active
     # policy, not every mechanically recognized display. In normal mode this
     # omits standalone Formula/Equation/Algorithm presentations;
@@ -6378,9 +6393,9 @@ def source_named_result_inventory_findings(
             presentation.kind, source_coverage_mode
         )
         and not (
-            prose_definition_ids
-            and not prose_definition_errors
-            and presentation.kind == "definition"
+            presentation.kind == "definition"
+            and (presentation.line_start, presentation.line_end)
+            in replaced_definition_spans
         )
     ]
     presentation_digest = named_result_presentations_sha256(receipt_presentations)
@@ -6456,9 +6471,9 @@ def source_named_result_inventory_findings(
             presentation.kind, source_coverage_mode
         )
         and not (
-            prose_definition_ids
-            and not prose_definition_errors
-            and presentation.kind == "definition"
+            presentation.kind == "definition"
+            and (presentation.line_start, presentation.line_end)
+            in replaced_definition_spans
         )
         and presentation.kind
         not in {
@@ -11917,15 +11932,21 @@ def corrected_source_statement_map_findings(
     raw_items = payload.get("items")
     if not isinstance(raw_items, dict):
         return []
+    presentation_aliases, _presentation_alias_errors = source_presentation_aliases(
+        raw_items
+    )
     has_corrected_rows = any(
-        isinstance(item, dict)
+        str(key).strip() not in presentation_aliases
+        and isinstance(item, dict)
         and str(item.get("coverage_status") or "").strip().lower()
         == CORRECTED_SOURCE_STATEMENT_STATUS
-        for item in raw_items.values()
+        for key, item in raw_items.items()
     )
     if not has_corrected_rows and not any(
-        isinstance(item, dict) and "corrected_target" in item
-        for item in raw_items.values()
+        str(key).strip() not in presentation_aliases
+        and isinstance(item, dict)
+        and "corrected_target" in item
+        for key, item in raw_items.items()
     ):
         return []
 
@@ -11970,6 +11991,13 @@ def corrected_source_statement_map_findings(
     for raw_key, raw_item in raw_items.items():
         key = str(raw_key or "").strip() or "<unnamed>"
         if not isinstance(raw_item, dict):
+            continue
+        # A repeated presentation remains source-visible, including any
+        # archival correction context, but its canonical item owns the one
+        # corrected-target endpoint and coverage verdict.  Requiring a second
+        # endpoint here would reintroduce the duplicate route the alias schema
+        # prohibits.
+        if key in presentation_aliases:
             continue
         corrected_status = (
             str(raw_item.get("coverage_status") or "").strip().lower()

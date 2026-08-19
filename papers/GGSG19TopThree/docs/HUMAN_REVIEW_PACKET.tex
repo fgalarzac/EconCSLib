@@ -1,0 +1,2976 @@
+% Generated human-review packet template.  Source records, Lean statements,
+% and raw-source-to-Spec screening fields are substituted by
+% scripts/review_dashboard_packet.py.
+% Do not hand-edit generated packets; annotate the PDF or reconcile notes into
+% the paper-local human-review log.
+\documentclass[10pt]{article}
+\usepackage[margin=0.43in]{geometry}
+\usepackage{fontspec}
+\setmainfont{Latin Modern Roman}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{fvextra}
+\usepackage{enumitem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.15em}
+\linespread{0.92}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+\DefineVerbatimEnvironment{ReviewVerbatim}{Verbatim}{breaklines=true,breakanywhere=true,fontsize=\scriptsize}
+\newcommand{\reviewerbox}{%
+  \par\noindent\fbox{\parbox{0.96\linewidth}{\rule{0pt}{0.38in}}}\par
+}
+\newcommand{\reviewmatch}[1]{%
+  \par\noindent\textbf{Reviewer check:} $\square$\; #1\par
+  \noindent\emph{If left unchecked, explain the discrepancy or uncertainty below.}\par
+}
+
+\begin{document}
+\fontsize{9}{10}\selectfont
+
+\begin{center}
+{\LARGE Human review packet: GGSG19TopThree}\\[0.35em]
+\small Generated from byte-pinned source excerpts, the expanded PaperInterface
+specifications, and hash-bound raw-source-to-Spec screening records.
+\end{center}
+
+\noindent\textbf{Paper:} GGSG19TopThree\\
+\textbf{Paper id:} \texttt{GGSG19TopThree}\\
+\textbf{Source version:} arXiv:1906.08160, 2019; HCOMP 2019 source bundle\\
+\textbf{Source record:} \texttt{audit/paper\_statement\_map.json}\\
+\textbf{Rows:} 23\\
+\textbf{Generated:} 2026-08-18\\
+\textbf{Source URL:} \href{https://arxiv.org/pdf/1906.08160}{official source}
+
+\noindent\fbox{\parbox{0.96\linewidth}{\textbf{Review status:} 0/23 source-claim screens; 0/47 library prerequisite screens. This is a review worksheet while those direct checks remain pending; it is not a final validation receipt.}}\par
+
+
+
+\section*{How to use this packet}
+For each source claim, compare the exact source excerpts with the expanded
+PaperInterface specification. Mark up this PDF or fill the blank reviewer box in the TeX source;
+return the annotated file for reconciliation into the paper-local human-review
+log.
+
+\section*{Open the interactive dashboard}
+The interactive dashboard is an optional alternative to using this PDF; it
+presents the same review surface rather than an additional review requirement.
+After forking and cloning (or pulling) EconCSLib, run the following from the
+repository root. The cache command is needed only the first time in a new clone.
+\begin{ReviewVerbatim}
+cd <your-EconCSLib-checkout>
+lake exe cache get
+python3 scripts/review_dashboard.py --paper GGSG19TopThree --serve
+\end{ReviewVerbatim}
+Open \url{http://127.0.0.1:8765/} in a browser and keep that terminal running
+while reviewing. The dashboard records saved annotations in this paper's
+reviewer-owned review record.
+
+\section*{Contents}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-section-5cc46fc24f07d5d8}{Semantic library prerequisites (47; not paper claims)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-prerequisite-e4ddb15be8735d63}{EconCSLib.Probability.ExponentialRateCertificate}
+\item \hyperlink{library-prerequisite-8db74770d326ef06}{EconCSLib.Probability.FiniteErrorRateCertificate}
+\item \hyperlink{library-prerequisite-507ef639a856291a}{EconCSLib.Probability.FiniteErrorRateCertificate.errorProb}
+\item \hyperlink{library-prerequisite-96ca3fc05cfa53c5}{EconCSLib.Probability.FiniteErrorRateCertificate.aggregateError}
+\item \hyperlink{library-prerequisite-1cb4bfc31d236b9e}{EconCSLib.Probability.FiniteErrorRateCertificate.mk}
+\item \hyperlink{library-prerequisite-94743506c5de049b}{EconCSLib.Probability.logDecay}
+\item \hyperlink{library-prerequisite-380666720005662c}{EconCSLib.Probability.HasExponentialRate}
+\item \hyperlink{library-prerequisite-89b5feba54d8b5b3}{EconCSLib.Probability.HasExtendedExponentialRate}
+\item \hyperlink{library-prerequisite-6258b3da52471ab5}{EconCSLib.Probability.finiteMGF}
+\item \hyperlink{library-prerequisite-20dbd208a81d9e80}{EconCSLib.Probability.finiteLogMGF}
+\item \hyperlink{library-prerequisite-84fb7f816d0f0ac9}{EconCSLib.Probability.finiteChernoffRate}
+\item \hyperlink{library-prerequisite-d2329585b68dee1c}{EconCSLib.Probability.finiteIidPairwiseScoreGapChernoffRate}
+\item \hyperlink{library-prerequisite-e0e20858ab2c39b5}{EconCSLib.Probability.finiteIidScoreSum}
+\item \hyperlink{library-prerequisite-e5c7eedc40c11b7a}{EconCSLib.pmfExp}
+\item \hyperlink{library-prerequisite-7fec9dedef722fc8}{EconCSLib.pmfProb}
+\item \hyperlink{library-prerequisite-38eb9a31a47bfbd9}{EconCSLib.pmfProduct}
+\item \hyperlink{library-prerequisite-a47c2aeffd3648c8}{EconCSLib.Probability.finiteIidScoreLeftTailProb}
+\item \hyperlink{library-prerequisite-2e87694dda96c244}{EconCSLib.Probability.finiteIidScoreGapLeftTailProb}
+\item \hyperlink{library-prerequisite-805935835e8976b4}{EconCSLib.Probability.finiteScoreGapChernoffRate}
+\item \hyperlink{library-prerequisite-74718d0e5993a8d2}{EconCSLib.Probability.ternaryGapClosedChernoffRate}
+\item \hyperlink{library-prerequisite-dfa732ba2fb3e45a}{EconCSLib.SocialChoice.Ranking.Candidate}
+\item \hyperlink{library-prerequisite-c6f7a311d73d7f96}{EconCSLib.SocialChoice.Ranking.MallowsSpec}
+\item \hyperlink{library-prerequisite-0cca0893d970d536}{EconCSLib.SocialChoice.Ranking.MallowsSpec.center}
+\item \hyperlink{library-prerequisite-ba2261cd134f7593}{EconCSLib.SocialChoice.Ranking.MallowsSpec.law}
+\item \hyperlink{library-prerequisite-8f403b33d88960b7}{EconCSLib.SocialChoice.Ranking.Ranking}
+\item \hyperlink{library-prerequisite-7b06b37dd64e13d0}{EconCSLib.SocialChoice.Ranking.firstChoice}
+\item \hyperlink{library-prerequisite-2f14612a40825584}{EconCSLib.SocialChoice.Ranking.secondChoice}
+\item \hyperlink{library-prerequisite-9c2b583129e6297a}{EconCSLib.SocialChoice.Ranking.MallowsSpec.firstSecondChoiceProb}
+\item \hyperlink{library-prerequisite-ffa701659b5a9425}{EconCSLib.SocialChoice.Ranking.rankOf}
+\item \hyperlink{library-prerequisite-3b92294c8958cd6a}{EconCSLib.SocialChoice.Ranking.invertedPair}
+\item \hyperlink{library-prerequisite-0bcb643e4e8f308c}{EconCSLib.SocialChoice.Ranking.inversionFinset}
+\item \hyperlink{library-prerequisite-bba935eca4d406d8}{EconCSLib.SocialChoice.Ranking.kendallTau}
+\item \hyperlink{library-prerequisite-edc3a87dc9a381a1}{EconCSLib.SocialChoice.Ranking.mallowsWeight}
+\item \hyperlink{library-prerequisite-8607325b51c61bb5}{EconCSLib.SocialChoice.Ranking.mallowsPartition}
+\item \hyperlink{library-prerequisite-b97465b53542a645}{EconCSLib.SocialChoice.Ranking.MallowsSpec.mk}
+\item \hyperlink{library-prerequisite-93e9f0a1c117d539}{EconCSLib.SocialChoice.Ranking.mallowsPMF}
+\item \hyperlink{library-prerequisite-e1d5d88858f0fc51}{EconCSLib.SocialChoice.Ranking.mallowsPMF\_apply\_toReal}
+\item \hyperlink{library-prerequisite-640188baec586040}{EconCSLib.SocialChoice.Ranking.mallowsPartition\_pos}
+\item \hyperlink{library-prerequisite-0bb61a53ad0bca2f}{EconCSLib.SocialChoice.Ranking.MallowsSpec.ofQ}
+\item \hyperlink{library-prerequisite-d7e3e68c1defbb80}{EconCSLib.SocialChoice.Ranking.MallowsSpec.q}
+\item \hyperlink{library-prerequisite-5329220d4338c4fb}{EconCSLib.SocialChoice.Ranking.approvedByK}
+\item \hyperlink{library-prerequisite-60202fed8e52e293}{EconCSLib.SocialChoice.Ranking.firstChoiceProb}
+\item \hyperlink{library-prerequisite-a570ea00ae6ba308}{EconCSLib.SocialChoice.Ranking.instDecidableApprovedByK}
+\item \hyperlink{library-prerequisite-792eaeafd27531a5}{EconCSLib.SocialChoice.Ranking.instDecidablePredApprovedByK}
+\item \hyperlink{library-prerequisite-744ec91e2f950dd4}{EconCSLib.SocialChoice.Ranking.kApprovalPairDownProb}
+\item \hyperlink{library-prerequisite-b9f45a7d4f1d0dc7}{EconCSLib.SocialChoice.Ranking.kApprovalPairUpProb}
+\item \hyperlink{library-prerequisite-259175dee1c28d2b}{EconCSLib.SocialChoice.Ranking.kApprovalScore}
+\end{itemize}
+\item \hyperlink{source-section-f10b5f68e4acf3dc}{Source claims (23)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-95da71d9c0b05029}{source\_model\_k\_ranking\_scoreSpec}
+\item \hyperlink{source-claim-997b02af7db4352f}{source\_model\_k\_approval\_scoreSpec}
+\item \hyperlink{source-claim-3a7c2e0827ba5e3a}{source\_model\_reasonable\_positional\_scoring\_rulesSpec}
+\item \hyperlink{source-claim-3a12b78d8616e04f}{source\_model\_cumulative\_scores\_ranking\_and\_outcomeSpec}
+\item \hyperlink{source-claim-f23d4127b55f0381}{paper\_definition\_design\_invariant\_statementSpec}
+\item \hyperlink{source-claim-c61b482940640a59}{paper\_definition\_large\_deviation\_rate\_statementSpec}
+\item \hyperlink{source-claim-c1b6c1660b45dd91}{paper\_definition\_rate\_optimal\_statementSpec}
+\item \hyperlink{source-claim-80ef2800a9578ca5}{source\_proposition1\_thm\_consistency\_tieredSpec}
+\item \hyperlink{source-claim-c74374c73696b398}{source\_proposition2\_thm\_pairwiselearning\_finite\_supportSpec}
+\item \hyperlink{source-claim-baeee6d035a90ee1}{source\_proposition3\_lem\_pairwiselearning\_approval\_finite\_ternarySpec}
+\item \hyperlink{source-claim-2576e5b507810949}{source\_proposition4\_thm\_goal\_learning\_exact\_minimum\_rateSpec}
+\item \hyperlink{source-claim-6a7da73327f0abda}{source\_proposition4\_thm\_goal\_learning\_finite\_sample\_M\_sq\_boundSpec}
+\item \hyperlink{source-claim-f4c362962779355c}{source\_theorem1\_lem\_randomizebetterscoring\_arbitrary\_goalSpec}
+\item \hyperlink{source-claim-82eaa4a544e4300f}{source\_theorem2\_lem\_randomizenotbetterapproval\_pairwiseSpec}
+\item \hyperlink{source-claim-c1058349a9163721}{source\_corollary\_lem\_mallowsnorando\_zero\_noiseSpec}
+\item \hyperlink{source-claim-57ef0e97610a7efd}{source\_corollary\_lem\_mallowsnorandoSpec}
+\item \hyperlink{source-claim-b02fd12e20da7ee2}{source\_theorem\_lem\_randomizebetterapproval\_w\_selection\_constructedSpec}
+\item \hyperlink{source-claim-96dd41305a1cb5af}{source\_theorem\_lem\_mallowsnotWK\_counterexampleSpec}
+\item \hyperlink{source-claim-183efad42b03de32}{source\_proof\_mallows\_common\_pivotal\_pairSpec}
+\item \hyperlink{source-claim-909010c9cf279ba2}{source\_mallows\_repeated\_insertion\_probability\_formulaSpec}
+\item \hyperlink{source-claim-b4c9d86dce53081b}{source\_proof\_mallows\_four\_candidate\_joint\_location\_matrixSpec}
+\item \hyperlink{source-claim-ddc5814263488e0b}{source\_example\_durham\_ward1\_randomized\_approval\_improves\_static3\_static4Spec}
+\item \hyperlink{source-claim-1b3901556fea513f}{source\_mallows\_arbitrary\_pair\_joint\_location\_dynamic\_programSpec}
+\end{itemize}
+\end{itemize}
+
+\clearpage
+\hypertarget{library-section-5cc46fc24f07d5d8}{}
+\section*{Material library prerequisites}
+\hypertarget{library-prerequisite-e4ddb15be8735d63}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}ExponentialRateCertificate}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+(ℕ → ℝ) → ℝ → Prop
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+structure ExponentialRateCertificate (p : ℕ → ℝ) (rate : ℝ) where
+  eventually_pos : ∀ᶠ n in atTop, 0 < p n
+  has_rate : HasExponentialRate p rate
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-8db74770d326ef06}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}FiniteErrorRateCertificate}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+Type u_1 → Type u_1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+structure FiniteErrorRateCertificate (ι : Type*) where
+  errorProb : ι → ℕ → ℝ
+  rate : ι → ℝ
+  has_rate : ∀ i, ExponentialRateCertificate (errorProb i) (rate i)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-507ef639a856291a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}FiniteErrorRateCertificate.\allowbreak{}errorProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{ι : Type u_1} → (self : EconCSLib.Probability.FiniteErrorRateCertificate ι) → (a : ι) → (a_1 : ℕ) → self.1 a a_1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-96ca3fc05cfa53c5}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}FiniteErrorRateCertificate.\allowbreak{}aggregateError}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{ι : Type u_1} →
+  [inst : Fintype ι] →
+    (C : EconCSLib.Probability.FiniteErrorRateCertificate ι) →
+      (weight : ι → ℝ) → (n : ℕ) → ∑ i, weight i * C.errorProb i n
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def aggregateError (C : FiniteErrorRateCertificate ι)
+    (weight : ι → ℝ) (n : ℕ) : ℝ :=
+  ∑ i : ι, weight i * C.errorProb i n
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-1cb4bfc31d236b9e}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}FiniteErrorRateCertificate.\allowbreak{}mk}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+{ι : Type u_1} →
+  (errorProb : ι → ℕ → ℝ) →
+    (rate : ι → ℝ) →
+      (∀ (i : ι), EconCSLib.Probability.ExponentialRateCertificate (errorProb i) (rate i)) →
+        EconCSLib.Probability.FiniteErrorRateCertificate ι
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-94743506c5de049b}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}logDecay}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(p : ℕ → ℝ) → (n : ℕ) → -(↑n)⁻¹ * Real.log (p n)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def logDecay (p : ℕ → ℝ) (n : ℕ) : ℝ :=
+  -((n : ℝ)⁻¹) * Real.log (p n)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-380666720005662c}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}HasExponentialRate}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ (p : ℕ → ℝ) (rate : ℝ), Filter.Tendsto (EconCSLib.Probability.logDecay p) Filter.atTop (nhds rate)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def HasExponentialRate (p : ℕ → ℝ) (rate : ℝ) : Prop :=
+  Tendsto (logDecay p) atTop (nhds rate)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-89b5feba54d8b5b3}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}HasExtendedExponentialRate}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+(ℕ → ℝ) → WithTop ℝ → Prop
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+inductive HasExtendedExponentialRate (p : ℕ → ℝ) : WithTop ℝ → Prop
+  | finite {rate : ℝ} (h : HasExponentialRate p rate) :
+      HasExtendedExponentialRate p rate
+  | infinite (hzero : ∀ᶠ n in atTop, p n = 0) :
+      HasExtendedExponentialRate p ⊤
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-6258b3da52471ab5}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteMGF}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] → (μ : PMF α) → (score : α → ℝ) → (z : ℝ) → ∑ a, (μ a).toReal * Real.exp (z * score a)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteMGF (μ : PMF α) (score : α → ℝ) (z : ℝ) : ℝ :=
+  ∑ a : α, (μ a).toReal * Real.exp (z * score a)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-20dbd208a81d9e80}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteLogMGF}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] → (μ : PMF α) → (score : α → ℝ) → (z : ℝ) → Real.log (EconCSLib.Probability.finiteMGF μ score z)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteLogMGF (μ : PMF α) (score : α → ℝ) (z : ℝ) : ℝ :=
+  Real.log (finiteMGF μ score z)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-84fb7f816d0f0ac9}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteChernoffRate}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] →
+    (μ : PMF α) → (score : α → ℝ) → -sInf (Set.range fun z => EconCSLib.Probability.finiteLogMGF μ score z)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteChernoffRate (μ : PMF α) (score : α → ℝ) : ℝ :=
+  -sInf (Set.range fun z : ℝ => finiteLogMGF μ score z)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-d2329585b68dee1c}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteIidPairwiseScoreGapChernoffRate}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] →
+    {Candidate : Type u_2} →
+      (μ : PMF α) →
+        (score : Candidate → α → ℝ) →
+          (hi lo : Candidate) → EconCSLib.Probability.finiteChernoffRate μ fun a => score hi a - score lo a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteIidPairwiseScoreGapChernoffRate
+    {Candidate : Type*}
+    (μ : PMF α) (score : Candidate → α → ℝ)
+    (hi lo : Candidate) : ℝ :=
+  finiteChernoffRate μ (fun a => score hi a - score lo a)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e0e20858ab2c39b5}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteIidScoreSum}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} → {ι : Type u_2} → [inst : Fintype ι] → (score : α → ℝ) → (sample : ι → α) → ∑ i, score (sample i)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteIidScoreSum {ι : Type*} [Fintype ι]
+    (score : α → ℝ) (sample : ι → α) : ℝ :=
+  ∑ i : ι, score (sample i)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e5c7eedc40c11b7a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfExp}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} → [inst : Fintype α] → [DecidableEq α] → (μ : PMF α) → (f : α → ℝ) → ∑ a, (μ a).toReal * f a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfExp {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (f : α → ℝ) : ℝ :=
+  ∑ a, (μ a).toReal * f a
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-7fec9dedef722fc8}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] →
+    [inst_1 : DecidableEq α] →
+      (μ : PMF α) → (p : α → Prop) → [inst_2 : DecidablePred p] → EconCSLib.pmfExp μ fun a => if p a then 1 else 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfProb {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (p : α → Prop) [DecidablePred p] : ℝ :=
+  pmfExp μ (fun a => if p a then 1 else 0)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-38eb9a31a47bfbd9}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfProduct}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(ι : Type u_1) →
+  (α : Type u_2) →
+    [inst : Fintype ι] →
+      [inst_1 : DecidableEq ι] → [inst_2 : Fintype α] → (μ : PMF α) → PMF.ofFintype (fun f => ∏ i, μ (f i)) ⋯
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfProduct (ι α : Type*) [Fintype ι] [DecidableEq ι] [Fintype α]
+    (μ : PMF α) : PMF (ι → α) :=
+  PMF.ofFintype (fun f : ι → α => ∏ i : ι, μ (f i)) (by
+    classical
+    have hcoord : ∑ a : α, μ a = 1 := by
+      rw [← PMF.tsum_coe μ, tsum_fintype]
+    calc
+      ∑ f : ι → α, ∏ i : ι, μ (f i)
+          = ∏ i : ι, ∑ a : α, μ a := by
+            symm
+            simpa using
+              (Finset.prod_univ_sum
+                (t := fun _i : ι => (Finset.univ : Finset α))
+                (f := fun _i a => μ a))
+      _ = 1 := by simp [hcoord])
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-a47c2aeffd3648c8}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteIidScoreLeftTailProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] →
+    [inst_1 : DecidableEq α] →
+      (μ : PMF α) →
+        (score : α → ℝ) →
+          (threshold : ℝ) →
+            (n : ℕ) →
+              EconCSLib.pmfProb (EconCSLib.pmfProduct (Fin n) α μ) fun sample =>
+                EconCSLib.Probability.finiteIidScoreSum score sample ≤ threshold
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteIidScoreLeftTailProb
+    (μ : PMF α) (score : α → ℝ) (threshold : ℝ) (n : ℕ) : ℝ :=
+  pmfProb (pmfProduct (Fin n) α μ)
+    (fun sample : Fin n → α => finiteIidScoreSum score sample ≤ threshold)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-2e87694dda96c244}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteIidScoreGapLeftTailProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] →
+    [inst_1 : DecidableEq α] →
+      (μ : PMF α) →
+        (hiScore loScore : α → ℝ) →
+          (n : ℕ) → EconCSLib.Probability.finiteIidScoreLeftTailProb μ (fun a => hiScore a - loScore a) 0 n
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteIidScoreGapLeftTailProb
+    (μ : PMF α) (hiScore loScore : α → ℝ) (n : ℕ) : ℝ :=
+  finiteIidScoreLeftTailProb μ (fun a => hiScore a - loScore a) 0 n
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-805935835e8976b4}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteScoreGapChernoffRate}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] →
+    (μ : PMF α) → (hiScore loScore : α → ℝ) → EconCSLib.Probability.finiteChernoffRate μ fun a => hiScore a - loScore a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteScoreGapChernoffRate (μ : PMF α) (hiScore loScore : α → ℝ) :
+    ℝ :=
+  finiteChernoffRate μ (fun a => hiScore a - loScore a)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-74718d0e5993a8d2}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}ternaryGapClosedChernoffRate}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(pUp pDown : ℝ) → -Real.log (2 * √(pUp * pDown) + 1 - pUp - pDown)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def ternaryGapClosedChernoffRate (pUp pDown : ℝ) : ℝ :=
+  -Real.log (2 * Real.sqrt (pUp * pDown) + 1 - pUp - pDown)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-dfa732ba2fb3e45a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}Candidate}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(n : ℕ) → Fin (n + 2)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+abbrev Candidate (n : ℕ) := Fin (n + 2)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-c6f7a311d73d7f96}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}MallowsSpec}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+ℕ → Type
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+structure MallowsSpec (n : ℕ) where
+  center : Ranking n
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-0cca0893d970d536}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}MallowsSpec.\allowbreak{}center}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} → (self : EconCSLib.SocialChoice.Ranking.MallowsSpec n) → self.1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-ba2261cd134f7593}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}MallowsSpec.\allowbreak{}law}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} → (self : EconCSLib.SocialChoice.Ranking.MallowsSpec n) → self.3
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-8f403b33d88960b7}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}Ranking}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(n : ℕ) → Equiv.Perm (EconCSLib.SocialChoice.Ranking.Candidate n)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+abbrev Ranking (n : ℕ) := Equiv.Perm (Candidate n)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-7b06b37dd64e13d0}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}firstChoice}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} → (π : EconCSLib.SocialChoice.Ranking.Ranking n) → π 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def firstChoice {n : ℕ} (π : Ranking n) : Candidate n :=
+  π 0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-2f14612a40825584}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}secondChoice}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} → (π : EconCSLib.SocialChoice.Ranking.Ranking n) → π 1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def secondChoice {n : ℕ} (π : Ranking n) : Candidate n :=
+  π 1
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-9c2b583129e6297a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}MallowsSpec.\allowbreak{}firstSecondChoiceProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (M : EconCSLib.SocialChoice.Ranking.MallowsSpec n) →
+    (c d : EconCSLib.SocialChoice.Ranking.Candidate n) →
+      EconCSLib.pmfProb M.law fun π =>
+        c = EconCSLib.SocialChoice.Ranking.firstChoice π ∧ d = EconCSLib.SocialChoice.Ranking.secondChoice π
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def firstSecondChoiceProb (c d : Candidate n) : ℝ :=
+  pmfProb M.law (fun π => c = firstChoice π ∧ d = secondChoice π)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-ffa701659b5a9425}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}rankOf}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (π : EconCSLib.SocialChoice.Ranking.Ranking n) → (c : EconCSLib.SocialChoice.Ranking.Candidate n) → (Equiv.symm π) c
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def rankOf {n : ℕ} (π : Ranking n) (c : Candidate n) : Candidate n :=
+  π.symm c
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-3b92294c8958cd6a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}invertedPair}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} (ρ π : EconCSLib.SocialChoice.Ranking.Ranking n)
+  (ab : EconCSLib.SocialChoice.Ranking.Candidate n × EconCSLib.SocialChoice.Ranking.Candidate n),
+  EconCSLib.SocialChoice.Ranking.rankOf ρ ab.1 < EconCSLib.SocialChoice.Ranking.rankOf ρ ab.2 ∧
+    EconCSLib.SocialChoice.Ranking.rankOf π ab.2 < EconCSLib.SocialChoice.Ranking.rankOf π ab.1
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def invertedPair {n : ℕ} (ρ π : Ranking n) (ab : Candidate n × Candidate n) : Prop :=
+  rankOf ρ ab.1 < rankOf ρ ab.2 ∧ rankOf π ab.2 < rankOf π ab.1
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-0bcb643e4e8f308c}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}inversionFinset}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} → (ρ π : EconCSLib.SocialChoice.Ranking.Ranking n) → {ab | EconCSLib.SocialChoice.Ranking.invertedPair ρ π ab}
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def inversionFinset {n : ℕ} (ρ π : Ranking n) :
+    Finset (Candidate n × Candidate n) := by
+  classical
+  exact Finset.univ.filter (fun ab => invertedPair ρ π ab)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-bba935eca4d406d8}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}kendallTau}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} → (ρ π : EconCSLib.SocialChoice.Ranking.Ranking n) → (EconCSLib.SocialChoice.Ranking.inversionFinset ρ π).card
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def kendallTau {n : ℕ} (ρ π : Ranking n) : ℕ :=
+  (inversionFinset ρ π).card
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-edc3a87dc9a381a1}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}mallowsWeight}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} → (q : ℝ) → (ρ π : EconCSLib.SocialChoice.Ranking.Ranking n) → q ^ EconCSLib.SocialChoice.Ranking.kendallTau ρ π
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def mallowsWeight {n : ℕ} (q : ℝ) (ρ π : Ranking n) : ℝ :=
+  q ^ kendallTau ρ π
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-8607325b51c61bb5}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}mallowsPartition}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (q : ℝ) → (ρ : EconCSLib.SocialChoice.Ranking.Ranking n) → ∑ π, EconCSLib.SocialChoice.Ranking.mallowsWeight q ρ π
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def mallowsPartition {n : ℕ} (q : ℝ) (ρ : Ranking n) : ℝ :=
+  ∑ π : Ranking n, mallowsWeight q ρ π
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-b97465b53542a645}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}MallowsSpec.\allowbreak{}mk}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (center : EconCSLib.SocialChoice.Ranking.Ranking n) →
+    (q : ℝ) →
+      (law : PMF (EconCSLib.SocialChoice.Ranking.Ranking n)) →
+        (partition : ℝ) →
+          0 < q →
+            0 < partition →
+              partition = EconCSLib.SocialChoice.Ranking.mallowsPartition q center →
+                (∀ (π : EconCSLib.SocialChoice.Ranking.Ranking n),
+                    (law π).toReal = EconCSLib.SocialChoice.Ranking.mallowsWeight q center π / partition) →
+                  EconCSLib.SocialChoice.Ranking.MallowsSpec n
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-93e9f0a1c117d539}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}mallowsPMF}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (q : ℝ) →
+    (ρ : EconCSLib.SocialChoice.Ranking.Ranking n) →
+      (hq : 0 < q) →
+        PMF.ofFintype
+          (fun π =>
+            ENNReal.ofReal
+              (EconCSLib.SocialChoice.Ranking.mallowsWeight q ρ π /
+                EconCSLib.SocialChoice.Ranking.mallowsPartition q ρ))
+          ⋯
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def mallowsPMF {n : ℕ} (q : ℝ) (ρ : Ranking n)
+    (hq : 0 < q) : PMF (Ranking n) :=
+  PMF.ofFintype
+    (fun π : Ranking n =>
+      ENNReal.ofReal (mallowsWeight q ρ π / mallowsPartition q ρ))
+    (by
+      classical
+      have hpartition_pos : 0 < mallowsPartition q ρ :=
+        mallowsPartition_pos (hq := hq) ρ
+      have hnonneg :
+          ∀ π ∈ (Finset.univ : Finset (Ranking n)),
+            0 ≤ mallowsWeight q ρ π / mallowsPartition q ρ := by
+        intro π _
+        exact div_nonneg (mallowsWeight_nonneg (hq := hq) ρ π)
+          (le_of_lt hpartition_pos)
+      have hsum :
+          (∑ π : Ranking n, mallowsWeight q ρ π / mallowsPartition q ρ) =
+            1 := by
+        rw [(Finset.sum_div
+          (s := (Finset.univ : Finset (Ranking n)))
+          (f := fun π : Ranking n => mallowsWeight q ρ π)
+          (a := mallowsPartition q ρ)).symm]
+        have hsum_pos : 0 < ∑ π : Ranking n, mallowsWeight q ρ π := by
+          simpa [mallowsPartition] using hpartition_pos
+        unfold mallowsPartition
+        field_simp [ne_of_gt hsum_pos]
+      calc
+        (∑ π : Ranking n,
+            ENNReal.ofReal (mallowsWeight q ρ π / mallowsPartition q ρ))
+            =
+            ENNReal.ofReal
+              (∑ π : Ranking n, mallowsWeight q ρ π / mallowsPartition q ρ) := by
+              rw [ENNReal.ofReal_sum_of_nonneg hnonneg]
+        _ = 1 := by
+              rw [hsum]
+              simp)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e1d5d88858f0fc51}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}mallowsPMF\_\allowbreak{}apply\_\allowbreak{}toReal}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} {q : ℝ} (hq : 0 < q) (ρ π : EconCSLib.SocialChoice.Ranking.Ranking n),
+  ((EconCSLib.SocialChoice.Ranking.mallowsPMF q ρ hq) π).toReal =
+    EconCSLib.SocialChoice.Ranking.mallowsWeight q ρ π / EconCSLib.SocialChoice.Ranking.mallowsPartition q ρ
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+@[simp] theorem mallowsPMF_apply_toReal {n : ℕ} {q : ℝ}
+    (hq : 0 < q) (ρ π : Ranking n) :
+    ((mallowsPMF q ρ hq) π).toReal =
+      mallowsWeight q ρ π / mallowsPartition q ρ
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-640188baec586040}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}mallowsPartition\_\allowbreak{}pos}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} {q : ℝ},
+  0 < q → ∀ (ρ : EconCSLib.SocialChoice.Ranking.Ranking n), 0 < EconCSLib.SocialChoice.Ranking.mallowsPartition q ρ
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+theorem mallowsPartition_pos {n : ℕ} {q : ℝ} (hq : 0 < q)
+    (ρ : Ranking n) :
+    0 < mallowsPartition q ρ
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-0bb61a53ad0bca2f}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}MallowsSpec.\allowbreak{}ofQ}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (ρ : EconCSLib.SocialChoice.Ranking.Ranking n) →
+    (q : ℝ) →
+      (hq : 0 < q) →
+        { center := ρ, q := q, law := EconCSLib.SocialChoice.Ranking.mallowsPMF q ρ hq,
+          partition := EconCSLib.SocialChoice.Ranking.mallowsPartition q ρ, q_pos := hq, partition_pos := ⋯,
+          partition_eq_sum := ⋯, law_apply_toReal := ⋯ }
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def ofQ (ρ : Ranking n) (q : ℝ) (hq : 0 < q) :
+    MallowsSpec n where
+  center := ρ
+  q := q
+  law := mallowsPMF q ρ hq
+  partition := mallowsPartition q ρ
+  q_pos := hq
+  partition_pos := mallowsPartition_pos (hq := hq) ρ
+  partition_eq_sum := rfl
+  law_apply_toReal := by
+    intro π
+    exact mallowsPMF_apply_toReal hq ρ π
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-d7e3e68c1defbb80}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}MallowsSpec.\allowbreak{}q}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} → (self : EconCSLib.SocialChoice.Ranking.MallowsSpec n) → self.2
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-5329220d4338c4fb}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}approvedByK}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} (K : ℕ) (π : EconCSLib.SocialChoice.Ranking.Ranking n) (c : EconCSLib.SocialChoice.Ranking.Candidate n),
+  ↑(EconCSLib.SocialChoice.Ranking.rankOf π c) < K
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def approvedByK {n : ℕ} (K : ℕ) (π : Ranking n) (c : Candidate n) : Prop :=
+  (rankOf π c).val < K
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-60202fed8e52e293}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}firstChoiceProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (μ : PMF (EconCSLib.SocialChoice.Ranking.Ranking n)) →
+    (c : EconCSLib.SocialChoice.Ranking.Candidate n) →
+      EconCSLib.pmfProb μ fun π => c = EconCSLib.SocialChoice.Ranking.firstChoice π
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def firstChoiceProb {n : ℕ}
+    (μ : PMF (Ranking n)) (c : Candidate n) : ℝ :=
+  EconCSLib.pmfProb μ (fun π => c = firstChoice π)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-a570ea00ae6ba308}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}instDecidableApprovedByK}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (K : ℕ) →
+    (π : EconCSLib.SocialChoice.Ranking.Ranking n) → (c : EconCSLib.SocialChoice.Ranking.Candidate n) → id inferInstance
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-792eaeafd27531a5}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}instDecidablePredApprovedByK}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (K : ℕ) →
+    (c : EconCSLib.SocialChoice.Ranking.Candidate n) → (a : EconCSLib.SocialChoice.Ranking.Ranking n) → inferInstance
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-744ec91e2f950dd4}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}kApprovalPairDownProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (μ : PMF (EconCSLib.SocialChoice.Ranking.Ranking n)) →
+    (K : ℕ) →
+      (hi lo : EconCSLib.SocialChoice.Ranking.Candidate n) →
+        EconCSLib.pmfProb μ fun π =>
+          EconCSLib.SocialChoice.Ranking.approvedByK K π lo ∧ ¬EconCSLib.SocialChoice.Ranking.approvedByK K π hi
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def kApprovalPairDownProb {n : ℕ}
+    (μ : PMF (Ranking n)) (K : ℕ) (hi lo : Candidate n) : ℝ :=
+  EconCSLib.pmfProb μ
+    (fun π => approvedByK K π lo ∧ ¬ approvedByK K π hi)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-b9f45a7d4f1d0dc7}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}kApprovalPairUpProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (μ : PMF (EconCSLib.SocialChoice.Ranking.Ranking n)) →
+    (K : ℕ) →
+      (hi lo : EconCSLib.SocialChoice.Ranking.Candidate n) →
+        EconCSLib.pmfProb μ fun π =>
+          EconCSLib.SocialChoice.Ranking.approvedByK K π hi ∧ ¬EconCSLib.SocialChoice.Ranking.approvedByK K π lo
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def kApprovalPairUpProb {n : ℕ}
+    (μ : PMF (Ranking n)) (K : ℕ) (hi lo : Candidate n) : ℝ :=
+  EconCSLib.pmfProb μ
+    (fun π => approvedByK K π hi ∧ ¬ approvedByK K π lo)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-259175dee1c28d2b}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}SocialChoice.\allowbreak{}Ranking.\allowbreak{}kApprovalScore}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (K : ℕ) →
+    (π : EconCSLib.SocialChoice.Ranking.Ranking n) →
+      (c : EconCSLib.SocialChoice.Ranking.Candidate n) →
+        if EconCSLib.SocialChoice.Ranking.approvedByK K π c then 1 else 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def kApprovalScore {n : ℕ} (K : ℕ) (π : Ranking n) (c : Candidate n) : ℝ :=
+  if approvedByK K π c then 1 else 0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\clearpage
+\hypertarget{source-claim-95da71d9c0b05029}{}
+\hypertarget{source-section-f10b5f68e4acf3dc}{}
+\section*{Source claims}
+\subsection*{Review row 1}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 325-\allowbreak{}329\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\parbold{Elicitation and Aggregation}
+Voters vote using an elicitation mechanism. Their votes are then aggregated using a positional scoring rule, parameterized as $\beta: \{1,\dots,M\} \mapsto \bbR$. We consider the following mechanisms:
+\begin{description}
+	\item [$K$-Ranking] Voter $v$ ranks her favorite $K$ candidates, i.e., reveals $\{(i, {\sigma_v}(i)) \,:\, {\sigma_v}(i) \leq K \}$. Candidate $i$ then receives a score $s_{iv} = \beta({\sigma_v}(i))$ if ranked, $0$ otherwise. For example, $\beta(k) = M-k$ for the Borda count.\footnote{In Borda, candidates not ranked receive a score $(M-K-1)/2$, consistent with assuming they are all tied in position $(K + 1)$.}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} (K : ℕ) (beta : EconCSLib.SocialChoice.Ranking.Candidate n → ℝ)
+  (ranking : EconCSLib.SocialChoice.Ranking.Ranking n) (candidate : EconCSLib.SocialChoice.Ranking.Candidate n),
+  GGSG19TopThree.ProofBridge.kRankingScore K beta ranking candidate =
+    if ↑(EconCSLib.SocialChoice.Ranking.rankOf ranking candidate) < K then
+      beta (EconCSLib.SocialChoice.Ranking.rankOf ranking candidate)
+    else 0
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_model_k_ranking_score
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-997b02af7db4352f}{}
+\section*{Review row 2}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 330-\allowbreak{}339\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\item [$K$-Approval] Voter $v$ selects her favorite $K$ candidates, i.e., reveals $\{i \,:\, {\sigma_v}(i) \leq K \}$. A candidate receives a score $s_{iv} = 1$ for being selected, $0$ otherwise.
+%
+
+%
+	%
+
+
+\end{description}
+
+$\beta$ encodes both elicitation and aggregation. For example, $K$-Approval is equivalent to $K$-ranking with score function $\beta(k) = \bbI[k \leq K]$.  Furthermore, note that given $K$-ranking data, one can simulate $K'$-ranking elicitation for $K'\leq K$ with a $\beta$ s.t. $\beta(k) = 0$ for $k>K'$. %
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} (K : ℕ) (ranking : EconCSLib.SocialChoice.Ranking.Ranking n)
+  (candidate : EconCSLib.SocialChoice.Ranking.Candidate n),
+  EconCSLib.SocialChoice.Ranking.kApprovalScore K ranking candidate =
+    if ↑(EconCSLib.SocialChoice.Ranking.rankOf ranking candidate) < K then 1 else 0
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_model_k_approval_score
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-3a7c2e0827ba5e3a}{}
+\section*{Review row 3}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 339-\allowbreak{}342\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+$\beta$ encodes both elicitation and aggregation. For example, $K$-Approval is equivalent to $K$-ranking with score function $\beta(k) = \bbI[k \leq K]$.  Furthermore, note that given $K$-ranking data, one can simulate $K'$-ranking elicitation for $K'\leq K$ with a $\beta$ s.t. $\beta(k) = 0$ for $k>K'$. %
+
+
+The scoring rule $\beta$ is a design choice made by the election organizer, and so we will refer to $\beta$ as the election's \textit{design}. We restrict ourselves to non-constant, non-increasing scoring rules, i.e.,  $\beta \in \mB = \{\beta : \forall k<\ell \in {1,\dots,M}, \beta(k)\geq \beta(\ell), \text{ and } \exists k<\ell, \beta(k)> \beta(\ell) \}$.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} (beta : EconCSLib.SocialChoice.Ranking.Candidate n → ℝ),
+  (GGSG19TopThree.ReasonablePrefixWeights fun cut => beta ⟨↑cut, ⋯⟩ - beta ⟨↑cut + 1, ⋯⟩) ↔
+    (∀ (cut : GGSG19TopThree.RankingProperPrefixCut n), beta ⟨↑cut + 1, ⋯⟩ ≤ beta ⟨↑cut, ⋯⟩) ∧
+      ∃ cut, beta ⟨↑cut + 1, ⋯⟩ < beta ⟨↑cut, ⋯⟩
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_model_reasonable_positional_scoring_rules
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-3a12b78d8616e04f}{}
+\section*{Review row 4}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 345-\allowbreak{}345\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\parbold{Outcome} After $N$ voters, candidate $i$'s cumulative score is $s_i^N = \frac{1}{N} \sum_{v=1}^N s_{iv}$. Candidates are ranked in descending order of score, to form ranking ${\sigma}^N$, with ties broken uniformly at random. We denote the \textit{outcome} after $N$ voters, corresponding to the goal $G$, as $O^N(M, F, \beta, G)$. For example, for the goal of selecting $W$ winners, $O^N(M, F, \beta, G)$ is simply the top $W$ candidates in ${\sigma}^N$. When $(M, F, \beta, G)$ is clear from context, we will refer to the outcome as $O^N$.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n Stage : ℕ} (score : EconCSLib.SocialChoice.Ranking.Candidate n → EconCSLib.SocialChoice.Ranking.Ranking n → ℝ)
+  (targetPrefix : Fin Stage → Finset (EconCSLib.SocialChoice.Ranking.Candidate n))
+  (path : ℕ → EconCSLib.SocialChoice.Ranking.Ranking n × EconCSLib.SocialChoice.Ranking.Ranking n) (N : ℕ),
+  0 < N →
+    (∀ (candidate : EconCSLib.SocialChoice.Ranking.Candidate n),
+        GGSG19TopThree.ProofBridge.iidUniformTieCandidateAverageScore score path N candidate =
+          (↑N)⁻¹ * ∑ voter ∈ Finset.range N, score candidate (path voter).1) ∧
+      (GGSG19TopThree.iidUniformTieTieredCorrect score targetPrefix path N ↔
+        ∀ (stage : Fin Stage) (hi lo : EconCSLib.SocialChoice.Ranking.Candidate n),
+          hi ∈ targetPrefix stage →
+            lo ∉ targetPrefix stage →
+              GGSG19TopThree.ProofBridge.iidUniformTieCandidateAverageScore score path N lo <
+                  GGSG19TopThree.ProofBridge.iidUniformTieCandidateAverageScore score path N hi ∨
+                GGSG19TopThree.ProofBridge.iidUniformTieCandidateAverageScore score path N lo =
+                    GGSG19TopThree.ProofBridge.iidUniformTieCandidateAverageScore score path N hi ∧
+                  EconCSLib.SocialChoice.Ranking.rankOf (path N).2 hi <
+                    EconCSLib.SocialChoice.Ranking.rankOf (path N).2 lo)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_model_cumulative_scores_ranking_and_outcome
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-f23d4127b55f0381}{}
+\section*{Review row 5}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 376-\allowbreak{}384\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\subsection{Asymptotic design invariance}
+\label{sec:consistency}
+The asymptotic outcome $O^*$ of an election may vary with the scoring rule $\beta$. For example, there may be a different winner if voters are asked to identify their favorite two candidates than if they identify their single favorite candidate, if the winner in the latter case is a polarizing candidate. As an axiomatic comparison between outcomes is out of the scope of this paper, we restrict our attention to cases where all ``reasonable'' choices of different $\beta$ asymptotically result in the same outcome (where ``reasonable'' corresponds to the set of scoring rules $\mB$ defined above).
+
+
+\begin{definition}
+	A setting $(M, F)$ is \textit{asymptotically design-invariant} for goal $G$ if any reasonable $\beta$ induces the same outcome asymptotically. $\exists O^*: \forall \beta \in \mB,$
+	\[ \lim_{N \to \infty} O^N(M, F, \beta, G) = O^*, \text{ with probability } 1 \]
+\end{definition}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Ω : Type u_1} {Rule : Type u_2} {Outcome : Type u_3} [inst : MeasurableSpace Ω] (μ : MeasureTheory.Measure Ω)
+  (reasonable : Rule → Prop) (outcome : Rule → ℕ → Ω → Outcome),
+  GGSG19TopThree.ProofBridge.paper_definition_design_invariant μ reasonable outcome ↔
+    ∃ Ostar, ∀ (β : Rule), reasonable β → ∀ᵐ (ω : Ω) ∂μ, ∀ᶠ (N : ℕ) in Filter.atTop, outcome β N ω = Ostar
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.paper_definition_design_invariant_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-c61b482940640a59}{}
+\section*{Review row 6}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 449-\allowbreak{}458\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\subsection{Learning rates}
+
+We begin by deriving rates for how quickly a given positional scoring rule $\beta$ learns its asymptotic outcome $O^*$ (given it exists), as a function of the voter preference model $F$. %
+In particular, we use \textit{large deviation rates} at which a scoring rule learns~\cite{dembo_large_2010}.
+\begin{definition}
+	Consider a sequence $\{A_N \geq 0\}_{N \in \bbN}$, where $A_N \to 0$ . Value $r>0$ is the \textit{large deviation rate} for $A_N$ if
+	\begin{align*}
+	r = -\lim_{N\to\infty}\frac{1}{N} \log A_N
+	\end{align*}
+\end{definition} When $r>0$ exists, $A_N \to 0$ exponentially fast, with exponent $r$ asymptotically, i.e., $A_N$ is $e^{-rN \pm o(N)}$. These rates provide us both upper and lower bounds for the probability of an error or the number of errors in an outcome after $N$ voters, up to polynomial factors. In particular, in the propositions below, we will calculate the large deviation rate of errors in the outcome. We will also then provide (loose) upper bounds for such errors after $N$ voters that hold without any missing polynomial factors, for any $N$. These upper bounds are equivalent to Chernoff bounds.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (A : ℕ → ℝ) (r : ℝ),
+  GGSG19TopThree.ProofBridge.paper_definition_large_deviation_rate A r ↔
+    (∀ (N : ℕ), 0 ≤ A N) ∧
+      Filter.Tendsto A Filter.atTop (nhds 0) ∧
+        0 < r ∧ Filter.Tendsto (fun N => -(↑N)⁻¹ * Real.log (A N)) Filter.atTop (nhds r)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.paper_definition_large_deviation_rate_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-c1b6c1660b45dd91}{}
+\section*{Review row 7}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 542-\allowbreak{}553\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\subsection{Optimal design and discussion}
+Now that we can quantify how quickly a given scoring rule $\beta$ learns its asymptotic outcome, we apply our framework to \textit{designing} elections, i.e., choosing an optimal scoring rule $\beta$. For the rest of this work, we assume that the setting $(M,F)$ is asymptotically design-invariant for the goal $G$, i.e., there exists an outcome that is asymptotically induced by every reasonable scoring rule. Then, the design of an election $\beta$ only affects the \textit{rate} at which the election converges to the asymptotic outcome $O^*$, as calculated above. With no other constraints, then, the design challenge is simple: find the rate optimal $\beta$.
+\begin{definition}
+	A scoring rule $\beta^* \in \mB$ is \textit{rate optimal} if it maximizes the rate in Proposition~\ref{thm:goal_learning}. %
+	%
+	%
+	%
+	$K^*$-Approval is \textit{Approval rate optimal} if it maximizes the rate among $K$-Approval mechanisms.
+	%
+	%
+	%
+\end{definition}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Rule : Type u_1} (feasible : Set Rule) (rate : Rule → ℝ) (βstar : Rule),
+  GGSG19TopThree.ProofBridge.paper_definition_rate_optimal feasible rate βstar ↔
+    βstar ∈ feasible ∧ ∀ β ∈ feasible, rate β ≤ rate βstar
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.paper_definition_rate_optimal_statement
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-80ef2800a9578ca5}{}
+\section*{Review row 8}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 386-\allowbreak{}391\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Such design invariance only occurs under a fairly strong condition on the voter preference distribution: that the candidates can be separated into tiers (according to goal $G$) such that candidates in higher tiers are \textit{strictly} more likely to be ranked by a voter in the top $k$ positions, for all $k<M$, than are candidates in lower tiers.
+
+\begin{restatable}{proposition}{thmconsistency}
+	\label{thm:consistency}
+	A setting $(M, F)$ for goal $G$ is asymptotically design-invariant if and only if there exist candidate tiers $O^* = \{C_1^*\dots C_T^*\}$ (corresponding to $G$) s.t. $\forall s<t$: $i \in C^*_s, j\in C^*_t \implies$ $\pr_F(\sigma_v(i) \leq k) > \pr_F(\sigma_v(j) \leq k)$, $\forall k\in\{1 \dots M-1 \}$.
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\thmconsistency*
+%
+\begin{proof}
+	\begin{align*}
+	%
+	\forall i \in C: \bbE[s_{iv}]
+	&= \sum_{m = 1}^M \beta(m) \pr_F(\sigma_v(i) = m)\\
+	&= \sum_{m = 1}^M \beta(m) \pr_F(\sigma_v(i) \leq m) - \sum_{m = 2}^M \beta(m) \pr_F(\sigma_v(i) < m) \\
+	&= \sum_{m = 1}^M \beta(m) \pr_F(\sigma_v(i) \leq m) - \sum_{m = 1}^{M-1} \beta(m+1) \pr_F(\sigma_v(i) \leq m) \\
+	&= \beta(M) + \sum_{m = 1}^{M-1} \left[ \beta(m)- \beta(m+1)\right] \pr_F(\sigma_v(i) \leq m)
+	\end{align*}
+	~\\\\	$\implies$. By the definition of asymptotically design-invariant, 	$$ \exists O^*: \forall \beta \in \mB, \lim_{N \to \infty} \mO(M, N, F, \beta, G) = O^*, \text{ with probability } 1 $$
+	For this $O^* = \{C_1^*, \dots, C_T^*\}$, we show by contradiction that $\forall s<t$: $i \in C^*_s, j\in C^*_t \implies$ $\pr_F(\sigma_v(i) \leq k) > \pr_F(\sigma_v(j) \leq k)$, $\forall k\in\{1 \dots M-1 \}$: Suppose $\exists i \in C^*_s, j\in C^*_t, s<t, k \in \{1 \dots M-1 \}$ such that $\pr_F(\sigma_v(i)\leq k) \leq \pr_F(\sigma_v(j)\leq k)$. Then, let
+	$$\beta(m) = \begin{cases} 1 & m \leq k \\
+	0 & m > k
+	\end{cases}$$
+	Then, $\bbE[s_{iv}] = \beta(M) + \beta(k)\pr_F(\sigma_v(i)\leq k) \leq \bbE[s_{jv}]$. Then, with positive probability, $$\lim_{N \to \infty} \mO(M, N, F, \beta, G) \neq O^*$$.
+	%
+
+	~\\$\impliedby$. Suppose there exists such a  $O^*$. Then, $\forall \beta \in \mB = \{\beta : \forall k<\ell \in {1 \dots M}, \beta(k)\geq \beta(\ell), \text{ and } \exists k<\ell, \beta(k)> \beta(\ell) \}$:
+	Suppose $i\in C_s^*, j \in C_t^*, s < t$:
+	\begin{align*}
+	\bbE[s_{iv}] &= \beta(M) + \sum_{m = 1}^{M-1} \left[ \beta(m)- \beta(m+1)\right] \pr_F(\sigma_v(i) \leq m)\\
+	&> \bbE[s_{jv}]
+	\end{align*}
+	Where the strict inequality follows as $\exists m: \beta(m) - \beta(m+1)>0$. Then, for all candidates $i\in C_s^*, j \in C_t^*, s < t$, by the strong law of large numbers $\lim_{N\to\infty} s_i^N > \lim_{N\to\infty} s_j^N$ w.p. $1$. Thus, $\lim_{N \to \infty} \mO(M, N, F, \beta, G) = O^*$ w.p. $1$.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n Stage : ℕ} (law : PMF (EconCSLib.SocialChoice.Ranking.Ranking n))
+  (targetPrefix : Fin Stage → Finset (EconCSLib.SocialChoice.Ranking.Candidate n)),
+  (∀ (stage : Fin Stage) (hi lo : EconCSLib.SocialChoice.Ranking.Candidate n),
+      hi ∈ targetPrefix stage →
+        lo ∉ targetPrefix stage →
+          ∀ (cut : GGSG19TopThree.RankingProperPrefixCut n),
+            GGSG19TopThree.rankingTopPrefixProb law lo cut < GGSG19TopThree.rankingTopPrefixProb law hi cut) ↔
+    GGSG19TopThree.PropositionOneUniformTieConsistency law targetPrefix
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_proposition1_thm_consistency_tiered
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-c74374c73696b398}{}
+\section*{Review row 9}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 471-\allowbreak{}485\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\parbold{Rates for separating two candidates} We now derive the large deviation learning rates for recovering the true ordering between a pair of candidates $i,j$, given noise model $F$. These rates will directly translate to the learning rate for the overall election, given some goal $G$.
+
+
+%
+
+\begin{restatable}{proposition}{thmpairwiselearning}
+	\label{thm:pairwiselearning}
+	Fix scoring rule $\beta\in\mB$, voter distribution $F$, and consider candidates $i,j$ such that $s_i > s_j$. Then, the probability of making a mistake in ranking these two candidates after $N$ voters, $\pr(\sigma^N(i)>\sigma^N(j))$, goes to zero with large deviation rate
+	\[r_{ij}(\beta) = -\inf_{z\in\bbR} \log \bbE_F\left[\exp\left(z\left(\beta(\sigma_v(i)) - \beta(\sigma_v(j))\right)\right)\right]\]
+	Further, the following upper bound holds for any $N$.
+	\[\pr(\sigma^N(i)>\sigma^N(j)) \leq \exp(-r_{ij}(\beta)N)\]
+%
+%
+%
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\thmpairwiselearning*
+\begin{proof}
+
+	Define the following random variable for each voter $v \sim F$:
+	\begin{align*}
+	A_v = \beta(\sigma_v(i)) - \beta(\sigma_v(j))
+	\end{align*}
+	Then, $\sigma^N(i) < \sigma^N(j)$ when $A^N = \sum_{v=1}^N A_v > 0$, and $\bbE[A_v]>0$ by supposition.
+	Let
+	\begin{align*}
+		r_{ij}(\beta) &= -\inf_{z\in\bbR}{\Lambda(z)}\\
+	\Lambda(z) &= \log \left[\sum_{m=1}^M \sum_{\ell\neq m} \pr(\sigma_v(i) = m, \sigma_v(j)=\ell) \exp[ z(\beta(\sigma_v(i)) - \beta(\sigma_v(j)))]   \right]
+	\end{align*}
+
+	Then, by basic large deviation bounds (see, e.g.~\citet{dembo_large_2010}):
+	\begin{align*}
+	-\lim_{N\to \infty} \frac{1}{N} \log \pr(A^N \leq 0) &= r_{ij}(\beta)\\
+%
+	\end{align*}
+
+
+	And, applying Chernoff bounds, we get the standard relationship to the large deviation rate, giving an upper bound for the probability of error directly, including any polynomial factors out front:
+		\begin{align*}
+	\pr(\sigma^N(i) > \sigma^N(j)) &\leq \pr(A^N \leq 0) \\
+	&< \left[\inf_{z>0}\bbE[\exp[-zA_v]]\right]^N\\
+%
+	&= \left[\inf_{z<0}\left[\sum_{m=1}^M \sum_{\ell\neq m} \pr(\sigma_v(i) = m, \sigma_v(j)=\ell) \exp[ z(\beta(\sigma_v(i)) - \beta(\sigma_v(j)))]\right]\right]^N\\
+		&= \left[\inf_{z<0} \exp[\Lambda(z)]\right]^N\\
+		&= \exp[-r_{ij}(\beta)N]
+	\end{align*}
+
+Then, $\pr(\sigma^N(i) < \sigma^N(j)) > 1-\epsilon$ when
+\begin{align*}
+\exp[-r_{ij}N] &< \epsilon\\
+\iff N&> \frac{1}{r_{ij}}\log\left(\frac{1}{\epsilon}\right)
+\end{align*}
+
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Signal : Type u_1} [inst : Fintype Signal] [inst_1 : DecidableEq Signal] (law : PMF Signal)
+  (hiScore loScore : Signal → ℝ),
+  (0 ≤ EconCSLib.pmfExp law fun signal => hiScore signal - loScore signal) →
+    EconCSLib.Probability.ExponentialRateCertificate (GGSG19TopThree.pairwiseScoringErrorProb law hiScore loScore)
+        (GGSG19TopThree.pairwiseScoringRate law hiScore loScore) ∨
+      (∃ pZero,
+          (EconCSLib.pmfProb law fun signal => hiScore signal - loScore signal = 0) = pZero ∧
+            0 < pZero ∧
+              EconCSLib.Probability.ExponentialRateCertificate
+                (GGSG19TopThree.pairwiseScoringErrorProb law hiScore loScore) (-Real.log pZero)) ∨
+        ∀ᶠ (n : ℕ) in Filter.atTop, GGSG19TopThree.pairwiseScoringErrorProb law hiScore loScore n = 0
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_proposition2_thm_pairwiselearning_finite_support
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-baeee6d035a90ee1}{}
+\section*{Review row 10}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 498-\allowbreak{}516\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+For $K$-Approval voting, further, the rate simplifies.
+
+
+
+
+
+%
+
+
+
+\begin{restatable}{proposition}{lempairwiseapproval}
+	\label{lem:pairwiselearning_approval}
+	Consider $\beta$ consistent with $K$-Approval voting for some fixed $K$, and candidates $i,j$ such that $s_i > s_j$. Then the large deviation rate $r_{ij}(\beta)$ in Proposition~\ref{thm:pairwiselearning} is
+	\begin{align*}
+	r_{ij}(K) &= -\log\left( 2\sqrt{t_{ij}^i(K)t_{ij}^j(K)} + 1 - t_{ij}^i(K) - t_{ij}^j(K) \right)
+	\end{align*}
+	Where $t^i_{ij}(K) \triangleq \pr_F(\sigma_v(i) \leq K, \sigma_v(j) > K)$, i.e., the probability that a voter approves $i$ but not $j$.
+%
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\lempairwiseapproval*
+\begin{proof}
+	With $K$-approval voting, $A^{ij}_v$ becomes
+	\begin{align*}
+	A_v = \begin{cases}
+	1 & \text{w.p. } t^i_{ij}, \text{ i.e., when candidate $i$ approved but $j$ not approved}\\
+	0 & \text{w.p. } 1-t^i_{ij} - t^j_{ij}, \text{ i.e., when both approved, or neither approved}\\
+	-1 & \text{w.p. } t^j_{ij}, \text{ i.e., when candidate $j$ approved but $i$ not approved}
+	\end{cases}
+	\end{align*}
+Then,
+	\begin{align*}
+r_{ij} &= -\inf_{z\in\bbR}{\Lambda(z)}\\
+\Lambda(z) &= \log \left[\sum_{m=1}^M \sum_{\ell\neq m} \pr(\sigma_v(i) = m, \sigma_v(j)=\ell) \exp[ z(\beta(\sigma_v(i)) - \beta(\sigma_v(j)))]   \right]\\
+ &= \log \left[t_{ij}^i \exp(z) + t_{ij}^j \exp(-z) + (1 - t_{ij}^i - t_{ij}^j)\right]
+\end{align*}
+The $\inf(\Lambda)$ is attained at $z = \frac{1}{2} \log\frac{t_{ij}^j}{t_{ij}^i}$ ($\Lambda$ is convex in $z$, and so setting the first derivative to zero finds the $\inf$).
+And so
+\begin{align*}
+r_{ij} &= -\log\left[ t_{ij}^i \exp\left(\frac{1}{2} \log\frac{t_{ij}^j}{t_{ij}^i}\right) + t_{ij}^j \exp\left(-\frac{1}{2} \log\frac{t_{ij}^j}{t_{ij}^i}\right) + (1 - t_{ij}^i - t_{ij}^j) \right]\\
+&= -\log\left[ 2\sqrt{t_{ij}^it_{ij}^j} + 1 - t_{ij}^i - t_{ij}^j \right]
+	\end{align*}
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Signal : Type u_1} [inst : Fintype Signal] [inst_1 : DecidableEq Signal] (law : PMF Signal)
+  (hiScore loScore : Signal → ℝ) {pUp pDown pZero : ℝ},
+  pDown ≤ pUp →
+    (∀ (signal : Signal),
+        hiScore signal - loScore signal = 1 ∨
+          hiScore signal - loScore signal = 0 ∨ hiScore signal - loScore signal = -1) →
+      (EconCSLib.pmfProb law fun signal => hiScore signal - loScore signal = 1) = pUp →
+        (EconCSLib.pmfProb law fun signal => hiScore signal - loScore signal = -1) = pDown →
+          (EconCSLib.pmfProb law fun signal => hiScore signal - loScore signal = 0) = pZero →
+            EconCSLib.Probability.ExponentialRateCertificate
+                (GGSG19TopThree.pairwiseScoringErrorProb law hiScore loScore)
+                (GGSG19TopThree.approvalPairwiseRate pUp pDown) ∨
+              ∀ᶠ (n : ℕ) in Filter.atTop, GGSG19TopThree.pairwiseScoringErrorProb law hiScore loScore n = 0
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_proposition3_lem_pairwiselearning_approval_finite_ternary
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-2576e5b507810949}{}
+\section*{Review row 11}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 522-\allowbreak{}538\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\parbold{Rates for learning the outcome}
+In general, the rates at which one learns each pair of candidates immediately translate to rates for learning the entire outcome $O^*$.
+
+\begin{restatable}{proposition}{thmgoallearning}
+	\label{thm:goal_learning}
+	Consider goal $G$ and $\beta\in\mB$ such that $O^N \to O^*$. Let $Q^N$ be the expected number of errors in the outcome after $N$ voters, $\sum_{i\in C_s^*,j\in C_t^*, s < t} \pr(\sigma^N(i)>\sigma^N(j))$. Then $Q^N$ goes to zero with large deviation rate
+%
+	\[
+	r(\beta) = \min_{i\in C_s^*,j\in C_t^*, s < t} r_{ij}(\beta) \label{eqnpart:outcomerate}
+	\]
+	Further, the following upper bound holds for any $N$. \[Q^N \leq M^2 \exp(-rN)\] %
+%
+%
+%
+
+%
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\thmgoallearning*
+\begin{proof}
+%
+%
+
+By the Union bound
+\begin{align*}
+%
+Q^N &= \sum_{i\in C_s^*,j\in C_t^*, s < t} \pr(\sigma^N(i) > \sigma^N(j)) \\
+%
+&\leq \sum_{i\in C_s^*,j\in C_t^*, s < t} \exp[-r_{ij}N] & \text{Proposition }~\ref{thm:pairwiselearning}\\
+&\leq M^2  \exp[-rN]\\
+%
+%
+%
+%
+%
+%
+\end{align*}
+
+%
+Now, using large deviation properties:
+
+%
+By supposition, $Q^N \to 0$, and so $-Q^N$ approaches $0$ from below.
+%
+Then,
+\begin{align}
+%
+-\lim_{N\to\infty} \frac{1}{N}\log(Q^N)
+&=  -\lim_{N\to\infty} \frac{1}{N}\log \sum_{i\in C_s^*,j\in C_t^*, s < t} \pr(\sigma^N(i) > \sigma^N(j))\nonumber\\
+&= -\max_{i\in C_s^*,j\in C_t^*, s < t}\left(\lim_{N\to\infty} \frac{1}{N}\log \pr(\sigma^N(i) > \sigma^N(j))\right)\label{eqnstep:ldpproperty}\\
+&= \min_{i\in C_s^*,j\in C_t^*, s < t}-\left(\lim_{N\to\infty} \frac{1}{N}\log \pr(\sigma^N(i) > \sigma^N(j))\right)\nonumber\\
+&= \min_{i\in C_s^*,j\in C_t^*, s < t} r_{ij} = r\nonumber
+\end{align}
+
+Line~\eqref{eqnstep:ldpproperty} follows from: $\forall a^\epsilon_i \geq 0$, ${\lim \sup}_{\epsilon \to 0} \left[\epsilon\log\left(\sum_i^N a^\epsilon_i\right)\right] = \max^N_i {\lim \sup}_{\epsilon \to 0} \epsilon \log(a^\epsilon_i)$.
+See, e.g., Lemma 1.2.15 in~\cite{dembo_large_2010} for a proof of this property.
+
+Thus $r$ is the large deviation rate for $Q^N$.
+
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Pair : Type u_1} {Candidate : Type u_2} {Signal : Type u_3} [inst : Fintype Pair] [inst_1 : Nonempty Pair]
+  [DecidableEq Pair] [inst_3 : Fintype Signal] [inst_4 : DecidableEq Signal] (law : PMF Signal)
+  (score : Candidate → Signal → ℝ) (hi lo : Pair → Candidate)
+  (hmean : ∀ (pair : Pair), 0 ≤ EconCSLib.pmfExp law fun signal => score (hi pair) signal - score (lo pair) signal)
+  (aPos aNeg : Pair → Signal) (hmassPos : ∀ (pair : Pair), 0 < (law (aPos pair)).toReal)
+  (hgapPos : ∀ (pair : Pair), 0 < score (hi pair) (aPos pair) - score (lo pair) (aPos pair))
+  (hmassNeg : ∀ (pair : Pair), 0 < (law (aNeg pair)).toReal)
+  (hgapNeg : ∀ (pair : Pair), score (hi pair) (aNeg pair) - score (lo pair) (aNeg pair) < 0),
+  EconCSLib.Probability.HasExponentialRate
+    ((GGSG19TopThree.proposition4_relevant_pair_rate_certificate_from_stationary_tilted_modal_log_support_of_mean_nonneg_pos_neg_atoms
+          law score hi lo hmean aPos aNeg hmassPos hgapPos hmassNeg hgapNeg).aggregateError
+      fun x => 1)
+    (GGSG19TopThree.finiteOutcomeLearningRate fun pair =>
+      EconCSLib.Probability.finiteIidPairwiseScoreGapChernoffRate law score (hi pair) (lo pair))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_proposition4_thm_goal_learning_exact_minimum_rate
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-6a7da73327f0abda}{}
+\section*{Review row 12}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 522-\allowbreak{}538\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\parbold{Rates for learning the outcome}
+In general, the rates at which one learns each pair of candidates immediately translate to rates for learning the entire outcome $O^*$.
+
+\begin{restatable}{proposition}{thmgoallearning}
+	\label{thm:goal_learning}
+	Consider goal $G$ and $\beta\in\mB$ such that $O^N \to O^*$. Let $Q^N$ be the expected number of errors in the outcome after $N$ voters, $\sum_{i\in C_s^*,j\in C_t^*, s < t} \pr(\sigma^N(i)>\sigma^N(j))$. Then $Q^N$ goes to zero with large deviation rate
+%
+	\[
+	r(\beta) = \min_{i\in C_s^*,j\in C_t^*, s < t} r_{ij}(\beta) \label{eqnpart:outcomerate}
+	\]
+	Further, the following upper bound holds for any $N$. \[Q^N \leq M^2 \exp(-rN)\] %
+%
+%
+%
+
+%
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\thmgoallearning*
+\begin{proof}
+%
+%
+
+By the Union bound
+\begin{align*}
+%
+Q^N &= \sum_{i\in C_s^*,j\in C_t^*, s < t} \pr(\sigma^N(i) > \sigma^N(j)) \\
+%
+&\leq \sum_{i\in C_s^*,j\in C_t^*, s < t} \exp[-r_{ij}N] & \text{Proposition }~\ref{thm:pairwiselearning}\\
+&\leq M^2  \exp[-rN]\\
+%
+%
+%
+%
+%
+%
+\end{align*}
+
+%
+Now, using large deviation properties:
+
+%
+By supposition, $Q^N \to 0$, and so $-Q^N$ approaches $0$ from below.
+%
+Then,
+\begin{align}
+%
+-\lim_{N\to\infty} \frac{1}{N}\log(Q^N)
+&=  -\lim_{N\to\infty} \frac{1}{N}\log \sum_{i\in C_s^*,j\in C_t^*, s < t} \pr(\sigma^N(i) > \sigma^N(j))\nonumber\\
+&= -\max_{i\in C_s^*,j\in C_t^*, s < t}\left(\lim_{N\to\infty} \frac{1}{N}\log \pr(\sigma^N(i) > \sigma^N(j))\right)\label{eqnstep:ldpproperty}\\
+&= \min_{i\in C_s^*,j\in C_t^*, s < t}-\left(\lim_{N\to\infty} \frac{1}{N}\log \pr(\sigma^N(i) > \sigma^N(j))\right)\nonumber\\
+&= \min_{i\in C_s^*,j\in C_t^*, s < t} r_{ij} = r\nonumber
+\end{align}
+
+Line~\eqref{eqnstep:ldpproperty} follows from: $\forall a^\epsilon_i \geq 0$, ${\lim \sup}_{\epsilon \to 0} \left[\epsilon\log\left(\sum_i^N a^\epsilon_i\right)\right] = \max^N_i {\lim \sup}_{\epsilon \to 0} \epsilon \log(a^\epsilon_i)$.
+See, e.g., Lemma 1.2.15 in~\cite{dembo_large_2010} for a proof of this property.
+
+Thus $r$ is the large deviation rate for $Q^N$.
+
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Pair : Type u_1} {Candidate : Type u_2} {Signal : Type u_3} [inst : Fintype Pair] [inst_1 : Nonempty Pair]
+  [inst_2 : Fintype Candidate] [inst_3 : Fintype Signal] [inst_4 : DecidableEq Signal] (law : PMF Signal)
+  (score : Candidate → Signal → ℝ) (hi lo : Pair → Candidate),
+  (∀ (pair : Pair), 0 ≤ EconCSLib.pmfExp law fun signal => score (hi pair) signal - score (lo pair) signal) →
+    ∀ {aPos aNeg : Pair → Signal},
+      (∀ (pair : Pair), 0 < (law (aPos pair)).toReal) →
+        (∀ (pair : Pair), 0 < score (hi pair) (aPos pair) - score (lo pair) (aPos pair)) →
+          (∀ (pair : Pair), 0 < (law (aNeg pair)).toReal) →
+            (∀ (pair : Pair), score (hi pair) (aNeg pair) - score (lo pair) (aNeg pair) < 0) →
+              Fintype.card Pair ≤ Fintype.card Candidate ^ 2 →
+                ∀ (n : ℕ),
+                  ∑ pair, GGSG19TopThree.finiteScoreGapPairwiseErrorProb law score (hi pair) (lo pair) n ≤
+                    ↑(Fintype.card Candidate) ^ 2 *
+                      Real.exp
+                        (-↑n *
+                          GGSG19TopThree.finiteOutcomeLearningRate fun pair =>
+                            GGSG19TopThree.pairwiseScoringRate law (score (hi pair)) (score (lo pair)))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_proposition4_thm_goal_learning_finite_sample_M_sq_bound
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-f4c362962779355c}{}
+\section*{Review row 13}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 680-\allowbreak{}690\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Our first result is that randomizing between scoring rules does not help, for \textit{any} voter noise model, in contrast to the case when restricted to approval votes.
+
+
+\begin{restatable}{theorem}{lemrandomizebetterscoring}
+	\label{lem:randomizebetterscoring}
+	Randomization does not improve the outcome learning rate for any asymptotically design-invariant noise model $F$ or goal $G$.  For any randomized scoring rule mechanism $(B,D)$, where $B\subset \mB$, for any $F$, $G$, the scoring rule $\beta^*(k) = \sum_{p} d_p \beta_p(k)$ satisfies $r(\beta^*) \geq r(B,D)$.
+
+
+%
+%
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\lemrandomizebetterscoring*
+\begin{proof}
+	From Proposition~\ref{thm:pairwiselearning}, for a given scoring rule $\beta$ and pair of candidates $i,j$, the learning rate is
+	\begin{align*}
+	r_{ij}(\beta) &= -\inf_{z\in\bbR} \log \bbE_F\left[\exp\left[z\left[\beta(\sigma_v(i)) - \beta(\sigma_v(j))\right]\right]\right]\\
+	&= - \log \inf_{z\in\bbR} \bbE_F\left[\exp\left[z\left[\beta(\sigma_v(i)) - \beta(\sigma_v(j))\right]\right]\right]
+	\end{align*}
+
+	Similarly, if we use scoring rules $\{\beta^u\}_{u=1}^P$, each with probability $d^u$, then,
+	\begin{align*}
+	r_{ij}(\{\beta^u\}_{u=1}^P) &= - \log \inf_{z\in\bbR} \bbE_{F,\{d^u,\beta^u\}}\left[\exp\left[z\left[\beta^u(\sigma_v(i)) - \beta^u(\sigma_v(j))\right]\right]\right]\\
+	&= - \log \inf_{z\in\bbR} \sum_u d^u  \bbE_{F}\left[\exp\left[z\left[\beta^u(\sigma_v(i)) - \beta^u(\sigma_v(j))\right]\right]\right]
+	\end{align*}
+
+
+	Now, for a single scoring rule $\beta(\cdot)$, let \[\gamma(\beta(1) , \dots, \beta(M)) \triangleq  \bbE_F\left[\exp\left[z\left[\beta(\sigma_v(i)) - \beta(\sigma_v(j))\right]\right]\right]\]
+
+
+	Below, we show that $\gamma(\beta(1) , \dots, \beta(M))$  is convex in $\beta(k), \forall k, z$. Then, by convexity, $\forall z$
+	\begin{align*}
+	\sum_{u=1}^{P} d^u \gamma(\beta^u(1), \dots, \beta^u(M))& \geq
+	\gamma\left(\sum_{u=1}^{P} d^u\beta^u(1) , \dots, \sum_{u=1}^{P} d^u\beta^u(M)\right)
+	%
+	%
+	\end{align*}
+	and so
+	\begin{align*}
+	\inf_z\left[\sum_{u=1}^{P} d^u \gamma(\beta^u(1), \dots, \beta^u(M))\right]& \geq
+	\inf_z \gamma\left(\sum_{u=1}^{P} d^u\beta^u(1) , \dots, \sum_{u=1}^{P} d^u\beta^u(M)\right)
+	\end{align*}
+
+	The left hand side is equal to the argument inside the $-\log(\cdot)$ for the rate function for randomizing between scoring rules $\{\beta^u\}_{u=1}^P$, each with probability $d^u$, and the right hand side is the argument inside for the rate function for instead using the single scoring rule $\beta^*$ defined as the convex combination of $\{\beta^u\}_{u=1}^P$. Then, as $-\log(x)$ is decreasing in $x$, we have that \[r_{ij}(\beta^*) \geq r_{ij}(\{\beta^u\}_{u=1}^P)\].
+
+	As this holds for each pair of candidates $i,j$ simultaneously, we are done.
+
+
+
+
+	\parbold{Proof that  $\gamma(\beta(1) , \dots, \beta(M)) \triangleq  \bbE_F\left[\exp\left[z\left[\beta(\sigma_v(i)) - \beta(\sigma_v(j))\right]\right]\right]$ is convex in $\beta(k), \forall k$}
+
+	We directly calculate the Hessian of $\gamma$ and note that it is diagonally dominant and thus positive semidefinite. For notational convenience, we let $\beta_k = \beta(k)$, and $\sigma(k,\ell) = \pr_F(\sigma_v(i) = k, \sigma_v(j) = \ell)$. Of course, $\sigma(k,k)=0$, as we assume each voter has a strict ranking as her preference.
+	\begin{align*}
+	\gamma(\beta_1,\dots,\beta_M) &=   \bbE_F\left[\exp\left[z\left[\beta(\sigma_v(i)) - \beta(\sigma_v(j))\right]\right]\right]\\
+	&= \sum_{k=1}^{M}\sum_{\ell = 1}^M \sigma(k,\ell) \exp\left[z \left[\beta_k - \beta_\ell \right]\right]\\
+	\frac{\partial}{\partial \beta_k} \gamma(\beta_1,\dots,\beta_M)	&= z\exp\left[z \beta_k\right]\sum_{\ell\neq k}\exp\left[-z \beta_\ell\right]\sigma(k,\ell) - z\exp\left[-z \beta_k\right]\sum_{\ell\neq k}\exp\left[z \beta_\ell\right]\sigma(\ell,k)\\
+	\frac{\partial^2}{\partial \left(\beta_k\right)^2} \gamma(\beta_1,\dots,\beta_M)	&= z^2\exp\left[z \beta_k\right]\sum_{\ell\neq k}\exp\left[-z \beta_\ell\right]\sigma(k,\ell) + z^2\exp\left[-z \beta_k\right]\sum_{\ell\neq k}\exp\left[z \beta_\ell\right]\sigma(\ell,k)\\
+	&= z^2 \left[\left[\exp\left[z \beta_k\right]\sum_{\ell\neq k}\exp\left[-z \beta_\ell\right]\sigma(k,\ell)\right] + \left[\exp\left[-z \beta_k\right]\sum_{\ell\neq k}\exp\left[z \beta_\ell\right]\sigma(\ell,k)\right]\right]\\
+	\frac{\partial^2}{\partial \beta_k\beta_\ell}\gamma(\beta_1,\dots,\beta_M)&= -z^2\left[\exp\left[z \beta_k\right]\exp\left[-z \beta_\ell\right]\sigma(k,\ell) + \exp\left[-z \beta_k\right]\exp\left[z \beta_\ell\right]\sigma(\ell,k)\right]
+	\end{align*}
+	Thus, the Hessian of $\gamma$ is diagonally dominant with non-negative diagonal elements: $\forall k$,
+	$$ \left|\frac{\partial^2 \gamma}{\partial \left(\beta_k\right)^2}  \right| \geq \sum_{\ell\neq k}\left|\frac{\partial^2 \gamma}{\partial \beta_k\beta_\ell}  \right|$$
+	and so the Hessian is positive semi-definite. Thus, $\gamma$ is convex in $\beta_k$.
+
+	%
+	%
+	%
+	%
+
+
+
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+	%
+
+
+	%
+	%
+	%
+	%
+	%
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Pair : Type u_1} {Rule : Type u_2} {Signal : Type u_3} [inst : Fintype Pair] [inst_1 : Nonempty Pair]
+  [inst_2 : Fintype Rule] [inst_3 : Fintype Signal] [inst_4 : DecidableEq Signal] (law : PMF Signal) (weight : Rule → ℝ)
+  (gap : Pair → Rule → Signal → ℝ) (staticGap : Pair → Signal → ℝ),
+  (∀ (pair : Pair) (signal : Signal), staticGap pair signal = ∑ rule, weight rule * gap pair rule signal) →
+    (∀ (rule : Rule), 0 ≤ weight rule) →
+      ∑ rule, weight rule = 1 →
+        (∀ (pair : Pair), BddBelow (Set.range fun z => EconCSLib.Probability.finiteLogMGF law (staticGap pair) z)) →
+          (GGSG19TopThree.finiteOutcomeLearningRate fun pair =>
+              GGSG19TopThree.randomizedScoringMixtureRate law weight (gap pair)) ≤
+            GGSG19TopThree.finiteOutcomeLearningRate fun pair =>
+              EconCSLib.Probability.finiteChernoffRate law (staticGap pair)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_theorem1_lem_randomizebetterscoring_arbitrary_goal
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-82eaa4a544e4300f}{}
+\section*{Review row 14}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 702-\allowbreak{}722\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Next, we further refine the result of~\citet{caragiannis_learning_2017}, by showing that the ``pivotal pair'' feature of their example -- where different pairs of candidates dominate the learning rate for different mechanisms -- is key. In particular, our next result establishes, again for any noise model, that randomization amongst $K$-Approval mechanisms cannot help separate any \textit{given} pair of candidates.
+
+
+%
+
+
+\begin{restatable}{theorem}{lemrandomizenotbetterapproval}
+	\label{lem:randomizenotbetterapproval}
+
+		Randomization amongst $K$-Approval mechanisms does not improve the learning rate for separating a given pair of candidates $i,j$ for any asymptotically design-invariant noise model $F$ or goal $G$. For any randomized $K$-Approval mechanism $(B,D)$, where $\beta_p\in B$ corresponds to $p$-Approval, for any $F$, $G$, there exists a mechanism $K_{ij}^*$-Approval such that $r_{ij}(K_{ij}^*) \geq r_{ij}(B,D)$.
+
+
+%
+
+
+%
+
+%
+%
+%
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\lemrandomizenotbetterapproval*
+\begin{proof}
+	From Proposition~\ref{lem:pairwiselearning_approval}, for $k$-Approval,
+	\begin{align*}
+		r_{ij}(t^i_{ij}, t^j_{ij}) &= -\log\left[ 2\sqrt{t_{ij}^it_{ij}^j} + 1 - t_{ij}^i - t_{ij}^j \right]
+	\end{align*}
+	Where $t^i_{ij}$ is the probability that $i$ is approved but $j$ is not.
+
+	This rate function is convex in $t^i_{ij}, t^j_{ij}$:
+	\begin{itemize}
+		\item $r_{ij}(a,b) = h(g(a, b))$, where $h(x) = -\log(x)$, $g(a, b) = 2\sqrt{ab} + 1 - a - b$.
+		\item $g(a, b)$ is concave in $a, b$
+		\item $h$ is convex, and $\tilde{h}$ is non-increasing, where $\tilde{h}(x) =  \begin{cases} h(x) & x > 0 \\ \infty & x \leq 0 \end{cases}$ is the extended value function of $h$.
+		\item By convex composition rules, $r_{ij}(a,b)$ is convex (see, e.g., page 84 of~\citet{boyd_convex_2004}).
+	\end{itemize}
+
+	The result follows by convexity. Consider a randomization of $K$-Approval mechanisms for $K\in\{1, \dots, M-1\}$, where $K$-Approval is used with probability $d^K$.
+
+%
+
+	The resulting approval probabilities are: $t^i_{ij} = \sum_{K=1}^{M-1} d^K t^i_{ij}(K), t^j_{ij} = \sum_{K=1}^{M-1} d^K t^j_{ij}(K)$. By convexity:
+	\begin{align*}
+	r\left(\sum_{K=1}^{M-1} d^K t^i_{ij}(K), \sum_{K=1}^{M-1} d^K t^j_{ij}(K)\right) &\leq \sum_{K=1}^{M-1} d^K r\left(t^i_{ij}(K), t^j_{ij}(K)\right)\\
+	&= \sum_{K=1}^{M-1} d^K  r_{ij}(K)\\
+	&\leq \max_K r_{ij}(K)
+	\end{align*}
+
+We note that, unlike the previous proof, we cannot conclude in general that randomization cannot improve the rates at which the outcome is learned (in fact, Theorem~\ref{lem:randomizebetterapproval_Wselection} establishes otherwise). That is because while the same $\beta^*$ could be said to be rate optimal (compared to the randomized mechanism) for every pair of candidates simultaneously in that proof, in this proof $\arg\max_K r_{ij}(K)$ may change based on the pair $i,j$.
+
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} {Rule : Type u_1} [inst : Fintype Rule] [Nonempty Rule] (law : PMF (EconCSLib.SocialChoice.Ranking.Ranking n))
+  (K : Rule → ℕ) (weight : Rule → ℝ),
+  (∀ (rule : Rule), 0 ≤ weight rule) →
+    ∑ rule, weight rule = 1 →
+      ∀ (hi lo : EconCSLib.SocialChoice.Ranking.Candidate n),
+        ∃ rule,
+          ↑(GGSG19TopThree.approvalPairwiseRate
+                (∑ rule, weight rule * EconCSLib.SocialChoice.Ranking.kApprovalPairUpProb law (K rule) hi lo)
+                (∑ rule, weight rule * EconCSLib.SocialChoice.Ranking.kApprovalPairDownProb law (K rule) hi lo)) ≤
+            GGSG19TopThree.approvalPairwiseExtendedRate
+              (EconCSLib.SocialChoice.Ranking.kApprovalPairUpProb law (K rule) hi lo)
+              (EconCSLib.SocialChoice.Ranking.kApprovalPairDownProb law (K rule) hi lo)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_theorem2_lem_randomizenotbetterapproval_pairwise
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-c1058349a9163721}{}
+\section*{Review row 15}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 726-\allowbreak{}734\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+This theorem directly implies that, for the Mallows model, randomization among $K$-Approval voting cannot speed up learning when the goal is to identify a set of $W$ winners, as opposed to when the goal is to rank.
+
+\begin{restatable}{corollary}{lemmallowsnorando}
+	\label{lem:mallowsnorando}
+			Randomization among $K$-Approval mechanisms does not improve the learning rate for selecting $W$ winners from the Mallows model. For any randomized $K$-Approval mechanism $(B,D)$, where $\beta_p\in B$ corresponds to $p$-Approval, for selecting $W$ winners from the Mallows model, there exists an Approval rate optimal mechanism $K^*$-Approval such that $r(K^*) \geq r(B,D)$.
+
+\end{restatable}
+
+The proof simply notes that under the Mallows model with this goal, the candidate pair $W, W+1$ (when candidates are indexed according to reference distribution $\sigma^*$) is pivotal regardless of the $K$-Approval mechanism used.
+
+[Next verbatim source excerpt]
+
+\lemmallowsnorando*
+\begin{proof}
+	When selecting $W$ winners out of $M$ candidates, we need to separate candidates $1 \dots W$ from candidates $W + 1 \dots M$. It is easy to show that the pivotal pair, regardless of which $K$ is used in $K$-Approval, is $W$,$W+1$. Applying Theorem~\ref{lem:randomizenotbetterapproval}, then, randomization cannot help the overall rate.
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} (center : EconCSLib.SocialChoice.Ranking.Ranking n) (W : EconCSLib.SocialChoice.Ranking.Candidate n),
+  0 < ↑W →
+    ∀ (randomizedRate : WithTop ℝ),
+      EconCSLib.Probability.HasExtendedExponentialRate (GGSG19TopThree.ProofBridge.zeroNoiseTopWApprovalError center W)
+          ⊤ ∧
+        randomizedRate ≤ ⊤
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_corollary_lem_mallowsnorando_zero_noise
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-57ef0e97610a7efd}{}
+\section*{Review row 16}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 726-\allowbreak{}734\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+This theorem directly implies that, for the Mallows model, randomization among $K$-Approval voting cannot speed up learning when the goal is to identify a set of $W$ winners, as opposed to when the goal is to rank.
+
+\begin{restatable}{corollary}{lemmallowsnorando}
+	\label{lem:mallowsnorando}
+			Randomization among $K$-Approval mechanisms does not improve the learning rate for selecting $W$ winners from the Mallows model. For any randomized $K$-Approval mechanism $(B,D)$, where $\beta_p\in B$ corresponds to $p$-Approval, for selecting $W$ winners from the Mallows model, there exists an Approval rate optimal mechanism $K^*$-Approval such that $r(K^*) \geq r(B,D)$.
+
+\end{restatable}
+
+The proof simply notes that under the Mallows model with this goal, the candidate pair $W, W+1$ (when candidates are indexed according to reference distribution $\sigma^*$) is pivotal regardless of the $K$-Approval mechanism used.
+
+[Next verbatim source excerpt]
+
+\lemmallowsnorando*
+\begin{proof}
+	When selecting $W$ winners out of $M$ candidates, we need to separate candidates $1 \dots W$ from candidates $W + 1 \dots M$. It is easy to show that the pivotal pair, regardless of which $K$ is used in $K$-Approval, is $W$,$W+1$. Applying Theorem~\ref{lem:randomizenotbetterapproval}, then, randomization cannot help the overall rate.
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} (center : EconCSLib.SocialChoice.Ranking.Ranking n) (q : ℝ) (W : EconCSLib.SocialChoice.Ranking.Candidate n)
+  (hDomain : GGSG19TopThree.assumption_mallows_nontrivial_winner_and_parameter_domain q W) {Rule : Type u_1}
+  [inst : Fintype Rule] [Nonempty Rule] (K : Rule → ℕ),
+  (∀ (rule : Rule), 0 < K rule) →
+    (∀ (rule : Rule), K rule < n + 2) →
+      ∀ (weight : Rule → ℝ),
+        (∀ (rule : Rule), 0 ≤ weight rule) →
+          ∑ rule, weight rule = 1 →
+            ∃ cut,
+              (∀ (cut' : GGSG19TopThree.RankingProperPrefixCut n),
+                  GGSG19TopThree.mallowsTopWKApprovalOutcomeRate
+                      (EconCSLib.SocialChoice.Ranking.MallowsSpec.ofQ center q ⋯) W ⋯ (↑cut' + 1) ≤
+                    GGSG19TopThree.mallowsTopWKApprovalOutcomeRate
+                      (EconCSLib.SocialChoice.Ranking.MallowsSpec.ofQ center q ⋯) W ⋯ (↑cut + 1)) ∧
+                GGSG19TopThree.mallowsTopWRandomizedKApprovalOutcomeRate
+                    (EconCSLib.SocialChoice.Ranking.MallowsSpec.ofQ center q ⋯) W ⋯ K weight ≤
+                  GGSG19TopThree.mallowsTopWKApprovalOutcomeRate
+                    (EconCSLib.SocialChoice.Ranking.MallowsSpec.ofQ center q ⋯) W ⋯ (↑cut + 1)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_corollary_lem_mallowsnorando
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-b02fd12e20da7ee2}{}
+\section*{Review row 17}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 739-\allowbreak{}748\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+This corollary does not extend to arbitrary noise models, where randomization amongst $K$-approval mechanisms may improve the learning rate.
+
+\begin{restatable}{theorem}{lemrandomizebetterapprovalWselection}
+	\label{lem:randomizebetterapproval_Wselection}
+			Randomization among $K$-Approval mechanisms may improve the learning rate for the goal of selecting $W$ winners. There exist asymptotically design-invariant settings $(M,F)$ for the goal of selecting $W$ winners such that a randomized $K$-Approval mechanism $(B,D)$, where $\beta_p\in B$ corresponds to $p$-Approval, satisfies \[r(B,D) > \max_K r(K) \]
+%
+%
+\end{restatable}
+
+We prove the result two ways: (1) we construct an example in which candidate $h$ is asymptotically selected, and candidates $i,j$ are not. Which of $h \succ i$ or $h \succ j$ is the pivotal pair (determines the overall rate function) depends on the $K$-Approval mechanism used, and randomizing between two mechanisms improves the overall rate; (2) perhaps more interestingly, we find many examples in our real PB elections and other ranking data in which randomization would have sped up learning for the task of selecting a set of winning candidates (see Section~\ref{sec:randomizationpractice}).
+
+[Next verbatim source excerpt]
+
+\lemrandomizebetterapprovalWselection*
+\begin{proof}
+We provide two proofs: a numeric example from a real-world election, and a contrived, constructed example.
+
+\parbold{Numeric example found in a real election} In Durham Ward 1, to select 2 winners, randomizing between 3 and 4-Approval is better than either individually, even though asymptotically the mechanisms pick the same set of winners. The critical pair with $2$-Approval is with the candidate asymptotically ranked 1st, and the best item not selected. With $3$-Approval, it is with the candidate asymptotically ranked 2nd, and the same best item not selected.
+
+We will call these items $h$, $i,j$ (the one not selected) respectively. The respective probabilities of being selected alone:
+
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+
+\begin{align*}
+t_{hj}^h(3)&= 0.277 \\
+t_{hj}^h(4)&= 0.266	\\
+t_{hj}^j(3)&= 0.200	\\
+t_{hj}^j(4)&= 0.188	\\
+t_{ij}^i(3)&= 0.255	\\
+t_{ij}^i(4)&= 0.295	\\
+t_{ij}^j(3)&= 0.160\\
+t_{ij}^j(4)&= 0.217\\\\
+%
+t_{hj}^h(\{3, 4\})&= 0.271	 \\
+t_{hj}^j(\{3, 4\})&= 0.194	\\
+t_{ij}^i(\{3, 4\})&= 0.275	\\
+t_{ij}^j(\{3, 4\})&= 0.189\\
+\end{align*}
+
+And the resulting rates (using the formula in Proposition~\ref{lem:pairwiselearning_approval}) are:
+
+\begin{align*}
+r_{hj}(3) &= .00616932\\
+r_{ij}(3) &= .01114061\\
+r_{hj}(4) &= .00677352\\
+r_{ij}(4) &= .00592327\\
+r_{hj}(\{3, 4\}) &= .00642839\\
+r_{ij}(\{3, 4\}) &= .00815633\\
+r(3) &= \min(r_{hj}(3), r_{ij}(3)) = .00616932\\
+r(4) &= \min(r_{hj}(4), r_{ij}(4)) = .00592327\\
+r(\{3, 4\}) &= \min(r_{hj}(\{3, 4\}), r_{ij}(\{3, 4\})) = .00642839 > \max(r(3), r(4))
+\end{align*}
+
+Thus randomization improves learning.
+
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+
+\parbold{Constructed example with design invariance}
+	We now construct a fully design-invariant example with the same flavor as the numeric example, where which pair is critical changes with the mechanism.
+
+	Consider three candidates $h,i,j$, such that $h$ is asymptotically in the set of $W$ winners and $i,j$ are not. Thus, we need the rates at which $h$ is separated from both $i,j$. Let $W=K < L=K+1$.
+
+	We prove the result by giving an example where: it is easier to separate $h$ from $i$ using $K$-Approval, and easier to separate $h$ from $j$ using $L$-Approval. Using $K$-Approval, $r_{hj}$ asymptotically dominates the rate at which the overall outcome is learned, and using $L$-Approval, $r_{hi}$ does. Further, randomizing between the two mechanisms improves the two rates that dominate enough such that the overall rate is improved.
+
+	We need to show the following hold for our example: one of the rates between candidates $h$ and $i,j$ are smaller than other rates, i.e., dominate the overall learning rate when $K$ and/or $L$ approval is used; randomization between $K$ and $L$ approval helps the minimum rate between candidates $h$ and $i,j$; $K'$-Approval ($K'\neq K, K' \neq L$) produces a worse rate than either $K$ or $L$ approval; and this example is asymptotically design-invariant.
+
+	We prove each of these conditions in turn after specifying the example.
+
+	Recall that $t_{ij}^i(k)$ is the probability that $i$ is approved but $j$ is not, using $k$-Approval. Here, we will use:	 $$t_{hi}^i(K),t_{hi}^i(L),t_{hi}^h(K),t_{hi}^h(L),
+	t_{hj}^j(K),t_{hj}^j(L),t_{hj}^h(K),t_{hj}^h(L)$$. The end row labeled ``Total value'' then sums up these values.
+
+
+%
+
+%
+
+	\parbold{Example Specification}
+	Consider $F$ such according to the following table, where the first column is the probabilities of the positions in the second set of columns. The third set of columns indicates whether those set of positions contribute to the given probabilities, for easy accounting.
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\FloatBarrier
+	\begin{table}[h]
+		\hspace*{-1cm}
+		\begin{tabular}{c|c|ccc||cccccccc}
+%
+			& & \multicolumn{3}{c||}{Positions of $h,i,j$} & \multicolumn{8}{c}{Contributes to? (Y = Yes)}\\
+			Row& $Pr_F(\cdot)$ & $\sigma(h)$          & $\sigma(i)$          & $\sigma(j)$          &$t_{hi}^h(K)$ & $t_{hi}^i(K)$ & $t_{hi}^h(L)$ & $t_{hi}^i(L)$ & $t_{hj}^h(K)$ & $t_{hj}^j(K)$ & $t_{hj}^h(L)$ & $t_{hj}^j(L)$\\ \hline
+		1&	$a $   &  $K$    &   $L+1$    & $L$    &Y&&Y&&Y&&&\\ %
+		2&	$a$   &  $K-1$    &   $K$    &  $L$   &&&&&Y&&&\\
+		3&	$T_1 - {a} - \epsilon$   &  $K$    &   $L+1$    &    $L+2$     &Y&&Y&&Y&&Y&\\
+		4&	$T_2-2a$ & $L+1$   &    $L+2$     &   $K$  &&&&&&Y&&Y\\
+		5&	$T_2-2a$ & $L+1$   &    $K$     &   $L+2$  &&Y&&Y&&&&\\
+		6&	$a$	&   $L+1$      &     {$K$}       &   $L$  &&Y&&Y&&&&{Y}\\
+		7&	 $a$	&   $L$      &    $K-1$    &    {$K$}     &&Y&&&&Y&&\\
+		8&	 $a$	&   $L$      &   $L+1$ & $L+2$       &&&Y&&&&{Y}&\\ %
+		9&	 $a$	&   $L+1$      &    $L+2$    &  {L}       &&&&&&&&Y\\
+		10&	$\epsilon$ & \multicolumn{3}{c||}{See caption} &Y&&Y&&Y&&{Y}&\\
+%
+		11&	 $0$ & \multicolumn{3}{c||}{Otherwise}&&&&&&&&\\ \hline
+			 \multicolumn{5}{r}{\textbf{Total value:}}&$T_1$&$T_2$&$T_1+a$&$T_2-a$&$T_1+a$&$T_2-a$&$T_1$&$T_2$
+		\end{tabular} %
+\caption{Where the constants such that  $0<\epsilon<a<\frac{T_2}{2}<T_2 < T_1<T_1 + 2T_2 + a=1$, i.e., the table describes a valid probability distribution.%
+	Row 10 is as follows: The first $K$ candidates (the asymptotic winners) occupy the first $K$ spots, in an order drawn uniformly at random. Similarly, The bottom $M-K$ candidates occupy the bottom $M-K$ spots, in an order drawn uniformly at random. This randomization ensures asymptotically design invariance.
+}
+	\end{table}
+\FloatBarrier
+
+
+%
+
+
+The table does not specify the probabilities of other candidates appearing in any position, so it is possible that they dominate the learning rate (are hardest to learn). (In particular, if the same, asymptotically non-winning candidate $q$ is always in position $L$ in the case in row $3$, then it may be hard to separate it from candidate $h$ using $L$ approval). However, we can specify the example further to ensure this does not happen.
+
+%
+%
+
+Suppose candidates are indexed by their order in some strict ranking $\sigma^*$. Then, candidates $h=K, i = L=K+1, j = K+2$. Further suppose that candidates in $\{1 \dots K-1 \}$ always occupy, in order except in case of row 10, the best positions in a voter's ranking that are not reserved for candidates $h,i,j$ in the table above. %
+
+%
+
+For candidates $q\in\{K+3 \dots M \}$, we have to be more careful to avoid the case in parenthesis above. Suppose these $Q = M-K+2$ candidates fill up the bottom spots in a voter's ranking in a uniform at random order. In other words, they occupy spots $L+3 \dots M$, and the worst spot among whichever of $K, L, L+1,L+2$ is missing in each row in the table above.
+
+
+
+\parbold{Rates between the $h$ and $i,j$ dominate the overall learning rate using $K$ or $L$ approval}
+
+We are now ready to show the first claim that learning between candidates $h$ and $i,j$ is hardest (when using either $K$ or $L$ approval).
+
+By the specification above, candidates in $\{1 \dots K-2 \}$ are always approved, and so learning between those candidates and any non-winning candidate is faster than any large deviations rate. Similarly, candidate $K-1$ always is ranked higher than candidates $q\in\{K+3 \dots M \}$, and it is approved alone with high enough probability. %
+
+%
+
+
+
+%
+%
+
+Then, the other candidates who may dominate the learning rate are candidate $K-1$ (in separation from $i, j$), or $q\in\{K+3 \dots M \}$ (in separation from $h$). From the above table:
+	\begin{align*}
+	t_{hq}^{h}(K) &= T_1+a	& \text{Rows 1,2,3,10}\\
+	t_{hq}^{q}(K) &= \frac{2a}{Q}	& \text{Rows 8,9} \\
+	t_{hq}^{h}(L) &= \frac{Q-1}{Q}\left[T_1 - \epsilon \right] + 3a + \epsilon	& \text{Rows 1,2,7,10; and 3,8 w.p. } \frac{Q-1}{Q} \\
+	t_{hq}^{q}(L) &= \frac{2T_2 - 3a}{Q}	& \text{Rows 4,5,9 w.p.}  \frac{1}{Q}\\
+%
+%
+%
+t_{(K-1)i}^{K-1}(K) &= T_1+T_2 & \text{Rows } 1,3,4,8,9,10\\%\text{Rows } 1,3,8,9 \text{Rows 1,3,4,5,6,10} \\
+t_{(K-1)i}^{i}(K) &= 2a	& \text{Rows } 2,7\\
+t_{(K-1)j}^{K-1}(K) &= T_1 + T_2+a	& \text{Rows } 1,3,5,6,8,9,10\\
+t_{(K-1)j}^{j}(K) &= a	& \text{Rows } 7\\
+t_{(K-1)i}^{K-1}(L) &= T_1+T_2 & \text{Rows } 1,3,4,8,9,10\\
+t_{(K-1)i}^{i}(L) &= 2a	& \text{Rows } 2,7\\
+t_{(K-1)j}^{K-1}(L) &= T_1 + T_2 - 2a	& \text{Rows } 3,5,8,10\\
+t_{(K-1)j}^{j}(L) &= 2a	& \text{Rows } 2,7
+	\end{align*}
+Now, suppose $3a > \frac{T_1}{Q}$ and $Q>2$. (Both conditions occur for $Q$ large enough). Then, applying Remark~\ref{rem:tminusaplusa} regarding learning rates being larger when the arguments are farther away from one another (holding one fixed), the resulting rates with these candidates are dominated by (larger than) the rates between candidates $h$ and $i,j$, discussed next.
+
+%
+
+%
+
+\parbold{Randomizing improves the minimum rate between candidates $h$ and $i,j$}
+By Remark~\ref{rem:tminusaplusa},
+\begin{align*}
+r(T_1+a,T_2-a) >r(T_1,T_2)
+%
+%
+\end{align*}
+
+Using $K$-Approval:
+\begin{align*}
+\text{Rate between $h,i$: }\,\,\,\,\,\,\,\,\,\,\ &r_{hi}(K) = r(T_1,T_2)\\
+\text{Rate between $h,j$: }\,\,\,\,\,\,\,\,\,\,\ &r_{hj}(K) = r(T_1+a,T_2-a)\\
+\text{Overall rate: }\,\,\,\,\,\,\,\,\,\,\ &r(K) = \min(r_{hi}(K),r_{hj}(K)) = r(T_1,T_2)
+\end{align*}
+
+Using $L$-Approval:
+\begin{align*}
+\text{Rate between $h,i$: }\,\,\,\,\,\,\,\,\,\,\ &r_{hi}(L) = r(T_1+a,T_2-a)\\
+\text{Rate between $h,j$: }\,\,\,\,\,\,\,\,\,\,\ &r_{hj}(L) = r(T_1,T_2)\\
+\text{Overall rate: }\,\,\,\,\,\,\,\,\,\,\ &r(K) = \min(r_{hi}(L),r_{hj}(L)) = r(T_1,T_2)
+\end{align*}
+
+Randomizing -- For any $0<p<1$, eliciting $K$-Approval with probability $p$, and $L$-Approval otherwise:
+\begin{align*}
+\text{Rate between $h,i$: }\,\,\,\,\,\,\,\,\,\,\ & r(T_1+(1-p)a,T_2-(1-p)a)\\
+\text{Rate between $h,j$: }\,\,\,\,\,\,\,\,\,\,\  & r(T_1+pa,T_2-pa)\\
+\text{Overall rate: }\,\,\,\,\,\,\,\,\,\,\ r(K) &= r(T_1 + \phi a,T_2 - \phi a) & \phi =\min(p,1-p)\\ %
+&>r(T_1,T_2)  & \text{Remark }~\ref{rem:tminusaplusa}
+\end{align*}
+%
+%
+%
+%
+\parbold{$K'$-Approval ($K'\neq K, K' \neq L$) produces a worse rate than either $K$ or $L$ approval}
+
+For any $K' < K-1$, $h$ is approved with probability $\epsilon_2 < \epsilon$, and $i,j$ are never approved. Then, the rate between $h$ and $i,j$ is $-\log(1 - \epsilon_2) \to 0$ as $\epsilon\to 0$. Identically, for $K'\geq L+2=K+3$, both $h$ and $i,j$ are approved except with some probability $\epsilon_2 < \epsilon$.
+
+For $K' = K-1$, $h$ is approved without $i$ with probability $a + \epsilon_2$ (for some $\epsilon_2 < \epsilon$), and $i$ is approved without $h$ with probability $a$. Then, the rate between $h$ and $i$ is $-\log(2\sqrt{(a + \epsilon_2)a} + 1 - 2a - \epsilon_2) \to 0$ as $\epsilon\to 0$.
+
+For $K' = K+2 = L+1$, $h$ is approved without $i$ with probability $T_2 - a + \epsilon_2$, and $i$ is approved without $h$ with probability $0$. Then, the rate between them is $-\log(1 - T_2 + a - \epsilon_2)$. For $T_2$ small enough, this is a worse rate than using $K$ or $L$ approval.
+
+\parbold{The example described is asymptotically design-invariant}
+From the above table, the probability that candidate $c\in\{1\dots M\}$ is in position $k$ or better, i.e., $\sigma(c)\leq k$ is:
+\FloatBarrier
+\begin{table}[h]
+	\begin{tabular}{l|ccccccc}
+		Candidate              & $k<K-1$ & $K-1$ & $K$ & $L=K+1$ & $K+2$ & $K+3$ & $M>k>K+3$ \\ \hline
+	$w\in \{1 \dots K-2\}$		 &  $>0$       &   $>1-\epsilon$    & $1$    &  $1$       &   $1$    &   $1$    &    $1$     \\
+	$ K-1$                 &   $>0$      &  $1-2a$     &  $1-2a$   &   $1-2a$      &   $1$    &   $1$    &    $1$     \\
+	$K$                  &   $>0$      &  $>a$     &  $T_1 + a$   &     $T_1 + 3a$    &    $1$   &   $1$    &    $1$     \\\hline
+	$L=K+1$                &    $0$     &  $a$     & $T_2$    &  $<T_2+\epsilon$      &   $<1$   &   $<1$    &    $<1$      \\
+	$K+2$                  &    $0$     &   $0$    &   $T_2-a$  &    $<T_2+3a+\epsilon$     &   $<1$   &   $<1$    &    $<1$         \\
+	$q\in\{K+3 \dots M\} $    &    $0$     &   $0$    &   $\frac{2a}{Q}$  &     $\frac{T_1 + 2T_2 -3a -\epsilon}{Q}$    &    $<1$   &   $<1$    &    $<1$
+\end{tabular}
+\end{table}
+\FloatBarrier
+\parbold{Conditions on constants in problem}
+For the above claims to hold, we set conditions on the constants in the problem. They are
+\begin{align*}
+0<\epsilon<a<\frac{T_2}{2}<T_2 &< T_1<T_1 + 2T_2 + a=1\\
+%
+1 - \epsilon &>2\sqrt{T_1T_2} + 1 - T_1 - T_2\\
+\frac{T_1 + 2T_2 -3a -\epsilon}{Q} &< T_1 + 3a\\
+3a &> \frac{T_1}{Q}\\
+Q&>2\\
+1 - T_2 + a - \epsilon &> 2\sqrt{T_1T_2} + 1 - T_1 - T_2
+\end{align*}
+
+This is a feasible set of constraints: $Q$ can be set large enough to meet conditions 3,4,5 for any fixed $T_1, a, T_2$ that meet condition 1. Condition 2 is weaker than the last condition. That leaves the last condition along with the first one.
+\begin{align*}
+1 - T_2 + a - \epsilon &> 2\sqrt{T_1T_2} + 1 - T_1 - T_2\\
+\iff a - \epsilon &> 2\sqrt{T_1T_2} - T_1 \\
+\iff \frac{T_2}{2} - 2\epsilon &> 2\sqrt{T_1T_2} - T_1 & \text{set } \frac{T_2}{2}-\epsilon = a \\
+\iff \frac{T_2}{2} + T_1 &> 2\epsilon + 2\sqrt{T_1T_2}
+\end{align*}
+which holds for $T_1$ large enough, and $T_2,\epsilon$ small enough.
+
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+GGSG19TopThree.StrictTopPrefixDominanceOn GGSG19TopThree.constructedWSelectionRanking1TopPrefixProb
+    GGSG19TopThree.constructedWSelectionCrossTier ∧
+  (Finset.univ.sup'
+      GGSG19TopThree.PaperInterface.source_theorem_lem_randomizebetterapproval_w_selection_constructedSpec._proof_1
+      fun K => GGSG19TopThree.finiteOutcomeLearningRate (GGSG19TopThree.constructedWSelectionRanking1StaticKRate K)) <
+    GGSG19TopThree.finiteOutcomeLearningRate GGSG19TopThree.constructedWSelectionRanking1RandomizedApprovalRate
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_theorem_lem_randomizebetterapproval_w_selection_constructed
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-96dd41305a1cb5af}{}
+\section*{Review row 18}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 751-\allowbreak{}761\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\subsection{$K$-Approval for selecting $W$ winners}
+\label{sec:approvaltheory}
+One of the most common voting settings is identifying a set of $W$ winners using $K$-Approval, whether in representative democracy elections (typically $K=W=1$), polling for such elections (where the goal often is to identify the top few candidates out of many, especially in primary races), or crowd-sourcing labels (where one wants one or a few labels for an item out of many possible ones). Here, we study how to design such elections, i.e., how to choose the best $K$, i.e., the one that maximizes the learning rate. For simplicity, we work with the Mallows model, extending the resulting insights to real-world data in the next section.
+
+
+Recall that in a Mallows model, each voter's ranking is a noisy sample from a reference distribution $\sigma^*$. With this symmetric model, one may believe that setting $K=W$ is always optimal. For example, when noise parameter $\phi = 0$ and so each voter's ranking is exactly $\sigma^*$, $K=W$ is optimal; in fact, any other design $K \neq W$ fails to correctly identify the set of winners even asymptotically: it would not distinguish among the first $K$ candidates in $\sigma^*$ or among the last $M-K$ candidates. However, our next result establishes that the cases with $\phi > 0$ are different.
+
+\begin{restatable}{theorem}{lemmallowsnotWK}
+	\label{lem:mallowsnotWK}
+	Under the Mallows model and the goal of selecting $W$ winners, $W$-Approval may not be Approval rate optimal.
+\end{restatable}
+
+[Next verbatim source excerpt]
+
+\lemmallowsnotWK*
+\begin{proof}
+
+	We prove the result by providing an example where it is not optimal. Suppose there are 4 candidates, and we wish to select $3$ winners, i.e., separate the first three items from the last item.
+
+
+Let the items in the reference ranking be, in order, $i=1, 2, 3, 4$, respectively.
+
+A Mallows model (with parameter $\phi = \frac{p}{1-p}$, where $p$ is the probability of flipping a given pair of candidates) can be sampled by repeated insertion \citep{lu14a,diaconis_group_nodate}: starting from the first item in the reference ranking, there exists probability $\tilde{p}_{ij} = \frac{\phi^{i-j}}{1 + \phi^1 + \dots + \phi^{i-1}}$ at which item $i$ can be inserted into position $j\leq i$, \textit{independently} of how items above it were inserted, such that the resulting ranking distribution matches the Mallows model.
+
+Using this repeated insertion property for our example, we can derive $p_{\ell k}$, the probability at which item $3$ is in position $\ell$ and item $4$ is in position $k$ after sampling from a Mallows model with parameter $\phi$.
+
+In particular, if $\ell < k$, $p_{\ell k}$ is exactly the probability that item $3$ is inserted in position $\ell$ and item $4$ is inserted in position $k$. If $k>\ell$, however, it is the probability that item $3$ is inserted in position $\ell - 1$ and then pushed down when item $4$ is inserted in position $k$. (More generally, it turns out, the exact probability for an item appearing in a given position in the Mallows model can be calculated using a simple dynamic program, a fact that does not appear to be documented  elsewhere but may be independently useful. We used this dynamic program to find this given example).
+
+Then, for our example
+\begin{align*}
+N_i &\triangleq 1 + \phi^1 + \dots + \phi^{i-1} \\
+p_{\ell k} &= \begin{bmatrix}
+0 & \frac{\phi^2}{N_3}\frac{\phi^2}{N_4} & \frac{\phi^2}{N_3}\frac{\phi^1}{N_4} & \frac{\phi^2}{N_3}\frac{\phi^0}{N_4}\\
+\frac{\phi^2}{N_3}\frac{\phi^3}{N_4} & 0 & \frac{\phi^1}{N_3}\frac{\phi^1}{N_4} & \frac{\phi^1}{N_3}\frac{\phi^0}{N_4}\\
+\frac{\phi^1}{N_3}\frac{\phi^3}{N_4} & \frac{\phi^1}{N_3}\frac{\phi^2}{N_4} & 0 & \frac{\phi^0}{N_3}\frac{\phi^0}{N_4}\\
+\frac{\phi^0}{N_3}\frac{\phi^3}{N_4} & \frac{\phi^0}{N_3}\frac{\phi^2}{N_4} & \frac{\phi^0}{N_3}\frac{\phi^1}{N_4} & 0\\
+\end{bmatrix}_{\ell k}
+=
+\frac{1}{N_3N_4}\begin{bmatrix}
+0 & \phi^4 & \phi^3 & {\phi^2}\\
+\phi^5 & 0 & \phi^2 & {\phi^1}\\
+\phi^4 & \phi^3 & 0 & 1\\
+{\phi^3} & {\phi^2} & {\phi^1} & 0\\
+\end{bmatrix}_{\ell k}
+\end{align*}
+
+Recall that $t_{ij}^i(K)$ is the probability that $i$ is approved but $j$ is not, using $K$-Approval. Then, if we use $3$-approval and $2$-approval, respectively:
+\begin{align*}
+N_3 &= 1 + \phi + \phi^2\\
+N_4 &= 1 + \phi + \phi^2+ \phi^3\\
+t_{34}^3(3) &= p_{14} + p_{24} + p_{34}= \frac{\phi^2  + \phi^1 + 1}{N_3N_4}= \frac{1}{N_4}\\
+t_{34}^4(3) &= p_{41} + p_{42} + p_{43} = \frac{\phi^3  + \phi^2 + \phi^1}{N_3N_4} = \frac{\phi}{N_4}\\
+t_{34}^3(2) &= p_{14} + p_{24} + p_{13} + p_{23} = \frac{\phi^2  + \phi^1 + \phi^3 + \phi^2}{N_3N_4}\\
+t_{34}^4(2) &= p_{41} + p_{42} + p_{31} + p_{32} = \frac{\phi^3  + \phi^2 + \phi^4 + \phi^3}{N_3N_4}\\
+\end{align*}
+
+Then, recall the rate between items $i,j$ using $K$ approval is
+\begin{align*}
+	r_{ij}(K) &= -\log\left[ 2\sqrt{t_{ij}^i(K)t_{ij}^j(K)} + 1 - t_{ij}^i(K) - t_{ij}^j(K) \right]\\
+	 r_{34}(3) &= 	-\log\left[ 2\sqrt{\frac{1}{N_4}\frac{\phi}{N_4}} + 1 - \frac{1}{N_4} - \frac{\phi}{N_4} \right]\\
+%
+	 r_{34}(2) &= 	-\log\left[ 2\sqrt{\frac{\phi^2  + \phi^1 + \phi^3 + \phi^2}{N_3N_4}\frac{\phi^3  + \phi^2 + \phi^4 + \phi^3}{N_3N_4}} + 1 - \frac{\phi^2  + \phi^1 + \phi^3 + \phi^2}{N_3N_4} - \frac{\phi^3  + \phi^2 + \phi^4 + \phi^3}{N_3N_4} \right]
+\end{align*}
+
+When there is low noise, e.g., $\phi = .1$ ($p = .091$):
+\begin{align*}
+r_{34}(3) &= .5462\\
+r_{34}(2) &= .04696 < r_{34}(3)
+\end{align*}
+
+But when there is high noise, e.g., $\phi = .8$ ($p=.44$):
+\begin{align*}
+r_{34}(3) &= .00378\\
+r_{34}(2) &= .00402 > r_{34}(3)
+\end{align*}
+
+
+Note that the same example works for selecting 1 winner out of the 4 candidates, as the repeated insertion model can be run in reverse.
+
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∃ M,
+  M.center = Equiv.refl (EconCSLib.SocialChoice.Ranking.Candidate 2) ∧
+    M.q = GGSG19TopThree.mallowsHighNoisePhi ∧
+      ∃ better,
+        better ≠ 2 ∧
+          GGSG19TopThree.finiteOutcomeLearningRate (GGSG19TopThree.mallowsW3StaticKApprovalPairRate M 2) <
+            GGSG19TopThree.finiteOutcomeLearningRate (GGSG19TopThree.mallowsW3StaticKApprovalPairRate M better)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_theorem_lem_mallowsnotWK_counterexample
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-183efad42b03de32}{}
+\section*{Review row 19}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 728-\allowbreak{}734\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{corollary}{lemmallowsnorando}
+	\label{lem:mallowsnorando}
+			Randomization among $K$-Approval mechanisms does not improve the learning rate for selecting $W$ winners from the Mallows model. For any randomized $K$-Approval mechanism $(B,D)$, where $\beta_p\in B$ corresponds to $p$-Approval, for selecting $W$ winners from the Mallows model, there exists an Approval rate optimal mechanism $K^*$-Approval such that $r(K^*) \geq r(B,D)$.
+
+\end{restatable}
+
+The proof simply notes that under the Mallows model with this goal, the candidate pair $W, W+1$ (when candidates are indexed according to reference distribution $\sigma^*$) is pivotal regardless of the $K$-Approval mechanism used.
+
+[Next verbatim source excerpt]
+
+\lemmallowsnorando*
+\begin{proof}
+	When selecting $W$ winners out of $M$ candidates, we need to separate candidates $1 \dots W$ from candidates $W + 1 \dots M$. It is easy to show that the pivotal pair, regardless of which $K$ is used in $K$-Approval, is $W$,$W+1$. Applying Theorem~\ref{lem:randomizenotbetterapproval}, then, randomization cannot help the overall rate.
+\end{proof}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} (center : EconCSLib.SocialChoice.Ranking.Ranking n) (q : ℝ) (W : EconCSLib.SocialChoice.Ranking.Candidate n)
+  (hDomain : GGSG19TopThree.assumption_mallows_nontrivial_winner_and_parameter_domain q W) (K : ℕ),
+  0 < K →
+    K < n + 2 →
+      GGSG19TopThree.mallowsTopWKApprovalOutcomeRate (EconCSLib.SocialChoice.Ranking.MallowsSpec.ofQ center q ⋯) W ⋯ K =
+        GGSG19TopThree.mallowsTopWKApprovalPairRate (EconCSLib.SocialChoice.Ranking.MallowsSpec.ofQ center q ⋯) W K
+          (GGSG19TopThree.topWBoundaryPair center W ⋯)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_proof_mallows_common_pivotal_pair
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-909010c9cf279ba2}{}
+\section*{Review row 20}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1544-\allowbreak{}1548\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Let the items in the reference ranking be, in order, $i=1, 2, 3, 4$, respectively.
+
+A Mallows model (with parameter $\phi = \frac{p}{1-p}$, where $p$ is the probability of flipping a given pair of candidates) can be sampled by repeated insertion \citep{lu14a,diaconis_group_nodate}: starting from the first item in the reference ranking, there exists probability $\tilde{p}_{ij} = \frac{\phi^{i-j}}{1 + \phi^1 + \dots + \phi^{i-1}}$ at which item $i$ can be inserted into position $j\leq i$, \textit{independently} of how items above it were inserted, such that the resulting ranking distribution matches the Mallows model.
+
+Using this repeated insertion property for our example, we can derive $p_{\ell k}$, the probability at which item $3$ is in position $\ell$ and item $4$ is in position $k$ after sampling from a Mallows model with parameter $\phi$.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {N : ℕ} (q : ℝ) (hDomain : GGSG19TopThree.assumption_mallows_repeated_insertion_parameter_domain q)
+  (stage inserted : Fin N),
+  ((GGSG19TopThree.mallowsInsertionPMF q ⋯ stage) inserted).toReal =
+    if ↑inserted ≤ ↑stage then q ^ (↑stage - ↑inserted) / ∑ r ∈ Finset.range (↑stage + 1), q ^ (↑stage - r) else 0
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_mallows_repeated_insertion_probability_formula
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-b4c9d86dce53081b}{}
+\section*{Review row 21}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1548-\allowbreak{}1568\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Using this repeated insertion property for our example, we can derive $p_{\ell k}$, the probability at which item $3$ is in position $\ell$ and item $4$ is in position $k$ after sampling from a Mallows model with parameter $\phi$.
+
+In particular, if $\ell < k$, $p_{\ell k}$ is exactly the probability that item $3$ is inserted in position $\ell$ and item $4$ is inserted in position $k$. If $k>\ell$, however, it is the probability that item $3$ is inserted in position $\ell - 1$ and then pushed down when item $4$ is inserted in position $k$. (More generally, it turns out, the exact probability for an item appearing in a given position in the Mallows model can be calculated using a simple dynamic program, a fact that does not appear to be documented  elsewhere but may be independently useful. We used this dynamic program to find this given example).
+
+Then, for our example
+\begin{align*}
+N_i &\triangleq 1 + \phi^1 + \dots + \phi^{i-1} \\
+p_{\ell k} &= \begin{bmatrix}
+0 & \frac{\phi^2}{N_3}\frac{\phi^2}{N_4} & \frac{\phi^2}{N_3}\frac{\phi^1}{N_4} & \frac{\phi^2}{N_3}\frac{\phi^0}{N_4}\\
+\frac{\phi^2}{N_3}\frac{\phi^3}{N_4} & 0 & \frac{\phi^1}{N_3}\frac{\phi^1}{N_4} & \frac{\phi^1}{N_3}\frac{\phi^0}{N_4}\\
+\frac{\phi^1}{N_3}\frac{\phi^3}{N_4} & \frac{\phi^1}{N_3}\frac{\phi^2}{N_4} & 0 & \frac{\phi^0}{N_3}\frac{\phi^0}{N_4}\\
+\frac{\phi^0}{N_3}\frac{\phi^3}{N_4} & \frac{\phi^0}{N_3}\frac{\phi^2}{N_4} & \frac{\phi^0}{N_3}\frac{\phi^1}{N_4} & 0\\
+\end{bmatrix}_{\ell k}
+=
+\frac{1}{N_3N_4}\begin{bmatrix}
+0 & \phi^4 & \phi^3 & {\phi^2}\\
+\phi^5 & 0 & \phi^2 & {\phi^1}\\
+\phi^4 & \phi^3 & 0 & 1\\
+{\phi^3} & {\phi^2} & {\phi^1} & 0\\
+\end{bmatrix}_{\ell k}
+\end{align*}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (q : ℝ) (hDomain : GGSG19TopThree.assumption_mallows_repeated_insertion_parameter_domain q) (ell k : Fin 4),
+  GGSG19TopThree.ProofBridge.mallowsFourCandidate34JointLocationProb q ⋯ ell k =
+    if ell = k then 0
+    else (q ^ if ↑ell < ↑k then 5 - ↑ell - ↑k else 6 - ↑ell - ↑k) / (1 + q + q ^ 2) / (1 + q + q ^ 2 + q ^ 3)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_proof_mallows_four_candidate_joint_location_matrix
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-ddc5814263488e0b}{}
+\section*{Review row 22}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1606-\allowbreak{}1656\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\lemrandomizebetterapprovalWselection*
+\begin{proof}
+We provide two proofs: a numeric example from a real-world election, and a contrived, constructed example.
+
+\parbold{Numeric example found in a real election} In Durham Ward 1, to select 2 winners, randomizing between 3 and 4-Approval is better than either individually, even though asymptotically the mechanisms pick the same set of winners. The critical pair with $2$-Approval is with the candidate asymptotically ranked 1st, and the best item not selected. With $3$-Approval, it is with the candidate asymptotically ranked 2nd, and the same best item not selected.
+
+We will call these items $h$, $i,j$ (the one not selected) respectively. The respective probabilities of being selected alone:
+
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+
+\begin{align*}
+t_{hj}^h(3)&= 0.277 \\
+t_{hj}^h(4)&= 0.266	\\
+t_{hj}^j(3)&= 0.200	\\
+t_{hj}^j(4)&= 0.188	\\
+t_{ij}^i(3)&= 0.255	\\
+t_{ij}^i(4)&= 0.295	\\
+t_{ij}^j(3)&= 0.160\\
+t_{ij}^j(4)&= 0.217\\\\
+%
+t_{hj}^h(\{3, 4\})&= 0.271	 \\
+t_{hj}^j(\{3, 4\})&= 0.194	\\
+t_{ij}^i(\{3, 4\})&= 0.275	\\
+t_{ij}^j(\{3, 4\})&= 0.189\\
+\end{align*}
+
+And the resulting rates (using the formula in Proposition~\ref{lem:pairwiselearning_approval}) are:
+
+\begin{align*}
+r_{hj}(3) &= .00616932\\
+r_{ij}(3) &= .01114061\\
+r_{hj}(4) &= .00677352\\
+r_{ij}(4) &= .00592327\\
+r_{hj}(\{3, 4\}) &= .00642839\\
+r_{ij}(\{3, 4\}) &= .00815633\\
+r(3) &= \min(r_{hj}(3), r_{ij}(3)) = .00616932\\
+r(4) &= \min(r_{hj}(4), r_{ij}(4)) = .00592327\\
+r(\{3, 4\}) &= \min(r_{hj}(\{3, 4\}), r_{ij}(\{3, 4\})) = .00642839 > \max(r(3), r(4))
+\end{align*}
+
+Thus randomization improves learning.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+max (GGSG19TopThree.finiteOutcomeLearningRate GGSG19TopThree.durhamWard1K3Rate)
+    (GGSG19TopThree.finiteOutcomeLearningRate GGSG19TopThree.durhamWard1K4Rate) <
+  GGSG19TopThree.finiteOutcomeLearningRate GGSG19TopThree.durhamWard1RandomizedRate
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_example_durham_ward1_randomized_approval_improves_static3_static4
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-1b3901556fea513f}{}
+\section*{Review row 23}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 763\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+We prove the theorem by example. To find this example and to generate the plots discussed next, we use an efficient dynamic program to exactly calculate the joint distributions of the locations $\sigma_v(i),\sigma_v(j)$ of pairs of candidates $i,j$ in a voter's ranking, given the Mallows noise parameter; we can then directly calculate $t_{ij}^i(K), t_{ij}^j(K)$ and thus the learning rate for each $K$-Approval mechanism. This program leverages Mallows repeated insertion probabilities \cite{lu14a,diaconis_group_nodate} and may be of independent interest for numerical analyses of the Mallows model.
+
+[Next verbatim source excerpt]
+
+A Mallows model (with parameter $\phi = \frac{p}{1-p}$, where $p$ is the probability of flipping a given pair of candidates) can be sampled by repeated insertion \citep{lu14a,diaconis_group_nodate}: starting from the first item in the reference ranking, there exists probability $\tilde{p}_{ij} = \frac{\phi^{i-j}}{1 + \phi^1 + \dots + \phi^{i-1}}$ at which item $i$ can be inserted into position $j\leq i$, \textit{independently} of how items above it were inserted, such that the resulting ranking distribution matches the Mallows model.
+
+Using this repeated insertion property for our example, we can derive $p_{\ell k}$, the probability at which item $3$ is in position $\ell$ and item $4$ is in position $k$ after sampling from a Mallows model with parameter $\phi$.
+
+In particular, if $\ell < k$, $p_{\ell k}$ is exactly the probability that item $3$ is inserted in position $\ell$ and item $4$ is inserted in position $k$. If $k>\ell$, however, it is the probability that item $3$ is inserted in position $\ell - 1$ and then pushed down when item $4$ is inserted in position $k$. (More generally, it turns out, the exact probability for an item appearing in a given position in the Mallows model can be calculated using a simple dynamic program, a fact that does not appear to be documented  elsewhere but may be independently useful. We used this dynamic program to find this given example).
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {N : ℕ} (q : ℝ) (hDomain : GGSG19TopThree.assumption_mallows_repeated_insertion_parameter_domain q)
+  (leftStage rightStage : Fin N),
+  (∀ (state : GGSG19TopThree.MallowsPairPositionState N),
+      (GGSG19TopThree.mallowsPairDPTabulationRun (GGSG19TopThree.MallowsRepeatedInsertionModel.ofQ q ⋯ ⋯) leftStage
+              rightStage N).table
+          state =
+        ((GGSG19TopThree.mallowsPairProcess (GGSG19TopThree.MallowsRepeatedInsertionModel.ofQ q ⋯ ⋯) leftStage
+              rightStage N)
+            state).toReal) ∧
+    ∑ state,
+          (GGSG19TopThree.mallowsPairDPTabulationRun (GGSG19TopThree.MallowsRepeatedInsertionModel.ofQ q ⋯ ⋯) leftStage
+                rightStage N).table
+            state =
+        1 ∧
+      (GGSG19TopThree.mallowsPairDPTabulationRun (GGSG19TopThree.MallowsRepeatedInsertionModel.ofQ q ⋯ ⋯) leftStage
+              rightStage N).scalarOperations =
+          GGSG19TopThree.mallowsPairDPDenseOperationBudget N ∧
+        (GGSG19TopThree.mallowsPairDPTabulationRun (GGSG19TopThree.MallowsRepeatedInsertionModel.ofQ q ⋯ ⋯) leftStage
+              rightStage N).scalarOperations ≤
+          (N + 1) ^ 6
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GGSG19TopThree.PaperInterface.source_mallows_arbitrary_pair_joint_location_dynamic_program
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\end{document}

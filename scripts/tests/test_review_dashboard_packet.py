@@ -22,11 +22,46 @@ class ReviewDashboardPacketTests(unittest.TestCase):
         )
         self.assertIn("lake exe cache get", template)
         self.assertIn("review_dashboard.py --paper @@PAPER_ID@@ --serve", template)
+        self.assertIn("reviewer-owned review record", template)
+        self.assertNotIn("local\nreview trace", template)
+
+    def test_packet_public_projection_sanitizes_preescaped_locator_but_not_verbatim_source(self) -> None:
+        rendered = packet._public_packet_presentation_tex(
+            "\\textbf{Source locator:} {\\footnotesize\\raggedright "
+            "audit/\\allowbreak{}source\\_archive\\_surface.\\allowbreak{}tex:"
+            "\\allowbreak{}12-\\allowbreak{}15\\par}\n"
+            "\\begin{ReviewVerbatim}\n"
+            "The raw excerpt may itself mention source_archive_surface.tex.\n"
+            "\\end{ReviewVerbatim}\n",
+            paper="Fixture",
+        )
+        self.assertNotIn("audit/\\allowbreak{}source", rendered)
+        self.assertIn("cited publication, lines 12-\\allowbreak{}15", rendered)
+        self.assertIn(
+            "The raw excerpt may itself mention source_archive_surface.tex.",
+            rendered,
+        )
+
+    def test_existing_packet_refreshes_reviewer_record_wording(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            tex_path = Path(temp_dir) / "HUMAN_REVIEW_PACKET.tex"
+            tex_path.write_text(
+                "The dashboard records saved annotations in this paper's local\n"
+                "review trace.\n",
+                encoding="utf-8",
+            )
+            rendered = packet.sanitize_existing_packet("Fixture", tex_path)
+        self.assertIn("reviewer-owned review record", rendered)
+        self.assertNotIn("local\nreview trace", rendered)
 
     def test_verbatim_marks_nonprintable_source_bytes_without_dropping_them(self) -> None:
         rendered = packet._verbatim("before\fafter\x0fend")
         self.assertIn("[form-feed in source extraction]", rendered)
         self.assertIn("[U+000F control character]", rendered)
+
+    def test_verbatim_preserves_plain_text_norm_delimiters_when_font_lacks_unicode(self) -> None:
+        rendered = packet._verbatim("∥u - v∥")
+        self.assertIn("||u - v||", rendered)
         self.assertNotIn("\x0f", rendered)
 
     def test_unmarked_packet_requires_an_active_v11_surface(self) -> None:
@@ -268,6 +303,38 @@ class ReviewDashboardPacketTests(unittest.TestCase):
         self.assertEqual(
             [(item["full_name"], proof) for item, _records, proof in selected],
             [("Packet.firstSpec", "Packet.first"), ("Packet.secondSpec", "Packet.second")],
+        )
+
+    def test_v11_claim_rows_exclude_unrouted_helpers_and_assumptions(self) -> None:
+        """The packet remains source-contract claim-only despite dashboard assumption cards."""
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            paper_dir = Path(temp_dir)
+            source_map = {
+                "semantic_contract_schema": 1,
+                "items": {
+                    "claim": {
+                        "semantic_contract": {
+                            "spec_declaration": "Packet.claimSpec",
+                            "evidence_declaration": "Packet.claim",
+                        }
+                    }
+                },
+            }
+            dashboard_items = [
+                {"full_name": "Packet.claimSpec", "name": "claimSpec"},
+                {"full_name": "Packet.helperSpec", "name": "helperSpec"},
+                {
+                    "full_name": "Packet.modelAssumption",
+                    "name": "modelAssumption",
+                    "is_assumption": True,
+                },
+            ]
+            selected = packet._claim_review_rows(paper_dir, source_map, dashboard_items)
+
+        self.assertEqual(
+            [(item["full_name"], proof) for item, _records, proof in selected],
+            [("Packet.claimSpec", "Packet.claim")],
         )
 
     def test_prerequisites_show_exact_library_definition_and_source_connection(self) -> None:

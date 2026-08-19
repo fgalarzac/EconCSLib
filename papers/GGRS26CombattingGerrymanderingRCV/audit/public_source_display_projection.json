@@ -1,0 +1,42 @@
+{
+  "generator": "python3 scripts/public_source_display_projection.py",
+  "paper_id": "GGRS26CombattingGerrymanderingRCV",
+  "private_source_map_sha256": "4e4555385e111a37cb46c102b4ee04aeac0002e26a8a8536bbdf22e0efeea2e2",
+  "public_manifest_path": "papers/GGRS26CombattingGerrymanderingRCV/audit/public_source_display_projection.json",
+  "public_source_map_sha256": "1541dce664a409dce329aa14ec619755ec3434a15e9f702faa345ed6240a9533",
+  "raw_source_artifact_included": false,
+  "raw_source_display_material": "selected_byte_pinned_source_anchor_quotes",
+  "schema": 1,
+  "selected_source_item_ids": [
+    "lemma_c1_pav_min_argmax_interval",
+    "proposition1_stv_pav_rounded_seats"
+  ],
+  "selected_source_items": {
+    "lemma_c1_pav_min_argmax_interval": {
+      "source_anchors": [
+        {
+          "line_end": 2433,
+          "line_start": 2414,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma C.1. Let yR ∈ (0, 1]. Consider\n                                                                          n\n                                                       \"           \"\n                              nR (yR , λP AV ) = min arg max yR\n                                                                          X\n                                                                                λ(i)\n                                                  n         n\n                                                                          i=1\n                                                                   M −n\n                                                                                 ##\n                                                      +(1 − yR )\n                                                                   X\n                                                                          λ(i)        .\n                                                                   i=1\n\n    and let ℓ be the unique integer such that\n\n                                    yR (M + 1) − 1 ≤ ℓ < yR (M + 1)\n\n    Then, nR (yR , λPAV ) = ℓ, for all yR , M .",
+          "quoted_text_sha256": "d65a4d82a8d7aa9cd0a67b120cc327fbf9f949c8743af1bf26e0e94b3c3f9635"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "proposition1_stv_pav_rounded_seats": {
+      "source_anchors": [
+        {
+          "line_end": 490,
+          "line_start": 485,
+          "publication_locator": "cited publication",
+          "quoted_text": "Proposition 1 (Seat shares under STV). Suppose – for a given district with M seats and V ≥\nM (M + 1) voters – that a fraction yp of voters belong to each party p ∈ {R, D}, and that there are\nat least M candidates per party. Assume that each party’s voters rank all same-party candidates\nabove all other-party candidates, and ties are broken in party D’s favor.\n    Let nR (yR , ST V ) be the number of winners belonging to party R using STV. Then, both\nnR (yR , ST V ) and nR (yR , λPAV ) are in {⌊yR M ⌋, ⌈yR M ⌉}.",
+          "quoted_text_sha256": "3fe3d139a2019ca1148de08cc82430a8dec50476aa16fe6dd34fb0b38b504bb6"
+        }
+      ],
+      "source_kind": "proposition"
+    }
+  },
+  "source_artifact_sha256": "57762234dc7b4a41d10b7f05110551853ab717136eca7b9216da9425cfb8bce5",
+  "source_coverage_mode": "named_theoretical_statements"
+}

@@ -5,7 +5,7 @@
 |---|---|
 | Final status | Formalized |
 | Paper reference | [Driver Surge Pricing](https://arxiv.org/pdf/1905.07544) by Nikhil Garg and Hamid Nazerzadeh; Management Science, 2022. |
-| Lines of Code | 178,682 |
+| Lines of Code | 178,681 |
 
 ## Key Links
 

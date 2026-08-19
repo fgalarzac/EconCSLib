@@ -7,12 +7,14 @@
     "final_validation_report": "papers/LG21TestOptionalPolicies/FINAL_VALIDATION_REPORT.md",
     "governing_corrected_model": "papers/LG21TestOptionalPolicies/docs/GOVERNING_CORRECTED_MODEL_2026-07-27.md",
     "governing_voluntary_active_branch_refinement": "papers/LG21TestOptionalPolicies/docs/GOVERNING_VOLUNTARY_ACTIVE_BRANCH_REFINEMENT_2026-07-31.md",
+    "human_review_packet_pdf": "papers/LG21TestOptionalPolicies/docs/HUMAN_REVIEW_PACKET.pdf",
+    "human_review_packet_tex": "papers/LG21TestOptionalPolicies/docs/HUMAN_REVIEW_PACKET.tex",
     "paper_interface": "papers/LG21TestOptionalPolicies/PaperInterface.lean",
     "paper_statement_map": "papers/LG21TestOptionalPolicies/audit/paper_statement_map.json",
     "proof_interface": "papers/LG21TestOptionalPolicies/ProofInterface.lean",
     "readme": "papers/LG21TestOptionalPolicies/README.md",
     "source_proof_fidelity": "papers/LG21TestOptionalPolicies/audit/source_proof_fidelity.json",
-    "source_text": "papers/LG21TestOptionalPolicies/source.txt"
+    "source_text": "papers/LG21TestOptionalPolicies/cited publication"
   },
   "authors": "Zhi Liu and Nikhil Garg",
   "build_target": "lake build LG21TestOptionalPolicies",
@@ -26,7 +28,7 @@
     },
     "archival_equivalence_claimed": false,
     "base_archive": {
-      "path": "source.txt",
+      "path": "cited publication",
       "sha256": "11fb7a52959948847ce19d85adf97256a30c3f1575941ff6efec0e33bf908e1c"
     },
     "correction_ids": [
@@ -75,7 +77,7 @@
       "id": "LG21-CORR-THEOREM31-NONREPORT-MIXTURE-2026-07-27",
       "model_evidence": "LG21TestOptionalPolicies.lg21OptionalNoReportMixtureEstimate; LG21TestOptionalPolicies.PaperInterface.theorem3_1_optional_reporting_source_timed",
       "relation": "Corrects the printed A(c)-versus-(1-A(c)) bookkeeping in the Gaussian mixture computation used by the now-literal Theorem 3.1 route.",
-      "source_anchor": "source.txt:1134-1172; source.txt:1233-1267"
+      "source_anchor": "cited publication:1134-1172; cited publication:1233-1267"
     },
     {
       "clause": "The cutoff fixed-point route uses proved Gaussian lower-tail continuity, denominator positivity, and endpoint signs.",
@@ -83,7 +85,7 @@
       "id": "LG21-CORR-THEOREM31-CONTINUITY-2026-07-27",
       "model_evidence": "LG21TestOptionalPolicies.lg21OptionalNoReportMixtureEstimate_continuous; LG21TestOptionalPolicies.PaperInterface.theorem3_1_optional_reporting_source_timed",
       "relation": "Replaces the unsupported inference from pointwise finiteness to continuity of an improper parameterized integral with the proved Gaussian continuity route used by Theorem 3.1.",
-      "source_anchor": "source.txt:1268-1390"
+      "source_anchor": "cited publication:1268-1390"
     },
     {
       "clause": "The reported-score branch is deterministic, no-report/no-take output remains an arbitrary common law, report-required Gaussian expectations are finite for every shifted score law, and blankness is operational almost everywhere.",
@@ -91,7 +93,7 @@
       "id": "LG21-CORR-THEOREM32-CLARIFIED-OPERATIONAL-MODEL-2026-07-27",
       "model_evidence": "LG21TestOptionalPolicies.LG21ClarifiedOptionalReportingModel; LG21TestOptionalPolicies.LG21ClarifiedReportRequiredModel; LG21TestOptionalPolicies.PaperInterface.theorem3_2_optional_reporting_clarified_model; LG21TestOptionalPolicies.PaperInterface.theorem3_2_report_required_clarified_model",
       "relation": "Narrows the false arbitrary-randomized-policy theorem to the explicitly approved clarified operational model without a bare Definition 1 adapter.",
-      "source_anchor": "source.txt:199-218; source.txt:256-395; source.txt:455-461; source.txt:1614-1778"
+      "source_anchor": "cited publication:199-218; cited publication:256-395; cited publication:455-461; cited publication:1614-1778"
     },
     {
       "clause": "The final Theorem 3.2 summary reads observable fairness rather than demographic fairness.",
@@ -99,7 +101,7 @@
       "id": "LG21-CORR-THEOREM32-DEMOGRAPHIC-TYPO-2026-07-27",
       "model_evidence": "LG21TestOptionalPolicies.PaperInterface.theorem3_2_optional_reporting_clarified_model",
       "relation": "Corrects an isolated contextual typo while retaining the explicit hidden-access demographic open question.",
-      "source_anchor": "source.txt:1770-1782"
+      "source_anchor": "cited publication:1770-1782"
     },
     {
       "clause": "The report-required raw-score indifference threshold is the affine inverse of the posterior estimate.",
@@ -107,7 +109,7 @@
       "id": "LG21-CORR-LEMMA41-TEST-CUTOFF-2026-07-27",
       "model_evidence": "LG21TestOptionalPolicies.paper_lemma4_1_taking_indifference_affine_inverse; LG21TestOptionalPolicies.PaperInterface.lemma4_1_optional_active_branch_selection; LG21TestOptionalPolicies.PaperInterface.lemma4_1_report_required_active_branch_selection",
       "relation": "Corrects a local posterior-value/raw-score substitution only. The separate voluntary all-taking conclusion is now supplied under the recorded fibrewise active-branch/unravelling convention.",
-      "source_anchor": "source.txt:2183-2220; source.txt:2262-2310"
+      "source_anchor": "cited publication:2183-2220; cited publication:2262-2310"
     },
     {
       "clause": "Demographic unfairness follows from a direct unconditional Gaussian precision gap.",
@@ -115,15 +117,16 @@
       "id": "LG21-CORR-PROPOSITION43-MARGINAL-2026-07-27",
       "model_evidence": "LG21TestOptionalPolicies.paper_proposition4_3_actual_gaussian_measure_observable_and_demographic_gaps; LG21TestOptionalPolicies.PaperInterface.proposition4_3_all_observed_access_requirement_protocols",
       "relation": "Replaces invalid conditional-to-marginal mixing in the local Gaussian calculation. The direct all-protocol Proposition 4.3 route carries the repaired comparison through selected voluntary active branches and the literal mandatory PBO branch without coupling their profiles.",
-      "source_anchor": "source.txt:2495-2505"
+      "source_anchor": "cited publication:2495-2505"
     }
   ],
   "human_review": {
     "mismatch_rows": 0,
     "reviewed_rows": 0,
-    "source": "paper-local status.json review_surface; human entries come from dashboard logs",
-    "stale_rows": 37,
-    "total_rows": 37
+    "source": "v11 PaperInterface claim surface; human entries are recorded after direct review",
+    "stale_rows": 0,
+    "total_rows": 9,
+    "uncertain_rows": 0
   },
   "human_summary": "",
   "human_summary_review": {
@@ -222,45 +225,16 @@
       "proposition4_3_simultaneous_protocols_auxiliary",
       "theorem4_4_simultaneous_protocols_auxiliary"
     ],
-    "human_source_file": "papers/LG21TestOptionalPolicies/PaperInterface.lean",
     "include_names": [
-      "student_gaussian_signal_model",
-      "access_action_constraints_and_access_independence",
-      "definition1_hidden_access_optional_source_timed",
-      "definition1_observed_access_optional_operational_source_timed",
-      "definition1_observed_access_report_required_operational_source_timed",
-      "definition1_observed_access_mandatory_pbo_source_witness",
-      "voluntary_optional_self_enforcing_candidate",
-      "voluntary_report_required_self_enforcing_candidate",
-      "voluntary_optional_active_branch_selection",
-      "voluntary_report_required_active_branch_selection",
-      "observed_access_gaussian_source",
-      "optional_active_branch_profile",
-      "report_required_active_branch_profile",
-      "definition2_latent_skill_fair",
-      "definition3_observable_fair",
-      "definition4_demographic_fair",
-      "definition5_test_blank",
-      "fairness_implication_chain",
-      "theorem3_1_optional_reporting_source_timedSpec",
-      "theorem3_1_optional_reporting_source_timed",
-      "theorem3_1_report_required_source_timedSpec",
-      "theorem3_1_report_required_source_timed",
-      "theorem3_1_hidden_access_pbo_fails_all_fairness_definitionsSpec",
-      "theorem3_1_hidden_access_pbo_fails_all_fairness_definitions",
-      "theorem3_2_optional_reporting_clarified_modelSpec",
-      "theorem3_2_optional_reporting_clarified_model",
-      "theorem3_2_report_required_clarified_modelSpec",
-      "theorem3_2_report_required_clarified_model",
       "lemma4_1_observed_access_strategy_proofness_source_coreSpec",
-      "lemma4_1_observed_access_strategy_proofness_source_core",
       "proposition4_2_all_observed_access_requirement_protocols_source_coreSpec",
-      "proposition4_2_all_observed_access_requirement_protocols_source_core",
       "proposition4_3_all_observed_access_requirement_protocols_source_coreSpec",
-      "proposition4_3_all_observed_access_requirement_protocols_source_core",
-      "definition6_observed_access_source_derived_resampling",
-      "theorem4_4_all_observed_access_requirement_protocols_source_coreSpec",
-      "theorem4_4_all_observed_access_requirement_protocols_source_core"
+      "theorem3_1_hidden_access_pbo_fails_all_fairness_definitionsSpec",
+      "theorem3_1_optional_reporting_source_timedSpec",
+      "theorem3_1_report_required_source_timedSpec",
+      "theorem3_2_optional_reporting_clarified_modelSpec",
+      "theorem3_2_report_required_clarified_modelSpec",
+      "theorem4_4_all_observed_access_requirement_protocols_source_coreSpec"
     ],
     "llm_assumption_review": {
       "assumption_judgment_file": "papers/LG21TestOptionalPolicies/audit/assumption_match_llm.json",
@@ -285,10 +259,10 @@
       "lean_to_tex_file": "papers/LG21TestOptionalPolicies/audit/lean_to_tex_llm.json",
       "match_judgment_file": "papers/LG21TestOptionalPolicies/audit/statement_match_llm.json",
       "paper_coverage_audit_file": "papers/LG21TestOptionalPolicies/audit/paper_coverage_llm.json",
-      "policy": "Use complete binder-name-independent Lean signature atoms and source obligations. The approved clarified targets must remain explicitly distinguished from their archived arbitrary-randomized-policy statements.",
+      "policy": "For every selected source claim, compare only its exact byte-pinned raw source-anchor bundle and Lean's expanded transparent `...Spec : Prop` target. The paired proof endpoint receives separate Lean-Meta proof credit; a name, paraphrase, wrapper, or prior aggregate receipt is not a semantic match. Review every retained paper-local prerequisite and every material library prerequisite before the dependent claim.",
       "require_explicit_source_routes": true,
       "require_source_claim_atoms": true,
-      "required_prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
+      "required_prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
       "review_surface_audit_file": "papers/LG21TestOptionalPolicies/audit/review_surface_llm.json",
       "surface_audit_threshold": 30,
       "surface_warning_threshold": 120
@@ -314,6 +288,7 @@
       "LG21TestOptionalPolicies.PaperInterface.theorem4_4_simultaneous_protocols_auxiliary": "Internal aggregation requiring mandatory, optional, and report-required carriers together. The source Theorem 4.4 applies its fairness conclusion separately to each requirement regime, and the direct independent endpoints own that source-facing scope; this conjunction is proof support only and receives no source-claim credit."
     },
     "require_source_spec_correspondence": true,
+    "require_v11_raw_source_spec_screening": true,
     "semantic_model_review": {
       "policy": "Review every expanded paper-facing model surface semantically against the pinned source and approved clarified model. Record not-applicable only after inspecting carrier, probability, conditioning, expectation, partition, and rate semantics; declaration names are routing only.",
       "required_dimensions": [
@@ -365,17 +340,17 @@
     {
       "description": "The paper explicitly leaves hidden-access demographic fairness open and conjectures impossibility.",
       "id": "LG21-HIDDEN-ACCESS-DEMOGRAPHIC-OPEN",
-      "source_location": "source.txt:465-470"
+      "source_location": "cited publication:465-470"
     },
     {
       "description": "The paper expects, but does not state or prove, extensions beyond Gaussian signals.",
       "id": "LG21-NONGAUSSIAN-GENERALITY-EXPECTATION",
-      "source_location": "source.txt:639-645"
+      "source_location": "cited publication:639-645"
     },
     {
       "description": "The paper explicitly leaves approximately fair objective-maximizing policies to future work.",
       "id": "LG21-APPROXIMATE-FAIRNESS-FUTURE-WORK",
-      "source_location": "source.txt:654-656"
+      "source_location": "cited publication:654-656"
     }
   ],
   "source_inventory": {
@@ -390,7 +365,6 @@
     "item_count": 75,
     "note": "The eight retained formula/proof-presentation rows are deep-mode support, not ordinary named-theory blockers. Two source-model convention rows expose the operational candidate-stability semantics and are recursively audited rather than counted as extra assumptions.",
     "path": "papers/LG21TestOptionalPolicies/audit/paper_statement_map.json",
-    "source_artifact_path": "papers/LG21TestOptionalPolicies/source.txt",
     "source_artifact_sha256": "11fb7a52959948847ce19d85adf97256a30c3f1575941ff6efec0e33bf908e1c"
   },
   "source_url": "https://arxiv.org/abs/2107.08922",

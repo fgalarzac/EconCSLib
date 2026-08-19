@@ -445,6 +445,91 @@ theorem pmfConditionalProb_uniformPMF_le_inv_of_condition_eventSet_card_le_one
 
 /--
 Uniform conditional probability bound for a finite fiber with at most one
+favorable point and a certified lower bound on the fiber size.  This is the
+form used by deferred-decision arguments that inject each possible continuation
+into the realized conditioning fiber without classifying every point of that
+fiber.
+-/
+theorem pmfConditionalProb_uniformPMF_le_inv_of_condition_eventSet_card_le_one_of_le
+    {α : Type*} [Fintype α] [DecidableEq α] [Nonempty α]
+    (condition event : α → Prop) [DecidablePred condition]
+    [DecidablePred event] {fiberCard : ℕ}
+    (conditionSet eventSet : Finset α)
+    (hcondition_mem : ∀ a, a ∈ conditionSet ↔ condition a)
+    (hevent_mem : ∀ a, a ∈ eventSet ↔ condition a ∧ event a)
+    (hfiber_pos : 0 < fiberCard)
+    (hfiber_le_condition_card : fiberCard ≤ conditionSet.card)
+    (hevent_card : eventSet.card ≤ 1) :
+    pmfConditionalProb (uniformPMF α) condition event ≤
+      ((fiberCard : ℝ)⁻¹) := by
+  classical
+  have hcondition_card_pos : 0 < conditionSet.card :=
+    lt_of_lt_of_le hfiber_pos hfiber_le_condition_card
+  have hcondition_prob :
+      pmfProb (uniformPMF α) condition =
+        (conditionSet.card : ℝ) / (Fintype.card α : ℝ) := by
+    calc
+      pmfProb (uniformPMF α) condition =
+          pmfProb (uniformPMF α) (fun a => a ∈ conditionSet) := by
+            exact pmfProb_congr (uniformPMF α) (by
+              intro a
+              constructor
+              · intro ha
+                exact (hcondition_mem a).2 ha
+              · intro ha
+                exact (hcondition_mem a).1 ha)
+      _ = (conditionSet.card : ℝ) / (Fintype.card α : ℝ) := by
+            exact pmfProb_uniformPMF_finset conditionSet
+  have hcondition_pos : 0 < pmfProb (uniformPMF α) condition := by
+    rw [hcondition_prob]
+    exact div_pos
+      (by exact_mod_cast hcondition_card_pos)
+      (by exact_mod_cast (Fintype.card_pos_iff.mpr ‹Nonempty α›))
+  have hevent_prob :
+      pmfProb (uniformPMF α) (fun a => condition a ∧ event a) =
+        (eventSet.card : ℝ) / (Fintype.card α : ℝ) := by
+    calc
+      pmfProb (uniformPMF α) (fun a => condition a ∧ event a) =
+          pmfProb (uniformPMF α) (fun a => a ∈ eventSet) := by
+            exact pmfProb_congr (uniformPMF α) (by
+              intro a
+              constructor
+              · intro ha
+                exact (hevent_mem a).2 ha
+              · intro ha
+                exact (hevent_mem a).1 ha)
+      _ = (eventSet.card : ℝ) / (Fintype.card α : ℝ) := by
+            exact pmfProb_uniformPMF_finset eventSet
+  have hevent_card_real : (eventSet.card : ℝ) ≤ 1 := by
+    exact_mod_cast hevent_card
+  have hcondition_card_pos_real : 0 < (conditionSet.card : ℝ) := by
+    exact_mod_cast hcondition_card_pos
+  have hfiber_pos_real : 0 < (fiberCard : ℝ) := by
+    exact_mod_cast hfiber_pos
+  have hfiber_le_condition_card_real :
+      (fiberCard : ℝ) ≤ (conditionSet.card : ℝ) := by
+    exact_mod_cast hfiber_le_condition_card
+  have hcard_alpha_pos : 0 < (Fintype.card α : ℝ) := by
+    exact_mod_cast (Fintype.card_pos_iff.mpr ‹Nonempty α›)
+  rw [pmfConditionalProb_eq_inter_div_of_pos
+    (uniformPMF α) condition event hcondition_pos]
+  rw [hevent_prob, hcondition_prob]
+  calc
+    ((eventSet.card : ℝ) / (Fintype.card α : ℝ)) /
+        ((conditionSet.card : ℝ) / (Fintype.card α : ℝ)) =
+        (eventSet.card : ℝ) / (conditionSet.card : ℝ) := by
+          field_simp [hcard_alpha_pos.ne', hcondition_card_pos_real.ne']
+    _ ≤ 1 / (conditionSet.card : ℝ) :=
+      div_le_div_of_nonneg_right hevent_card_real
+        (le_of_lt hcondition_card_pos_real)
+    _ = ((conditionSet.card : ℝ)⁻¹) := by rw [one_div]
+    _ ≤ ((fiberCard : ℝ)⁻¹) := by
+      exact
+        (inv_le_inv₀ hcondition_card_pos_real hfiber_pos_real).mpr
+          hfiber_le_condition_card_real
+
+/--
+Uniform conditional probability bound for a finite fiber with at most one
 favorable point, stated with canonical filtered finite sets.
 -/
 theorem pmfConditionalProb_uniformPMF_le_inv_of_condition_card_event_card_le_one
@@ -1164,6 +1249,35 @@ theorem pmfProb_eq_pmfExp_state_conditionalProb
           rw [pmf_map_apply_toReal_eq_pmfProb_preimage]
     _ = pmfExp μ (fun ω => c (state ω)) := by
           rw [pmfExp_map]
+
+/--
+Statewise conditional-probability bounds integrate to an unconditional
+expectation bound.  Zero-probability fibers contribute zero by the convention
+in `pmfConditionalProb`, so only positive fibers require a hypothesis.
+-/
+theorem pmfProb_le_pmfExp_state_conditionalProb_bound
+    {Ω σ : Type*} [Fintype Ω] [DecidableEq Ω] [Fintype σ] [DecidableEq σ]
+    (μ : PMF Ω) (q : Ω → Prop) [DecidablePred q]
+    (state : Ω → σ) (bound : σ → ℝ)
+    (hbound_nonneg : ∀ s : σ, 0 ≤ bound s)
+    (hstate_bound : ∀ s : σ,
+      0 < pmfProb μ (fun ω => state ω = s) →
+        pmfConditionalProb μ (fun ω => state ω = s) q ≤ bound s) :
+    pmfProb μ q ≤ pmfExp μ (fun ω => bound (state ω)) := by
+  classical
+  rw [pmfProb_eq_pmfExp_state_conditionalProb μ q state]
+  apply pmfExp_le_pmfExp_of_forall_le
+  intro ω
+  by_cases hpos : 0 < pmfProb μ (fun ω' => state ω' = state ω)
+  · exact hstate_bound (state ω) hpos
+  · have hzero : pmfProb μ (fun ω' => state ω' = state ω) = 0 := by
+      exact le_antisymm (le_of_not_gt hpos)
+        (pmfProb_nonneg μ (fun ω' => state ω' = state ω))
+    have hconditional_zero :
+        pmfConditionalProb μ (fun ω' => state ω' = state ω) q = 0 := by
+      simp [pmfConditionalProb, pmfConditionalExp, hzero]
+    rw [hconditional_zero]
+    exact hbound_nonneg (state ω)
 
 /--
 Conditional-mixture upper bound.  If a finite state map refines a conditioning

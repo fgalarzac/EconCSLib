@@ -1,26 +1,12 @@
 /-!
-# Paper-Facing Theorems: [Paper Title]
+# Non-Authoritative Proof-Implementation Template
 
-This file is the human-facing Lean ledger for the source paper. Keep
-source-faithful definitions and theorem wrappers here, in paper order.
+This legacy template intentionally contains no mathematical declarations. Do
+not copy it to start a formalization. Run
+`python3 scripts/paper_contribution.py new --help` from the repository root and
+use the generated paper scaffold instead.
 
-## Main declarations
-
-- `paperDefinition1`: placeholder for the first exact source definition.
-- `paper_theorem_1`: placeholder for the first exact source theorem.
+In a generated paper, keep proof implementations and internal helper results in
+`MainTheorems.lean` or lower modules. Put every audited source definition and
+named paper result in `PaperInterface.lean`, the sole paper-facing Lean surface.
 -/
-
-namespace TEMPLATE
-
-/-- Paper Definition 1. Replace this with the exact source formula. -/
-abbrev paperDefinition1 : Prop := True
-
-/-- Placeholder for the first exact source theorem. Replace with source statement first. -/
-theorem paperTheoremPlaceholder : paperDefinition1 := by
-  trivial
-
-/-- Paper Theorem 1. Replace with the exact source statement. -/
-theorem paper_theorem_1 : paperDefinition1 := by
-  trivial
-
-end TEMPLATE

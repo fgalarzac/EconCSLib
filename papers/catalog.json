@@ -2,14 +2,6 @@
   "schema": 1,
   "description": "Display metadata consumed by scripts/sync_paper_status.py. Paper-local status.json files remain the source of truth for proof status, review counts, and human summaries.",
   "publication_overrides": {
-    "DGJ24OptimalStrategiesRCV": {
-      "publication": "arXiv:2407.13661, 2024; working paper",
-      "year": 2024
-    },
-    "DGJ26PracticalDynamicsRCV": {
-      "publication": "Journal of Computational Social Science, 2026",
-      "year": 2026
-    },
     "DSWG24DiscretizationBias": {
       "publication": "PNAS Nexus, 2025",
       "year": 2025
@@ -100,8 +92,6 @@
     }
   },
   "source_url_overrides": {
-    "DGJ24OptimalStrategiesRCV": "https://arxiv.org/abs/2407.13661",
-    "DGJ26PracticalDynamicsRCV": "https://arxiv.org/abs/2602.14329",
     "DSWG24DiscretizationBias": "https://arxiv.org/pdf/2405.16762",
     "DGD26AdmissionsPredictability": "https://arxiv.org/abs/2601.11513",
     "EOS07GSP": "https://www.nber.org/papers/w11765",
@@ -147,8 +137,7 @@
         "GN21DriverSurgePricing",
         "LG21TestOptionalPolicies",
         "GKGMM19IterativeLocalVoting",
-        "KR21Monoculture",
-        "DGJ24OptimalStrategiesRCV"
+        "KR21Monoculture"
       ]
     },
     {
@@ -188,9 +177,7 @@
         "LMMS04FairDivision",
         "GKGMM19IterativeLocalVoting",
         "KR21Monoculture",
-        "LOS02CombinatorialAuctions",
-        "DGJ24OptimalStrategiesRCV",
-        "DGJ26PracticalDynamicsRCV"
+        "LOS02CombinatorialAuctions"
       ]
     },
     {
@@ -204,9 +191,7 @@
         "LMMS04FairDivision",
         "GGSG19TopThree",
         "GKGMM19IterativeLocalVoting",
-        "KR21Monoculture",
-        "DGJ24OptimalStrategiesRCV",
-        "DGJ26PracticalDynamicsRCV"
+        "KR21Monoculture"
       ]
     },
     {

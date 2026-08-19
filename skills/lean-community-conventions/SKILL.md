@@ -151,6 +151,12 @@ For library-facing files:
   mathematical lemmas are encouraged.
 - Docstrings should explain mathematical meaning and can slightly abstract away
   implementation details when that helps users.
+- Keep Lean comments and docstrings mathematical and local. Do not record
+  project chronology, retired proof layers, or rejected approaches there.
+  Formalization reports and audits are not a destination for that implementation
+  history either: they should state current source-relevant mathematics only.
+  If the history is genuinely needed for future work, keep it in a private
+  handoff or commit message.
 - Put Lean declaration names and variables in backticks.
 - Put raw URLs in angle brackets.
 - Use `#lint`, `#lint only docBlame`, or `#lint only docBlame docBlameThm` as a

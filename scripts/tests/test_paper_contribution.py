@@ -1084,7 +1084,6 @@ class PaperContributionCommandTests(unittest.TestCase):
                 f"papers/{EXISTING}",
                 f"papers/{EXISTING}.lean",
                 "lakefile.toml",
-                f":(exclude)papers/{EXISTING}/source/",
             ],
         )
 

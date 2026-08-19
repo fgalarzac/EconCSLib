@@ -26,7 +26,7 @@
         "author_approved_corrected_model_theorem1_finite_real_rate"
       ],
       "source_anchor_quote_sha256": "e63468dac3b2c6a9547d94fdf512af4589b7a6b4475db2e65edc08ff9a6e1c3f",
-      "source_evidence": "Pinned source target at sources/arxiv.tex:754-764 with the map-recorded anchor quote hash; the semantic target is the author-approved correction, not an assertion that the archival display is equivalent.",
+      "source_evidence": "Pinned source target at cited publication:754-764 with the map-recorded anchor quote hash; the semantic target is the author-approved correction, not an assertion that the archival display is equivalent.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "2a4c24c2389929fbb514f097bd1f13b3fb757b10ffe072872de16675565bbcda",
       "statement_sha256": "8340a74a9c1fa01f097381146a9805f97ff51d39e26949b9e0ef765c3573c0be",
@@ -57,7 +57,7 @@
         "source_appendix_pk_ld_complement_rate_iid_completion"
       ],
       "source_anchor_quote_sha256": "3d6ec04a845188543d635ce597a39cdace93315ebcbf3c4b9861d771e794a122",
-      "source_evidence": "Pinned source target at sources/arxiv.tex:1670-1681 with the map-recorded anchor quote hash; the semantic target is the author-approved correction, not an assertion that the archival display is equivalent.",
+      "source_evidence": "Pinned source target at cited publication:1670-1681 with the map-recorded anchor quote hash; the semantic target is the author-approved correction, not an assertion that the archival display is equivalent.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "3bfc015c3babef15e24117797976cf667b12e07c986f3a6b9f0be1642c06e9de",
       "statement_sha256": "5f257a64fac6a0c1bf23030f17d195f5da1b9366503a88838bace033af0a907b",
@@ -88,7 +88,7 @@
         "source_appendix_problessthan_score_gap_rate_iid_completion"
       ],
       "source_anchor_quote_sha256": "82007966668f2c65d91a6d2c3b2afa92da2dd4b3d4cec280ba3d3fbc25c0e10c",
-      "source_evidence": "Pinned source target at sources/arxiv.tex:1633-1635 with the map-recorded anchor quote hash; the semantic target is the author-approved correction, not an assertion that the archival display is equivalent.",
+      "source_evidence": "Pinned source target at cited publication:1633-1635 with the map-recorded anchor quote hash; the semantic target is the author-approved correction, not an assertion that the archival display is equivalent.",
       "source_item_coverage_digest_schema": 4,
       "source_item_coverage_sha256": "95e1c361ad11456788c48823077e0de40496b301354fc24a1714c06c97bbe14e",
       "statement_sha256": "0f68b491501a30e2e10c887ed2a00c53ae6dbdf0060e9f202a1f4d6230f99ee3",
@@ -114,7 +114,7 @@
         "source_definition_aggregate_score_formula"
       ],
       "source_anchor_quote_sha256": "e20467c150ddd3f7fdb08f7c10067af63a1ab5264cb479ed26db90c25c008d66",
-      "source_evidence": "Pinned source target at sources/arxiv.tex:697-702 with the map-recorded anchor quote hash; the semantic target is the author-approved correction, not an assertion that the archival display is equivalent.",
+      "source_evidence": "Pinned source target at cited publication:697-702 with the map-recorded anchor quote hash; the semantic target is the author-approved correction, not an assertion that the archival display is equivalent.",
       "source_item_coverage_digest_schema": "source-item-coverage-v2",
       "source_item_coverage_sha256": "03f6316c6bdfec6ba94ae950c926e94db21083a5f0e622437fa9a0c23bad55bb",
       "statement_sha256": "f86fe14564a5c059385b082313735a85bd321444630928126f09718265deb8dc",
@@ -130,7 +130,6 @@
   "review_surface_sha256": "43dbe608422da509422a0e7b2cb9ad3984d498ee3dbc36b8a9b188d8e730dbcf",
   "schema": 1,
   "seed_scaffold": false,
-  "source_artifact_path": "sources/arxiv.tex",
   "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
   "source_coverage_mode": "named_theoretical_statements",
   "source_grounded": true,

@@ -1115,8 +1115,13 @@ class PaperCloseoutConsolidationTests(unittest.TestCase):
                 ),
                 mock.patch.object(
                     audit_repository,
+                    "current_strict_v11_full_spec_source_record_semantic_model_judgment_keys",
+                    return_value=frozenset({"semantic-model::fixture"}),
+                ),
+                mock.patch.object(
+                    audit_repository,
                     "semantic_model_review_findings",
-                    return_value=[],
+                    side_effect=AssertionError("strict parent must not need a duplicate review"),
                 ),
             ):
                 context = audit_repository.PaperCloseoutRunContext.from_exact_evidence_context(

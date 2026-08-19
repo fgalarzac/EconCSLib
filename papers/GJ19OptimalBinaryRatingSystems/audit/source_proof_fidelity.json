@@ -1,211 +1,210 @@
 {
-  "schema": 2,
+  "defects": [
+    {
+      "acceptance_condition": "All checked finite-level statements impose the lower endpoint zero and upper endpoint one.",
+      "affected_source_locators": [
+        "cited publication member cited publication, extracted lines 534-548; Main paper Section 3",
+        "cited publication member cited publication, extracted lines 1593-1599; Supplement Appendix C"
+      ],
+      "defect_kind": "domain_or_endpoint",
+      "id": "GJ19-C5-ENDPOINT-TYPO-01",
+      "repair_obligation": "Use t_0 = 0 and t_{M-1} = 1 in the Appendix C.5 refinement setup.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "BinaryEndpointLevelVector and the Lemma 3.1/C.5 paper-facing rows enforce levels 0 = 0 and levels (m+1) = 1.",
+      "source_claim": "The Appendix C.5 setup prints both t_0 = 1 and t_{M-1} = 1, although the binary step rule everywhere else has lower endpoint t_0 = 0.",
+      "source_locator": "cited publication member cited publication, extracted lines 1593-1599; Supplement Appendix C",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The surrounding source, Lemma 3.1, and every endpoint-aware Lean vector use the unique intended endpoints 0 and 1, so this is a local typographical correction with no change to an advertised result."
+    },
+    {
+      "acceptance_condition": "A source-shaped runner uses the candidate vector consistently and calls each helper with all declared inputs.",
+      "affected_source_locators": [
+        "cited publication member cited publication, extracted lines 549-566; Main paper Section 3",
+        "cited publication member cited publication, extracted lines 779-837; Supplement Appendix B"
+      ],
+      "defect_kind": "index_or_integrality",
+      "id": "GJ19-ALG1-PSEUDOCODE-TYPO-01",
+      "repair_obligation": "Use j_{M-2} = (u+ell)/2, compute both endpoint rates from the candidate j-vector, and pass the last rate as the final CalculateOtherLevels target.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "The high-level Algorithm 1 at source/garg19a.txt:549-566 fixes the candidate last level, reconstructs the remaining candidate levels at that target rate, and then compares the candidate first and last rates.",
+      "source_claim": "The detailed pseudocode uses an undefined r in the outer midpoint, evaluates last and first rates at t rather than the candidate j, and omits the target-rate argument in the final CalculateOtherLevels call.",
+      "source_locator": "cited publication member cited publication, extracted lines 779-837; Supplement Appendix B",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The variable scope and the main-paper description uniquely determine the candidate midpoint and rate arguments. The literal weighted outer/inner runner, its correctness theorem, and its optimizer-independent polynomial runtime route now implement that intended procedure, so these pseudocode slips remain local typographical notes rather than a formalization boundary."
+    },
+    {
+      "acceptance_condition": "The endpoint-rate definition and every checked use have the complement 1-t_1.",
+      "affected_source_locators": [
+        "cited publication member cited publication, extracted lines 500-510; Main paper Section 3",
+        "cited publication member cited publication, extracted lines 2206-2226; Supplement Appendix C"
+      ],
+      "defect_kind": "algebra_or_sign",
+      "id": "GJ19-T32-FIRST-RATE-TYPO-01",
+      "repair_obligation": "Use -g_1 log(1-t_1) for the first endpoint separation rate.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "The binary endpoint-aware adjacent-rate definition and Theorem 3.1 formula rows use the lower-endpoint rate -g_1 log(1-t_1).",
+      "source_claim": "The Theorem 3.2 proof temporarily prints the first endpoint rate as -g_1 log(t_1), whereas the model and the preceding display use -g_1 log(1-t_1).",
+      "source_locator": "cited publication member cited publication, extracted lines 2206-2226; Supplement Appendix C",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "This is an isolated transcription slip in the proof; the correct endpoint formula is stated before and after it and is formalized directly."
+    },
+    {
+      "acceptance_condition": "The formal integral-rate object does not infer a zero complement error merely from equal beta levels.",
+      "affected_source_locators": [
+        "cited publication member cited publication, extracted lines 1143-1270; Supplement Appendix C",
+        "cited publication member cited publication, extracted lines 1328-1364; Supplement Appendix C"
+      ],
+      "defect_kind": "event_or_measure",
+      "id": "GJ19-C3-TIE-COMPLEMENT-01",
+      "repair_obligation": "State the decomposition on cross-level cells, or explicitly erase within-cell ties before applying the finite-component exponential-rate argument.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "The paper-facing C.3 row selects the least finite separated-cell exponent internally. The corrected C.4 row constructs and transports the canonical selected cross-level realization for its finite branch and separately uses the defined tie-erased source Wbar for its non-step reverse branch; it neither uses the erroneous tied-pair complement equality nor labels the two kernels as one unchanged-object iff.",
+      "source_claim": "The Lemma C.3 proof says the complement error term is zero when two beta levels agree, although Pbar = 1-P_k is one on an uninformative tied comparison; the intended weighted-gap decomposition instead removes within-cell ties.",
+      "source_locator": "cited publication member cited publication, extracted lines 1143-1198; Supplement Appendix C",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The cross-cell objective and tie-erased limiting-gap object give the intended minimum adjacent exponent; correcting the local complement sentence does not change the substantive rate theorem."
+    },
+    {
+      "acceptance_condition": "The checked lower-bound statement has an explicit inequality and positive constant or a stronger explicit formula.",
+      "affected_source_locators": [
+        "cited publication member cited publication, extracted lines 1586-1597; Supplement Appendix C",
+        "cited publication member cited publication, extracted lines 2150-2190; Supplement Appendix C"
+      ],
+      "defect_kind": "inequality_direction",
+      "id": "GJ19-C5-LANDAU-LOWER-BOUND-01",
+      "repair_obligation": "Replace O(M^-3) in the lower-bound sentence by Omega(M^-3) or an explicit existential positive constant.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "The Corollary C.3 paper-facing row proves the stronger explicit bound t_1 >= 1/(2(M-1)^2) under the normalized monotone matching assumptions.",
+      "source_claim": "The C.5 introduction describes a lower bound as t*_1 >= O(M^-3), where lower-bound notation should be Omega or an explicit positive-constant inequality.",
+      "source_locator": "cited publication member cited publication, extracted lines 1586-1597; Supplement Appendix C",
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The subsequent lemmas give the intended explicit lower bound, so the misuse of asymptotic notation is local and does not alter the quantitative conclusion."
+    },
+    {
+      "acceptance_condition": "No checked theorem obtains the C.3/C.4 rate by assuming uniform convergence across the diagonal without a separation or tie-erasure condition.",
+      "affected_source_locators": [
+        "cited publication member cited publication, extracted lines 1081-1141; Supplement Appendix C",
+        "cited publication member cited publication, extracted lines 1282-1315; Supplement Appendix C"
+      ],
+      "defect_kind": "quantifier_or_uniformity",
+      "id": "GJ19-C1-UNIFORM-REMARK-01",
+      "repair_obligation": "Apply the Laplace argument on finitely many separated cross-level cells, or replace global uniform convergence by hypotheses sufficient for the weighted essential-infimum bound.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "The corrected Remark C.1 row states the full-square Laplace theorem only under its explicit analytic hypotheses. The actual C.3 application uses separated cross-level cells and an internally selected least exponent; corrected C.4 states the finite selected-pullback and non-step source-gap branches separately rather than asserting uniform convergence across the diagonal or a same-kernel iff.",
+      "source_claim": "Remark C.1 says the full [0,1]^2 rate-function sequence satisfies Theorem C.1's uniform-convergence condition, while the later C.4 proof explicitly observes nonuniform convergence near the diagonal.",
+      "source_locator": "cited publication member cited publication, extracted lines 1081-1141; Supplement Appendix C",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The finite cross-cell Laplace route and the weighted essential-infimum theorem avoid the false global uniformity assertion and preserve the advertised piecewise-constant rate conclusions."
+    },
+    {
+      "acceptance_condition": "A paper-facing theorem proves the complete general-nondecreasing-g Theorem 3.1 endpoint without accepting either optimization conclusion as an input.",
+      "affected_source_locators": [
+        "cited publication member cited publication, extracted lines 320-367; Main paper Section 2",
+        "cited publication member cited publication, extracted lines 458-517; Main paper Section 3",
+        "cited publication member cited publication, extracted lines 1328-1584; Supplement Appendix C"
+      ],
+      "defect_kind": "logical_dependency",
+      "id": "GJ19-T31-GENERAL-G-CLOSURE-01",
+      "repair_obligation": "Construct a source value-maximizing ordered partition, derive its cell matching rates from g, and prove rate maximality across the entire value-maximizing fiber before applying lexicographic composition.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "sourceCellMatchingRate_eq_lower_cutpoint, theorem31_source_matching_function_weighted_value_argmax_certificate, and theorem31_source_matching_function_weighted_unique_value_argmax_lexicographic_certificate derive the general-g source assembly; PaperInterface exposes the selected and unique-tie forms.",
+      "source_claim": "Theorem 3.1 claims the continuum discretization and level choices jointly give the value-then-rate optimal binary system for the source nondecreasing matching function g.",
+      "source_locator": "cited publication member cited publication, extracted lines 487-517; Main paper Section 3",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "Lean now derives every finite cell rate from the source nondecreasing matching function, constructs the equalized rate optimizer, and closes the selected-discretization source rate certificate. The full lexicographic wrapper states a uniqueness convention only to resolve the source's unspecified first-stage tie among value-maximizing partitions; that routine tie convention does not materially change the advertised endpoint."
+    },
+    {
+      "acceptance_condition": "A paper-facing executable or operational theorem analyzes the returned output of Algorithm 1 itself and proves the source epsilon and runtime guarantees without reading the optimum as an input.",
+      "affected_source_locators": [
+        "cited publication member cited publication, extracted lines 549-597; Main paper Section 3",
+        "cited publication member cited publication, extracted lines 779-837; Supplement Appendix B",
+        "cited publication member cited publication, extracted lines 2191-2381; Supplement Appendix C"
+      ],
+      "defect_kind": "logical_dependency",
+      "id": "GJ19-T32-EXECUTABLE-ALGORITHM-01",
+      "repair_obligation": "Define the exact source runner, prove the outer classifier brackets the optimum, prove every inner bisection returns the specified levels, connect M to the actual dimension, and derive the stated general matching-rate loss and runtime bound.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "theorem32WeightedNestedBisectionOutput is the direct-rate source runner. theorem32WeightedSourceGapMin_ge_polynomial derives an optimizer-independent polynomial adjacent-gap lower bound, and theorem32WeightedNestedBisectionOutput_exists_source_depth_of_eps_pos uses its explicit grid to prove additive epsilon loss together with exact step and quadratic-log runtime bounds.",
+      "source_claim": "Theorem 3.2 claims that the source NestedBisection algorithm returns an epsilon-optimal level vector in O(M log^2(M/epsilon)) operations for the model matching function.",
+      "source_locator": "cited publication member cited publication, extracted lines 549-597; Main paper Section 3",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "Lean now defines the literal optimum-independent weighted nested-bisection output and derives all former shooting, returned-level, bracketing, shifting, loss, and finite-depth obligations. The source proof does not explicitly derive the polynomial adjacent-gap lower bound needed to reconcile its informal delta-below-gap choice with the advertised joint M-and-epsilon runtime; Lean derives that bound from the printed equalization, monotonicity, endpoint, and normalization hypotheses. This is a repaired proof omission, not a changed algorithmic endpoint."
+    },
+    {
+      "acceptance_condition": "The UnknownTypeExperiment theorem derives rankRepresentative convergence and response tracking from explicit source-corrected experiment assumptions.",
+      "affected_source_locators": [
+        "cited publication member cited publication, extracted lines 948-976; Supplement Appendix B"
+      ],
+      "defect_kind": "quantifier_or_uniformity",
+      "id": "GJ19-B3-RANKING-IDENTIFIABILITY-01",
+      "repair_obligation": "Add and formalize an aggregate-response order-identifiability condition, positive sampling mass and a finite or uniform-LLN question model, then prove ranking consistency and empirical tracking from the experiment.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "lemmaB3_unknownTypeExperiment_ae_iterated_uniform_and_rank_of_random_question_iid derives the complete iterated item/sample uniform response limit and eventual true-order recovery from literal random-question IID observations under explicit strict aggregate-score identifiability; no empirical-tracking or ranking conclusion is supplied as a premise.",
+      "source_claim": "Lemma B.3 states uniform UnknownTypeExperiment learning under Lipschitz continuity alone, but its proof additionally invokes that responses increase with quality and that empirical score ranking recovers quality ranking.",
+      "source_locator": "cited publication member cited publication, extracted lines 948-976; Supplement Appendix B",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "Lean now derives response tracking and eventual empirical rank recovery jointly from the literal random-question observations. The required strict monotonicity of the mixed expected score is the identifiability condition used implicitly by the printed proof's increasing-response sentence; exposing it repairs a minor omitted hypothesis without changing the learning conclusion."
+    },
+    {
+      "acceptance_condition": "No checked theorem asserts literal joint strict convexity on a set containing two distinct diagonal points, and the coordinatewise separation facts used by Lemma 3.1 are proved directly.",
+      "affected_source_locators": [
+        "cited publication member cited publication, extracted lines 1321-1325; Supplement Appendix C"
+      ],
+      "defect_kind": "logical_dependency",
+      "id": "GJ19-C2-JOINT-STRICT-CONVEXITY-01",
+      "repair_obligation": "Read the strictness coordinatewise: prove joint interior continuity, zero rate on the diagonal, positive rate off the diagonal, and strict monotonic separation in either endpoint when the other is fixed.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "The direct Remark C.2 PaperInterface row proves joint continuity, diagonal zero, off-diagonal positivity, and strict high-endpoint/low-endpoint monotonicity from positive weights and ordered interior probabilities.",
+      "source_claim": "Remark C.2 calls the weighted two-endpoint Bernoulli separation objective strictly convex in both endpoints while also saying that every point with t_i = t_{i+1} is a minimum.",
+      "source_locator": "cited publication member cited publication, extracted lines 1321-1325; Supplement Appendix C",
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The literal joint-convexity wording is incompatible with the stated continuum of diagonal minima, but the continuity and strict one-coordinate separation properties actually used in the proof are correct and formalized. This is a local prose overstatement, not a change to any advertised theorem endpoint."
+    }
+  ],
   "paper": "GJ19OptimalBinaryRatingSystems",
-  "source_artifact_path": "papers/GJ19OptimalBinaryRatingSystems/source.tar",
-  "source_artifact_sha256": "59780d7a9ea09cccd9c6877103434757a6597212512958c6e22e60b189826e89",
   "review_status": "defects_recorded",
   "reviewed_proof_scopes": [
     {
-      "source_locator": "source.tar member source.txt, extracted lines 186-692; Main paper Section 2",
+      "outcome": "defect_recorded",
       "semantic_scope": "The continuum binary-rating model, pairwise and weighted objectives, lexicographic criterion, Theorem 3.1, Lemma 3.1, Algorithm 1, Theorem 3.2, and the Section 4 system-design formulas.",
-      "outcome": "defect_recorded"
+      "source_locator": "cited publication member cited publication, extracted lines 186-692; Main paper Section 2"
     },
     {
-      "source_locator": "source.tar member source-supplement.txt, extracted lines 736-837; Supplement Appendix B",
+      "outcome": "defect_recorded",
       "semantic_scope": "The exact state-update equations and the detailed NestedBisection pseudocode, including its outer and inner bisection routines.",
-      "outcome": "defect_recorded"
+      "source_locator": "cited publication member cited publication, extracted lines 736-837; Supplement Appendix B"
     },
     {
-      "source_locator": "source.tar member source-supplement.txt, extracted lines 843-976; Supplement Appendix B",
+      "outcome": "defect_recorded",
       "semantic_scope": "Lemma B.1 comparative statics, Theorem B.1 subsequence convergence, and the KnownTypeExperiment and UnknownTypeExperiment learning claims.",
-      "outcome": "defect_recorded"
+      "source_locator": "cited publication member cited publication, extracted lines 843-976; Supplement Appendix B"
     },
     {
-      "source_locator": "source.tar member source-supplement.txt, extracted lines 999-1584; Supplement Appendix B",
+      "outcome": "defect_recorded",
       "semantic_scope": "The Appendix C.1-C.4 large-deviation derivations, Laplace principle, piecewise-constant rate characterization, and the proofs of Theorem 3.1 and Lemma 3.1.",
-      "outcome": "defect_recorded"
+      "source_locator": "cited publication member cited publication, extracted lines 999-1584; Supplement Appendix B"
     },
     {
-      "source_locator": "source.tar member source-supplement.txt, extracted lines 1586-2381; Supplement Appendix C",
+      "outcome": "defect_recorded",
       "semantic_scope": "The Appendix C.5-C.6 refinement, endpoint, runtime, and approximation arguments supporting Theorem 3.2.",
-      "outcome": "defect_recorded"
+      "source_locator": "cited publication member cited publication, extracted lines 1586-2381; Supplement Appendix C"
     },
     {
-      "source_locator": "source.tar member source-supplement.txt, extracted lines 2383-2676; Supplement Appendix C",
+      "outcome": "no_defect",
       "semantic_scope": "Theorem B.1's proof, Corollary C.4, and the Kendall and Spearman objective reductions and optimizers.",
-      "outcome": "no_defect"
+      "source_locator": "cited publication member cited publication, extracted lines 2383-2676; Supplement Appendix C"
     }
   ],
-  "defects": [
-    {
-      "id": "GJ19-C5-ENDPOINT-TYPO-01",
-      "source_locator": "source.tar member source-supplement.txt, extracted lines 1593-1599; Supplement Appendix C",
-      "source_claim": "The Appendix C.5 setup prints both t_0 = 1 and t_{M-1} = 1, although the binary step rule everywhere else has lower endpoint t_0 = 0.",
-      "defect_kind": "domain_or_endpoint",
-      "affected_source_locators": [
-        "source.tar member source.txt, extracted lines 534-548; Main paper Section 3",
-        "source.tar member source-supplement.txt, extracted lines 1593-1599; Supplement Appendix C"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The surrounding source, Lemma 3.1, and every endpoint-aware Lean vector use the unique intended endpoints 0 and 1, so this is a local typographical correction with no change to an advertised result.",
-      "repair_obligation": "Use t_0 = 0 and t_{M-1} = 1 in the Appendix C.5 refinement setup.",
-      "acceptance_condition": "All checked finite-level statements impose the lower endpoint zero and upper endpoint one.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "BinaryEndpointLevelVector and the Lemma 3.1/C.5 paper-facing rows enforce levels 0 = 0 and levels (m+1) = 1."
-    },
-    {
-      "id": "GJ19-ALG1-PSEUDOCODE-TYPO-01",
-      "source_locator": "source.tar member source-supplement.txt, extracted lines 779-837; Supplement Appendix B",
-      "source_claim": "The detailed pseudocode uses an undefined r in the outer midpoint, evaluates last and first rates at t rather than the candidate j, and omits the target-rate argument in the final CalculateOtherLevels call.",
-      "defect_kind": "index_or_integrality",
-      "affected_source_locators": [
-        "source.tar member source.txt, extracted lines 549-566; Main paper Section 3",
-        "source.tar member source-supplement.txt, extracted lines 779-837; Supplement Appendix B"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The variable scope and the main-paper description uniquely determine the candidate midpoint and rate arguments. The literal weighted outer/inner runner, its correctness theorem, and its optimizer-independent polynomial runtime route now implement that intended procedure, so these pseudocode slips remain local typographical notes rather than a formalization boundary.",
-      "repair_obligation": "Use j_{M-2} = (u+ell)/2, compute both endpoint rates from the candidate j-vector, and pass the last rate as the final CalculateOtherLevels target.",
-      "acceptance_condition": "A source-shaped runner uses the candidate vector consistently and calls each helper with all declared inputs.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "The high-level Algorithm 1 at source/garg19a.txt:549-566 fixes the candidate last level, reconstructs the remaining candidate levels at that target rate, and then compares the candidate first and last rates."
-    },
-    {
-      "id": "GJ19-T32-FIRST-RATE-TYPO-01",
-      "source_locator": "source.tar member source-supplement.txt, extracted lines 2206-2226; Supplement Appendix C",
-      "source_claim": "The Theorem 3.2 proof temporarily prints the first endpoint rate as -g_1 log(t_1), whereas the model and the preceding display use -g_1 log(1-t_1).",
-      "defect_kind": "algebra_or_sign",
-      "affected_source_locators": [
-        "source.tar member source.txt, extracted lines 500-510; Main paper Section 3",
-        "source.tar member source-supplement.txt, extracted lines 2206-2226; Supplement Appendix C"
-      ],
-      "statement_impact": "proof_only",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "This is an isolated transcription slip in the proof; the correct endpoint formula is stated before and after it and is formalized directly.",
-      "repair_obligation": "Use -g_1 log(1-t_1) for the first endpoint separation rate.",
-      "acceptance_condition": "The endpoint-rate definition and every checked use have the complement 1-t_1.",
-      "resolution": "repaired_in_lean",
-      "resolution_evidence": "The binary endpoint-aware adjacent-rate definition and Theorem 3.1 formula rows use the lower-endpoint rate -g_1 log(1-t_1)."
-    },
-    {
-      "id": "GJ19-C3-TIE-COMPLEMENT-01",
-      "source_locator": "source.tar member source-supplement.txt, extracted lines 1143-1198; Supplement Appendix C",
-      "source_claim": "The Lemma C.3 proof says the complement error term is zero when two beta levels agree, although Pbar = 1-P_k is one on an uninformative tied comparison; the intended weighted-gap decomposition instead removes within-cell ties.",
-      "defect_kind": "event_or_measure",
-      "affected_source_locators": [
-        "source.tar member source-supplement.txt, extracted lines 1143-1270; Supplement Appendix C",
-        "source.tar member source-supplement.txt, extracted lines 1328-1364; Supplement Appendix C"
-      ],
-      "statement_impact": "proof_only",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The cross-cell objective and tie-erased limiting-gap object give the intended minimum adjacent exponent; correcting the local complement sentence does not change the substantive rate theorem.",
-      "repair_obligation": "State the decomposition on cross-level cells, or explicitly erase within-cell ties before applying the finite-component exponential-rate argument.",
-      "acceptance_condition": "The formal integral-rate object does not infer a zero complement error merely from equal beta levels.",
-      "resolution": "repaired_in_lean",
-      "resolution_evidence": "The paper-facing C.3 row selects the least finite separated-cell exponent internally. The corrected C.4 row constructs and transports the canonical selected cross-level realization for its finite branch and separately uses the defined tie-erased source Wbar for its non-step reverse branch; it neither uses the erroneous tied-pair complement equality nor labels the two kernels as one unchanged-object iff."
-    },
-    {
-      "id": "GJ19-C5-LANDAU-LOWER-BOUND-01",
-      "source_locator": "source.tar member source-supplement.txt, extracted lines 1586-1597; Supplement Appendix C",
-      "source_claim": "The C.5 introduction describes a lower bound as t*_1 >= O(M^-3), where lower-bound notation should be Omega or an explicit positive-constant inequality.",
-      "defect_kind": "inequality_direction",
-      "affected_source_locators": [
-        "source.tar member source-supplement.txt, extracted lines 1586-1597; Supplement Appendix C",
-        "source.tar member source-supplement.txt, extracted lines 2150-2190; Supplement Appendix C"
-      ],
-      "statement_impact": "proof_only",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The subsequent lemmas give the intended explicit lower bound, so the misuse of asymptotic notation is local and does not alter the quantitative conclusion.",
-      "repair_obligation": "Replace O(M^-3) in the lower-bound sentence by Omega(M^-3) or an explicit existential positive constant.",
-      "acceptance_condition": "The checked lower-bound statement has an explicit inequality and positive constant or a stronger explicit formula.",
-      "resolution": "repaired_in_lean",
-      "resolution_evidence": "The Corollary C.3 paper-facing row proves the stronger explicit bound t_1 >= 1/(2(M-1)^2) under the normalized monotone matching assumptions."
-    },
-    {
-      "id": "GJ19-C1-UNIFORM-REMARK-01",
-      "source_locator": "source.tar member source-supplement.txt, extracted lines 1081-1141; Supplement Appendix C",
-      "source_claim": "Remark C.1 says the full [0,1]^2 rate-function sequence satisfies Theorem C.1's uniform-convergence condition, while the later C.4 proof explicitly observes nonuniform convergence near the diagonal.",
-      "defect_kind": "quantifier_or_uniformity",
-      "affected_source_locators": [
-        "source.tar member source-supplement.txt, extracted lines 1081-1141; Supplement Appendix C",
-        "source.tar member source-supplement.txt, extracted lines 1282-1315; Supplement Appendix C"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The finite cross-cell Laplace route and the weighted essential-infimum theorem avoid the false global uniformity assertion and preserve the advertised piecewise-constant rate conclusions.",
-      "repair_obligation": "Apply the Laplace argument on finitely many separated cross-level cells, or replace global uniform convergence by hypotheses sufficient for the weighted essential-infimum bound.",
-      "acceptance_condition": "No checked theorem obtains the C.3/C.4 rate by assuming uniform convergence across the diagonal without a separation or tie-erasure condition.",
-      "resolution": "repaired_in_lean",
-      "resolution_evidence": "The corrected Remark C.1 row states the full-square Laplace theorem only under its explicit analytic hypotheses. The actual C.3 application uses separated cross-level cells and an internally selected least exponent; corrected C.4 states the finite selected-pullback and non-step source-gap branches separately rather than asserting uniform convergence across the diagonal or a same-kernel iff."
-    },
-    {
-      "id": "GJ19-T31-GENERAL-G-CLOSURE-01",
-      "source_locator": "source.tar member source.txt, extracted lines 487-517; Main paper Section 3",
-      "source_claim": "Theorem 3.1 claims the continuum discretization and level choices jointly give the value-then-rate optimal binary system for the source nondecreasing matching function g.",
-      "defect_kind": "logical_dependency",
-      "affected_source_locators": [
-        "source.tar member source.txt, extracted lines 320-367; Main paper Section 2",
-        "source.tar member source.txt, extracted lines 458-517; Main paper Section 3",
-        "source.tar member source-supplement.txt, extracted lines 1328-1584; Supplement Appendix C"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "Lean now derives every finite cell rate from the source nondecreasing matching function, constructs the equalized rate optimizer, and closes the selected-discretization source rate certificate. The full lexicographic wrapper states a uniqueness convention only to resolve the source's unspecified first-stage tie among value-maximizing partitions; that routine tie convention does not materially change the advertised endpoint.",
-      "repair_obligation": "Construct a source value-maximizing ordered partition, derive its cell matching rates from g, and prove rate maximality across the entire value-maximizing fiber before applying lexicographic composition.",
-      "acceptance_condition": "A paper-facing theorem proves the complete general-nondecreasing-g Theorem 3.1 endpoint without accepting either optimization conclusion as an input.",
-      "resolution": "repaired_in_lean",
-      "resolution_evidence": "sourceCellMatchingRate_eq_lower_cutpoint, theorem31_source_matching_function_weighted_value_argmax_certificate, and theorem31_source_matching_function_weighted_unique_value_argmax_lexicographic_certificate derive the general-g source assembly; PaperInterface exposes the selected and unique-tie forms."
-    },
-    {
-      "id": "GJ19-T32-EXECUTABLE-ALGORITHM-01",
-      "source_locator": "source.tar member source.txt, extracted lines 549-597; Main paper Section 3",
-      "source_claim": "Theorem 3.2 claims that the source NestedBisection algorithm returns an epsilon-optimal level vector in O(M log^2(M/epsilon)) operations for the model matching function.",
-      "defect_kind": "logical_dependency",
-      "affected_source_locators": [
-        "source.tar member source.txt, extracted lines 549-597; Main paper Section 3",
-        "source.tar member source-supplement.txt, extracted lines 779-837; Supplement Appendix B",
-        "source.tar member source-supplement.txt, extracted lines 2191-2381; Supplement Appendix C"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "Lean now defines the literal optimum-independent weighted nested-bisection output and derives all former shooting, returned-level, bracketing, shifting, loss, and finite-depth obligations. The source proof does not explicitly derive the polynomial adjacent-gap lower bound needed to reconcile its informal delta-below-gap choice with the advertised joint M-and-epsilon runtime; Lean derives that bound from the printed equalization, monotonicity, endpoint, and normalization hypotheses. This is a repaired proof omission, not a changed algorithmic endpoint.",
-      "repair_obligation": "Define the exact source runner, prove the outer classifier brackets the optimum, prove every inner bisection returns the specified levels, connect M to the actual dimension, and derive the stated general matching-rate loss and runtime bound.",
-      "acceptance_condition": "A paper-facing executable or operational theorem analyzes the returned output of Algorithm 1 itself and proves the source epsilon and runtime guarantees without reading the optimum as an input.",
-      "resolution": "repaired_in_lean",
-      "resolution_evidence": "theorem32WeightedNestedBisectionOutput is the direct-rate source runner. theorem32WeightedSourceGapMin_ge_polynomial derives an optimizer-independent polynomial adjacent-gap lower bound, and theorem32WeightedNestedBisectionOutput_exists_source_depth_of_eps_pos uses its explicit grid to prove additive epsilon loss together with exact step and quadratic-log runtime bounds."
-    },
-    {
-      "id": "GJ19-B3-RANKING-IDENTIFIABILITY-01",
-      "source_locator": "source.tar member source-supplement.txt, extracted lines 948-976; Supplement Appendix B",
-      "source_claim": "Lemma B.3 states uniform UnknownTypeExperiment learning under Lipschitz continuity alone, but its proof additionally invokes that responses increase with quality and that empirical score ranking recovers quality ranking.",
-      "defect_kind": "quantifier_or_uniformity",
-      "affected_source_locators": [
-        "source.tar member source-supplement.txt, extracted lines 948-976; Supplement Appendix B"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "Lean now derives response tracking and eventual empirical rank recovery jointly from the literal random-question observations. The required strict monotonicity of the mixed expected score is the identifiability condition used implicitly by the printed proof's increasing-response sentence; exposing it repairs a minor omitted hypothesis without changing the learning conclusion.",
-      "repair_obligation": "Add and formalize an aggregate-response order-identifiability condition, positive sampling mass and a finite or uniform-LLN question model, then prove ranking consistency and empirical tracking from the experiment.",
-      "acceptance_condition": "The UnknownTypeExperiment theorem derives rankRepresentative convergence and response tracking from explicit source-corrected experiment assumptions.",
-      "resolution": "repaired_in_lean",
-      "resolution_evidence": "lemmaB3_unknownTypeExperiment_ae_iterated_uniform_and_rank_of_random_question_iid derives the complete iterated item/sample uniform response limit and eventual true-order recovery from literal random-question IID observations under explicit strict aggregate-score identifiability; no empirical-tracking or ranking conclusion is supplied as a premise."
-    },
-    {
-      "id": "GJ19-C2-JOINT-STRICT-CONVEXITY-01",
-      "source_locator": "source.tar member source-supplement.txt, extracted lines 1321-1325; Supplement Appendix C",
-      "source_claim": "Remark C.2 calls the weighted two-endpoint Bernoulli separation objective strictly convex in both endpoints while also saying that every point with t_i = t_{i+1} is a minimum.",
-      "defect_kind": "logical_dependency",
-      "affected_source_locators": [
-        "source.tar member source-supplement.txt, extracted lines 1321-1325; Supplement Appendix C"
-      ],
-      "statement_impact": "source_statement",
-      "status_impact": "formalized_note",
-      "status_impact_rationale": "The literal joint-convexity wording is incompatible with the stated continuum of diagonal minima, but the continuity and strict one-coordinate separation properties actually used in the proof are correct and formalized. This is a local prose overstatement, not a change to any advertised theorem endpoint.",
-      "repair_obligation": "Read the strictness coordinatewise: prove joint interior continuity, zero rate on the diagonal, positive rate off the diagonal, and strict monotonic separation in either endpoint when the other is fixed.",
-      "acceptance_condition": "No checked theorem asserts literal joint strict convexity on a set containing two distinct diagonal points, and the coordinatewise separation facts used by Lemma 3.1 are proved directly.",
-      "resolution": "corrected_source_statement",
-      "resolution_evidence": "The direct Remark C.2 PaperInterface row proves joint continuity, diagonal zero, off-diagonal positivity, and strict high-endpoint/low-endpoint monotonicity from positive weights and ordered interior probabilities."
-    }
-  ]
+  "schema": 2,
+  "source_artifact_sha256": "59780d7a9ea09cccd9c6877103434757a6597212512958c6e22e60b189826e89"
 }

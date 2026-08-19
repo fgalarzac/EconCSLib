@@ -1,59 +1,33 @@
 {
-  "schema": 1,
-  "paper": "GJ18InformativeRatingSystems",
-  "title": "Designing Informative Rating Systems: Evidence from an Online Labor Market",
-  "generated_at": "2026-07-26T22:16:10Z",
-  "source_url": "https://arxiv.org/pdf/1810.13028",
-  "source_inventory_kind": "source_curated",
-  "source_curated": true,
-  "source_artifact_path": "sources/arxiv.tex",
-  "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
-  "source_archive_path": "source.tar.gz",
-  "source_archive_sha256": "b5378ae6f1ada1674d9f07dd4c1405655a9109e89a9977debab1b89d599f19de",
-  "source_coverage_mode": "named_theoretical_statements",
-  "source_anchor_evidence_required": true,
-  "source_named_result_inventory_review": {
-    "schema": 1,
-    "complete": true,
-    "validator": "Codex GJ18 source-only named-result reconciliation",
-    "validated_at": "2026-07-26T22:32:27Z",
-    "method": "Independent source-only scan of the exact flattened archival TeX. It recognizes active theorem and lemma presentations, including thmtools restatable environments, and excludes commented-out material, ordinary equation numbering, figures, captions, and prose. Mapping is by exact canonical source spans and bytes, not source-map keys or Lean declaration names.",
-    "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
-    "discovered_named_result_sha256": "a56d546f6c540508b402b16cc3347dd8a8ce96b4c8d2efaebf6cce926b9d7cf0",
-    "prose_definition_presentations": [],
-    "discovered_prose_definition_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
-  },
-  "source_inventory_policy": "Source-first inventory of the exact flattened arXiv TeX entry sources/arxiv.tex, mechanically extracted from the separately pinned source.tar.gz. Independent source-presentation inspection finds three active named mathematical results: Theorem 1 and the Appendix problessthan and P_k-LD lemmas. The 21 PaperInterface rows remain the semantic review surface, but only those three source-presented results receive ordinary named-theory coverage credit. Literal formulas, corrected-model bridges, and the legacy-rate diagnostic remain support/deep material. The author-approved additions govern corrected targets but are never represented as derivations of the archival recurrence or unrestricted real-valued rate display. Lean identifiers are routing only, never semantic evidence.",
   "author_confirmed_clarifications": [
     {
-      "id": "GJ18-AUTHOR-CLARIFICATION-MATCH-RATES-2026-07-24",
-      "recorded_at": "2026-07-24",
       "claim": "For every seller type theta, 0 < g(theta) <= 1.",
-      "provenance": "Author clarification relayed by the repository user; not a literal assertion in the pinned TeX archive.",
+      "id": "GJ18-AUTHOR-CLARIFICATION-MATCH-RATES-2026-07-24",
       "lean_scope": "Corrected asymptotic rows keep hpositive_sample explicit. The finite source-model record also contains the at-most-one-match schedule; no archive-derived standalone g<=1 theorem is claimed.",
-      "literal_archive_status": "The archive-only formulation remains partial because its reviewed text states nondecreasing g, not this strict lower-bound clarification."
+      "literal_archive_status": "The archive-only formulation remains partial because its reviewed text states nondecreasing g, not this strict lower-bound clarification.",
+      "provenance": "Author clarification relayed by the repository user; not a literal assertion in the pinned TeX archive.",
+      "recorded_at": "2026-07-24"
     },
     {
-      "id": "GJ18-AUTHOR-CLARIFICATION-IID-2026-07-24",
-      "recorded_at": "2026-07-24",
       "claim": "Ratings are conditionally IID given seller type and independent across sellers.",
-      "provenance": "Author clarification relayed by the repository user; not a theorem derived from the pinned TeX mu_k recurrence.",
+      "id": "GJ18-AUTHOR-CLARIFICATION-IID-2026-07-24",
       "lean_scope": "ClarifiedSourceModel.stateLaw is equal to iidFloorSourceStateLaw, the explicit finite product-law realization with checked P_k, weak-inversion, and W_k bridges.",
-      "literal_archive_status": "The archive-only recurrence and uniform type-score conditioning remain partial source-fidelity obligations."
+      "literal_archive_status": "The archive-only recurrence and uniform type-score conditioning remain partial source-fidelity obligations.",
+      "provenance": "Author clarification relayed by the repository user; not a theorem derived from the pinned TeX mu_k recurrence.",
+      "recorded_at": "2026-07-24"
     },
     {
-      "id": "GJ18-AUTHOR-CLARIFICATION-UNIFORM-TYPE-PRIOR-2026-07-24",
-      "recorded_at": "2026-07-24",
       "claim": "The finite ordered seller carrier has an explicit uniform type prior in the governing clarified model.",
-      "provenance": "The pinned archive says types are independently and uniformly drawn at adjectivesmodel.tex:22; the explicit PMF record and its use in the corrected finite model are author-confirmed rather than derived from the archive recurrence.",
+      "id": "GJ18-AUTHOR-CLARIFICATION-UNIFORM-TYPE-PRIOR-2026-07-24",
       "lean_scope": "ClarifiedSourceModel contains type_prior and type_prior_uniform, checked by PaperInterface.author_confirmed_clarified_uniform_type_prior.",
-      "literal_archive_status": "The archive's joint type-score conditioning and state recurrence remain partial even though the clarified model records the prior explicitly."
+      "literal_archive_status": "The archive's joint type-score conditioning and state recurrence remain partial even though the clarified model records the prior explicitly.",
+      "provenance": "The pinned archive says types are independently and uniformly drawn at cited publication:22; the explicit PMF record and its use in the corrected finite model are author-confirmed rather than derived from the archive recurrence.",
+      "recorded_at": "2026-07-24"
     }
   ],
   "checked_model_records": [
     {
       "declaration": "GJ18InformativeRatingSystems.ClarifiedSourceModel",
-      "status": "author-confirmed governing corrected-model record",
       "fields": [
         "seller_type_count_pos",
         "at_least_two_seller_types",
@@ -69,12 +43,12 @@
         "author_confirmed_clarified_model_theorem1_state_rate",
         "author_approved_corrected_model_theorem1_finite_real_rate"
       ],
-      "source_relation": "This is not a claim that the pinned archive's mu_k recurrence proves the record fields. It is the explicit author-confirmed model governing the corrected theorems."
+      "source_relation": "This is not a claim that the pinned archive's mu_k recurrence proves the record fields. It is the explicit author-confirmed model governing the corrected theorems.",
+      "status": "author-confirmed governing corrected-model record"
     }
   ],
   "checked_rate_diagnostics": [
     {
-      "legacy_real_fact": "Under the source score bound [0,1] and nonnegative rates, the unrestricted legacy Real pairwise threshold-rate infimum is provably zero, because its out-of-support Real.sSup values default to zero.",
       "corrected_extended_fact": "The WithTop pairwise threshold rate has a finite real representative and is strictly positive under the clarified nontrivial ordinal model and positive rates.",
       "evidence_declarations": [
         "GJ18InformativeRatingSystems.PaperInterface.source_fidelity_diagnostic_unrestricted_real_pairwise_rate_mismatch",
@@ -82,850 +56,63 @@
         "GJ18InformativeRatingSystems.source_pairwiseThresholdRateTop_has_finite_real_representative",
         "GJ18InformativeRatingSystems.source_pairwiseThresholdRateTop_pos"
       ],
+      "legacy_real_fact": "Under the source score bound [0,1] and nonnegative rates, the unrestricted legacy Real pairwise threshold-rate infimum is provably zero, because its out-of-support Real.sSup values default to zero.",
       "scope": "This is a diagnostic of the formal legacy Real API, not a claim that the paper's intended exponent is zero."
     }
   ],
+  "generated_at": "2026-07-26T22:16:10Z",
   "items": {
-    "source_definition_floor_sample_count_formula": {
-      "statement": "The source defines the number of matches/ratings received by seller type theta by time k as n_k(theta)=floor(k g(theta)).",
-      "source_location": "sources/arxiv.tex:669-670",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "literal finite formula",
-      "source_note": "This row checks the floor-count syntax only. The governing corrected model also has the author-confirmed condition 0<g(theta)<=1, but that addition is not asserted by this pinned source line and is not hidden in the formula row.",
-      "aliases": [
-        "source_definition_floor_sample_count_formula"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_definition_floor_sample_count_formula"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 669,
-          "line_end": 670,
-          "quoted_text": "{\\bf Rating accumulation}.  Sellers accumulate ratings over time by matching with buyers. At each time step, each seller matches with at most a single buyer. We make one key assumption that drives the accumulation of ratings: in particular, that sellers of higher quality are more likely to be matched. %\nWe consider an analysis that is asymptotic in the number of ratings received by sellers and so we model this visibility benefit by assuming that {\\em sellers of higher quality accumulate ratings at a faster rate}. In particular, we assume the existence of a nondecreasing {\\em match function} $g(\\theta)$, where a seller of type $\\theta$ receives $n_k(\\theta) = \\lfloor k g(\\theta) \\rfloor$ matches, and thus ratings, up to time $k$.",
-          "quoted_text_sha256": "5f6f56f076ca80a84303c588e41f1f1c0a5dbe7eda1ea1fbb2a9ddfb8e0325a9"
-        }
-      ]
-    },
-    "source_definition_aggregate_score_formula": {
-      "statement": "The archival aggregate-score display divides by n_k(theta) while summing from ell = 0 through n_k(theta), although the surrounding prose calls it the average of ratings received by time k.",
-      "source_location": "sources/arxiv.tex:697-702",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "corrected",
-      "inventory_role": "corrected_source_target",
-      "coverage_status": "corrected_source_statement",
-      "source_note": "Lean indexes the exactly n_k(theta) observations by Fin (n_k(theta)); this corrects GJ18-AGGREGATE-INDEX-01 and does not establish the source state evolution.",
-      "source_defect_ids": [
-        "GJ18-AGGREGATE-INDEX-01"
-      ],
-      "corrected_target": {
-        "schema": 1,
-        "statement": "For each seller type theta and horizon k, if n_k(theta) = floor(k g(theta)), the aggregate score averages exactly n_k(theta) rating scores over a finite family indexed by Fin n_k(theta); the zero-sample convention remains explicit.",
-        "governing_defect_ids": [
-          "GJ18-AGGREGATE-INDEX-01"
-        ],
-        "archival_equivalence_claimed": false,
-        "archival_source_locator": "sources/arxiv.tex:697-702",
-        "archival_source_quote_sha256": "e20467c150ddd3f7fdb08f7c10067af63a1ab5264cb479ed26db90c25c008d66",
-        "approval": {
-          "kind": "documented_author_correction",
-          "recorded_at": "2026-07-24",
-          "reference": "Author-approved corrected finite-chain model recorded in docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md.",
-          "artifact_path": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
-          "artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
-          "target_statement_sha256": "f86fe14564a5c059385b082313735a85bd321444630928126f09718265deb8dc"
-        },
-        "corrected_target_sha256": "b4017f07a068624d3f5774f19ea9dc9de36ca21f0b946e72db2da848b08435a0"
-      },
-      "aliases": [
-        "source_definition_aggregate_score_formula"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_definition_aggregate_score_formula"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 697,
-          "line_end": 702,
-          "quoted_text": "Let $y_0(\\theta), y_1(\\theta), y_2(\\theta), \\ldots$ be the sequence of ratings received by the seller of type $\\theta$.  The {\\em aggregate score} up to time $k$ of this seller is the average score from ratings received:\n\\begin{equation}\n\\label{eq:aggscore}\n x_k(\\theta) =  \\frac{1}{n_k(\\theta)} \\sum_{\\ell = 0}^{n_k(\\theta)} \\phi(y_\\ell(\\theta)).\n\\end{equation}\n(We presume $x_0(\\theta) = 0$ for all $\\theta$.)  Since $\\phi(y) \\in [0,1]$ for all $y$, the score $x_k$ also lies in $[0,1]$.",
-          "quoted_text_sha256": "e20467c150ddd3f7fdb08f7c10067af63a1ab5264cb479ed26db90c25c008d66"
-        }
-      ]
-    },
-    "source_definition_pairwise_objective_formula": {
-      "statement": "For theta_hi>theta_lo, P_k(theta_hi,theta_lo) is the conditional probability of a strict correct aggregate-score ordering minus the conditional probability of a strict reversed ordering.",
-      "source_location": "sources/arxiv.tex:721-725",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "literal state-level formula only",
-      "source_note": "The reviewed row represents the formula over an arbitrary finite score-state PMF and selected ordered seller pair. It deliberately does not identify that PMF with the source recurrence or a product law.",
-      "source_defect_ids": [
-        "GJ18-IID-STATE-COMPLETION-01",
-        "GJ18-STATE-RECURRENCE-INDEX-01",
-        "GJ18-UNIFORM-TYPE-PRIOR-01"
-      ],
-      "aliases": [
-        "source_definition_pairwise_objective_formula"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_definition_pairwise_objective_formula"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 721,
-          "line_end": 725,
-          "quoted_text": "Formally, given $\\theta_1 > \\theta_2$, define $P_k(\\theta_1, \\theta_2)$ as follows:\n\\begin{equation}\n\\label{eq:Pk}\nP_k(\\theta_1, \\theta_2) = \\mu_k(x_k(\\theta_1) > x_k(\\theta_2)|\\theta_1, \\theta_2) - \\mu_k(x_k(\\theta_1) < x_k(\\theta_2)|\\theta_1, \\theta_2).\n\\end{equation}",
-          "quoted_text_sha256": "9ecd7d8ec6d976300d5b3b867406058ff2af8eb4c247799d53261ab3a74fdfad"
-        }
-      ]
-    },
-    "source_definition_uniform_ranking_objective_formula": {
-      "statement": "W_k is 2/(M(M-1)) times the sum of P_k over strict ordered seller-quality pairs.",
-      "source_location": "sources/arxiv.tex:728-733",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "literal state-level formula only",
-      "source_note": "The row preserves the displayed coefficient and strict ordered-pair carrier. It is not a derivation of W_k from the source's joint type-score recurrence.",
-      "source_defect_ids": [
-        "GJ18-PAIR-CARRIER-NORMALIZATION-01",
-        "GJ18-IID-STATE-COMPLETION-01",
-        "GJ18-UNIFORM-TYPE-PRIOR-01"
-      ],
-      "aliases": [
-        "source_definition_uniform_ranking_objective_formula"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_definition_uniform_ranking_objective_formula"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 728,
-          "line_end": 733,
-          "quoted_text": "We consider the problem of maximizing the following objective, a scaled version of {\\em Kendall's $\\tau$ rank correlation} between the estimated ranking of sellers and the true ranking:\n\\begin{equation}\n\\label{eq:objective}\nW_k = \\frac{2}{M(M-1)}\\sum_{\\theta_1 > \\theta_2 \\in \\Theta} P_k(\\theta_1, \\theta_2)\n\\end{equation}\nThe coefficient ensures that ${W}_k$ remains bounded even as $M$ increases. This objective depends on the model primitives $R$ (rater behavior) and $g$ (matching rates), as well as the platform's decisions $Y$ (levels) and $\\phi$ (score).",
-          "quoted_text_sha256": "dfd9cdaed0777d4756986f6ee578c32016005959bf645f1894c9abb9e245aa4d"
-        }
-      ]
-    },
-    "source_definition_uniform_ranking_normalization": {
-      "statement": "For at least two seller types, the source coefficient 2/(M(M-1)) equals the inverse cardinality of the strict ordered comparison-pair carrier.",
-      "source_location": "sources/arxiv.tex:729-733",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "checked finite normalization",
-      "source_note": "This is the exact finite normalization bridge for M>=2, not a generic-pair approximation. The source's displayed denominator is zero for a singleton seller set, so the premise is visible.",
-      "source_defect_ids": [
-        "GJ18-PAIR-CARRIER-NORMALIZATION-01"
-      ],
-      "aliases": [
-        "source_definition_uniform_ranking_normalization"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_definition_uniform_ranking_normalization"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 729,
-          "line_end": 733,
-          "quoted_text": "\\begin{equation}\n\\label{eq:objective}\nW_k = \\frac{2}{M(M-1)}\\sum_{\\theta_1 > \\theta_2 \\in \\Theta} P_k(\\theta_1, \\theta_2)\n\\end{equation}\nThe coefficient ensures that ${W}_k$ remains bounded even as $M$ increases. This objective depends on the model primitives $R$ (rater behavior) and $g$ (matching rates), as well as the platform's decisions $Y$ (levels) and $\\phi$ (score).",
-          "quoted_text_sha256": "13c59b3a194f611b8cc8265a781988f11fbf1b1ce60dd63395a7f070c70dcd26"
-        }
-      ]
-    },
-    "source_iid_completion_pairwise_objective_bridge": {
-      "statement": "Under an explicitly defined finite IID completion at horizon k, the literal state-level P_k equals the existing two-seller floor-sample P_k objective for the same ordered pair.",
-      "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-725",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "corrected IID completion, not a consequence of the source recurrence",
-      "source_note": "The bridge is a direct product-law theorem for iidFloorSourceStateLaw and implements the author-confirmed conditional-IID/cross-seller-independence clarification. The source's rating description and mu_k recurrence do not prove this law; see GJ18-IID-STATE-COMPLETION-01 and GJ18-STATE-RECURRENCE-INDEX-01.",
-      "source_defect_ids": [
-        "GJ18-IID-STATE-COMPLETION-01",
-        "GJ18-STATE-RECURRENCE-INDEX-01",
-        "GJ18-UNIFORM-TYPE-PRIOR-01"
-      ],
-      "aliases": [
-        "source_iid_completion_pairwise_objective_bridge"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_pairwise_objective_bridge"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 683,
-          "line_end": 683,
-          "quoted_text": "At each rating opportunity (i.e., match made), the seller receives a rating from the set $Y$, and we assume that this rating depends only on the true quality of the seller. In particular, we presume that, given scale $Y$, the probability a seller of type $\\theta$ receives a rating $y$ is $\\rho(\\theta, y | Y)$, with corresponding cumulative mass function $R(\\theta,y| Y)$ reflecting the probability a seller of type $\\theta$ receives a rating $y$ or higher. In other words, the scale $Y$ induces a joint distribution between the underlying seller quality and the rating choices buyers make. We make the natural assumptions that $R(\\theta,y| Y)$ is strictly increasing in $\\theta$ and strictly decreasing with $y$.",
-          "quoted_text_sha256": "e55af7af36f7a6f0d4bb00af3966f6c54befaf399e8eb7d2b6752666ef58f426"
-        },
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 710,
-          "line_end": 725,
-          "quoted_text": "{\\bf System state}.  We represent the state of the system defined above by a joint distribution $\\mu_k(\\Theta, X)$, which gives the mass of sellers of type $\\theta \\in \\Theta$ with aggregate score $x_k(\\theta) \\in X$ at time $k$. Throughout our model presentation, we describe the system model as one emerging from interactions between individual buyers and sellers. However, we assume a unit mass of sellers (and some mass of buyers), and so all such descriptions should be viewed as illuminating the evolution of a joint distribution $\\mu_k (\\Theta, X)$ of the types of sellers on the platform and their current scores. To formally describe the evolution of $\\mu_k$, let $E_k = \\{ \\theta : n_k(\\theta) = n_{k-1}(\\theta) + 1 \\}$.  These are the sellers who receive an additional rating at time $k$; for all $\\theta \\in E_k^c$, $n_k(\\theta) = n_{k-1}(\\theta)$.  Next, for each $x, x' \\in [0,1]$, define $\\chi_k(x, x',\\theta | Y, {\\phi})$ as:\n\\[\n{\\chi_k(x, x',\\theta | Y, \\phi) =} \\{ y : n_k(\\theta)x - n_{k-1}(\\theta)x' = \\phi(y) \\}.\n\\]\nThe set $\\chi$ describes the rating(s) a seller of type $\\theta$ at time $k$ with aggregate score $x'$ can receive to transition to aggregate score $x$.  We then have:\n\\[ \\mu_{k+1}(\\Theta, X) = \\int_{E_k} \\int_0^1 \\int_X \\sum_{y \\in \\chi_k(\\theta, x, x' | Y, \\phi)} \\rho(\\theta, y | Y)  dx \\mu_k(d\\theta, dx') + \\int_{E_k^c} \\int_X \\mu_k(d\\theta, dx'). \\]\nIt is straightforward but tedious to check that the preceding dynamics are well defined, given our primitives.\n\n\n{\\bf Platform objective}.  We assume that the platform wants the ranking of sellers by observed aggregate score to reflect the underlying true quality ranking as closely as possible.\n\nFormally, given $\\theta_1 > \\theta_2$, define $P_k(\\theta_1, \\theta_2)$ as follows:\n\\begin{equation}\n\\label{eq:Pk}\nP_k(\\theta_1, \\theta_2) = \\mu_k(x_k(\\theta_1) > x_k(\\theta_2)|\\theta_1, \\theta_2) - \\mu_k(x_k(\\theta_1) < x_k(\\theta_2)|\\theta_1, \\theta_2).\n\\end{equation}",
-          "quoted_text_sha256": "c4a99c214de8279e2288871ee0f0f98d1cb21d29e319db3009ec3d11f66e5fc0"
-        }
-      ]
-    },
-    "source_iid_completion_weak_inversion_bridge": {
-      "statement": "Under the explicit finite IID completion, the source-state non-strict score-gap event equals the two-seller floor-sample weak-inversion probability used in the Appendix rate argument.",
-      "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:721-725; sources/arxiv.tex:1633-1646",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "corrected IID completion, not a consequence of the source recurrence",
-      "source_note": "This theorem connects the actual non-strict Appendix event to the product model implementing the author-confirmed IID clarification. It does not validate the source's continuum-integral proof step or derive IID from mu_k.",
-      "source_defect_ids": [
-        "GJ18-IID-STATE-COMPLETION-01",
-        "GJ18-STATE-RECURRENCE-INDEX-01",
-        "GJ18-APPENDIX-DISCRETE-INTEGRAL-01"
-      ],
-      "aliases": [
-        "source_iid_completion_weak_inversion_bridge"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_weak_inversion_bridge"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 683,
-          "line_end": 683,
-          "quoted_text": "At each rating opportunity (i.e., match made), the seller receives a rating from the set $Y$, and we assume that this rating depends only on the true quality of the seller. In particular, we presume that, given scale $Y$, the probability a seller of type $\\theta$ receives a rating $y$ is $\\rho(\\theta, y | Y)$, with corresponding cumulative mass function $R(\\theta,y| Y)$ reflecting the probability a seller of type $\\theta$ receives a rating $y$ or higher. In other words, the scale $Y$ induces a joint distribution between the underlying seller quality and the rating choices buyers make. We make the natural assumptions that $R(\\theta,y| Y)$ is strictly increasing in $\\theta$ and strictly decreasing with $y$.",
-          "quoted_text_sha256": "e55af7af36f7a6f0d4bb00af3966f6c54befaf399e8eb7d2b6752666ef58f426"
-        },
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 721,
-          "line_end": 725,
-          "quoted_text": "Formally, given $\\theta_1 > \\theta_2$, define $P_k(\\theta_1, \\theta_2)$ as follows:\n\\begin{equation}\n\\label{eq:Pk}\nP_k(\\theta_1, \\theta_2) = \\mu_k(x_k(\\theta_1) > x_k(\\theta_2)|\\theta_1, \\theta_2) - \\mu_k(x_k(\\theta_1) < x_k(\\theta_2)|\\theta_1, \\theta_2).\n\\end{equation}",
-          "quoted_text_sha256": "9ecd7d8ec6d976300d5b3b867406058ff2af8eb4c247799d53261ab3a74fdfad"
-        },
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 1633,
-          "line_end": 1646,
-          "quoted_text": "\\begin{lemma} \n\t$$\t\\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\mu((x_k(\\theta_1) - x_k(\\theta_2)) \\leq 0 | \\theta_1 , \\theta_2)\\right] = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\}$$ where $I(a|\\ell) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, $\\Lambda(z|\\theta)$ is the log moment generating function of a single sample from $x(\\theta_1)$, and $g(\\theta)$ is the sampling rate. \\label{lem:problessthan}\n\\end{lemma}\n%\n\t\\proof\n\t\\noindent$\\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\mu((x_k(\\theta_1) - x_k(\\theta_2)) \\leq 0 | \\theta_1 , \\theta_2)\\right]$\n\t\\begin{align}\n\t&= \\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\int_{a\\in \\mathcal{R}} \\mu((x_k(\\theta_1) = a | \\theta_1 ) \\mu(x_k(\\theta_2) \\geq a |\\theta_2)da\\right]\\\\\n\t&= \\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\int_{a\\in \\mathcal{R}} e^{-kg(\\theta_1) I (a | \\theta_1)} e^{-kg(\\theta_2) I (a | \\theta_2)}da\\right] \\label{eqnpart:applyld}\\\\\n\t&= \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\} & \\text{Laplace principle}\n\t\\end{align}\n%\n\nWhere~\\eqref{eqnpart:applyld} is a basic result from large deviations, and $kg(\\theta_i)$ is the number of samples item of quality $\\theta_i$ has received. \\Halmos",
-          "quoted_text_sha256": "5b193dca27d9fa371b188c27c69f2ec688a229174261f3e1c9ac1dc8808b6ac9"
-        }
-      ]
-    },
-    "source_iid_completion_uniform_ranking_objective_bridge": {
-      "statement": "Under the explicit finite IID completion and at least two seller types, the literal state-level W_k equals the finite uniform floor-count ranking objective.",
-      "source_location": "sources/arxiv.tex:665; sources/arxiv.tex:683; sources/arxiv.tex:710-733",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "corrected IID completion, not a consequence of the source recurrence",
-      "source_note": "This bridge combines the direct IID product calculation implementing the author clarification with the exact strict-pair normalization. It does not derive an IID state or the uniform source type prior from mu_k.",
-      "source_defect_ids": [
-        "GJ18-PAIR-CARRIER-NORMALIZATION-01",
-        "GJ18-IID-STATE-COMPLETION-01",
-        "GJ18-STATE-RECURRENCE-INDEX-01",
-        "GJ18-UNIFORM-TYPE-PRIOR-01"
-      ],
-      "aliases": [
-        "source_iid_completion_uniform_ranking_objective_bridge"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_uniform_ranking_objective_bridge"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 665,
-          "line_end": 665,
-          "quoted_text": "{\\bf Sellers}.  The system consists of a unit mass of sellers, each associated with a quality \\textit{type} $\\theta$, which is (initially) unknown to the platform. We assume $\\theta$ is drawn independently and uniformly at random from a finite and totally ordered set $\\Theta$, with $|\\Theta| = M$. We use $\\theta_i$ to denote the $i$th element of $\\Theta$ within this order, for $0\\leq i < M$.",
-          "quoted_text_sha256": "4c6fe893b409d91d809b90a6fbd69d25b79034552ba9b9a28820a120929d0132"
-        },
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 683,
-          "line_end": 683,
-          "quoted_text": "At each rating opportunity (i.e., match made), the seller receives a rating from the set $Y$, and we assume that this rating depends only on the true quality of the seller. In particular, we presume that, given scale $Y$, the probability a seller of type $\\theta$ receives a rating $y$ is $\\rho(\\theta, y | Y)$, with corresponding cumulative mass function $R(\\theta,y| Y)$ reflecting the probability a seller of type $\\theta$ receives a rating $y$ or higher. In other words, the scale $Y$ induces a joint distribution between the underlying seller quality and the rating choices buyers make. We make the natural assumptions that $R(\\theta,y| Y)$ is strictly increasing in $\\theta$ and strictly decreasing with $y$.",
-          "quoted_text_sha256": "e55af7af36f7a6f0d4bb00af3966f6c54befaf399e8eb7d2b6752666ef58f426"
-        },
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 710,
-          "line_end": 733,
-          "quoted_text": "{\\bf System state}.  We represent the state of the system defined above by a joint distribution $\\mu_k(\\Theta, X)$, which gives the mass of sellers of type $\\theta \\in \\Theta$ with aggregate score $x_k(\\theta) \\in X$ at time $k$. Throughout our model presentation, we describe the system model as one emerging from interactions between individual buyers and sellers. However, we assume a unit mass of sellers (and some mass of buyers), and so all such descriptions should be viewed as illuminating the evolution of a joint distribution $\\mu_k (\\Theta, X)$ of the types of sellers on the platform and their current scores. To formally describe the evolution of $\\mu_k$, let $E_k = \\{ \\theta : n_k(\\theta) = n_{k-1}(\\theta) + 1 \\}$.  These are the sellers who receive an additional rating at time $k$; for all $\\theta \\in E_k^c$, $n_k(\\theta) = n_{k-1}(\\theta)$.  Next, for each $x, x' \\in [0,1]$, define $\\chi_k(x, x',\\theta | Y, {\\phi})$ as:\n\\[\n{\\chi_k(x, x',\\theta | Y, \\phi) =} \\{ y : n_k(\\theta)x - n_{k-1}(\\theta)x' = \\phi(y) \\}.\n\\]\nThe set $\\chi$ describes the rating(s) a seller of type $\\theta$ at time $k$ with aggregate score $x'$ can receive to transition to aggregate score $x$.  We then have:\n\\[ \\mu_{k+1}(\\Theta, X) = \\int_{E_k} \\int_0^1 \\int_X \\sum_{y \\in \\chi_k(\\theta, x, x' | Y, \\phi)} \\rho(\\theta, y | Y)  dx \\mu_k(d\\theta, dx') + \\int_{E_k^c} \\int_X \\mu_k(d\\theta, dx'). \\]\nIt is straightforward but tedious to check that the preceding dynamics are well defined, given our primitives.\n\n\n{\\bf Platform objective}.  We assume that the platform wants the ranking of sellers by observed aggregate score to reflect the underlying true quality ranking as closely as possible.\n\nFormally, given $\\theta_1 > \\theta_2$, define $P_k(\\theta_1, \\theta_2)$ as follows:\n\\begin{equation}\n\\label{eq:Pk}\nP_k(\\theta_1, \\theta_2) = \\mu_k(x_k(\\theta_1) > x_k(\\theta_2)|\\theta_1, \\theta_2) - \\mu_k(x_k(\\theta_1) < x_k(\\theta_2)|\\theta_1, \\theta_2).\n\\end{equation}\nThis expression captures the ``errors'' made by the ranking according to observed score.  In particular, when $\\theta_1 > \\theta_2$ but $x_k(\\theta_1) < x_k(\\theta_2)$, the aggregate score ranking swaps the ordering of sellers $\\theta_1$ and $\\theta_2$.  Thus, a good rating system has large $P_k(\\theta_1, \\theta_2)$.\n\nWe consider the problem of maximizing the following objective, a scaled version of {\\em Kendall's $\\tau$ rank correlation} between the estimated ranking of sellers and the true ranking:\n\\begin{equation}\n\\label{eq:objective}\nW_k = \\frac{2}{M(M-1)}\\sum_{\\theta_1 > \\theta_2 \\in \\Theta} P_k(\\theta_1, \\theta_2)\n\\end{equation}\nThe coefficient ensures that ${W}_k$ remains bounded even as $M$ increases. This objective depends on the model primitives $R$ (rater behavior) and $g$ (matching rates), as well as the platform's decisions $Y$ (levels) and $\\phi$ (score).",
-          "quoted_text_sha256": "7cfc4cea8b19ea0fc31ae178c30c6b7ec79d17aec641745441df3afb1f12d4b4"
-        }
-      ]
-    },
-    "author_confirmed_clarified_uniform_type_prior": {
-      "statement": "Author-confirmed clarified-model row: the record's finite seller-type prior equals the explicit uniform PMF on the nonempty ordered carrier Fin n.",
-      "source_location": "sources/arxiv.tex:665",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "author-confirmed governing clarification; not an archive recurrence derivation",
-      "source_note": "The archive says types are independently and uniformly drawn. This row checks the explicit PMF field in ClarifiedSourceModel, but does not claim the archive's later joint state formulas derive the field or its conditional score laws.",
-      "source_defect_ids": [
-        "GJ18-UNIFORM-TYPE-PRIOR-01"
-      ],
-      "aliases": [
-        "author_confirmed_clarified_uniform_type_prior"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_uniform_type_prior"
-      ],
-      "proof_lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_uniform_type_prior"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 665,
-          "line_end": 665,
-          "quoted_text": "{\\bf Sellers}.  The system consists of a unit mass of sellers, each associated with a quality \\textit{type} $\\theta$, which is (initially) unknown to the platform. We assume $\\theta$ is drawn independently and uniformly at random from a finite and totally ordered set $\\Theta$, with $|\\Theta| = M$. We use $\\theta_i$ to denote the $i$th element of $\\Theta$ within this order, for $0\\leq i < M$.",
-          "quoted_text_sha256": "4c6fe893b409d91d809b90a6fbd69d25b79034552ba9b9a28820a120929d0132"
-        }
-      ]
-    },
-    "author_confirmed_clarified_iid_state_law": {
-      "statement": "Author-confirmed clarified-model row: at every horizon k, the recorded state law equals the finite product law of conditionally IID ratings given seller type and independent seller histories.",
-      "source_location": "sources/arxiv.tex:683; sources/arxiv.tex:710-716",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "author-confirmed governing clarification; not a theorem of the archive recurrence",
-      "source_note": "ClarifiedSourceModel records stateLaw k = iidFloorSourceStateLaw M sampleRate k. The checked equality formalizes the author-confirmed IID model, while leaving the archive's mu_k transition and conditioning derivation explicitly partial.",
-      "source_defect_ids": [
-        "GJ18-IID-STATE-COMPLETION-01",
-        "GJ18-STATE-RECURRENCE-INDEX-01",
-        "GJ18-UNIFORM-TYPE-PRIOR-01"
-      ],
-      "aliases": [
-        "author_confirmed_clarified_iid_state_law"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_iid_state_law"
-      ],
-      "proof_lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_iid_state_law"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 683,
-          "line_end": 683,
-          "quoted_text": "At each rating opportunity (i.e., match made), the seller receives a rating from the set $Y$, and we assume that this rating depends only on the true quality of the seller. In particular, we presume that, given scale $Y$, the probability a seller of type $\\theta$ receives a rating $y$ is $\\rho(\\theta, y | Y)$, with corresponding cumulative mass function $R(\\theta,y| Y)$ reflecting the probability a seller of type $\\theta$ receives a rating $y$ or higher. In other words, the scale $Y$ induces a joint distribution between the underlying seller quality and the rating choices buyers make. We make the natural assumptions that $R(\\theta,y| Y)$ is strictly increasing in $\\theta$ and strictly decreasing with $y$.",
-          "quoted_text_sha256": "e55af7af36f7a6f0d4bb00af3966f6c54befaf399e8eb7d2b6752666ef58f426"
-        },
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 710,
-          "line_end": 716,
-          "quoted_text": "{\\bf System state}.  We represent the state of the system defined above by a joint distribution $\\mu_k(\\Theta, X)$, which gives the mass of sellers of type $\\theta \\in \\Theta$ with aggregate score $x_k(\\theta) \\in X$ at time $k$. Throughout our model presentation, we describe the system model as one emerging from interactions between individual buyers and sellers. However, we assume a unit mass of sellers (and some mass of buyers), and so all such descriptions should be viewed as illuminating the evolution of a joint distribution $\\mu_k (\\Theta, X)$ of the types of sellers on the platform and their current scores. To formally describe the evolution of $\\mu_k$, let $E_k = \\{ \\theta : n_k(\\theta) = n_{k-1}(\\theta) + 1 \\}$.  These are the sellers who receive an additional rating at time $k$; for all $\\theta \\in E_k^c$, $n_k(\\theta) = n_{k-1}(\\theta)$.  Next, for each $x, x' \\in [0,1]$, define $\\chi_k(x, x',\\theta | Y, {\\phi})$ as:\n\\[\n{\\chi_k(x, x',\\theta | Y, \\phi) =} \\{ y : n_k(\\theta)x - n_{k-1}(\\theta)x' = \\phi(y) \\}.\n\\]\nThe set $\\chi$ describes the rating(s) a seller of type $\\theta$ at time $k$ with aggregate score $x'$ can receive to transition to aggregate score $x$.  We then have:\n\\[ \\mu_{k+1}(\\Theta, X) = \\int_{E_k} \\int_0^1 \\int_X \\sum_{y \\in \\chi_k(\\theta, x, x' | Y, \\phi)} \\rho(\\theta, y | Y)  dx \\mu_k(d\\theta, dx') + \\int_{E_k^c} \\int_X \\mu_k(d\\theta, dx'). \\]\nIt is straightforward but tedious to check that the preceding dynamics are well defined, given our primitives.",
-          "quoted_text_sha256": "ab69c188d760c1d996729d79bba743107dae78dcc44fdd2c6abfc4f45df52b47"
-        }
-      ]
-    },
-    "source_definition_log_mgf_formula": {
-      "statement": "Lambda(z|theta) is the logarithm of the finite sum over rating levels of rho(theta,y|Y) exp(z phi(y)).",
-      "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "literal finite formula",
-      "source_note": "This row unfolds the single-rating finite PMF formula. It makes no claim that the source state recurrence supplies independent copies of that PMF.",
-      "aliases": [
-        "source_definition_log_mgf_formula"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_definition_log_mgf_formula"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 754,
-          "line_end": 761,
-          "quoted_text": "\\begin{restatable}{theorem}{lemhatW}\n\t\\label{lem:hatW}\n\t\\begin{equation}\n\t\\label{eq:rW}\n\tr \\triangleq - \\lim_{k \\to \\infty} \\frac{1}{k} \\log (1- {W}_k) = \\min_{0 \\leq i < M} \\inf_{a \\in \\bbR} \\left \\{ g(\\theta_{i+1}) I(a|\\theta_{i+1}) + g(\\theta_i) I(a|\\theta_i)\\right\\}\n\t\\end{equation}\n\twhere\n\t$I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} {\\rho(\\theta, y | Y)} \\exp( z \\phi(y))$ is the log moment generating function of a single rating given to seller of type $\\theta$.",
-          "quoted_text_sha256": "2e30ce12249f90b59e8165cd7b7439390c65e6d7b9f8b626559d78a52ef7ba43"
-        },
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 1633,
-          "line_end": 1635,
-          "quoted_text": "\\begin{lemma} \n\t$$\t\\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\mu((x_k(\\theta_1) - x_k(\\theta_2)) \\leq 0 | \\theta_1 , \\theta_2)\\right] = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\}$$ where $I(a|\\ell) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, $\\Lambda(z|\\theta)$ is the log moment generating function of a single sample from $x(\\theta_1)$, and $g(\\theta)$ is the sampling rate. \\label{lem:problessthan}\n\\end{lemma}",
-          "quoted_text_sha256": "82007966668f2c65d91a6d2c3b2afa92da2dd4b3d4cec280ba3d3fbc25c0e10c"
-        },
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 1670,
-          "line_end": 1679,
-          "quoted_text": "\\begin{restatable}{lemma}{lemPkld}\n\t%\n\t\\label{lem:Pk_LD}\n\tGiven $\\theta_1, \\theta_2$, let $\\b{P}_k(\\theta_1, \\theta_2) = 1 - P_k(\\theta_1, \\theta_2)$.  Then:\n\t\\begin{equation}\n\t\\label{eq:LDrate}\n\t- \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\b{P}_k(\\theta_1, \\theta_2) = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\},\n\t\\end{equation}\n\twhere $I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta)$ is the log moment generating function of a single rating given to seller of type $\\theta$:\n\t\\[ \\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} \\rho(\\theta, y | Y) \\exp( z \\phi(y) ). \\]",
-          "quoted_text_sha256": "c0893d181d49ead93669af0c9430494a2d848dd2b24fafee7d2020332b4b7db6"
-        }
-      ]
-    },
-    "source_definition_rate_function_formula": {
-      "statement": "The paper displays I(a|theta) as the real supremum over z of z a minus Lambda(z|theta).",
-      "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "literal real-valued display only",
-      "source_note": "The row records the printed real expression syntactically. In the checked finite [0,1]-score model, the unrestricted legacy Real pairwise infimum is diagnostically zero because off-support Real.sSup values default to zero; it is not the intended exponent. The corrected theorem uses WithTop Real.",
-      "source_defect_ids": [
-        "GJ18-EXTENDED-RATE-CODOMAIN-01"
-      ],
-      "aliases": [
-        "source_definition_rate_function_formula"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_definition_rate_function_formula"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 754,
-          "line_end": 761,
-          "quoted_text": "\\begin{restatable}{theorem}{lemhatW}\n\t\\label{lem:hatW}\n\t\\begin{equation}\n\t\\label{eq:rW}\n\tr \\triangleq - \\lim_{k \\to \\infty} \\frac{1}{k} \\log (1- {W}_k) = \\min_{0 \\leq i < M} \\inf_{a \\in \\bbR} \\left \\{ g(\\theta_{i+1}) I(a|\\theta_{i+1}) + g(\\theta_i) I(a|\\theta_i)\\right\\}\n\t\\end{equation}\n\twhere\n\t$I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} {\\rho(\\theta, y | Y)} \\exp( z \\phi(y))$ is the log moment generating function of a single rating given to seller of type $\\theta$.",
-          "quoted_text_sha256": "2e30ce12249f90b59e8165cd7b7439390c65e6d7b9f8b626559d78a52ef7ba43"
-        },
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 1633,
-          "line_end": 1635,
-          "quoted_text": "\\begin{lemma} \n\t$$\t\\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\mu((x_k(\\theta_1) - x_k(\\theta_2)) \\leq 0 | \\theta_1 , \\theta_2)\\right] = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\}$$ where $I(a|\\ell) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, $\\Lambda(z|\\theta)$ is the log moment generating function of a single sample from $x(\\theta_1)$, and $g(\\theta)$ is the sampling rate. \\label{lem:problessthan}\n\\end{lemma}",
-          "quoted_text_sha256": "82007966668f2c65d91a6d2c3b2afa92da2dd4b3d4cec280ba3d3fbc25c0e10c"
-        },
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 1670,
-          "line_end": 1679,
-          "quoted_text": "\\begin{restatable}{lemma}{lemPkld}\n\t%\n\t\\label{lem:Pk_LD}\n\tGiven $\\theta_1, \\theta_2$, let $\\b{P}_k(\\theta_1, \\theta_2) = 1 - P_k(\\theta_1, \\theta_2)$.  Then:\n\t\\begin{equation}\n\t\\label{eq:LDrate}\n\t- \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\b{P}_k(\\theta_1, \\theta_2) = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\},\n\t\\end{equation}\n\twhere $I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta)$ is the log moment generating function of a single rating given to seller of type $\\theta$:\n\t\\[ \\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} \\rho(\\theta, y | Y) \\exp( z \\phi(y) ). \\]",
-          "quoted_text_sha256": "c0893d181d49ead93669af0c9430494a2d848dd2b24fafee7d2020332b4b7db6"
-        }
-      ]
-    },
-    "source_definition_extended_rate_function_formula": {
-      "statement": "The corrected support-safe rate is the extended-real supremum of z a minus Lambda(z|theta), so thresholds outside finite score support may have infinite cost.",
-      "source_location": "sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "corrected codomain; not a literal source display",
-      "source_note": "This row repairs GJ18-EXTENDED-RATE-CODOMAIN-01 by using WithTop Real. The support-safe rate has a checked positive finite representative under the clarified model; it must not be read as an equality to the source's unrestricted real infimum formula, which is diagnostically zero in the legacy API.",
-      "source_defect_ids": [
-        "GJ18-EXTENDED-RATE-CODOMAIN-01"
-      ],
-      "aliases": [
-        "source_definition_extended_rate_function_formula"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_definition_extended_rate_function_formula"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 754,
-          "line_end": 761,
-          "quoted_text": "\\begin{restatable}{theorem}{lemhatW}\n\t\\label{lem:hatW}\n\t\\begin{equation}\n\t\\label{eq:rW}\n\tr \\triangleq - \\lim_{k \\to \\infty} \\frac{1}{k} \\log (1- {W}_k) = \\min_{0 \\leq i < M} \\inf_{a \\in \\bbR} \\left \\{ g(\\theta_{i+1}) I(a|\\theta_{i+1}) + g(\\theta_i) I(a|\\theta_i)\\right\\}\n\t\\end{equation}\n\twhere\n\t$I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} {\\rho(\\theta, y | Y)} \\exp( z \\phi(y))$ is the log moment generating function of a single rating given to seller of type $\\theta$.",
-          "quoted_text_sha256": "2e30ce12249f90b59e8165cd7b7439390c65e6d7b9f8b626559d78a52ef7ba43"
-        },
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 1633,
-          "line_end": 1635,
-          "quoted_text": "\\begin{lemma} \n\t$$\t\\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\mu((x_k(\\theta_1) - x_k(\\theta_2)) \\leq 0 | \\theta_1 , \\theta_2)\\right] = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\}$$ where $I(a|\\ell) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, $\\Lambda(z|\\theta)$ is the log moment generating function of a single sample from $x(\\theta_1)$, and $g(\\theta)$ is the sampling rate. \\label{lem:problessthan}\n\\end{lemma}",
-          "quoted_text_sha256": "82007966668f2c65d91a6d2c3b2afa92da2dd4b3d4cec280ba3d3fbc25c0e10c"
-        },
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 1670,
-          "line_end": 1679,
-          "quoted_text": "\\begin{restatable}{lemma}{lemPkld}\n\t%\n\t\\label{lem:Pk_LD}\n\tGiven $\\theta_1, \\theta_2$, let $\\b{P}_k(\\theta_1, \\theta_2) = 1 - P_k(\\theta_1, \\theta_2)$.  Then:\n\t\\begin{equation}\n\t\\label{eq:LDrate}\n\t- \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\b{P}_k(\\theta_1, \\theta_2) = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\},\n\t\\end{equation}\n\twhere $I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta)$ is the log moment generating function of a single rating given to seller of type $\\theta$:\n\t\\[ \\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} \\rho(\\theta, y | Y) \\exp( z \\phi(y) ). \\]",
-          "quoted_text_sha256": "c0893d181d49ead93669af0c9430494a2d848dd2b24fafee7d2020332b4b7db6"
-        }
-      ]
-    },
-    "source_fidelity_diagnostic_unrestricted_real_pairwise_rate_mismatch": {
-      "statement": "Source-fidelity diagnostic, not an advertised source theorem: under the finite ordinal source primitives, positive match rates, and a nontrivial scale, the legacy unrestricted Real pairwise threshold rate is zero while the support-safe WithTop pairwise threshold rate is strictly positive.",
-      "source_location": "sources/arxiv.tex:679-683; sources/arxiv.tex:754-761; sources/arxiv.tex:1633-1635; sources/arxiv.tex:1670-1679",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "checked source-fidelity diagnostic; not a literal source theorem",
-      "source_note": "This row is the direct checked reason the literal unrestricted real infimum cannot be used as the paper's exponent in the finite [0,1]-score model. It proves zero for the legacy Real wrapper and strict positivity for the corrected WithTop rate without attributing either conclusion to the archive's prose.",
-      "source_defect_ids": [
-        "GJ18-EXTENDED-RATE-CODOMAIN-01"
-      ],
-      "aliases": [
-        "source_fidelity_diagnostic_unrestricted_real_pairwise_rate_mismatch"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_fidelity_diagnostic_unrestricted_real_pairwise_rate_mismatch"
-      ],
-      "proof_lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_fidelity_diagnostic_unrestricted_real_pairwise_rate_mismatch"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 679,
-          "line_end": 683,
-          "quoted_text": "Second, whenever a seller receives a rating $y \\in Y$, the platform gives the seller a {\\em score} $\\phi(y) \\in [0,1]$ depending only on the rating received. The score represents the relative positivity assigned to a rating $y$: high scores positively affect the seller's aggregate score (as we formally describe below).  Platforms often %\nuse equally spaced scores when translating rater's choices to an aggregate score {(e.g., the choice ``5 stars'' translates to a numeric $5$ when averaging, the choice ``4 stars'' translates to a numeric $4$ when averaging, etc.)}, but we allow the possibility that this choice should also be optimized.\n\n\nAt each rating opportunity (i.e., match made), the seller receives a rating from the set $Y$, and we assume that this rating depends only on the true quality of the seller. In particular, we presume that, given scale $Y$, the probability a seller of type $\\theta$ receives a rating $y$ is $\\rho(\\theta, y | Y)$, with corresponding cumulative mass function $R(\\theta,y| Y)$ reflecting the probability a seller of type $\\theta$ receives a rating $y$ or higher. In other words, the scale $Y$ induces a joint distribution between the underlying seller quality and the rating choices buyers make. We make the natural assumptions that $R(\\theta,y| Y)$ is strictly increasing in $\\theta$ and strictly decreasing with $y$.",
-          "quoted_text_sha256": "6bf229c9636562a5392368e12ba55284fc18c31acbb6038edc317d9655c3ac64"
-        },
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 754,
-          "line_end": 761,
-          "quoted_text": "\\begin{restatable}{theorem}{lemhatW}\n\t\\label{lem:hatW}\n\t\\begin{equation}\n\t\\label{eq:rW}\n\tr \\triangleq - \\lim_{k \\to \\infty} \\frac{1}{k} \\log (1- {W}_k) = \\min_{0 \\leq i < M} \\inf_{a \\in \\bbR} \\left \\{ g(\\theta_{i+1}) I(a|\\theta_{i+1}) + g(\\theta_i) I(a|\\theta_i)\\right\\}\n\t\\end{equation}\n\twhere\n\t$I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} {\\rho(\\theta, y | Y)} \\exp( z \\phi(y))$ is the log moment generating function of a single rating given to seller of type $\\theta$.",
-          "quoted_text_sha256": "2e30ce12249f90b59e8165cd7b7439390c65e6d7b9f8b626559d78a52ef7ba43"
-        },
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 1633,
-          "line_end": 1635,
-          "quoted_text": "\\begin{lemma} \n\t$$\t\\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\mu((x_k(\\theta_1) - x_k(\\theta_2)) \\leq 0 | \\theta_1 , \\theta_2)\\right] = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\}$$ where $I(a|\\ell) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, $\\Lambda(z|\\theta)$ is the log moment generating function of a single sample from $x(\\theta_1)$, and $g(\\theta)$ is the sampling rate. \\label{lem:problessthan}\n\\end{lemma}",
-          "quoted_text_sha256": "82007966668f2c65d91a6d2c3b2afa92da2dd4b3d4cec280ba3d3fbc25c0e10c"
-        },
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 1670,
-          "line_end": 1679,
-          "quoted_text": "\\begin{restatable}{lemma}{lemPkld}\n\t%\n\t\\label{lem:Pk_LD}\n\tGiven $\\theta_1, \\theta_2$, let $\\b{P}_k(\\theta_1, \\theta_2) = 1 - P_k(\\theta_1, \\theta_2)$.  Then:\n\t\\begin{equation}\n\t\\label{eq:LDrate}\n\t- \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\b{P}_k(\\theta_1, \\theta_2) = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\},\n\t\\end{equation}\n\twhere $I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta)$ is the log moment generating function of a single rating given to seller of type $\\theta$:\n\t\\[ \\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} \\rho(\\theta, y | Y) \\exp( z \\phi(y) ). \\]",
-          "quoted_text_sha256": "c0893d181d49ead93669af0c9430494a2d848dd2b24fafee7d2020332b4b7db6"
-        }
-      ]
-    },
-    "source_appendix_problessthan_score_gap_rate_iid_completion": {
-      "statement": "Appendix Lemma problessthan: in the paper's ordered seller-pair scope theta_1 > theta_2, the weak score-gap event has the displayed real-valued rate infimum over a in R of the two sampled sellers' match-rate-weighted rate functions.",
-      "source_location": "sources/arxiv.tex:1633-1635",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "lemma",
-      "source_status": "corrected",
-      "inventory_role": "corrected_source_target",
-      "coverage_status": "corrected_source_statement",
-      "source_note": "The appendix display leaves its pair-order qualifier implicit, but the source defines P_k and its W_k use only for theta_1 > theta_2 at lines 721-731. The formal target therefore quantifies exactly over a finite strict high/low pair, not arbitrary or reversed pairs. This is not the source's continuum-integral proof or its unrestricted Real infimum. It retains the source ordinal-tail primitives, implements the author-confirmed IID and 0<g(theta)<=1 model additions, and exposes the nontrivial-scale and support-safe-codomain repairs.",
-      "source_defect_ids": [
-        "GJ18-QUALITY-TAIL-BOTTOM-01",
-        "GJ18-POSITIVE-MATCH-RATE-01",
-        "GJ18-NONTRIVIAL-RATING-SCALE-01",
-        "GJ18-IID-STATE-COMPLETION-01",
-        "GJ18-STATE-RECURRENCE-INDEX-01",
-        "GJ18-APPENDIX-DISCRETE-INTEGRAL-01",
-        "GJ18-EXTENDED-RATE-CODOMAIN-01"
-      ],
-      "corrected_target": {
-        "schema": 1,
-        "statement": "For every ordered high/low seller pair in the author-approved finite ordinal IID model, with positive match rates, a nontrivial rating scale, corrected ordinal tails, and an extended-real rate convention, the source-state weak-inversion probability has an exponential-rate certificate with a finite real representative of the support-safe pairwise threshold rate.",
-        "governing_defect_ids": [
-          "GJ18-QUALITY-TAIL-BOTTOM-01",
-          "GJ18-POSITIVE-MATCH-RATE-01",
-          "GJ18-NONTRIVIAL-RATING-SCALE-01",
-          "GJ18-IID-STATE-COMPLETION-01",
-          "GJ18-STATE-RECURRENCE-INDEX-01",
-          "GJ18-EXTENDED-RATE-CODOMAIN-01"
-        ],
-        "archival_equivalence_claimed": false,
-        "archival_source_locator": "sources/arxiv.tex:1633-1635",
-        "archival_source_quote_sha256": "82007966668f2c65d91a6d2c3b2afa92da2dd4b3d4cec280ba3d3fbc25c0e10c",
-        "approval": {
-          "kind": "documented_author_correction",
-          "recorded_at": "2026-07-24",
-          "reference": "Author-approved corrected finite-chain model recorded in docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md.",
-          "artifact_path": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
-          "artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
-          "target_statement_sha256": "0f68b491501a30e2e10c887ed2a00c53ae6dbdf0060e9f202a1f4d6230f99ee3"
-        },
-        "corrected_target_sha256": "6619134e7e5a1fe2be1ae8d6ebc232c6de3cf5efe69736492bb3bd02f1806e2c"
-      },
-      "aliases": [
-        "source_appendix_problessthan_score_gap_rate_iid_completion"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_appendix_problessthan_score_gap_rate_iid_completion"
-      ],
-      "semantic_context_requirements": [
-        {
-          "kind": "restricted_subtype_domain",
-          "source_location": "sources/arxiv.tex:665; sources/arxiv.tex:721-731; sources/arxiv.tex:1714-1718",
-          "explanation": "The source orders its finite seller-type carrier as theta_i, then defines P_k only given theta_1 > theta_2 and sums only those pairs in W_k; its proof rewrites that aggregate as i < j with P_k(theta_j, theta_i). Review a Lean restricted pair carrier as exactly one finite high/low pair with strict low < high, not as a theorem for arbitrary, equal, or reversed seller pairs and not as an unrecorded model assumption.",
-          "source_anchor_evidence": [
-            {
-              "path": "sources/arxiv.tex",
-              "line_start": 665,
-              "line_end": 665,
-              "quoted_text": "{\\bf Sellers}.  The system consists of a unit mass of sellers, each associated with a quality \\textit{type} $\\theta$, which is (initially) unknown to the platform. We assume $\\theta$ is drawn independently and uniformly at random from a finite and totally ordered set $\\Theta$, with $|\\Theta| = M$. We use $\\theta_i$ to denote the $i$th element of $\\Theta$ within this order, for $0\\leq i < M$.",
-              "quoted_text_sha256": "4c6fe893b409d91d809b90a6fbd69d25b79034552ba9b9a28820a120929d0132"
-            },
-            {
-              "path": "sources/arxiv.tex",
-              "line_start": 721,
-              "line_end": 731,
-              "quoted_text": "Formally, given $\\theta_1 > \\theta_2$, define $P_k(\\theta_1, \\theta_2)$ as follows:\n\\begin{equation}\n\\label{eq:Pk}\nP_k(\\theta_1, \\theta_2) = \\mu_k(x_k(\\theta_1) > x_k(\\theta_2)|\\theta_1, \\theta_2) - \\mu_k(x_k(\\theta_1) < x_k(\\theta_2)|\\theta_1, \\theta_2).\n\\end{equation}\nThis expression captures the ``errors'' made by the ranking according to observed score.  In particular, when $\\theta_1 > \\theta_2$ but $x_k(\\theta_1) < x_k(\\theta_2)$, the aggregate score ranking swaps the ordering of sellers $\\theta_1$ and $\\theta_2$.  Thus, a good rating system has large $P_k(\\theta_1, \\theta_2)$.\n\nWe consider the problem of maximizing the following objective, a scaled version of {\\em Kendall's $\\tau$ rank correlation} between the estimated ranking of sellers and the true ranking:\n\\begin{equation}\n\\label{eq:objective}\nW_k = \\frac{2}{M(M-1)}\\sum_{\\theta_1 > \\theta_2 \\in \\Theta} P_k(\\theta_1, \\theta_2)",
-              "quoted_text_sha256": "570ed0ffc6d8958e85ae9fd11f3e78f6f2122f1ff62291afbd76183971bac4ff"
-            },
-            {
-              "path": "sources/arxiv.tex",
-              "line_start": 1714,
-              "line_end": 1718,
-              "quoted_text": "\t& = - \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\left(1 - \\frac{2}{M(M-1)}\\sum_{\\theta_1 > \\theta_2 \\in \\Theta} P_k(\\theta_1, \\theta_2)\\right)\\\\\n\t&= - \\lim_{k \\to \\infty} \\frac{1}{k} \\log\\frac{2}{M(M-1)} \\sum_{0  \\leq i < j \\leq M} \\b{P}_k(\\theta_j, \\theta_i)\\\\\n\t&= -\\max_{0\\leq i < j \\leq M}\\left( \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\left( \\b{P}_k(\\theta_j, \\theta_i)\\right)\\right)\\label{eqnstep:ldpproperty} \n\t= \\min_{0\\leq i < j \\leq M}\\left( -\\lim_{k \\to \\infty} \\frac{1}{k} \\left[\\log \\left(\\b{P}_k(\\theta_j, \\theta_i)\\right)\\right]\\right)\\\\\n\t&= \\min_{0 \\leq i < j \\leq M} \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_j) I(a|\\theta_j) + g(\\theta_i) I(a|\\theta_i)\\right\\}\\\\",
-              "quoted_text_sha256": "474978bf045aafe2a2a6b185eb8d3952c502505ea13ff956bd6ec6b9e1374657"
-            }
-          ]
-        }
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 1633,
-          "line_end": 1635,
-          "quoted_text": "\\begin{lemma} \n\t$$\t\\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\mu((x_k(\\theta_1) - x_k(\\theta_2)) \\leq 0 | \\theta_1 , \\theta_2)\\right] = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\}$$ where $I(a|\\ell) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, $\\Lambda(z|\\theta)$ is the log moment generating function of a single sample from $x(\\theta_1)$, and $g(\\theta)$ is the sampling rate. \\label{lem:problessthan}\n\\end{lemma}",
-          "quoted_text_sha256": "82007966668f2c65d91a6d2c3b2afa92da2dd4b3d4cec280ba3d3fbc25c0e10c"
-        }
-      ]
-    },
-    "source_appendix_pk_ld_complement_rate_iid_completion": {
-      "statement": "Appendix Lemma P_k-LD: in the paper's ordered seller-pair scope theta_1 > theta_2, Pbar_k = 1 - P_k has the displayed real-valued exponential rate equal to the same infimum of the two sellers' match-rate-weighted rate functions.",
-      "source_location": "sources/arxiv.tex:1670-1681",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "lemma",
-      "source_status": "corrected",
-      "inventory_role": "corrected_source_target",
-      "coverage_status": "corrected_source_statement",
-      "source_note": "The appendix display leaves its pair-order qualifier implicit, but it is the P_k defined only for theta_1 > theta_2 at lines 721-731; its proof then applies the result inside the ordered-pair W_k aggregate. The formal target quantifies exactly over a finite strict high/low pair, not arbitrary or reversed pairs. The proof checks the complement-error transfer rather than treating it as direct. It implements the author-confirmed corrected IID/rate model but does not prove the source recurrence or literal Real-only rate formula.",
-      "source_defect_ids": [
-        "GJ18-QUALITY-TAIL-BOTTOM-01",
-        "GJ18-POSITIVE-MATCH-RATE-01",
-        "GJ18-NONTRIVIAL-RATING-SCALE-01",
-        "GJ18-IID-STATE-COMPLETION-01",
-        "GJ18-STATE-RECURRENCE-INDEX-01",
-        "GJ18-APPENDIX-DISCRETE-INTEGRAL-01",
-        "GJ18-PKLD-CONSTANT-SANDWICH-01",
-        "GJ18-EXTENDED-RATE-CODOMAIN-01"
-      ],
-      "corrected_target": {
-        "schema": 1,
-        "statement": "For every ordered high/low seller pair in the author-approved finite ordinal IID model, with positive match rates, a nontrivial rating scale, corrected ordinal tails, and an extended-real rate convention, one minus the source-state P_k objective has an exponential-rate certificate with the same finite real representative of the support-safe pairwise threshold rate.",
-        "governing_defect_ids": [
-          "GJ18-QUALITY-TAIL-BOTTOM-01",
-          "GJ18-POSITIVE-MATCH-RATE-01",
-          "GJ18-NONTRIVIAL-RATING-SCALE-01",
-          "GJ18-IID-STATE-COMPLETION-01",
-          "GJ18-STATE-RECURRENCE-INDEX-01",
-          "GJ18-EXTENDED-RATE-CODOMAIN-01"
-        ],
-        "archival_equivalence_claimed": false,
-        "archival_source_locator": "sources/arxiv.tex:1670-1681",
-        "archival_source_quote_sha256": "3d6ec04a845188543d635ce597a39cdace93315ebcbf3c4b9861d771e794a122",
-        "approval": {
-          "kind": "documented_author_correction",
-          "recorded_at": "2026-07-24",
-          "reference": "Author-approved corrected finite-chain model recorded in docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md.",
-          "artifact_path": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
-          "artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
-          "target_statement_sha256": "5f257a64fac6a0c1bf23030f17d195f5da1b9366503a88838bace033af0a907b"
-        },
-        "corrected_target_sha256": "890731639c45c984073f1deb931734ab578904c2f10cabc81972bb029b505901"
-      },
-      "aliases": [
-        "source_appendix_pk_ld_complement_rate_iid_completion"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_appendix_pk_ld_complement_rate_iid_completion"
-      ],
-      "semantic_context_requirements": [
-        {
-          "kind": "restricted_subtype_domain",
-          "source_location": "sources/arxiv.tex:665; sources/arxiv.tex:721-731; sources/arxiv.tex:1714-1718",
-          "explanation": "The source orders its finite seller-type carrier as theta_i, then defines P_k only given theta_1 > theta_2 and sums only those pairs in W_k; its proof rewrites that aggregate as i < j with P_k(theta_j, theta_i). Review a Lean restricted pair carrier as exactly one finite high/low pair with strict low < high, not as a theorem for arbitrary, equal, or reversed seller pairs and not as an unrecorded model assumption.",
-          "source_anchor_evidence": [
-            {
-              "path": "sources/arxiv.tex",
-              "line_start": 665,
-              "line_end": 665,
-              "quoted_text": "{\\bf Sellers}.  The system consists of a unit mass of sellers, each associated with a quality \\textit{type} $\\theta$, which is (initially) unknown to the platform. We assume $\\theta$ is drawn independently and uniformly at random from a finite and totally ordered set $\\Theta$, with $|\\Theta| = M$. We use $\\theta_i$ to denote the $i$th element of $\\Theta$ within this order, for $0\\leq i < M$.",
-              "quoted_text_sha256": "4c6fe893b409d91d809b90a6fbd69d25b79034552ba9b9a28820a120929d0132"
-            },
-            {
-              "path": "sources/arxiv.tex",
-              "line_start": 721,
-              "line_end": 731,
-              "quoted_text": "Formally, given $\\theta_1 > \\theta_2$, define $P_k(\\theta_1, \\theta_2)$ as follows:\n\\begin{equation}\n\\label{eq:Pk}\nP_k(\\theta_1, \\theta_2) = \\mu_k(x_k(\\theta_1) > x_k(\\theta_2)|\\theta_1, \\theta_2) - \\mu_k(x_k(\\theta_1) < x_k(\\theta_2)|\\theta_1, \\theta_2).\n\\end{equation}\nThis expression captures the ``errors'' made by the ranking according to observed score.  In particular, when $\\theta_1 > \\theta_2$ but $x_k(\\theta_1) < x_k(\\theta_2)$, the aggregate score ranking swaps the ordering of sellers $\\theta_1$ and $\\theta_2$.  Thus, a good rating system has large $P_k(\\theta_1, \\theta_2)$.\n\nWe consider the problem of maximizing the following objective, a scaled version of {\\em Kendall's $\\tau$ rank correlation} between the estimated ranking of sellers and the true ranking:\n\\begin{equation}\n\\label{eq:objective}\nW_k = \\frac{2}{M(M-1)}\\sum_{\\theta_1 > \\theta_2 \\in \\Theta} P_k(\\theta_1, \\theta_2)",
-              "quoted_text_sha256": "570ed0ffc6d8958e85ae9fd11f3e78f6f2122f1ff62291afbd76183971bac4ff"
-            },
-            {
-              "path": "sources/arxiv.tex",
-              "line_start": 1714,
-              "line_end": 1718,
-              "quoted_text": "\t& = - \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\left(1 - \\frac{2}{M(M-1)}\\sum_{\\theta_1 > \\theta_2 \\in \\Theta} P_k(\\theta_1, \\theta_2)\\right)\\\\\n\t&= - \\lim_{k \\to \\infty} \\frac{1}{k} \\log\\frac{2}{M(M-1)} \\sum_{0  \\leq i < j \\leq M} \\b{P}_k(\\theta_j, \\theta_i)\\\\\n\t&= -\\max_{0\\leq i < j \\leq M}\\left( \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\left( \\b{P}_k(\\theta_j, \\theta_i)\\right)\\right)\\label{eqnstep:ldpproperty} \n\t= \\min_{0\\leq i < j \\leq M}\\left( -\\lim_{k \\to \\infty} \\frac{1}{k} \\left[\\log \\left(\\b{P}_k(\\theta_j, \\theta_i)\\right)\\right]\\right)\\\\\n\t&= \\min_{0 \\leq i < j \\leq M} \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_j) I(a|\\theta_j) + g(\\theta_i) I(a|\\theta_i)\\right\\}\\\\",
-              "quoted_text_sha256": "474978bf045aafe2a2a6b185eb8d3952c502505ea13ff956bd6ec6b9e1374657"
-            }
-          ]
-        }
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 1670,
-          "line_end": 1681,
-          "quoted_text": "\\begin{restatable}{lemma}{lemPkld}\n\t%\n\t\\label{lem:Pk_LD}\n\tGiven $\\theta_1, \\theta_2$, let $\\b{P}_k(\\theta_1, \\theta_2) = 1 - P_k(\\theta_1, \\theta_2)$.  Then:\n\t\\begin{equation}\n\t\\label{eq:LDrate}\n\t- \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\b{P}_k(\\theta_1, \\theta_2) = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\},\n\t\\end{equation}\n\twhere $I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta)$ is the log moment generating function of a single rating given to seller of type $\\theta$:\n\t\\[ \\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} \\rho(\\theta, y | Y) \\exp( z \\phi(y) ). \\]\n\t%\n\\end{restatable}",
-          "quoted_text_sha256": "3d6ec04a845188543d635ce597a39cdace93315ebcbf3c4b9861d771e794a122"
-        }
-      ]
-    },
-    "source_pairwise_objective_tendsto_one_iid_completion": {
-      "statement": "Corrected form of the source convergence prose: under the explicit finite IID completion, literal ordinal-tail primitives, positive match rates, and at least two rating levels, P_k for every ordered seller pair tends to one.",
-      "source_location": "sources/arxiv.tex:744-745",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "corrected IID-completion convergence result",
-      "source_note": "The source states convergence from strict phi and strict R alone. The reviewed proof uses the author-confirmed 0<g(theta)<=1 and IID additions, makes the nontrivial scale explicit, and does not infer IID from mu_k.",
-      "source_defect_ids": [
-        "GJ18-QUALITY-TAIL-BOTTOM-01",
-        "GJ18-TERMINAL-SUPPORT-01",
-        "GJ18-POSITIVE-MATCH-RATE-01",
-        "GJ18-NONTRIVIAL-RATING-SCALE-01",
-        "GJ18-IID-STATE-COMPLETION-01",
-        "GJ18-STATE-RECURRENCE-INDEX-01"
-      ],
-      "aliases": [
-        "source_pairwise_objective_tendsto_one_iid_completion"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_pairwise_objective_tendsto_one_iid_completion"
-      ],
-      "proof_lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_pairwise_objective_tendsto_one_iid_completion"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 744,
-          "line_end": 745,
-          "quoted_text": "No single choice of $Y$ and $\\phi$ can simultaneously optimize $W_k$ for all $k$: some designs may be effective in separating the best sellers from the worst quickly, but then never separate all sellers. Further, as long as $\\phi(y)$ is strictly increasing, then because $R(\\theta, y)$ is strictly increasing in $\\theta$, we have, for all $\\theta_1\\neq \\theta_2$, and all choices of $Y$ and $\\phi$:\n$\\lim_{k \\to \\infty} P_k(\\theta_1, \\theta_2) = 1$. Using the bounded convergence theorem we conclude that $\\lim_{k \\to \\infty} W_k = 1 $, independent of the design choice $Y$ and $\\phi$.  Thus {\\em any} design asymptotically  -- with enough ratings -- recovers the true ranking of sellers.",
-          "quoted_text_sha256": "a1279ddf6b85f16447156cef9a4f40e115ef92a86df2242eebd7b9eaa094d927"
-        }
-      ]
-    },
-    "source_uniform_ranking_objective_tendsto_one_iid_completion": {
-      "statement": "Corrected form of the source convergence prose: under the explicit finite IID completion, literal ordinal-tail primitives, positive match rates, at least two rating levels, and a nonempty adjacent seller carrier, W_k tends to one.",
-      "source_location": "sources/arxiv.tex:744-745",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "corrected IID-completion convergence result",
-      "source_note": "The checked result averages the proved pairwise limits over the exact strict-pair carrier under the author-confirmed corrected IID/rate model. It does not use bounded convergence on an unformalized source mu_k process.",
-      "source_defect_ids": [
-        "GJ18-PAIR-CARRIER-NORMALIZATION-01",
-        "GJ18-POSITIVE-MATCH-RATE-01",
-        "GJ18-NONTRIVIAL-RATING-SCALE-01",
-        "GJ18-IID-STATE-COMPLETION-01",
-        "GJ18-STATE-RECURRENCE-INDEX-01",
-        "GJ18-UNIFORM-TYPE-PRIOR-01"
-      ],
-      "aliases": [
-        "source_uniform_ranking_objective_tendsto_one_iid_completion"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_uniform_ranking_objective_tendsto_one_iid_completion"
-      ],
-      "proof_lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_uniform_ranking_objective_tendsto_one_iid_completion"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 744,
-          "line_end": 745,
-          "quoted_text": "No single choice of $Y$ and $\\phi$ can simultaneously optimize $W_k$ for all $k$: some designs may be effective in separating the best sellers from the worst quickly, but then never separate all sellers. Further, as long as $\\phi(y)$ is strictly increasing, then because $R(\\theta, y)$ is strictly increasing in $\\theta$, we have, for all $\\theta_1\\neq \\theta_2$, and all choices of $Y$ and $\\phi$:\n$\\lim_{k \\to \\infty} P_k(\\theta_1, \\theta_2) = 1$. Using the bounded convergence theorem we conclude that $\\lim_{k \\to \\infty} W_k = 1 $, independent of the design choice $Y$ and $\\phi$.  Thus {\\em any} design asymptotically  -- with enough ratings -- recovers the true ranking of sellers.",
-          "quoted_text_sha256": "a1279ddf6b85f16447156cef9a4f40e115ef92a86df2242eebd7b9eaa094d927"
-        }
-      ]
-    },
-    "source_theorem1_informative_rating_system_rate_iid_completion": {
-      "statement": "Corrected Theorem 1: for the explicit finite IID completion of the finite ordinal source model, with positive match rates, at least two rating levels, and at least one adjacent seller pair, one minus the finite uniform ranking objective has the exact support-safe extended exponential rate given by the minimum adjacent threshold rate.",
-      "source_location": "sources/arxiv.tex:754-764",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "supporting corrected theorem variant; the final finite-real endpoint is the sole normal source target",
-      "source_note": "This checked endpoint implements the author-confirmed 0<g(theta)<=1 and IID additions, repairs the finite adjacent-index range, and avoids terminal-full-support assumptions, including the binary low-terminal-zero case. It intentionally does not claim the printed mu_k recurrence, source uniform-prior conditioning, or unrestricted Real infimum formula implies the theorem.",
-      "source_defect_ids": [
-        "GJ18-THEOREM1-ADJACENT-INDEX-01",
-        "GJ18-PAIR-CARRIER-NORMALIZATION-01",
-        "GJ18-QUALITY-TAIL-BOTTOM-01",
-        "GJ18-TERMINAL-SUPPORT-01",
-        "GJ18-POSITIVE-MATCH-RATE-01",
-        "GJ18-NONTRIVIAL-RATING-SCALE-01",
-        "GJ18-IID-STATE-COMPLETION-01",
-        "GJ18-STATE-RECURRENCE-INDEX-01",
-        "GJ18-UNIFORM-TYPE-PRIOR-01",
-        "GJ18-APPENDIX-DISCRETE-INTEGRAL-01",
-        "GJ18-PKLD-CONSTANT-SANDWICH-01",
-        "GJ18-EXTENDED-RATE-CODOMAIN-01"
-      ],
-      "aliases": [
-        "source_theorem1_informative_rating_system_rate_iid_completion"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_theorem1_informative_rating_system_rate_iid_completion"
-      ],
-      "proof_lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.source_theorem1_informative_rating_system_rate_iid_completion"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 754,
-          "line_end": 764,
-          "quoted_text": "\\begin{restatable}{theorem}{lemhatW}\n\t\\label{lem:hatW}\n\t\\begin{equation}\n\t\\label{eq:rW}\n\tr \\triangleq - \\lim_{k \\to \\infty} \\frac{1}{k} \\log (1- {W}_k) = \\min_{0 \\leq i < M} \\inf_{a \\in \\bbR} \\left \\{ g(\\theta_{i+1}) I(a|\\theta_{i+1}) + g(\\theta_i) I(a|\\theta_i)\\right\\}\n\t\\end{equation}\n\twhere\n\t$I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} {\\rho(\\theta, y | Y)} \\exp( z \\phi(y))$ is the log moment generating function of a single rating given to seller of type $\\theta$.\n%\n%\n\\end{restatable}",
-          "quoted_text_sha256": "e63468dac3b2c6a9547d94fdf512af4589b7a6b4475db2e65edc08ff9a6e1c3f"
-        }
-      ]
-    },
-    "author_confirmed_clarified_model_theorem1_state_rate": {
-      "statement": "Author-approved corrected-model Theorem 1, extended-rate form: the literal finite state-level W_k under the record's IID state law has the exact support-safe extended exponential rate given by the minimum adjacent threshold rate.",
-      "source_location": "sources/arxiv.tex:754-764",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "prose_assertion",
-      "source_status": "supporting corrected theorem variant; not a separately source-presented target",
-      "source_note": "ClarifiedSourceModel visibly supplies at least two seller types, the explicit uniform type prior, 0<g(theta)<=1, nontrivial scale, ordinal source primitives, and stateLaw equality to the IID product law. The conclusion is a WithTop support-safe rate for literal sourceStateWk, not the archive's unrestricted legacy Real infimum and not a derivation from the printed mu_k recurrence.",
-      "source_defect_ids": [
-        "GJ18-THEOREM1-ADJACENT-INDEX-01",
-        "GJ18-PAIR-CARRIER-NORMALIZATION-01",
-        "GJ18-QUALITY-TAIL-BOTTOM-01",
-        "GJ18-TERMINAL-SUPPORT-01",
-        "GJ18-POSITIVE-MATCH-RATE-01",
-        "GJ18-NONTRIVIAL-RATING-SCALE-01",
-        "GJ18-IID-STATE-COMPLETION-01",
-        "GJ18-STATE-RECURRENCE-INDEX-01",
-        "GJ18-UNIFORM-TYPE-PRIOR-01",
-        "GJ18-APPENDIX-DISCRETE-INTEGRAL-01",
-        "GJ18-PKLD-CONSTANT-SANDWICH-01",
-        "GJ18-EXTENDED-RATE-CODOMAIN-01"
-      ],
-      "aliases": [
-        "author_confirmed_clarified_model_theorem1_state_rate"
-      ],
-      "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_model_theorem1_state_rate"
-      ],
-      "proof_lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_model_theorem1_state_rate"
-      ],
-      "source_anchor_evidence": [
-        {
-          "path": "sources/arxiv.tex",
-          "line_start": 754,
-          "line_end": 764,
-          "quoted_text": "\\begin{restatable}{theorem}{lemhatW}\n\t\\label{lem:hatW}\n\t\\begin{equation}\n\t\\label{eq:rW}\n\tr \\triangleq - \\lim_{k \\to \\infty} \\frac{1}{k} \\log (1- {W}_k) = \\min_{0 \\leq i < M} \\inf_{a \\in \\bbR} \\left \\{ g(\\theta_{i+1}) I(a|\\theta_{i+1}) + g(\\theta_i) I(a|\\theta_i)\\right\\}\n\t\\end{equation}\n\twhere\n\t$I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} {\\rho(\\theta, y | Y)} \\exp( z \\phi(y))$ is the log moment generating function of a single rating given to seller of type $\\theta$.\n%\n%\n\\end{restatable}",
-          "quoted_text_sha256": "e63468dac3b2c6a9547d94fdf512af4589b7a6b4475db2e65edc08ff9a6e1c3f"
-        }
-      ]
-    },
     "author_approved_corrected_model_theorem1_finite_real_rate": {
-      "statement": "Theorem 1: the archival display sets r = -lim_k (1/k) log(1-W_k) equal to the minimum over adjacent types of the real-valued rate-function expression shown in the source.",
-      "source_location": "sources/arxiv.tex:754-764",
-      "source_url": "https://arxiv.org/pdf/1810.13028",
-      "source_kind": "theorem",
-      "source_status": "corrected",
-      "inventory_role": "corrected_source_target",
+      "aliases": [
+        "author_approved_corrected_model_theorem1_finite_real_rate"
+      ],
+      "claim_bearing": true,
+      "corrected_target": {
+        "approval": {
+          "artifact_path": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
+          "artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
+          "kind": "documented_author_correction",
+          "recorded_at": "2026-07-24",
+          "reference": "Author-approved corrected finite-chain model recorded in docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md.",
+          "target_statement_sha256": "8340a74a9c1fa01f097381146a9805f97ff51d39e26949b9e0ef765c3573c0be"
+        },
+        "archival_equivalence_claimed": false,
+        "archival_source_locator": "cited publication:754-764",
+        "archival_source_quote_sha256": "e63468dac3b2c6a9547d94fdf512af4589b7a6b4475db2e65edc08ff9a6e1c3f",
+        "corrected_target_sha256": "b52295f9d1e7d578942d474bd6cdd081de18daa2f1ad90653742531d07738a33",
+        "governing_defect_ids": [
+          "GJ18-THEOREM1-ADJACENT-INDEX-01",
+          "GJ18-QUALITY-TAIL-BOTTOM-01",
+          "GJ18-POSITIVE-MATCH-RATE-01",
+          "GJ18-NONTRIVIAL-RATING-SCALE-01",
+          "GJ18-IID-STATE-COMPLETION-01",
+          "GJ18-STATE-RECURRENCE-INDEX-01",
+          "GJ18-UNIFORM-TYPE-PRIOR-01",
+          "GJ18-EXTENDED-RATE-CODOMAIN-01"
+        ],
+        "schema": 1,
+        "statement": "For the author-approved corrected finite ordinal IID model with at least two uniformly distributed seller types, positive at-most-one-per-period match rates, a nontrivial ordinal rating scale, and valid adjacent pairs 0 <= i <= M-2, one minus the state-level W_k objective has a finite real exponential rate equal to the finite representative of the support-safe adjacent-pair rate."
+      },
       "coverage_status": "corrected_source_statement",
-      "source_note": "This is the governing finite-real conclusion authorized in docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md. It proves that the support-safe extended rate is finite and equals the embedded real exponent. It does not identify that exponent with the archive's unrestricted Real.sSup expression or derive the corrected iid state law from the printed mu_k recurrence.",
+      "inventory_role": "corrected_source_target",
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.author_approved_corrected_model_theorem1_finite_real_rateSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 764,
+          "line_start": 754,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{theorem}{lemhatW}\n\t\\label{lem:hatW}\n\t\\begin{equation}\n\t\\label{eq:rW}\n\tr \\triangleq - \\lim_{k \\to \\infty} \\frac{1}{k} \\log (1- {W}_k) = \\min_{0 \\leq i < M} \\inf_{a \\in \\bbR} \\left \\{ g(\\theta_{i+1}) I(a|\\theta_{i+1}) + g(\\theta_i) I(a|\\theta_i)\\right\\}\n\t\\end{equation}\n\twhere\n\t$I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} {\\rho(\\theta, y | Y)} \\exp( z \\phi(y))$ is the log moment generating function of a single rating given to seller of type $\\theta$.\n%\n%\n\\end{restatable}",
+          "quoted_text_sha256": "e63468dac3b2c6a9547d94fdf512af4589b7a6b4475db2e65edc08ff9a6e1c3f"
+        }
+      ],
       "source_defect_ids": [
         "GJ18-AGGREGATE-INDEX-01",
         "GJ18-THEOREM1-ADJACENT-INDEX-01",
@@ -941,47 +128,1042 @@
         "GJ18-PKLD-CONSTANT-SANDWICH-01",
         "GJ18-EXTENDED-RATE-CODOMAIN-01"
       ],
+      "source_kind": "theorem",
+      "source_location": "cited publication:754-764",
+      "source_note": "This is the governing finite-real conclusion authorized in docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md. It proves that the support-safe extended rate is finite and equals the embedded real exponent. It does not identify that exponent with the archive's unrestricted Real.sSup expression or derive the corrected iid state law from the printed mu_k recurrence.",
+      "source_status": "corrected",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "Theorem 1: the archival display sets r = -lim_k (1/k) log(1-W_k) equal to the minimum over adjacent types of the real-valued rate-function expression shown in the source.",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.author_approved_corrected_model_theorem1_finite_real_rateSpec"
+      ]
+    },
+    "author_confirmed_clarified_iid_state_law": {
+      "aliases": [
+        "author_confirmed_clarified_iid_state_law"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_iid_state_law"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_iid_state_law",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_iid_state_lawSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 683,
+          "line_start": 683,
+          "publication_locator": "cited publication",
+          "quoted_text": "At each rating opportunity (i.e., match made), the seller receives a rating from the set $Y$, and we assume that this rating depends only on the true quality of the seller. In particular, we presume that, given scale $Y$, the probability a seller of type $\\theta$ receives a rating $y$ is $\\rho(\\theta, y | Y)$, with corresponding cumulative mass function $R(\\theta,y| Y)$ reflecting the probability a seller of type $\\theta$ receives a rating $y$ or higher. In other words, the scale $Y$ induces a joint distribution between the underlying seller quality and the rating choices buyers make. We make the natural assumptions that $R(\\theta,y| Y)$ is strictly increasing in $\\theta$ and strictly decreasing with $y$.",
+          "quoted_text_sha256": "e55af7af36f7a6f0d4bb00af3966f6c54befaf399e8eb7d2b6752666ef58f426"
+        },
+        {
+          "line_end": 716,
+          "line_start": 710,
+          "publication_locator": "cited publication",
+          "quoted_text": "{\\bf System state}.  We represent the state of the system defined above by a joint distribution $\\mu_k(\\Theta, X)$, which gives the mass of sellers of type $\\theta \\in \\Theta$ with aggregate score $x_k(\\theta) \\in X$ at time $k$. Throughout our model presentation, we describe the system model as one emerging from interactions between individual buyers and sellers. However, we assume a unit mass of sellers (and some mass of buyers), and so all such descriptions should be viewed as illuminating the evolution of a joint distribution $\\mu_k (\\Theta, X)$ of the types of sellers on the platform and their current scores. To formally describe the evolution of $\\mu_k$, let $E_k = \\{ \\theta : n_k(\\theta) = n_{k-1}(\\theta) + 1 \\}$.  These are the sellers who receive an additional rating at time $k$; for all $\\theta \\in E_k^c$, $n_k(\\theta) = n_{k-1}(\\theta)$.  Next, for each $x, x' \\in [0,1]$, define $\\chi_k(x, x',\\theta | Y, {\\phi})$ as:\n\\[\n{\\chi_k(x, x',\\theta | Y, \\phi) =} \\{ y : n_k(\\theta)x - n_{k-1}(\\theta)x' = \\phi(y) \\}.\n\\]\nThe set $\\chi$ describes the rating(s) a seller of type $\\theta$ at time $k$ with aggregate score $x'$ can receive to transition to aggregate score $x$.  We then have:\n\\[ \\mu_{k+1}(\\Theta, X) = \\int_{E_k} \\int_0^1 \\int_X \\sum_{y \\in \\chi_k(\\theta, x, x' | Y, \\phi)} \\rho(\\theta, y | Y)  dx \\mu_k(d\\theta, dx') + \\int_{E_k^c} \\int_X \\mu_k(d\\theta, dx'). \\]\nIt is straightforward but tedious to check that the preceding dynamics are well defined, given our primitives.",
+          "quoted_text_sha256": "ab69c188d760c1d996729d79bba743107dae78dcc44fdd2c6abfc4f45df52b47"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-IID-STATE-COMPLETION-01",
+        "GJ18-STATE-RECURRENCE-INDEX-01",
+        "GJ18-UNIFORM-TYPE-PRIOR-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:683; cited publication:710-716",
+      "source_note": "ClarifiedSourceModel records stateLaw k = iidFloorSourceStateLaw M sampleRate k. The checked equality formalizes the author-confirmed IID model, while leaving the archive's mu_k transition and conditioning derivation explicitly partial.",
+      "source_status": "author-confirmed governing clarification; not a theorem of the archive recurrence",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "Author-confirmed clarified-model row: at every horizon k, the recorded state law equals the finite product law of conditionally IID ratings given seller type and independent seller histories.",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_iid_state_lawSpec"
+      ]
+    },
+    "author_confirmed_clarified_model_theorem1_state_rate": {
+      "aliases": [
+        "author_confirmed_clarified_model_theorem1_state_rate"
+      ],
+      "claim_bearing": false,
+      "inventory_role": "source_premise_declaration",
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_model_theorem1_state_rate"
+      ],
+      "proof_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_model_theorem1_state_rate"
+      ],
+      "scope_disposition": "corrected_model_prerequisite",
+      "scope_disposition_note": "This author-confirmed model condition is a prerequisite for the selected corrected Theorem 1 endpoint, not a separate source presentation.",
+      "source_anchor_evidence": [
+        {
+          "line_end": 764,
+          "line_start": 754,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{theorem}{lemhatW}\n\t\\label{lem:hatW}\n\t\\begin{equation}\n\t\\label{eq:rW}\n\tr \\triangleq - \\lim_{k \\to \\infty} \\frac{1}{k} \\log (1- {W}_k) = \\min_{0 \\leq i < M} \\inf_{a \\in \\bbR} \\left \\{ g(\\theta_{i+1}) I(a|\\theta_{i+1}) + g(\\theta_i) I(a|\\theta_i)\\right\\}\n\t\\end{equation}\n\twhere\n\t$I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} {\\rho(\\theta, y | Y)} \\exp( z \\phi(y))$ is the log moment generating function of a single rating given to seller of type $\\theta$.\n%\n%\n\\end{restatable}",
+          "quoted_text_sha256": "e63468dac3b2c6a9547d94fdf512af4589b7a6b4475db2e65edc08ff9a6e1c3f"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-THEOREM1-ADJACENT-INDEX-01",
+        "GJ18-PAIR-CARRIER-NORMALIZATION-01",
+        "GJ18-QUALITY-TAIL-BOTTOM-01",
+        "GJ18-TERMINAL-SUPPORT-01",
+        "GJ18-POSITIVE-MATCH-RATE-01",
+        "GJ18-NONTRIVIAL-RATING-SCALE-01",
+        "GJ18-IID-STATE-COMPLETION-01",
+        "GJ18-STATE-RECURRENCE-INDEX-01",
+        "GJ18-UNIFORM-TYPE-PRIOR-01",
+        "GJ18-APPENDIX-DISCRETE-INTEGRAL-01",
+        "GJ18-PKLD-CONSTANT-SANDWICH-01",
+        "GJ18-EXTENDED-RATE-CODOMAIN-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:754-764",
+      "source_note": "ClarifiedSourceModel visibly supplies at least two seller types, the explicit uniform type prior, 0<g(theta)<=1, nontrivial scale, ordinal source primitives, and stateLaw equality to the IID product law. The conclusion is a WithTop support-safe rate for literal sourceStateWk, not the archive's unrestricted legacy Real infimum and not a derivation from the printed mu_k recurrence.",
+      "source_status": "supporting corrected theorem variant; not a separately source-presented target",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "Author-approved corrected-model Theorem 1, extended-rate form: the literal finite state-level W_k under the record's IID state law has the exact support-safe extended exponential rate given by the minimum adjacent threshold rate."
+    },
+    "author_confirmed_clarified_uniform_type_prior": {
+      "aliases": [
+        "author_confirmed_clarified_uniform_type_prior"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_uniform_type_prior"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_uniform_type_prior",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_uniform_type_priorSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 665,
+          "line_start": 665,
+          "publication_locator": "cited publication",
+          "quoted_text": "{\\bf Sellers}.  The system consists of a unit mass of sellers, each associated with a quality \\textit{type} $\\theta$, which is (initially) unknown to the platform. We assume $\\theta$ is drawn independently and uniformly at random from a finite and totally ordered set $\\Theta$, with $|\\Theta| = M$. We use $\\theta_i$ to denote the $i$th element of $\\Theta$ within this order, for $0\\leq i < M$.",
+          "quoted_text_sha256": "4c6fe893b409d91d809b90a6fbd69d25b79034552ba9b9a28820a120929d0132"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-UNIFORM-TYPE-PRIOR-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:665",
+      "source_note": "The archive says types are independently and uniformly drawn. This row checks the explicit PMF field in ClarifiedSourceModel, but does not claim the archive's later joint state formulas derive the field or its conditional score laws.",
+      "source_status": "author-confirmed governing clarification; not an archive recurrence derivation",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "Author-confirmed clarified-model row: the record's finite seller-type prior equals the explicit uniform PMF on the nonempty ordered carrier Fin n.",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_uniform_type_priorSpec"
+      ]
+    },
+    "source_appendix_pk_ld_complement_rate_iid_completion": {
+      "aliases": [
+        "source_appendix_pk_ld_complement_rate_iid_completion"
+      ],
+      "claim_bearing": true,
       "corrected_target": {
-        "schema": 1,
-        "statement": "For the author-approved corrected finite ordinal IID model with at least two uniformly distributed seller types, positive at-most-one-per-period match rates, a nontrivial ordinal rating scale, and valid adjacent pairs 0 <= i <= M-2, one minus the state-level W_k objective has a finite real exponential rate equal to the finite representative of the support-safe adjacent-pair rate.",
+        "approval": {
+          "artifact_path": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
+          "artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
+          "kind": "documented_author_correction",
+          "recorded_at": "2026-07-24",
+          "reference": "Author-approved corrected finite-chain model recorded in docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md.",
+          "target_statement_sha256": "5f257a64fac6a0c1bf23030f17d195f5da1b9366503a88838bace033af0a907b"
+        },
+        "archival_equivalence_claimed": false,
+        "archival_source_locator": "cited publication:1670-1681",
+        "archival_source_quote_sha256": "3d6ec04a845188543d635ce597a39cdace93315ebcbf3c4b9861d771e794a122",
+        "corrected_target_sha256": "890731639c45c984073f1deb931734ab578904c2f10cabc81972bb029b505901",
         "governing_defect_ids": [
-          "GJ18-THEOREM1-ADJACENT-INDEX-01",
           "GJ18-QUALITY-TAIL-BOTTOM-01",
           "GJ18-POSITIVE-MATCH-RATE-01",
           "GJ18-NONTRIVIAL-RATING-SCALE-01",
           "GJ18-IID-STATE-COMPLETION-01",
           "GJ18-STATE-RECURRENCE-INDEX-01",
-          "GJ18-UNIFORM-TYPE-PRIOR-01",
           "GJ18-EXTENDED-RATE-CODOMAIN-01"
         ],
-        "archival_equivalence_claimed": false,
-        "archival_source_locator": "sources/arxiv.tex:754-764",
-        "archival_source_quote_sha256": "e63468dac3b2c6a9547d94fdf512af4589b7a6b4475db2e65edc08ff9a6e1c3f",
+        "schema": 1,
+        "statement": "For every ordered high/low seller pair in the author-approved finite ordinal IID model, with positive match rates, a nontrivial rating scale, corrected ordinal tails, and an extended-real rate convention, one minus the source-state P_k objective has an exponential-rate certificate with the same finite real representative of the support-safe pairwise threshold rate."
+      },
+      "coverage_status": "corrected_source_statement",
+      "inventory_role": "corrected_source_target",
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_appendix_pk_ld_complement_rate_iid_completion"
+      ],
+      "semantic_context_requirements": [
+        {
+          "explanation": "The source orders its finite seller-type carrier as theta_i, then defines P_k only given theta_1 > theta_2 and sums only those pairs in W_k; its proof rewrites that aggregate as i < j with P_k(theta_j, theta_i). Review a Lean restricted pair carrier as exactly one finite high/low pair with strict low < high, not as a theorem for arbitrary, equal, or reversed seller pairs and not as an unrecorded model assumption.",
+          "kind": "restricted_subtype_domain",
+          "source_anchor_evidence": [
+            {
+              "line_end": 665,
+              "line_start": 665,
+              "publication_locator": "cited publication",
+              "quoted_text": "{\\bf Sellers}.  The system consists of a unit mass of sellers, each associated with a quality \\textit{type} $\\theta$, which is (initially) unknown to the platform. We assume $\\theta$ is drawn independently and uniformly at random from a finite and totally ordered set $\\Theta$, with $|\\Theta| = M$. We use $\\theta_i$ to denote the $i$th element of $\\Theta$ within this order, for $0\\leq i < M$.",
+              "quoted_text_sha256": "4c6fe893b409d91d809b90a6fbd69d25b79034552ba9b9a28820a120929d0132"
+            },
+            {
+              "line_end": 731,
+              "line_start": 721,
+              "publication_locator": "cited publication",
+              "quoted_text": "Formally, given $\\theta_1 > \\theta_2$, define $P_k(\\theta_1, \\theta_2)$ as follows:\n\\begin{equation}\n\\label{eq:Pk}\nP_k(\\theta_1, \\theta_2) = \\mu_k(x_k(\\theta_1) > x_k(\\theta_2)|\\theta_1, \\theta_2) - \\mu_k(x_k(\\theta_1) < x_k(\\theta_2)|\\theta_1, \\theta_2).\n\\end{equation}\nThis expression captures the ``errors'' made by the ranking according to observed score.  In particular, when $\\theta_1 > \\theta_2$ but $x_k(\\theta_1) < x_k(\\theta_2)$, the aggregate score ranking swaps the ordering of sellers $\\theta_1$ and $\\theta_2$.  Thus, a good rating system has large $P_k(\\theta_1, \\theta_2)$.\n\nWe consider the problem of maximizing the following objective, a scaled version of {\\em Kendall's $\\tau$ rank correlation} between the estimated ranking of sellers and the true ranking:\n\\begin{equation}\n\\label{eq:objective}\nW_k = \\frac{2}{M(M-1)}\\sum_{\\theta_1 > \\theta_2 \\in \\Theta} P_k(\\theta_1, \\theta_2)",
+              "quoted_text_sha256": "570ed0ffc6d8958e85ae9fd11f3e78f6f2122f1ff62291afbd76183971bac4ff"
+            },
+            {
+              "line_end": 1718,
+              "line_start": 1714,
+              "publication_locator": "cited publication",
+              "quoted_text": "\t& = - \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\left(1 - \\frac{2}{M(M-1)}\\sum_{\\theta_1 > \\theta_2 \\in \\Theta} P_k(\\theta_1, \\theta_2)\\right)\\\\\n\t&= - \\lim_{k \\to \\infty} \\frac{1}{k} \\log\\frac{2}{M(M-1)} \\sum_{0  \\leq i < j \\leq M} \\b{P}_k(\\theta_j, \\theta_i)\\\\\n\t&= -\\max_{0\\leq i < j \\leq M}\\left( \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\left( \\b{P}_k(\\theta_j, \\theta_i)\\right)\\right)\\label{eqnstep:ldpproperty} \n\t= \\min_{0\\leq i < j \\leq M}\\left( -\\lim_{k \\to \\infty} \\frac{1}{k} \\left[\\log \\left(\\b{P}_k(\\theta_j, \\theta_i)\\right)\\right]\\right)\\\\\n\t&= \\min_{0 \\leq i < j \\leq M} \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_j) I(a|\\theta_j) + g(\\theta_i) I(a|\\theta_i)\\right\\}\\\\",
+              "quoted_text_sha256": "474978bf045aafe2a2a6b185eb8d3952c502505ea13ff956bd6ec6b9e1374657"
+            }
+          ],
+          "source_location": "cited publication:665; cited publication:721-731; cited publication:1714-1718"
+        }
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_appendix_pk_ld_complement_rate_iid_completion",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_appendix_pk_ld_complement_rate_iid_completionSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 1681,
+          "line_start": 1670,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{lemma}{lemPkld}\n\t%\n\t\\label{lem:Pk_LD}\n\tGiven $\\theta_1, \\theta_2$, let $\\b{P}_k(\\theta_1, \\theta_2) = 1 - P_k(\\theta_1, \\theta_2)$.  Then:\n\t\\begin{equation}\n\t\\label{eq:LDrate}\n\t- \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\b{P}_k(\\theta_1, \\theta_2) = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\},\n\t\\end{equation}\n\twhere $I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta)$ is the log moment generating function of a single rating given to seller of type $\\theta$:\n\t\\[ \\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} \\rho(\\theta, y | Y) \\exp( z \\phi(y) ). \\]\n\t%\n\\end{restatable}",
+          "quoted_text_sha256": "3d6ec04a845188543d635ce597a39cdace93315ebcbf3c4b9861d771e794a122"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-QUALITY-TAIL-BOTTOM-01",
+        "GJ18-POSITIVE-MATCH-RATE-01",
+        "GJ18-NONTRIVIAL-RATING-SCALE-01",
+        "GJ18-IID-STATE-COMPLETION-01",
+        "GJ18-STATE-RECURRENCE-INDEX-01",
+        "GJ18-APPENDIX-DISCRETE-INTEGRAL-01",
+        "GJ18-PKLD-CONSTANT-SANDWICH-01",
+        "GJ18-EXTENDED-RATE-CODOMAIN-01"
+      ],
+      "source_kind": "lemma",
+      "source_location": "cited publication:1670-1681",
+      "source_note": "The appendix display leaves its pair-order qualifier implicit, but it is the P_k defined only for theta_1 > theta_2 at lines 721-731; its proof then applies the result inside the ordered-pair W_k aggregate. The formal target quantifies exactly over a finite strict high/low pair, not arbitrary or reversed pairs. The proof checks the complement-error transfer rather than treating it as direct. It implements the author-confirmed corrected IID/rate model but does not prove the source recurrence or literal Real-only rate formula.",
+      "source_status": "corrected",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "Appendix Lemma P_k-LD: in the paper's ordered seller-pair scope theta_1 > theta_2, Pbar_k = 1 - P_k has the displayed real-valued exponential rate equal to the same infimum of the two sellers' match-rate-weighted rate functions.",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_appendix_pk_ld_complement_rate_iid_completionSpec"
+      ]
+    },
+    "source_appendix_problessthan_score_gap_rate_iid_completion": {
+      "aliases": [
+        "source_appendix_problessthan_score_gap_rate_iid_completion"
+      ],
+      "claim_bearing": true,
+      "corrected_target": {
         "approval": {
+          "artifact_path": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
+          "artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
           "kind": "documented_author_correction",
           "recorded_at": "2026-07-24",
           "reference": "Author-approved corrected finite-chain model recorded in docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md.",
-          "artifact_path": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
-          "artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
-          "target_statement_sha256": "8340a74a9c1fa01f097381146a9805f97ff51d39e26949b9e0ef765c3573c0be"
+          "target_statement_sha256": "0f68b491501a30e2e10c887ed2a00c53ae6dbdf0060e9f202a1f4d6230f99ee3"
         },
-        "corrected_target_sha256": "b52295f9d1e7d578942d474bd6cdd081de18daa2f1ad90653742531d07738a33"
+        "archival_equivalence_claimed": false,
+        "archival_source_locator": "cited publication:1633-1635",
+        "archival_source_quote_sha256": "82007966668f2c65d91a6d2c3b2afa92da2dd4b3d4cec280ba3d3fbc25c0e10c",
+        "corrected_target_sha256": "6619134e7e5a1fe2be1ae8d6ebc232c6de3cf5efe69736492bb3bd02f1806e2c",
+        "governing_defect_ids": [
+          "GJ18-QUALITY-TAIL-BOTTOM-01",
+          "GJ18-POSITIVE-MATCH-RATE-01",
+          "GJ18-NONTRIVIAL-RATING-SCALE-01",
+          "GJ18-IID-STATE-COMPLETION-01",
+          "GJ18-STATE-RECURRENCE-INDEX-01",
+          "GJ18-EXTENDED-RATE-CODOMAIN-01"
+        ],
+        "schema": 1,
+        "statement": "For every ordered high/low seller pair in the author-approved finite ordinal IID model, with positive match rates, a nontrivial rating scale, corrected ordinal tails, and an extended-real rate convention, the source-state weak-inversion probability has an exponential-rate certificate with a finite real representative of the support-safe pairwise threshold rate."
       },
-      "aliases": [
-        "author_approved_corrected_model_theorem1_finite_real_rate"
-      ],
+      "coverage_status": "corrected_source_statement",
+      "inventory_role": "corrected_source_target",
       "lean_declarations": [
-        "GJ18InformativeRatingSystems.PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate"
+        "GJ18InformativeRatingSystems.PaperInterface.source_appendix_problessthan_score_gap_rate_iid_completion"
       ],
+      "semantic_context_requirements": [
+        {
+          "explanation": "The source orders its finite seller-type carrier as theta_i, then defines P_k only given theta_1 > theta_2 and sums only those pairs in W_k; its proof rewrites that aggregate as i < j with P_k(theta_j, theta_i). Review a Lean restricted pair carrier as exactly one finite high/low pair with strict low < high, not as a theorem for arbitrary, equal, or reversed seller pairs and not as an unrecorded model assumption.",
+          "kind": "restricted_subtype_domain",
+          "source_anchor_evidence": [
+            {
+              "line_end": 665,
+              "line_start": 665,
+              "publication_locator": "cited publication",
+              "quoted_text": "{\\bf Sellers}.  The system consists of a unit mass of sellers, each associated with a quality \\textit{type} $\\theta$, which is (initially) unknown to the platform. We assume $\\theta$ is drawn independently and uniformly at random from a finite and totally ordered set $\\Theta$, with $|\\Theta| = M$. We use $\\theta_i$ to denote the $i$th element of $\\Theta$ within this order, for $0\\leq i < M$.",
+              "quoted_text_sha256": "4c6fe893b409d91d809b90a6fbd69d25b79034552ba9b9a28820a120929d0132"
+            },
+            {
+              "line_end": 731,
+              "line_start": 721,
+              "publication_locator": "cited publication",
+              "quoted_text": "Formally, given $\\theta_1 > \\theta_2$, define $P_k(\\theta_1, \\theta_2)$ as follows:\n\\begin{equation}\n\\label{eq:Pk}\nP_k(\\theta_1, \\theta_2) = \\mu_k(x_k(\\theta_1) > x_k(\\theta_2)|\\theta_1, \\theta_2) - \\mu_k(x_k(\\theta_1) < x_k(\\theta_2)|\\theta_1, \\theta_2).\n\\end{equation}\nThis expression captures the ``errors'' made by the ranking according to observed score.  In particular, when $\\theta_1 > \\theta_2$ but $x_k(\\theta_1) < x_k(\\theta_2)$, the aggregate score ranking swaps the ordering of sellers $\\theta_1$ and $\\theta_2$.  Thus, a good rating system has large $P_k(\\theta_1, \\theta_2)$.\n\nWe consider the problem of maximizing the following objective, a scaled version of {\\em Kendall's $\\tau$ rank correlation} between the estimated ranking of sellers and the true ranking:\n\\begin{equation}\n\\label{eq:objective}\nW_k = \\frac{2}{M(M-1)}\\sum_{\\theta_1 > \\theta_2 \\in \\Theta} P_k(\\theta_1, \\theta_2)",
+              "quoted_text_sha256": "570ed0ffc6d8958e85ae9fd11f3e78f6f2122f1ff62291afbd76183971bac4ff"
+            },
+            {
+              "line_end": 1718,
+              "line_start": 1714,
+              "publication_locator": "cited publication",
+              "quoted_text": "\t& = - \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\left(1 - \\frac{2}{M(M-1)}\\sum_{\\theta_1 > \\theta_2 \\in \\Theta} P_k(\\theta_1, \\theta_2)\\right)\\\\\n\t&= - \\lim_{k \\to \\infty} \\frac{1}{k} \\log\\frac{2}{M(M-1)} \\sum_{0  \\leq i < j \\leq M} \\b{P}_k(\\theta_j, \\theta_i)\\\\\n\t&= -\\max_{0\\leq i < j \\leq M}\\left( \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\left( \\b{P}_k(\\theta_j, \\theta_i)\\right)\\right)\\label{eqnstep:ldpproperty} \n\t= \\min_{0\\leq i < j \\leq M}\\left( -\\lim_{k \\to \\infty} \\frac{1}{k} \\left[\\log \\left(\\b{P}_k(\\theta_j, \\theta_i)\\right)\\right]\\right)\\\\\n\t&= \\min_{0 \\leq i < j \\leq M} \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_j) I(a|\\theta_j) + g(\\theta_i) I(a|\\theta_i)\\right\\}\\\\",
+              "quoted_text_sha256": "474978bf045aafe2a2a6b185eb8d3952c502505ea13ff956bd6ec6b9e1374657"
+            }
+          ],
+          "source_location": "cited publication:665; cited publication:721-731; cited publication:1714-1718"
+        }
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_appendix_problessthan_score_gap_rate_iid_completion",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_appendix_problessthan_score_gap_rate_iid_completionSpec"
+      },
       "source_anchor_evidence": [
         {
-          "path": "sources/arxiv.tex",
+          "line_end": 1635,
+          "line_start": 1633,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{lemma} \n\t$$\t\\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\mu((x_k(\\theta_1) - x_k(\\theta_2)) \\leq 0 | \\theta_1 , \\theta_2)\\right] = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\}$$ where $I(a|\\ell) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, $\\Lambda(z|\\theta)$ is the log moment generating function of a single sample from $x(\\theta_1)$, and $g(\\theta)$ is the sampling rate. \\label{lem:problessthan}\n\\end{lemma}",
+          "quoted_text_sha256": "82007966668f2c65d91a6d2c3b2afa92da2dd4b3d4cec280ba3d3fbc25c0e10c"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-QUALITY-TAIL-BOTTOM-01",
+        "GJ18-POSITIVE-MATCH-RATE-01",
+        "GJ18-NONTRIVIAL-RATING-SCALE-01",
+        "GJ18-IID-STATE-COMPLETION-01",
+        "GJ18-STATE-RECURRENCE-INDEX-01",
+        "GJ18-APPENDIX-DISCRETE-INTEGRAL-01",
+        "GJ18-EXTENDED-RATE-CODOMAIN-01"
+      ],
+      "source_kind": "lemma",
+      "source_location": "cited publication:1633-1635",
+      "source_note": "The appendix display leaves its pair-order qualifier implicit, but the source defines P_k and its W_k use only for theta_1 > theta_2 at lines 721-731. The formal target therefore quantifies exactly over a finite strict high/low pair, not arbitrary or reversed pairs. This is not the source's continuum-integral proof or its unrestricted Real infimum. It retains the source ordinal-tail primitives, implements the author-confirmed IID and 0<g(theta)<=1 model additions, and exposes the nontrivial-scale and support-safe-codomain repairs.",
+      "source_status": "corrected",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "Appendix Lemma problessthan: in the paper's ordered seller-pair scope theta_1 > theta_2, the weak score-gap event has the displayed real-valued rate infimum over a in R of the two sampled sellers' match-rate-weighted rate functions.",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_appendix_problessthan_score_gap_rate_iid_completionSpec"
+      ]
+    },
+    "source_definition_aggregate_score_formula": {
+      "aliases": [
+        "source_definition_aggregate_score_formula"
+      ],
+      "claim_bearing": true,
+      "corrected_target": {
+        "approval": {
+          "artifact_path": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
+          "artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
+          "kind": "documented_author_correction",
+          "recorded_at": "2026-07-24",
+          "reference": "Author-approved corrected finite-chain model recorded in docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md.",
+          "target_statement_sha256": "f86fe14564a5c059385b082313735a85bd321444630928126f09718265deb8dc"
+        },
+        "archival_equivalence_claimed": false,
+        "archival_source_locator": "cited publication:697-702",
+        "archival_source_quote_sha256": "e20467c150ddd3f7fdb08f7c10067af63a1ab5264cb479ed26db90c25c008d66",
+        "corrected_target_sha256": "b4017f07a068624d3f5774f19ea9dc9de36ca21f0b946e72db2da848b08435a0",
+        "governing_defect_ids": [
+          "GJ18-AGGREGATE-INDEX-01"
+        ],
+        "schema": 1,
+        "statement": "For each seller type theta and horizon k, if n_k(theta) = floor(k g(theta)), the aggregate score averages exactly n_k(theta) rating scores over a finite family indexed by Fin n_k(theta); the zero-sample convention remains explicit."
+      },
+      "coverage_status": "corrected_source_statement",
+      "inventory_role": "corrected_source_target",
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_aggregate_score_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_aggregate_score_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_aggregate_score_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 702,
+          "line_start": 697,
+          "publication_locator": "cited publication",
+          "quoted_text": "Let $y_0(\\theta), y_1(\\theta), y_2(\\theta), \\ldots$ be the sequence of ratings received by the seller of type $\\theta$.  The {\\em aggregate score} up to time $k$ of this seller is the average score from ratings received:\n\\begin{equation}\n\\label{eq:aggscore}\n x_k(\\theta) =  \\frac{1}{n_k(\\theta)} \\sum_{\\ell = 0}^{n_k(\\theta)} \\phi(y_\\ell(\\theta)).\n\\end{equation}\n(We presume $x_0(\\theta) = 0$ for all $\\theta$.)  Since $\\phi(y) \\in [0,1]$ for all $y$, the score $x_k$ also lies in $[0,1]$.",
+          "quoted_text_sha256": "e20467c150ddd3f7fdb08f7c10067af63a1ab5264cb479ed26db90c25c008d66"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-AGGREGATE-INDEX-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:697-702",
+      "source_note": "Lean indexes the exactly n_k(theta) observations by Fin (n_k(theta)); this corrects GJ18-AGGREGATE-INDEX-01 and does not establish the source state evolution.",
+      "source_status": "corrected",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "The archival aggregate-score display divides by n_k(theta) while summing from ell = 0 through n_k(theta), although the surrounding prose calls it the average of ratings received by time k.",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_aggregate_score_formulaSpec"
+      ]
+    },
+    "source_definition_extended_rate_function_formula": {
+      "aliases": [
+        "source_definition_extended_rate_function_formula"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_extended_rate_function_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_extended_rate_function_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_extended_rate_function_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 761,
           "line_start": 754,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{theorem}{lemhatW}\n\t\\label{lem:hatW}\n\t\\begin{equation}\n\t\\label{eq:rW}\n\tr \\triangleq - \\lim_{k \\to \\infty} \\frac{1}{k} \\log (1- {W}_k) = \\min_{0 \\leq i < M} \\inf_{a \\in \\bbR} \\left \\{ g(\\theta_{i+1}) I(a|\\theta_{i+1}) + g(\\theta_i) I(a|\\theta_i)\\right\\}\n\t\\end{equation}\n\twhere\n\t$I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} {\\rho(\\theta, y | Y)} \\exp( z \\phi(y))$ is the log moment generating function of a single rating given to seller of type $\\theta$.",
+          "quoted_text_sha256": "2e30ce12249f90b59e8165cd7b7439390c65e6d7b9f8b626559d78a52ef7ba43"
+        },
+        {
+          "line_end": 1635,
+          "line_start": 1633,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{lemma} \n\t$$\t\\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\mu((x_k(\\theta_1) - x_k(\\theta_2)) \\leq 0 | \\theta_1 , \\theta_2)\\right] = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\}$$ where $I(a|\\ell) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, $\\Lambda(z|\\theta)$ is the log moment generating function of a single sample from $x(\\theta_1)$, and $g(\\theta)$ is the sampling rate. \\label{lem:problessthan}\n\\end{lemma}",
+          "quoted_text_sha256": "82007966668f2c65d91a6d2c3b2afa92da2dd4b3d4cec280ba3d3fbc25c0e10c"
+        },
+        {
+          "line_end": 1679,
+          "line_start": 1670,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{lemma}{lemPkld}\n\t%\n\t\\label{lem:Pk_LD}\n\tGiven $\\theta_1, \\theta_2$, let $\\b{P}_k(\\theta_1, \\theta_2) = 1 - P_k(\\theta_1, \\theta_2)$.  Then:\n\t\\begin{equation}\n\t\\label{eq:LDrate}\n\t- \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\b{P}_k(\\theta_1, \\theta_2) = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\},\n\t\\end{equation}\n\twhere $I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta)$ is the log moment generating function of a single rating given to seller of type $\\theta$:\n\t\\[ \\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} \\rho(\\theta, y | Y) \\exp( z \\phi(y) ). \\]",
+          "quoted_text_sha256": "c0893d181d49ead93669af0c9430494a2d848dd2b24fafee7d2020332b4b7db6"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-EXTENDED-RATE-CODOMAIN-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
+      "source_note": "This row repairs GJ18-EXTENDED-RATE-CODOMAIN-01 by using WithTop Real. The support-safe rate has a checked positive finite representative under the clarified model; it must not be read as an equality to the source's unrestricted real infimum formula, which is diagnostically zero in the legacy API.",
+      "source_status": "corrected codomain; not a literal source display",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "The corrected support-safe rate is the extended-real supremum of z a minus Lambda(z|theta), so thresholds outside finite score support may have infinite cost.",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_extended_rate_function_formulaSpec"
+      ]
+    },
+    "source_definition_floor_sample_count_formula": {
+      "aliases": [
+        "source_definition_floor_sample_count_formula"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_floor_sample_count_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_floor_sample_count_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_floor_sample_count_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 670,
+          "line_start": 669,
+          "publication_locator": "cited publication",
+          "quoted_text": "{\\bf Rating accumulation}.  Sellers accumulate ratings over time by matching with buyers. At each time step, each seller matches with at most a single buyer. We make one key assumption that drives the accumulation of ratings: in particular, that sellers of higher quality are more likely to be matched. %\nWe consider an analysis that is asymptotic in the number of ratings received by sellers and so we model this visibility benefit by assuming that {\\em sellers of higher quality accumulate ratings at a faster rate}. In particular, we assume the existence of a nondecreasing {\\em match function} $g(\\theta)$, where a seller of type $\\theta$ receives $n_k(\\theta) = \\lfloor k g(\\theta) \\rfloor$ matches, and thus ratings, up to time $k$.",
+          "quoted_text_sha256": "5f6f56f076ca80a84303c588e41f1f1c0a5dbe7eda1ea1fbb2a9ddfb8e0325a9"
+        }
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:669-670",
+      "source_note": "This row checks the floor-count syntax only. The governing corrected model also has the author-confirmed condition 0<g(theta)<=1, but that addition is not asserted by this pinned source line and is not hidden in the formula row.",
+      "source_status": "literal finite formula",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "The source defines the number of matches/ratings received by seller type theta by time k as n_k(theta)=floor(k g(theta)).",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_floor_sample_count_formulaSpec"
+      ]
+    },
+    "source_definition_log_mgf_formula": {
+      "aliases": [
+        "source_definition_log_mgf_formula"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_log_mgf_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_log_mgf_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_log_mgf_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 761,
+          "line_start": 754,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{theorem}{lemhatW}\n\t\\label{lem:hatW}\n\t\\begin{equation}\n\t\\label{eq:rW}\n\tr \\triangleq - \\lim_{k \\to \\infty} \\frac{1}{k} \\log (1- {W}_k) = \\min_{0 \\leq i < M} \\inf_{a \\in \\bbR} \\left \\{ g(\\theta_{i+1}) I(a|\\theta_{i+1}) + g(\\theta_i) I(a|\\theta_i)\\right\\}\n\t\\end{equation}\n\twhere\n\t$I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} {\\rho(\\theta, y | Y)} \\exp( z \\phi(y))$ is the log moment generating function of a single rating given to seller of type $\\theta$.",
+          "quoted_text_sha256": "2e30ce12249f90b59e8165cd7b7439390c65e6d7b9f8b626559d78a52ef7ba43"
+        },
+        {
+          "line_end": 1635,
+          "line_start": 1633,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{lemma} \n\t$$\t\\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\mu((x_k(\\theta_1) - x_k(\\theta_2)) \\leq 0 | \\theta_1 , \\theta_2)\\right] = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\}$$ where $I(a|\\ell) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, $\\Lambda(z|\\theta)$ is the log moment generating function of a single sample from $x(\\theta_1)$, and $g(\\theta)$ is the sampling rate. \\label{lem:problessthan}\n\\end{lemma}",
+          "quoted_text_sha256": "82007966668f2c65d91a6d2c3b2afa92da2dd4b3d4cec280ba3d3fbc25c0e10c"
+        },
+        {
+          "line_end": 1679,
+          "line_start": 1670,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{lemma}{lemPkld}\n\t%\n\t\\label{lem:Pk_LD}\n\tGiven $\\theta_1, \\theta_2$, let $\\b{P}_k(\\theta_1, \\theta_2) = 1 - P_k(\\theta_1, \\theta_2)$.  Then:\n\t\\begin{equation}\n\t\\label{eq:LDrate}\n\t- \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\b{P}_k(\\theta_1, \\theta_2) = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\},\n\t\\end{equation}\n\twhere $I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta)$ is the log moment generating function of a single rating given to seller of type $\\theta$:\n\t\\[ \\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} \\rho(\\theta, y | Y) \\exp( z \\phi(y) ). \\]",
+          "quoted_text_sha256": "c0893d181d49ead93669af0c9430494a2d848dd2b24fafee7d2020332b4b7db6"
+        }
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
+      "source_note": "This row unfolds the single-rating finite PMF formula. It makes no claim that the source state recurrence supplies independent copies of that PMF.",
+      "source_status": "literal finite formula",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "Lambda(z|theta) is the logarithm of the finite sum over rating levels of rho(theta,y|Y) exp(z phi(y)).",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_log_mgf_formulaSpec"
+      ]
+    },
+    "source_definition_pairwise_objective_formula": {
+      "aliases": [
+        "source_definition_pairwise_objective_formula"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_pairwise_objective_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_pairwise_objective_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_pairwise_objective_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 725,
+          "line_start": 721,
+          "publication_locator": "cited publication",
+          "quoted_text": "Formally, given $\\theta_1 > \\theta_2$, define $P_k(\\theta_1, \\theta_2)$ as follows:\n\\begin{equation}\n\\label{eq:Pk}\nP_k(\\theta_1, \\theta_2) = \\mu_k(x_k(\\theta_1) > x_k(\\theta_2)|\\theta_1, \\theta_2) - \\mu_k(x_k(\\theta_1) < x_k(\\theta_2)|\\theta_1, \\theta_2).\n\\end{equation}",
+          "quoted_text_sha256": "9ecd7d8ec6d976300d5b3b867406058ff2af8eb4c247799d53261ab3a74fdfad"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-IID-STATE-COMPLETION-01",
+        "GJ18-STATE-RECURRENCE-INDEX-01",
+        "GJ18-UNIFORM-TYPE-PRIOR-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:721-725",
+      "source_note": "The reviewed row represents the formula over an arbitrary finite score-state PMF and selected ordered seller pair. It deliberately does not identify that PMF with the source recurrence or a product law.",
+      "source_status": "literal state-level formula only",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "For theta_hi>theta_lo, P_k(theta_hi,theta_lo) is the conditional probability of a strict correct aggregate-score ordering minus the conditional probability of a strict reversed ordering.",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_pairwise_objective_formulaSpec"
+      ]
+    },
+    "source_definition_rate_function_formula": {
+      "aliases": [
+        "source_definition_rate_function_formula"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_rate_function_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_rate_function_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_rate_function_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 761,
+          "line_start": 754,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{theorem}{lemhatW}\n\t\\label{lem:hatW}\n\t\\begin{equation}\n\t\\label{eq:rW}\n\tr \\triangleq - \\lim_{k \\to \\infty} \\frac{1}{k} \\log (1- {W}_k) = \\min_{0 \\leq i < M} \\inf_{a \\in \\bbR} \\left \\{ g(\\theta_{i+1}) I(a|\\theta_{i+1}) + g(\\theta_i) I(a|\\theta_i)\\right\\}\n\t\\end{equation}\n\twhere\n\t$I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} {\\rho(\\theta, y | Y)} \\exp( z \\phi(y))$ is the log moment generating function of a single rating given to seller of type $\\theta$.",
+          "quoted_text_sha256": "2e30ce12249f90b59e8165cd7b7439390c65e6d7b9f8b626559d78a52ef7ba43"
+        },
+        {
+          "line_end": 1635,
+          "line_start": 1633,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{lemma} \n\t$$\t\\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\mu((x_k(\\theta_1) - x_k(\\theta_2)) \\leq 0 | \\theta_1 , \\theta_2)\\right] = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\}$$ where $I(a|\\ell) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, $\\Lambda(z|\\theta)$ is the log moment generating function of a single sample from $x(\\theta_1)$, and $g(\\theta)$ is the sampling rate. \\label{lem:problessthan}\n\\end{lemma}",
+          "quoted_text_sha256": "82007966668f2c65d91a6d2c3b2afa92da2dd4b3d4cec280ba3d3fbc25c0e10c"
+        },
+        {
+          "line_end": 1679,
+          "line_start": 1670,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{lemma}{lemPkld}\n\t%\n\t\\label{lem:Pk_LD}\n\tGiven $\\theta_1, \\theta_2$, let $\\b{P}_k(\\theta_1, \\theta_2) = 1 - P_k(\\theta_1, \\theta_2)$.  Then:\n\t\\begin{equation}\n\t\\label{eq:LDrate}\n\t- \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\b{P}_k(\\theta_1, \\theta_2) = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\},\n\t\\end{equation}\n\twhere $I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta)$ is the log moment generating function of a single rating given to seller of type $\\theta$:\n\t\\[ \\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} \\rho(\\theta, y | Y) \\exp( z \\phi(y) ). \\]",
+          "quoted_text_sha256": "c0893d181d49ead93669af0c9430494a2d848dd2b24fafee7d2020332b4b7db6"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-EXTENDED-RATE-CODOMAIN-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
+      "source_note": "The row records the printed real expression syntactically. In the checked finite [0,1]-score model, the unrestricted legacy Real pairwise infimum is diagnostically zero because off-support Real.sSup values default to zero; it is not the intended exponent. The corrected theorem uses WithTop Real.",
+      "source_status": "literal real-valued display only",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "The paper displays I(a|theta) as the real supremum over z of z a minus Lambda(z|theta).",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_rate_function_formulaSpec"
+      ]
+    },
+    "source_definition_uniform_ranking_normalization": {
+      "aliases": [
+        "source_definition_uniform_ranking_normalization"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_uniform_ranking_normalization"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_uniform_ranking_normalization",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_uniform_ranking_normalizationSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 733,
+          "line_start": 729,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{equation}\n\\label{eq:objective}\nW_k = \\frac{2}{M(M-1)}\\sum_{\\theta_1 > \\theta_2 \\in \\Theta} P_k(\\theta_1, \\theta_2)\n\\end{equation}\nThe coefficient ensures that ${W}_k$ remains bounded even as $M$ increases. This objective depends on the model primitives $R$ (rater behavior) and $g$ (matching rates), as well as the platform's decisions $Y$ (levels) and $\\phi$ (score).",
+          "quoted_text_sha256": "13c59b3a194f611b8cc8265a781988f11fbf1b1ce60dd63395a7f070c70dcd26"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-PAIR-CARRIER-NORMALIZATION-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:729-733",
+      "source_note": "This is the exact finite normalization bridge for M>=2, not a generic-pair approximation. The source's displayed denominator is zero for a singleton seller set, so the premise is visible.",
+      "source_status": "checked finite normalization",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "For at least two seller types, the source coefficient 2/(M(M-1)) equals the inverse cardinality of the strict ordered comparison-pair carrier.",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_uniform_ranking_normalizationSpec"
+      ]
+    },
+    "source_definition_uniform_ranking_objective_formula": {
+      "aliases": [
+        "source_definition_uniform_ranking_objective_formula"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_uniform_ranking_objective_formula"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_uniform_ranking_objective_formula",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_definition_uniform_ranking_objective_formulaSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 733,
+          "line_start": 728,
+          "publication_locator": "cited publication",
+          "quoted_text": "We consider the problem of maximizing the following objective, a scaled version of {\\em Kendall's $\\tau$ rank correlation} between the estimated ranking of sellers and the true ranking:\n\\begin{equation}\n\\label{eq:objective}\nW_k = \\frac{2}{M(M-1)}\\sum_{\\theta_1 > \\theta_2 \\in \\Theta} P_k(\\theta_1, \\theta_2)\n\\end{equation}\nThe coefficient ensures that ${W}_k$ remains bounded even as $M$ increases. This objective depends on the model primitives $R$ (rater behavior) and $g$ (matching rates), as well as the platform's decisions $Y$ (levels) and $\\phi$ (score).",
+          "quoted_text_sha256": "dfd9cdaed0777d4756986f6ee578c32016005959bf645f1894c9abb9e245aa4d"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-PAIR-CARRIER-NORMALIZATION-01",
+        "GJ18-IID-STATE-COMPLETION-01",
+        "GJ18-UNIFORM-TYPE-PRIOR-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:728-733",
+      "source_note": "The row preserves the displayed coefficient and strict ordered-pair carrier. It is not a derivation of W_k from the source's joint type-score recurrence.",
+      "source_status": "literal state-level formula only",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "W_k is 2/(M(M-1)) times the sum of P_k over strict ordered seller-quality pairs.",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_definition_uniform_ranking_objective_formulaSpec"
+      ]
+    },
+    "source_fidelity_diagnostic_unrestricted_real_pairwise_rate_mismatch": {
+      "aliases": [
+        "source_fidelity_diagnostic_unrestricted_real_pairwise_rate_mismatch"
+      ],
+      "claim_bearing": false,
+      "inventory_role": "deep_only",
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_fidelity_diagnostic_unrestricted_real_pairwise_rate_mismatch"
+      ],
+      "proof_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_fidelity_diagnostic_unrestricted_real_pairwise_rate_mismatch"
+      ],
+      "scope_disposition": "deep_only_source_fidelity_diagnostic",
+      "scope_disposition_note": "This checked discrepancy explains the extended-rate correction but is not a source presentation or a normal paper-claim card.",
+      "source_anchor_evidence": [
+        {
+          "line_end": 683,
+          "line_start": 679,
+          "publication_locator": "cited publication",
+          "quoted_text": "Second, whenever a seller receives a rating $y \\in Y$, the platform gives the seller a {\\em score} $\\phi(y) \\in [0,1]$ depending only on the rating received. The score represents the relative positivity assigned to a rating $y$: high scores positively affect the seller's aggregate score (as we formally describe below).  Platforms often %\nuse equally spaced scores when translating rater's choices to an aggregate score {(e.g., the choice ``5 stars'' translates to a numeric $5$ when averaging, the choice ``4 stars'' translates to a numeric $4$ when averaging, etc.)}, but we allow the possibility that this choice should also be optimized.\n\n\nAt each rating opportunity (i.e., match made), the seller receives a rating from the set $Y$, and we assume that this rating depends only on the true quality of the seller. In particular, we presume that, given scale $Y$, the probability a seller of type $\\theta$ receives a rating $y$ is $\\rho(\\theta, y | Y)$, with corresponding cumulative mass function $R(\\theta,y| Y)$ reflecting the probability a seller of type $\\theta$ receives a rating $y$ or higher. In other words, the scale $Y$ induces a joint distribution between the underlying seller quality and the rating choices buyers make. We make the natural assumptions that $R(\\theta,y| Y)$ is strictly increasing in $\\theta$ and strictly decreasing with $y$.",
+          "quoted_text_sha256": "6bf229c9636562a5392368e12ba55284fc18c31acbb6038edc317d9655c3ac64"
+        },
+        {
+          "line_end": 761,
+          "line_start": 754,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{theorem}{lemhatW}\n\t\\label{lem:hatW}\n\t\\begin{equation}\n\t\\label{eq:rW}\n\tr \\triangleq - \\lim_{k \\to \\infty} \\frac{1}{k} \\log (1- {W}_k) = \\min_{0 \\leq i < M} \\inf_{a \\in \\bbR} \\left \\{ g(\\theta_{i+1}) I(a|\\theta_{i+1}) + g(\\theta_i) I(a|\\theta_i)\\right\\}\n\t\\end{equation}\n\twhere\n\t$I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} {\\rho(\\theta, y | Y)} \\exp( z \\phi(y))$ is the log moment generating function of a single rating given to seller of type $\\theta$.",
+          "quoted_text_sha256": "2e30ce12249f90b59e8165cd7b7439390c65e6d7b9f8b626559d78a52ef7ba43"
+        },
+        {
+          "line_end": 1635,
+          "line_start": 1633,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{lemma} \n\t$$\t\\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\mu((x_k(\\theta_1) - x_k(\\theta_2)) \\leq 0 | \\theta_1 , \\theta_2)\\right] = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\}$$ where $I(a|\\ell) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, $\\Lambda(z|\\theta)$ is the log moment generating function of a single sample from $x(\\theta_1)$, and $g(\\theta)$ is the sampling rate. \\label{lem:problessthan}\n\\end{lemma}",
+          "quoted_text_sha256": "82007966668f2c65d91a6d2c3b2afa92da2dd4b3d4cec280ba3d3fbc25c0e10c"
+        },
+        {
+          "line_end": 1679,
+          "line_start": 1670,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{restatable}{lemma}{lemPkld}\n\t%\n\t\\label{lem:Pk_LD}\n\tGiven $\\theta_1, \\theta_2$, let $\\b{P}_k(\\theta_1, \\theta_2) = 1 - P_k(\\theta_1, \\theta_2)$.  Then:\n\t\\begin{equation}\n\t\\label{eq:LDrate}\n\t- \\lim_{k \\to \\infty} \\frac{1}{k} \\log \\b{P}_k(\\theta_1, \\theta_2) = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\},\n\t\\end{equation}\n\twhere $I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta)$ is the log moment generating function of a single rating given to seller of type $\\theta$:\n\t\\[ \\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} \\rho(\\theta, y | Y) \\exp( z \\phi(y) ). \\]",
+          "quoted_text_sha256": "c0893d181d49ead93669af0c9430494a2d848dd2b24fafee7d2020332b4b7db6"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-EXTENDED-RATE-CODOMAIN-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:679-683; cited publication:754-761; cited publication:1633-1635; cited publication:1670-1679",
+      "source_note": "This row is the direct checked reason the literal unrestricted real infimum cannot be used as the paper's exponent in the finite [0,1]-score model. It proves zero for the legacy Real wrapper and strict positivity for the corrected WithTop rate without attributing either conclusion to the archive's prose.",
+      "source_status": "checked source-fidelity diagnostic; not a literal source theorem",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "Source-fidelity diagnostic, not an advertised source theorem: under the finite ordinal source primitives, positive match rates, and a nontrivial scale, the legacy unrestricted Real pairwise threshold rate is zero while the support-safe WithTop pairwise threshold rate is strictly positive."
+    },
+    "source_iid_completion_pairwise_objective_bridge": {
+      "aliases": [
+        "source_iid_completion_pairwise_objective_bridge"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_pairwise_objective_bridge"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_pairwise_objective_bridge",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_pairwise_objective_bridgeSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 683,
+          "line_start": 683,
+          "publication_locator": "cited publication",
+          "quoted_text": "At each rating opportunity (i.e., match made), the seller receives a rating from the set $Y$, and we assume that this rating depends only on the true quality of the seller. In particular, we presume that, given scale $Y$, the probability a seller of type $\\theta$ receives a rating $y$ is $\\rho(\\theta, y | Y)$, with corresponding cumulative mass function $R(\\theta,y| Y)$ reflecting the probability a seller of type $\\theta$ receives a rating $y$ or higher. In other words, the scale $Y$ induces a joint distribution between the underlying seller quality and the rating choices buyers make. We make the natural assumptions that $R(\\theta,y| Y)$ is strictly increasing in $\\theta$ and strictly decreasing with $y$.",
+          "quoted_text_sha256": "e55af7af36f7a6f0d4bb00af3966f6c54befaf399e8eb7d2b6752666ef58f426"
+        },
+        {
+          "line_end": 725,
+          "line_start": 710,
+          "publication_locator": "cited publication",
+          "quoted_text": "{\\bf System state}.  We represent the state of the system defined above by a joint distribution $\\mu_k(\\Theta, X)$, which gives the mass of sellers of type $\\theta \\in \\Theta$ with aggregate score $x_k(\\theta) \\in X$ at time $k$. Throughout our model presentation, we describe the system model as one emerging from interactions between individual buyers and sellers. However, we assume a unit mass of sellers (and some mass of buyers), and so all such descriptions should be viewed as illuminating the evolution of a joint distribution $\\mu_k (\\Theta, X)$ of the types of sellers on the platform and their current scores. To formally describe the evolution of $\\mu_k$, let $E_k = \\{ \\theta : n_k(\\theta) = n_{k-1}(\\theta) + 1 \\}$.  These are the sellers who receive an additional rating at time $k$; for all $\\theta \\in E_k^c$, $n_k(\\theta) = n_{k-1}(\\theta)$.  Next, for each $x, x' \\in [0,1]$, define $\\chi_k(x, x',\\theta | Y, {\\phi})$ as:\n\\[\n{\\chi_k(x, x',\\theta | Y, \\phi) =} \\{ y : n_k(\\theta)x - n_{k-1}(\\theta)x' = \\phi(y) \\}.\n\\]\nThe set $\\chi$ describes the rating(s) a seller of type $\\theta$ at time $k$ with aggregate score $x'$ can receive to transition to aggregate score $x$.  We then have:\n\\[ \\mu_{k+1}(\\Theta, X) = \\int_{E_k} \\int_0^1 \\int_X \\sum_{y \\in \\chi_k(\\theta, x, x' | Y, \\phi)} \\rho(\\theta, y | Y)  dx \\mu_k(d\\theta, dx') + \\int_{E_k^c} \\int_X \\mu_k(d\\theta, dx'). \\]\nIt is straightforward but tedious to check that the preceding dynamics are well defined, given our primitives.\n\n\n{\\bf Platform objective}.  We assume that the platform wants the ranking of sellers by observed aggregate score to reflect the underlying true quality ranking as closely as possible.\n\nFormally, given $\\theta_1 > \\theta_2$, define $P_k(\\theta_1, \\theta_2)$ as follows:\n\\begin{equation}\n\\label{eq:Pk}\nP_k(\\theta_1, \\theta_2) = \\mu_k(x_k(\\theta_1) > x_k(\\theta_2)|\\theta_1, \\theta_2) - \\mu_k(x_k(\\theta_1) < x_k(\\theta_2)|\\theta_1, \\theta_2).\n\\end{equation}",
+          "quoted_text_sha256": "c4a99c214de8279e2288871ee0f0f98d1cb21d29e319db3009ec3d11f66e5fc0"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-IID-STATE-COMPLETION-01",
+        "GJ18-STATE-RECURRENCE-INDEX-01",
+        "GJ18-UNIFORM-TYPE-PRIOR-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:683; cited publication:710-725",
+      "source_note": "The bridge is a direct product-law theorem for iidFloorSourceStateLaw and implements the author-confirmed conditional-IID/cross-seller-independence clarification. The source's rating description and mu_k recurrence do not prove this law; see GJ18-IID-STATE-COMPLETION-01 and GJ18-STATE-RECURRENCE-INDEX-01.",
+      "source_status": "corrected IID completion, not a consequence of the source recurrence",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "Under an explicitly defined finite IID completion at horizon k, the literal state-level P_k equals the existing two-seller floor-sample P_k objective for the same ordered pair.",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_pairwise_objective_bridgeSpec"
+      ]
+    },
+    "source_iid_completion_uniform_ranking_objective_bridge": {
+      "aliases": [
+        "source_iid_completion_uniform_ranking_objective_bridge"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_uniform_ranking_objective_bridge"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_uniform_ranking_objective_bridge",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_uniform_ranking_objective_bridgeSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 665,
+          "line_start": 665,
+          "publication_locator": "cited publication",
+          "quoted_text": "{\\bf Sellers}.  The system consists of a unit mass of sellers, each associated with a quality \\textit{type} $\\theta$, which is (initially) unknown to the platform. We assume $\\theta$ is drawn independently and uniformly at random from a finite and totally ordered set $\\Theta$, with $|\\Theta| = M$. We use $\\theta_i$ to denote the $i$th element of $\\Theta$ within this order, for $0\\leq i < M$.",
+          "quoted_text_sha256": "4c6fe893b409d91d809b90a6fbd69d25b79034552ba9b9a28820a120929d0132"
+        },
+        {
+          "line_end": 683,
+          "line_start": 683,
+          "publication_locator": "cited publication",
+          "quoted_text": "At each rating opportunity (i.e., match made), the seller receives a rating from the set $Y$, and we assume that this rating depends only on the true quality of the seller. In particular, we presume that, given scale $Y$, the probability a seller of type $\\theta$ receives a rating $y$ is $\\rho(\\theta, y | Y)$, with corresponding cumulative mass function $R(\\theta,y| Y)$ reflecting the probability a seller of type $\\theta$ receives a rating $y$ or higher. In other words, the scale $Y$ induces a joint distribution between the underlying seller quality and the rating choices buyers make. We make the natural assumptions that $R(\\theta,y| Y)$ is strictly increasing in $\\theta$ and strictly decreasing with $y$.",
+          "quoted_text_sha256": "e55af7af36f7a6f0d4bb00af3966f6c54befaf399e8eb7d2b6752666ef58f426"
+        },
+        {
+          "line_end": 733,
+          "line_start": 710,
+          "publication_locator": "cited publication",
+          "quoted_text": "{\\bf System state}.  We represent the state of the system defined above by a joint distribution $\\mu_k(\\Theta, X)$, which gives the mass of sellers of type $\\theta \\in \\Theta$ with aggregate score $x_k(\\theta) \\in X$ at time $k$. Throughout our model presentation, we describe the system model as one emerging from interactions between individual buyers and sellers. However, we assume a unit mass of sellers (and some mass of buyers), and so all such descriptions should be viewed as illuminating the evolution of a joint distribution $\\mu_k (\\Theta, X)$ of the types of sellers on the platform and their current scores. To formally describe the evolution of $\\mu_k$, let $E_k = \\{ \\theta : n_k(\\theta) = n_{k-1}(\\theta) + 1 \\}$.  These are the sellers who receive an additional rating at time $k$; for all $\\theta \\in E_k^c$, $n_k(\\theta) = n_{k-1}(\\theta)$.  Next, for each $x, x' \\in [0,1]$, define $\\chi_k(x, x',\\theta | Y, {\\phi})$ as:\n\\[\n{\\chi_k(x, x',\\theta | Y, \\phi) =} \\{ y : n_k(\\theta)x - n_{k-1}(\\theta)x' = \\phi(y) \\}.\n\\]\nThe set $\\chi$ describes the rating(s) a seller of type $\\theta$ at time $k$ with aggregate score $x'$ can receive to transition to aggregate score $x$.  We then have:\n\\[ \\mu_{k+1}(\\Theta, X) = \\int_{E_k} \\int_0^1 \\int_X \\sum_{y \\in \\chi_k(\\theta, x, x' | Y, \\phi)} \\rho(\\theta, y | Y)  dx \\mu_k(d\\theta, dx') + \\int_{E_k^c} \\int_X \\mu_k(d\\theta, dx'). \\]\nIt is straightforward but tedious to check that the preceding dynamics are well defined, given our primitives.\n\n\n{\\bf Platform objective}.  We assume that the platform wants the ranking of sellers by observed aggregate score to reflect the underlying true quality ranking as closely as possible.\n\nFormally, given $\\theta_1 > \\theta_2$, define $P_k(\\theta_1, \\theta_2)$ as follows:\n\\begin{equation}\n\\label{eq:Pk}\nP_k(\\theta_1, \\theta_2) = \\mu_k(x_k(\\theta_1) > x_k(\\theta_2)|\\theta_1, \\theta_2) - \\mu_k(x_k(\\theta_1) < x_k(\\theta_2)|\\theta_1, \\theta_2).\n\\end{equation}\nThis expression captures the ``errors'' made by the ranking according to observed score.  In particular, when $\\theta_1 > \\theta_2$ but $x_k(\\theta_1) < x_k(\\theta_2)$, the aggregate score ranking swaps the ordering of sellers $\\theta_1$ and $\\theta_2$.  Thus, a good rating system has large $P_k(\\theta_1, \\theta_2)$.\n\nWe consider the problem of maximizing the following objective, a scaled version of {\\em Kendall's $\\tau$ rank correlation} between the estimated ranking of sellers and the true ranking:\n\\begin{equation}\n\\label{eq:objective}\nW_k = \\frac{2}{M(M-1)}\\sum_{\\theta_1 > \\theta_2 \\in \\Theta} P_k(\\theta_1, \\theta_2)\n\\end{equation}\nThe coefficient ensures that ${W}_k$ remains bounded even as $M$ increases. This objective depends on the model primitives $R$ (rater behavior) and $g$ (matching rates), as well as the platform's decisions $Y$ (levels) and $\\phi$ (score).",
+          "quoted_text_sha256": "7cfc4cea8b19ea0fc31ae178c30c6b7ec79d17aec641745441df3afb1f12d4b4"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-PAIR-CARRIER-NORMALIZATION-01",
+        "GJ18-IID-STATE-COMPLETION-01",
+        "GJ18-STATE-RECURRENCE-INDEX-01",
+        "GJ18-UNIFORM-TYPE-PRIOR-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:665; cited publication:683; cited publication:710-733",
+      "source_note": "This bridge combines the direct IID product calculation implementing the author clarification with the exact strict-pair normalization. It does not derive an IID state or the uniform source type prior from mu_k.",
+      "source_status": "corrected IID completion, not a consequence of the source recurrence",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "Under the explicit finite IID completion and at least two seller types, the literal state-level W_k equals the finite uniform floor-count ranking objective.",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_uniform_ranking_objective_bridgeSpec"
+      ]
+    },
+    "source_iid_completion_weak_inversion_bridge": {
+      "aliases": [
+        "source_iid_completion_weak_inversion_bridge"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_weak_inversion_bridge"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_weak_inversion_bridge",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_weak_inversion_bridgeSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 683,
+          "line_start": 683,
+          "publication_locator": "cited publication",
+          "quoted_text": "At each rating opportunity (i.e., match made), the seller receives a rating from the set $Y$, and we assume that this rating depends only on the true quality of the seller. In particular, we presume that, given scale $Y$, the probability a seller of type $\\theta$ receives a rating $y$ is $\\rho(\\theta, y | Y)$, with corresponding cumulative mass function $R(\\theta,y| Y)$ reflecting the probability a seller of type $\\theta$ receives a rating $y$ or higher. In other words, the scale $Y$ induces a joint distribution between the underlying seller quality and the rating choices buyers make. We make the natural assumptions that $R(\\theta,y| Y)$ is strictly increasing in $\\theta$ and strictly decreasing with $y$.",
+          "quoted_text_sha256": "e55af7af36f7a6f0d4bb00af3966f6c54befaf399e8eb7d2b6752666ef58f426"
+        },
+        {
+          "line_end": 725,
+          "line_start": 721,
+          "publication_locator": "cited publication",
+          "quoted_text": "Formally, given $\\theta_1 > \\theta_2$, define $P_k(\\theta_1, \\theta_2)$ as follows:\n\\begin{equation}\n\\label{eq:Pk}\nP_k(\\theta_1, \\theta_2) = \\mu_k(x_k(\\theta_1) > x_k(\\theta_2)|\\theta_1, \\theta_2) - \\mu_k(x_k(\\theta_1) < x_k(\\theta_2)|\\theta_1, \\theta_2).\n\\end{equation}",
+          "quoted_text_sha256": "9ecd7d8ec6d976300d5b3b867406058ff2af8eb4c247799d53261ab3a74fdfad"
+        },
+        {
+          "line_end": 1646,
+          "line_start": 1633,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{lemma} \n\t$$\t\\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\mu((x_k(\\theta_1) - x_k(\\theta_2)) \\leq 0 | \\theta_1 , \\theta_2)\\right] = \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\}$$ where $I(a|\\ell) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, $\\Lambda(z|\\theta)$ is the log moment generating function of a single sample from $x(\\theta_1)$, and $g(\\theta)$ is the sampling rate. \\label{lem:problessthan}\n\\end{lemma}\n%\n\t\\proof\n\t\\noindent$\\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\mu((x_k(\\theta_1) - x_k(\\theta_2)) \\leq 0 | \\theta_1 , \\theta_2)\\right]$\n\t\\begin{align}\n\t&= \\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\int_{a\\in \\mathcal{R}} \\mu((x_k(\\theta_1) = a | \\theta_1 ) \\mu(x_k(\\theta_2) \\geq a |\\theta_2)da\\right]\\\\\n\t&= \\lim_{k \\to \\infty}- \\frac{1}{k} \\log \\left[\\int_{a\\in \\mathcal{R}} e^{-kg(\\theta_1) I (a | \\theta_1)} e^{-kg(\\theta_2) I (a | \\theta_2)}da\\right] \\label{eqnpart:applyld}\\\\\n\t&= \\inf_{a \\in \\mathcal{R}} \\left \\{ g(\\theta_1) I(a|\\theta_1) + g(\\theta_2) I(a|\\theta_2) \\right \\} & \\text{Laplace principle}\n\t\\end{align}\n%\n\nWhere~\\eqref{eqnpart:applyld} is a basic result from large deviations, and $kg(\\theta_i)$ is the number of samples item of quality $\\theta_i$ has received. \\Halmos",
+          "quoted_text_sha256": "5b193dca27d9fa371b188c27c69f2ec688a229174261f3e1c9ac1dc8808b6ac9"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-IID-STATE-COMPLETION-01",
+        "GJ18-STATE-RECURRENCE-INDEX-01",
+        "GJ18-APPENDIX-DISCRETE-INTEGRAL-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:683; cited publication:721-725; cited publication:1633-1646",
+      "source_note": "This theorem connects the actual non-strict Appendix event to the product model implementing the author-confirmed IID clarification. It does not validate the source's continuum-integral proof step or derive IID from mu_k.",
+      "source_status": "corrected IID completion, not a consequence of the source recurrence",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "Under the explicit finite IID completion, the source-state non-strict score-gap event equals the two-seller floor-sample weak-inversion probability used in the Appendix rate argument.",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_weak_inversion_bridgeSpec"
+      ]
+    },
+    "source_pairwise_objective_tendsto_one_iid_completion": {
+      "aliases": [
+        "source_pairwise_objective_tendsto_one_iid_completion"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_pairwise_objective_tendsto_one_iid_completion"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_pairwise_objective_tendsto_one_iid_completion",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_pairwise_objective_tendsto_one_iid_completionSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 745,
+          "line_start": 744,
+          "publication_locator": "cited publication",
+          "quoted_text": "No single choice of $Y$ and $\\phi$ can simultaneously optimize $W_k$ for all $k$: some designs may be effective in separating the best sellers from the worst quickly, but then never separate all sellers. Further, as long as $\\phi(y)$ is strictly increasing, then because $R(\\theta, y)$ is strictly increasing in $\\theta$, we have, for all $\\theta_1\\neq \\theta_2$, and all choices of $Y$ and $\\phi$:\n$\\lim_{k \\to \\infty} P_k(\\theta_1, \\theta_2) = 1$. Using the bounded convergence theorem we conclude that $\\lim_{k \\to \\infty} W_k = 1 $, independent of the design choice $Y$ and $\\phi$.  Thus {\\em any} design asymptotically  -- with enough ratings -- recovers the true ranking of sellers.",
+          "quoted_text_sha256": "a1279ddf6b85f16447156cef9a4f40e115ef92a86df2242eebd7b9eaa094d927"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-QUALITY-TAIL-BOTTOM-01",
+        "GJ18-TERMINAL-SUPPORT-01",
+        "GJ18-POSITIVE-MATCH-RATE-01",
+        "GJ18-NONTRIVIAL-RATING-SCALE-01",
+        "GJ18-IID-STATE-COMPLETION-01",
+        "GJ18-STATE-RECURRENCE-INDEX-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:744-745",
+      "source_note": "The source states convergence from strict phi and strict R alone. The reviewed proof uses the author-confirmed 0<g(theta)<=1 and IID additions, makes the nontrivial scale explicit, and does not infer IID from mu_k.",
+      "source_status": "corrected IID-completion convergence result",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "Corrected form of the source convergence prose: under the explicit finite IID completion, literal ordinal-tail primitives, positive match rates, and at least two rating levels, P_k for every ordered seller pair tends to one.",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_pairwise_objective_tendsto_one_iid_completionSpec"
+      ]
+    },
+    "source_theorem1_informative_rating_system_rate_iid_completion": {
+      "aliases": [
+        "source_theorem1_informative_rating_system_rate_iid_completion"
+      ],
+      "claim_bearing": false,
+      "inventory_role": "proof_support",
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_theorem1_informative_rating_system_rate_iid_completion"
+      ],
+      "proof_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_theorem1_informative_rating_system_rate_iid_completion"
+      ],
+      "scope_disposition": "supporting_corrected_variant",
+      "scope_disposition_note": "This supporting IID-completion variant is subsumed by the selected finite-real corrected Theorem 1 endpoint.",
+      "source_anchor_evidence": [
+        {
           "line_end": 764,
+          "line_start": 754,
+          "publication_locator": "cited publication",
           "quoted_text": "\\begin{restatable}{theorem}{lemhatW}\n\t\\label{lem:hatW}\n\t\\begin{equation}\n\t\\label{eq:rW}\n\tr \\triangleq - \\lim_{k \\to \\infty} \\frac{1}{k} \\log (1- {W}_k) = \\min_{0 \\leq i < M} \\inf_{a \\in \\bbR} \\left \\{ g(\\theta_{i+1}) I(a|\\theta_{i+1}) + g(\\theta_i) I(a|\\theta_i)\\right\\}\n\t\\end{equation}\n\twhere\n\t$I(a|\\theta) = \\sup_z \\{ za - \\Lambda(z|\\theta) \\}$, and $\\Lambda(z|\\theta) = \\log \\sum_{y \\in Y} {\\rho(\\theta, y | Y)} \\exp( z \\phi(y))$ is the log moment generating function of a single rating given to seller of type $\\theta$.\n%\n%\n\\end{restatable}",
           "quoted_text_sha256": "e63468dac3b2c6a9547d94fdf512af4589b7a6b4475db2e65edc08ff9a6e1c3f"
         }
+      ],
+      "source_defect_ids": [
+        "GJ18-THEOREM1-ADJACENT-INDEX-01",
+        "GJ18-PAIR-CARRIER-NORMALIZATION-01",
+        "GJ18-QUALITY-TAIL-BOTTOM-01",
+        "GJ18-TERMINAL-SUPPORT-01",
+        "GJ18-POSITIVE-MATCH-RATE-01",
+        "GJ18-NONTRIVIAL-RATING-SCALE-01",
+        "GJ18-IID-STATE-COMPLETION-01",
+        "GJ18-STATE-RECURRENCE-INDEX-01",
+        "GJ18-UNIFORM-TYPE-PRIOR-01",
+        "GJ18-APPENDIX-DISCRETE-INTEGRAL-01",
+        "GJ18-PKLD-CONSTANT-SANDWICH-01",
+        "GJ18-EXTENDED-RATE-CODOMAIN-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:754-764",
+      "source_note": "This checked endpoint implements the author-confirmed 0<g(theta)<=1 and IID additions, repairs the finite adjacent-index range, and avoids terminal-full-support assumptions, including the binary low-terminal-zero case. It intentionally does not claim the printed mu_k recurrence, source uniform-prior conditioning, or unrestricted Real infimum formula implies the theorem.",
+      "source_status": "supporting corrected theorem variant; the final finite-real endpoint is the sole normal source target",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "Corrected Theorem 1: for the explicit finite IID completion of the finite ordinal source model, with positive match rates, at least two rating levels, and at least one adjacent seller pair, one minus the finite uniform ranking objective has the exact support-safe extended exponential rate given by the minimum adjacent threshold rate."
+    },
+    "source_uniform_ranking_objective_tendsto_one_iid_completion": {
+      "aliases": [
+        "source_uniform_ranking_objective_tendsto_one_iid_completion"
+      ],
+      "claim_bearing": true,
+      "lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_uniform_ranking_objective_tendsto_one_iid_completion"
+      ],
+      "semantic_contract": {
+        "evidence_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_uniform_ranking_objective_tendsto_one_iid_completion",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain",
+        "spec_declaration": "GJ18InformativeRatingSystems.PaperInterface.source_uniform_ranking_objective_tendsto_one_iid_completionSpec"
+      },
+      "source_anchor_evidence": [
+        {
+          "line_end": 745,
+          "line_start": 744,
+          "publication_locator": "cited publication",
+          "quoted_text": "No single choice of $Y$ and $\\phi$ can simultaneously optimize $W_k$ for all $k$: some designs may be effective in separating the best sellers from the worst quickly, but then never separate all sellers. Further, as long as $\\phi(y)$ is strictly increasing, then because $R(\\theta, y)$ is strictly increasing in $\\theta$, we have, for all $\\theta_1\\neq \\theta_2$, and all choices of $Y$ and $\\phi$:\n$\\lim_{k \\to \\infty} P_k(\\theta_1, \\theta_2) = 1$. Using the bounded convergence theorem we conclude that $\\lim_{k \\to \\infty} W_k = 1 $, independent of the design choice $Y$ and $\\phi$.  Thus {\\em any} design asymptotically  -- with enough ratings -- recovers the true ranking of sellers.",
+          "quoted_text_sha256": "a1279ddf6b85f16447156cef9a4f40e115ef92a86df2242eebd7b9eaa094d927"
+        }
+      ],
+      "source_defect_ids": [
+        "GJ18-PAIR-CARRIER-NORMALIZATION-01",
+        "GJ18-POSITIVE-MATCH-RATE-01",
+        "GJ18-NONTRIVIAL-RATING-SCALE-01",
+        "GJ18-IID-STATE-COMPLETION-01",
+        "GJ18-STATE-RECURRENCE-INDEX-01",
+        "GJ18-UNIFORM-TYPE-PRIOR-01"
+      ],
+      "source_kind": "prose_assertion",
+      "source_location": "cited publication:744-745",
+      "source_note": "The checked result averages the proved pairwise limits over the exact strict-pair carrier under the author-confirmed corrected IID/rate model. It does not use bounded convergence on an unformalized source mu_k process.",
+      "source_status": "corrected IID-completion convergence result",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "statement": "Corrected form of the source convergence prose: under the explicit finite IID completion, literal ordinal-tail primitives, positive match rates, at least two rating levels, and a nonempty adjacent seller carrier, W_k tends to one.",
+      "support_lean_declarations": [
+        "GJ18InformativeRatingSystems.PaperInterface.source_uniform_ranking_objective_tendsto_one_iid_completionSpec"
       ]
     }
-  }
+  },
+  "paper": "GJ18InformativeRatingSystems",
+  "schema": 1,
+  "semantic_contract_schema": 1,
+  "source_anchor_evidence_required": true,
+  "source_archive_path": "cited publication",
+  "source_archive_sha256": "b5378ae6f1ada1674d9f07dd4c1405655a9109e89a9977debab1b89d599f19de",
+  "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
+  "source_coverage_mode": "named_theoretical_statements",
+  "source_curated": true,
+  "source_inventory_kind": "source_curated",
+  "source_inventory_policy": "Source-first inventory of the exact flattened arXiv TeX entry cited publication, mechanically extracted from the separately pinned cited publication. Independent source-presentation inspection finds three active named mathematical results: Theorem 1 and the Appendix problessthan and P_k-LD lemmas. The 21 PaperInterface rows remain the semantic review surface, but only those three source-presented results receive ordinary named-theory coverage credit. Literal formulas, corrected-model bridges, and the legacy-rate diagnostic remain support/deep material. The author-approved additions govern corrected targets but are never represented as derivations of the archival recurrence or unrestricted real-valued rate display. Lean identifiers are routing only, never semantic evidence. Canonical v11 review binds one transparent PaperInterface Spec to each selected source claim; retained source claims without a current Spec route remain explicit audit work rather than disappearing from the inventory.",
+  "source_named_result_inventory_review": {
+    "complete": true,
+    "discovered_named_result_sha256": "a56d546f6c540508b402b16cc3347dd8a8ce96b4c8d2efaebf6cce926b9d7cf0",
+    "discovered_prose_definition_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "method": "Independent source-only scan of the exact flattened archival TeX. It recognizes active theorem and lemma presentations, including thmtools restatable environments, and excludes commented-out material, ordinary equation numbering, figures, captions, and prose. Mapping is by exact canonical source spans and bytes, not source-map keys or Lean declaration names.",
+    "prose_definition_presentations": [],
+    "schema": 1,
+    "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
+    "validated_at": "2026-07-26T22:32:27Z",
+    "validator": "Codex GJ18 source-only named-result reconciliation"
+  },
+  "source_spec_correspondence_schema": 1,
+  "source_url": "https://arxiv.org/pdf/1810.13028",
+  "source_version": "GJ18 byte-pinned source and author-confirmed clarification inventory",
+  "title": "Designing Informative Rating Systems: Evidence from an Online Labor Market"
 }

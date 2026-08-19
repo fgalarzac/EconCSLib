@@ -1,0 +1,2148 @@
+% Generated human-review packet template.  Source records, Lean statements,
+% and raw-source-to-Spec screening fields are substituted by
+% scripts/review_dashboard_packet.py.
+% Do not hand-edit generated packets; annotate the PDF or reconcile notes into
+% the paper-local human-review log.
+\documentclass[10pt]{article}
+\usepackage[margin=0.43in]{geometry}
+\usepackage{fontspec}
+\setmainfont{Latin Modern Roman}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{fvextra}
+\usepackage{enumitem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.15em}
+\linespread{0.92}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+\DefineVerbatimEnvironment{ReviewVerbatim}{Verbatim}{breaklines=true,breakanywhere=true,fontsize=\scriptsize}
+\newcommand{\reviewerbox}{%
+  \par\noindent\fbox{\parbox{0.96\linewidth}{\rule{0pt}{0.38in}}}\par
+}
+\newcommand{\reviewmatch}[1]{%
+  \par\noindent\textbf{Reviewer check:} $\square$\; #1\par
+  \noindent\emph{If left unchecked, explain the discrepancy or uncertainty below.}\par
+}
+
+\begin{document}
+\fontsize{9}{10}\selectfont
+
+\begin{center}
+{\LARGE Human review packet: GJ18InformativeRatingSystems}\\[0.35em]
+\small Generated from byte-pinned source excerpts, the expanded PaperInterface
+specifications, and hash-bound raw-source-to-Spec screening records.
+\end{center}
+
+\noindent\textbf{Paper:} GJ18InformativeRatingSystems\\
+\textbf{Paper id:} \texttt{GJ18InformativeRatingSystems}\\
+\textbf{Source version:} GJ18 byte-pinned source and author-confirmed clarification inventory\\
+\textbf{Source record:} \texttt{audit/paper\_statement\_map.json}\\
+\textbf{Rows:} 18\\
+\textbf{Generated:} 2026-08-18\\
+\textbf{Source URL:} \href{https://arxiv.org/pdf/1810.13028}{official source}
+
+\noindent\fbox{\parbox{0.96\linewidth}{\textbf{Review status:} 0/18 source-claim screens; 0/43 library prerequisite screens. This is a review worksheet while those direct checks remain pending; it is not a final validation receipt.}}\par
+
+
+
+\section*{How to use this packet}
+For each source claim, compare the exact source excerpts with the expanded
+PaperInterface specification. Mark up this PDF or fill the blank reviewer box in the TeX source;
+return the annotated file for reconciliation into the paper-local human-review
+log.
+
+\section*{Open the interactive dashboard}
+The interactive dashboard is an optional alternative to using this PDF; it
+presents the same review surface rather than an additional review requirement.
+After forking and cloning (or pulling) EconCSLib, run the following from the
+repository root. The cache command is needed only the first time in a new clone.
+\begin{ReviewVerbatim}
+cd <your-EconCSLib-checkout>
+lake exe cache get
+python3 scripts/review_dashboard.py --paper GJ18InformativeRatingSystems --serve
+\end{ReviewVerbatim}
+Open \url{http://127.0.0.1:8765/} in a browser and keep that terminal running
+while reviewing. The dashboard records saved annotations in this paper's
+reviewer-owned review record.
+
+\section*{Contents}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-section-2ddff18376f19241}{Semantic library prerequisites (43; not paper claims)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-prerequisite-e4ddb15be8735d63}{EconCSLib.Probability.ExponentialRateCertificate}
+\item \hyperlink{library-prerequisite-943d19d91afe6d63}{EconCSLib.Probability.FiniteRatingLDPModel}
+\item \hyperlink{library-prerequisite-c3203b699a19e900}{EconCSLib.Probability.FiniteRatingLDPModel.score}
+\item \hyperlink{library-prerequisite-fc314aabfaabee42}{EconCSLib.Probability.FiniteRatingLDPModel.typeLaw}
+\item \hyperlink{library-prerequisite-6258b3da52471ab5}{EconCSLib.Probability.finiteMGF}
+\item \hyperlink{library-prerequisite-20dbd208a81d9e80}{EconCSLib.Probability.finiteLogMGF}
+\item \hyperlink{library-prerequisite-c959d6e7b586c2bc}{EconCSLib.Probability.FiniteRatingLDPModel.logMGF}
+\item \hyperlink{library-prerequisite-9a845b55d46c6585}{EconCSLib.Probability.finiteLegendreValue}
+\item \hyperlink{library-prerequisite-f5f80f99b5e233aa}{EconCSLib.Probability.finiteRateFunctionTop}
+\item \hyperlink{library-prerequisite-5730415067f1f9e2}{EconCSLib.Probability.FiniteRatingLDPModel.rateFunctionTop}
+\item \hyperlink{library-prerequisite-6b1c12de9b0e61d5}{EconCSLib.Probability.withTopRealScale}
+\item \hyperlink{library-prerequisite-e44116053cf1b7dc}{EconCSLib.Probability.FiniteRatingLDPModel.pairwiseRateObjectiveTop}
+\item \hyperlink{library-prerequisite-0b0af8ce366c7c95}{EconCSLib.Probability.FiniteRatingLDPModel.pairwiseThresholdRateTop}
+\item \hyperlink{library-prerequisite-c18ae7d47e6f18c1}{EconCSLib.Probability.finiteRateFunction}
+\item \hyperlink{library-prerequisite-8c186fac243dedca}{EconCSLib.Probability.FiniteRatingLDPModel.rateFunction}
+\item \hyperlink{library-prerequisite-94743506c5de049b}{EconCSLib.Probability.logDecay}
+\item \hyperlink{library-prerequisite-380666720005662c}{EconCSLib.Probability.HasExponentialRate}
+\item \hyperlink{library-prerequisite-f584f3b3a668a101}{EconCSLib.Probability.floorSampleCount}
+\item \hyperlink{library-prerequisite-1ea7df0bc503026f}{EconCSLib.Probability.finiteChainJointFloorRatingSample}
+\item \hyperlink{library-prerequisite-e0e20858ab2c39b5}{EconCSLib.Probability.finiteIidScoreSum}
+\item \hyperlink{library-prerequisite-2aef56ecee620200}{EconCSLib.Probability.finiteChainJointFloorAverageScore}
+\item \hyperlink{library-prerequisite-b9805c0fe3b56f02}{EconCSLib.pmfPi}
+\item \hyperlink{library-prerequisite-38eb9a31a47bfbd9}{EconCSLib.pmfProduct}
+\item \hyperlink{library-prerequisite-3a33b3f1236ded5c}{EconCSLib.Probability.finiteChainJointFloorRatingLaw}
+\item \hyperlink{library-prerequisite-f185c8e6394c9317}{EconCSLib.pmfProd}
+\item \hyperlink{library-prerequisite-59131a14024b99ca}{EconCSLib.Probability.twoSampleRatingLaw}
+\item \hyperlink{library-prerequisite-0777cfce9fa4aa84}{EconCSLib.Probability.twoSampleScoreGapSum}
+\item \hyperlink{library-prerequisite-e5c7eedc40c11b7a}{EconCSLib.pmfExp}
+\item \hyperlink{library-prerequisite-7fec9dedef722fc8}{EconCSLib.pmfProb}
+\item \hyperlink{library-prerequisite-7977d3effede269a}{EconCSLib.Probability.twoSampleScoreGapStrictLeftProb}
+\item \hyperlink{library-prerequisite-04cfd6035ff6b93b}{EconCSLib.Probability.twoSampleScoreGapStrictRightProb}
+\item \hyperlink{library-prerequisite-b651d97033f09c68}{EconCSLib.Probability.twoSamplePkObjectiveProb}
+\item \hyperlink{library-prerequisite-94a7fcd88ae8a6e8}{EconCSLib.Probability.twoSampleFloorPkObjectiveProb}
+\item \hyperlink{library-prerequisite-f95d596e14b1998c}{EconCSLib.Probability.finiteFloorPkObjective}
+\item \hyperlink{library-prerequisite-5e9579cf8dd8972a}{EconCSLib.Probability.uniformPairWeight}
+\item \hyperlink{library-prerequisite-37e76ec4b43ab68b}{EconCSLib.Probability.finiteUniformFloorPkObjective}
+\item \hyperlink{library-prerequisite-cab4ce12b83ad98a}{EconCSLib.Probability.pairwiseSellerThresholdRateTop}
+\item \hyperlink{library-prerequisite-d2e451dbad72942b}{EconCSLib.Probability.ratingLogMGF}
+\item \hyperlink{library-prerequisite-96ef8942e7110091}{EconCSLib.Probability.ratingRateFunction}
+\item \hyperlink{library-prerequisite-c18b92519b0314cc}{EconCSLib.Probability.ratingRateFunctionTop}
+\item \hyperlink{library-prerequisite-2b1c527f6cbee7fb}{EconCSLib.Probability.twoSampleScoreGapLeftTailProb}
+\item \hyperlink{library-prerequisite-c2c25007b5e7f247}{EconCSLib.Probability.twoSampleFloorScoreGapLeftTailProb}
+\item \hyperlink{library-prerequisite-00a2add8d3a6edfc}{EconCSLib.uniformPMF}
+\end{itemize}
+\item \hyperlink{source-section-f10b5f68e4acf3dc}{Source claims (18)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-08e48b913029b561}{source\_definition\_floor\_sample\_count\_formulaSpec}
+\item \hyperlink{source-claim-038938d2e8c6aaa5}{source\_definition\_aggregate\_score\_formulaSpec}
+\item \hyperlink{source-claim-eb16a2642f471c57}{source\_definition\_pairwise\_objective\_formulaSpec}
+\item \hyperlink{source-claim-bfe70859810ece12}{source\_definition\_uniform\_ranking\_objective\_formulaSpec}
+\item \hyperlink{source-claim-62699e0d2b178e68}{source\_definition\_uniform\_ranking\_normalizationSpec}
+\item \hyperlink{source-claim-803ea24378437fda}{source\_iid\_completion\_pairwise\_objective\_bridgeSpec}
+\item \hyperlink{source-claim-28e9ead3a5c0a6ce}{source\_iid\_completion\_weak\_inversion\_bridgeSpec}
+\item \hyperlink{source-claim-75935d7eb4e2aa12}{source\_iid\_completion\_uniform\_ranking\_objective\_bridgeSpec}
+\item \hyperlink{source-claim-1f3b4948b5efbf34}{author\_confirmed\_clarified\_uniform\_type\_priorSpec}
+\item \hyperlink{source-claim-698b53d20aef3ea2}{author\_confirmed\_clarified\_iid\_state\_lawSpec}
+\item \hyperlink{source-claim-8f181b4236c5e927}{source\_definition\_log\_mgf\_formulaSpec}
+\item \hyperlink{source-claim-343f2a6db19144da}{source\_definition\_rate\_function\_formulaSpec}
+\item \hyperlink{source-claim-3ef1c348966685a2}{source\_definition\_extended\_rate\_function\_formulaSpec}
+\item \hyperlink{source-claim-21cfbf055e49cb54}{source\_appendix\_problessthan\_score\_gap\_rate\_iid\_completionSpec}
+\item \hyperlink{source-claim-1d1f73c1a511cd77}{source\_appendix\_pk\_ld\_complement\_rate\_iid\_completionSpec}
+\item \hyperlink{source-claim-3e93fe2b3603715e}{source\_pairwise\_objective\_tendsto\_one\_iid\_completionSpec}
+\item \hyperlink{source-claim-9ac3f4efe388ea2a}{source\_uniform\_ranking\_objective\_tendsto\_one\_iid\_completionSpec}
+\item \hyperlink{source-claim-7415d8df252dd9e8}{author\_approved\_corrected\_model\_theorem1\_finite\_real\_rateSpec}
+\end{itemize}
+\end{itemize}
+
+\clearpage
+\hypertarget{library-section-2ddff18376f19241}{}
+\section*{Material library prerequisites}
+\hypertarget{library-prerequisite-e4ddb15be8735d63}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}ExponentialRateCertificate}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+(ℕ → ℝ) → ℝ → Prop
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+structure ExponentialRateCertificate (p : ℕ → ℝ) (rate : ℝ) where
+  eventually_pos : ∀ᶠ n in atTop, 0 < p n
+  has_rate : HasExponentialRate p rate
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-943d19d91afe6d63}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}FiniteRatingLDPModel}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+Type u_2 → (Rating : Type u_3) → [Fintype Rating] → [DecidableEq Rating] → Type (max u_2 u_3)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+structure FiniteRatingLDPModel (θ Rating : Type*) [Fintype Rating]
+    [DecidableEq Rating] where
+  typeLaw : θ → PMF Rating
+  score : Rating → ℝ
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-c3203b699a19e900}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}FiniteRatingLDPModel.\allowbreak{}score}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{θ : Type u_2} →
+  {Rating : Type u_3} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (self : EconCSLib.Probability.FiniteRatingLDPModel θ Rating) → (a : Rating) → self.2 a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-fc314aabfaabee42}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}FiniteRatingLDPModel.\allowbreak{}typeLaw}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{θ : Type u_2} →
+  {Rating : Type u_3} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] → (self : EconCSLib.Probability.FiniteRatingLDPModel θ Rating) → (a : θ) → self.1 a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-6258b3da52471ab5}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteMGF}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] → (μ : PMF α) → (score : α → ℝ) → (z : ℝ) → ∑ a, (μ a).toReal * Real.exp (z * score a)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteMGF (μ : PMF α) (score : α → ℝ) (z : ℝ) : ℝ :=
+  ∑ a : α, (μ a).toReal * Real.exp (z * score a)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-20dbd208a81d9e80}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteLogMGF}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] → (μ : PMF α) → (score : α → ℝ) → (z : ℝ) → Real.log (EconCSLib.Probability.finiteMGF μ score z)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteLogMGF (μ : PMF α) (score : α → ℝ) (z : ℝ) : ℝ :=
+  Real.log (finiteMGF μ score z)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-c959d6e7b586c2bc}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}FiniteRatingLDPModel.\allowbreak{}logMGF}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{θ : Type u_2} →
+  {Rating : Type u_3} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel θ Rating) →
+          (t : θ) → (z : ℝ) → EconCSLib.Probability.finiteLogMGF (M.typeLaw t) M.score z
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def logMGF (M : FiniteRatingLDPModel θ Rating) (t : θ) (z : ℝ) : ℝ :=
+  finiteLogMGF (M.typeLaw t) M.score z
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-9a845b55d46c6585}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteLegendreValue}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] → (μ : PMF α) → (score : α → ℝ) → (a z : ℝ) → z * a - EconCSLib.Probability.finiteLogMGF μ score z
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteLegendreValue (μ : PMF α) (score : α → ℝ)
+    (a z : ℝ) : ℝ :=
+  z * a - finiteLogMGF μ score z
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-f5f80f99b5e233aa}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteRateFunctionTop}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] →
+    (μ : PMF α) →
+      (score : α → ℝ) → (a : ℝ) → sSup (Set.range fun z => ↑(EconCSLib.Probability.finiteLegendreValue μ score a z))
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteRateFunctionTop (μ : PMF α) (score : α → ℝ)
+    (a : ℝ) : WithTop ℝ :=
+  sSup (Set.range fun z : ℝ =>
+    (finiteLegendreValue μ score a z : WithTop ℝ))
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-5730415067f1f9e2}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}FiniteRatingLDPModel.\allowbreak{}rateFunctionTop}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{θ : Type u_2} →
+  {Rating : Type u_3} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel θ Rating) →
+          (t : θ) → (a : ℝ) → EconCSLib.Probability.finiteRateFunctionTop (M.typeLaw t) M.score a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def rateFunctionTop (M : FiniteRatingLDPModel θ Rating)
+    (t : θ) (a : ℝ) : WithTop ℝ :=
+  finiteRateFunctionTop (M.typeLaw t) M.score a
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-6b1c12de9b0e61d5}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}withTopRealScale}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(c : ℝ) → (x : WithTop ℝ) → WithTop.map (fun r => c * r) x
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def withTopRealScale (c : ℝ) (x : WithTop ℝ) : WithTop ℝ :=
+  WithTop.map (fun r : ℝ => c * r) x
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e44116053cf1b7dc}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}FiniteRatingLDPModel.\allowbreak{}pairwiseRateObjectiveTop}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{θ : Type u_2} →
+  {Rating : Type u_3} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel θ Rating) →
+          (sampleRate : θ → ℝ) →
+            (hi lo : θ) →
+              (a : ℝ) →
+                EconCSLib.Probability.withTopRealScale (sampleRate hi) (M.rateFunctionTop hi a) +
+                  EconCSLib.Probability.withTopRealScale (sampleRate lo) (M.rateFunctionTop lo a)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def pairwiseRateObjectiveTop (M : FiniteRatingLDPModel θ Rating)
+    (sampleRate : θ → ℝ) (hi lo : θ) (a : ℝ) : WithTop ℝ :=
+  withTopRealScale (sampleRate hi) (M.rateFunctionTop hi a) +
+    withTopRealScale (sampleRate lo) (M.rateFunctionTop lo a)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-0b0af8ce366c7c95}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}FiniteRatingLDPModel.\allowbreak{}pairwiseThresholdRateTop}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{θ : Type u_2} →
+  {Rating : Type u_3} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel θ Rating) →
+          (sampleRate : θ → ℝ) → (hi lo : θ) → sInf (Set.range fun a => M.pairwiseRateObjectiveTop sampleRate hi lo a)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pairwiseThresholdRateTop (M : FiniteRatingLDPModel θ Rating)
+    (sampleRate : θ → ℝ) (hi lo : θ) : WithTop ℝ :=
+  sInf (Set.range fun a : ℝ =>
+    M.pairwiseRateObjectiveTop sampleRate hi lo a)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-c18ae7d47e6f18c1}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteRateFunction}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] →
+    (μ : PMF α) →
+      (score : α → ℝ) → (a : ℝ) → sSup (Set.range fun z => EconCSLib.Probability.finiteLegendreValue μ score a z)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteRateFunction (μ : PMF α) (score : α → ℝ)
+    (a : ℝ) : ℝ :=
+  sSup (Set.range fun z : ℝ => finiteLegendreValue μ score a z)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-8c186fac243dedca}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}FiniteRatingLDPModel.\allowbreak{}rateFunction}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{θ : Type u_2} →
+  {Rating : Type u_3} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel θ Rating) →
+          (t : θ) → (a : ℝ) → EconCSLib.Probability.finiteRateFunction (M.typeLaw t) M.score a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def rateFunction (M : FiniteRatingLDPModel θ Rating)
+    (t : θ) (a : ℝ) : ℝ :=
+  finiteRateFunction (M.typeLaw t) M.score a
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-94743506c5de049b}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}logDecay}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(p : ℕ → ℝ) → (n : ℕ) → -(↑n)⁻¹ * Real.log (p n)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def logDecay (p : ℕ → ℝ) (n : ℕ) : ℝ :=
+  -((n : ℝ)⁻¹) * Real.log (p n)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-380666720005662c}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}HasExponentialRate}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ (p : ℕ → ℝ) (rate : ℝ), Filter.Tendsto (EconCSLib.Probability.logDecay p) Filter.atTop (nhds rate)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def HasExponentialRate (p : ℕ → ℝ) (rate : ℝ) : Prop :=
+  Tendsto (logDecay p) atTop (nhds rate)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-f584f3b3a668a101}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}floorSampleCount}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Seller : Type u_1} → (sampleRate : Seller → ℝ) → (θ : Seller) → (k : ℕ) → ⌊↑k * sampleRate θ⌋₊
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def floorSampleCount {Seller : Type*} (sampleRate : Seller → ℝ)
+    (θ : Seller) (k : ℕ) : ℕ :=
+  Nat.floor ((k : ℝ) * sampleRate θ)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-1ea7df0bc503026f}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteChainJointFloorRatingSample}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  (Rating : Type u_1) →
+    (sampleRate : Fin n → ℝ) →
+      (k : ℕ) → (θ : Fin n) → Fin (EconCSLib.Probability.floorSampleCount sampleRate θ k) → Rating
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+abbrev finiteChainJointFloorRatingSample
+    {n : ℕ} (Rating : Type*) (sampleRate : Fin n → ℝ) (k : ℕ) :=
+  (θ : Fin n) → Fin (floorSampleCount sampleRate θ k) → Rating
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e0e20858ab2c39b5}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteIidScoreSum}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} → {ι : Type u_2} → [inst : Fintype ι] → (score : α → ℝ) → (sample : ι → α) → ∑ i, score (sample i)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteIidScoreSum {ι : Type*} [Fintype ι]
+    (score : α → ℝ) (sample : ι → α) : ℝ :=
+  ∑ i : ι, score (sample i)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-2aef56ecee620200}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteChainJointFloorAverageScore}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  {Rating : Type u_1} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel (Fin n) Rating) →
+          (sampleRate : Fin n → ℝ) →
+            (k : ℕ) →
+              (sample : EconCSLib.Probability.finiteChainJointFloorRatingSample Rating sampleRate k) →
+                (θ : Fin n) →
+                  (↑(EconCSLib.Probability.floorSampleCount sampleRate θ k))⁻¹ *
+                    EconCSLib.Probability.finiteIidScoreSum M.score (sample θ)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteChainJointFloorAverageScore
+    {n : ℕ} {Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n → ℝ)
+    (k : ℕ) (sample : finiteChainJointFloorRatingSample Rating sampleRate k)
+    (θ : Fin n) : ℝ :=
+  ((floorSampleCount sampleRate θ k : ℕ) : ℝ)⁻¹ *
+    finiteIidScoreSum M.score (sample θ)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-b9805c0fe3b56f02}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfPi}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{ι : Type u_1} →
+  [inst : Fintype ι] →
+    [inst_1 : DecidableEq ι] →
+      {α : ι → Type u_2} →
+        [inst_2 : (i : ι) → Fintype (α i)] → (μ : (i : ι) → PMF (α i)) → PMF.ofFintype (fun f => ∏ i, (μ i) (f i)) ⋯
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfPi {ι : Type*} [Fintype ι] [DecidableEq ι]
+    {α : ι → Type*} [∀ i : ι, Fintype (α i)]
+    (μ : ∀ i : ι, PMF (α i)) : PMF ((i : ι) → α i) :=
+  PMF.ofFintype (fun f : (i : ι) → α i => ∏ i : ι, μ i (f i)) (by
+    classical
+    have hcoord : ∀ i : ι, ∑ a : α i, μ i a = 1 := by
+      intro i
+      rw [← PMF.tsum_coe (μ i), tsum_fintype]
+    calc
+      ∑ f : ((i : ι) → α i), ∏ i : ι, μ i (f i)
+          = ∑ f ∈ Fintype.piFinset
+              (fun i : ι => (Finset.univ : Finset (α i))),
+              ∏ i : ι, μ i (f i) := by
+            simp
+      _ = ∏ i : ι, ∑ a ∈ (Finset.univ : Finset (α i)), μ i a := by
+            symm
+            exact Finset.prod_univ_sum
+              (t := fun i : ι => (Finset.univ : Finset (α i)))
+              (f := fun i a => μ i a)
+      _ = 1 := by simp [hcoord])
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-38eb9a31a47bfbd9}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfProduct}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(ι : Type u_1) →
+  (α : Type u_2) →
+    [inst : Fintype ι] →
+      [inst_1 : DecidableEq ι] → [inst_2 : Fintype α] → (μ : PMF α) → PMF.ofFintype (fun f => ∏ i, μ (f i)) ⋯
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfProduct (ι α : Type*) [Fintype ι] [DecidableEq ι] [Fintype α]
+    (μ : PMF α) : PMF (ι → α) :=
+  PMF.ofFintype (fun f : ι → α => ∏ i : ι, μ (f i)) (by
+    classical
+    have hcoord : ∑ a : α, μ a = 1 := by
+      rw [← PMF.tsum_coe μ, tsum_fintype]
+    calc
+      ∑ f : ι → α, ∏ i : ι, μ (f i)
+          = ∏ i : ι, ∑ a : α, μ a := by
+            symm
+            simpa using
+              (Finset.prod_univ_sum
+                (t := fun _i : ι => (Finset.univ : Finset α))
+                (f := fun _i a => μ a))
+      _ = 1 := by simp [hcoord])
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-3a33b3f1236ded5c}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteChainJointFloorRatingLaw}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{n : ℕ} →
+  {Rating : Type u_1} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel (Fin n) Rating) →
+          (sampleRate : Fin n → ℝ) →
+            (k : ℕ) →
+              EconCSLib.pmfPi fun θ =>
+                EconCSLib.pmfProduct (Fin (EconCSLib.Probability.floorSampleCount sampleRate θ k)) Rating (M.typeLaw θ)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def finiteChainJointFloorRatingLaw
+    {n : ℕ} {Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n → ℝ)
+    (k : ℕ) : PMF (finiteChainJointFloorRatingSample Rating sampleRate k) :=
+  EconCSLib.pmfPi (fun θ : Fin n =>
+    EconCSLib.pmfProduct (Fin (floorSampleCount sampleRate θ k)) Rating
+      (M.typeLaw θ))
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-f185c8e6394c9317}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfProd}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  {β : Type u_2} →
+    [inst : Fintype α] → [inst_1 : Fintype β] → (μ : PMF α) → (ν : PMF β) → PMF.ofFintype (fun p => μ p.1 * ν p.2) ⋯
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfProd {α β : Type*} [Fintype α] [Fintype β]
+    (μ : PMF α) (ν : PMF β) : PMF (α × β) :=
+  PMF.ofFintype (fun p : α × β => μ p.1 * ν p.2) (by
+    classical
+    have hμ : ∑ a : α, μ a = 1 := by
+      rw [← PMF.tsum_coe μ, tsum_fintype]
+    have hν : ∑ b : β, ν b = 1 := by
+      rw [← PMF.tsum_coe ν, tsum_fintype]
+    calc
+      ∑ p : α × β, μ p.1 * ν p.2
+          = ∑ a : α, ∑ b : β, μ a * ν b := by
+            rw [Fintype.sum_prod_type]
+      _ = ∑ a : α, μ a * (∑ b : β, ν b) := by
+            simp [Finset.mul_sum]
+      _ = 1 := by
+            simp [hμ, hν])
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-59131a14024b99ca}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}twoSampleRatingLaw}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Seller : Type u_1} →
+  {Rating : Type u_2} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) →
+          (hi lo : Seller) →
+            (nHi nLo : ℕ) →
+              EconCSLib.pmfProd (EconCSLib.pmfProduct (Fin nHi) Rating (M.typeLaw hi))
+                (EconCSLib.pmfProduct (Fin nLo) Rating (M.typeLaw lo))
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def twoSampleRatingLaw
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) :
+    PMF ((Fin nHi → Rating) × (Fin nLo → Rating)) :=
+  EconCSLib.pmfProd
+    (EconCSLib.pmfProduct (Fin nHi) Rating (M.typeLaw hi))
+    (EconCSLib.pmfProduct (Fin nLo) Rating (M.typeLaw lo))
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-0777cfce9fa4aa84}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}twoSampleScoreGapSum}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Seller : Type u_1} →
+  {Rating : Type u_2} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) →
+          {nHi nLo : ℕ} →
+            (cHi cLo : ℝ) →
+              (sample : (Fin nHi → Rating) × (Fin nLo → Rating)) →
+                cHi * EconCSLib.Probability.finiteIidScoreSum M.score sample.1 -
+                  cLo * EconCSLib.Probability.finiteIidScoreSum M.score sample.2
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def twoSampleScoreGapSum
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) {nHi nLo : ℕ}
+    (cHi cLo : ℝ)
+    (sample : (Fin nHi → Rating) × (Fin nLo → Rating)) : ℝ :=
+  cHi * finiteIidScoreSum M.score sample.1 -
+    cLo * finiteIidScoreSum M.score sample.2
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e5c7eedc40c11b7a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfExp}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} → [inst : Fintype α] → [DecidableEq α] → (μ : PMF α) → (f : α → ℝ) → ∑ a, (μ a).toReal * f a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfExp {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (f : α → ℝ) : ℝ :=
+  ∑ a, (μ a).toReal * f a
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-7fec9dedef722fc8}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  [inst : Fintype α] →
+    [inst_1 : DecidableEq α] →
+      (μ : PMF α) → (p : α → Prop) → [inst_2 : DecidablePred p] → EconCSLib.pmfExp μ fun a => if p a then 1 else 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfProb {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (p : α → Prop) [DecidablePred p] : ℝ :=
+  pmfExp μ (fun a => if p a then 1 else 0)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-7977d3effede269a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}twoSampleScoreGapStrictLeftProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Seller : Type u_1} →
+  {Rating : Type u_2} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) →
+          (hi lo : Seller) →
+            (nHi nLo : ℕ) →
+              (cHi cLo : ℝ) →
+                EconCSLib.pmfProb (EconCSLib.Probability.twoSampleRatingLaw M hi lo nHi nLo) fun sample =>
+                  EconCSLib.Probability.twoSampleScoreGapSum M cHi cLo sample < 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def twoSampleScoreGapStrictLeftProb
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ) : ℝ :=
+  EconCSLib.pmfProb (twoSampleRatingLaw M hi lo nHi nLo)
+    (fun sample => twoSampleScoreGapSum M cHi cLo sample < 0)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-04cfd6035ff6b93b}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}twoSampleScoreGapStrictRightProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Seller : Type u_1} →
+  {Rating : Type u_2} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) →
+          (hi lo : Seller) →
+            (nHi nLo : ℕ) →
+              (cHi cLo : ℝ) →
+                EconCSLib.pmfProb (EconCSLib.Probability.twoSampleRatingLaw M hi lo nHi nLo) fun sample =>
+                  0 < EconCSLib.Probability.twoSampleScoreGapSum M cHi cLo sample
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def twoSampleScoreGapStrictRightProb
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ) : ℝ :=
+  EconCSLib.pmfProb (twoSampleRatingLaw M hi lo nHi nLo)
+    (fun sample => 0 < twoSampleScoreGapSum M cHi cLo sample)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-b651d97033f09c68}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}twoSamplePkObjectiveProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Seller : Type u_1} →
+  {Rating : Type u_2} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) →
+          (hi lo : Seller) →
+            (nHi nLo : ℕ) →
+              (cHi cLo : ℝ) →
+                EconCSLib.Probability.twoSampleScoreGapStrictRightProb M hi lo nHi nLo cHi cLo -
+                  EconCSLib.Probability.twoSampleScoreGapStrictLeftProb M hi lo nHi nLo cHi cLo
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def twoSamplePkObjectiveProb
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ) : ℝ :=
+  twoSampleScoreGapStrictRightProb M hi lo nHi nLo cHi cLo -
+    twoSampleScoreGapStrictLeftProb M hi lo nHi nLo cHi cLo
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-94a7fcd88ae8a6e8}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}twoSampleFloorPkObjectiveProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Seller : Type u_1} →
+  {Rating : Type u_2} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) →
+          (sampleRate : Seller → ℝ) →
+            (hi lo : Seller) →
+              (k : ℕ) →
+                have nHi := EconCSLib.Probability.floorSampleCount sampleRate hi k;
+                have nLo := EconCSLib.Probability.floorSampleCount sampleRate lo k;
+                EconCSLib.Probability.twoSamplePkObjectiveProb M hi lo nHi nLo (↑nHi)⁻¹ (↑nLo)⁻¹
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def twoSampleFloorPkObjectiveProb
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (k : ℕ) : ℝ :=
+  let nHi := floorSampleCount sampleRate hi k
+  let nLo := floorSampleCount sampleRate lo k
+  twoSamplePkObjectiveProb M hi lo nHi nLo
+    ((nHi : ℝ)⁻¹) ((nLo : ℝ)⁻¹)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-f95d596e14b1998c}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteFloorPkObjective}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Seller : Type u_1} →
+  {Rating : Type u_2} →
+    {Pair : Type u_3} →
+      [inst : Fintype Rating] →
+        [inst_1 : DecidableEq Rating] →
+          [inst_2 : Fintype Pair] →
+            (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) →
+              (sampleRate : Seller → ℝ) →
+                (pairHi pairLo : Pair → Seller) →
+                  (weight : Pair → ℝ) →
+                    (k : ℕ) →
+                      ∑ p,
+                        weight p *
+                          EconCSLib.Probability.twoSampleFloorPkObjectiveProb M sampleRate (pairHi p) (pairLo p) k
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteFloorPkObjective
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller) (weight : Pair → ℝ) (k : ℕ) : ℝ :=
+  ∑ p : Pair,
+    weight p *
+      twoSampleFloorPkObjectiveProb M sampleRate (pairHi p) (pairLo p) k
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-5e9579cf8dd8972a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}uniformPairWeight}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(Pair : Type u_1) → [inst : Fintype Pair] → Pair → (↑(Fintype.card Pair))⁻¹
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def uniformPairWeight (Pair : Type*) [Fintype Pair] : Pair → ℝ :=
+  fun _ => (Fintype.card Pair : ℝ)⁻¹
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-37e76ec4b43ab68b}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}finiteUniformFloorPkObjective}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Seller : Type u_1} →
+  {Rating : Type u_2} →
+    {Pair : Type u_3} →
+      [inst : Fintype Rating] →
+        [inst_1 : DecidableEq Rating] →
+          [inst_2 : Fintype Pair] →
+            (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) →
+              (sampleRate : Seller → ℝ) →
+                (pairHi pairLo : Pair → Seller) →
+                  (k : ℕ) →
+                    EconCSLib.Probability.finiteFloorPkObjective M sampleRate pairHi pairLo
+                      (EconCSLib.Probability.uniformPairWeight Pair) k
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteUniformFloorPkObjective
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller) (k : ℕ) : ℝ :=
+  finiteFloorPkObjective M sampleRate pairHi pairLo (uniformPairWeight Pair) k
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-cab4ce12b83ad98a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}pairwiseSellerThresholdRateTop}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Seller : Type u_1} →
+  {Rating : Type u_2} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) →
+          (sampleRate : Seller → ℝ) → (hi lo : Seller) → M.pairwiseThresholdRateTop sampleRate hi lo
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pairwiseSellerThresholdRateTop
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) : WithTop ℝ :=
+  M.pairwiseThresholdRateTop sampleRate hi lo
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-d2e451dbad72942b}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}ratingLogMGF}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Seller : Type u_1} →
+  {Rating : Type u_2} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) → (θ : Seller) → (z : ℝ) → M.logMGF θ z
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def ratingLogMGF {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (θ : Seller) (z : ℝ) : ℝ :=
+  M.logMGF θ z
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-96ef8942e7110091}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}ratingRateFunction}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Seller : Type u_1} →
+  {Rating : Type u_2} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) → (θ : Seller) → (a : ℝ) → M.rateFunction θ a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def ratingRateFunction {Seller Rating : Type*} [Fintype Rating]
+    [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (θ : Seller) (a : ℝ) : ℝ :=
+  M.rateFunction θ a
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-c18b92519b0314cc}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}ratingRateFunctionTop}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Seller : Type u_1} →
+  {Rating : Type u_2} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) → (θ : Seller) → (a : ℝ) → M.rateFunctionTop θ a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def ratingRateFunctionTop {Seller Rating : Type*} [Fintype Rating]
+    [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (θ : Seller) (a : ℝ) :
+    WithTop ℝ :=
+  M.rateFunctionTop θ a
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-2b1c527f6cbee7fb}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}twoSampleScoreGapLeftTailProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Seller : Type u_1} →
+  {Rating : Type u_2} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) →
+          (hi lo : Seller) →
+            (nHi nLo : ℕ) →
+              (cHi cLo : ℝ) →
+                EconCSLib.pmfProb (EconCSLib.Probability.twoSampleRatingLaw M hi lo nHi nLo) fun sample =>
+                  EconCSLib.Probability.twoSampleScoreGapSum M cHi cLo sample ≤ 0
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def twoSampleScoreGapLeftTailProb
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ) : ℝ :=
+  EconCSLib.pmfProb (twoSampleRatingLaw M hi lo nHi nLo)
+    (fun sample => twoSampleScoreGapSum M cHi cLo sample ≤ 0)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-c2c25007b5e7f247}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Probability.\allowbreak{}twoSampleFloorScoreGapLeftTailProb}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{Seller : Type u_1} →
+  {Rating : Type u_2} →
+    [inst : Fintype Rating] →
+      [inst_1 : DecidableEq Rating] →
+        (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) →
+          (sampleRate : Seller → ℝ) →
+            (hi lo : Seller) →
+              (k : ℕ) →
+                have nHi := EconCSLib.Probability.floorSampleCount sampleRate hi k;
+                have nLo := EconCSLib.Probability.floorSampleCount sampleRate lo k;
+                EconCSLib.Probability.twoSampleScoreGapLeftTailProb M hi lo nHi nLo (↑nHi)⁻¹ (↑nLo)⁻¹
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def twoSampleFloorScoreGapLeftTailProb
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (k : ℕ) : ℝ :=
+  let nHi := floorSampleCount sampleRate hi k
+  let nLo := floorSampleCount sampleRate lo k
+  twoSampleScoreGapLeftTailProb M hi lo nHi nLo
+    ((nHi : ℝ)⁻¹) ((nLo : ℝ)⁻¹)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-00a2add8d3a6edfc}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}uniformPMF}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(α : Type u_1) → [inst : Fintype α] → [inst_1 : Nonempty α] → PMF.ofFintype (fun x => (↑(Fintype.card α))⁻¹) ⋯
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def uniformPMF (α : Type*) [Fintype α] [Nonempty α] : PMF α :=
+  PMF.ofFintype (fun _ : α => ((Fintype.card α : ENNReal)⁻¹)) (by
+    rw [Finset.sum_const, Finset.card_univ]
+    have hcard : (Fintype.card α : ENNReal) ≠ 0 := by
+      exact_mod_cast (Fintype.card_pos_iff.mpr ‹Nonempty α›).ne'
+    simpa [nsmul_eq_mul] using
+      (ENNReal.mul_inv_cancel hcard (ENNReal.natCast_ne_top (Fintype.card α))))
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\clearpage
+\hypertarget{source-claim-08e48b913029b561}{}
+\hypertarget{source-section-f10b5f68e4acf3dc}{}
+\section*{Source claims}
+\subsection*{Review row 1}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 669-\allowbreak{}670\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+{\bf Rating accumulation}.  Sellers accumulate ratings over time by matching with buyers. At each time step, each seller matches with at most a single buyer. We make one key assumption that drives the accumulation of ratings: in particular, that sellers of higher quality are more likely to be matched. %
+We consider an analysis that is asymptotic in the number of ratings received by sellers and so we model this visibility benefit by assuming that {\em sellers of higher quality accumulate ratings at a faster rate}. In particular, we assume the existence of a nondecreasing {\em match function} $g(\theta)$, where a seller of type $\theta$ receives $n_k(\theta) = \lfloor k g(\theta) \rfloor$ matches, and thus ratings, up to time $k$.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Seller : Type u_1} (sampleRate : Seller → ℝ) (theta : Seller) (k : ℕ),
+  EconCSLib.Probability.floorSampleCount sampleRate theta k = ⌊↑k * sampleRate theta⌋₊
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.source_definition_floor_sample_count_formula
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-038938d2e8c6aaa5}{}
+\section*{Review row 2}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 697-\allowbreak{}702\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Let $y_0(\theta), y_1(\theta), y_2(\theta), \ldots$ be the sequence of ratings received by the seller of type $\theta$.  The {\em aggregate score} up to time $k$ of this seller is the average score from ratings received:
+\begin{equation}
+\label{eq:aggscore}
+ x_k(\theta) =  \frac{1}{n_k(\theta)} \sum_{\ell = 0}^{n_k(\theta)} \phi(y_\ell(\theta)).
+\end{equation}
+(We presume $x_0(\theta) = 0$ for all $\theta$.)  Since $\phi(y) \in [0,1]$ for all $y$, the score $x_k$ also lies in $[0,1]$.
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For each seller type theta and horizon k, if n_k(theta) = floor(k g(theta)), the aggregate score averages exactly n_k(theta) rating scores over a finite family indexed by Fin n_k(theta); the zero-sample convention remains explicit.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 697-\allowbreak{}702\par}
+\paragraph{Recorded basis}
+Author-\allowbreak{}approved corrected finite-\allowbreak{}chain model recorded in docs/\allowbreak{}GOVERNING\_\allowbreak{}CORRECTED\_\allowbreak{}MODEL\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}24.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} {Rating : Type u_1} [inst : Fintype Rating] [inst_1 : DecidableEq Rating]
+  (M : EconCSLib.Probability.FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n → ℝ) (k : ℕ)
+  (sample : EconCSLib.Probability.finiteChainJointFloorRatingSample Rating sampleRate k) (theta : Fin n),
+  EconCSLib.Probability.finiteChainJointFloorAverageScore M sampleRate k sample theta =
+    (↑(EconCSLib.Probability.floorSampleCount sampleRate theta k))⁻¹ * ∑ i, M.score (sample theta i)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.source_definition_aggregate_score_formula
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-eb16a2642f471c57}{}
+\section*{Review row 3}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 721-\allowbreak{}725\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Formally, given $\theta_1 > \theta_2$, define $P_k(\theta_1, \theta_2)$ as follows:
+\begin{equation}
+\label{eq:Pk}
+P_k(\theta_1, \theta_2) = \mu_k(x_k(\theta_1) > x_k(\theta_2)|\theta_1, \theta_2) - \mu_k(x_k(\theta_1) < x_k(\theta_2)|\theta_1, \theta_2).
+\end{equation}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} {Omega : Type u_1} [inst : Fintype Omega] [inst_1 : DecidableEq Omega] (mu : PMF Omega)
+  (score : Omega → Fin n → ℝ) (p : GJ18InformativeRatingSystems.finiteChainOrderedPair n),
+  GJ18InformativeRatingSystems.sourceStatePairwisePk mu score p =
+    (EconCSLib.pmfProb mu fun omega =>
+        score omega (GJ18InformativeRatingSystems.finiteChainOrderedPairHi p) >
+          score omega (GJ18InformativeRatingSystems.finiteChainOrderedPairLo p)) -
+      EconCSLib.pmfProb mu fun omega =>
+        score omega (GJ18InformativeRatingSystems.finiteChainOrderedPairHi p) <
+          score omega (GJ18InformativeRatingSystems.finiteChainOrderedPairLo p)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.source_definition_pairwise_objective_formula
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-bfe70859810ece12}{}
+\section*{Review row 4}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 728-\allowbreak{}733\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+We consider the problem of maximizing the following objective, a scaled version of {\em Kendall's $\tau$ rank correlation} between the estimated ranking of sellers and the true ranking:
+\begin{equation}
+\label{eq:objective}
+W_k = \frac{2}{M(M-1)}\sum_{\theta_1 > \theta_2 \in \Theta} P_k(\theta_1, \theta_2)
+\end{equation}
+The coefficient ensures that ${W}_k$ remains bounded even as $M$ increases. This objective depends on the model primitives $R$ (rater behavior) and $g$ (matching rates), as well as the platform's decisions $Y$ (levels) and $\phi$ (score).
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} {Omega : Type u_1} [inst : Fintype Omega] [inst_1 : DecidableEq Omega] (mu : PMF Omega)
+  (score : Omega → Fin n → ℝ),
+  GJ18InformativeRatingSystems.sourceStateWk mu score =
+    2 / (↑n * (↑n - 1)) * ∑ p, GJ18InformativeRatingSystems.sourceStatePairwisePk mu score p
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.source_definition_uniform_ranking_objective_formula
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-62699e0d2b178e68}{}
+\section*{Review row 5}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 729-\allowbreak{}733\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{equation}
+\label{eq:objective}
+W_k = \frac{2}{M(M-1)}\sum_{\theta_1 > \theta_2 \in \Theta} P_k(\theta_1, \theta_2)
+\end{equation}
+The coefficient ensures that ${W}_k$ remains bounded even as $M$ increases. This objective depends on the model primitives $R$ (rater behavior) and $g$ (matching rates), as well as the platform's decisions $Y$ (levels) and $\phi$ (score).
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} {Omega : Type u_1} [inst : Fintype Omega] [inst_1 : DecidableEq Omega] (mu : PMF Omega)
+  (score : Omega → Fin n → ℝ),
+  2 ≤ n →
+    GJ18InformativeRatingSystems.sourceStateWk mu score = GJ18InformativeRatingSystems.sourceStateUniformWk mu score
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.source_definition_uniform_ranking_normalization
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-803ea24378437fda}{}
+\section*{Review row 6}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 683\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+At each rating opportunity (i.e., match made), the seller receives a rating from the set $Y$, and we assume that this rating depends only on the true quality of the seller. In particular, we presume that, given scale $Y$, the probability a seller of type $\theta$ receives a rating $y$ is $\rho(\theta, y | Y)$, with corresponding cumulative mass function $R(\theta,y| Y)$ reflecting the probability a seller of type $\theta$ receives a rating $y$ or higher. In other words, the scale $Y$ induces a joint distribution between the underlying seller quality and the rating choices buyers make. We make the natural assumptions that $R(\theta,y| Y)$ is strictly increasing in $\theta$ and strictly decreasing with $y$.
+
+[Next verbatim source excerpt]
+
+{\bf System state}.  We represent the state of the system defined above by a joint distribution $\mu_k(\Theta, X)$, which gives the mass of sellers of type $\theta \in \Theta$ with aggregate score $x_k(\theta) \in X$ at time $k$. Throughout our model presentation, we describe the system model as one emerging from interactions between individual buyers and sellers. However, we assume a unit mass of sellers (and some mass of buyers), and so all such descriptions should be viewed as illuminating the evolution of a joint distribution $\mu_k (\Theta, X)$ of the types of sellers on the platform and their current scores. To formally describe the evolution of $\mu_k$, let $E_k = \{ \theta : n_k(\theta) = n_{k-1}(\theta) + 1 \}$.  These are the sellers who receive an additional rating at time $k$; for all $\theta \in E_k^c$, $n_k(\theta) = n_{k-1}(\theta)$.  Next, for each $x, x' \in [0,1]$, define $\chi_k(x, x',\theta | Y, {\phi})$ as:
+\[
+{\chi_k(x, x',\theta | Y, \phi) =} \{ y : n_k(\theta)x - n_{k-1}(\theta)x' = \phi(y) \}.
+\]
+The set $\chi$ describes the rating(s) a seller of type $\theta$ at time $k$ with aggregate score $x'$ can receive to transition to aggregate score $x$.  We then have:
+\[ \mu_{k+1}(\Theta, X) = \int_{E_k} \int_0^1 \int_X \sum_{y \in \chi_k(\theta, x, x' | Y, \phi)} \rho(\theta, y | Y)  dx \mu_k(d\theta, dx') + \int_{E_k^c} \int_X \mu_k(d\theta, dx'). \]
+It is straightforward but tedious to check that the preceding dynamics are well defined, given our primitives.
+
+
+{\bf Platform objective}.  We assume that the platform wants the ranking of sellers by observed aggregate score to reflect the underlying true quality ranking as closely as possible.
+
+Formally, given $\theta_1 > \theta_2$, define $P_k(\theta_1, \theta_2)$ as follows:
+\begin{equation}
+\label{eq:Pk}
+P_k(\theta_1, \theta_2) = \mu_k(x_k(\theta_1) > x_k(\theta_2)|\theta_1, \theta_2) - \mu_k(x_k(\theta_1) < x_k(\theta_2)|\theta_1, \theta_2).
+\end{equation}
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} {Rating : Type u_1} [inst : Fintype Rating] [inst_1 : DecidableEq Rating]
+  [DecidableEq (GJ18InformativeRatingSystems.finiteChainOrderedPair n)]
+  (M : EconCSLib.Probability.FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n → ℝ)
+  (p : GJ18InformativeRatingSystems.finiteChainOrderedPair n) (k : ℕ),
+  GJ18InformativeRatingSystems.sourceStatePairwisePk
+      (GJ18InformativeRatingSystems.iidFloorSourceStateLaw M sampleRate k)
+      (GJ18InformativeRatingSystems.iidFloorSourceStateScore M sampleRate k) p =
+    EconCSLib.Probability.twoSampleFloorPkObjectiveProb M sampleRate
+      (GJ18InformativeRatingSystems.finiteChainOrderedPairHi p)
+      (GJ18InformativeRatingSystems.finiteChainOrderedPairLo p) k
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_pairwise_objective_bridge
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-28e9ead3a5c0a6ce}{}
+\section*{Review row 7}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 683\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+At each rating opportunity (i.e., match made), the seller receives a rating from the set $Y$, and we assume that this rating depends only on the true quality of the seller. In particular, we presume that, given scale $Y$, the probability a seller of type $\theta$ receives a rating $y$ is $\rho(\theta, y | Y)$, with corresponding cumulative mass function $R(\theta,y| Y)$ reflecting the probability a seller of type $\theta$ receives a rating $y$ or higher. In other words, the scale $Y$ induces a joint distribution between the underlying seller quality and the rating choices buyers make. We make the natural assumptions that $R(\theta,y| Y)$ is strictly increasing in $\theta$ and strictly decreasing with $y$.
+
+[Next verbatim source excerpt]
+
+Formally, given $\theta_1 > \theta_2$, define $P_k(\theta_1, \theta_2)$ as follows:
+\begin{equation}
+\label{eq:Pk}
+P_k(\theta_1, \theta_2) = \mu_k(x_k(\theta_1) > x_k(\theta_2)|\theta_1, \theta_2) - \mu_k(x_k(\theta_1) < x_k(\theta_2)|\theta_1, \theta_2).
+\end{equation}
+
+[Next verbatim source excerpt]
+
+\begin{lemma}
+	$$	\lim_{k \to \infty}- \frac{1}{k} \log \left[\mu((x_k(\theta_1) - x_k(\theta_2)) \leq 0 | \theta_1 , \theta_2)\right] = \inf_{a \in \mathcal{R}} \left \{ g(\theta_1) I(a|\theta_1) + g(\theta_2) I(a|\theta_2) \right \}$$ where $I(a|\ell) = \sup_z \{ za - \Lambda(z|\theta) \}$, $\Lambda(z|\theta)$ is the log moment generating function of a single sample from $x(\theta_1)$, and $g(\theta)$ is the sampling rate. \label{lem:problessthan}
+\end{lemma}
+%
+	\proof
+	\noindent$\lim_{k \to \infty}- \frac{1}{k} \log \left[\mu((x_k(\theta_1) - x_k(\theta_2)) \leq 0 | \theta_1 , \theta_2)\right]$
+	\begin{align}
+	&= \lim_{k \to \infty}- \frac{1}{k} \log \left[\int_{a\in \mathcal{R}} \mu((x_k(\theta_1) = a | \theta_1 ) \mu(x_k(\theta_2) \geq a |\theta_2)da\right]\\
+	&= \lim_{k \to \infty}- \frac{1}{k} \log \left[\int_{a\in \mathcal{R}} e^{-kg(\theta_1) I (a | \theta_1)} e^{-kg(\theta_2) I (a | \theta_2)}da\right] \label{eqnpart:applyld}\\
+	&= \inf_{a \in \mathcal{R}} \left \{ g(\theta_1) I(a|\theta_1) + g(\theta_2) I(a|\theta_2) \right \} & \text{Laplace principle}
+	\end{align}
+%
+
+Where~\eqref{eqnpart:applyld} is a basic result from large deviations, and $kg(\theta_i)$ is the number of samples item of quality $\theta_i$ has received. \Halmos
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} {Rating : Type u_1} [inst : Fintype Rating] [inst_1 : DecidableEq Rating]
+  [DecidableEq (GJ18InformativeRatingSystems.finiteChainOrderedPair n)]
+  (M : EconCSLib.Probability.FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n → ℝ)
+  (p : GJ18InformativeRatingSystems.finiteChainOrderedPair n) (k : ℕ),
+  GJ18InformativeRatingSystems.sourceStateScoreGapLeftTailProb
+      (GJ18InformativeRatingSystems.iidFloorSourceStateLaw M sampleRate k)
+      (GJ18InformativeRatingSystems.iidFloorSourceStateScore M sampleRate k) p =
+    EconCSLib.Probability.twoSampleFloorScoreGapLeftTailProb M sampleRate
+      (GJ18InformativeRatingSystems.finiteChainOrderedPairHi p)
+      (GJ18InformativeRatingSystems.finiteChainOrderedPairLo p) k
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_weak_inversion_bridge
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-75935d7eb4e2aa12}{}
+\section*{Review row 8}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 665\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+{\bf Sellers}.  The system consists of a unit mass of sellers, each associated with a quality \textit{type} $\theta$, which is (initially) unknown to the platform. We assume $\theta$ is drawn independently and uniformly at random from a finite and totally ordered set $\Theta$, with $|\Theta| = M$. We use $\theta_i$ to denote the $i$th element of $\Theta$ within this order, for $0\leq i < M$.
+
+[Next verbatim source excerpt]
+
+At each rating opportunity (i.e., match made), the seller receives a rating from the set $Y$, and we assume that this rating depends only on the true quality of the seller. In particular, we presume that, given scale $Y$, the probability a seller of type $\theta$ receives a rating $y$ is $\rho(\theta, y | Y)$, with corresponding cumulative mass function $R(\theta,y| Y)$ reflecting the probability a seller of type $\theta$ receives a rating $y$ or higher. In other words, the scale $Y$ induces a joint distribution between the underlying seller quality and the rating choices buyers make. We make the natural assumptions that $R(\theta,y| Y)$ is strictly increasing in $\theta$ and strictly decreasing with $y$.
+
+[Next verbatim source excerpt]
+
+{\bf System state}.  We represent the state of the system defined above by a joint distribution $\mu_k(\Theta, X)$, which gives the mass of sellers of type $\theta \in \Theta$ with aggregate score $x_k(\theta) \in X$ at time $k$. Throughout our model presentation, we describe the system model as one emerging from interactions between individual buyers and sellers. However, we assume a unit mass of sellers (and some mass of buyers), and so all such descriptions should be viewed as illuminating the evolution of a joint distribution $\mu_k (\Theta, X)$ of the types of sellers on the platform and their current scores. To formally describe the evolution of $\mu_k$, let $E_k = \{ \theta : n_k(\theta) = n_{k-1}(\theta) + 1 \}$.  These are the sellers who receive an additional rating at time $k$; for all $\theta \in E_k^c$, $n_k(\theta) = n_{k-1}(\theta)$.  Next, for each $x, x' \in [0,1]$, define $\chi_k(x, x',\theta | Y, {\phi})$ as:
+\[
+{\chi_k(x, x',\theta | Y, \phi) =} \{ y : n_k(\theta)x - n_{k-1}(\theta)x' = \phi(y) \}.
+\]
+The set $\chi$ describes the rating(s) a seller of type $\theta$ at time $k$ with aggregate score $x'$ can receive to transition to aggregate score $x$.  We then have:
+\[ \mu_{k+1}(\Theta, X) = \int_{E_k} \int_0^1 \int_X \sum_{y \in \chi_k(\theta, x, x' | Y, \phi)} \rho(\theta, y | Y)  dx \mu_k(d\theta, dx') + \int_{E_k^c} \int_X \mu_k(d\theta, dx'). \]
+It is straightforward but tedious to check that the preceding dynamics are well defined, given our primitives.
+
+
+{\bf Platform objective}.  We assume that the platform wants the ranking of sellers by observed aggregate score to reflect the underlying true quality ranking as closely as possible.
+
+Formally, given $\theta_1 > \theta_2$, define $P_k(\theta_1, \theta_2)$ as follows:
+\begin{equation}
+\label{eq:Pk}
+P_k(\theta_1, \theta_2) = \mu_k(x_k(\theta_1) > x_k(\theta_2)|\theta_1, \theta_2) - \mu_k(x_k(\theta_1) < x_k(\theta_2)|\theta_1, \theta_2).
+\end{equation}
+This expression captures the ``errors'' made by the ranking according to observed score.  In particular, when $\theta_1 > \theta_2$ but $x_k(\theta_1) < x_k(\theta_2)$, the aggregate score ranking swaps the ordering of sellers $\theta_1$ and $\theta_2$.  Thus, a good rating system has large $P_k(\theta_1, \theta_2)$.
+
+We consider the problem of maximizing the following objective, a scaled version of {\em Kendall's $\tau$ rank correlation} between the estimated ranking of sellers and the true ranking:
+\begin{equation}
+\label{eq:objective}
+W_k = \frac{2}{M(M-1)}\sum_{\theta_1 > \theta_2 \in \Theta} P_k(\theta_1, \theta_2)
+\end{equation}
+The coefficient ensures that ${W}_k$ remains bounded even as $M$ increases. This objective depends on the model primitives $R$ (rater behavior) and $g$ (matching rates), as well as the platform's decisions $Y$ (levels) and $\phi$ (score).
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} {Rating : Type u_1} [inst : Fintype Rating] [inst_1 : DecidableEq Rating]
+  [DecidableEq (GJ18InformativeRatingSystems.finiteChainOrderedPair n)]
+  (M : EconCSLib.Probability.FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n → ℝ) (k : ℕ),
+  2 ≤ n →
+    GJ18InformativeRatingSystems.sourceStateWk (GJ18InformativeRatingSystems.iidFloorSourceStateLaw M sampleRate k)
+        (GJ18InformativeRatingSystems.iidFloorSourceStateScore M sampleRate k) =
+      EconCSLib.Probability.finiteUniformFloorPkObjective M sampleRate
+        GJ18InformativeRatingSystems.finiteChainOrderedPairHi GJ18InformativeRatingSystems.finiteChainOrderedPairLo k
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.source_iid_completion_uniform_ranking_objective_bridge
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-1f3b4948b5efbf34}{}
+\section*{Review row 9}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 665\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+{\bf Sellers}.  The system consists of a unit mass of sellers, each associated with a quality \textit{type} $\theta$, which is (initially) unknown to the platform. We assume $\theta$ is drawn independently and uniformly at random from a finite and totally ordered set $\Theta$, with $|\Theta| = M$. We use $\theta_i$ to denote the $i$th element of $\Theta$ within this order, for $0\leq i < M$.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n m : ℕ} {M : EconCSLib.Probability.FiniteRatingLDPModel (Fin n) (Fin (m + 1))} {sampleRate : Fin n → ℝ}
+  (model : GJ18InformativeRatingSystems.ClarifiedSourceModel M sampleRate),
+  model.type_prior = GJ18InformativeRatingSystems.clarifiedUniformTypePrior n ⋯
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_uniform_type_prior
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-698b53d20aef3ea2}{}
+\section*{Review row 10}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 683\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+At each rating opportunity (i.e., match made), the seller receives a rating from the set $Y$, and we assume that this rating depends only on the true quality of the seller. In particular, we presume that, given scale $Y$, the probability a seller of type $\theta$ receives a rating $y$ is $\rho(\theta, y | Y)$, with corresponding cumulative mass function $R(\theta,y| Y)$ reflecting the probability a seller of type $\theta$ receives a rating $y$ or higher. In other words, the scale $Y$ induces a joint distribution between the underlying seller quality and the rating choices buyers make. We make the natural assumptions that $R(\theta,y| Y)$ is strictly increasing in $\theta$ and strictly decreasing with $y$.
+
+[Next verbatim source excerpt]
+
+{\bf System state}.  We represent the state of the system defined above by a joint distribution $\mu_k(\Theta, X)$, which gives the mass of sellers of type $\theta \in \Theta$ with aggregate score $x_k(\theta) \in X$ at time $k$. Throughout our model presentation, we describe the system model as one emerging from interactions between individual buyers and sellers. However, we assume a unit mass of sellers (and some mass of buyers), and so all such descriptions should be viewed as illuminating the evolution of a joint distribution $\mu_k (\Theta, X)$ of the types of sellers on the platform and their current scores. To formally describe the evolution of $\mu_k$, let $E_k = \{ \theta : n_k(\theta) = n_{k-1}(\theta) + 1 \}$.  These are the sellers who receive an additional rating at time $k$; for all $\theta \in E_k^c$, $n_k(\theta) = n_{k-1}(\theta)$.  Next, for each $x, x' \in [0,1]$, define $\chi_k(x, x',\theta | Y, {\phi})$ as:
+\[
+{\chi_k(x, x',\theta | Y, \phi) =} \{ y : n_k(\theta)x - n_{k-1}(\theta)x' = \phi(y) \}.
+\]
+The set $\chi$ describes the rating(s) a seller of type $\theta$ at time $k$ with aggregate score $x'$ can receive to transition to aggregate score $x$.  We then have:
+\[ \mu_{k+1}(\Theta, X) = \int_{E_k} \int_0^1 \int_X \sum_{y \in \chi_k(\theta, x, x' | Y, \phi)} \rho(\theta, y | Y)  dx \mu_k(d\theta, dx') + \int_{E_k^c} \int_X \mu_k(d\theta, dx'). \]
+It is straightforward but tedious to check that the preceding dynamics are well defined, given our primitives.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n m : ℕ} {M : EconCSLib.Probability.FiniteRatingLDPModel (Fin n) (Fin (m + 1))} {sampleRate : Fin n → ℝ}
+  (model : GJ18InformativeRatingSystems.ClarifiedSourceModel M sampleRate) (k : ℕ),
+  model.stateLaw k = GJ18InformativeRatingSystems.iidFloorSourceStateLaw M sampleRate k
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_iid_state_law
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-8f181b4236c5e927}{}
+\section*{Review row 11}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 754-\allowbreak{}761\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{theorem}{lemhatW}
+	\label{lem:hatW}
+	\begin{equation}
+	\label{eq:rW}
+	r \triangleq - \lim_{k \to \infty} \frac{1}{k} \log (1- {W}_k) = \min_{0 \leq i < M} \inf_{a \in \bbR} \left \{ g(\theta_{i+1}) I(a|\theta_{i+1}) + g(\theta_i) I(a|\theta_i)\right\}
+	\end{equation}
+	where
+	$I(a|\theta) = \sup_z \{ za - \Lambda(z|\theta) \}$, and $\Lambda(z|\theta) = \log \sum_{y \in Y} {\rho(\theta, y | Y)} \exp( z \phi(y))$ is the log moment generating function of a single rating given to seller of type $\theta$.
+
+[Next verbatim source excerpt]
+
+\begin{lemma}
+	$$	\lim_{k \to \infty}- \frac{1}{k} \log \left[\mu((x_k(\theta_1) - x_k(\theta_2)) \leq 0 | \theta_1 , \theta_2)\right] = \inf_{a \in \mathcal{R}} \left \{ g(\theta_1) I(a|\theta_1) + g(\theta_2) I(a|\theta_2) \right \}$$ where $I(a|\ell) = \sup_z \{ za - \Lambda(z|\theta) \}$, $\Lambda(z|\theta)$ is the log moment generating function of a single sample from $x(\theta_1)$, and $g(\theta)$ is the sampling rate. \label{lem:problessthan}
+\end{lemma}
+
+[Next verbatim source excerpt]
+
+\begin{restatable}{lemma}{lemPkld}
+	%
+	\label{lem:Pk_LD}
+	Given $\theta_1, \theta_2$, let $\b{P}_k(\theta_1, \theta_2) = 1 - P_k(\theta_1, \theta_2)$.  Then:
+	\begin{equation}
+	\label{eq:LDrate}
+	- \lim_{k \to \infty} \frac{1}{k} \log \b{P}_k(\theta_1, \theta_2) = \inf_{a \in \mathcal{R}} \left \{ g(\theta_1) I(a|\theta_1) + g(\theta_2) I(a|\theta_2) \right \},
+	\end{equation}
+	where $I(a|\theta) = \sup_z \{ za - \Lambda(z|\theta) \}$, and $\Lambda(z|\theta)$ is the log moment generating function of a single rating given to seller of type $\theta$:
+	\[ \Lambda(z|\theta) = \log \sum_{y \in Y} \rho(\theta, y | Y) \exp( z \phi(y) ). \]
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Seller : Type u_1} {Rating : Type u_2} [inst : Fintype Rating] [inst_1 : DecidableEq Rating]
+  (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) (theta : Seller) (z : ℝ),
+  GJ18InformativeRatingSystems.ProofBridge.sourcePaperLogMGF M theta z =
+    Real.log (∑ y, ((M.typeLaw theta) y).toReal * Real.exp (z * M.score y))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.source_definition_log_mgf_formula
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-343f2a6db19144da}{}
+\section*{Review row 12}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 754-\allowbreak{}761\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{theorem}{lemhatW}
+	\label{lem:hatW}
+	\begin{equation}
+	\label{eq:rW}
+	r \triangleq - \lim_{k \to \infty} \frac{1}{k} \log (1- {W}_k) = \min_{0 \leq i < M} \inf_{a \in \bbR} \left \{ g(\theta_{i+1}) I(a|\theta_{i+1}) + g(\theta_i) I(a|\theta_i)\right\}
+	\end{equation}
+	where
+	$I(a|\theta) = \sup_z \{ za - \Lambda(z|\theta) \}$, and $\Lambda(z|\theta) = \log \sum_{y \in Y} {\rho(\theta, y | Y)} \exp( z \phi(y))$ is the log moment generating function of a single rating given to seller of type $\theta$.
+
+[Next verbatim source excerpt]
+
+\begin{lemma}
+	$$	\lim_{k \to \infty}- \frac{1}{k} \log \left[\mu((x_k(\theta_1) - x_k(\theta_2)) \leq 0 | \theta_1 , \theta_2)\right] = \inf_{a \in \mathcal{R}} \left \{ g(\theta_1) I(a|\theta_1) + g(\theta_2) I(a|\theta_2) \right \}$$ where $I(a|\ell) = \sup_z \{ za - \Lambda(z|\theta) \}$, $\Lambda(z|\theta)$ is the log moment generating function of a single sample from $x(\theta_1)$, and $g(\theta)$ is the sampling rate. \label{lem:problessthan}
+\end{lemma}
+
+[Next verbatim source excerpt]
+
+\begin{restatable}{lemma}{lemPkld}
+	%
+	\label{lem:Pk_LD}
+	Given $\theta_1, \theta_2$, let $\b{P}_k(\theta_1, \theta_2) = 1 - P_k(\theta_1, \theta_2)$.  Then:
+	\begin{equation}
+	\label{eq:LDrate}
+	- \lim_{k \to \infty} \frac{1}{k} \log \b{P}_k(\theta_1, \theta_2) = \inf_{a \in \mathcal{R}} \left \{ g(\theta_1) I(a|\theta_1) + g(\theta_2) I(a|\theta_2) \right \},
+	\end{equation}
+	where $I(a|\theta) = \sup_z \{ za - \Lambda(z|\theta) \}$, and $\Lambda(z|\theta)$ is the log moment generating function of a single rating given to seller of type $\theta$:
+	\[ \Lambda(z|\theta) = \log \sum_{y \in Y} \rho(\theta, y | Y) \exp( z \phi(y) ). \]
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Seller : Type u_1} {Rating : Type u_2} [inst : Fintype Rating] [inst_1 : DecidableEq Rating]
+  (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) (theta : Seller) (a : ℝ),
+  GJ18InformativeRatingSystems.ProofBridge.sourcePaperRateFunction M theta a =
+    sSup (Set.range fun z => z * a - GJ18InformativeRatingSystems.ProofBridge.sourcePaperLogMGF M theta z)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.source_definition_rate_function_formula
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-3ef1c348966685a2}{}
+\section*{Review row 13}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 754-\allowbreak{}761\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{theorem}{lemhatW}
+	\label{lem:hatW}
+	\begin{equation}
+	\label{eq:rW}
+	r \triangleq - \lim_{k \to \infty} \frac{1}{k} \log (1- {W}_k) = \min_{0 \leq i < M} \inf_{a \in \bbR} \left \{ g(\theta_{i+1}) I(a|\theta_{i+1}) + g(\theta_i) I(a|\theta_i)\right\}
+	\end{equation}
+	where
+	$I(a|\theta) = \sup_z \{ za - \Lambda(z|\theta) \}$, and $\Lambda(z|\theta) = \log \sum_{y \in Y} {\rho(\theta, y | Y)} \exp( z \phi(y))$ is the log moment generating function of a single rating given to seller of type $\theta$.
+
+[Next verbatim source excerpt]
+
+\begin{lemma}
+	$$	\lim_{k \to \infty}- \frac{1}{k} \log \left[\mu((x_k(\theta_1) - x_k(\theta_2)) \leq 0 | \theta_1 , \theta_2)\right] = \inf_{a \in \mathcal{R}} \left \{ g(\theta_1) I(a|\theta_1) + g(\theta_2) I(a|\theta_2) \right \}$$ where $I(a|\ell) = \sup_z \{ za - \Lambda(z|\theta) \}$, $\Lambda(z|\theta)$ is the log moment generating function of a single sample from $x(\theta_1)$, and $g(\theta)$ is the sampling rate. \label{lem:problessthan}
+\end{lemma}
+
+[Next verbatim source excerpt]
+
+\begin{restatable}{lemma}{lemPkld}
+	%
+	\label{lem:Pk_LD}
+	Given $\theta_1, \theta_2$, let $\b{P}_k(\theta_1, \theta_2) = 1 - P_k(\theta_1, \theta_2)$.  Then:
+	\begin{equation}
+	\label{eq:LDrate}
+	- \lim_{k \to \infty} \frac{1}{k} \log \b{P}_k(\theta_1, \theta_2) = \inf_{a \in \mathcal{R}} \left \{ g(\theta_1) I(a|\theta_1) + g(\theta_2) I(a|\theta_2) \right \},
+	\end{equation}
+	where $I(a|\theta) = \sup_z \{ za - \Lambda(z|\theta) \}$, and $\Lambda(z|\theta)$ is the log moment generating function of a single rating given to seller of type $\theta$:
+	\[ \Lambda(z|\theta) = \log \sum_{y \in Y} \rho(\theta, y | Y) \exp( z \phi(y) ). \]
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Seller : Type u_1} {Rating : Type u_2} [inst : Fintype Rating] [inst_1 : DecidableEq Rating]
+  (M : EconCSLib.Probability.FiniteRatingLDPModel Seller Rating) (theta : Seller) (a : ℝ),
+  GJ18InformativeRatingSystems.ProofBridge.sourcePaperRateFunctionTop M theta a =
+    sSup (Set.range fun z => ↑z * ↑a - ↑(GJ18InformativeRatingSystems.ProofBridge.sourcePaperLogMGF M theta z))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.source_definition_extended_rate_function_formula
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-21cfbf055e49cb54}{}
+\section*{Review row 14}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1633-\allowbreak{}1635\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For every ordered high/low seller pair in the author-approved finite ordinal IID model, with positive match rates, a nontrivial rating scale, corrected ordinal tails, and an extended-real rate convention, the source-state weak-inversion probability has an exponential-rate certificate with a finite real representative of the support-safe pairwise threshold rate.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 1633-\allowbreak{}1635\par}
+\paragraph{Recorded basis}
+Author-\allowbreak{}approved corrected finite-\allowbreak{}chain model recorded in docs/\allowbreak{}GOVERNING\_\allowbreak{}CORRECTED\_\allowbreak{}MODEL\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}24.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n m : ℕ} [DecidableEq (GJ18InformativeRatingSystems.finiteChainOrderedPair n)]
+  (M : EconCSLib.Probability.FiniteRatingLDPModel (Fin n) (Fin (m + 1))) (sampleRate : Fin n → ℝ),
+  GJ18InformativeRatingSystems.FiniteOrdinalSourceModel M sampleRate →
+    (∀ (theta : Fin n), 0 < sampleRate theta) →
+      1 ≤ m →
+        ∀ (p : GJ18InformativeRatingSystems.finiteChainOrderedPair n),
+          ∃ rate,
+            EconCSLib.Probability.pairwiseSellerThresholdRateTop M sampleRate
+                  (GJ18InformativeRatingSystems.finiteChainOrderedPairHi p)
+                  (GJ18InformativeRatingSystems.finiteChainOrderedPairLo p) =
+                ↑rate ∧
+              EconCSLib.Probability.ExponentialRateCertificate
+                (fun k =>
+                  GJ18InformativeRatingSystems.sourceStateScoreGapLeftTailProb
+                    (GJ18InformativeRatingSystems.iidFloorSourceStateLaw M sampleRate k)
+                    (GJ18InformativeRatingSystems.iidFloorSourceStateScore M sampleRate k) p)
+                rate
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.source_appendix_problessthan_score_gap_rate_iid_completion
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-1d1f73c1a511cd77}{}
+\section*{Review row 15}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1670-\allowbreak{}1681\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+[No record available.]
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For every ordered high/low seller pair in the author-approved finite ordinal IID model, with positive match rates, a nontrivial rating scale, corrected ordinal tails, and an extended-real rate convention, one minus the source-state P_k objective has an exponential-rate certificate with the same finite real representative of the support-safe pairwise threshold rate.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 1670-\allowbreak{}1681\par}
+\paragraph{Recorded basis}
+Author-\allowbreak{}approved corrected finite-\allowbreak{}chain model recorded in docs/\allowbreak{}GOVERNING\_\allowbreak{}CORRECTED\_\allowbreak{}MODEL\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}24.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n m : ℕ} [DecidableEq (GJ18InformativeRatingSystems.finiteChainOrderedPair n)]
+  (M : EconCSLib.Probability.FiniteRatingLDPModel (Fin n) (Fin (m + 1))) (sampleRate : Fin n → ℝ),
+  GJ18InformativeRatingSystems.FiniteOrdinalSourceModel M sampleRate →
+    (∀ (theta : Fin n), 0 < sampleRate theta) →
+      1 ≤ m →
+        ∀ (p : GJ18InformativeRatingSystems.finiteChainOrderedPair n),
+          ∃ rate,
+            EconCSLib.Probability.pairwiseSellerThresholdRateTop M sampleRate
+                  (GJ18InformativeRatingSystems.finiteChainOrderedPairHi p)
+                  (GJ18InformativeRatingSystems.finiteChainOrderedPairLo p) =
+                ↑rate ∧
+              EconCSLib.Probability.ExponentialRateCertificate
+                (fun k =>
+                  1 -
+                    GJ18InformativeRatingSystems.sourceStatePairwisePk
+                      (GJ18InformativeRatingSystems.iidFloorSourceStateLaw M sampleRate k)
+                      (GJ18InformativeRatingSystems.iidFloorSourceStateScore M sampleRate k) p)
+                rate
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.source_appendix_pk_ld_complement_rate_iid_completion
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-3e93fe2b3603715e}{}
+\section*{Review row 16}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 744-\allowbreak{}745\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+No single choice of $Y$ and $\phi$ can simultaneously optimize $W_k$ for all $k$: some designs may be effective in separating the best sellers from the worst quickly, but then never separate all sellers. Further, as long as $\phi(y)$ is strictly increasing, then because $R(\theta, y)$ is strictly increasing in $\theta$, we have, for all $\theta_1\neq \theta_2$, and all choices of $Y$ and $\phi$:
+$\lim_{k \to \infty} P_k(\theta_1, \theta_2) = 1$. Using the bounded convergence theorem we conclude that $\lim_{k \to \infty} W_k = 1 $, independent of the design choice $Y$ and $\phi$.  Thus {\em any} design asymptotically  -- with enough ratings -- recovers the true ranking of sellers.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n m : ℕ} [DecidableEq (GJ18InformativeRatingSystems.finiteChainOrderedPair n)]
+  (M : EconCSLib.Probability.FiniteRatingLDPModel (Fin n) (Fin (m + 1))) (sampleRate : Fin n → ℝ),
+  GJ18InformativeRatingSystems.FiniteOrdinalSourceModel M sampleRate →
+    (∀ (theta : Fin n), 0 < sampleRate theta) →
+      1 ≤ m →
+        ∀ (p : GJ18InformativeRatingSystems.finiteChainOrderedPair n),
+          Filter.Tendsto
+            (fun k =>
+              GJ18InformativeRatingSystems.sourceStatePairwisePk
+                (GJ18InformativeRatingSystems.iidFloorSourceStateLaw M sampleRate k)
+                (GJ18InformativeRatingSystems.iidFloorSourceStateScore M sampleRate k) p)
+            Filter.atTop (nhds 1)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.source_pairwise_objective_tendsto_one_iid_completion
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-9ac3f4efe388ea2a}{}
+\section*{Review row 17}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 744-\allowbreak{}745\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+No single choice of $Y$ and $\phi$ can simultaneously optimize $W_k$ for all $k$: some designs may be effective in separating the best sellers from the worst quickly, but then never separate all sellers. Further, as long as $\phi(y)$ is strictly increasing, then because $R(\theta, y)$ is strictly increasing in $\theta$, we have, for all $\theta_1\neq \theta_2$, and all choices of $Y$ and $\phi$:
+$\lim_{k \to \infty} P_k(\theta_1, \theta_2) = 1$. Using the bounded convergence theorem we conclude that $\lim_{k \to \infty} W_k = 1 $, independent of the design choice $Y$ and $\phi$.  Thus {\em any} design asymptotically  -- with enough ratings -- recovers the true ranking of sellers.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n m : ℕ} [DecidableEq (GJ18InformativeRatingSystems.finiteChainOrderedPair n)]
+  [Nonempty (GJ18InformativeRatingSystems.finiteChainAdjacentIndex n)]
+  (M : EconCSLib.Probability.FiniteRatingLDPModel (Fin n) (Fin (m + 1))) (sampleRate : Fin n → ℝ),
+  GJ18InformativeRatingSystems.FiniteOrdinalSourceModel M sampleRate →
+    (∀ (theta : Fin n), 0 < sampleRate theta) →
+      1 ≤ m →
+        Filter.Tendsto
+          (fun k =>
+            GJ18InformativeRatingSystems.sourceStateWk
+              (GJ18InformativeRatingSystems.iidFloorSourceStateLaw M sampleRate k)
+              (GJ18InformativeRatingSystems.iidFloorSourceStateScore M sampleRate k))
+          Filter.atTop (nhds 1)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.source_uniform_ranking_objective_tendsto_one_iid_completion
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-7415d8df252dd9e8}{}
+\section*{Review row 18}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 754-\allowbreak{}764\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+\begin{restatable}{theorem}{lemhatW}
+	\label{lem:hatW}
+	\begin{equation}
+	\label{eq:rW}
+	r \triangleq - \lim_{k \to \infty} \frac{1}{k} \log (1- {W}_k) = \min_{0 \leq i < M} \inf_{a \in \bbR} \left \{ g(\theta_{i+1}) I(a|\theta_{i+1}) + g(\theta_i) I(a|\theta_i)\right\}
+	\end{equation}
+	where
+	$I(a|\theta) = \sup_z \{ za - \Lambda(z|\theta) \}$, and $\Lambda(z|\theta) = \log \sum_{y \in Y} {\rho(\theta, y | Y)} \exp( z \phi(y))$ is the log moment generating function of a single rating given to seller of type $\theta$.
+%
+%
+\end{restatable}
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+For the author-approved corrected finite ordinal IID model with at least two uniformly distributed seller types, positive at-most-one-per-period match rates, a nontrivial ordinal rating scale, and valid adjacent pairs 0 <= i <= M-2, one minus the state-level W_k objective has a finite real exponential rate equal to the finite representative of the support-safe adjacent-pair rate.
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 754-\allowbreak{}764\par}
+\paragraph{Recorded basis}
+Author-\allowbreak{}approved corrected finite-\allowbreak{}chain model recorded in docs/\allowbreak{}GOVERNING\_\allowbreak{}CORRECTED\_\allowbreak{}MODEL\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}24.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n m : ℕ} [DecidableEq (GJ18InformativeRatingSystems.finiteChainOrderedPair n)]
+  {M : EconCSLib.Probability.FiniteRatingLDPModel (Fin n) (Fin (m + 1))} {sampleRate : Fin n → ℝ}
+  (model : GJ18InformativeRatingSystems.ClarifiedSourceModel M sampleRate),
+  ∃ rate,
+    model.correctedTheorem1Rate = ↑rate ∧
+      EconCSLib.Probability.HasExponentialRate
+        (fun k =>
+          1 -
+            GJ18InformativeRatingSystems.sourceStateWk (model.stateLaw k)
+              (GJ18InformativeRatingSystems.iidFloorSourceStateScore M sampleRate k))
+        rate
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GJ18InformativeRatingSystems.PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\end{document}

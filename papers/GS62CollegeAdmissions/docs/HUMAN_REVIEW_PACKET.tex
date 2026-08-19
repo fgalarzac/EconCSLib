@@ -42,7 +42,7 @@ specifications, and hash-bound raw-source-to-Spec screening records.
 \textbf{Generated:} 2026-08-18\\
 \textbf{Source URL:} \href{https://doi.org/10.1080/00029890.1962.11989827}{official source}
 
-
+\noindent\fbox{\parbox{0.96\linewidth}{\textbf{Review status:} 0/5 source-claim screens; 0/6 library prerequisite screens. This is a review worksheet while those direct checks remain pending; it is not a final validation receipt.}}\par
 
 
 
@@ -63,8 +63,8 @@ lake exe cache get
 python3 scripts/review_dashboard.py --paper GS62CollegeAdmissions --serve
 \end{ReviewVerbatim}
 Open \url{http://127.0.0.1:8765/} in a browser and keep that terminal running
-while reviewing. The dashboard records saved annotations in this paper's local
-review trace.
+while reviewing. The dashboard records saved annotations in this paper's
+reviewer-owned review record.
 
 \section*{Contents}
 \begin{itemize}[leftmargin=1.2em]
@@ -76,31 +76,6 @@ review trace.
 \item \hyperlink{library-prerequisite-13cfc69b6645d71f}{ManyToOneAssignment Applicants Colleges}
 \item \hyperlink{library-prerequisite-d47ffea487f3794c}{valM}
 \item \hyperlink{library-prerequisite-95033c6ce6f85835}{valW}
-\end{itemize}
-\item \hyperlink{paper-prerequisite-section-5ef5ef0364b6939c}{Paper-local semantic prerequisites (22; not paper claims)}
-\begin{itemize}[leftmargin=1.2em]
-\item \hyperlink{paper-prerequisite-2a222855a7d234b6}{GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceWaitingListState}
-\item \hyperlink{paper-prerequisite-fd1ded9db62599bc}{GS62CollegeAdmissions.ExactCollegeBatchedProcedure.collegeOrder}
-\item \hyperlink{paper-prerequisite-ae5bdb457b3ee684}{GS62CollegeAdmissions.ExactCollegeBatchedProcedure.collegeTopQ}
-\item \hyperlink{paper-prerequisite-9c0bc8f14e96a0bc}{GS62CollegeAdmissions.ExactCollegeBatchedProcedure.waitingList}
-\item \hyperlink{paper-prerequisite-1f468ddd39465ab4}{GS62CollegeAdmissions.ExactCollegeBatchedProcedure.assignedCollege}
-\item \hyperlink{paper-prerequisite-e57e786394b2484c}{GS62CollegeAdmissions.ExactCollegeBatchedProcedure.sourceEligible}
-\item \hyperlink{paper-prerequisite-03751795717f46c8}{GS62CollegeAdmissions.ExactCollegeBatchedProcedure.untriedEligibleColleges}
-\item \hyperlink{paper-prerequisite-65e4bdbeef377fb1}{GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceActive}
-\item \hyperlink{paper-prerequisite-0a9b767c71562143}{GS62CollegeAdmissions.ExactCollegeBatchedProcedure.nextCollege}
-\item \hyperlink{paper-prerequisite-af45c64e4d2fd2f5}{GS62CollegeAdmissions.ExactCollegeBatchedProcedure.newApplications}
-\item \hyperlink{paper-prerequisite-5b76003b2b75ddf8}{GS62CollegeAdmissions.ExactCollegeBatchedProcedure.sourceStep}
-\item \hyperlink{paper-prerequisite-0d6660e4474c41be}{GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceStepRelation}
-\item \hyperlink{paper-prerequisite-54e4e9a72cd03d42}{GS62CollegeAdmissions.ExactCollegeBatchedProcedure.initialSourceState}
-\item \hyperlink{paper-prerequisite-bc0f2672179d08fd}{GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceReachable}
-\item \hyperlink{paper-prerequisite-d5846907d2757e9d}{GS62CollegeAdmissions.ExactCollegeBatchedProcedure.sourceAssignmentView}
-\item \hyperlink{paper-prerequisite-f64903633030de8a}{GS62CollegeAdmissions.gs62ReplacementPair}
-\item \hyperlink{paper-prerequisite-0a52a56fe01174a9}{GS62CollegeAdmissions.gs62LiteralStableCollegeAssignment}
-\item \hyperlink{paper-prerequisite-707e8316d04d6a74}{GS62CollegeAdmissions.gs62LiteralApplicantOptimalCollegeAssignment}
-\item \hyperlink{paper-prerequisite-c1a57feccca72806}{GS62CollegeAdmissions.PaperInterface.literalApplicantOptimalCollegeAssignment}
-\item \hyperlink{paper-prerequisite-4af30b82092aaec1}{GS62CollegeAdmissions.PaperInterface.replacementPairCollegeInstability}
-\item \hyperlink{paper-prerequisite-1522c7e7ffea0315}{GS62CollegeAdmissions.PaperInterface.unstableCollegeAssignment}
-\item \hyperlink{paper-prerequisite-3c40b1447bae2080}{GS62CollegeAdmissions.PaperInterface.unstableMarriage}
 \end{itemize}
 \item \hyperlink{source-section-0c7af8265958a9ea}{Main-text source claims (5)}
 \begin{itemize}[leftmargin=1.2em]
@@ -117,73 +92,69 @@ review trace.
 \section*{Material library prerequisites}
 \hypertarget{library-prerequisite-4a3989697f894599}{}
 \subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}FiniteChoice.\allowbreak{}linearTopQChoice}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}253-\allowbreak{}255 (printed pages 13-\allowbreak{}14, Sections 4-\allowbreak{}5 and Theorem 2)\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 232-\allowbreak{}249\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
+a 1, 3 2, 2 3, 1 4, 3
 
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
+                             3 1,4 2,3 3,2 4,4
 
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
+                            y 3,1 1,4 2,3 4,2
+                            5 2,2 3,1 1,4 4,1
+
+
+   The condition that there be the same number of boys and girls is not essen-
+tial. If there are b boys and g girls with b < g, then the procedure terminates as
+soon as b girls have been proposed to. If b > g the procedure ends when every
+boy is either on some girl's string or has been rejected by all of the girls. In
+either case the set of marriages that results is stable.
+   It is clear that there is an entirely symmetrical procedure, with girls propos-
+ing to boys, which must also lead to a stable set of marriages. The two solutions
+are not generally the same as shown by Example 1; indeed, we shall see in a
+moment that when the boys propose, the result is optimal for the boys, and
+when the girls propose it is optimal for the girls. The solutions by the two pro-
 
 [Next verbatim source excerpt]
 
-   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven
-by thedeferredacceptanceprocedureas he would be underany otherstableassign-
-ment.
+forward. For convenience we will assume that if a college is not willing to accept
+a student under any circumstances, as described in Section 2, then that student
+will not even be permitted to apply to the college. With this understanding the
 
 [Next verbatim source excerpt]
 
-   DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
+return to the philosophical principle mentioned earlier and give it a precise
+formulation.
+
+   DEFINITION. A stable assignment is called optimal if every applicant is at least
+as well off under it as under any other stable assignment.
+
 
 [Next verbatim source excerpt]
 
-    4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
+                            a 1, 3 2, 2 3, 1 4, 3
 
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
+                             3 1,4 2,3 3,2 4,4
 
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
+                            y 3,1 1,4 2,3 4,2
+                            5 2,2 3,1 1,4 4,1
+
+
+   The condition that there be the same number of boys and girls is not essen-
+tial. If there are b boys and g girls with b < g, then the procedure terminates as
+soon as b girls have been proposed to. If b > g the procedure ends when every
+boy is either on some girl's string or has been rejected by all of the girls. In
+either case the set of marriages that results is stable.
+   It is clear that there is an entirely symmetrical procedure, with girls propos-
+ing to boys, which must also lead to a stable set of marriages. The two solutions
+are not generally the same as shown by Example 1; indeed, we shall see in a
+moment that when the boys propose, the result is optimal for the boys, and
+when the girls propose it is optimal for the girls. The solutions by the two pro-
 
 [Next verbatim source excerpt]
 
-   5. Optimality.We now show that the "deferredacceptance" procedurejust
-described yields not only a stable but an optimal assignment of applicants.
-That is,
+cedures will be the same only when there is a unique stable set of marriages.
+   4. Stable assignments and the admissions problem. The extension of our
+"deferred-acceptance" procedure to the problem of college admissions is straight-
 \end{ReviewVerbatim}
 
 \paragraph{Lean-expanded library semantic target}
@@ -219,16 +190,15 @@ noncomputable def linearTopQChoice (q : ℕ) : ChoiceRule α :=
 \clearpage
 \hypertarget{library-prerequisite-696efabb1e6e61e6}{}
 \subsection*{\small\ttfamily\raggedright Assignment M W}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}133-\allowbreak{}139 (printed page 11, Section 3)\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 133-\allowbreak{}139\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
-A certain communityconsists of n men and n women. Each person ranks
-those of the opposite sex in accordance with his or her preferencesfora marriage
-partner.We seek a satisfactoryway of marryingoffall membersof the com-
-munity.Imitatingour earlierdefinition,we call a set of marriagesunstable(and
-here the suitabilityof the termis quite clear) if under it thereare a man and a
-woman who are not marriedto each other but prefereach other to theiractual
-mates.
+Example 1. The following is the "ranking matrix" of three men, a, ,3, and 7,
+and three women, A, B, and C.
+
+                                        A        B       C
+
+                              a 1,3 2,2 3,1
 \end{ReviewVerbatim}
 
 \paragraph{Lean declaration type (metadata)}
@@ -255,73 +225,69 @@ structure Assignment (M W : Type*) where
 \clearpage
 \hypertarget{library-prerequisite-d4d72d8ec5d3dae7}{}
 \subsection*{\small\ttfamily\raggedright ManyToOne.\allowbreak{}valApplicant}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}253-\allowbreak{}255 (printed pages 13-\allowbreak{}14, Sections 4-\allowbreak{}5 and Theorem 2)\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 232-\allowbreak{}249\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
+a 1, 3 2, 2 3, 1 4, 3
 
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
+                             3 1,4 2,3 3,2 4,4
 
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
+                            y 3,1 1,4 2,3 4,2
+                            5 2,2 3,1 1,4 4,1
+
+
+   The condition that there be the same number of boys and girls is not essen-
+tial. If there are b boys and g girls with b < g, then the procedure terminates as
+soon as b girls have been proposed to. If b > g the procedure ends when every
+boy is either on some girl's string or has been rejected by all of the girls. In
+either case the set of marriages that results is stable.
+   It is clear that there is an entirely symmetrical procedure, with girls propos-
+ing to boys, which must also lead to a stable set of marriages. The two solutions
+are not generally the same as shown by Example 1; indeed, we shall see in a
+moment that when the boys propose, the result is optimal for the boys, and
+when the girls propose it is optimal for the girls. The solutions by the two pro-
 
 [Next verbatim source excerpt]
 
-   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven
-by thedeferredacceptanceprocedureas he would be underany otherstableassign-
-ment.
+forward. For convenience we will assume that if a college is not willing to accept
+a student under any circumstances, as described in Section 2, then that student
+will not even be permitted to apply to the college. With this understanding the
 
 [Next verbatim source excerpt]
 
-   DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
+return to the philosophical principle mentioned earlier and give it a precise
+formulation.
+
+   DEFINITION. A stable assignment is called optimal if every applicant is at least
+as well off under it as under any other stable assignment.
+
 
 [Next verbatim source excerpt]
 
-    4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
+                            a 1, 3 2, 2 3, 1 4, 3
 
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
+                             3 1,4 2,3 3,2 4,4
 
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
+                            y 3,1 1,4 2,3 4,2
+                            5 2,2 3,1 1,4 4,1
+
+
+   The condition that there be the same number of boys and girls is not essen-
+tial. If there are b boys and g girls with b < g, then the procedure terminates as
+soon as b girls have been proposed to. If b > g the procedure ends when every
+boy is either on some girl's string or has been rejected by all of the girls. In
+either case the set of marriages that results is stable.
+   It is clear that there is an entirely symmetrical procedure, with girls propos-
+ing to boys, which must also lead to a stable set of marriages. The two solutions
+are not generally the same as shown by Example 1; indeed, we shall see in a
+moment that when the boys propose, the result is optimal for the boys, and
+when the girls propose it is optimal for the girls. The solutions by the two pro-
 
 [Next verbatim source excerpt]
 
-   5. Optimality.We now show that the "deferredacceptance" procedurejust
-described yields not only a stable but an optimal assignment of applicants.
-That is,
+cedures will be the same only when there is a unique stable set of marriages.
+   4. Stable assignments and the admissions problem. The extension of our
+"deferred-acceptance" procedure to the problem of college admissions is straight-
 \end{ReviewVerbatim}
 
 \paragraph{Lean-expanded library semantic target}
@@ -356,15 +322,14 @@ def valApplicant {Applicants Colleges : Type*}
 \clearpage
 \hypertarget{library-prerequisite-13cfc69b6645d71f}{}
 \subsection*{\small\ttfamily\raggedright ManyToOneAssignment Applicants Colleges}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}93-\allowbreak{}98 (printed page 10, first displayed Definition)\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 93-\allowbreak{}98\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
-DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
+return to the philosophical principle mentioned earlier and give it a precise
+formulation.
+
+   DEFINITION. A stable assignment is called optimal if every applicant is at least
+as well off under it as under any other stable assignment.
 \end{ReviewVerbatim}
 
 \paragraph{Lean declaration type (metadata)}
@@ -391,16 +356,15 @@ structure ManyToOneAssignment (Applicants Colleges : Type*) where
 \clearpage
 \hypertarget{library-prerequisite-d47ffea487f3794c}{}
 \subsection*{\small\ttfamily\raggedright valM}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}133-\allowbreak{}139 (printed page 11, Section 3)\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 133-\allowbreak{}139\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
-A certain communityconsists of n men and n women. Each person ranks
-those of the opposite sex in accordance with his or her preferencesfora marriage
-partner.We seek a satisfactoryway of marryingoffall membersof the com-
-munity.Imitatingour earlierdefinition,we call a set of marriagesunstable(and
-here the suitabilityof the termis quite clear) if under it thereare a man and a
-woman who are not marriedto each other but prefereach other to theiractual
-mates.
+Example 1. The following is the "ranking matrix" of three men, a, ,3, and 7,
+and three women, A, B, and C.
+
+                                        A        B       C
+
+                              a 1,3 2,2 3,1
 \end{ReviewVerbatim}
 
 \paragraph{Lean-expanded library semantic target}
@@ -434,16 +398,15 @@ def valM {M W : Type*} (val : M → W → ℝ) (m : M) (w : Option W) : ℝ :=
 \clearpage
 \hypertarget{library-prerequisite-95033c6ce6f85835}{}
 \subsection*{\small\ttfamily\raggedright valW}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}133-\allowbreak{}139 (printed page 11, Section 3)\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 133-\allowbreak{}139\par}
 \paragraph{Verbatim paper-source connection}
 \begin{ReviewVerbatim}
-A certain communityconsists of n men and n women. Each person ranks
-those of the opposite sex in accordance with his or her preferencesfora marriage
-partner.We seek a satisfactoryway of marryingoffall membersof the com-
-munity.Imitatingour earlierdefinition,we call a set of marriagesunstable(and
-here the suitabilityof the termis quite clear) if under it thereare a man and a
-woman who are not marriedto each other but prefereach other to theiractual
-mates.
+Example 1. The following is the "ranking matrix" of three men, a, ,3, and 7,
+and three women, A, B, and C.
+
+                                        A        B       C
+
+                              a 1,3 2,2 3,1
 \end{ReviewVerbatim}
 
 \paragraph{Lean-expanded library semantic target}
@@ -473,1469 +436,6 @@ def valW {M W : Type*} (val : W → M → ℝ) (w : W) (m : Option M) : ℝ :=
 \textbf{Reason:} On the explicitly complete marriage domain of the reviewed source claim, the only relevant branch returns the source woman's value for her actual mate; the none-to-zero branch does not represent a source actual mate.
 \reviewmatch{Matches source input}
 \noindent\textbf{Reviewer annotation}\par
-\reviewerbox\clearpage
-\hypertarget{paper-prerequisite-section-5ef5ef0364b6939c}{}
-\section*{Paper-specific semantic prerequisites}
-These paper-local state, policy, or transition declarations remain named in the Lean-expanded claim because they are independent semantic objects. Each is shown with its own verbatim source connection and reviewer annotation before the claim that uses it. They are prerequisites, not extra paper-claim rows.
-\hypertarget{paper-prerequisite-2a222855a7d234b6}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}SourceWaitingListState}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}SourceWaitingListState\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-\end{ReviewVerbatim}
-
-\paragraph{Lean-elaborated paper signature}
-\begin{ReviewVerbatim}
-(Applicants : Type u_3) → Type u_4 → [DecidableEq Applicants] → Type (max u_3 u_4)
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} Sections 4--5 describe applicants applying in rounds, colleges retaining a quota-sized waiting list, and the terminal lists determining assignments. The Lean state records exactly the per-college waiting lists needed for that source procedure.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-fd1ded9db62599bc}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}collegeOrder}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}collegeOrder\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}253-\allowbreak{}255 (printed pages 13-\allowbreak{}14, Sections 4-\allowbreak{}5 and Theorem 2)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven
-by thedeferredacceptanceprocedureas he would be underany otherstableassign-
-ment.
-
-[Next verbatim source excerpt]
-
-   DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
-
-[Next verbatim source excerpt]
-
-    4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   5. Optimality.We now show that the "deferredacceptance" procedurejust
-described yields not only a stable but an optimal assignment of applicants.
-That is,
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-{Applicants : Type u_1} →
-  {Colleges : Type u_2} →
-    (val_college : Colleges → Applicants → ℝ) →
-      (hcollegeStrict : ∀ (c : Colleges) (a a' : Applicants), val_college c a = val_college c a' → a = a') →
-        (c : Colleges) → LinearOrder.lift' (fun a => OrderDual.toDual (val_college c a)) ⋯
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} Each college retains the applicants it ranks highest. The Lean order is the strict college ranking used to make that top-q choice.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-ae5bdb457b3ee684}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}collegeTopQ}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}collegeTopQ\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}253-\allowbreak{}255 (printed pages 13-\allowbreak{}14, Sections 4-\allowbreak{}5 and Theorem 2)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven
-by thedeferredacceptanceprocedureas he would be underany otherstableassign-
-ment.
-
-[Next verbatim source excerpt]
-
-   DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
-
-[Next verbatim source excerpt]
-
-    4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   5. Optimality.We now show that the "deferredacceptance" procedurejust
-described yields not only a stable but an optimal assignment of applicants.
-That is,
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-{Applicants : Type u_1} →
-  {Colleges : Type u_2} →
-    [inst : DecidableEq Applicants] →
-      (quota : Colleges → ℕ) →
-        (val_college : Colleges → Applicants → ℝ) →
-          (hcollegeStrict : ∀ (c : Colleges) (a a' : Applicants), val_college c a = val_college c a' → a = a') →
-            (c : Colleges) → (pool : Finset Applicants) → EconCSLib.FiniteChoice.linearTopQChoice (quota c) pool
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The source says a college places its q highest-ranked applicants, or all applicants if fewer, on its waiting list. The Lean function is that literal top-q selection.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-9c0bc8f14e96a0bc}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}waitingList}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}waitingList\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}253-\allowbreak{}255 (printed pages 13-\allowbreak{}14, Sections 4-\allowbreak{}5 and Theorem 2)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven
-by thedeferredacceptanceprocedureas he would be underany otherstableassign-
-ment.
-
-[Next verbatim source excerpt]
-
-   DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
-
-[Next verbatim source excerpt]
-
-    4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   5. Optimality.We now show that the "deferredacceptance" procedurejust
-described yields not only a stable but an optimal assignment of applicants.
-That is,
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-{Applicants : Type u_1} →
-  {Colleges : Type u_2} →
-    [inst : DecidableEq Applicants] →
-      (quota : Colleges → ℕ) →
-        (val_college : Colleges → Applicants → ℝ) →
-          (hcollegeStrict : ∀ (c : Colleges) (a a' : Applicants), val_college c a = val_college c a' → a = a') →
-            (s : GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceWaitingListState Applicants Colleges) →
-              (c : Colleges) →
-                GS62CollegeAdmissions.ExactCollegeBatchedProcedure.collegeTopQ quota val_college hcollegeStrict c
-                  (s.applications c)
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The source repeatedly forms a college waiting list by retaining its highest-ranked applicants among the old list and new applications. The Lean definition is that list at a procedure state.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-1f468ddd39465ab4}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}assignedCollege}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}assignedCollege\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}253-\allowbreak{}255 (printed pages 13-\allowbreak{}14, Sections 4-\allowbreak{}5 and Theorem 2)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven
-by thedeferredacceptanceprocedureas he would be underany otherstableassign-
-ment.
-
-[Next verbatim source excerpt]
-
-   DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
-
-[Next verbatim source excerpt]
-
-    4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   5. Optimality.We now show that the "deferredacceptance" procedurejust
-described yields not only a stable but an optimal assignment of applicants.
-That is,
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-{Applicants : Type u_1} →
-  {Colleges : Type u_2} →
-    [inst : Fintype Colleges] →
-      [inst_1 : DecidableEq Applicants] →
-        (quota : Colleges → ℕ) →
-          (val_college : Colleges → Applicants → ℝ) →
-            (hcollegeStrict : ∀ (c : Colleges) (a a' : Applicants), val_college c a = val_college c a' → a = a') →
-              (s : GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceWaitingListState Applicants Colleges) →
-                (a : Applicants) →
-                  if h :
-                      ∃ c,
-                        a ∈
-                          GS62CollegeAdmissions.ExactCollegeBatchedProcedure.waitingList quota val_college
-                            hcollegeStrict s c then
-                    some (Classical.choose h)
-                  else none
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} At termination the source admits each applicant on a college waiting list and leaves every other applicant unassigned. The Lean function reads that assignment from the lists.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-e57e786394b2484c}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}sourceEligible}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}sourceEligible\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}253-\allowbreak{}255 (printed pages 13-\allowbreak{}14, Sections 4-\allowbreak{}5 and Theorem 2)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven
-by thedeferredacceptanceprocedureas he would be underany otherstableassign-
-ment.
-
-[Next verbatim source excerpt]
-
-   DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
-
-[Next verbatim source excerpt]
-
-    4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   5. Optimality.We now show that the "deferredacceptance" procedurejust
-described yields not only a stable but an optimal assignment of applicants.
-That is,
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-∀ {Applicants : Type u_1} {Colleges : Type u_2} (val_applicant : Applicants → Colleges → ℝ)
-  (val_college : Colleges → Applicants → ℝ) (a : Applicants) (c : Colleges), 0 < val_applicant a c ∧ 0 < val_college c a
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The source excludes colleges unwilling to accept a student and applicants not willing or permitted to apply. The Lean predicate records precisely the mutual eligibility condition.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-03751795717f46c8}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}untriedEligibleColleges}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}untriedEligibleColleges\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}253-\allowbreak{}255 (printed pages 13-\allowbreak{}14, Sections 4-\allowbreak{}5 and Theorem 2)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven
-by thedeferredacceptanceprocedureas he would be underany otherstableassign-
-ment.
-
-[Next verbatim source excerpt]
-
-   DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
-
-[Next verbatim source excerpt]
-
-    4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   5. Optimality.We now show that the "deferredacceptance" procedurejust
-described yields not only a stable but an optimal assignment of applicants.
-That is,
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-{Applicants : Type u_1} →
-  {Colleges : Type u_2} →
-    [inst : Fintype Colleges] →
-      [inst_1 : DecidableEq Applicants] →
-        (val_applicant : Applicants → Colleges → ℝ) →
-          (val_college : Colleges → Applicants → ℝ) →
-            (s : GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceWaitingListState Applicants Colleges) →
-              (a : Applicants) →
-                {c |
-                  GS62CollegeAdmissions.ExactCollegeBatchedProcedure.sourceEligible val_applicant val_college a c ∧
-                    a ∉ s.applications c}
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The procedure continues only while an applicant has a college to which the applicant is willing and permitted to apply and has not already tried. The Lean set is that remaining choice set.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-65e4bdbeef377fb1}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}SourceActive}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}SourceActive\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-∀ {Applicants : Type u_1} {Colleges : Type u_2} [inst : Fintype Colleges] [inst_1 : DecidableEq Applicants]
-  (quota : Colleges → ℕ) (val_applicant : Applicants → Colleges → ℝ) (val_college : Colleges → Applicants → ℝ)
-  (hcollegeStrict : ∀ (c : Colleges) (a a' : Applicants), val_college c a = val_college c a' → a = a')
-  (s : GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceWaitingListState Applicants Colleges) (a : Applicants),
-  GS62CollegeAdmissions.ExactCollegeBatchedProcedure.assignedCollege quota val_college hcollegeStrict s a = none ∧
-    (GS62CollegeAdmissions.ExactCollegeBatchedProcedure.untriedEligibleColleges val_applicant val_college s a).Nonempty
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The source stops when no applicant remains able to apply to a college that would consider them. The Lean predicate identifies that remaining active/applicable condition, so its negation is the source stopping condition used in the theorem.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-0a9b767c71562143}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}nextCollege}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}nextCollege\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}253-\allowbreak{}255 (printed pages 13-\allowbreak{}14, Sections 4-\allowbreak{}5 and Theorem 2)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven
-by thedeferredacceptanceprocedureas he would be underany otherstableassign-
-ment.
-
-[Next verbatim source excerpt]
-
-   DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
-
-[Next verbatim source excerpt]
-
-    4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   5. Optimality.We now show that the "deferredacceptance" procedurejust
-described yields not only a stable but an optimal assignment of applicants.
-That is,
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-{Applicants : Type u_1} →
-  {Colleges : Type u_2} →
-    [inst : Fintype Applicants] →
-      [inst_1 : Fintype Colleges] →
-        [inst_2 : DecidableEq Applicants] →
-          [inst_3 : DecidableEq Colleges] →
-            (quota : Colleges → ℕ) →
-              (val_applicant : Applicants → Colleges → ℝ) →
-                (val_college : Colleges → Applicants → ℝ) →
-                  (hcollegeStrict : ∀ (c : Colleges) (a a' : Applicants), val_college c a = val_college c a' → a = a') →
-                    (s :
-                        GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceWaitingListState Applicants Colleges) →
-                      (a : Applicants) →
-                        if hactive :
-                            GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceActive quota val_applicant
-                              val_college hcollegeStrict s a then
-                          some (Classical.choose ⋯)
-                        else none
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} After rejection, the source directs an applicant to the next eligible choice. The Lean function selects that next untried eligible college in the applicant's preference order.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-af45c64e4d2fd2f5}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}newApplications}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}newApplications\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}253-\allowbreak{}255 (printed pages 13-\allowbreak{}14, Sections 4-\allowbreak{}5 and Theorem 2)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven
-by thedeferredacceptanceprocedureas he would be underany otherstableassign-
-ment.
-
-[Next verbatim source excerpt]
-
-   DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
-
-[Next verbatim source excerpt]
-
-    4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   5. Optimality.We now show that the "deferredacceptance" procedurejust
-described yields not only a stable but an optimal assignment of applicants.
-That is,
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-{Applicants : Type u_1} →
-  {Colleges : Type u_2} →
-    [inst : Fintype Applicants] →
-      [inst_1 : Fintype Colleges] →
-        [inst_2 : DecidableEq Applicants] →
-          [inst_3 : DecidableEq Colleges] →
-            (quota : Colleges → ℕ) →
-              (val_applicant : Applicants → Colleges → ℝ) →
-                (val_college : Colleges → Applicants → ℝ) →
-                  (hcollegeStrict : ∀ (c : Colleges) (a a' : Applicants), val_college c a = val_college c a' → a = a') →
-                    (s :
-                        GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceWaitingListState Applicants Colleges) →
-                      (c : Colleges) →
-                        {a |
-                          GS62CollegeAdmissions.ExactCollegeBatchedProcedure.nextCollege quota val_applicant val_college
-                              hcollegeStrict s a =
-                            some c}
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The source sends each rejected applicant to the next college on that applicant's list that is willing and permitted to consider the applicant. The Lean function collects exactly those round applications.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-5b76003b2b75ddf8}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}sourceStep}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}sourceStep\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}253-\allowbreak{}255 (printed pages 13-\allowbreak{}14, Sections 4-\allowbreak{}5 and Theorem 2)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven
-by thedeferredacceptanceprocedureas he would be underany otherstableassign-
-ment.
-
-[Next verbatim source excerpt]
-
-   DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
-
-[Next verbatim source excerpt]
-
-    4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   5. Optimality.We now show that the "deferredacceptance" procedurejust
-described yields not only a stable but an optimal assignment of applicants.
-That is,
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-{Applicants : Type u_1} →
-  {Colleges : Type u_2} →
-    [inst : Fintype Applicants] →
-      [inst_1 : Fintype Colleges] →
-        [inst_2 : DecidableEq Applicants] →
-          [inst_3 : DecidableEq Colleges] →
-            (quota : Colleges → ℕ) →
-              (val_applicant : Applicants → Colleges → ℝ) →
-                (val_college : Colleges → Applicants → ℝ) →
-                  (hcollegeStrict : ∀ (c : Colleges) (a a' : Applicants), val_college c a = val_college c a' → a = a') →
-                    (s :
-                        GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceWaitingListState Applicants Colleges) →
-                      {
-                        applications := fun c =>
-                          s.applications c ∪
-                            GS62CollegeAdmissions.ExactCollegeBatchedProcedure.newApplications quota val_applicant
-                              val_college hcollegeStrict s c }
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} A source round combines the newly received applications with the old waiting list and retains the top q while rejecting the rest. The Lean function is that simultaneous update.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-0d6660e4474c41be}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}SourceStepRelation}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}SourceStepRelation\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}253-\allowbreak{}255 (printed pages 13-\allowbreak{}14, Sections 4-\allowbreak{}5 and Theorem 2)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven
-by thedeferredacceptanceprocedureas he would be underany otherstableassign-
-ment.
-
-[Next verbatim source excerpt]
-
-   DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
-
-[Next verbatim source excerpt]
-
-    4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   5. Optimality.We now show that the "deferredacceptance" procedurejust
-described yields not only a stable but an optimal assignment of applicants.
-That is,
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-∀ {Applicants : Type u_1} {Colleges : Type u_2} [inst : Fintype Applicants] [inst_1 : Fintype Colleges]
-  [inst_2 : DecidableEq Applicants] [inst_3 : DecidableEq Colleges] (quota : Colleges → ℕ)
-  (val_applicant : Applicants → Colleges → ℝ) (val_college : Colleges → Applicants → ℝ)
-  (hcollegeStrict : ∀ (c : Colleges) (a a' : Applicants), val_college c a = val_college c a' → a = a')
-  (before after : GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceWaitingListState Applicants Colleges),
-  after =
-    GS62CollegeAdmissions.ExactCollegeBatchedProcedure.sourceStep quota val_applicant val_college hcollegeStrict before
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The source proceeds by repeated batches of applications, quota-sized waiting-list selection, and rejection. The Lean relation is exactly one such source procedure round.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-54e4e9a72cd03d42}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}initialSourceState}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}initialSourceState\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}253-\allowbreak{}255 (printed pages 13-\allowbreak{}14, Sections 4-\allowbreak{}5 and Theorem 2)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven
-by thedeferredacceptanceprocedureas he would be underany otherstableassign-
-ment.
-
-[Next verbatim source excerpt]
-
-   DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
-
-[Next verbatim source excerpt]
-
-    4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-
-[Next verbatim source excerpt]
-
-   5. Optimality.We now show that the "deferredacceptance" procedurejust
-described yields not only a stable but an optimal assignment of applicants.
-That is,
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-{Applicants : Type u_1} → {Colleges : Type u_2} → [inst : DecidableEq Applicants] → { applications := fun x => ∅ }
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} Before the first applications, no college has yet retained applicants. The Lean state is the empty-waiting-list initial state from which the stated procedure starts.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-bc0f2672179d08fd}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}SourceReachable}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}SourceReachable\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-∀ {Applicants : Type u_1} {Colleges : Type u_2} [inst : Fintype Applicants] [inst_1 : Fintype Colleges]
-  [inst_2 : DecidableEq Applicants] [inst_3 : DecidableEq Colleges] (quota : Colleges → ℕ)
-  (val_applicant : Applicants → Colleges → ℝ) (val_college : Colleges → Applicants → ℝ)
-  (hcollegeStrict : ∀ (c : Colleges) (a a' : Applicants), val_college c a = val_college c a' → a = a')
-  (s : GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceWaitingListState Applicants Colleges),
-  Relation.ReflTransGen
-    (GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceStepRelation quota val_applicant val_college
-      hcollegeStrict)
-    GS62CollegeAdmissions.ExactCollegeBatchedProcedure.initialSourceState s
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The source defines the college procedure by successive application and waiting-list rounds from the empty initial state. The Lean predicate identifies exactly the states reachable by those rounds; it does not introduce an externally supplied terminal trace.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-d5846907d2757e9d}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}sourceAssignmentView}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}ExactCollegeBatchedProcedure.\allowbreak{}sourceAssignmentView\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
-
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
-
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-{Applicants : Type u_1} →
-  {Colleges : Type u_2} →
-    [inst : Fintype Applicants] →
-      [inst_1 : Fintype Colleges] →
-        [inst_2 : DecidableEq Applicants] →
-          [inst_3 : DecidableEq Colleges] →
-            (quota : Colleges → ℕ) →
-              (val_college : Colleges → Applicants → ℝ) →
-                (hcollegeStrict : ∀ (c : Colleges) (a a' : Applicants), val_college c a = val_college c a' → a = a') →
-                  (s : GS62CollegeAdmissions.ExactCollegeBatchedProcedure.SourceWaitingListState Applicants Colleges) →
-                    {
-                      app_match :=
-                        GS62CollegeAdmissions.ExactCollegeBatchedProcedure.assignedCollege quota val_college
-                          hcollegeStrict s,
-                      college_roster := fun c =>
-                        {a |
-                          GS62CollegeAdmissions.ExactCollegeBatchedProcedure.assignedCollege quota val_college
-                              hcollegeStrict s a =
-                            some c},
-                      consistent := ⋯ }
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The source assigns each applicant to the college whose final waiting list contains them, and leaves otherwise rejected applicants unassigned. The Lean view reads exactly that assignment from the terminal waiting-list state.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-f64903633030de8a}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}gs62ReplacementPair}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}gs62ReplacementPair\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}93-\allowbreak{}98 (printed page 10, first displayed Definition)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-∀ {Applicants : Type u_1} {Colleges : Type u_2} (val_applicant : Applicants → Colleges → ℝ)
-  (val_college : Colleges → Applicants → ℝ) (mu : EconCSLib.Matching.ManyToOneAssignment Applicants Colleges),
-  ∃ alpha beta A B,
-    mu.app_match alpha = some A ∧
-      mu.app_match beta = some B ∧
-        val_applicant beta B < val_applicant beta A ∧ val_college A alpha < val_college A beta
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The source definition of an unstable college assignment is the existence of the stated applicant-college replacement pair. The Lean predicate gives exactly those pair conditions.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-0a52a56fe01174a9}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}gs62LiteralStableCollegeAssignment}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}gs62LiteralStableCollegeAssignment\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}93-\allowbreak{}98 (printed page 10, first displayed Definition)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-∀ {Applicants : Type u_1} {Colleges : Type u_2} (val_applicant : Applicants → Colleges → ℝ)
-  (val_college : Colleges → Applicants → ℝ) (mu : EconCSLib.Matching.ManyToOneAssignment Applicants Colleges),
-  ¬GS62CollegeAdmissions.gs62ReplacementPair val_applicant val_college mu
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The source calls a college assignment stable exactly when it has no replacement-pair instability. The Lean predicate is the corresponding negation of that source definition.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-707e8316d04d6a74}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}gs62LiteralApplicantOptimalCollegeAssignment}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}gs62LiteralApplicantOptimalCollegeAssignment\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}115-\allowbreak{}117 (printed page 10, second displayed Definition)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-DEFINITION. A stableassignment                      applicantis at least
-                                is calledoptimalif every
-as welloffunderit as underanyotherstableassignment.
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-∀ {Applicants : Type u_1} {Colleges : Type u_2} (val_applicant : Applicants → Colleges → ℝ)
-  (val_college : Colleges → Applicants → ℝ) (mu : EconCSLib.Matching.ManyToOneAssignment Applicants Colleges),
-  GS62CollegeAdmissions.gs62LiteralStableCollegeAssignment val_applicant val_college mu ∧
-    ∀ (nu : EconCSLib.Matching.ManyToOneAssignment Applicants Colleges),
-      GS62CollegeAdmissions.gs62LiteralStableCollegeAssignment val_applicant val_college nu →
-        ∀ (a : Applicants),
-          EconCSLib.Matching.ManyToOne.valApplicant val_applicant a (nu.app_match a) ≤
-            EconCSLib.Matching.ManyToOne.valApplicant val_applicant a (mu.app_match a)
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The source calls an assignment optimal for applicants when every applicant weakly prefers it to every other stable assignment. The Lean predicate is that literal comparison.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-c1a57feccca72806}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}PaperInterface.\allowbreak{}literalApplicantOptimalCollegeAssignment}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}PaperInterface.\allowbreak{}literalApplicantOptimalCollegeAssignment\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}115-\allowbreak{}117 (printed page 10, second displayed Definition)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-DEFINITION. A stableassignment                      applicantis at least
-                                is calledoptimalif every
-as welloffunderit as underanyotherstableassignment.
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-∀ {Applicants : Type u_1} {Colleges : Type u_2} (val_applicant : Applicants → Colleges → ℝ)
-  (val_college : Colleges → Applicants → ℝ) (mu : EconCSLib.Matching.ManyToOneAssignment Applicants Colleges),
-  GS62CollegeAdmissions.gs62LiteralApplicantOptimalCollegeAssignment val_applicant val_college mu
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The source's second displayed definition selects, among its literal stable assignments, one that every applicant weakly prefers to every other such assignment. The Lean declaration writes that source comparison class and applicant-by-applicant ordering directly.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-4af30b82092aaec1}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}PaperInterface.\allowbreak{}replacementPairCollegeInstability}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}PaperInterface.\allowbreak{}replacementPairCollegeInstability\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}93-\allowbreak{}98 (printed page 10, first displayed Definition)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-∀ {Applicants : Type u_1} {Colleges : Type u_2} (val_applicant : Applicants → Colleges → ℝ)
-  (val_college : Colleges → Applicants → ℝ) (mu : EconCSLib.Matching.ManyToOneAssignment Applicants Colleges),
-  GS62CollegeAdmissions.gs62ReplacementPair val_applicant val_college mu
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The displayed source definition identifies instability through an applicant who prefers another college and a replacement at that college whom it ranks lower. The Lean predicate is that replacement pair.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-1522c7e7ffea0315}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}PaperInterface.\allowbreak{}unstableCollegeAssignment}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}PaperInterface.\allowbreak{}unstableCollegeAssignment\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}93-\allowbreak{}98 (printed page 10, first displayed Definition)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-∀ {Applicants : Type u_1} {Colleges : Type u_2} (val_applicant : Applicants → Colleges → ℝ)
-  (val_college : Colleges → Applicants → ℝ) (mu : EconCSLib.Matching.ManyToOneAssignment Applicants Colleges),
-  GS62CollegeAdmissions.PaperInterface.replacementPairCollegeInstability val_applicant val_college mu
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The source's first displayed college definition is the existence of two currently assigned applicants and colleges for which one applicant prefers the other college and that college prefers the replacement. The Lean predicate is exactly that replacement-pair condition.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
-\reviewerbox
-\clearpage
-\hypertarget{paper-prerequisite-3c40b1447bae2080}{}
-\subsection*{\small\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}PaperInterface.\allowbreak{}unstableMarriage}
-\noindent\textbf{Paper-local declaration:}\par
-{\footnotesize\ttfamily\raggedright GS62CollegeAdmissions.\allowbreak{}PaperInterface.\allowbreak{}unstableMarriage\par}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}133-\allowbreak{}139 (printed page 11, Section 3)\par}
-\paragraph{Verbatim paper-source connection}
-\begin{ReviewVerbatim}
-A certain communityconsists of n men and n women. Each person ranks
-those of the opposite sex in accordance with his or her preferencesfora marriage
-partner.We seek a satisfactoryway of marryingoffall membersof the com-
-munity.Imitatingour earlierdefinition,we call a set of marriagesunstable(and
-here the suitabilityof the termis quite clear) if under it thereare a man and a
-woman who are not marriedto each other but prefereach other to theiractual
-mates.
-\end{ReviewVerbatim}
-
-\paragraph{Lean-expanded paper semantic target}
-\begin{ReviewVerbatim}
-∀ {M : Type u_1} {W : Type u_2} (val_m : M → W → ℝ) (val_w : W → M → ℝ) (mu : EconCSLib.Matching.Assignment M W),
-  ((∀ (m : M), ∃ w, mu.m_match m = some w) ∧ ∀ (w : W), ∃ m, mu.w_match w = some m) ∧
-    ∃ m w,
-      EconCSLib.Matching.valM val_m m (mu.m_match m) < val_m m w ∧
-        EconCSLib.Matching.valW val_w w (mu.w_match w) < val_w w m
-\end{ReviewVerbatim}
-
-\paragraph{Recorded source-to-declaration screening}
-\textbf{Verdict:} \texttt{matches}
-\\
-\textbf{Reason:} The source calls a complete marriage unstable when some man and woman each prefer one another to their current partners. The Lean predicate records the same complete matching and mutual strict improvement condition.
-\reviewmatch{Matches source input}
-\noindent\textbf{Reviewer annotation}\par
 \reviewerbox
 
 \clearpage
@@ -1943,15 +443,14 @@ mates.
 \hypertarget{source-section-0c7af8265958a9ea}{}
 \section*{Main-text source claims}
 \subsection*{Review row 1}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}93-\allowbreak{}98 (printed page 10, first displayed Definition)\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 93-\allowbreak{}98\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
-DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
+return to the philosophical principle mentioned earlier and give it a precise
+formulation.
+
+   DEFINITION. A stable assignment is called optimal if every applicant is at least
+as well off under it as under any other stable assignment.
 \end{ReviewVerbatim}
 
 
@@ -1980,12 +479,12 @@ GS62CollegeAdmissions.ProofInterface.unstableCollegeAssignment_iff_source_defini
 \clearpage
 \hypertarget{source-claim-bdf5e4a40e708c9e}{}
 \section*{Review row 2}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}115-\allowbreak{}117 (printed page 10, second displayed Definition)\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 115-\allowbreak{}117\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
-DEFINITION. A stableassignment                      applicantis at least
-                                is calledoptimalif every
-as welloffunderit as underanyotherstableassignment.
+3. Stable assignments and a marriage problem. In trying to settle the
+question of the existence of stable assignments we were led to look first at a
+special case, in which there are the same number of applicants as colleges and all
 \end{ReviewVerbatim}
 
 
@@ -2026,16 +525,15 @@ GS62CollegeAdmissions.ProofInterface.literalApplicantOptimalCollegeAssignment_if
 \clearpage
 \hypertarget{source-claim-f836a3d18eeab599}{}
 \section*{Review row 3}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}133-\allowbreak{}139 (printed page 11, Section 3)\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 133-\allowbreak{}139\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
-A certain communityconsists of n men and n women. Each person ranks
-those of the opposite sex in accordance with his or her preferencesfora marriage
-partner.We seek a satisfactoryway of marryingoffall membersof the com-
-munity.Imitatingour earlierdefinition,we call a set of marriagesunstable(and
-here the suitabilityof the termis quite clear) if under it thereare a man and a
-woman who are not marriedto each other but prefereach other to theiractual
-mates.
+Example 1. The following is the "ranking matrix" of three men, a, ,3, and 7,
+and three women, A, B, and C.
+
+                                        A        B       C
+
+                              a 1,3 2,2 3,1
 \end{ReviewVerbatim}
 
 
@@ -2063,45 +561,45 @@ GS62CollegeAdmissions.ProofInterface.unstableMarriage_iff_source_definition
 \clearpage
 \hypertarget{source-claim-e6bf09e833b5d546}{}
 \section*{Review row 4}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}127-\allowbreak{}139;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}185 (printed pages 11-\allowbreak{}12, Section 3 and Theorem 1)\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 127-\allowbreak{}139\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
-3. Stable assignments and a marriage problem. In trying to settle the
-question of the existence of stable assignmentswe were led to look firstat a
-special case, in whichthereare the same numberof applicants as colleges and all
-quotas are unity. This situation is, of course, highlyunnatural in the context
-of college admissions, but there is another "story" into which it fits quite
-readily.
-   A certain communityconsists of n men and n women. Each person ranks
-those of the opposite sex in accordance with his or her preferencesfora marriage
-partner.We seek a satisfactoryway of marryingoffall membersof the com-
-munity.Imitatingour earlierdefinition,we call a set of marriagesunstable(and
-here the suitabilityof the termis quite clear) if under it thereare a man and a
-woman who are not marriedto each other but prefereach other to theiractual
 mates.
 
+   QUESTION: For any pattern of preferences is it possible to find a stable set of
+marriages?
+
+   Before giving the answer let us look at some examples.
+
+   Example 1. The following is the "ranking matrix" of three men, a, ,3, and 7,
+and three women, A, B, and C.
+
+                                        A        B       C
+
+                              a 1,3 2,2 3,1
+
 [Next verbatim source excerpt]
 
-     THEOREM 1. Therealwaysexistsa stablesetofmarriages.
+,y ranks a first, and a, 3 and y all rank a last. Then regardless of S's preference
 
 [Next verbatim source excerpt]
 
-   3. Stable assignments and a marriage problem. In trying to settle the
-question of the existence of stable assignmentswe were led to look firstat a
-special case, in whichthereare the same numberof applicants as colleges and all
-quotas are unity. This situation is, of course, highlyunnatural in the context
-of college admissions, but there is another "story" into which it fits quite
-readily.
-
-[Next verbatim source excerpt]
-
-   A certain communityconsists of n men and n women. Each person ranks
-those of the opposite sex in accordance with his or her preferencesfora marriage
-partner.We seek a satisfactoryway of marryingoffall membersof the com-
-munity.Imitatingour earlierdefinition,we call a set of marriagesunstable(and
-here the suitabilityof the termis quite clear) if under it thereare a man and a
-woman who are not marriedto each other but prefereach other to theiractual
 mates.
+
+   QUESTION: For any pattern of preferences is it possible to find a stable set of
+marriages?
+
+   Before giving the answer let us look at some examples.
+
+[Next verbatim source excerpt]
+
+
+   Example 1. The following is the "ranking matrix" of three men, a, ,3, and 7,
+and three women, A, B, and C.
+
+                                        A        B       C
+
+                              a 1,3 2,2 3,1
 \end{ReviewVerbatim}
 
 
@@ -2136,73 +634,69 @@ GS62CollegeAdmissions.ProofInterface.theorem1_stable_marriage_exists
 \clearpage
 \hypertarget{source-claim-5b11dd2478126734}{}
 \section*{Review row 5}
-\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}232-\allowbreak{}249;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}253-\allowbreak{}255 (printed pages 13-\allowbreak{}14, Sections 4-\allowbreak{}5 and Theorem 2)\par}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 232-\allowbreak{}249\par}
 \paragraph{Verbatim source input}
 \begin{ReviewVerbatim}
-4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
+a 1, 3 2, 2 3, 1 4, 3
 
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
+                             3 1,4 2,3 3,2 4,4
 
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
+                            y 3,1 1,4 2,3 4,2
+                            5 2,2 3,1 1,4 4,1
+
+
+   The condition that there be the same number of boys and girls is not essen-
+tial. If there are b boys and g girls with b < g, then the procedure terminates as
+soon as b girls have been proposed to. If b > g the procedure ends when every
+boy is either on some girl's string or has been rejected by all of the girls. In
+either case the set of marriages that results is stable.
+   It is clear that there is an entirely symmetrical procedure, with girls propos-
+ing to boys, which must also lead to a stable set of marriages. The two solutions
+are not generally the same as shown by Example 1; indeed, we shall see in a
+moment that when the boys propose, the result is optimal for the boys, and
+when the girls propose it is optimal for the girls. The solutions by the two pro-
 
 [Next verbatim source excerpt]
 
-   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven
-by thedeferredacceptanceprocedureas he would be underany otherstableassign-
-ment.
+forward. For convenience we will assume that if a college is not willing to accept
+a student under any circumstances, as described in Section 2, then that student
+will not even be permitted to apply to the college. With this understanding the
 
 [Next verbatim source excerpt]
 
-   DEFINITION. An assignment  ofapplicantstocolleges
-                                                   willbecalledunstableif
-thereare twoapplicantsa and ,Bwhoare assignedtocolleges
-                                                      A andB, respectively,
-although        A toB and A prefers: toa.
-        ,3prefers
+return to the philosophical principle mentioned earlier and give it a precise
+formulation.
+
+   DEFINITION. A stable assignment is called optimal if every applicant is at least
+as well off under it as under any other stable assignment.
+
 
 [Next verbatim source excerpt]
 
-    4. Stable assignments and the admissions problem. The extension of our
-"deferred-acceptance"procedureto the problemofcollegeadmissionsis straight-
-forward.For conveniencewe will assume that ifa college is not willingto accept
-a student underany circumstances,as describedin Section 2, then that student
-will not even be permittedto apply to the college. With this understandingthe
-procedure follows: First, all students apply to the college of their firstchoice.
-A college with a quota of q then places on its waiting list the q applicants who
-rank highest,or all applicants if there are fewerthan q, and rejects the rest.
-Rejected applicants then apply to their second choice and again each college
-selects the top q fromamong the new applicants and those on its waiting list,
-puts these on its new waitinglist,and rejects the rest.The procedureterminates
-when every applicant is either on a waiting list or has been rejected by every
-college to which he is willingand permittedto apply. At this point each college
+                            a 1, 3 2, 2 3, 1 4, 3
 
-[form-feed in source extraction]
-14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January
+                             3 1,4 2,3 3,2 4,4
 
-admits everyoneon its waitinglist and the stable assignmenthas been achieved.
-The proofthat the assignmentis stable is entirelyanalogous to the proofgiven
-forthe marriageproblemand is leftto the reader.
+                            y 3,1 1,4 2,3 4,2
+                            5 2,2 3,1 1,4 4,1
+
+
+   The condition that there be the same number of boys and girls is not essen-
+tial. If there are b boys and g girls with b < g, then the procedure terminates as
+soon as b girls have been proposed to. If b > g the procedure ends when every
+boy is either on some girl's string or has been rejected by all of the girls. In
+either case the set of marriages that results is stable.
+   It is clear that there is an entirely symmetrical procedure, with girls propos-
+ing to boys, which must also lead to a stable set of marriages. The two solutions
+are not generally the same as shown by Example 1; indeed, we shall see in a
+moment that when the boys propose, the result is optimal for the boys, and
+when the girls propose it is optimal for the girls. The solutions by the two pro-
 
 [Next verbatim source excerpt]
 
-   5. Optimality.We now show that the "deferredacceptance" procedurejust
-described yields not only a stable but an optimal assignment of applicants.
-That is,
+cedures will be the same only when there is a unique stable set of marriages.
+   4. Stable assignments and the admissions problem. The extension of our
+"deferred-acceptance" procedure to the problem of college admissions is straight-
 \end{ReviewVerbatim}
 
 

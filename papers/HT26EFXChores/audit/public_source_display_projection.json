@@ -1,0 +1,715 @@
+{
+  "generator": "python3 scripts/public_source_display_projection.py",
+  "paper_id": "HT26EFXChores",
+  "private_source_map_sha256": "03f563c4efb5c02bce3cfb8bd7b2415c718ca178bec4a9698162951d1f7ad526",
+  "public_manifest_path": "papers/HT26EFXChores/audit/public_source_display_projection.json",
+  "public_source_map_sha256": "3a391e42c0ed6e83141010a490e973ec975b8c6a03073d27ee65f8660c9ce97e",
+  "raw_source_artifact_included": false,
+  "raw_source_display_material": "selected_byte_pinned_source_anchor_quotes",
+  "schema": 1,
+  "selected_source_item_ids": [
+    "appendix_no_two_a_items",
+    "appendix_p1_p2_lower_bounds",
+    "balanced_orientation",
+    "canonical_allocation_definition",
+    "canonical_allocation_properties",
+    "canonical_short_long_labels_definition",
+    "composition",
+    "efx_for_chores_definition",
+    "efx_pareto_incompatibility",
+    "efx_po_cost_lower_bounds",
+    "efx_po_every_agent_large",
+    "envy_free_for_chores_definition",
+    "exceptional_residue_combination",
+    "four_agent_bi_valued_efx_exists",
+    "m2_efx_allocation",
+    "m2_efx_allocation_properties",
+    "m34_insertion",
+    "pareto_optimality_definition",
+    "supercanonical_allocation_definition",
+    "tri_four_no_a_bundle_expensive",
+    "tri_four_no_two_large",
+    "tri_valued_nonexistence"
+  ],
+  "selected_source_items": {
+    "appendix_no_two_a_items": {
+      "semantic_context": [
+        {
+          "semantic_role": "model_construction",
+          "source_anchors": [
+            {
+              "line_end": 2060,
+              "line_start": 2001,
+              "publication_locator": "cited publication",
+              "quoted_text": "In this section, we prove Theorem~\\ref{thm:tri} for an arbitrary fixed $n\\geq 4$.\n\n\\subsection{The construction}\nFix an integer $n\\ge 4$. Partition the agents into two groups $T_1$ and $T_2$ such that\n\\[\n    |T_1|=\\left\\lfloor \\frac n2\\right\\rfloor,\n    \\qquad\n    |T_2|=\\left\\lceil \\frac n2\\right\\rceil.\n\\]\nLet $t_1=|T_1|$ and $t_2=|T_2|$.\nLet $s=2t_2+1$.\nThe instance contains $n-1+2s$ items that are partitioned into three groups $A,B,C$ where $A$ contains $n-1$ items and each of $B$ and $C$ contains $s$ items.\n\nThe three values in the tri-valued instances are given by\n$$p=1,\\quad q=s+2=2t_2+3,\\quad\\mbox{and}\\quad r=\\frac{s(q+1)}2=(2t_2+1)(t_2+2).$$\n\n\nThe costs are defined as follows. For every agent $i\\in T_1$,\n\\[\n    c_i(a)=r \\quad(a\\in A),\n    \\qquad\n    c_i(b)=p \\quad(b\\in B),\n    \\qquad\n    c_i(c)=q \\quad(c\\in C),\n\\]\nand for every agent $i\\in T_2$,\n\\[\n    c_i(a)=r \\quad(a\\in A),\n    \\qquad\n    c_i(b)=q \\quad(b\\in B),\n    \\qquad\n    c_i(c)=p \\quad(c\\in C).\n\\]\n\nFor $n=4$, we have $t_1=t_2=2$, $s=5$, $q=7$, and $r=20$.\nThis resembles our construction in Sect.~\\ref{sec:tri}.\n\n\\subsection{Non-existence of EFX allocations}\nLet $X=(X_1,\\ldots,X_n)$ be an arbitrary allocation. For a bundle $Y\\subseteq A\\cup B\\cup C$, write\n\\[\n    a(Y)=|Y\\cap A|,\n    \\qquad\n    b(Y)=|Y\\cap B|,\n    \\qquad\n    c(Y)=|Y\\cap C|.\n\\]\nAll agents in $T_1$ have the same cost for a bundle $Y$, namely\n\\[\n    P_1(Y)=r\\cdot a(Y)+b(Y)+q\\cdot c(Y),\n\\]\nand all agents in $T_2$ have the same cost for $Y$, namely\n\\[\n    P_2(Y)=r\\cdot  a(Y)+q\\cdot b(Y)+c(Y).\n\\]\nDefine\n\\[\n    p_1=\\min_{i\\in \\{1,\\ldots,n\\}} P_1(X_i),\n    \\qquad\\mbox{and}\\qquad\n    p_2=\\min_{i\\in \\{1,\\ldots,n\\}} P_2(X_i).\n\\]",
+              "quoted_text_sha256": "8bb9049b030a53ba7655cc7bc195d4e525adb13efe1ada7a89fefe1418e61dfd"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 2076,
+          "line_start": 2074,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{proposition}\n    In an EFX allocation, no bundle contains two or more items from $A$.\n\\end{proposition}",
+          "quoted_text_sha256": "62a6a45f8757cc012575e7c20c30f982e2b18955e1440f3ed129f14c6ee3f4e4"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "appendix_p1_p2_lower_bounds": {
+      "semantic_context": [
+        {
+          "semantic_role": "model_construction",
+          "source_anchors": [
+            {
+              "line_end": 2060,
+              "line_start": 2001,
+              "publication_locator": "cited publication",
+              "quoted_text": "In this section, we prove Theorem~\\ref{thm:tri} for an arbitrary fixed $n\\geq 4$.\n\n\\subsection{The construction}\nFix an integer $n\\ge 4$. Partition the agents into two groups $T_1$ and $T_2$ such that\n\\[\n    |T_1|=\\left\\lfloor \\frac n2\\right\\rfloor,\n    \\qquad\n    |T_2|=\\left\\lceil \\frac n2\\right\\rceil.\n\\]\nLet $t_1=|T_1|$ and $t_2=|T_2|$.\nLet $s=2t_2+1$.\nThe instance contains $n-1+2s$ items that are partitioned into three groups $A,B,C$ where $A$ contains $n-1$ items and each of $B$ and $C$ contains $s$ items.\n\nThe three values in the tri-valued instances are given by\n$$p=1,\\quad q=s+2=2t_2+3,\\quad\\mbox{and}\\quad r=\\frac{s(q+1)}2=(2t_2+1)(t_2+2).$$\n\n\nThe costs are defined as follows. For every agent $i\\in T_1$,\n\\[\n    c_i(a)=r \\quad(a\\in A),\n    \\qquad\n    c_i(b)=p \\quad(b\\in B),\n    \\qquad\n    c_i(c)=q \\quad(c\\in C),\n\\]\nand for every agent $i\\in T_2$,\n\\[\n    c_i(a)=r \\quad(a\\in A),\n    \\qquad\n    c_i(b)=q \\quad(b\\in B),\n    \\qquad\n    c_i(c)=p \\quad(c\\in C).\n\\]\n\nFor $n=4$, we have $t_1=t_2=2$, $s=5$, $q=7$, and $r=20$.\nThis resembles our construction in Sect.~\\ref{sec:tri}.\n\n\\subsection{Non-existence of EFX allocations}\nLet $X=(X_1,\\ldots,X_n)$ be an arbitrary allocation. For a bundle $Y\\subseteq A\\cup B\\cup C$, write\n\\[\n    a(Y)=|Y\\cap A|,\n    \\qquad\n    b(Y)=|Y\\cap B|,\n    \\qquad\n    c(Y)=|Y\\cap C|.\n\\]\nAll agents in $T_1$ have the same cost for a bundle $Y$, namely\n\\[\n    P_1(Y)=r\\cdot a(Y)+b(Y)+q\\cdot c(Y),\n\\]\nand all agents in $T_2$ have the same cost for $Y$, namely\n\\[\n    P_2(Y)=r\\cdot  a(Y)+q\\cdot b(Y)+c(Y).\n\\]\nDefine\n\\[\n    p_1=\\min_{i\\in \\{1,\\ldots,n\\}} P_1(X_i),\n    \\qquad\\mbox{and}\\qquad\n    p_2=\\min_{i\\in \\{1,\\ldots,n\\}} P_2(X_i).\n\\]",
+              "quoted_text_sha256": "8bb9049b030a53ba7655cc7bc195d4e525adb13efe1ada7a89fefe1418e61dfd"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 2106,
+          "line_start": 2104,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{proposition}\n    In an EFX allocation, $p_1\\ge r$ and $p_2\\ge r$.\n\\end{proposition}",
+          "quoted_text_sha256": "cb70b347ce892a502eba5f5b3420818fe9184d385c366d5692cf546562325c3b"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "balanced_orientation": {
+      "source_anchors": [
+        {
+          "line_end": 1031,
+          "line_start": 1019,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{lemma}[Balanced orientation]\\label{lem:balancedorientation}\nLet $G=(V,E)$ be a multigraph and let $(b_i)_{i\\in V}$ be nonnegative\nintegers satisfying $\\sum_{i\\in V}b_i=|E|$.  There exists an assignment of\nevery edge to one of its endpoints such that vertex $i$ receives exactly\n$b_i$ edges if and only if\n\\begin{equation}\\label{eqn:orientation}\n    \\sum_{i\\in U}b_i\\le \\operatorname{inc}_G(U)\n \\qquad\\text{for every }U\\subseteq V.\n\\end{equation}\n\nIf we have \\(\\sum_{i\\in V}b_i\\le |E|\\) instead, and \\eqref{eqn:orientation} is satisfied, then one can assign some edges to their endpoints so that vertex \\(i\\)\nreceives exactly \\(b_i\\) edges, leaving the remaining edges unassigned.\n\\end{lemma}",
+          "quoted_text_sha256": "b21616c71b24811c68bdbe809fa5b04583312706d3c82aa069feaa2fd983842e"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "canonical_allocation_definition": {
+      "semantic_context": [
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 558,
+              "line_start": 545,
+              "publication_locator": "cited publication",
+              "quoted_text": "We will assume $r>2$ in the remaining part of this section.\nFor a chore $g$, let\n\\[\n S(g)=\\{i\\in N:c_i(g)=1\\}\n\\]\nbe the set of agents for whom $g$ is small.  We partition the chores into\n\\[\nM_{01}=\\{g:|S(g)|\\le 1\\},\\qquad\nM_2=\\{g:|S(g)|=2\\},\\qquad\nM_{34}=\\{g:|S(g)|\\ge 3\\}.\n\\]\nFor an item in $M_2$, we write $(i,j)$ for an item small exactly for agents\n$i$ and $j$.  Thus the items in $M_2$ form a multigraph on the vertex set\n$N$, where an edge $(i,j)$ is a chore small for precisely agents $i$ and $j$.",
+              "quoted_text_sha256": "72d05da2c709d8f15e5ba6ddb99fc8e20d95ba4300b55065c779e5c37fbe822a"
+            }
+          ]
+        },
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 750,
+              "line_start": 734,
+              "publication_locator": "cited publication",
+              "quoted_text": "For each agent $i$, let\n\\[\n n_i=\\left|\\{g\\in M_{01}:S(g)=\\{i\\}\\}\\right|\n\\]\nbe the number of $M_{01}$ items uniquely small for $i$.  Items in $M_{01}$\nwith $S(g)=\\emptyset$ are all-large items.\nLet $|M_{01}|=4a+b$ with $b\\in\\{0,1,2,3\\}$.\nAs mentioned before, we will make sure each agent receives either $a$ items or $a+1$ items.\n\nFix quotas $q_i\\in\\{a,a+1\\}$ with $\\sum_i q_i=|M_{01}|$. \nWe consider allocations of $M_{01}$ with quotas $q=(q_1,q_2,q_3,q_4)$ in which each agent $i$ first receives as many of her uniquely-small items as possible, up to quota $q_i$, and the remaining slots are filled with the remaining items.\nWe will show that all such allocations satisfy EFX.\nIt is also important that we have the freedom to choose which agents receive $a$ items and which agents receive $a+1$ items.\nThis freedom enables us to append the allocation of $M_2$ after the allocation of $M_{01}$.\n\nWe begin by defining this type of allocations.\n",
+              "quoted_text_sha256": "48295985bbf7e2aa1b185137b3e41a1b464263e733629aa1ec32e5c3d01f479e"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 752,
+          "line_start": 752,
+          "publication_locator": "cited publication",
+          "quoted_text": "    An allocation $P=(P_1,P_2,P_3,P_4)$ of $M_{01}$ is \\emph{canonical} if, for each agent $i$, $|P_i|\\in\\{a,a+1\\}$ and $P_i$ contains $\\min\\{|P_i|, n_i\\}$ items that are small for agent $i$.",
+          "quoted_text_sha256": "c67da93f7f3bb71ab0f5cbc8b90cb4041274bb7549de620321a1245247143b38"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "canonical_allocation_properties": {
+      "semantic_context": [
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 558,
+              "line_start": 545,
+              "publication_locator": "cited publication",
+              "quoted_text": "We will assume $r>2$ in the remaining part of this section.\nFor a chore $g$, let\n\\[\n S(g)=\\{i\\in N:c_i(g)=1\\}\n\\]\nbe the set of agents for whom $g$ is small.  We partition the chores into\n\\[\nM_{01}=\\{g:|S(g)|\\le 1\\},\\qquad\nM_2=\\{g:|S(g)|=2\\},\\qquad\nM_{34}=\\{g:|S(g)|\\ge 3\\}.\n\\]\nFor an item in $M_2$, we write $(i,j)$ for an item small exactly for agents\n$i$ and $j$.  Thus the items in $M_2$ form a multigraph on the vertex set\n$N$, where an edge $(i,j)$ is a chore small for precisely agents $i$ and $j$.",
+              "quoted_text_sha256": "72d05da2c709d8f15e5ba6ddb99fc8e20d95ba4300b55065c779e5c37fbe822a"
+            }
+          ]
+        },
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 750,
+              "line_start": 734,
+              "publication_locator": "cited publication",
+              "quoted_text": "For each agent $i$, let\n\\[\n n_i=\\left|\\{g\\in M_{01}:S(g)=\\{i\\}\\}\\right|\n\\]\nbe the number of $M_{01}$ items uniquely small for $i$.  Items in $M_{01}$\nwith $S(g)=\\emptyset$ are all-large items.\nLet $|M_{01}|=4a+b$ with $b\\in\\{0,1,2,3\\}$.\nAs mentioned before, we will make sure each agent receives either $a$ items or $a+1$ items.\n\nFix quotas $q_i\\in\\{a,a+1\\}$ with $\\sum_i q_i=|M_{01}|$. \nWe consider allocations of $M_{01}$ with quotas $q=(q_1,q_2,q_3,q_4)$ in which each agent $i$ first receives as many of her uniquely-small items as possible, up to quota $q_i$, and the remaining slots are filled with the remaining items.\nWe will show that all such allocations satisfy EFX.\nIt is also important that we have the freedom to choose which agents receive $a$ items and which agents receive $a+1$ items.\nThis freedom enables us to append the allocation of $M_2$ after the allocation of $M_{01}$.\n\nWe begin by defining this type of allocations.\n",
+              "quoted_text_sha256": "48295985bbf7e2aa1b185137b3e41a1b464263e733629aa1ec32e5c3d01f479e"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 767,
+          "line_start": 760,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{lemma}\\label{lem:canonical}\n    We have the following properties regarding canonical allocations.\n    \\begin{enumerate}[label=(\\alph*)]\n        \\item Every canonical allocation is EFX. For $b=0$, every canonical allocation is envy-free.\n        \\item For any $b>0$, there always exists a super-canonical allocation.\n        \\item If $a>0$ and $b=2$, for any partition $N_1,N_2$ of $N$ with $|N_1|=|N_2|=2$, there exist $i\\in N_1$ and $j\\in N_2$ such that there exists a super-canonical allocation $P$ with $|P_i|=|P_j|=a$.\n    \\end{enumerate}\n\\end{lemma}",
+          "quoted_text_sha256": "fec11e86d856d05805e15cb6ca08037bc7498bbd1de3d3e5ba500b99e0f2c54f"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "canonical_short_long_labels_definition": {
+      "semantic_context": [
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 558,
+              "line_start": 545,
+              "publication_locator": "cited publication",
+              "quoted_text": "We will assume $r>2$ in the remaining part of this section.\nFor a chore $g$, let\n\\[\n S(g)=\\{i\\in N:c_i(g)=1\\}\n\\]\nbe the set of agents for whom $g$ is small.  We partition the chores into\n\\[\nM_{01}=\\{g:|S(g)|\\le 1\\},\\qquad\nM_2=\\{g:|S(g)|=2\\},\\qquad\nM_{34}=\\{g:|S(g)|\\ge 3\\}.\n\\]\nFor an item in $M_2$, we write $(i,j)$ for an item small exactly for agents\n$i$ and $j$.  Thus the items in $M_2$ form a multigraph on the vertex set\n$N$, where an edge $(i,j)$ is a chore small for precisely agents $i$ and $j$.",
+              "quoted_text_sha256": "72d05da2c709d8f15e5ba6ddb99fc8e20d95ba4300b55065c779e5c37fbe822a"
+            }
+          ]
+        },
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 752,
+              "line_start": 734,
+              "publication_locator": "cited publication",
+              "quoted_text": "For each agent $i$, let\n\\[\n n_i=\\left|\\{g\\in M_{01}:S(g)=\\{i\\}\\}\\right|\n\\]\nbe the number of $M_{01}$ items uniquely small for $i$.  Items in $M_{01}$\nwith $S(g)=\\emptyset$ are all-large items.\nLet $|M_{01}|=4a+b$ with $b\\in\\{0,1,2,3\\}$.\nAs mentioned before, we will make sure each agent receives either $a$ items or $a+1$ items.\n\nFix quotas $q_i\\in\\{a,a+1\\}$ with $\\sum_i q_i=|M_{01}|$. \nWe consider allocations of $M_{01}$ with quotas $q=(q_1,q_2,q_3,q_4)$ in which each agent $i$ first receives as many of her uniquely-small items as possible, up to quota $q_i$, and the remaining slots are filled with the remaining items.\nWe will show that all such allocations satisfy EFX.\nIt is also important that we have the freedom to choose which agents receive $a$ items and which agents receive $a+1$ items.\nThis freedom enables us to append the allocation of $M_2$ after the allocation of $M_{01}$.\n\nWe begin by defining this type of allocations.\n\n\\begin{definition}\n    An allocation $P=(P_1,P_2,P_3,P_4)$ of $M_{01}$ is \\emph{canonical} if, for each agent $i$, $|P_i|\\in\\{a,a+1\\}$ and $P_i$ contains $\\min\\{|P_i|, n_i\\}$ items that are small for agent $i$.",
+              "quoted_text_sha256": "ca419d7bdc5dc8e343dc2e2f088757860329b39d10ce76a026081ccec9bf41f9"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 754,
+          "line_start": 753,
+          "publication_locator": "cited publication",
+          "quoted_text": "    In a canonical allocation with $b>0$, agents receiving $a$ items are called \\emph{short} agents, and agents receiving $a+1$ items are called \\emph{long} agents.\n    For $b=0$ and $a>0$, every agent in a canonical is both long and short.",
+          "quoted_text_sha256": "d27fd7071eef43f4d14fa5679df32150fb69ecfc6e053fd25699c95cabc95473"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "composition": {
+      "semantic_context": [
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 296,
+              "line_start": 293,
+              "publication_locator": "cited publication",
+              "quoted_text": "We say that the cost function is tri-valued if there exist constants $p,q,r\\geq 0$ such that $c_i(g_j)\\in\\{p,q,r\\}$ for any $i\\in N$ and $g_j\\in M$.\nThe cost function is bi-valued if there exist constants $p,q\\geq 0$ such that $c_i(g_j)\\in\\{p,q\\}$ for any $i\\in N$ and $g_j\\in M$.\nFor bi-valued cost functions, we will focus on the case $0<p<q$ (the case $0=p<q$ corresponds to the setting with binary cost functions and we know an allocation that is EFX and Pareto-optimal always exists), and we will assume $c_i(g_j)\\in\\{1,r\\}$ (for any $i\\in N$ and $g_j\\in M$) instead.\nWe say that the item $g_j$ is ``large'' for agent $i$ if $c_i(g_j)=r$ and it is ``small'' for agent $i$ if $c_i(g_j)=1$.",
+              "quoted_text_sha256": "5b71eb7251aea72ec86ccdbd30ef8e0250cecd2eee066c438d69b7738b098141"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 724,
+          "line_start": 706,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{lemma}[Composition]\\label{lem:composition}\nLet $P=(P_1,\\ldots,P_n)$ be an allocation of some items and $B=(B_1,\\ldots,B_n)$ an allocation of disjoint\nitems.  If\n\\[\n c_i(P_i)\\le c_i(P_j)\\qquad\\forall i,j\n\\]\nand\n\\[\n c_i(B_i)-1\\le c_i(B_j)\\qquad\\forall i,j,\n\\]\nthen the combined allocation $X_i=P_i\\cup B_i$ is EFX. %provided every agent whose second inequality is tight has a small item in her final bundle.\nMore generally, $X$ is EFX whenever\n\\[\n c_i(P_i)-c_i(P_j)\n \\le c_i(B_j)-c_i(B_i)+\\min_{g\\in X_i}c_i(g)\n \\qquad\\forall i,j.\n\\]\nIf the inequalities above hold only for a particular pair of agents $(i,j)$, then $i$ does not strongly envy $j$.\n\\end{lemma}",
+          "quoted_text_sha256": "c14c7d77d672d96fd27dfef0da9529769a9450e7baf9a0763298a0628f3cf92d"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "efx_for_chores_definition": {
+      "source_anchors": [
+        {
+          "line_end": 275,
+          "line_start": 260,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{definition}[EFX for chores]\nAn allocation $X=(X_1,\\ldots,X_n)$ is \\emph{EFX} if for every pair of agents $i,j$ we have either\n\\begin{itemize}\n    \\item $X_i=\\emptyset$, or\n    \\item for every item $g\\in X_i$, $c_i(X_i\\setminus\\{g\\})\\le c_i(X_j).$\n\\end{itemize}\nEquivalently, if\n\\[\n    \\tau_i(X):=\\tau_i(X_i):=\n    \\begin{cases}\n        0, & X_i=\\emptyset,\\\\\n        c_i(X_i)-\\min_{g\\in X_i}c_i(g), & X_i\\ne\\emptyset,\n    \\end{cases}\n\\]\nthen $X$ is EFX if and only if $\\tau_i(X)\\le c_i(X_j)$ for all $i,j$.\n\\end{definition}",
+          "quoted_text_sha256": "e381d9816e770b34db0c59e6b87a060b59c7476d4299df3a790d7e7034cdaae2"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "efx_pareto_incompatibility": {
+      "source_anchors": [
+        {
+          "line_end": 418,
+          "line_start": 416,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{theorem}\\label{thm:EFXPO}\n    For every $n\\geq 4$ and $r>\\lceil n/2\\rceil+1$, there exists a $(1,r)$-bi-valued instance with $n$ agents where every EFX allocation is not Pareto-optimal.\n\\end{theorem}",
+          "quoted_text_sha256": "e20ebc19add6907ba34473ba3902eda02067c7201bd4bbdefb174ebdce853363"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "efx_po_cost_lower_bounds": {
+      "semantic_context": [
+        {
+          "semantic_role": "scope",
+          "source_anchors": [
+            {
+              "line_end": 418,
+              "line_start": 416,
+              "publication_locator": "cited publication",
+              "quoted_text": "\\begin{theorem}\\label{thm:EFXPO}\n    For every $n\\geq 4$ and $r>\\lceil n/2\\rceil+1$, there exists a $(1,r)$-bi-valued instance with $n$ agents where every EFX allocation is not Pareto-optimal.\n\\end{theorem}",
+              "quoted_text_sha256": "e20ebc19add6907ba34473ba3902eda02067c7201bd4bbdefb174ebdce853363"
+            }
+          ]
+        },
+        {
+          "semantic_role": "model_construction",
+          "source_anchors": [
+            {
+              "line_end": 430,
+              "line_start": 422,
+              "publication_locator": "cited publication",
+              "quoted_text": "Let $t_1=\\lfloor n/2\\rfloor$ and $t_2=\\lceil n/2\\rceil$.\nAgents are partitioned into two groups $T_1$ and $T_2$ with $|T_1|=t_1$ and $|T_2|=t_2$.\nThere are $m=2n+1$ items which are partitioned into three groups $A,B$, and $C$.\n$A$ is the set of large items containing $n-1$ items which have cost $r$ to every agent.\n$B$ contains $t_1+1$ items.\nEach agent in $T_1$ values each item in $B$ at $1$ and each item in $C$ at $r$.\n$C$ contains $t_2+1$ items.\nEach agent in $T_2$ values each item in $B$ at $r$ and each item in $C$ at $1$.\nRecall that $r$ can be any real number greater than $t_2+1$.",
+              "quoted_text_sha256": "d9d71f300bab4bdecd0e711cbe9eb3608dbbf7e20e014b2b603297730e756185"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 504,
+          "line_start": 502,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{proposition}\\label{prop:r+1r+2}\n    For every agent $i$, we have $c_i(X_i)\\geq r+1$. Moreover, there exists an agent $i$ with $c_i(X_i)\\geq r+2$.\n\\end{proposition}",
+          "quoted_text_sha256": "99c919efe4444084c559260c87110a19c5f935115fbae5c9ee3c9069b268ce4f"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "efx_po_every_agent_large": {
+      "semantic_context": [
+        {
+          "semantic_role": "scope",
+          "source_anchors": [
+            {
+              "line_end": 418,
+              "line_start": 416,
+              "publication_locator": "cited publication",
+              "quoted_text": "\\begin{theorem}\\label{thm:EFXPO}\n    For every $n\\geq 4$ and $r>\\lceil n/2\\rceil+1$, there exists a $(1,r)$-bi-valued instance with $n$ agents where every EFX allocation is not Pareto-optimal.\n\\end{theorem}",
+              "quoted_text_sha256": "e20ebc19add6907ba34473ba3902eda02067c7201bd4bbdefb174ebdce853363"
+            }
+          ]
+        },
+        {
+          "semantic_role": "model_construction",
+          "source_anchors": [
+            {
+              "line_end": 430,
+              "line_start": 422,
+              "publication_locator": "cited publication",
+              "quoted_text": "Let $t_1=\\lfloor n/2\\rfloor$ and $t_2=\\lceil n/2\\rceil$.\nAgents are partitioned into two groups $T_1$ and $T_2$ with $|T_1|=t_1$ and $|T_2|=t_2$.\nThere are $m=2n+1$ items which are partitioned into three groups $A,B$, and $C$.\n$A$ is the set of large items containing $n-1$ items which have cost $r$ to every agent.\n$B$ contains $t_1+1$ items.\nEach agent in $T_1$ values each item in $B$ at $1$ and each item in $C$ at $r$.\n$C$ contains $t_2+1$ items.\nEach agent in $T_2$ values each item in $B$ at $r$ and each item in $C$ at $1$.\nRecall that $r$ can be any real number greater than $t_2+1$.",
+              "quoted_text_sha256": "d9d71f300bab4bdecd0e711cbe9eb3608dbbf7e20e014b2b603297730e756185"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 463,
+          "line_start": 461,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{proposition}\\label{prop:PO-exist-large}\n    For every $X_i$, there exists $g\\in X_i$ with $c_i(g)=r$.\n\\end{proposition}",
+          "quoted_text_sha256": "f0647bd9476454fc21162f8a78ac5cfb83e01e727d7a7fdccf41b59b05393bb7"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "envy_free_for_chores_definition": {
+      "source_anchors": [
+        {
+          "line_end": 255,
+          "line_start": 253,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{definition}[EF for chores]\nAn allocation $X=(X_1,\\ldots,X_n)$ is \\emph{envy-free} if for every pair of agents $i,j$ we have $c_i(X_i)\\leq c_i(X_j)$.\n\\end{definition}",
+          "quoted_text_sha256": "f35f0ad759d3008d275fc986451c9d838b57c7d969abfd6ca311023882e0445b"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "exceptional_residue_combination": {
+      "semantic_context": [
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 750,
+              "line_start": 734,
+              "publication_locator": "cited publication",
+              "quoted_text": "For each agent $i$, let\n\\[\n n_i=\\left|\\{g\\in M_{01}:S(g)=\\{i\\}\\}\\right|\n\\]\nbe the number of $M_{01}$ items uniquely small for $i$.  Items in $M_{01}$\nwith $S(g)=\\emptyset$ are all-large items.\nLet $|M_{01}|=4a+b$ with $b\\in\\{0,1,2,3\\}$.\nAs mentioned before, we will make sure each agent receives either $a$ items or $a+1$ items.\n\nFix quotas $q_i\\in\\{a,a+1\\}$ with $\\sum_i q_i=|M_{01}|$. \nWe consider allocations of $M_{01}$ with quotas $q=(q_1,q_2,q_3,q_4)$ in which each agent $i$ first receives as many of her uniquely-small items as possible, up to quota $q_i$, and the remaining slots are filled with the remaining items.\nWe will show that all such allocations satisfy EFX.\nIt is also important that we have the freedom to choose which agents receive $a$ items and which agents receive $a+1$ items.\nThis freedom enables us to append the allocation of $M_2$ after the allocation of $M_{01}$.\n\nWe begin by defining this type of allocations.\n",
+              "quoted_text_sha256": "48295985bbf7e2aa1b185137b3e41a1b464263e733629aa1ec32e5c3d01f479e"
+            }
+          ]
+        },
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 1004,
+              "line_start": 985,
+              "publication_locator": "cited publication",
+              "quoted_text": "\\subsection{The $M_2$ Multigraph Algorithm}\n\\label{subsec:2}\nWe now give a complete allocation procedure for the items in $M_2$.\nEach item is small for some agents $i$ and $j$ and\nlarge for the other two agents, and we say that the type of this item is $(i,j)$, or $ij$ for short.\nIn this section, we consider the case where the instance only has $M_{2}$ items.\nWe represent the instance by a\nmultigraph $R$ on $N=\\{1,2,3,4\\}$, where an item of type $(i,j)$ is an edge $(i,j)$.\nWe slightly abuse the notation by letting $R$ also represent the edge set, i.e., $R$ exactly corresponds to items in $M_2$.\nLet $x_{ij}$ denote the multiplicity of edge $(i,j)$ and let $m_R=|R|$.\n\nFor $U\\subseteq N$, define\n\\[\n \\operatorname{inc}_R(U)=\\left|\\{e\\in R:e\\cap U\\neq\\emptyset\\}\\right|\n\\]\nand\n\\[\n \\Delta_R(U)=\\frac{|U|m_R}{4}-\\operatorname{inc}_R(U).\n\\]\nWe call $U$ \\emph{deficient} if $\\Delta_R(U)>0$.  ",
+              "quoted_text_sha256": "ad8579ea80c1fdac72667228665bb05ee1468da92fcedb659c8d367bd10c4971"
+            }
+          ]
+        },
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 1705,
+              "line_start": 1683,
+              "publication_locator": "cited publication",
+              "quoted_text": "\\subsection{Concatenating the $M_{01}$ prefix and the $M_2$ allocation}\n\\label{subsec:combine}\nWe now finish the proof for $M_{01}\\cup M_2$.  Write\n\\[\n |M_{01}|=4a+b,\n \\qquad b\\in\\{0,1,2,3\\}.\n\\]\nWe discuss the four values of $b$.\nIn each case and each of the sub-case, we will discuss how the concatenation is done and show that the resultant allocation is EFX.\nWe will exploit many features discussed earlier: the freedom to choose those agents that receive one more item when allocating $M_{01}$, the freedom to choose envy-free agents suggested in Lemma~\\ref{lem:M2properties}, etc.\n\nAt a high level, we will try to use some items in $M_2$ for gap-filling such that the allocation of $M_{01}$ in the first phase becomes envy-free after gap-filling.\nIf the residual of $M_2$ is not of the two configurations in Lemma~\\ref{lem:M2properties}(ii), we can allocate this residue so that every envy is up to a small item.\nLemma~\\ref{lem:composition} then implies the combined allocation is EFX.\nThe tricky part is to try to make the residue of $M_2$ after gap-filling avoid the two configurations in Lemma~\\ref{lem:M2properties}(ii).\nHowever, there are hard cases where this is not always possible, and we need to handle these cases separately.\n\nIf, after the gap-filling, the residual $M_2$ items form one of the two configurations in Lemma~\\ref{lem:M2properties}(ii), we will call this configuration \\emph{exceptional}.\nIn an exceptional configuration, one edge $(i,j)$ has multiplicity at least $3$, and, other than those $(i,j)$-items, there can be at most one other item of type $(i',j')$ where $(i',j')$ is disjoint from $(i,j)$.\nWe will call the two agents $i',j'$ \\emph{exceptional agents}.\nBy Lemma~\\ref{lem:M2properties}(ii), for the two exceptional agents $i',j'$, one of them receives only large item in the residual of $M_2$ and envies the other by a large item.\nWe call this agent the \\emph{disadvantageous agent}.\nLemma~\\ref{lem:M2properties}(ii) tells us we are free to choose the disadvantageous agent from the two exceptional agents.",
+              "quoted_text_sha256": "15a5f0ab498f98982ad6c8b3ff001b2a58de2b232d8fa27a96f7a09fc5aedd4b"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 1712,
+          "line_start": 1709,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{lemma}\\label{lem:easycombine}\n    Suppose $P=(P_1,P_2,P_3,P_4)$ is a canonical allocation of $M_{01}$. Suppose some items of \\(M_2\\) are used for gap-filling, all assigned to short agents, such that \\(P\\) is extended to an envy-free allocation.\n    If the residual of $M_2$ is of an exceptional configuration with exceptional agents $i$ and $j$ and both agents are long agents in the canonical allocation, then there exists an EFX allocation for $M_{01}\\cup M_2$.\n\\end{lemma}",
+          "quoted_text_sha256": "adbd2d4a31db356b8e6b3b9c2df96bb757ea6a29c11406eaee2e3af4e41b9f61"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "four_agent_bi_valued_efx_exists": {
+      "semantic_context": [
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 296,
+              "line_start": 293,
+              "publication_locator": "cited publication",
+              "quoted_text": "We say that the cost function is tri-valued if there exist constants $p,q,r\\geq 0$ such that $c_i(g_j)\\in\\{p,q,r\\}$ for any $i\\in N$ and $g_j\\in M$.\nThe cost function is bi-valued if there exist constants $p,q\\geq 0$ such that $c_i(g_j)\\in\\{p,q\\}$ for any $i\\in N$ and $g_j\\in M$.\nFor bi-valued cost functions, we will focus on the case $0<p<q$ (the case $0=p<q$ corresponds to the setting with binary cost functions and we know an allocation that is EFX and Pareto-optimal always exists), and we will assume $c_i(g_j)\\in\\{1,r\\}$ (for any $i\\in N$ and $g_j\\in M$) instead.\nWe say that the item $g_j$ is ``large'' for agent $i$ if $c_i(g_j)=r$ and it is ``small'' for agent $i$ if $c_i(g_j)=1$.",
+              "quoted_text_sha256": "5b71eb7251aea72ec86ccdbd30ef8e0250cecd2eee066c438d69b7738b098141"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 534,
+          "line_start": 532,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{theorem}\\label{thm:four}\n    For four agents, there exists an EFX allocation in every bi-valued instance.\n\\end{theorem}",
+          "quoted_text_sha256": "21cc8038a07184aaf32cdd76b65602b8e30f604de7fe2bf7c09761d9070b6f3a"
+        }
+      ],
+      "source_kind": "theorem"
+    },
+    "m2_efx_allocation": {
+      "semantic_context": [
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 558,
+              "line_start": 545,
+              "publication_locator": "cited publication",
+              "quoted_text": "We will assume $r>2$ in the remaining part of this section.\nFor a chore $g$, let\n\\[\n S(g)=\\{i\\in N:c_i(g)=1\\}\n\\]\nbe the set of agents for whom $g$ is small.  We partition the chores into\n\\[\nM_{01}=\\{g:|S(g)|\\le 1\\},\\qquad\nM_2=\\{g:|S(g)|=2\\},\\qquad\nM_{34}=\\{g:|S(g)|\\ge 3\\}.\n\\]\nFor an item in $M_2$, we write $(i,j)$ for an item small exactly for agents\n$i$ and $j$.  Thus the items in $M_2$ form a multigraph on the vertex set\n$N$, where an edge $(i,j)$ is a chore small for precisely agents $i$ and $j$.",
+              "quoted_text_sha256": "72d05da2c709d8f15e5ba6ddb99fc8e20d95ba4300b55065c779e5c37fbe822a"
+            }
+          ]
+        },
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 1004,
+              "line_start": 985,
+              "publication_locator": "cited publication",
+              "quoted_text": "\\subsection{The $M_2$ Multigraph Algorithm}\n\\label{subsec:2}\nWe now give a complete allocation procedure for the items in $M_2$.\nEach item is small for some agents $i$ and $j$ and\nlarge for the other two agents, and we say that the type of this item is $(i,j)$, or $ij$ for short.\nIn this section, we consider the case where the instance only has $M_{2}$ items.\nWe represent the instance by a\nmultigraph $R$ on $N=\\{1,2,3,4\\}$, where an item of type $(i,j)$ is an edge $(i,j)$.\nWe slightly abuse the notation by letting $R$ also represent the edge set, i.e., $R$ exactly corresponds to items in $M_2$.\nLet $x_{ij}$ denote the multiplicity of edge $(i,j)$ and let $m_R=|R|$.\n\nFor $U\\subseteq N$, define\n\\[\n \\operatorname{inc}_R(U)=\\left|\\{e\\in R:e\\cap U\\neq\\emptyset\\}\\right|\n\\]\nand\n\\[\n \\Delta_R(U)=\\frac{|U|m_R}{4}-\\operatorname{inc}_R(U).\n\\]\nWe call $U$ \\emph{deficient} if $\\Delta_R(U)>0$.  ",
+              "quoted_text_sha256": "ad8579ea80c1fdac72667228665bb05ee1468da92fcedb659c8d367bd10c4971"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 1047,
+          "line_start": 1045,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{lemma}[EFX Allocation of $M_2$]\\label{lem:M2}\nThere is an EFX allocation of $M_2$.\n\\end{lemma}",
+          "quoted_text_sha256": "7655045beb66902ef2541b1162f1a39a57e5656c70d1962785097e115f8b871e"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "m2_efx_allocation_properties": {
+      "semantic_context": [
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 558,
+              "line_start": 545,
+              "publication_locator": "cited publication",
+              "quoted_text": "We will assume $r>2$ in the remaining part of this section.\nFor a chore $g$, let\n\\[\n S(g)=\\{i\\in N:c_i(g)=1\\}\n\\]\nbe the set of agents for whom $g$ is small.  We partition the chores into\n\\[\nM_{01}=\\{g:|S(g)|\\le 1\\},\\qquad\nM_2=\\{g:|S(g)|=2\\},\\qquad\nM_{34}=\\{g:|S(g)|\\ge 3\\}.\n\\]\nFor an item in $M_2$, we write $(i,j)$ for an item small exactly for agents\n$i$ and $j$.  Thus the items in $M_2$ form a multigraph on the vertex set\n$N$, where an edge $(i,j)$ is a chore small for precisely agents $i$ and $j$.",
+              "quoted_text_sha256": "72d05da2c709d8f15e5ba6ddb99fc8e20d95ba4300b55065c779e5c37fbe822a"
+            }
+          ]
+        },
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 1004,
+              "line_start": 985,
+              "publication_locator": "cited publication",
+              "quoted_text": "\\subsection{The $M_2$ Multigraph Algorithm}\n\\label{subsec:2}\nWe now give a complete allocation procedure for the items in $M_2$.\nEach item is small for some agents $i$ and $j$ and\nlarge for the other two agents, and we say that the type of this item is $(i,j)$, or $ij$ for short.\nIn this section, we consider the case where the instance only has $M_{2}$ items.\nWe represent the instance by a\nmultigraph $R$ on $N=\\{1,2,3,4\\}$, where an item of type $(i,j)$ is an edge $(i,j)$.\nWe slightly abuse the notation by letting $R$ also represent the edge set, i.e., $R$ exactly corresponds to items in $M_2$.\nLet $x_{ij}$ denote the multiplicity of edge $(i,j)$ and let $m_R=|R|$.\n\nFor $U\\subseteq N$, define\n\\[\n \\operatorname{inc}_R(U)=\\left|\\{e\\in R:e\\cap U\\neq\\emptyset\\}\\right|\n\\]\nand\n\\[\n \\Delta_R(U)=\\frac{|U|m_R}{4}-\\operatorname{inc}_R(U).\n\\]\nWe call $U$ \\emph{deficient} if $\\Delta_R(U)>0$.  ",
+              "quoted_text_sha256": "ad8579ea80c1fdac72667228665bb05ee1468da92fcedb659c8d367bd10c4971"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 1462,
+          "line_start": 1419,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{lemma}[Properties of the EFX allocations in Lemma~\\ref{lem:M2}]\\label{lem:M2properties}\nThe EFX allocation $B=(B_1,\\ldots,B_4)$ ensured by Lemma~\\ref{lem:M2} can be chosen to satisfy the\nfollowing additional properties.\n\\begin{enumerate}[label=(\\roman*)]\n\\item Except in the two configurations described in~(ii), every possible envy is certified by removing a small item.  More precisely,\nwhenever $B_i$ contains an item that is small for agent $i$,\n\\[\n c_i(B_i)-1\\le c_i(B_j)\\qquad\\forall j\\in N,\n\\]\nwhereas every agent whose bundle contains only large items is envy-free:\n\\[\n c_i(B_i)\\le c_i(B_j)\\qquad\\forall j\\in N.\n\\]\n\n\\item Up to relabeling, the only configurations in which an agent whose\nbundle contains only large items may fail to be envy-free, and hence\nmust use a large item as the EFX-removal item, are the following.\n\\begin{enumerate}[label=(\\alph*)]\n\\item All items have type $(3,4)$ and\n\\[\n |R|=4q+3.\n\\]\nThen agents $1,2$ receive $q$ and $q+1$ items, respectively, in either\norder, while agents $3,4$ receive $q+1$ items each.  We are free to choose\nwhich of agents $1,2$ receives $q+1$ items, and this agent is the unique agent who use a large item as the EFX-removal item.\n\n\\item The multiset $R$ consists of one item of type $(1,2)$ and\n$4q+3$ items of type $(3,4)$.  One of agents $1,2$ receives the unique\ntype-$(1,2)$ item together with $q$ type-$(3,4)$ items, the other receives\n$q+1$ type-$(3,4)$ items, and agents $3,4$ receive $q+1$ type-$(3,4)$\nitems each.  We are free to choose which of agents $1,2$ receives the unique\ntype-$(1,2)$ item.  The other agent is the unique agent who must use a large\nitem as the EFX-removal item.\n\\end{enumerate}\n\n\\item If every edge of $R$ has type $(1,2)$ or $(3,4)$, with\n$x_{34}\\ge x_{12}\\ge 0$, then the allocation can be chosen so that agent $1$\nis envy-free:\n\\[\n c_1(B_1)\\le c_1(B_j)\\qquad\\forall j\\in N.\n\\]\nThe same statement holds with agent $2$ in place of agent $1$.\n\\end{enumerate}\n\\end{lemma}",
+          "quoted_text_sha256": "0749c91005a7ca6acc788a69c4b790ed47e2b0cde8aa0d11953e5b6400c7ac8e"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "m34_insertion": {
+      "semantic_context": [
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 296,
+              "line_start": 293,
+              "publication_locator": "cited publication",
+              "quoted_text": "We say that the cost function is tri-valued if there exist constants $p,q,r\\geq 0$ such that $c_i(g_j)\\in\\{p,q,r\\}$ for any $i\\in N$ and $g_j\\in M$.\nThe cost function is bi-valued if there exist constants $p,q\\geq 0$ such that $c_i(g_j)\\in\\{p,q\\}$ for any $i\\in N$ and $g_j\\in M$.\nFor bi-valued cost functions, we will focus on the case $0<p<q$ (the case $0=p<q$ corresponds to the setting with binary cost functions and we know an allocation that is EFX and Pareto-optimal always exists), and we will assume $c_i(g_j)\\in\\{1,r\\}$ (for any $i\\in N$ and $g_j\\in M$) instead.\nWe say that the item $g_j$ is ``large'' for agent $i$ if $c_i(g_j)=r$ and it is ``small'' for agent $i$ if $c_i(g_j)=1$.",
+              "quoted_text_sha256": "5b71eb7251aea72ec86ccdbd30ef8e0250cecd2eee066c438d69b7738b098141"
+            }
+          ]
+        },
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 558,
+              "line_start": 545,
+              "publication_locator": "cited publication",
+              "quoted_text": "We will assume $r>2$ in the remaining part of this section.\nFor a chore $g$, let\n\\[\n S(g)=\\{i\\in N:c_i(g)=1\\}\n\\]\nbe the set of agents for whom $g$ is small.  We partition the chores into\n\\[\nM_{01}=\\{g:|S(g)|\\le 1\\},\\qquad\nM_2=\\{g:|S(g)|=2\\},\\qquad\nM_{34}=\\{g:|S(g)|\\ge 3\\}.\n\\]\nFor an item in $M_2$, we write $(i,j)$ for an item small exactly for agents\n$i$ and $j$.  Thus the items in $M_2$ form a multigraph on the vertex set\n$N$, where an edge $(i,j)$ is a chore small for precisely agents $i$ and $j$.",
+              "quoted_text_sha256": "72d05da2c709d8f15e5ba6ddb99fc8e20d95ba4300b55065c779e5c37fbe822a"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 581,
+          "line_start": 577,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{lemma}[Insertion of an $M_{34}$ item]\\label{lem:insertion}\nLet $X$ be an EFX allocation of a set of chores $T$.  Let $g\\in M_{34}$ be a\nchore that is small for at least three agents.  Then there is an EFX\nallocation of $T\\cup\\{g\\}$.\n\\end{lemma}",
+          "quoted_text_sha256": "5786b52b57e403590ea698bfe4e41d3785952e858c9f0ba62b74971b95e8c541"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "pareto_optimality_definition": {
+      "source_anchors": [
+        {
+          "line_end": 287,
+          "line_start": 280,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{definition}[Pareto-Optimality]\n    An allocation $Y=(Y_1,\\ldots,Y_n)$ \\emph{Pareto-dominates} an allocation $X=(X_1,\\ldots,X_n)$ if\n    \\begin{itemize}\n        \\item $c_i(Y_i)\\leq c_i(X_i)$ holds for all $i\\in\\{1,\\ldots,n\\}$, and\n        \\item there exists $i\\in\\{1,\\ldots,n\\},\\;$ $c_i(Y_i)<c_i(X_i)$.\n    \\end{itemize}\n    An allocation $X=(X_1,\\ldots,X_n)$ is \\emph{Pareto-optimal} if it is not Pareto-dominated by any allocation.\n\\end{definition}",
+          "quoted_text_sha256": "7261fff22791aca85a7a80c68ed748444b9e35d7039480e855fd6f6fa590d9e0"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "supercanonical_allocation_definition": {
+      "semantic_context": [
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 558,
+              "line_start": 545,
+              "publication_locator": "cited publication",
+              "quoted_text": "We will assume $r>2$ in the remaining part of this section.\nFor a chore $g$, let\n\\[\n S(g)=\\{i\\in N:c_i(g)=1\\}\n\\]\nbe the set of agents for whom $g$ is small.  We partition the chores into\n\\[\nM_{01}=\\{g:|S(g)|\\le 1\\},\\qquad\nM_2=\\{g:|S(g)|=2\\},\\qquad\nM_{34}=\\{g:|S(g)|\\ge 3\\}.\n\\]\nFor an item in $M_2$, we write $(i,j)$ for an item small exactly for agents\n$i$ and $j$.  Thus the items in $M_2$ form a multigraph on the vertex set\n$N$, where an edge $(i,j)$ is a chore small for precisely agents $i$ and $j$.",
+              "quoted_text_sha256": "72d05da2c709d8f15e5ba6ddb99fc8e20d95ba4300b55065c779e5c37fbe822a"
+            }
+          ]
+        },
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 750,
+              "line_start": 734,
+              "publication_locator": "cited publication",
+              "quoted_text": "For each agent $i$, let\n\\[\n n_i=\\left|\\{g\\in M_{01}:S(g)=\\{i\\}\\}\\right|\n\\]\nbe the number of $M_{01}$ items uniquely small for $i$.  Items in $M_{01}$\nwith $S(g)=\\emptyset$ are all-large items.\nLet $|M_{01}|=4a+b$ with $b\\in\\{0,1,2,3\\}$.\nAs mentioned before, we will make sure each agent receives either $a$ items or $a+1$ items.\n\nFix quotas $q_i\\in\\{a,a+1\\}$ with $\\sum_i q_i=|M_{01}|$. \nWe consider allocations of $M_{01}$ with quotas $q=(q_1,q_2,q_3,q_4)$ in which each agent $i$ first receives as many of her uniquely-small items as possible, up to quota $q_i$, and the remaining slots are filled with the remaining items.\nWe will show that all such allocations satisfy EFX.\nIt is also important that we have the freedom to choose which agents receive $a$ items and which agents receive $a+1$ items.\nThis freedom enables us to append the allocation of $M_2$ after the allocation of $M_{01}$.\n\nWe begin by defining this type of allocations.\n",
+              "quoted_text_sha256": "48295985bbf7e2aa1b185137b3e41a1b464263e733629aa1ec32e5c3d01f479e"
+            }
+          ]
+        },
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 754,
+              "line_start": 751,
+              "publication_locator": "cited publication",
+              "quoted_text": "\\begin{definition}\n    An allocation $P=(P_1,P_2,P_3,P_4)$ of $M_{01}$ is \\emph{canonical} if, for each agent $i$, $|P_i|\\in\\{a,a+1\\}$ and $P_i$ contains $\\min\\{|P_i|, n_i\\}$ items that are small for agent $i$.\n    In a canonical allocation with $b>0$, agents receiving $a$ items are called \\emph{short} agents, and agents receiving $a+1$ items are called \\emph{long} agents.\n    For $b=0$ and $a>0$, every agent in a canonical is both long and short.",
+              "quoted_text_sha256": "db1056a1b321e17633dfe011230553e8e58c379605c43653f7d5ba641ba395f8"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 755,
+          "line_start": 755,
+          "publication_locator": "cited publication",
+          "quoted_text": "    For $b>0$, an allocation $P=(P_1,P_2,P_3,P_4)$ is \\emph{super-canonical} if it is canonical and satisfies $c_i(P_i)\\leq c_i(P_j)-r$ for every short agent $i$ and every long agent $j$.",
+          "quoted_text_sha256": "8c7c0c8b8445bcb17164b73a35ffa396616b2241999df8855e822e715718ce51"
+        }
+      ],
+      "source_kind": "definition"
+    },
+    "tri_four_no_a_bundle_expensive": {
+      "semantic_context": [
+        {
+          "semantic_role": "model_construction",
+          "source_anchors": [
+            {
+              "line_end": 317,
+              "line_start": 312,
+              "publication_locator": "cited publication",
+              "quoted_text": "The instance consists of $4$ agents and $13$ items.\nThe items are partitioned into three groups:\n$$A=\\{a_1,a_2,a_3\\},\\quad B=\\{b_1,b_2,b_3,b_4,b_5\\},\\quad\\mbox{and}\\quad C=\\{c_1,c_2,c_3,c_4,c_5\\}.$$\nThe items group $A$ consists of ``large'' items where each agent values each of them at $20$.\nFor each item in $B$, agents $1$ and $2$ value it at $1$ and agents $3$ and $4$ value it at $7$.\nFor each item in $C$, agents $1$ and $2$ value it at $7$ and agents $3$ and $4$ value it at $1$.",
+              "quoted_text_sha256": "596beefbdabb582f6c26534f0c50b9e4d99a669c9575d72cb75a679d2e261c53"
+            },
+            {
+              "line_end": 338,
+              "line_start": 336,
+              "publication_locator": "cited publication",
+              "quoted_text": "In the remaining part of this section, we will show that no EFX allocation exists in this instance.\nSuppose for contradiction an EFX allocation $X=(X_1,X_2,X_3,X_4)$ exists.\nFirstly, we will show that no one can receive more than one large item in $A$.",
+              "quoted_text_sha256": "25b5c609b5bccb68460398787645a746f1b0b630744405ff82cf43223c5711ba"
+            },
+            {
+              "line_end": 360,
+              "line_start": 359,
+              "publication_locator": "cited publication",
+              "quoted_text": "With the above proposition, it must be that one agent does not receive any large item in $A$ and each of the remaining three agents receives exactly one item in $A$.\nSuppose without loss of generality that agent $1$ does not receive any item from $A$.",
+              "quoted_text_sha256": "a7db0eeb6d099fa16e6e522710a41f04f40c29ecb56b4979719da4bd1a83b9ee"
+            }
+          ]
+        },
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 275,
+              "line_start": 260,
+              "publication_locator": "cited publication",
+              "quoted_text": "\\begin{definition}[EFX for chores]\nAn allocation $X=(X_1,\\ldots,X_n)$ is \\emph{EFX} if for every pair of agents $i,j$ we have either\n\\begin{itemize}\n    \\item $X_i=\\emptyset$, or\n    \\item for every item $g\\in X_i$, $c_i(X_i\\setminus\\{g\\})\\le c_i(X_j).$\n\\end{itemize}\nEquivalently, if\n\\[\n    \\tau_i(X):=\\tau_i(X_i):=\n    \\begin{cases}\n        0, & X_i=\\emptyset,\\\\\n        c_i(X_i)-\\min_{g\\in X_i}c_i(g), & X_i\\ne\\emptyset,\n    \\end{cases}\n\\]\nthen $X$ is EFX if and only if $\\tau_i(X)\\le c_i(X_j)$ for all $i,j$.\n\\end{definition}",
+              "quoted_text_sha256": "e381d9816e770b34db0c59e6b87a060b59c7476d4299df3a790d7e7034cdaae2"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 365,
+          "line_start": 363,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{proposition}\n    For any agent $i$, we have $c_i(X_1)\\geq 20$.\n\\end{proposition}",
+          "quoted_text_sha256": "4aad4cd50dfdf2bec34f59df554c2fad7c773064ca602679b8f9178600ede609"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "tri_four_no_two_large": {
+      "semantic_context": [
+        {
+          "semantic_role": "model_construction",
+          "source_anchors": [
+            {
+              "line_end": 317,
+              "line_start": 312,
+              "publication_locator": "cited publication",
+              "quoted_text": "The instance consists of $4$ agents and $13$ items.\nThe items are partitioned into three groups:\n$$A=\\{a_1,a_2,a_3\\},\\quad B=\\{b_1,b_2,b_3,b_4,b_5\\},\\quad\\mbox{and}\\quad C=\\{c_1,c_2,c_3,c_4,c_5\\}.$$\nThe items group $A$ consists of ``large'' items where each agent values each of them at $20$.\nFor each item in $B$, agents $1$ and $2$ value it at $1$ and agents $3$ and $4$ value it at $7$.\nFor each item in $C$, agents $1$ and $2$ value it at $7$ and agents $3$ and $4$ value it at $1$.",
+              "quoted_text_sha256": "596beefbdabb582f6c26534f0c50b9e4d99a669c9575d72cb75a679d2e261c53"
+            },
+            {
+              "line_end": 338,
+              "line_start": 336,
+              "publication_locator": "cited publication",
+              "quoted_text": "In the remaining part of this section, we will show that no EFX allocation exists in this instance.\nSuppose for contradiction an EFX allocation $X=(X_1,X_2,X_3,X_4)$ exists.\nFirstly, we will show that no one can receive more than one large item in $A$.",
+              "quoted_text_sha256": "25b5c609b5bccb68460398787645a746f1b0b630744405ff82cf43223c5711ba"
+            }
+          ]
+        },
+        {
+          "semantic_role": "definition",
+          "source_anchors": [
+            {
+              "line_end": 275,
+              "line_start": 260,
+              "publication_locator": "cited publication",
+              "quoted_text": "\\begin{definition}[EFX for chores]\nAn allocation $X=(X_1,\\ldots,X_n)$ is \\emph{EFX} if for every pair of agents $i,j$ we have either\n\\begin{itemize}\n    \\item $X_i=\\emptyset$, or\n    \\item for every item $g\\in X_i$, $c_i(X_i\\setminus\\{g\\})\\le c_i(X_j).$\n\\end{itemize}\nEquivalently, if\n\\[\n    \\tau_i(X):=\\tau_i(X_i):=\n    \\begin{cases}\n        0, & X_i=\\emptyset,\\\\\n        c_i(X_i)-\\min_{g\\in X_i}c_i(g), & X_i\\ne\\emptyset,\n    \\end{cases}\n\\]\nthen $X$ is EFX if and only if $\\tau_i(X)\\le c_i(X_j)$ for all $i,j$.\n\\end{definition}",
+              "quoted_text_sha256": "e381d9816e770b34db0c59e6b87a060b59c7476d4299df3a790d7e7034cdaae2"
+            }
+          ]
+        }
+      ],
+      "source_anchors": [
+        {
+          "line_end": 342,
+          "line_start": 340,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{proposition}\n    No agent can receive more than one item in $A$.\n\\end{proposition}",
+          "quoted_text_sha256": "d9a14c7221e1b05a2df5a419ebe379a5557018a60d67e3f5b4da940d7df01748"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "tri_valued_nonexistence": {
+      "source_anchors": [
+        {
+          "line_end": 306,
+          "line_start": 304,
+          "publication_locator": "cited publication",
+          "quoted_text": "\\begin{theorem}\\label{thm:tri}\n    For any $n\\geq 4$, there exists a tri-valued instance with $n$ agents where no EFX allocation exists.\n\\end{theorem}",
+          "quoted_text_sha256": "4055d711f0873ba6009b8bfd5f8ff5130be4bde0fb020bcd189b3ee12d3a4a5d"
+        }
+      ],
+      "source_kind": "theorem"
+    }
+  },
+  "source_artifact_sha256": "d6bb00d52184df636e5b690f5baa9da36aac2795b114cae10a113b5f32da9ba1",
+  "source_coverage_mode": "named_theoretical_statements"
+}

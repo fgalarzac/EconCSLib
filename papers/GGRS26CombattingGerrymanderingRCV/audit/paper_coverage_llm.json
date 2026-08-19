@@ -12,7 +12,7 @@
       "review_rows": [
         "paper_lemma_c1_pav_selector_eq_unique_integer_interval"
       ],
-      "source_evidence": "Pinned named source statement at source.txt:2414-2433.",
+      "source_evidence": "Pinned named source statement at cited publication:2414-2433.",
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "b8b66349a70e19973c22ee2e3e08386fe311a31d3d8f080ae8981c3dc6ee65b8",
       "statement_sha256": "286a11de6d49fc0ba8f9849f739ccd474b1f4569994b7f3cdd5289c9a5dd4fd1",
@@ -30,7 +30,7 @@
       "review_rows": [
         "paper_proposition1_all_ballot_routed_surplus_transfer_outcomes_and_selected_pav"
       ],
-      "source_evidence": "Pinned named source statement at source.txt:485-490.",
+      "source_evidence": "Pinned named source statement at cited publication:485-490.",
       "source_item_coverage_digest_schema": 5,
       "source_item_coverage_sha256": "01fa823a60d9f6669803ca6211d329c6acb0811dd9fa703fb8df7852b0e1d756",
       "statement_sha256": "a14a64b9018c044310f874252343500d6a517aa6dfce92b1664326c27184b023",
@@ -45,7 +45,6 @@
   "review_surface_sha256": "f02c655f82f9a9da49ad2452f1af582d64e13f35431480f10f5af4376491f1e9",
   "schema": 1,
   "seed_scaffold": false,
-  "source_artifact_path": "source.txt",
   "source_artifact_sha256": "57762234dc7b4a41d10b7f05110551853ab717136eca7b9216da9425cfb8bce5",
   "source_coverage_mode": "named_theoretical_statements",
   "source_grounded": true,

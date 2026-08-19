@@ -428,6 +428,926 @@ class PublicReleaseCandidateGuardTests(unittest.TestCase):
 
         self.assertTrue(any("differs from private source commit" in issue for issue in issues), issues)
 
+    def _display_projection_fixture(
+        self, root: Path
+    ) -> tuple[Path, Path, str, str, guard.AllowlistEntry, bytes, bytes]:
+        """Create one candidate map with a source-free display manifest."""
+
+        private = root / "private"
+        candidate = root / "candidate"
+        self.init_repo(private)
+        self.init_repo(candidate)
+        map_path = "papers/Fixture/audit/paper_statement_map.json"
+        manifest_path = "papers/Fixture/audit/public_source_display_projection.json"
+        quote = "Definition 1. A fixture object has one named property."
+        quote_sha256 = guard._sha256_bytes(quote.encode("utf-8"))
+        public_anchor = {
+            "line_end": 1,
+            "line_start": 1,
+            "publication_locator": "cited publication",
+            "quoted_text": quote,
+            "quoted_text_sha256": quote_sha256,
+        }
+        public_context_anchor = {
+            "line_end": 2,
+            "line_start": 2,
+            "publication_locator": "cited publication",
+            "quoted_text": "Theorem 1. Every fixture object has that property.",
+            "quoted_text_sha256": guard._sha256_bytes(
+                b"Theorem 1. Every fixture object has that property."
+            ),
+        }
+        private_map = {
+            "source_artifact_path": ".audit_source/Fixture.txt",
+            "source_artifact_sha256": "a" * 64,
+            "source_coverage_mode": "named_theoretical_statements",
+            "items": {
+                "fixture_definition": {
+                    "source_kind": "definition",
+                    "source_anchor_evidence": [
+                        {**public_anchor, "path": ".audit_source/Fixture.txt"}
+                    ],
+                    "semantic_context_requirements": [
+                        {
+                            "semantic_role": "result",
+                            "source_anchor_evidence": [
+                                {
+                                    **public_context_anchor,
+                                    "path": ".audit_source/Fixture.txt",
+                                }
+                            ],
+                        }
+                    ],
+                }
+            },
+        }
+        private_path = private / map_path
+        private_path.parent.mkdir(parents=True)
+        private_blob = (json.dumps(private_map, sort_keys=True) + "\n").encode("utf-8")
+        private_path.write_bytes(private_blob)
+        source_commit = self.commit(private, "private source map")
+
+        public_blob = guard.project_bytes(
+            map_path, private_blob, include_source_display_marker=True
+        )
+        public_map = json.loads(public_blob.decode("utf-8"))
+        public_anchor = public_map["items"]["fixture_definition"][
+            "source_anchor_evidence"
+        ][0]
+        public_context_anchor = public_map["items"]["fixture_definition"][
+            "semantic_context_requirements"
+        ][0]["source_anchor_evidence"][0]
+        manifest = {
+            "generator": guard.PUBLIC_SOURCE_DISPLAY_PROJECTION_GENERATOR,
+            "paper_id": "Fixture",
+            "private_source_map_sha256": guard._sha256_bytes(private_blob),
+            "public_manifest_path": manifest_path,
+            "public_source_map_sha256": guard._sha256_bytes(public_blob),
+            "raw_source_artifact_included": False,
+            "raw_source_display_material": guard.PUBLIC_SOURCE_DISPLAY_PROJECTION_MATERIAL,
+            "schema": guard.PUBLIC_SOURCE_DISPLAY_PROJECTION_SCHEMA,
+            "selected_source_item_ids": ["fixture_definition"],
+            "selected_source_items": {
+                "fixture_definition": {
+                    "source_anchors": [public_anchor],
+                    "source_kind": "definition",
+                    "semantic_context": [
+                        {
+                            "semantic_role": "result",
+                            "source_anchors": [public_context_anchor],
+                        }
+                    ],
+                }
+            },
+            "source_artifact_sha256": "a" * 64,
+            "source_coverage_mode": "named_theoretical_statements",
+        }
+        candidate_map_path = candidate / map_path
+        candidate_map_path.parent.mkdir(parents=True)
+        candidate_map_path.write_bytes(public_blob)
+        manifest_blob = (json.dumps(manifest, sort_keys=True) + "\n").encode("utf-8")
+        (candidate / manifest_path).write_bytes(manifest_blob)
+        candidate_commit = self.commit(candidate, "candidate display projection")
+        entry = guard.AllowlistEntry(
+            path=map_path,
+            kind="file",
+            provenance="private_projection",
+            source_commit=source_commit,
+            reason="projected source map",
+            generator=guard.PUBLIC_PROJECTION_GENERATOR,
+            private_source_blob_sha256=guard._sha256_bytes(private_blob),
+            candidate_blob_sha256=guard._sha256_bytes(public_blob),
+        )
+        return (
+            private,
+            candidate,
+            source_commit,
+            candidate_commit,
+            entry,
+            public_blob,
+            manifest_blob,
+        )
+
+    def test_public_display_projection_guard_binds_candidate_map_and_manifest(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            (
+                private,
+                candidate,
+                _source_commit,
+                candidate_commit,
+                entry,
+                public_blob,
+                manifest_blob,
+            ) = self._display_projection_fixture(root)
+
+            self.assertEqual(
+                guard.public_source_display_projection_issues(
+                    candidate,
+                    candidate_commit,
+                    [entry],
+                    private_repo=private,
+                ),
+                [],
+            )
+            self.assertEqual(
+                guard.source_provenance_issues(
+                    candidate,
+                    private,
+                    candidate_commit,
+                    [guard.CandidateChange("A", entry.path)],
+                    [entry],
+                ),
+                [],
+            )
+
+            (candidate / "papers/Fixture/audit/public_source_display_projection.json").unlink()
+            missing_manifest_commit = self.commit(candidate, "remove display manifest")
+            missing_manifest_issues = guard.public_source_display_projection_issues(
+                candidate, missing_manifest_commit, [entry], private_repo=private
+            )
+
+            # Restore the receipt and alter the projected map without refreshing
+            # the bound candidate-map digest in its manifest.
+            (candidate / "papers/Fixture/audit/public_source_display_projection.json").write_bytes(
+                manifest_blob
+            )
+            tampered_map = json.loads(public_blob.decode("utf-8"))
+            tampered_map["source_artifact_sha256"] = "b" * 64
+            (candidate / "papers/Fixture/audit/paper_statement_map.json").write_text(
+                json.dumps(tampered_map, sort_keys=True) + "\n", encoding="utf-8"
+            )
+            tampered_map_commit = self.commit(candidate, "tamper projected map")
+            tampered_map_issues = guard.public_source_display_projection_issues(
+                candidate, tampered_map_commit, [entry], private_repo=private
+            )
+
+            # Restore the exact projected map and alter only a semantic-context
+            # anchor in the public manifest.  This exercises the non-direct
+            # source context rather than merely its selected-item list.
+            (candidate / "papers/Fixture/audit/paper_statement_map.json").write_bytes(
+                public_blob
+            )
+            tampered_manifest = json.loads(manifest_blob.decode("utf-8"))
+            tampered_manifest["selected_source_items"]["fixture_definition"][
+                "semantic_context"
+            ][0]["source_anchors"][0]["quoted_text"] = "altered excerpt"
+            (candidate / "papers/Fixture/audit/public_source_display_projection.json").write_text(
+                json.dumps(tampered_manifest, sort_keys=True) + "\n", encoding="utf-8"
+            )
+            tampered_anchor_commit = self.commit(candidate, "tamper manifest anchor")
+            tampered_anchor_issues = guard.public_source_display_projection_issues(
+                candidate, tampered_anchor_commit, [entry], private_repo=private
+            )
+
+            # A declared private-map hash must agree with the map's allowlisted
+            # exact private provenance whenever the display manifest exposes it.
+            tampered_private_hash = json.loads(manifest_blob.decode("utf-8"))
+            tampered_private_hash["private_source_map_sha256"] = "c" * 64
+            (candidate / "papers/Fixture/audit/public_source_display_projection.json").write_text(
+                json.dumps(tampered_private_hash, sort_keys=True) + "\n", encoding="utf-8"
+            )
+            tampered_private_hash_commit = self.commit(candidate, "tamper private map binding")
+            tampered_private_hash_issues = guard.public_source_display_projection_issues(
+                candidate,
+                tampered_private_hash_commit,
+                [entry],
+                private_repo=private,
+            )
+
+            # A candidate anchor cannot retain a local lookup path even if the
+            # manifest's public-map digest is refreshed to bind that altered map.
+            path_retaining_map = json.loads(public_blob.decode("utf-8"))
+            path_retaining_map["items"]["fixture_definition"][
+                "source_anchor_evidence"
+            ][0]["path"] = ".audit_source/Fixture.txt"
+            path_retaining_blob = (
+                json.dumps(path_retaining_map, sort_keys=True) + "\n"
+            ).encode("utf-8")
+            path_retaining_manifest = json.loads(manifest_blob.decode("utf-8"))
+            path_retaining_manifest["public_source_map_sha256"] = guard._sha256_bytes(
+                path_retaining_blob
+            )
+            (candidate / "papers/Fixture/audit/paper_statement_map.json").write_bytes(
+                path_retaining_blob
+            )
+            (candidate / "papers/Fixture/audit/public_source_display_projection.json").write_text(
+                json.dumps(path_retaining_manifest, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            retained_path_commit = self.commit(candidate, "retain a source path")
+            retained_path_issues = guard.public_source_display_projection_issues(
+                candidate, retained_path_commit, [entry], private_repo=private
+            )
+
+        self.assertTrue(any("missing" in issue for issue in missing_manifest_issues), missing_manifest_issues)
+        self.assertTrue(
+            any("public_source_map_sha256" in issue for issue in tampered_map_issues),
+            tampered_map_issues,
+        )
+        self.assertTrue(
+            any("source_artifact_sha256" in issue for issue in tampered_map_issues),
+            tampered_map_issues,
+        )
+        self.assertTrue(
+            any("semantic context 0 source anchor 0" in issue for issue in tampered_anchor_issues),
+            tampered_anchor_issues,
+        )
+        self.assertTrue(
+            any("private_source_map_sha256" in issue for issue in tampered_private_hash_issues),
+            tampered_private_hash_issues,
+        )
+        self.assertTrue(
+            any("retains a source path" in issue for issue in retained_path_issues),
+            retained_path_issues,
+        )
+
+    def test_packet_pdf_and_tex_private_workflow_scan_is_committed_and_bounded(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            docs = repo / "papers" / "Fixture" / "docs"
+            docs.mkdir(parents=True)
+            (docs / "HUMAN_REVIEW_PACKET.pdf").write_bytes(b"not a real PDF")
+            (docs / "unrelated.pdf").write_bytes(b"not a real PDF")
+            (docs / "HUMAN_REVIEW_PACKET.tex").write_text(
+                r"\texttt{.audit\_source/Fixture.txt}" + "\n",
+                encoding="utf-8",
+            )
+            candidate_commit = self.commit(repo, "packet fixture")
+
+            with mock.patch.object(guard.shutil, "which", return_value=None):
+                unavailable_issues = guard.human_review_packet_pdf_content_issues(
+                    repo, candidate_commit
+                )
+
+            original_run = subprocess.run
+
+            def fake_pdftotext(command, *args, **kwargs):
+                if command and command[0] == "pdftotext":
+                    Path(command[-1]).write_text(
+                        "byte-pinned private source extraction\n"
+                        "Source locator: .audit_source/Fixture.txt:1\n",
+                        encoding="utf-8",
+                    )
+                    return subprocess.CompletedProcess(command, 0, "", "")
+                return original_run(command, *args, **kwargs)
+
+            with (
+                mock.patch.object(guard.shutil, "which", return_value="/usr/bin/pdftotext"),
+                mock.patch.object(guard.subprocess, "run", side_effect=fake_pdftotext),
+            ):
+                pdf_issues = guard.human_review_packet_pdf_content_issues(
+                    repo, candidate_commit
+                )
+            tex_issues = guard.public_artifact_content_issues(repo, candidate_commit)
+
+        self.assertTrue(any("pdftotext is unavailable" in issue for issue in unavailable_issues), unavailable_issues)
+        self.assertTrue(any("private source-extraction" in issue for issue in pdf_issues), pdf_issues)
+        self.assertTrue(any("private audit-source" in issue for issue in pdf_issues), pdf_issues)
+        self.assertTrue(any("private workflow reference" in issue for issue in pdf_issues), pdf_issues)
+        self.assertGreaterEqual(len(pdf_issues), 3, pdf_issues)
+        self.assertTrue(any("private TeX audit-source" in issue for issue in tex_issues), tex_issues)
+
+    def test_public_pdf_scan_covers_non_packet_documents(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            docs = repo / "docs"
+            docs.mkdir()
+            (docs / "OVERVIEW.pdf").write_bytes(b"not a real PDF")
+            candidate_commit = self.commit(repo, "public PDF fixture")
+
+            original_run = subprocess.run
+
+            def fake_pdftotext(command, *args, **kwargs):
+                if command and command[0] == "pdftotext":
+                    Path(command[-1]).write_text(
+                        "A private proof body is not publication material.\n",
+                        encoding="utf-8",
+                    )
+                    return subprocess.CompletedProcess(command, 0, "", "")
+                return original_run(command, *args, **kwargs)
+
+            with (
+                mock.patch.object(guard.shutil, "which", return_value="/usr/bin/pdftotext"),
+                mock.patch.object(guard.subprocess, "run", side_effect=fake_pdftotext),
+            ):
+                issues = guard.human_review_packet_pdf_content_issues(
+                    repo, candidate_commit
+                )
+
+        self.assertTrue(any("docs/OVERVIEW.pdf" in issue for issue in issues), issues)
+        self.assertTrue(any("private workflow reference" in issue for issue in issues), issues)
+
+    def test_public_workflow_overview_pdf_allows_private_draft_guidance_only(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            overview = repo / "docs" / "FORMALIZATION_AUDIT_PROCEDURE_OVERVIEW.pdf"
+            overview.parent.mkdir()
+            overview.write_bytes(b"not a real PDF")
+            candidate_commit = self.commit(repo, "workflow overview")
+
+            original_run = subprocess.run
+
+            def fake_pdftotext(command, *args, **kwargs):
+                if command and command[0] == "pdftotext":
+                    Path(command[-1]).write_text(
+                        "A private by sorry body is temporary draft guidance.\n",
+                        encoding="utf-8",
+                    )
+                    return subprocess.CompletedProcess(command, 0, "", "")
+                return original_run(command, *args, **kwargs)
+
+            with (
+                mock.patch.object(guard.shutil, "which", return_value="/usr/bin/pdftotext"),
+                mock.patch.object(guard.subprocess, "run", side_effect=fake_pdftotext),
+            ):
+                issues = guard.human_review_packet_pdf_content_issues(
+                    repo, candidate_commit
+                )
+
+        self.assertFalse(issues, issues)
+
+    def test_public_artifact_content_check_covers_root_docs_and_release_config(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            (repo / "README.md").write_text(
+                "Use the private workflow before publishing.\n", encoding="utf-8"
+            )
+            config = repo / "config"
+            config.mkdir()
+            (config / "release.json").write_text(
+                json.dumps({"note": "private repository context"}), encoding="utf-8"
+            )
+            candidate_commit = self.commit(repo, "reader-facing fixtures")
+            issues = guard.public_artifact_content_issues(repo, candidate_commit)
+
+        self.assertTrue(any(issue.startswith("README.md:") for issue in issues), issues)
+        self.assertTrue(any(issue.startswith("config/release.json:") for issue in issues), issues)
+
+    def test_private_projection_provenance_recomputes_exact_public_bytes(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            private = root / "private"
+            candidate = root / "candidate"
+            self.init_repo(private)
+            self.init_repo(candidate)
+            path = "papers/Fixture/audit/paper_statement_map.json"
+            private_path = private / path
+            private_path.parent.mkdir(parents=True)
+            private_blob = json.dumps(
+                {
+                    "source_version": "arXiv; byte-pinned private text extraction",
+                    "source_artifact_path": ".audit_source/Fixture.txt",
+                    "source_artifact_sha256": "a" * 64,
+                }
+            ).encode("utf-8")
+            private_path.write_bytes(private_blob)
+            source_commit = self.commit(private, "private source")
+            candidate_path = candidate / path
+            candidate_path.parent.mkdir(parents=True)
+            projected_blob = guard.project_bytes(path, private_blob)
+            candidate_path.write_bytes(projected_blob)
+            candidate_commit = self.commit(candidate, "candidate projection")
+            entry = guard.AllowlistEntry(
+                path=path,
+                kind="file",
+                provenance="private_projection",
+                source_commit=source_commit,
+                reason="public projection removes private audit provisioning",
+                generator=guard.PUBLIC_PROJECTION_GENERATOR,
+                private_source_blob_sha256=guard._sha256_bytes(private_blob),
+                candidate_blob_sha256=guard._sha256_bytes(projected_blob),
+            )
+            change = guard.CandidateChange("A", path)
+
+            issues = guard.source_provenance_issues(
+                candidate, private, candidate_commit, [change], [entry]
+            )
+            wrong_entry = guard.AllowlistEntry(
+                **{**entry.__dict__, "candidate_blob_sha256": "f" * 64}
+            )
+            wrong_digest_issues = guard.source_provenance_issues(
+                candidate, private, candidate_commit, [change], [wrong_entry]
+            )
+            candidate_path.write_text('{"unreviewed":true}\n', encoding="utf-8")
+            changed_commit = self.commit(candidate, "tampered projection")
+            tamper_issues = guard.source_provenance_issues(
+                candidate, private, changed_commit, [change], [entry]
+            )
+
+        self.assertEqual(issues, [])
+        self.assertTrue(
+            any("candidate_blob_sha256" in issue for issue in wrong_digest_issues),
+            wrong_digest_issues,
+        )
+        self.assertTrue(
+            any("trusted public projection" in issue for issue in tamper_issues),
+            tamper_issues,
+        )
+
+    def test_private_projection_allowlist_requires_exact_projection_receipts(self) -> None:
+        entry = {
+            "path": "papers/Fixture/audit/paper_statement_map.json",
+            "kind": "file",
+            "provenance": "private_projection",
+            "source_commit": "1" * 40,
+            "generator": guard.PUBLIC_PROJECTION_GENERATOR,
+            "private_source_blob_sha256": "2" * 64,
+            "candidate_blob_sha256": "3" * 64,
+            "reason": "reviewed public projection",
+            "public_safety_reviewed": True,
+        }
+        parsed = guard.parse_allowlist(
+            json.dumps({"schema": 1, "entries": [entry]}).encode(), source="fixture"
+        )
+        self.assertEqual(parsed[0].private_source_blob_sha256, "2" * 64)
+        for field, value, expected in (
+            ("generator", "python3 unsafe.py", "must declare generator"),
+            ("private_source_blob_sha256", None, "private_source_blob_sha256"),
+            ("candidate_blob_sha256", "2" * 64, "distinct"),
+            ("public_base_blob_sha256", "4" * 64, "cannot declare"),
+        ):
+            with self.subTest(field=field, value=value):
+                candidate = dict(entry)
+                if value is None:
+                    candidate.pop(field)
+                else:
+                    candidate[field] = value
+                with self.assertRaisesRegex(ValueError, expected):
+                    guard.parse_allowlist(
+                        json.dumps({"schema": 1, "entries": [candidate]}).encode(),
+                        source="fixture",
+                    )
+
+    def test_public_artifact_content_check_rejects_workflow_not_source_excerpt(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            map_path = repo / "papers" / "Fixture" / "audit" / "paper_statement_map.json"
+            map_path.parent.mkdir(parents=True)
+            map_path.write_text(
+                json.dumps(
+                    {
+                        "source_version": "private source extraction",
+                        "items": {
+                            "claim": {
+                                "source_anchor": {
+                                    "path": "source.txt",
+                                    "line_start": 1,
+                                    "line_end": 1,
+                                    "quoted_text": "source excerpt about an allocation condition",
+                                    "quoted_text_sha256": hashlib.sha256(
+                                        b"source excerpt about an allocation condition"
+                                    ).hexdigest(),
+                                },
+                            }
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(
+                repo,
+                commit,
+                [guard.CandidateChange("A", "papers/Fixture/audit/paper_statement_map.json")],
+            )
+
+        self.assertTrue(any("private source-extraction" in issue for issue in issues), issues)
+        self.assertFalse(any("quoted_text" in issue for issue in issues), issues)
+
+    def test_public_artifact_content_check_rejects_local_path_in_bound_source_anchor(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            map_path = repo / "papers" / "Fixture" / "audit" / "paper_statement_map.json"
+            map_path.parent.mkdir(parents=True)
+            quote = "/home/nkgarg/secret-private-workflow"
+            map_path.write_text(
+                json.dumps(
+                    {
+                        "items": {
+                            "claim": {
+                                "source_anchor": {
+                                    "path": "source.txt",
+                                    "line_start": 1,
+                                    "line_end": 1,
+                                    "quoted_text": quote,
+                                    "quoted_text_sha256": hashlib.sha256(
+                                        quote.encode("utf-8")
+                                    ).hexdigest(),
+                                }
+                            }
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertTrue(any("local /tmp or /home path" in issue for issue in issues), issues)
+
+    def test_public_artifact_content_check_rejects_bound_quote_outside_source_record(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            audit = repo / "papers" / "Fixture" / "audit"
+            audit.mkdir(parents=True)
+            quote = "/home/nkgarg/secret-private-workflow"
+            (audit / "record.json").write_text(
+                json.dumps(
+                    {
+                        "quoted_text": quote,
+                        "quoted_text_sha256": hashlib.sha256(quote.encode("utf-8")).hexdigest(),
+                        "publication_locator": "https://arxiv.org/abs/1234.5678",
+                        "line_start": 1,
+                        "line_end": 1,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertTrue(any("local filesystem path" in issue for issue in issues), issues)
+
+    def test_public_artifact_content_check_rejects_private_workflow_reference(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            site = repo / "site"
+            site.mkdir()
+            (site / "index.html").write_text(
+                "New paper formalizations should start in a private workflow.\n",
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(
+                repo,
+                commit,
+                [guard.CandidateChange("A", "site/index.html")],
+            )
+
+        self.assertTrue(any("private workflow reference" in issue for issue in issues), issues)
+
+    def test_public_artifact_content_check_allows_exact_landing_page_guidance(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            site = repo / "site"
+            site.mkdir()
+            (site / "index.html").write_text(
+                "New paper formalizations should start in a private workflow and be\n"
+                "            proposed to enter the library through a pull request when ready.\n",
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertEqual(issues, [])
+
+    def test_public_artifact_content_check_rejects_nested_quote_object_bypass(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            map_path = repo / "papers" / "Fixture" / "audit" / "paper_statement_map.json"
+            map_path.parent.mkdir(parents=True)
+            map_path.write_text(
+                json.dumps({"quoted_text": {"hidden": "/tmp/private.txt"}}),
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertTrue(any("hidden" in issue for issue in issues), issues)
+
+    def test_public_artifact_content_check_rejects_unbound_scalar_quote_bypass(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            map_path = repo / "papers" / "Fixture" / "audit" / "paper_statement_map.json"
+            map_path.parent.mkdir(parents=True)
+            map_path.write_text(
+                json.dumps({"quoted_text": "/tmp/private-record.txt"}),
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertTrue(any("quoted_text" in issue for issue in issues), issues)
+
+    def test_public_artifact_content_check_rejects_private_url_before_masking(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            audit = repo / "papers" / "Fixture" / "audit"
+            audit.mkdir(parents=True)
+            (audit / "paper_statement_map.json").write_text(
+                json.dumps(
+                    {
+                        "reference_url": (
+                            "https://github.com/nikhgarg/EconCSLib-private/tree/main/tmp/secret"
+                        )
+                    }
+                ),
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertTrue(any("private repository or artifact URL" in issue for issue in issues), issues)
+
+    def test_public_artifact_content_check_rejects_paper_named_local_transcript(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            status = repo / "papers" / "Fixture" / "status.json"
+            status.parent.mkdir(parents=True)
+            status.write_text(
+                json.dumps(
+                    {"artifacts": {"source_text": "papers/Fixture/Fixture.txt"}}
+                ),
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertTrue(any("non-public source transcript locator" in issue for issue in issues), issues)
+
+    def test_public_artifact_content_check_allows_internal_transcript_name_in_audit_sidecar(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            sidecar = repo / "papers" / "Fixture" / "audit" / "statement_match_llm.json"
+            sidecar.parent.mkdir(parents=True)
+            sidecar.write_text(
+                json.dumps({"source_location": "sources/Fixture.txt:12-15"}),
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertEqual(issues, [])
+
+    def test_public_artifact_content_check_rejects_percent_encoded_private_url(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            docs = repo / "docs"
+            docs.mkdir()
+            (docs / "guide.md").write_text(
+                "https://github.com/nikhgarg/EconCSLib%2Dprivate/tree/main\n",
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertTrue(any("private repository or artifact URL" in issue for issue in issues), issues)
+
+    def test_public_artifact_content_check_rejects_html_entity_private_url(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            site = repo / "site"
+            site.mkdir()
+            (site / "index.html").write_text(
+                "https://github.com/nikhgarg/EconCSLib&#45;private/tree/main\n",
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertTrue(any("private repository or artifact URL" in issue for issue in issues), issues)
+
+    def test_session_insights_path_allowlist_keeps_only_approved_skill_and_ledger(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            approved = (
+                repo
+                / "skills/econcs-session-insights/references/user-feedback-course-corrections.md"
+            )
+            approved.parent.mkdir(parents=True)
+            approved.write_text("approved\n", encoding="utf-8")
+            skill = repo / "skills/econcs-session-insights/SKILL.md"
+            skill.write_text("Read ~/.codex/history.jsonl without committing it.\n", encoding="utf-8")
+            commit = self.commit(repo, "approved session-insights files")
+            self.assertFalse(guard.session_insights_path_issues(repo, commit))
+
+            extra = repo / "skills/econcs-session-insights/references/raw-session.jsonl"
+            extra.parent.mkdir(parents=True, exist_ok=True)
+            extra.write_text("raw session export\n", encoding="utf-8")
+            commit = self.commit(repo, "unapproved session-insights file")
+            issues = guard.session_insights_path_issues(repo, commit)
+
+        self.assertEqual(
+            issues,
+            [
+                "unapproved session-insights artifact in public candidate: "
+                "skills/econcs-session-insights/references/raw-session.jsonl"
+            ],
+        )
+
+    def test_public_artifact_content_check_scans_skills_but_exempts_approved_workflow_guides(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            skill = repo / "skills" / "example" / "SKILL.md"
+            skill.parent.mkdir(parents=True)
+            skill.write_text("Use EconCSLib-private for this workflow.\n", encoding="utf-8")
+            ledger = (
+                repo
+                / "skills/econcs-session-insights/references/user-feedback-course-corrections.md"
+            )
+            ledger.parent.mkdir(parents=True)
+            ledger.write_text("User history came from ~/.codex/history.jsonl.\n", encoding="utf-8")
+            session_skill = repo / "skills/econcs-session-insights/SKILL.md"
+            session_skill.write_text(
+                "Read ~/.codex/history.jsonl without committing session data.\n",
+                encoding="utf-8",
+            )
+            handbook = repo / "skills/econcs-formalizer/references/formalization-handbook.md"
+            handbook.parent.mkdir(parents=True)
+            handbook.write_text(
+                "Use a local source cache and a private handoff when useful.\n",
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "skills")
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertTrue(any("skills/example/SKILL.md" in issue for issue in issues), issues)
+        self.assertFalse(any("user-feedback-course-corrections" in issue for issue in issues), issues)
+        self.assertFalse(any("econcs-session-insights/SKILL.md" in issue for issue in issues), issues)
+        self.assertFalse(any("formalization-handbook.md" in issue for issue in issues), issues)
+
+    def test_public_artifact_content_check_catches_inherited_public_blob(self) -> None:
+        """A clean candidate diff cannot conceal a historical local-path leak."""
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            audit = repo / "papers" / "Fixture" / "audit"
+            audit.mkdir(parents=True)
+            (audit / "source_record_audit.json").write_text(
+                json.dumps({"paper_dir": "/tmp/old-candidate/papers/Fixture"}),
+                encoding="utf-8",
+            )
+            base = self.commit(repo, "base with inherited receipt")
+            (repo / "README.md").write_text("unrelated candidate change\n", encoding="utf-8")
+            candidate = self.commit(repo, "candidate")
+
+            issues = guard.public_artifact_content_issues(
+                repo,
+                candidate,
+                [guard.CandidateChange("A", "README.md")],
+            )
+
+        self.assertNotEqual(base, candidate)
+        self.assertTrue(any("source_record_audit.json" in issue for issue in issues), issues)
+
+    def test_public_artifact_content_check_allows_ignore_rule_but_rejects_private_locators(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            paper = repo / "papers" / "Fixture"
+            paper.mkdir(parents=True)
+            (paper / ".gitignore").write_text(
+                ".audit_source/\nsource/\nsources/\nsource.txt\n",
+                encoding="utf-8",
+            )
+            docs = repo / "docs"
+            docs.mkdir()
+            (docs / "workflow.md").write_text(
+                "EconCSLib-private stores sources/2101.05853.txt in source.pdf locally.\n",
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertFalse(any(".gitignore" in issue for issue in issues), issues)
+        self.assertTrue(any("private repository identity" in issue for issue in issues), issues)
+        self.assertTrue(any("non-public source transcript" in issue for issue in issues), issues)
+        self.assertTrue(any("non-public source artifact" in issue for issue in issues), issues)
+
+    def test_public_artifact_content_check_allows_public_url_containing_home_prefix(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            audit = repo / "papers" / "Fixture" / "audit"
+            audit.mkdir(parents=True)
+            (audit / "paper_statement_map.json").write_text(
+                json.dumps(
+                    {
+                        "source_url": "https://homes.cs.washington.edu/~karlin/papers/auctions-journal.pdf"
+                    }
+                ),
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertFalse(issues, issues)
+
+    def test_public_artifact_content_check_allows_only_hash_pinned_arxiv_source_tex(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            source = b"% official arXiv TeX may mention /tmp literally\n"
+            paper = repo / "papers" / "Fixture"
+            (paper / "source").mkdir(parents=True)
+            (paper / "source" / "main.tex").write_bytes(source)
+            audit = paper / "audit"
+            audit.mkdir()
+            (audit / "paper_statement_map.json").write_text(
+                json.dumps(
+                    {
+                        "source_url": "https://arxiv.org/abs/2601.00001",
+                        "source_artifact_sha256": guard._sha256_bytes(source),
+                    }
+                ),
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertFalse(issues, issues)
+
+    def test_public_artifact_content_check_allows_documented_approved_source_tex_path(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            source = b"% official arXiv TeX\n"
+            paper = repo / "papers" / "Fixture"
+            (paper / "source").mkdir(parents=True)
+            (paper / "source" / "main.tex").write_bytes(source)
+            audit = paper / "audit"
+            audit.mkdir()
+            (audit / "paper_statement_map.json").write_text(
+                json.dumps(
+                    {
+                        "source_url": "https://arxiv.org/abs/2601.00001",
+                        "source_artifact_sha256": guard._sha256_bytes(source),
+                    }
+                ),
+                encoding="utf-8",
+            )
+            docs = repo / "docs"
+            docs.mkdir()
+            (docs / "source.md").write_text(
+                "Read papers/Fixture/source/main.tex or papers/<Paper>/source/<file>.tex.\n",
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertFalse(issues, issues)
+
+    def test_public_artifact_content_check_rejects_unpinned_source_tex(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            paper = repo / "papers" / "Fixture"
+            (paper / "source").mkdir(parents=True)
+            (paper / "source" / "main.tex").write_text("official source\n", encoding="utf-8")
+            audit = paper / "audit"
+            audit.mkdir()
+            (audit / "paper_statement_map.json").write_text(
+                json.dumps(
+                    {"source_url": "https://arxiv.org/abs/2601.00001", "source_artifact_sha256": "0" * 64}
+                ),
+                encoding="utf-8",
+            )
+            commit = self.commit(repo, "candidate")
+            issues = guard.public_artifact_content_issues(repo, commit)
+
+        self.assertTrue(any("hash does not match" in issue for issue in issues), issues)
+
     def test_public_base_edit_provenance_pins_base_and_candidate_bytes(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             repo = Path(temp_dir) / "candidate"
@@ -1751,6 +2671,21 @@ class PublicReleaseCandidateGuardTests(unittest.TestCase):
         self.assertIsNotNone(
             guard.FORBIDDEN_PUBLIC_PATH_RE.search(
                 "papers/Fixture/source_arxiv.tar"
+            )
+        )
+        self.assertIsNotNone(
+            guard.FORBIDDEN_PUBLIC_PATH_RE.search(
+                "papers/Fixture/source/subdir/unreviewed.tex"
+            )
+        )
+        self.assertIsNotNone(
+            guard.FORBIDDEN_PUBLIC_PATH_RE.search(
+                "papers/Fixture/Source/unreviewed.tex"
+            )
+        )
+        self.assertIsNotNone(
+            guard.FORBIDDEN_PUBLIC_PATH_RE.search(
+                "papers/Fixture/opaque-payload.7z"
             )
         )
         self.assertIsNone(

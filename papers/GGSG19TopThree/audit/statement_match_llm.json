@@ -1,6 +1,5 @@
 {
   "comment": "Current v10 source-vs-Lean audit for all 30 schema-2 rows. The two DP contract rows were independently source-read and fully unfolded; their Lean operation formulas are recorded as a concrete unit-cost realization of qualitative source efficiency, not as printed source formulas.",
-  "extracted_tex_path": "source_tex/arxiv.tex",
   "extracted_tex_sha256": "be8a698dbe73835afaf8cd6079c7fc6a6a566fcaef25fc948c1e9be23771af32",
   "items": {
     "MallowsArbitraryPairJointLocationDPOfQSpec": {
@@ -465,55 +464,55 @@
         ]
       },
       "source": "Source-first revalidation against pinned GGSG19 TeX after definitionally equivalent direct contract inlining",
-      "source_evidence": "source_tex/arxiv.tex:293-295 fixes the closed Mallows parameter domain; source_tex/arxiv.tex:762; source_tex/arxiv.tex:1545-1549 gives the arbitrary-pair exact joint-distribution dynamic-program claim; source_tex/arxiv.tex:762 describes that program as efficient.",
+      "source_evidence": "cited publication:293-295 fixes the closed Mallows parameter domain; cited publication:762; cited publication:1545-1549 gives the arbitrary-pair exact joint-distribution dynamic-program claim; cited publication:762 describes that program as efficient.",
       "source_item_key": "algorithm_efficient_mallows_arbitrary_pair_joint_location_dp",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:1545-1549",
+          "source_location": "cited publication:1545-1549",
           "statement": "The repeated-insertion construction ranges over every finite size N."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:293-295",
+          "source_location": "cited publication:293-295",
           "statement": "The Mallows repeated-insertion model ranges over its real noise parameter q."
         },
         {
           "id": "s_b_2",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:293-295",
+          "source_location": "cited publication:293-295",
           "statement": "The source closed Mallows domain includes the lower endpoint condition 0 <= q."
         },
         {
           "id": "s_b_3",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:293-295",
+          "source_location": "cited publication:293-295",
           "statement": "The source closed Mallows domain includes the upper endpoint condition q <= 1."
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:1545-1549",
+          "source_location": "cited publication:1545-1549",
           "statement": "The source computation permits the first member of an arbitrary tracked candidate pair."
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:1545-1549",
+          "source_location": "cited publication:1545-1549",
           "statement": "The source computation permits the second member of an arbitrary tracked candidate pair."
         },
         {
           "id": "s_exact_joint_distribution",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:762; source_tex/arxiv.tex:1545-1549",
+          "source_location": "cited publication:762; cited publication:1545-1549",
           "statement": "The source advertises a repeated-insertion dynamic program that computes the joint position distribution of any candidate pair exactly."
         },
         {
           "id": "s_qualitative_efficiency",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:762",
+          "source_location": "cited publication:762",
           "statement": "The source describes that arbitrary-pair joint-distribution dynamic program as efficient."
         }
       ],
@@ -754,31 +753,31 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:291-295; source_tex/arxiv.tex:727-733; source_tex/arxiv.tex:755: The positive-parameter Mallows W-selection corollary uses a nonempty winner tier and phi below one; strict positivity is intrinsic to the positive-parameter Mallows record, while phi=0 is handled by a separate deterministic law.",
+      "source_evidence": "cited publication:291-295; cited publication:727-733; cited publication:755: The positive-parameter Mallows W-selection corollary uses a nonempty winner tier and phi below one; strict positivity is intrinsic to the positive-parameter Mallows record, while phi=0 is handled by a separate deterministic law.",
       "source_item_key": "assumption_mallows_nontrivial_winner_and_parameter_domain",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:291-295; source_tex/arxiv.tex:727-733; source_tex/arxiv.tex:755",
+          "source_location": "cited publication:291-295; cited publication:727-733; cited publication:755",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:291-295; source_tex/arxiv.tex:727-733; source_tex/arxiv.tex:755",
+          "source_location": "cited publication:291-295; cited publication:727-733; cited publication:755",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℝ"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:291-295; source_tex/arxiv.tex:727-733; source_tex/arxiv.tex:755",
+          "source_location": "cited publication:291-295; cited publication:727-733; cited publication:755",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Candidate n"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:291-295; source_tex/arxiv.tex:727-733; source_tex/arxiv.tex:755",
+          "source_location": "cited publication:291-295; cited publication:727-733; cited publication:755",
           "statement": "The positive-parameter Mallows W-selection corollary uses a nonempty winner tier and phi below one; strict positivity is intrinsic to the positive-parameter Mallows record, while phi=0 is handled by a separate deterministic law."
         }
       ],
@@ -983,19 +982,19 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:289-295; source_tex/arxiv.tex:1541-1549: The Mallows noise parameter phi lies in the closed interval from zero to one, including the deterministic and uniform endpoints.",
+      "source_evidence": "cited publication:289-295; cited publication:1541-1549: The Mallows noise parameter phi lies in the closed interval from zero to one, including the deterministic and uniform endpoints.",
       "source_item_key": "assumption_mallows_repeated_insertion_parameter_domain",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:289-295; source_tex/arxiv.tex:1541-1549",
+          "source_location": "cited publication:289-295; cited publication:1541-1549",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℝ"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:289-295; source_tex/arxiv.tex:1541-1549",
+          "source_location": "cited publication:289-295; cited publication:1541-1549",
           "statement": "The Mallows noise parameter phi lies in the closed interval from zero to one, including the deterministic and uniform endpoints."
         }
       ],
@@ -1254,37 +1253,37 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:338-341; source_tex/arxiv.tex:707-721; source_tex/arxiv.tex:1513-1521: The randomized K-approval family ranges over nontrivial proper cutoffs, excluding the constant approve-none and approve-all rules from the reasonable design class.",
+      "source_evidence": "cited publication:338-341; cited publication:707-721; cited publication:1513-1521: The randomized K-approval family ranges over nontrivial proper cutoffs, excluding the constant approve-none and approve-all rules from the reasonable design class.",
       "source_item_key": "assumption_nontrivial_k_approval_cutoffs",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:338-341; source_tex/arxiv.tex:707-721; source_tex/arxiv.tex:1513-1521",
+          "source_location": "cited publication:338-341; cited publication:707-721; cited publication:1513-1521",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:338-341; source_tex/arxiv.tex:707-721; source_tex/arxiv.tex:1513-1521",
+          "source_location": "cited publication:338-341; cited publication:707-721; cited publication:1513-1521",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_1"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:338-341; source_tex/arxiv.tex:707-721; source_tex/arxiv.tex:1513-1521",
+          "source_location": "cited publication:338-341; cited publication:707-721; cited publication:1513-1521",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fintype Rule"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:338-341; source_tex/arxiv.tex:707-721; source_tex/arxiv.tex:1513-1521",
+          "source_location": "cited publication:338-341; cited publication:707-721; cited publication:1513-1521",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Rule → ℕ"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:338-341; source_tex/arxiv.tex:707-721; source_tex/arxiv.tex:1513-1521",
+          "source_location": "cited publication:338-341; cited publication:707-721; cited publication:1513-1521",
           "statement": "The randomized K-approval family ranges over nontrivial proper cutoffs, excluding the constant approve-none and approve-all rules from the reasonable design class."
         }
       ],
@@ -1633,67 +1632,67 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:507-515; source_tex/arxiv.tex:1308-1317: A K-approval score difference for a fixed candidate pair takes only the values one, zero, and minus one.",
+      "source_evidence": "cited publication:507-515; cited publication:1308-1317: A K-approval score difference for a fixed candidate pair takes only the values one, zero, and minus one.",
       "source_item_key": "assumption_pairwise_approval_ternary_gap_domain",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:507-515; source_tex/arxiv.tex:1308-1317",
+          "source_location": "cited publication:507-515; cited publication:1308-1317",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_1"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:507-515; source_tex/arxiv.tex:1308-1317",
+          "source_location": "cited publication:507-515; cited publication:1308-1317",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fintype Signal"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:507-515; source_tex/arxiv.tex:1308-1317",
+          "source_location": "cited publication:507-515; cited publication:1308-1317",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: DecidableEq Signal"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:507-515; source_tex/arxiv.tex:1308-1317",
+          "source_location": "cited publication:507-515; cited publication:1308-1317",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: PMF Signal"
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:507-515; source_tex/arxiv.tex:1308-1317",
+          "source_location": "cited publication:507-515; cited publication:1308-1317",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Signal → ℝ"
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:507-515; source_tex/arxiv.tex:1308-1317",
+          "source_location": "cited publication:507-515; cited publication:1308-1317",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Signal → ℝ"
         },
         {
           "id": "s_b_6",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:507-515; source_tex/arxiv.tex:1308-1317",
+          "source_location": "cited publication:507-515; cited publication:1308-1317",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℝ"
         },
         {
           "id": "s_b_7",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:507-515; source_tex/arxiv.tex:1308-1317",
+          "source_location": "cited publication:507-515; cited publication:1308-1317",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℝ"
         },
         {
           "id": "s_b_8",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:507-515; source_tex/arxiv.tex:1308-1317",
+          "source_location": "cited publication:507-515; cited publication:1308-1317",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℝ"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:507-515; source_tex/arxiv.tex:1308-1317",
+          "source_location": "cited publication:507-515; cited publication:1308-1317",
           "statement": "A K-approval score difference for a fixed candidate pair takes only the values one, zero, and minus one."
         }
       ],
@@ -1934,31 +1933,31 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:665-669; source_tex/arxiv.tex:1405-1409; source_tex/arxiv.tex:1513-1521: The randomized mechanism weights are nonnegative and sum to one.",
+      "source_evidence": "cited publication:665-669; cited publication:1405-1409; cited publication:1513-1521: The randomized mechanism weights are nonnegative and sum to one.",
       "source_item_key": "assumption_randomized_mechanism_probability_weights",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:665-669; source_tex/arxiv.tex:1405-1409; source_tex/arxiv.tex:1513-1521",
+          "source_location": "cited publication:665-669; cited publication:1405-1409; cited publication:1513-1521",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_1"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:665-669; source_tex/arxiv.tex:1405-1409; source_tex/arxiv.tex:1513-1521",
+          "source_location": "cited publication:665-669; cited publication:1405-1409; cited publication:1513-1521",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fintype Rule"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:665-669; source_tex/arxiv.tex:1405-1409; source_tex/arxiv.tex:1513-1521",
+          "source_location": "cited publication:665-669; cited publication:1405-1409; cited publication:1513-1521",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Rule → ℝ"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:665-669; source_tex/arxiv.tex:1405-1409; source_tex/arxiv.tex:1513-1521",
+          "source_location": "cited publication:665-669; cited publication:1405-1409; cited publication:1513-1521",
           "statement": "The randomized mechanism weights are nonnegative and sum to one."
         }
       ],
@@ -2433,55 +2432,55 @@
         ]
       },
       "source": "Source-first revalidation against pinned GGSG19 TeX after definitionally equivalent direct contract inlining",
-      "source_evidence": "source_tex/arxiv.tex:293-295 fixes the closed Mallows parameter domain; source_tex/arxiv.tex:762; source_tex/arxiv.tex:1545-1549 gives the arbitrary-pair exact joint-distribution dynamic-program claim; source_tex/arxiv.tex:762 describes that program as efficient.",
+      "source_evidence": "cited publication:293-295 fixes the closed Mallows parameter domain; cited publication:762; cited publication:1545-1549 gives the arbitrary-pair exact joint-distribution dynamic-program claim; cited publication:762 describes that program as efficient.",
       "source_item_key": "algorithm_efficient_mallows_arbitrary_pair_joint_location_dp",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:1545-1549",
+          "source_location": "cited publication:1545-1549",
           "statement": "The repeated-insertion construction ranges over every finite size N."
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:293-295",
+          "source_location": "cited publication:293-295",
           "statement": "The Mallows repeated-insertion model ranges over its real noise parameter q."
         },
         {
           "id": "s_b_2",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:293-295",
+          "source_location": "cited publication:293-295",
           "statement": "The source closed Mallows domain includes the lower endpoint condition 0 <= q."
         },
         {
           "id": "s_b_3",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:293-295",
+          "source_location": "cited publication:293-295",
           "statement": "The source closed Mallows domain includes the upper endpoint condition q <= 1."
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:1545-1549",
+          "source_location": "cited publication:1545-1549",
           "statement": "The source computation permits the first member of an arbitrary tracked candidate pair."
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:1545-1549",
+          "source_location": "cited publication:1545-1549",
           "statement": "The source computation permits the second member of an arbitrary tracked candidate pair."
         },
         {
           "id": "s_exact_joint_distribution",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:762; source_tex/arxiv.tex:1545-1549",
+          "source_location": "cited publication:762; cited publication:1545-1549",
           "statement": "The source advertises a repeated-insertion dynamic program that computes the joint position distribution of any candidate pair exactly."
         },
         {
           "id": "s_qualitative_efficiency",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:762",
+          "source_location": "cited publication:762",
           "statement": "The source describes that arbitrary-pair joint-distribution dynamic program as efficient."
         }
       ],
@@ -2794,55 +2793,55 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:375-383: Definition 1: a setting is asymptotically design-invariant for goal G when every reasonable scoring rule converges almost surely to the same goal-specific outcome.",
+      "source_evidence": "cited publication:375-383: Definition 1: a setting is asymptotically design-invariant for goal G when every reasonable scoring rule converges almost surely to the same goal-specific outcome.",
       "source_item_key": "source_definition1_design_invariance",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:375-383",
+          "source_location": "cited publication:375-383",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_1"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:375-383",
+          "source_location": "cited publication:375-383",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_2"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:375-383",
+          "source_location": "cited publication:375-383",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_3"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:375-383",
+          "source_location": "cited publication:375-383",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: MeasurableSpace Ω"
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:375-383",
+          "source_location": "cited publication:375-383",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: MeasureTheory.Measure Ω"
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:375-383",
+          "source_location": "cited publication:375-383",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Rule → Prop"
         },
         {
           "id": "s_b_6",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:375-383",
+          "source_location": "cited publication:375-383",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Rule → ℕ → Ω → Outcome"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:375-383",
+          "source_location": "cited publication:375-383",
           "statement": "Definition 1: a setting is asymptotically design-invariant for goal G when every reasonable scoring rule converges almost surely to the same goal-specific outcome."
         }
       ],
@@ -3065,25 +3064,25 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:448-457: Definition 2: for a nonnegative sequence A_N tending to zero, r is its large-deviation rate when r equals minus the limit of log A_N divided by N.",
+      "source_evidence": "cited publication:448-457: Definition 2: for a nonnegative sequence A_N tending to zero, r is its large-deviation rate when r equals minus the limit of log A_N divided by N.",
       "source_item_key": "source_definition2_large_deviation_rate",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:448-457",
+          "source_location": "cited publication:448-457",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ → ℝ"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:448-457",
+          "source_location": "cited publication:448-457",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℝ"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:448-457",
+          "source_location": "cited publication:448-457",
           "statement": "Definition 2: for a nonnegative sequence A_N tending to zero, r is its large-deviation rate when r equals minus the limit of log A_N divided by N."
         }
       ],
@@ -3342,37 +3341,37 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:541-552: Definition 3: a feasible scoring rule is rate-optimal when it maximizes the Proposition 4 outcome-learning rate; K-star approval is approval-rate-optimal when it maximizes that rate among K-approval mechanisms.",
+      "source_evidence": "cited publication:541-552: Definition 3: a feasible scoring rule is rate-optimal when it maximizes the Proposition 4 outcome-learning rate; K-star approval is approval-rate-optimal when it maximizes that rate among K-approval mechanisms.",
       "source_item_key": "source_definition3_rate_optimality",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:541-552",
+          "source_location": "cited publication:541-552",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_1"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:541-552",
+          "source_location": "cited publication:541-552",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Set Rule"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:541-552",
+          "source_location": "cited publication:541-552",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Rule → ℝ"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:541-552",
+          "source_location": "cited publication:541-552",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Rule"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:541-552",
+          "source_location": "cited publication:541-552",
           "statement": "Definition 3: a feasible scoring rule is rate-optimal when it maximizes the Proposition 4 outcome-learning rate; K-star approval is approval-rate-optimal when it maximizes that rate among K-approval mechanisms."
         }
       ],
@@ -3811,97 +3810,97 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534: Mallows corollary for 0<phi<1: for selecting W winners, an approval-rate-optimal static K-approval rule weakly dominates every finite randomized family of nontrivial K-approval rules.",
+      "source_evidence": "cited publication:725-733; cited publication:1531-1534: Mallows corollary for 0<phi<1: for selecting W winners, an approval-rate-optimal static K-approval rule weakly dominates every finite randomized family of nontrivial K-approval rules.",
       "source_item_key": "source_corollary_mallows_randomization_no_improvement_positive_noise",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Ranking n"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℝ"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Candidate n"
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: GGSG19TopThree.assumption_mallows_nontrivial_winner_and_parameter_domain q W"
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_1"
         },
         {
           "id": "s_b_6",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fintype Rule"
         },
         {
           "id": "s_b_7",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: Nonempty Rule"
         },
         {
           "id": "s_b_8",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Rule → ℕ"
         },
         {
           "id": "s_b_9",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (rule : Rule), 0 < K rule"
         },
         {
           "id": "s_b_10",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (rule : Rule), K rule < n + 2"
         },
         {
           "id": "s_b_11",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Rule → ℝ"
         },
         {
           "id": "s_b_12",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (rule : Rule), 0 ≤ weight rule"
         },
         {
           "id": "s_b_13",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∑ rule, weight rule = 1"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "Mallows corollary for 0<phi<1: for selecting W winners, an approval-rate-optimal static K-approval rule weakly dominates every finite randomized family of nontrivial K-approval rules."
         }
       ],
@@ -4178,43 +4177,43 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534: Mallows corollary at phi=0: deterministic rankings make the static W-approval error eventually zero, so its extended rate is top and weakly dominates every randomized finite rate.",
+      "source_evidence": "cited publication:725-733; cited publication:1531-1534: Mallows corollary at phi=0: deterministic rankings make the static W-approval error eventually zero, so its extended rate is top and weakly dominates every randomized finite rate.",
       "source_item_key": "source_corollary_mallows_randomization_no_improvement_zero_noise",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Ranking n"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Candidate n"
         },
         {
           "id": "s_b_3",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: 0 < ↑W"
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: WithTop ℝ"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:725-733; cited publication:1531-1534",
           "statement": "Mallows corollary at phi=0: deterministic rankings make the static W-approval error eventually zero, so its extended rate is top and weakly dominates every randomized finite rate."
         }
       ],
@@ -4401,13 +4400,13 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:1605-1655: A Durham Ward 1 numerical example reports two pivotal pairs and approval probabilities for three-, four-, and equal-mixture approval, with the mixture's minimum rate exceeding both static outcome rates.",
+      "source_evidence": "cited publication:1605-1655: A Durham Ward 1 numerical example reports two pivotal pairs and approval probabilities for three-, four-, and equal-mixture approval, with the mixture's minimum rate exceeding both static outcome rates.",
       "source_item_key": "example_randomization_helps_Durham_numeric",
       "source_obligations": [
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:1605-1655",
+          "source_location": "cited publication:1605-1655",
           "statement": "A Durham Ward 1 numerical example reports two pivotal pairs and approval probabilities for three-, four-, and equal-mixture approval, with the mixture's minimum rate exceeding both static outcome rates."
         }
       ],
@@ -4853,43 +4852,43 @@
         ]
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:762; source_tex/arxiv.tex:1545-1549: The paper advertises an efficient dynamic program that exactly computes the joint position distribution of any candidate pair under Mallows repeated insertion and says this program generated the numerical plots and located the counterexample. Current source note: Lean defines a materialized dense-tabulation runner for the source repeated-insertion recurrence on arbitrary tracked pairs, proves its table refines an independently defined PMF-bind process, proves normalization, and proves its exact scalar-operation count and degree-six bound.",
+      "source_evidence": "cited publication:762; cited publication:1545-1549: The paper advertises an efficient dynamic program that exactly computes the joint position distribution of any candidate pair under Mallows repeated insertion and says this program generated the numerical plots and located the counterexample. Current source note: Lean defines a materialized dense-tabulation runner for the source repeated-insertion recurrence on arbitrary tracked pairs, proves its table refines an independently defined PMF-bind process, proves normalization, and proves its exact scalar-operation count and degree-six bound.",
       "source_item_key": "algorithm_efficient_mallows_arbitrary_pair_joint_location_dp",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:762; source_tex/arxiv.tex:1545-1549",
+          "source_location": "cited publication:762; cited publication:1545-1549",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:762; source_tex/arxiv.tex:1545-1549",
+          "source_location": "cited publication:762; cited publication:1545-1549",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℝ"
         },
         {
           "id": "s_b_2",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:762; source_tex/arxiv.tex:1545-1549",
+          "source_location": "cited publication:762; cited publication:1545-1549",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: GGSG19TopThree.assumption_mallows_repeated_insertion_parameter_domain q"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:762; source_tex/arxiv.tex:1545-1549",
+          "source_location": "cited publication:762; cited publication:1545-1549",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fin N"
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:762; source_tex/arxiv.tex:1545-1549",
+          "source_location": "cited publication:762; cited publication:1545-1549",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fin N"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:762; source_tex/arxiv.tex:1545-1549",
+          "source_location": "cited publication:762; cited publication:1545-1549",
           "statement": "The paper advertises an efficient dynamic program that exactly computes the joint position distribution of any candidate pair under Mallows repeated insertion and says this program generated the numerical plots and located the counterexample. The audited algorithm obligation includes exact distribution, full materialization/refinement, normalization, and polynomial scalar work."
         }
       ],
@@ -5166,43 +5165,43 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:1543-1547: In repeated insertion, reference item i is inserted at position j at normalized weight phi^(i-j), independently of earlier insertion choices, and the resulting ranking has the Mallows law.",
+      "source_evidence": "cited publication:1543-1547: In repeated insertion, reference item i is inserted at position j at normalized weight phi^(i-j), independently of earlier insertion choices, and the resulting ranking has the Mallows law.",
       "source_item_key": "proof_mallows_repeated_insertion_probability",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:1543-1547",
+          "source_location": "cited publication:1543-1547",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:1543-1547",
+          "source_location": "cited publication:1543-1547",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℝ"
         },
         {
           "id": "s_b_2",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:1543-1547",
+          "source_location": "cited publication:1543-1547",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: GGSG19TopThree.assumption_mallows_repeated_insertion_parameter_domain q"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:1543-1547",
+          "source_location": "cited publication:1543-1547",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fin N"
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:1543-1547",
+          "source_location": "cited publication:1543-1547",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fin N"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:1543-1547",
+          "source_location": "cited publication:1543-1547",
           "statement": "In repeated insertion, reference item i is inserted at position j at normalized weight phi^(i-j), independently of earlier insertion choices, and the resulting ranking has the Mallows law."
         }
       ],
@@ -5515,55 +5514,55 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:344-344: A candidate's N-voter score is the average of per-voter scores; candidates are ordered by this score with uniform random tie breaking, and the goal-specific outcome is the induced tier or winner selection.",
+      "source_evidence": "cited publication:344-344: A candidate's N-voter score is the average of per-voter scores; candidates are ordered by this score with uniform random tie breaking, and the goal-specific outcome is the induced tier or winner selection.",
       "source_item_key": "model_cumulative_scores_ranking_and_outcome",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:344-344",
+          "source_location": "cited publication:344-344",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:344-344",
+          "source_location": "cited publication:344-344",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:344-344",
+          "source_location": "cited publication:344-344",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Candidate n → EconCSLib.SocialChoice.Ranking.Ranking n → ℝ"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:344-344",
+          "source_location": "cited publication:344-344",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fin Stage → Finset (EconCSLib.SocialChoice.Ranking.Candidate n)"
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:344-344",
+          "source_location": "cited publication:344-344",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ → EconCSLib.SocialChoice.Ranking.Ranking n × EconCSLib.SocialChoice.Ranking.Ranking n"
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:344-344",
+          "source_location": "cited publication:344-344",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_6",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:344-344",
+          "source_location": "cited publication:344-344",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: 0 < N"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:344-344",
+          "source_location": "cited publication:344-344",
           "statement": "A candidate's N-voter score is the average of per-voter scores; candidates are ordered by this score with uniform random tie breaking, and the goal-specific outcome is the induced tier or winner selection."
         }
       ],
@@ -5822,37 +5821,37 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:329-338: Under K-approval, a voter selects the top K candidates and each selected candidate receives one point while each other candidate receives zero.",
+      "source_evidence": "cited publication:329-338: Under K-approval, a voter selects the top K candidates and each selected candidate receives one point while each other candidate receives zero.",
       "source_item_key": "model_k_approval_score",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:329-338",
+          "source_location": "cited publication:329-338",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:329-338",
+          "source_location": "cited publication:329-338",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:329-338",
+          "source_location": "cited publication:329-338",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Ranking n"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:329-338",
+          "source_location": "cited publication:329-338",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Candidate n"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:329-338",
+          "source_location": "cited publication:329-338",
           "statement": "Under K-approval, a voter selects the top K candidates and each selected candidate receives one point while each other candidate receives zero."
         }
       ],
@@ -6129,43 +6128,43 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:324-328: Under K-ranking, a voter reveals the positions of her top K candidates; a revealed candidate receives beta of its position and an unrevealed candidate receives zero.",
+      "source_evidence": "cited publication:324-328: Under K-ranking, a voter reveals the positions of her top K candidates; a revealed candidate receives beta of its position and an unrevealed candidate receives zero.",
       "source_item_key": "model_k_ranking_score",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:324-328",
+          "source_location": "cited publication:324-328",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:324-328",
+          "source_location": "cited publication:324-328",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:324-328",
+          "source_location": "cited publication:324-328",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Candidate n → ℝ"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:324-328",
+          "source_location": "cited publication:324-328",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Ranking n"
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:324-328",
+          "source_location": "cited publication:324-328",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Candidate n"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:324-328",
+          "source_location": "cited publication:324-328",
           "statement": "Under K-ranking, a voter reveals the positions of her top K candidates; a revealed candidate receives beta of its position and an unrevealed candidate receives zero."
         }
       ],
@@ -6388,25 +6387,25 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:338-341: The design class B consists of nonconstant nonincreasing positional score functions, equivalently nonnegative adjacent prefix weights with at least one strict drop.",
+      "source_evidence": "cited publication:338-341: The design class B consists of nonconstant nonincreasing positional score functions, equivalently nonnegative adjacent prefix weights with at least one strict drop.",
       "source_item_key": "model_reasonable_positional_scoring_rules",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:338-341",
+          "source_location": "cited publication:338-341",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:338-341",
+          "source_location": "cited publication:338-341",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Candidate n → ℝ"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:338-341",
+          "source_location": "cited publication:338-341",
           "statement": "The design class B consists of nonconstant nonincreasing positional score functions, equivalently nonnegative adjacent prefix weights with at least one strict drop."
         }
       ],
@@ -6737,61 +6736,61 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:727-733; source_tex/arxiv.tex:1531-1534: For Mallows W-selection, the cross-tier pair W,W+1 is pivotal for every K-approval cutoff, so the fixed-pair non-improvement theorem controls the overall outcome rate.",
+      "source_evidence": "cited publication:727-733; cited publication:1531-1534: For Mallows W-selection, the cross-tier pair W,W+1 is pivotal for every K-approval cutoff, so the fixed-pair non-improvement theorem controls the overall outcome rate.",
       "source_item_key": "proof_mallows_common_pivotal_pair",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:727-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:727-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:727-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:727-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Ranking n"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:727-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:727-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℝ"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:727-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:727-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Candidate n"
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:727-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:727-733; cited publication:1531-1534",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: GGSG19TopThree.assumption_mallows_nontrivial_winner_and_parameter_domain q W"
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:727-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:727-733; cited publication:1531-1534",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_6",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:727-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:727-733; cited publication:1531-1534",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: 0 < K"
         },
         {
           "id": "s_b_7",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:727-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:727-733; cited publication:1531-1534",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: K < n + 2"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:727-733; source_tex/arxiv.tex:1531-1534",
+          "source_location": "cited publication:727-733; cited publication:1531-1534",
           "statement": "For Mallows W-selection, the cross-tier pair W,W+1 is pivotal for every K-approval cutoff, so the fixed-pair non-improvement theorem controls the overall outcome rate."
         }
       ],
@@ -7050,37 +7049,37 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:1547-1567: For reference items three and four in the four-candidate example, the appendix gives the complete off-diagonal joint-position matrix with normalizer N_3 N_4.",
+      "source_evidence": "cited publication:1547-1567: For reference items three and four in the four-candidate example, the appendix gives the complete off-diagonal joint-position matrix with normalizer N_3 N_4.",
       "source_item_key": "proof_mallows_four_candidate_joint_location_matrix",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:1547-1567",
+          "source_location": "cited publication:1547-1567",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℝ"
         },
         {
           "id": "s_b_1",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:1547-1567",
+          "source_location": "cited publication:1547-1567",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: GGSG19TopThree.assumption_mallows_repeated_insertion_parameter_domain q"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:1547-1567",
+          "source_location": "cited publication:1547-1567",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fin 4"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:1547-1567",
+          "source_location": "cited publication:1547-1567",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fin 4"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:1547-1567",
+          "source_location": "cited publication:1547-1567",
           "statement": "For reference items three and four in the four-candidate example, the appendix gives the complete off-diagonal joint-position matrix with normalizer N_3 N_4."
         }
       ],
@@ -7339,37 +7338,37 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:385-390; source_tex/arxiv.tex:1193-1218: Proposition 1: under independent uniform tie breaking, design invariance for an arbitrary ordered-tier goal holds exactly when every higher-tier candidate has strictly larger top-k probability than every lower-tier candidate for every proper prefix k; equality is part of the reverse implication, not an excluded premise.",
+      "source_evidence": "cited publication:385-390; cited publication:1193-1218: Proposition 1: under independent uniform tie breaking, design invariance for an arbitrary ordered-tier goal holds exactly when every higher-tier candidate has strictly larger top-k probability than every lower-tier candidate for every proper prefix k; equality is part of the reverse implication, not an excluded premise.",
       "source_item_key": "source_proposition1_design_invariance_iff_strict_prefix_separation",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:385-390; source_tex/arxiv.tex:1193-1218",
+          "source_location": "cited publication:385-390; cited publication:1193-1218",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:385-390; source_tex/arxiv.tex:1193-1218",
+          "source_location": "cited publication:385-390; cited publication:1193-1218",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:385-390; source_tex/arxiv.tex:1193-1218",
+          "source_location": "cited publication:385-390; cited publication:1193-1218",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: PMF (EconCSLib.SocialChoice.Ranking.Ranking n)"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:385-390; source_tex/arxiv.tex:1193-1218",
+          "source_location": "cited publication:385-390; cited publication:1193-1218",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fin Stage → Finset (EconCSLib.SocialChoice.Ranking.Candidate n)"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:385-390; source_tex/arxiv.tex:1193-1218",
+          "source_location": "cited publication:385-390; cited publication:1193-1218",
           "statement": "Proposition 1: under independent uniform tie breaking, design invariance for an arbitrary ordered-tier goal holds exactly when every higher-tier candidate has strictly larger top-k probability than every lower-tier candidate for every proper prefix k; equality is part of the reverse implication, not an excluded premise. Equality is included in the necessity direction under independent uniform tie breaking; the source supplies no no-tie premise."
         }
       ],
@@ -7682,55 +7681,55 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:470-484; source_tex/arxiv.tex:1267-1304: Proposition 2: if candidate i has larger expected score than j, the probability of reversing them has Chernoff large-deviation rate minus the infimum over real z of the log score-gap MGF, and is at most exp(-N r_ij) for every N.",
+      "source_evidence": "cited publication:470-484; cited publication:1267-1304: Proposition 2: if candidate i has larger expected score than j, the probability of reversing them has Chernoff large-deviation rate minus the infimum over real z of the log score-gap MGF, and is at most exp(-N r_ij) for every N.",
       "source_item_key": "source_proposition2_pairwise_learning_rate_and_bound",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:470-484; source_tex/arxiv.tex:1267-1304",
+          "source_location": "cited publication:470-484; cited publication:1267-1304",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_1"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:470-484; source_tex/arxiv.tex:1267-1304",
+          "source_location": "cited publication:470-484; cited publication:1267-1304",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fintype Signal"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:470-484; source_tex/arxiv.tex:1267-1304",
+          "source_location": "cited publication:470-484; cited publication:1267-1304",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: DecidableEq Signal"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:470-484; source_tex/arxiv.tex:1267-1304",
+          "source_location": "cited publication:470-484; cited publication:1267-1304",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: PMF Signal"
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:470-484; source_tex/arxiv.tex:1267-1304",
+          "source_location": "cited publication:470-484; cited publication:1267-1304",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Signal → ℝ"
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:470-484; source_tex/arxiv.tex:1267-1304",
+          "source_location": "cited publication:470-484; cited publication:1267-1304",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Signal → ℝ"
         },
         {
           "id": "s_b_6",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:470-484; source_tex/arxiv.tex:1267-1304",
+          "source_location": "cited publication:470-484; cited publication:1267-1304",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: 0 ≤ EconCSLib.pmfExp law fun signal => hiScore signal - loScore signal"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:470-484; source_tex/arxiv.tex:1267-1304",
+          "source_location": "cited publication:470-484; cited publication:1267-1304",
           "statement": "Proposition 2: if candidate i has larger expected score than j, the probability of reversing them has Chernoff large-deviation rate minus the infimum over real z of the log score-gap MGF, and is at most exp(-N r_ij) for every N."
         }
       ],
@@ -8169,97 +8168,97 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330: Proposition 3: the K-approval pairwise rate equals minus the log of 2 times the geometric mean of the two one-sided approval probabilities plus the probability of a zero score gap.",
+      "source_evidence": "cited publication:497-515; cited publication:1308-1330: Proposition 3: the K-approval pairwise rate equals minus the log of 2 times the geometric mean of the two one-sided approval probabilities plus the probability of a zero score gap.",
       "source_item_key": "source_proposition3_k_approval_closed_pairwise_rate",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330",
+          "source_location": "cited publication:497-515; cited publication:1308-1330",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_1"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330",
+          "source_location": "cited publication:497-515; cited publication:1308-1330",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fintype Signal"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330",
+          "source_location": "cited publication:497-515; cited publication:1308-1330",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: DecidableEq Signal"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330",
+          "source_location": "cited publication:497-515; cited publication:1308-1330",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: PMF Signal"
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330",
+          "source_location": "cited publication:497-515; cited publication:1308-1330",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Signal → ℝ"
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330",
+          "source_location": "cited publication:497-515; cited publication:1308-1330",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Signal → ℝ"
         },
         {
           "id": "s_b_6",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330",
+          "source_location": "cited publication:497-515; cited publication:1308-1330",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℝ"
         },
         {
           "id": "s_b_7",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330",
+          "source_location": "cited publication:497-515; cited publication:1308-1330",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℝ"
         },
         {
           "id": "s_b_8",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330",
+          "source_location": "cited publication:497-515; cited publication:1308-1330",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℝ"
         },
         {
           "id": "s_b_9",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330",
+          "source_location": "cited publication:497-515; cited publication:1308-1330",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: pDown ≤ pUp"
         },
         {
           "id": "s_b_10",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330",
+          "source_location": "cited publication:497-515; cited publication:1308-1330",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (signal : Signal), hiScore signal - loScore signal = 1 ∨ hiScore signal - loScore signal = 0 ∨ hiScore signal - loScore signal = -1"
         },
         {
           "id": "s_b_11",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330",
+          "source_location": "cited publication:497-515; cited publication:1308-1330",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: (EconCSLib.pmfProb law fun signal => hiScore signal - loScore signal = 1) = pUp"
         },
         {
           "id": "s_b_12",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330",
+          "source_location": "cited publication:497-515; cited publication:1308-1330",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: (EconCSLib.pmfProb law fun signal => hiScore signal - loScore signal = -1) = pDown"
         },
         {
           "id": "s_b_13",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330",
+          "source_location": "cited publication:497-515; cited publication:1308-1330",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: (EconCSLib.pmfProb law fun signal => hiScore signal - loScore signal = 0) = pZero"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1330",
+          "source_location": "cited publication:497-515; cited publication:1308-1330",
           "statement": "Proposition 3: the K-approval pairwise rate equals minus the log of 2 times the geometric mean of the two one-sided approval probabilities plus the probability of a zero score gap."
         }
       ],
@@ -8824,139 +8823,139 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373: Proposition 4: the expected number Q^N of cross-tier reversals has large-deviation rate equal to the minimum relevant pairwise rate.",
+      "source_evidence": "cited publication:521-537; cited publication:1332-1373: Proposition 4: the expected number Q^N of cross-tier reversals has large-deviation rate equal to the minimum relevant pairwise rate.",
       "source_item_key": "source_proposition4_outcome_exact_minimum_rate",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_1"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_2"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_3"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fintype Pair"
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: Nonempty Pair"
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: DecidableEq Pair"
         },
         {
           "id": "s_b_6",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fintype Signal"
         },
         {
           "id": "s_b_7",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: DecidableEq Signal"
         },
         {
           "id": "s_b_8",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: PMF Signal"
         },
         {
           "id": "s_b_9",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Candidate → Signal → ℝ"
         },
         {
           "id": "s_b_10",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Pair → Candidate"
         },
         {
           "id": "s_b_11",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Pair → Candidate"
         },
         {
           "id": "s_b_12",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (pair : Pair), 0 ≤ EconCSLib.pmfExp law fun signal => score (hi pair) signal - score (lo pair) signal"
         },
         {
           "id": "s_b_13",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Pair → Signal"
         },
         {
           "id": "s_b_14",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Pair → Signal"
         },
         {
           "id": "s_b_15",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (pair : Pair), 0 < (law (aPos pair)).toReal"
         },
         {
           "id": "s_b_16",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (pair : Pair), 0 < score (hi pair) (aPos pair) - score (lo pair) (aPos pair)"
         },
         {
           "id": "s_b_17",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (pair : Pair), 0 < (law (aNeg pair)).toReal"
         },
         {
           "id": "s_b_18",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (pair : Pair), score (hi pair) (aNeg pair) - score (lo pair) (aNeg pair) < 0"
         },
         {
           "id": "s_b_19",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Set ℝ"
         },
         {
           "id": "s_b_20",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: U ∈ nhds (GGSG19TopThree.finiteOutcomeLearningRate fun pair => EconCSLib.Probability.finiteIidPairwiseScoreGapChernoffRate law score (hi pair) (lo pair))"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "Proposition 4: the expected number Q^N of cross-tier reversals has large-deviation rate equal to the minimum relevant pairwise rate."
         }
       ],
@@ -9521,139 +9520,139 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373: Proposition 4: for every sample size N, Q^N is at most M squared times exp(-N r), where r is the minimum relevant pairwise rate.",
+      "source_evidence": "cited publication:521-537; cited publication:1332-1373: Proposition 4: for every sample size N, Q^N is at most M squared times exp(-N r), where r is the minimum relevant pairwise rate.",
       "source_item_key": "source_proposition4_finite_sample_M_sq_bound",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_1"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_2"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_3"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fintype Pair"
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: Nonempty Pair"
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fintype Candidate"
         },
         {
           "id": "s_b_6",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fintype Signal"
         },
         {
           "id": "s_b_7",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: DecidableEq Signal"
         },
         {
           "id": "s_b_8",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: PMF Signal"
         },
         {
           "id": "s_b_9",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Candidate → Signal → ℝ"
         },
         {
           "id": "s_b_10",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Pair → Candidate"
         },
         {
           "id": "s_b_11",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Pair → Candidate"
         },
         {
           "id": "s_b_12",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (pair : Pair), 0 ≤ EconCSLib.pmfExp law fun signal => score (hi pair) signal - score (lo pair) signal"
         },
         {
           "id": "s_b_13",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Pair → Signal"
         },
         {
           "id": "s_b_14",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Pair → Signal"
         },
         {
           "id": "s_b_15",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (pair : Pair), 0 < (law (aPos pair)).toReal"
         },
         {
           "id": "s_b_16",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (pair : Pair), 0 < score (hi pair) (aPos pair) - score (lo pair) (aPos pair)"
         },
         {
           "id": "s_b_17",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (pair : Pair), 0 < (law (aNeg pair)).toReal"
         },
         {
           "id": "s_b_18",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (pair : Pair), score (hi pair) (aNeg pair) - score (lo pair) (aNeg pair) < 0"
         },
         {
           "id": "s_b_19",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: Fintype.card Pair ≤ Fintype.card Candidate ^ 2"
         },
         {
           "id": "s_b_20",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:521-537; source_tex/arxiv.tex:1332-1373",
+          "source_location": "cited publication:521-537; cited publication:1332-1373",
           "statement": "Proposition 4: for every sample size N, Q^N is at most M squared times exp(-N r), where r is the minimum relevant pairwise rate."
         }
       ],
@@ -10128,109 +10127,109 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490: Theorem 1: for every asymptotically design-invariant finite goal and randomized family of reasonable scoring rules, their probability-weighted static convex combination has outcome-learning rate at least that of the randomized mechanism.",
+      "source_evidence": "cited publication:679-689; cited publication:1397-1490: Theorem 1: for every asymptotically design-invariant finite goal and randomized family of reasonable scoring rules, their probability-weighted static convex combination has outcome-learning rate at least that of the randomized mechanism.",
       "source_item_key": "source_theorem1_randomized_scoring_no_improvement",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_1"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_2"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_3"
         },
         {
           "id": "s_b_3",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fintype Pair"
         },
         {
           "id": "s_b_4",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: Nonempty Pair"
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fintype Rule"
         },
         {
           "id": "s_b_6",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fintype Signal"
         },
         {
           "id": "s_b_7",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: DecidableEq Signal"
         },
         {
           "id": "s_b_8",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: PMF Signal"
         },
         {
           "id": "s_b_9",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Rule → ℝ"
         },
         {
           "id": "s_b_10",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Pair → Rule → Signal → ℝ"
         },
         {
           "id": "s_b_11",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Pair → Signal → ℝ"
         },
         {
           "id": "s_b_12",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (pair : Pair) (signal : Signal), staticGap pair signal = ∑ rule, weight rule * gap pair rule signal"
         },
         {
           "id": "s_b_13",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (rule : Rule), 0 ≤ weight rule"
         },
         {
           "id": "s_b_14",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∑ rule, weight rule = 1"
         },
         {
           "id": "s_b_15",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (pair : Pair), BddBelow (Set.range fun z => EconCSLib.Probability.finiteLogMGF law (staticGap pair) z)"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:679-689; source_tex/arxiv.tex:1397-1490",
+          "source_location": "cited publication:679-689; cited publication:1397-1490",
           "statement": "Theorem 1: for every asymptotically design-invariant finite goal and randomized family of reasonable scoring rules, their probability-weighted static convex combination has outcome-learning rate at least that of the randomized mechanism."
         }
       ],
@@ -10615,79 +10614,79 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:701-721; source_tex/arxiv.tex:1497-1526: Theorem 2: for any fixed candidate pair and randomized K-approval mechanism, some static K-approval component has pairwise learning rate at least the randomized rate.",
+      "source_evidence": "cited publication:701-721; cited publication:1497-1526: Theorem 2: for any fixed candidate pair and randomized K-approval mechanism, some static K-approval component has pairwise learning rate at least the randomized rate.",
       "source_item_key": "source_theorem2_randomized_k_approval_fixed_pair_no_improvement",
       "source_obligations": [
         {
           "id": "s_b_0",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:701-721; source_tex/arxiv.tex:1497-1526",
+          "source_location": "cited publication:701-721; cited publication:1497-1526",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: ℕ"
         },
         {
           "id": "s_b_1",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:701-721; source_tex/arxiv.tex:1497-1526",
+          "source_location": "cited publication:701-721; cited publication:1497-1526",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Type u_1"
         },
         {
           "id": "s_b_2",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:701-721; source_tex/arxiv.tex:1497-1526",
+          "source_location": "cited publication:701-721; cited publication:1497-1526",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Fintype Rule"
         },
         {
           "id": "s_b_3",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:701-721; source_tex/arxiv.tex:1497-1526",
+          "source_location": "cited publication:701-721; cited publication:1497-1526",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: Nonempty Rule"
         },
         {
           "id": "s_b_4",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:701-721; source_tex/arxiv.tex:1497-1526",
+          "source_location": "cited publication:701-721; cited publication:1497-1526",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: PMF (EconCSLib.SocialChoice.Ranking.Ranking n)"
         },
         {
           "id": "s_b_5",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:701-721; source_tex/arxiv.tex:1497-1526",
+          "source_location": "cited publication:701-721; cited publication:1497-1526",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Rule → ℕ"
         },
         {
           "id": "s_b_6",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:701-721; source_tex/arxiv.tex:1497-1526",
+          "source_location": "cited publication:701-721; cited publication:1497-1526",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: Rule → ℝ"
         },
         {
           "id": "s_b_7",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:701-721; source_tex/arxiv.tex:1497-1526",
+          "source_location": "cited publication:701-721; cited publication:1497-1526",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∀ (rule : Rule), 0 ≤ weight rule"
         },
         {
           "id": "s_b_8",
           "kind": "assumption",
-          "source_location": "source_tex/arxiv.tex:701-721; source_tex/arxiv.tex:1497-1526",
+          "source_location": "cited publication:701-721; cited publication:1497-1526",
           "statement": "The cited source claim imposes the corresponding explicit premise or legal-domain condition represented by: ∑ rule, weight rule = 1"
         },
         {
           "id": "s_b_9",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:701-721; source_tex/arxiv.tex:1497-1526",
+          "source_location": "cited publication:701-721; cited publication:1497-1526",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Candidate n"
         },
         {
           "id": "s_b_10",
           "kind": "parameter",
-          "source_location": "source_tex/arxiv.tex:701-721; source_tex/arxiv.tex:1497-1526",
+          "source_location": "cited publication:701-721; cited publication:1497-1526",
           "statement": "The cited source claim quantifies over the corresponding complete parameter or carrier domain represented by: EconCSLib.SocialChoice.Ranking.Candidate n"
         },
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:701-721; source_tex/arxiv.tex:1497-1526",
+          "source_location": "cited publication:701-721; cited publication:1497-1526",
           "statement": "Theorem 2: for any fixed candidate pair and randomized K-approval mechanism, some static K-approval component has pairwise learning rate at least the randomized rate."
         }
       ],
@@ -10874,13 +10873,13 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:750-760; source_tex/arxiv.tex:1537-1602: Under the Mallows model for W-winner selection, W-approval need not be approval-rate-optimal; the source proves this with a four-candidate, three-winner high-noise example.",
+      "source_evidence": "cited publication:750-760; cited publication:1537-1602: Under the Mallows model for W-winner selection, W-approval need not be approval-rate-optimal; the source proves this with a four-candidate, three-winner high-noise example.",
       "source_item_key": "source_theorem_mallows_W_approval_not_rate_optimal",
       "source_obligations": [
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:750-760; source_tex/arxiv.tex:1537-1602",
+          "source_location": "cited publication:750-760; cited publication:1537-1602",
           "statement": "Under the Mallows model for W-winner selection, W-approval need not be approval-rate-optimal; the source proves this with a four-candidate, three-winner high-noise example."
         }
       ],
@@ -11067,13 +11066,13 @@
         "world_bridges": []
       },
       "source": "independent semantic audit against pinned GGSG19 TeX source",
-      "source_evidence": "source_tex/arxiv.tex:738-747; source_tex/arxiv.tex:1605-1862: There exist asymptotically design-invariant W-selection settings where a randomized K-approval mechanism has strictly larger outcome-learning rate than every static K-approval mechanism.",
+      "source_evidence": "cited publication:738-747; cited publication:1605-1862: There exist asymptotically design-invariant W-selection settings where a randomized K-approval mechanism has strictly larger outcome-learning rate than every static K-approval mechanism.",
       "source_item_key": "source_theorem_randomized_approval_can_help_W_selection",
       "source_obligations": [
         {
           "id": "s_result",
           "kind": "conclusion",
-          "source_location": "source_tex/arxiv.tex:738-747; source_tex/arxiv.tex:1605-1862",
+          "source_location": "cited publication:738-747; cited publication:1605-1862",
           "statement": "There exist asymptotically design-invariant W-selection settings where a randomized K-approval mechanism has strictly larger outcome-learning rate than every static K-approval mechanism."
         }
       ],
@@ -11090,7 +11089,6 @@
   "paper": "GGSG19TopThree",
   "prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
   "schema": 1,
-  "source_artifact_path": "source.tar.gz",
   "source_artifact_sha256": "667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a",
   "validated_at": "2026-07-23T23:07:08Z",
   "validator": "Codex GGSG19 strict contract revalidation 2026-07-23",

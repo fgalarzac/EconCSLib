@@ -66,6 +66,8 @@ _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _DIRECT_SOURCE_ASSOCIATION_FIELD = "source_statement_association"
 _DIRECT_SOURCE_ASSOCIATION_ROLE = "direct_source_route"
 _DIRECT_SOURCE_ASSOCIATION_ORIGIN = "explicit_source_map_direct_route"
+_SEMANTIC_CONTRACT_ASSOCIATION_FIELD = "semantic_contract_source_association"
+_SEMANTIC_CONTRACT_DIRECT_EVIDENCE_ROLE = "direct_evidence"
 
 
 def _sha256(value: object) -> str:
@@ -100,6 +102,35 @@ def _single_signature(
     return declaration, digest
 
 
+def _direct_source_association_candidate(
+    semantic_item: Mapping[str, Any],
+) -> Mapping[str, Any] | None:
+    """Return one generated, source-selected direct parent association.
+
+    The legacy explicit-route lane and a current source-to-Spec direct-evidence
+    lane are both source-selected. A generic semantic-contract member remains
+    ineligible: the latter lane must be the direct evidence member itself.
+    """
+
+    legacy = semantic_item.get(_DIRECT_SOURCE_ASSOCIATION_FIELD)
+    if (
+        isinstance(legacy, Mapping)
+        and str(legacy.get("role") or "").strip()
+        == _DIRECT_SOURCE_ASSOCIATION_ROLE
+        and str(legacy.get("association_origin") or "").strip()
+        == _DIRECT_SOURCE_ASSOCIATION_ORIGIN
+    ):
+        return legacy
+    semantic_contract = semantic_item.get(_SEMANTIC_CONTRACT_ASSOCIATION_FIELD)
+    if (
+        isinstance(semantic_contract, Mapping)
+        and str(semantic_contract.get("role") or "").strip()
+        == _SEMANTIC_CONTRACT_DIRECT_EVIDENCE_ROLE
+    ):
+        return semantic_contract
+    return None
+
+
 def _direct_source_association(
     semantic_item: Mapping[str, Any],
     *,
@@ -114,16 +145,8 @@ def _direct_source_association(
     from a source-looking name.
     """
 
-    association = semantic_item.get(_DIRECT_SOURCE_ASSOCIATION_FIELD)
-    if not isinstance(association, Mapping):
-        return None
-    if (
-        association.get("schema") != 2
-        or str(association.get("role") or "").strip()
-        != _DIRECT_SOURCE_ASSOCIATION_ROLE
-        or str(association.get("association_origin") or "").strip()
-        != _DIRECT_SOURCE_ASSOCIATION_ORIGIN
-    ):
+    association = _direct_source_association_candidate(semantic_item)
+    if not isinstance(association, Mapping) or association.get("schema") != 2:
         return None
     if _declaration_identity(association.get("reviewed_declaration_identity")) != declaration_identity:
         return None
@@ -179,13 +202,8 @@ def _declared_direct_record_roots(semantic_item: Mapping[str, Any]) -> set[str]:
     from a semantic-model name or a record spelling.
     """
 
-    association = semantic_item.get(_DIRECT_SOURCE_ASSOCIATION_FIELD)
-    if not isinstance(association, Mapping) or (
-        str(association.get("role") or "").strip()
-        != _DIRECT_SOURCE_ASSOCIATION_ROLE
-        or str(association.get("association_origin") or "").strip()
-        != _DIRECT_SOURCE_ASSOCIATION_ORIGIN
-    ):
+    association = _direct_source_association_candidate(semantic_item)
+    if not isinstance(association, Mapping):
         return set()
     bindings = semantic_item.get("record_input_bindings")
     if not isinstance(bindings, list):

@@ -24,6 +24,13 @@ abbrev Allocation (Agent Item : Type*) := Agent → Bundle Item
 def emptyAllocation (Agent Item : Type*) : Allocation Agent Item :=
   fun _ => ∅
 
+/-- The allocation that gives a whole finite item pool to one designated
+agent and leaves every other bundle empty. -/
+def allocateAllTo (Agent Item : Type*) [DecidableEq Agent]
+    (owner : Agent) (items : Finset Item) :
+    Allocation Agent Item :=
+  fun agent => if agent = owner then items else ∅
+
 /--
 A valuation profile for indivisible goods.
 
@@ -106,6 +113,63 @@ theorem isAllocationOf_not_mem_of_mem_ne [DecidableEq Item]
   intro hj
   exact hne (isAllocationOf_owner_unique halloc hgoods hj hi)
 
+/-- Feasible allocations on disjoint finite pools combine by taking the union
+of each agent's two bundles. -/
+theorem isAllocationOf_union [DecidableEq Item]
+    (first second : Allocation Agent Item) (firstGoods secondGoods : Finset Item)
+    (hdisjoint : Disjoint firstGoods secondGoods)
+    (hfirst : IsAllocationOf first firstGoods) (hsecond : IsAllocationOf second secondGoods) :
+    IsAllocationOf (fun agent => first agent ∪ second agent) (firstGoods ∪ secondGoods) := by
+  constructor
+  · intro agent item hitem
+    rcases Finset.mem_union.mp hitem with hfirstItem | hsecondItem
+    · exact Finset.mem_union_left _ (hfirst.1 agent item hfirstItem)
+    · exact Finset.mem_union_right _ (hsecond.1 agent item hsecondItem)
+  · intro item hitem
+    rcases Finset.mem_union.mp hitem with hfirstGoods | hsecondGoods
+    · obtain ⟨owner, howner, hunique⟩ := hfirst.2 item hfirstGoods
+      refine ⟨owner, Finset.mem_union_left _ howner, ?_⟩
+      intro other hother
+      rcases Finset.mem_union.mp hother with hfirstOther | hsecondOther
+      · exact hunique other hfirstOther
+      · have hsecondMem : item ∈ secondGoods := hsecond.1 other item hsecondOther
+        exact (Finset.disjoint_left.mp hdisjoint hfirstGoods hsecondMem).elim
+    · obtain ⟨owner, howner, hunique⟩ := hsecond.2 item hsecondGoods
+      refine ⟨owner, Finset.mem_union_right _ howner, ?_⟩
+      intro other hother
+      rcases Finset.mem_union.mp hother with hfirstOther | hsecondOther
+      · have hfirstMem : item ∈ firstGoods := hfirst.1 other item hfirstOther
+        exact (Finset.disjoint_left.mp hdisjoint hfirstMem hsecondGoods).elim
+      · exact hunique other hsecondOther
+
+/-- In a feasible finite allocation, the sum of bundle cardinalities is the
+cardinality of the allocated item set. -/
+theorem sum_card_allocation_eq_card_of_isAllocation [Fintype Agent] [DecidableEq Item]
+    (allocation : Allocation Agent Item) (goods : Finset Item)
+    (halloc : IsAllocationOf allocation goods) :
+    Finset.univ.sum (fun agent => (allocation agent).card) = goods.card := by
+  have hdisjoint : ((Finset.univ : Finset Agent) : Set Agent).PairwiseDisjoint allocation := by
+    intro first _ second _ hne
+    change Disjoint (allocation first) (allocation second)
+    rw [Finset.disjoint_left]
+    intro item hfirst hsecond
+    apply hne
+    exact isAllocationOf_owner_unique halloc (isAllocationOf_mem_goods halloc hfirst) hfirst hsecond
+  have hunion : (Finset.univ : Finset Agent).biUnion allocation = goods := by
+    ext item
+    constructor
+    · intro hitem
+      obtain ⟨agent, _, hagent⟩ := Finset.mem_biUnion.mp hitem
+      exact isAllocationOf_mem_goods halloc hagent
+    · intro hitem
+      obtain ⟨agent, hagent⟩ := isAllocationOf_exists_owner halloc hitem
+      exact Finset.mem_biUnion.mpr ⟨agent, Finset.mem_univ _, hagent⟩
+  calc
+    Finset.univ.sum (fun agent => (allocation agent).card) =
+        ((Finset.univ : Finset Agent).biUnion allocation).card :=
+      (Finset.card_biUnion hdisjoint).symm
+    _ = goods.card := congrArg Finset.card hunion
+
 theorem isAllocationOf_empty [DecidableEq Item] :
     IsAllocationOf (emptyAllocation Agent Item) (∅ : Finset Item) := by
   constructor
@@ -113,6 +177,23 @@ theorem isAllocationOf_empty [DecidableEq Item] :
     simp [emptyAllocation] at hmem
   · intro g hmem
     simp at hmem
+
+/-- Giving an entire finite pool to one agent is feasible. -/
+theorem isAllocationOf_allocateAllTo [DecidableEq Agent] [DecidableEq Item]
+    (owner : Agent) (items : Finset Item) :
+    IsAllocationOf (allocateAllTo Agent Item owner items) items := by
+  constructor
+  · intro agent item hitem
+    by_cases howner : agent = owner
+    · simpa [allocateAllTo, howner] using hitem
+    · simp [allocateAllTo, howner] at hitem
+  · intro item hitem
+    refine ⟨owner, ?_, ?_⟩
+    · simp [allocateAllTo, hitem]
+    · intro agent hagent
+      by_cases howner : agent = owner
+      · exact howner
+      · simp [allocateAllTo, howner] at hagent
 
 theorem envy_nonneg (v : Valuation Agent Item) (A : Allocation Agent Item)
     (i j : Agent) :

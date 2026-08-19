@@ -158,7 +158,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "balanced_orientation",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1019-1031",
+          "source_location": "papers/HT26EFXChores/cited publication:1019-1031",
           "source_statement_sha256": "602f5ccdf114ccf10046372ed076d6509f05119597214f98f2ca4b4e47e4663a",
           "statement": "A multigraph has an endpoint assignment with prescribed indegrees exactly when every vertex-set demand is at most its incident-edge count; the partial version allows unassigned edges."
         }
@@ -167,7 +167,7 @@
         {
           "route_kind": "direct",
           "source_item": "balanced_orientation",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1019-1031",
+          "source_location": "papers/HT26EFXChores/cited publication:1019-1031",
           "source_statement_sha256": "602f5ccdf114ccf10046372ed076d6509f05119597214f98f2ca4b4e47e4663a"
         }
       ],
@@ -462,50 +462,50 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1045-1047",
+          "source_location": "papers/HT26EFXChores/cited publication:1045-1047",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1045-1047",
+          "source_location": "papers/HT26EFXChores/cited publication:1045-1047",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1045-1047",
+          "source_location": "papers/HT26EFXChores/cited publication:1045-1047",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1045-1047",
+          "source_location": "papers/HT26EFXChores/cited publication:1045-1047",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1045-1047",
+          "source_location": "papers/HT26EFXChores/cited publication:1045-1047",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_5",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1045-1047",
+          "source_location": "papers/HT26EFXChores/cited publication:1045-1047",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_6",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1045-1047",
+          "source_location": "papers/HT26EFXChores/cited publication:1045-1047",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_7",
           "kind": "conclusion",
           "source_item": "m2_efx_allocation",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1045-1047",
+          "source_location": "papers/HT26EFXChores/cited publication:1045-1047",
           "source_statement_sha256": "539d32f1dc0a383d5ca6e419e9f700762f2f8b20d6a410bc6dc338d3231959c4",
           "statement": "Every four-agent pool in which every item is small for exactly two agents admits an EFX allocation."
         }
@@ -514,7 +514,7 @@
         {
           "route_kind": "direct",
           "source_item": "m2_efx_allocation",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1045-1047",
+          "source_location": "papers/HT26EFXChores/cited publication:1045-1047",
           "source_statement_sha256": "539d32f1dc0a383d5ca6e419e9f700762f2f8b20d6a410bc6dc338d3231959c4"
         }
       ],
@@ -684,7 +684,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "efx_po_cost_lower_bounds",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:502-504",
+          "source_location": "papers/HT26EFXChores/cited publication:502-504",
           "source_statement_sha256": "144e5c758a711d336be80ba9f4ef3b5da3de12a170af795e4940d6a99932ea36",
           "statement": "In the Theorem 2 construction, every EFX bundle costs at least r+1 to its owner and one costs at least r+2."
         }
@@ -693,7 +693,7 @@
         {
           "route_kind": "direct",
           "source_item": "efx_po_cost_lower_bounds",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:502-504",
+          "source_location": "papers/HT26EFXChores/cited publication:502-504",
           "source_statement_sha256": "144e5c758a711d336be80ba9f4ef3b5da3de12a170af795e4940d6a99932ea36"
         }
       ],
@@ -988,50 +988,50 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1019-1031",
+          "source_location": "papers/HT26EFXChores/cited publication:1019-1031",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1019-1031",
+          "source_location": "papers/HT26EFXChores/cited publication:1019-1031",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1019-1031",
+          "source_location": "papers/HT26EFXChores/cited publication:1019-1031",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1019-1031",
+          "source_location": "papers/HT26EFXChores/cited publication:1019-1031",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1019-1031",
+          "source_location": "papers/HT26EFXChores/cited publication:1019-1031",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_5",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1019-1031",
+          "source_location": "papers/HT26EFXChores/cited publication:1019-1031",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_6",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1019-1031",
+          "source_location": "papers/HT26EFXChores/cited publication:1019-1031",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_7",
           "kind": "conclusion",
           "source_item": "balanced_orientation",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1019-1031",
+          "source_location": "papers/HT26EFXChores/cited publication:1019-1031",
           "source_statement_sha256": "602f5ccdf114ccf10046372ed076d6509f05119597214f98f2ca4b4e47e4663a",
           "statement": "A multigraph has an endpoint assignment with prescribed indegrees exactly when every vertex-set demand is at most its incident-edge count; the partial version allows unassigned edges."
         }
@@ -1040,7 +1040,7 @@
         {
           "route_kind": "direct",
           "source_item": "balanced_orientation",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1019-1031",
+          "source_location": "papers/HT26EFXChores/cited publication:1019-1031",
           "source_statement_sha256": "602f5ccdf114ccf10046372ed076d6509f05119597214f98f2ca4b4e47e4663a"
         }
       ],
@@ -1263,26 +1263,26 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:532-534",
+          "source_location": "papers/HT26EFXChores/cited publication:532-534",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:532-534",
+          "source_location": "papers/HT26EFXChores/cited publication:532-534",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:532-534",
+          "source_location": "papers/HT26EFXChores/cited publication:532-534",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "conclusion",
           "source_item": "four_agent_bi_valued_efx_exists",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:532-534",
+          "source_location": "papers/HT26EFXChores/cited publication:532-534",
           "source_statement_sha256": "f630d75f91ba761e9bff04b8411b78ddfb1be40948dab1ae10ee0c4087777a33",
           "statement": "Every four-agent bi-valued chore instance admits an EFX allocation."
         }
@@ -1291,7 +1291,7 @@
         {
           "route_kind": "direct",
           "source_item": "four_agent_bi_valued_efx_exists",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:532-534",
+          "source_location": "papers/HT26EFXChores/cited publication:532-534",
           "source_statement_sha256": "f630d75f91ba761e9bff04b8411b78ddfb1be40948dab1ae10ee0c4087777a33"
         }
       ],
@@ -1461,7 +1461,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "four_agent_bi_valued_efx_exists",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:532-534",
+          "source_location": "papers/HT26EFXChores/cited publication:532-534",
           "source_statement_sha256": "f630d75f91ba761e9bff04b8411b78ddfb1be40948dab1ae10ee0c4087777a33",
           "statement": "Every four-agent bi-valued chore instance admits an EFX allocation."
         }
@@ -1470,7 +1470,7 @@
         {
           "route_kind": "direct",
           "source_item": "four_agent_bi_valued_efx_exists",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:532-534",
+          "source_location": "papers/HT26EFXChores/cited publication:532-534",
           "source_statement_sha256": "f630d75f91ba761e9bff04b8411b78ddfb1be40948dab1ae10ee0c4087777a33"
         }
       ],
@@ -1739,32 +1739,32 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:253-255",
+          "source_location": "papers/HT26EFXChores/cited publication:253-255",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:253-255",
+          "source_location": "papers/HT26EFXChores/cited publication:253-255",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:253-255",
+          "source_location": "papers/HT26EFXChores/cited publication:253-255",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:253-255",
+          "source_location": "papers/HT26EFXChores/cited publication:253-255",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "conclusion",
           "source_item": "envy_free_for_chores_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:253-255",
+          "source_location": "papers/HT26EFXChores/cited publication:253-255",
           "source_statement_sha256": "ba8af319ca5c38134fa6b8db05bd31c83257a8b6b2a727e8c9eef6731cee1006",
           "statement": "An allocation is envy-free for chores exactly when every agent's own bundle has no greater cost than every observed bundle."
         }
@@ -1773,7 +1773,7 @@
         {
           "route_kind": "direct",
           "source_item": "envy_free_for_chores_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:253-255",
+          "source_location": "papers/HT26EFXChores/cited publication:253-255",
           "source_statement_sha256": "ba8af319ca5c38134fa6b8db05bd31c83257a8b6b2a727e8c9eef6731cee1006"
         }
       ],
@@ -1943,7 +1943,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "exceptional_residue_combination",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "source_statement_sha256": "6b303355ee9a721849bfab2bcf49622151ee2cfa1872a77dd58b509ea23ec5df",
           "statement": "A canonical M01 prefix extended to envy-freeness by gap filling combines with an exceptional M2 residue when both exceptional agents are long."
         }
@@ -1952,7 +1952,7 @@
         {
           "route_kind": "direct",
           "source_item": "exceptional_residue_combination",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "source_statement_sha256": "6b303355ee9a721849bfab2bcf49622151ee2cfa1872a77dd58b509ea23ec5df"
         }
       ],
@@ -2553,152 +2553,152 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_5",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_6",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_7",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_8",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_9",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_10",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_11",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_12",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_13",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_14",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_15",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_16",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_17",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_18",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_19",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_20",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_21",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_22",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_23",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_24",
           "kind": "conclusion",
           "source_item": "appendix_no_two_a_items",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "source_statement_sha256": "927148086833da6a3f2d6bdea013c5307afc1b6a7100ba69c57d3c64a6204b27",
           "statement": "In an EFX allocation of the Appendix A construction, no bundle contains two or more A items."
         }
@@ -2707,7 +2707,7 @@
         {
           "route_kind": "direct",
           "source_item": "appendix_no_two_a_items",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "source_statement_sha256": "927148086833da6a3f2d6bdea013c5307afc1b6a7100ba69c57d3c64a6204b27"
         }
       ],
@@ -2877,7 +2877,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "tri_valued_nonexistence",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:304-306",
+          "source_location": "papers/HT26EFXChores/cited publication:304-306",
           "source_statement_sha256": "952ba2d523d50f468500be02b7a41ba31041ae7e0140d97734256563af561fd4",
           "statement": "For every n at least four, a tri-valued additive chore instance with n agents has no EFX allocation."
         }
@@ -2886,7 +2886,7 @@
         {
           "route_kind": "direct",
           "source_item": "tri_valued_nonexistence",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:304-306",
+          "source_location": "papers/HT26EFXChores/cited publication:304-306",
           "source_statement_sha256": "952ba2d523d50f468500be02b7a41ba31041ae7e0140d97734256563af561fd4"
         }
       ],
@@ -3155,32 +3155,32 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:260-275",
+          "source_location": "papers/HT26EFXChores/cited publication:260-275",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:260-275",
+          "source_location": "papers/HT26EFXChores/cited publication:260-275",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:260-275",
+          "source_location": "papers/HT26EFXChores/cited publication:260-275",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:260-275",
+          "source_location": "papers/HT26EFXChores/cited publication:260-275",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "conclusion",
           "source_item": "efx_for_chores_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:260-275",
+          "source_location": "papers/HT26EFXChores/cited publication:260-275",
           "source_statement_sha256": "00987367ef9f5c618dc6f380b4dc39c27164b7e93dccc6d85d4866ed97bb1de8",
           "statement": "An allocation is EFX for chores exactly when each nonempty own bundle remains no more costly than every observed bundle after removal of every one of its items."
         }
@@ -3189,7 +3189,7 @@
         {
           "route_kind": "direct",
           "source_item": "efx_for_chores_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:260-275",
+          "source_location": "papers/HT26EFXChores/cited publication:260-275",
           "source_statement_sha256": "00987367ef9f5c618dc6f380b4dc39c27164b7e93dccc6d85d4866ed97bb1de8"
         }
       ],
@@ -3556,74 +3556,74 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:760-767",
+          "source_location": "papers/HT26EFXChores/cited publication:760-767",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:760-767",
+          "source_location": "papers/HT26EFXChores/cited publication:760-767",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:760-767",
+          "source_location": "papers/HT26EFXChores/cited publication:760-767",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:760-767",
+          "source_location": "papers/HT26EFXChores/cited publication:760-767",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:760-767",
+          "source_location": "papers/HT26EFXChores/cited publication:760-767",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_5",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:760-767",
+          "source_location": "papers/HT26EFXChores/cited publication:760-767",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_6",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:760-767",
+          "source_location": "papers/HT26EFXChores/cited publication:760-767",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_7",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:760-767",
+          "source_location": "papers/HT26EFXChores/cited publication:760-767",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_8",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:760-767",
+          "source_location": "papers/HT26EFXChores/cited publication:760-767",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_9",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:760-767",
+          "source_location": "papers/HT26EFXChores/cited publication:760-767",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_10",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:760-767",
+          "source_location": "papers/HT26EFXChores/cited publication:760-767",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_11",
           "kind": "conclusion",
           "source_item": "canonical_allocation_properties",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:760-767",
+          "source_location": "papers/HT26EFXChores/cited publication:760-767",
           "source_statement_sha256": "4adf7094b8901409361e111c540d7b6f7f58335c51f00b0ac434c937e2419235",
           "statement": "Canonical M01 allocations are EFX, equal-quota canonical allocations are envy-free, and the stated super-canonical allocations exist."
         }
@@ -3632,7 +3632,7 @@
         {
           "route_kind": "direct",
           "source_item": "canonical_allocation_properties",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:760-767",
+          "source_location": "papers/HT26EFXChores/cited publication:760-767",
           "source_statement_sha256": "4adf7094b8901409361e111c540d7b6f7f58335c51f00b0ac434c937e2419235"
         }
       ],
@@ -3822,7 +3822,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "envy_free_for_chores_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:253-255",
+          "source_location": "papers/HT26EFXChores/cited publication:253-255",
           "source_statement_sha256": "ba8af319ca5c38134fa6b8db05bd31c83257a8b6b2a727e8c9eef6731cee1006",
           "statement": "An allocation is envy-free for chores exactly when every agent's own bundle has no greater cost than every observed bundle."
         }
@@ -3831,7 +3831,7 @@
         {
           "route_kind": "direct",
           "source_item": "envy_free_for_chores_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:253-255",
+          "source_location": "papers/HT26EFXChores/cited publication:253-255",
           "source_statement_sha256": "ba8af319ca5c38134fa6b8db05bd31c83257a8b6b2a727e8c9eef6731cee1006"
         }
       ],
@@ -4126,50 +4126,50 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1419-1462",
+          "source_location": "papers/HT26EFXChores/cited publication:1419-1462",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1419-1462",
+          "source_location": "papers/HT26EFXChores/cited publication:1419-1462",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1419-1462",
+          "source_location": "papers/HT26EFXChores/cited publication:1419-1462",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1419-1462",
+          "source_location": "papers/HT26EFXChores/cited publication:1419-1462",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1419-1462",
+          "source_location": "papers/HT26EFXChores/cited publication:1419-1462",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_5",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1419-1462",
+          "source_location": "papers/HT26EFXChores/cited publication:1419-1462",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_6",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1419-1462",
+          "source_location": "papers/HT26EFXChores/cited publication:1419-1462",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_7",
           "kind": "conclusion",
           "source_item": "m2_efx_allocation_properties",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1419-1462",
+          "source_location": "papers/HT26EFXChores/cited publication:1419-1462",
           "source_statement_sha256": "7afd56ebff28aceb6c7c2484e563f6459724742ef2e2eb1bb38255af3b9ff34f",
           "statement": "The M2 EFX allocation can be chosen with the stated small-item certificates, exceptional-residue alternatives, and preferred endpoint envy-free property."
         }
@@ -4178,7 +4178,7 @@
         {
           "route_kind": "direct",
           "source_item": "m2_efx_allocation_properties",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1419-1462",
+          "source_location": "papers/HT26EFXChores/cited publication:1419-1462",
           "source_statement_sha256": "7afd56ebff28aceb6c7c2484e563f6459724742ef2e2eb1bb38255af3b9ff34f"
         }
       ],
@@ -4491,56 +4491,56 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:461-463",
+          "source_location": "papers/HT26EFXChores/cited publication:461-463",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:461-463",
+          "source_location": "papers/HT26EFXChores/cited publication:461-463",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:461-463",
+          "source_location": "papers/HT26EFXChores/cited publication:461-463",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:461-463",
+          "source_location": "papers/HT26EFXChores/cited publication:461-463",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:461-463",
+          "source_location": "papers/HT26EFXChores/cited publication:461-463",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_5",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:461-463",
+          "source_location": "papers/HT26EFXChores/cited publication:461-463",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_6",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:461-463",
+          "source_location": "papers/HT26EFXChores/cited publication:461-463",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_7",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:461-463",
+          "source_location": "papers/HT26EFXChores/cited publication:461-463",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_8",
           "kind": "conclusion",
           "source_item": "efx_po_every_agent_large",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:461-463",
+          "source_location": "papers/HT26EFXChores/cited publication:461-463",
           "source_statement_sha256": "789bcaa221973dcced147d0eefd59d68f189069899fb8c4b8610739cbfe74d51",
           "statement": "In the Theorem 2 construction, every agent receives a large chore in an EFX allocation."
         }
@@ -4549,7 +4549,7 @@
         {
           "route_kind": "direct",
           "source_item": "efx_po_every_agent_large",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:461-463",
+          "source_location": "papers/HT26EFXChores/cited publication:461-463",
           "source_statement_sha256": "789bcaa221973dcced147d0eefd59d68f189069899fb8c4b8610739cbfe74d51"
         }
       ],
@@ -4719,7 +4719,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "m2_efx_allocation_properties",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1419-1462",
+          "source_location": "papers/HT26EFXChores/cited publication:1419-1462",
           "source_statement_sha256": "7afd56ebff28aceb6c7c2484e563f6459724742ef2e2eb1bb38255af3b9ff34f",
           "statement": "The M2 EFX allocation can be chosen with the stated small-item certificates, exceptional-residue alternatives, and preferred endpoint envy-free property."
         }
@@ -4728,7 +4728,7 @@
         {
           "route_kind": "direct",
           "source_item": "m2_efx_allocation_properties",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1419-1462",
+          "source_location": "papers/HT26EFXChores/cited publication:1419-1462",
           "source_statement_sha256": "7afd56ebff28aceb6c7c2484e563f6459724742ef2e2eb1bb38255af3b9ff34f"
         }
       ],
@@ -5113,80 +5113,80 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_5",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_6",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_7",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_8",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_9",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_10",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_11",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_12",
           "kind": "conclusion",
           "source_item": "m34_insertion",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "source_statement_sha256": "cf53ff110a8112138fa2053ce6c3a0c9fe3bed3c27e50393427b7c296f6ad282",
           "statement": "An item small for at least three agents can be inserted into an EFX allocation of the remaining chores."
         }
@@ -5195,7 +5195,7 @@
         {
           "route_kind": "direct",
           "source_item": "m34_insertion",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "source_statement_sha256": "cf53ff110a8112138fa2053ce6c3a0c9fe3bed3c27e50393427b7c296f6ad282"
         }
       ],
@@ -5504,44 +5504,44 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:751-756",
+          "source_location": "papers/HT26EFXChores/cited publication:751-756",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:751-756",
+          "source_location": "papers/HT26EFXChores/cited publication:751-756",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:751-756",
+          "source_location": "papers/HT26EFXChores/cited publication:751-756",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:751-756",
+          "source_location": "papers/HT26EFXChores/cited publication:751-756",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:751-756",
+          "source_location": "papers/HT26EFXChores/cited publication:751-756",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_5",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:751-756",
+          "source_location": "papers/HT26EFXChores/cited publication:751-756",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_6",
           "kind": "conclusion",
           "source_item": "canonical_allocation_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:751-756",
+          "source_location": "papers/HT26EFXChores/cited publication:751-756",
           "source_statement_sha256": "e01dc92a7b0925b3e16843bba9ce1187b04df74541924c5ad16c76e4e0f7e7a0",
           "statement": "A canonical M01 allocation gives each agent her prescribed quota and as many own-small items as that quota permits; the source's long and short labels are the adjacent quota cases."
         }
@@ -5550,7 +5550,7 @@
         {
           "route_kind": "direct",
           "source_item": "canonical_allocation_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:751-756",
+          "source_location": "papers/HT26EFXChores/cited publication:751-756",
           "source_statement_sha256": "e01dc92a7b0925b3e16843bba9ce1187b04df74541924c5ad16c76e4e0f7e7a0"
         }
       ],
@@ -5791,32 +5791,32 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:416-418",
+          "source_location": "papers/HT26EFXChores/cited publication:416-418",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:416-418",
+          "source_location": "papers/HT26EFXChores/cited publication:416-418",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:416-418",
+          "source_location": "papers/HT26EFXChores/cited publication:416-418",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:416-418",
+          "source_location": "papers/HT26EFXChores/cited publication:416-418",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "conclusion",
           "source_item": "efx_pareto_incompatibility",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:416-418",
+          "source_location": "papers/HT26EFXChores/cited publication:416-418",
           "source_statement_sha256": "8709f53c0a95897f894957c422f5b7332348f5d16b1180c47a76d37718059c1e",
           "statement": "For every n at least four and sufficiently large r, a positive (1,r)-valued instance has no EFX and Pareto-optimal allocation."
         }
@@ -5825,7 +5825,7 @@
         {
           "route_kind": "direct",
           "source_item": "efx_pareto_incompatibility",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:416-418",
+          "source_location": "papers/HT26EFXChores/cited publication:416-418",
           "source_statement_sha256": "8709f53c0a95897f894957c422f5b7332348f5d16b1180c47a76d37718059c1e"
         }
       ],
@@ -5995,7 +5995,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "efx_po_every_agent_large",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:461-463",
+          "source_location": "papers/HT26EFXChores/cited publication:461-463",
           "source_statement_sha256": "789bcaa221973dcced147d0eefd59d68f189069899fb8c4b8610739cbfe74d51",
           "statement": "In the Theorem 2 construction, every agent receives a large chore in an EFX allocation."
         }
@@ -6004,7 +6004,7 @@
         {
           "route_kind": "direct",
           "source_item": "efx_po_every_agent_large",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:461-463",
+          "source_location": "papers/HT26EFXChores/cited publication:461-463",
           "source_statement_sha256": "789bcaa221973dcced147d0eefd59d68f189069899fb8c4b8610739cbfe74d51"
         }
       ],
@@ -6299,50 +6299,50 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:502-504",
+          "source_location": "papers/HT26EFXChores/cited publication:502-504",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:502-504",
+          "source_location": "papers/HT26EFXChores/cited publication:502-504",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:502-504",
+          "source_location": "papers/HT26EFXChores/cited publication:502-504",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:502-504",
+          "source_location": "papers/HT26EFXChores/cited publication:502-504",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:502-504",
+          "source_location": "papers/HT26EFXChores/cited publication:502-504",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_5",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:502-504",
+          "source_location": "papers/HT26EFXChores/cited publication:502-504",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_6",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:502-504",
+          "source_location": "papers/HT26EFXChores/cited publication:502-504",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_7",
           "kind": "conclusion",
           "source_item": "efx_po_cost_lower_bounds",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:502-504",
+          "source_location": "papers/HT26EFXChores/cited publication:502-504",
           "source_statement_sha256": "144e5c758a711d336be80ba9f4ef3b5da3de12a170af795e4940d6a99932ea36",
           "statement": "In the Theorem 2 construction, every EFX bundle costs at least r+1 to its owner and one costs at least r+2."
         }
@@ -6351,7 +6351,7 @@
         {
           "route_kind": "direct",
           "source_item": "efx_po_cost_lower_bounds",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:502-504",
+          "source_location": "papers/HT26EFXChores/cited publication:502-504",
           "source_statement_sha256": "144e5c758a711d336be80ba9f4ef3b5da3de12a170af795e4940d6a99932ea36"
         }
       ],
@@ -6556,20 +6556,20 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:304-306",
+          "source_location": "papers/HT26EFXChores/cited publication:304-306",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:304-306",
+          "source_location": "papers/HT26EFXChores/cited publication:304-306",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "conclusion",
           "source_item": "tri_valued_nonexistence",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:304-306",
+          "source_location": "papers/HT26EFXChores/cited publication:304-306",
           "source_statement_sha256": "952ba2d523d50f468500be02b7a41ba31041ae7e0140d97734256563af561fd4",
           "statement": "For every n at least four, a tri-valued additive chore instance with n agents has no EFX allocation."
         }
@@ -6578,7 +6578,7 @@
         {
           "route_kind": "direct",
           "source_item": "tri_valued_nonexistence",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:304-306",
+          "source_location": "papers/HT26EFXChores/cited publication:304-306",
           "source_statement_sha256": "952ba2d523d50f468500be02b7a41ba31041ae7e0140d97734256563af561fd4"
         }
       ],
@@ -7377,218 +7377,218 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_5",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_6",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_7",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_8",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_9",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_10",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_11",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_12",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_13",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_14",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_15",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_16",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_17",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_18",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_19",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_20",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_21",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_22",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_23",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_24",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_25",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_26",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_27",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_28",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_29",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_30",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_31",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_32",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_33",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_34",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_35",
           "kind": "conclusion",
           "source_item": "appendix_p1_p2_lower_bounds",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "source_statement_sha256": "bc6f4522c2a2d512e44cda5aad545a5b78f4cd6297eee8b35bc25e240072adb2",
           "statement": "In an EFX allocation of the Appendix A construction, the two groupwise minimum bundle costs p1 and p2 are each at least r."
         }
@@ -7597,7 +7597,7 @@
         {
           "route_kind": "direct",
           "source_item": "appendix_p1_p2_lower_bounds",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "source_statement_sha256": "bc6f4522c2a2d512e44cda5aad545a5b78f4cd6297eee8b35bc25e240072adb2"
         }
       ],
@@ -7906,44 +7906,44 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:280-287",
+          "source_location": "papers/HT26EFXChores/cited publication:280-287",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:280-287",
+          "source_location": "papers/HT26EFXChores/cited publication:280-287",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:280-287",
+          "source_location": "papers/HT26EFXChores/cited publication:280-287",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:280-287",
+          "source_location": "papers/HT26EFXChores/cited publication:280-287",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:280-287",
+          "source_location": "papers/HT26EFXChores/cited publication:280-287",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_5",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:280-287",
+          "source_location": "papers/HT26EFXChores/cited publication:280-287",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_6",
           "kind": "conclusion",
           "source_item": "pareto_optimality_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:280-287",
+          "source_location": "papers/HT26EFXChores/cited publication:280-287",
           "source_statement_sha256": "ce59eab5c24ed601ff899abe5286fb0646659f45590dbd53857517e16d3f7855",
           "statement": "A complete chore allocation is Pareto-optimal exactly when no complete allocation weakly lowers every agent's cost and strictly lowers one agent's cost."
         }
@@ -7952,7 +7952,7 @@
         {
           "route_kind": "direct",
           "source_item": "pareto_optimality_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:280-287",
+          "source_location": "papers/HT26EFXChores/cited publication:280-287",
           "source_statement_sha256": "ce59eab5c24ed601ff899abe5286fb0646659f45590dbd53857517e16d3f7855"
         }
       ],
@@ -8122,7 +8122,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "canonical_allocation_properties",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:760-767",
+          "source_location": "papers/HT26EFXChores/cited publication:760-767",
           "source_statement_sha256": "4adf7094b8901409361e111c540d7b6f7f58335c51f00b0ac434c937e2419235",
           "statement": "Canonical M01 allocations are EFX, equal-quota canonical allocations are envy-free, and the stated super-canonical allocations exist."
         }
@@ -8131,7 +8131,7 @@
         {
           "route_kind": "direct",
           "source_item": "canonical_allocation_properties",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:760-767",
+          "source_location": "papers/HT26EFXChores/cited publication:760-767",
           "source_statement_sha256": "4adf7094b8901409361e111c540d7b6f7f58335c51f00b0ac434c937e2419235"
         }
       ],
@@ -8804,176 +8804,176 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_5",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_6",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_7",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_8",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_9",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_10",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_11",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_12",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_13",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_14",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_15",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_16",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_17",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_18",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_19",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_20",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_21",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_22",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_23",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_24",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_25",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_26",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_27",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_28",
           "kind": "conclusion",
           "source_item": "exceptional_residue_combination",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "source_statement_sha256": "6b303355ee9a721849bfab2bcf49622151ee2cfa1872a77dd58b509ea23ec5df",
           "statement": "A canonical M01 prefix extended to envy-freeness by gap filling combines with an exceptional M2 residue when both exceptional agents are long."
         }
@@ -8982,7 +8982,7 @@
         {
           "route_kind": "direct",
           "source_item": "exceptional_residue_combination",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1709-1712",
+          "source_location": "papers/HT26EFXChores/cited publication:1709-1712",
           "source_statement_sha256": "6b303355ee9a721849bfab2bcf49622151ee2cfa1872a77dd58b509ea23ec5df"
         }
       ],
@@ -9259,44 +9259,44 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:363-365",
+          "source_location": "papers/HT26EFXChores/cited publication:363-365",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:363-365",
+          "source_location": "papers/HT26EFXChores/cited publication:363-365",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:363-365",
+          "source_location": "papers/HT26EFXChores/cited publication:363-365",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:363-365",
+          "source_location": "papers/HT26EFXChores/cited publication:363-365",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:363-365",
+          "source_location": "papers/HT26EFXChores/cited publication:363-365",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_5",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:363-365",
+          "source_location": "papers/HT26EFXChores/cited publication:363-365",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_6",
           "kind": "conclusion",
           "source_item": "tri_four_no_a_bundle_expensive",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:363-365",
+          "source_location": "papers/HT26EFXChores/cited publication:363-365",
           "source_statement_sha256": "91f6b0590f31167bd348505ffbbbd8bd482cfb0bb178be4e330c8518bf2c717f",
           "statement": "If one bundle has no A item and every other bundle has one, every agent values that bundle at least 20."
         }
@@ -9305,7 +9305,7 @@
         {
           "route_kind": "direct",
           "source_item": "tri_four_no_a_bundle_expensive",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:363-365",
+          "source_location": "papers/HT26EFXChores/cited publication:363-365",
           "source_statement_sha256": "91f6b0590f31167bd348505ffbbbd8bd482cfb0bb178be4e330c8518bf2c717f"
         }
       ],
@@ -9475,7 +9475,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "appendix_p1_p2_lower_bounds",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "source_statement_sha256": "bc6f4522c2a2d512e44cda5aad545a5b78f4cd6297eee8b35bc25e240072adb2",
           "statement": "In an EFX allocation of the Appendix A construction, the two groupwise minimum bundle costs p1 and p2 are each at least r."
         }
@@ -9484,7 +9484,7 @@
         {
           "route_kind": "direct",
           "source_item": "appendix_p1_p2_lower_bounds",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2104-2106",
+          "source_location": "papers/HT26EFXChores/cited publication:2104-2106",
           "source_statement_sha256": "bc6f4522c2a2d512e44cda5aad545a5b78f4cd6297eee8b35bc25e240072adb2"
         }
       ],
@@ -9654,7 +9654,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "m34_insertion",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "source_statement_sha256": "cf53ff110a8112138fa2053ce6c3a0c9fe3bed3c27e50393427b7c296f6ad282",
           "statement": "An item small for at least three agents can be inserted into an EFX allocation of the remaining chores."
         }
@@ -9663,7 +9663,7 @@
         {
           "route_kind": "direct",
           "source_item": "m34_insertion",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:577-581",
+          "source_location": "papers/HT26EFXChores/cited publication:577-581",
           "source_statement_sha256": "cf53ff110a8112138fa2053ce6c3a0c9fe3bed3c27e50393427b7c296f6ad282"
         }
       ],
@@ -9958,50 +9958,50 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:706-724",
+          "source_location": "papers/HT26EFXChores/cited publication:706-724",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:706-724",
+          "source_location": "papers/HT26EFXChores/cited publication:706-724",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:706-724",
+          "source_location": "papers/HT26EFXChores/cited publication:706-724",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:706-724",
+          "source_location": "papers/HT26EFXChores/cited publication:706-724",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:706-724",
+          "source_location": "papers/HT26EFXChores/cited publication:706-724",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_5",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:706-724",
+          "source_location": "papers/HT26EFXChores/cited publication:706-724",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_6",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:706-724",
+          "source_location": "papers/HT26EFXChores/cited publication:706-724",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_7",
           "kind": "conclusion",
           "source_item": "composition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:706-724",
+          "source_location": "papers/HT26EFXChores/cited publication:706-724",
           "source_statement_sha256": "1dd860e8f093086649d1a8eb14811632506872d3e06307152626a647ee38517d",
           "statement": "The stated cost-gap conditions combine two allocations into an EFX allocation."
         }
@@ -10010,7 +10010,7 @@
         {
           "route_kind": "direct",
           "source_item": "composition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:706-724",
+          "source_location": "papers/HT26EFXChores/cited publication:706-724",
           "source_statement_sha256": "1dd860e8f093086649d1a8eb14811632506872d3e06307152626a647ee38517d"
         }
       ],
@@ -10180,7 +10180,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "appendix_no_two_a_items",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "source_statement_sha256": "927148086833da6a3f2d6bdea013c5307afc1b6a7100ba69c57d3c64a6204b27",
           "statement": "In an EFX allocation of the Appendix A construction, no bundle contains two or more A items."
         }
@@ -10189,7 +10189,7 @@
         {
           "route_kind": "direct",
           "source_item": "appendix_no_two_a_items",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:2074-2076",
+          "source_location": "papers/HT26EFXChores/cited publication:2074-2076",
           "source_statement_sha256": "927148086833da6a3f2d6bdea013c5307afc1b6a7100ba69c57d3c64a6204b27"
         }
       ],
@@ -10430,32 +10430,32 @@
         {
           "id": "s_0",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:340-342",
+          "source_location": "papers/HT26EFXChores/cited publication:340-342",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_1",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:340-342",
+          "source_location": "papers/HT26EFXChores/cited publication:340-342",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_2",
           "kind": "assumption",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:340-342",
+          "source_location": "papers/HT26EFXChores/cited publication:340-342",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_3",
           "kind": "parameter",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:340-342",
+          "source_location": "papers/HT26EFXChores/cited publication:340-342",
           "statement": "The cited source statement supplies this displayed model parameter or hypothesis as part of its complete mathematical scope; the paired expanded Lean binder records the same condition without an additional assumption."
         },
         {
           "id": "s_4",
           "kind": "conclusion",
           "source_item": "tri_four_no_two_large",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:340-342",
+          "source_location": "papers/HT26EFXChores/cited publication:340-342",
           "source_statement_sha256": "327ab15d37724fc73937fd99935ae2e2a783373dcb310e3d080879a4c1e1408e",
           "statement": "In an EFX allocation of the displayed four-agent construction, no agent receives more than one A item."
         }
@@ -10464,7 +10464,7 @@
         {
           "route_kind": "direct",
           "source_item": "tri_four_no_two_large",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:340-342",
+          "source_location": "papers/HT26EFXChores/cited publication:340-342",
           "source_statement_sha256": "327ab15d37724fc73937fd99935ae2e2a783373dcb310e3d080879a4c1e1408e"
         }
       ],
@@ -10634,7 +10634,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "efx_pareto_incompatibility",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:416-418",
+          "source_location": "papers/HT26EFXChores/cited publication:416-418",
           "source_statement_sha256": "8709f53c0a95897f894957c422f5b7332348f5d16b1180c47a76d37718059c1e",
           "statement": "For every n at least four and sufficiently large r, a positive (1,r)-valued instance has no EFX and Pareto-optimal allocation."
         }
@@ -10643,7 +10643,7 @@
         {
           "route_kind": "direct",
           "source_item": "efx_pareto_incompatibility",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:416-418",
+          "source_location": "papers/HT26EFXChores/cited publication:416-418",
           "source_statement_sha256": "8709f53c0a95897f894957c422f5b7332348f5d16b1180c47a76d37718059c1e"
         }
       ],
@@ -10833,7 +10833,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "efx_for_chores_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:260-275",
+          "source_location": "papers/HT26EFXChores/cited publication:260-275",
           "source_statement_sha256": "00987367ef9f5c618dc6f380b4dc39c27164b7e93dccc6d85d4866ed97bb1de8",
           "statement": "An allocation is EFX for chores exactly when each nonempty own bundle remains no more costly than every observed bundle after removal of every one of its items."
         }
@@ -10842,7 +10842,7 @@
         {
           "route_kind": "direct",
           "source_item": "efx_for_chores_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:260-275",
+          "source_location": "papers/HT26EFXChores/cited publication:260-275",
           "source_statement_sha256": "00987367ef9f5c618dc6f380b4dc39c27164b7e93dccc6d85d4866ed97bb1de8"
         }
       ],
@@ -11012,7 +11012,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "tri_four_no_a_bundle_expensive",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:363-365",
+          "source_location": "papers/HT26EFXChores/cited publication:363-365",
           "source_statement_sha256": "91f6b0590f31167bd348505ffbbbd8bd482cfb0bb178be4e330c8518bf2c717f",
           "statement": "If one bundle has no A item and every other bundle has one, every agent values that bundle at least 20."
         }
@@ -11021,7 +11021,7 @@
         {
           "route_kind": "direct",
           "source_item": "tri_four_no_a_bundle_expensive",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:363-365",
+          "source_location": "papers/HT26EFXChores/cited publication:363-365",
           "source_statement_sha256": "91f6b0590f31167bd348505ffbbbd8bd482cfb0bb178be4e330c8518bf2c717f"
         }
       ],
@@ -11211,7 +11211,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "pareto_optimality_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:280-287",
+          "source_location": "papers/HT26EFXChores/cited publication:280-287",
           "source_statement_sha256": "ce59eab5c24ed601ff899abe5286fb0646659f45590dbd53857517e16d3f7855",
           "statement": "A complete chore allocation is Pareto-optimal exactly when no complete allocation weakly lowers every agent's cost and strictly lowers one agent's cost."
         }
@@ -11220,7 +11220,7 @@
         {
           "route_kind": "direct",
           "source_item": "pareto_optimality_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:280-287",
+          "source_location": "papers/HT26EFXChores/cited publication:280-287",
           "source_statement_sha256": "ce59eab5c24ed601ff899abe5286fb0646659f45590dbd53857517e16d3f7855"
         }
       ],
@@ -11390,7 +11390,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "m2_efx_allocation",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1045-1047",
+          "source_location": "papers/HT26EFXChores/cited publication:1045-1047",
           "source_statement_sha256": "539d32f1dc0a383d5ca6e419e9f700762f2f8b20d6a410bc6dc338d3231959c4",
           "statement": "Every four-agent pool in which every item is small for exactly two agents admits an EFX allocation."
         }
@@ -11399,7 +11399,7 @@
         {
           "route_kind": "direct",
           "source_item": "m2_efx_allocation",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:1045-1047",
+          "source_location": "papers/HT26EFXChores/cited publication:1045-1047",
           "source_statement_sha256": "539d32f1dc0a383d5ca6e419e9f700762f2f8b20d6a410bc6dc338d3231959c4"
         }
       ],
@@ -11569,7 +11569,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "tri_four_no_two_large",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:340-342",
+          "source_location": "papers/HT26EFXChores/cited publication:340-342",
           "source_statement_sha256": "327ab15d37724fc73937fd99935ae2e2a783373dcb310e3d080879a4c1e1408e",
           "statement": "In an EFX allocation of the displayed four-agent construction, no agent receives more than one A item."
         }
@@ -11578,7 +11578,7 @@
         {
           "route_kind": "direct",
           "source_item": "tri_four_no_two_large",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:340-342",
+          "source_location": "papers/HT26EFXChores/cited publication:340-342",
           "source_statement_sha256": "327ab15d37724fc73937fd99935ae2e2a783373dcb310e3d080879a4c1e1408e"
         }
       ],
@@ -11748,7 +11748,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "composition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:706-724",
+          "source_location": "papers/HT26EFXChores/cited publication:706-724",
           "source_statement_sha256": "1dd860e8f093086649d1a8eb14811632506872d3e06307152626a647ee38517d",
           "statement": "The stated cost-gap conditions combine two allocations into an EFX allocation."
         }
@@ -11757,7 +11757,7 @@
         {
           "route_kind": "direct",
           "source_item": "composition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:706-724",
+          "source_location": "papers/HT26EFXChores/cited publication:706-724",
           "source_statement_sha256": "1dd860e8f093086649d1a8eb14811632506872d3e06307152626a647ee38517d"
         }
       ],
@@ -11947,7 +11947,7 @@
           "id": "s_0",
           "kind": "conclusion",
           "source_item": "canonical_allocation_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:751-756",
+          "source_location": "papers/HT26EFXChores/cited publication:751-756",
           "source_statement_sha256": "e01dc92a7b0925b3e16843bba9ce1187b04df74541924c5ad16c76e4e0f7e7a0",
           "statement": "A canonical M01 allocation gives each agent her prescribed quota and as many own-small items as that quota permits; the source's long and short labels are the adjacent quota cases."
         }
@@ -11956,7 +11956,7 @@
         {
           "route_kind": "direct",
           "source_item": "canonical_allocation_definition",
-          "source_location": "papers/HT26EFXChores/source/EFXadditivechores.tex:751-756",
+          "source_location": "papers/HT26EFXChores/cited publication:751-756",
           "source_statement_sha256": "e01dc92a7b0925b3e16843bba9ce1187b04df74541924c5ad16c76e4e0f7e7a0"
         }
       ],

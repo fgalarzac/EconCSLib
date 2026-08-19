@@ -28,6 +28,11 @@ stable cross-paper rules that should affect future agents.
    - Treat it as the high-level successful-trace index: user goals,
      corrections, status checks, and boundary decisions.
    - Group messages by session id and topic before opening raw session files.
+   - Prefer the canonical top-level rollout whose basename contains that
+     session id. A guardian, approval-review, continuation, or subagent trace
+     may quote the same user messages but is not the execution trace to count.
+   - Count event types, command families, repeated failures, and compactions
+     first; normalize continuation duplicates before choosing raw-log samples.
    - Do not begin by scanning every raw `~/.codex/sessions/**/*.jsonl` file.
      Session continuations and subagents duplicate long instruction contexts and
      can dominate runtime without adding new procedural signal.
@@ -37,6 +42,10 @@ stable cross-paper rules that should affect future agents.
      unusual commits, CI fixes, or paper-boundary decisions.
    - Ignore system/developer boilerplate, encrypted reasoning, copied context,
      and repeated continuation payloads.
+   - Count actual tool-call events rather than raw string occurrences. Older
+     traces encode `function_call`/`exec_command`; newer traces encode
+     `custom_tool_call`/`exec` with nested `cmd` fields. Parse both forms, and
+     do not count commands quoted inside summaries, outputs, or audit scripts.
    - Extract only normalized operations: user directive, repo/paper context,
      action class, files or tools touched, result, and user correction.
 

@@ -5,7 +5,7 @@
     "EconCSLib.Matching.Assignment.consistent_m": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded proposition `\u2200 m w, m_match m = some w \u2194 w_match w = some m` says that the two partner maps encode one mutual marriage relation. This is the defining coherence of the source assignment object, not a completeness, stability, existence, or optimality result.",
+      "reason": "The expanded proposition `∀ m w, m_match m = some w ↔ w_match w = some m` says that the two partner maps encode one mutual marriage relation. This is the defining coherence of the source assignment object, not a completeness, stability, existence, or optimality result.",
       "source_claim_semantic_contracts": {
         "df94d5896b09f4c17fd0fa14c1c0c3da666c96f98bb7da1acbe20b417b5d5138": {
           "component_sha256": "df94d5896b09f4c17fd0fa14c1c0c3da666c96f98bb7da1acbe20b417b5d5138",
@@ -18,7 +18,7 @@
           "structural_type_sha256": "e7c1f62926f81d5c4660ae2bf3a0871e4010c3f3fe445954f76a8e2925b19f3b"
         }
       },
-      "source_location": "source.txt:115-127; printed page 11, Section 3",
+      "source_location": "cited publication:115-127; printed page 11, Section 3",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "validated_at": "2026-08-04T12:15:00Z",
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
@@ -27,7 +27,7 @@
     "EconCSLib.Matching.Assignment.m_match": {
       "classification": "nonpropositional_witness_data",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded field type `M \u2192 Option W` is the marriage's first-side partner map. It states no completeness, stability, existence, or optimality proposition.",
+      "reason": "The expanded field type `M → Option W` is the marriage's first-side partner map. It states no completeness, stability, existence, or optimality proposition.",
       "source_claim_semantic_contracts": {
         "a8c3a7a1ed4bea01ff0ef552e499ac357dec7a7c687ba106a4abf8f4063bc71c": {
           "component_sha256": "a8c3a7a1ed4bea01ff0ef552e499ac357dec7a7c687ba106a4abf8f4063bc71c",
@@ -40,7 +40,7 @@
           "structural_type_sha256": "9100cbdd60106b7c5e4a671bc36d2a698328c421638cd6c75ac309766a2bae23"
         }
       },
-      "source_location": "source.txt:115-127; printed page 11, Section 3",
+      "source_location": "cited publication:115-127; printed page 11, Section 3",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "validated_at": "2026-08-04T12:15:00Z",
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
@@ -49,7 +49,7 @@
     "EconCSLib.Matching.Assignment.w_match": {
       "classification": "nonpropositional_witness_data",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded field type `W \u2192 Option M` is the inverse marriage partner map. It is bare data and states no completeness, stability, existence, or optimality proposition.",
+      "reason": "The expanded field type `W → Option M` is the inverse marriage partner map. It is bare data and states no completeness, stability, existence, or optimality proposition.",
       "source_claim_semantic_contracts": {
         "c2adf5abeff2278df74b36f526a1074e402e168c2e7fc55de16f3f22b7b19611": {
           "component_sha256": "c2adf5abeff2278df74b36f526a1074e402e168c2e7fc55de16f3f22b7b19611",
@@ -62,7 +62,7 @@
           "structural_type_sha256": "9100cbdd60106b7c5e4a671bc36d2a698328c421638cd6c75ac309766a2bae23"
         }
       },
-      "source_location": "source.txt:115-127; printed page 11, Section 3",
+      "source_location": "cited publication:115-127; printed page 11, Section 3",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "validated_at": "2026-08-04T12:15:00Z",
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
@@ -71,7 +71,7 @@
     "EconCSLib.Matching.ManyToOneAssignment.app_match": {
       "classification": "nonpropositional_witness_data",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded field type `Applicants \u2192 Option Colleges` records each applicant's assigned college or the unmatched option. It does not assert feasibility, stability, reachability, termination, or optimality.",
+      "reason": "The expanded field type `Applicants → Option Colleges` records each applicant's assigned college or the unmatched option. It does not assert feasibility, stability, reachability, termination, or optimality.",
       "source_claim_semantic_contracts": {
         "37e11ee14ba33113784c00a99f8299cdbe278054f66d552dd7e98e7378657008": {
           "component_sha256": "37e11ee14ba33113784c00a99f8299cdbe278054f66d552dd7e98e7378657008",
@@ -84,7 +84,7 @@
           "structural_type_sha256": "9100cbdd60106b7c5e4a671bc36d2a698328c421638cd6c75ac309766a2bae23"
         }
       },
-      "source_location": "source.txt:37-58; source.txt:72-97; printed pages 9-10",
+      "source_location": "cited publication:37-58; cited publication:72-97; printed pages 9-10",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "validated_at": "2026-08-04T12:15:00Z",
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
@@ -93,7 +93,7 @@
     "EconCSLib.Matching.ManyToOneAssignment.college_roster": {
       "classification": "nonpropositional_witness_data",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded field type `Colleges \u2192 Finset Applicants` records each finite college roster. Quota feasibility, stability, reachability, and optimality are separate propositions and receive no credit from this data field.",
+      "reason": "The expanded field type `Colleges → Finset Applicants` records each finite college roster. Quota feasibility, stability, reachability, and optimality are separate propositions and receive no credit from this data field.",
       "source_claim_semantic_contracts": {
         "a8beeba3b84a1c69fe81277f201c0538b1d4acd797df02e977016ad4c2400fea": {
           "component_sha256": "a8beeba3b84a1c69fe81277f201c0538b1d4acd797df02e977016ad4c2400fea",
@@ -106,7 +106,7 @@
           "structural_type_sha256": "f8e153fc800b50c7f3723f49490e51fdf2a537c0a42d310b45d1855d12eaefec"
         }
       },
-      "source_location": "source.txt:37-58; source.txt:72-97; printed pages 9-10",
+      "source_location": "cited publication:37-58; cited publication:72-97; printed pages 9-10",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "validated_at": "2026-08-04T12:15:00Z",
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
@@ -115,7 +115,7 @@
     "EconCSLib.Matching.ManyToOneAssignment.consistent": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded proposition `\u2200 a c, app_match a = some c \u2194 a \u2208 college_roster c` says that the applicant map and college rosters encode one assignment relation. It defines the source assignment object and does not imply quota feasibility, stability, reachability, or optimality.",
+      "reason": "The expanded proposition `∀ a c, app_match a = some c ↔ a ∈ college_roster c` says that the applicant map and college rosters encode one assignment relation. It defines the source assignment object and does not imply quota feasibility, stability, reachability, or optimality.",
       "source_claim_semantic_contracts": {
         "3239971ca5d7286368a6257b39d0142aa1f90007e884c8118e238b5d51aff790": {
           "component_sha256": "3239971ca5d7286368a6257b39d0142aa1f90007e884c8118e238b5d51aff790",
@@ -128,7 +128,7 @@
           "structural_type_sha256": "a9fb683acbe8a0745ebd5e6529b4733081a5c1246b0b15469daa7412c5806f15"
         }
       },
-      "source_location": "source.txt:37-58; source.txt:72-97; printed pages 9-10",
+      "source_location": "cited publication:37-58; cited publication:72-97; printed pages 9-10",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "validated_at": "2026-08-04T12:15:00Z",
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
@@ -151,7 +151,7 @@
           "structural_type_sha256": "993ed48429f33dee5ec0cd189e23670942d873eeb1a278a85e1a7e194ca743eb"
         }
       },
-      "source_location": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_location": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "67abf8f4e30e913b1de0b55c813c69f144429f5c27dad9b100bd55853e7f5ee2",
@@ -184,7 +184,7 @@
           "structural_type_sha256": "561c0c89d6599b3501a80ea0552042e7b35d16c173973bf4b9930c31a8005d8d"
         }
       },
-      "source_location": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_location": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "eb5d66ef8e50ebeb6d7fb9e6b5b459f938b3f3c912290073b0836ae8572d66ac",
@@ -200,10 +200,10 @@
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
       "validator_type": "manual_semantic_v10"
     },
-    "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec.quota : Colleges \u2192 \u2115": {
+    "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec.quota : Colleges → ℕ": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded input `Colleges \u2192 \u2115` supplies the arbitrary natural quota fixed for each college for the fixed-quota feasible, literal-stable applicant-optimal assignment definition. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
+      "reason": "The expanded input `Colleges → ℕ` supplies the arbitrary natural quota fixed for each college for the fixed-quota feasible, literal-stable applicant-optimal assignment definition. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
       "semantic_association_sha256": "52f3d156c8b3c9b679864a3c262c2db4ae86f1b85dee679f1a21043f618d580e",
       "source_claim_semantic_contracts": {
         "7066140bfcc6ac667e7bf33da9e92960f836e869a9b2e992edc16bf020effdd4": {
@@ -217,7 +217,7 @@
           "structural_type_sha256": "882725c60f6629601ea136369ede2dc9692a6d08568e2993d258cbd0b03260ff"
         }
       },
-      "source_location": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_location": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "9acad66ee193ec8566bada925d2bb1dbf4e6294a9d891534a0c197ba08ba11cc",
@@ -292,12 +292,12 @@
                   },
                   "source_key": "displayed_optimal_assignment_definition",
                   "source_kind": "definition",
-                  "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+                  "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
                   "source_map_item_sha256": "f55d6b3db5e1ba14e0f708d1f39786312f0ecf9e0615dd67cb8717f9e00a27a5",
                   "source_semantic_sha256": "6b5ec2c55f0dc2db20c6388b7d687c86bfd676430082712abe6d1e00a478bb31"
                 }
               ],
-              "source_locator": "source.txt:96-97; printed page 10, second displayed Definition",
+              "source_locator": "cited publication:96-97; printed page 10, second displayed Definition",
               "source_semantic_clause": "An assignment is applicant-optimal when every applicant weakly prefers it to every other stable assignment in the same fixed-quota feasible domain.",
               "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
             },
@@ -306,8 +306,8 @@
           "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
         }
       },
-      "source_location": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
-      "source_locator": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_location": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_locator": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "95b7f5ecc959ced8a32b32f7450156c9984841f59835af271529b078e92d122c",
@@ -381,12 +381,12 @@
                   },
                   "source_key": "displayed_optimal_assignment_definition",
                   "source_kind": "definition",
-                  "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+                  "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
                   "source_map_item_sha256": "f55d6b3db5e1ba14e0f708d1f39786312f0ecf9e0615dd67cb8717f9e00a27a5",
                   "source_semantic_sha256": "6b5ec2c55f0dc2db20c6388b7d687c86bfd676430082712abe6d1e00a478bb31"
                 }
               ],
-              "source_locator": "source.txt:96-97; printed page 10, second displayed Definition",
+              "source_locator": "cited publication:96-97; printed page 10, second displayed Definition",
               "source_semantic_clause": "An assignment is applicant-optimal when every applicant weakly prefers it to every other stable assignment in the same fixed-quota feasible domain.",
               "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
             },
@@ -395,8 +395,8 @@
           "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
         }
       },
-      "source_location": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
-      "source_locator": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_location": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_locator": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "f593bae8174871c2885a71bbf33364855366c02a91b942b7aecffe7c75fe856e",
@@ -470,12 +470,12 @@
                   },
                   "source_key": "displayed_optimal_assignment_definition",
                   "source_kind": "definition",
-                  "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+                  "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
                   "source_map_item_sha256": "f55d6b3db5e1ba14e0f708d1f39786312f0ecf9e0615dd67cb8717f9e00a27a5",
                   "source_semantic_sha256": "6b5ec2c55f0dc2db20c6388b7d687c86bfd676430082712abe6d1e00a478bb31"
                 }
               ],
-              "source_locator": "source.txt:96-97; printed page 10, second displayed Definition",
+              "source_locator": "cited publication:96-97; printed page 10, second displayed Definition",
               "source_semantic_clause": "An assignment is applicant-optimal when every applicant weakly prefers it to every other stable assignment in the same fixed-quota feasible domain.",
               "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
             },
@@ -484,8 +484,8 @@
           "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
         }
       },
-      "source_location": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
-      "source_locator": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_location": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_locator": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "6e23e6eae861d95013b17d93e0dbb4d0dbfe50f7e7e283849c1a1a9f512ab91f",
@@ -559,12 +559,12 @@
                   },
                   "source_key": "displayed_optimal_assignment_definition",
                   "source_kind": "definition",
-                  "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+                  "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
                   "source_map_item_sha256": "f55d6b3db5e1ba14e0f708d1f39786312f0ecf9e0615dd67cb8717f9e00a27a5",
                   "source_semantic_sha256": "6b5ec2c55f0dc2db20c6388b7d687c86bfd676430082712abe6d1e00a478bb31"
                 }
               ],
-              "source_locator": "source.txt:96-97; printed page 10, second displayed Definition",
+              "source_locator": "cited publication:96-97; printed page 10, second displayed Definition",
               "source_semantic_clause": "An assignment is applicant-optimal when every applicant weakly prefers it to every other stable assignment in the same fixed-quota feasible domain.",
               "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
             },
@@ -573,8 +573,8 @@
           "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
         }
       },
-      "source_location": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
-      "source_locator": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_location": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_locator": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "c95356ea037baebfddcfe58978a2e0630dca8f1cbabbb8a0e893fb525b3df1f6",
@@ -648,12 +648,12 @@
                   },
                   "source_key": "displayed_optimal_assignment_definition",
                   "source_kind": "definition",
-                  "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+                  "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
                   "source_map_item_sha256": "f55d6b3db5e1ba14e0f708d1f39786312f0ecf9e0615dd67cb8717f9e00a27a5",
                   "source_semantic_sha256": "6b5ec2c55f0dc2db20c6388b7d687c86bfd676430082712abe6d1e00a478bb31"
                 }
               ],
-              "source_locator": "source.txt:96-97; printed page 10, second displayed Definition",
+              "source_locator": "cited publication:96-97; printed page 10, second displayed Definition",
               "source_semantic_clause": "An assignment is applicant-optimal when every applicant weakly prefers it to every other stable assignment in the same fixed-quota feasible domain.",
               "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
             },
@@ -662,8 +662,8 @@
           "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
         }
       },
-      "source_location": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
-      "source_locator": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_location": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_locator": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "94e7f4573636b08d91f74dc0c8a9995f6261a85a4d6cb445e51eaf90bc603ab3",
@@ -737,12 +737,12 @@
                   },
                   "source_key": "displayed_optimal_assignment_definition",
                   "source_kind": "definition",
-                  "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+                  "source_location": "cited publication:96-97; printed page 10, second displayed Definition",
                   "source_map_item_sha256": "f55d6b3db5e1ba14e0f708d1f39786312f0ecf9e0615dd67cb8717f9e00a27a5",
                   "source_semantic_sha256": "6b5ec2c55f0dc2db20c6388b7d687c86bfd676430082712abe6d1e00a478bb31"
                 }
               ],
-              "source_locator": "source.txt:96-97; printed page 10, second displayed Definition",
+              "source_locator": "cited publication:96-97; printed page 10, second displayed Definition",
               "source_semantic_clause": "An assignment is applicant-optimal when every applicant weakly prefers it to every other stable assignment in the same fixed-quota feasible domain.",
               "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
             },
@@ -751,8 +751,8 @@
           "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
         }
       },
-      "source_location": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
-      "source_locator": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_location": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_locator": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "bb219359659311b4a3dbbedf93a9b2eb6b223cd392f3db4a2b3cc95f5826c613",
@@ -767,10 +767,10 @@
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
       "validator_type": "structural_projection_from_current_statement_result"
     },
-    "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec.val_applicant : Applicants \u2192 Colleges \u2192 \u211d": {
+    "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec.val_applicant : Applicants → Colleges → ℝ": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded input `Applicants \u2192 Colleges \u2192 \u211d` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for the fixed-quota feasible, literal-stable applicant-optimal assignment definition. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
+      "reason": "The expanded input `Applicants → Colleges → ℝ` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for the fixed-quota feasible, literal-stable applicant-optimal assignment definition. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
       "semantic_association_sha256": "52f3d156c8b3c9b679864a3c262c2db4ae86f1b85dee679f1a21043f618d580e",
       "source_claim_semantic_contracts": {
         "850df3f3f9b410229fa2013b3ddafdf3afbbc55919479aae88ac7acc6130d2be": {
@@ -784,7 +784,7 @@
           "structural_type_sha256": "936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb"
         }
       },
-      "source_location": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_location": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "acbad44dc766e6041861c9ccae31721fd7010f0118bfd9e5b8cd77620cf5393c",
@@ -800,10 +800,10 @@
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
       "validator_type": "manual_semantic_v10"
     },
-    "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec.val_college : Colleges \u2192 Applicants \u2192 \u211d": {
+    "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec.val_college : Colleges → Applicants → ℝ": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded input `Colleges \u2192 Applicants \u2192 \u211d` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for the fixed-quota feasible, literal-stable applicant-optimal assignment definition. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
+      "reason": "The expanded input `Colleges → Applicants → ℝ` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for the fixed-quota feasible, literal-stable applicant-optimal assignment definition. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
       "semantic_association_sha256": "52f3d156c8b3c9b679864a3c262c2db4ae86f1b85dee679f1a21043f618d580e",
       "source_claim_semantic_contracts": {
         "8f46ddd1b96aed7243a2d73c5a802357a14a1f808309e576e7f8164e1f558b62": {
@@ -817,7 +817,7 @@
           "structural_type_sha256": "936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb"
         }
       },
-      "source_location": "source.txt:91-97; printed page 10, second displayed Definition and fixed-quota context",
+      "source_location": "cited publication:91-97; printed page 10, second displayed Definition and fixed-quota context",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "6c4de2aeab7c631b4b2e612cca86251ea0a8445f561026503f48dd8db88755eb",
@@ -843,7 +843,7 @@
           "lean_evidence": "The expanded carrier surface consists only of generic participant types and the coherent assignment record used by the displayed relation; no finite enumeration or cardinal bound enters this definition.",
           "semantic_association_sha256": "d2d8e18f437d2496641dd6986770c41c07020fa7a467bbb0df7c6045f1a56697",
           "semantic_comparison": "The source definition compares assignments in one fixed-quota market but performs no finite enumeration. Lean leaves applicant and college carriers generic, keeps the quota function explicit, and uses a coherent many-to-one assignment with roster size bounded by that quota; no extra cardinality threshold or comparison certificate appears.",
-          "source_locator": "source.txt:37-58; source.txt:91-97",
+          "source_locator": "cited publication:37-58; cited publication:91-97",
           "source_target_disposition": "literal_source_match",
           "verdict": "matches_literal_source"
         },
@@ -851,7 +851,7 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no conditioning, information-cell, or calibration operator or output.",
           "semantic_association_sha256": "d2d8e18f437d2496641dd6986770c41c07020fa7a467bbb0df7c6045f1a56697",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no conditioning, information-cell, or calibration claim.",
-          "source_locator": "source.txt:37-58; source.txt:91-97",
+          "source_locator": "cited publication:37-58; cited publication:91-97",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         },
@@ -859,7 +859,7 @@
           "lean_evidence": "PaperInterface.lean:341-372 exposes the closed transparent proposition with all quantified carriers, score functions, assignments, and comparison clauses visible.",
           "semantic_association_sha256": "d2d8e18f437d2496641dd6986770c41c07020fa7a467bbb0df7c6045f1a56697",
           "semantic_comparison": "In the source's fixed-quota assignment domain, an optimal stable assignment is feasible and literally stable, and every applicant weakly prefers it to every other feasible literally stable assignment. The expanded Lean formula exposes candidate feasibility and literal stability, quantifies every comparison assignment with the same two conditions, and concludes the applicant-by-applicant weak score inequality.",
-          "source_locator": "source.txt:37-58; source.txt:91-97",
+          "source_locator": "cited publication:37-58; cited publication:91-97",
           "source_target_disposition": "literal_source_match",
           "verdict": "matches_literal_source"
         },
@@ -867,7 +867,7 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no expectation, integration, or integrability operator or output.",
           "semantic_association_sha256": "d2d8e18f437d2496641dd6986770c41c07020fa7a467bbb0df7c6045f1a56697",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no expectation, integration, or integrability claim.",
-          "source_locator": "source.txt:37-58; source.txt:91-97",
+          "source_locator": "cited publication:37-58; cited publication:91-97",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         },
@@ -875,7 +875,7 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no rate parameter or extended-real codomain operator or output.",
           "semantic_association_sha256": "d2d8e18f437d2496641dd6986770c41c07020fa7a467bbb0df7c6045f1a56697",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no rate parameter or extended-real codomain claim.",
-          "source_locator": "source.txt:37-58; source.txt:91-97",
+          "source_locator": "cited publication:37-58; cited publication:91-97",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         },
@@ -883,7 +883,7 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no joint probability law, transition system, or execution-path operator or output.",
           "semantic_association_sha256": "d2d8e18f437d2496641dd6986770c41c07020fa7a467bbb0df7c6045f1a56697",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no joint probability law, transition system, or execution-path claim.",
-          "source_locator": "source.txt:37-58; source.txt:91-97",
+          "source_locator": "cited publication:37-58; cited publication:91-97",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         },
@@ -891,7 +891,7 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no probability partition, null-cell, or totalization operator or output.",
           "semantic_association_sha256": "d2d8e18f437d2496641dd6986770c41c07020fa7a467bbb0df7c6045f1a56697",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no probability partition, null-cell, or totalization claim.",
-          "source_locator": "source.txt:37-58; source.txt:91-97",
+          "source_locator": "cited publication:37-58; cited publication:91-97",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         },
@@ -899,12 +899,12 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no probability distribution, support, or endpoint-mass operator or output.",
           "semantic_association_sha256": "d2d8e18f437d2496641dd6986770c41c07020fa7a467bbb0df7c6045f1a56697",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no probability distribution, support, or endpoint-mass claim.",
-          "source_locator": "source.txt:37-58; source.txt:91-97",
+          "source_locator": "cited publication:37-58; cited publication:91-97",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         }
       },
-      "source_location": "source.txt:37-58; source.txt:91-97",
+      "source_location": "cited publication:37-58; cited publication:91-97",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "e022c3b7c0d630f95d3f0e11c2414a711c98ddfbb311729a3742434e52553481",
@@ -950,7 +950,7 @@
           },
           "semantic_association_sha256": "cc1a98b47fefc3830f47ae2fded859c6456a3978726cc1623e6f205d2c16527c",
           "semantic_comparison": "Separate finite carriers represent the two communities; their cardinalities are explicitly equal, and both score functions are injective in the ranked alternative and positive on every cross-side pair. The existential output is a coherent assignment, complete on both sides, with the literal blocking-pair relation negated.",
-          "source_locator": "source.txt:115-130; source.txt:191",
+          "source_locator": "cited publication:115-130; cited publication:191",
           "source_target_disposition": "approved_source_convention",
           "verdict": "matches_approved_source_convention"
         },
@@ -964,7 +964,7 @@
           },
           "semantic_association_sha256": "cc1a98b47fefc3830f47ae2fded859c6456a3978726cc1623e6f205d2c16527c",
           "semantic_comparison": "The source component is a deterministic matching existence theorem; it makes no conditioning or calibration claim.",
-          "source_locator": "source.txt:115-130; source.txt:191",
+          "source_locator": "cited publication:115-130; cited publication:191",
           "source_target_disposition": "approved_source_convention",
           "verdict": "not_applicable"
         },
@@ -978,7 +978,7 @@
           },
           "semantic_association_sha256": "cc1a98b47fefc3830f47ae2fded859c6456a3978726cc1623e6f205d2c16527c",
           "semantic_comparison": "The source fixes two finite communities of equal size, requires every participant to rank every opposite-side participant strictly, and concludes existence of a complete marriage with no mutually preferable unmatched pair. Lean exposes exactly these premises and conclusion. Positive injective real scores are only the approved order-preserving encoding of the complete strict lists.",
-          "source_locator": "source.txt:115-130; source.txt:191",
+          "source_locator": "cited publication:115-130; cited publication:191",
           "source_target_disposition": "approved_source_convention",
           "verdict": "matches_approved_source_convention"
         },
@@ -992,7 +992,7 @@
           },
           "semantic_association_sha256": "cc1a98b47fefc3830f47ae2fded859c6456a3978726cc1623e6f205d2c16527c",
           "semantic_comparison": "The source component is a deterministic matching existence theorem; it makes no expectation or integration claim.",
-          "source_locator": "source.txt:115-130; source.txt:191",
+          "source_locator": "cited publication:115-130; cited publication:191",
           "source_target_disposition": "approved_source_convention",
           "verdict": "not_applicable"
         },
@@ -1006,7 +1006,7 @@
           },
           "semantic_association_sha256": "cc1a98b47fefc3830f47ae2fded859c6456a3978726cc1623e6f205d2c16527c",
           "semantic_comparison": "The source component is a deterministic matching existence theorem; it makes no rate parameter or extended-real codomain claim.",
-          "source_locator": "source.txt:115-130; source.txt:191",
+          "source_locator": "cited publication:115-130; cited publication:191",
           "source_target_disposition": "approved_source_convention",
           "verdict": "not_applicable"
         },
@@ -1020,7 +1020,7 @@
           },
           "semantic_association_sha256": "cc1a98b47fefc3830f47ae2fded859c6456a3978726cc1623e6f205d2c16527c",
           "semantic_comparison": "The source component is a deterministic matching existence theorem; it makes no joint probability law or theorem-facing state evolution claim.",
-          "source_locator": "source.txt:115-130; source.txt:191",
+          "source_locator": "cited publication:115-130; cited publication:191",
           "source_target_disposition": "approved_source_convention",
           "verdict": "not_applicable"
         },
@@ -1034,7 +1034,7 @@
           },
           "semantic_association_sha256": "cc1a98b47fefc3830f47ae2fded859c6456a3978726cc1623e6f205d2c16527c",
           "semantic_comparison": "The source component is a deterministic matching existence theorem; it makes no probability partition or null-cell claim.",
-          "source_locator": "source.txt:115-130; source.txt:191",
+          "source_locator": "cited publication:115-130; cited publication:191",
           "source_target_disposition": "approved_source_convention",
           "verdict": "not_applicable"
         },
@@ -1048,12 +1048,12 @@
           },
           "semantic_association_sha256": "cc1a98b47fefc3830f47ae2fded859c6456a3978726cc1623e6f205d2c16527c",
           "semantic_comparison": "The source component is a deterministic matching existence theorem; it makes no probability distribution, support, or endpoint-mass claim.",
-          "source_locator": "source.txt:115-130; source.txt:191",
+          "source_locator": "cited publication:115-130; cited publication:191",
           "source_target_disposition": "approved_source_convention",
           "verdict": "not_applicable"
         }
       },
-      "source_location": "source.txt:115-130; source.txt:191",
+      "source_location": "cited publication:115-130; cited publication:191",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "f14100391ee06c190038edb582ff58dbdb599472b5f4968a51c8f773d33f631b",
@@ -1103,7 +1103,7 @@
           },
           "semantic_association_sha256": "a20feeb62a1478fbf62f6bf8a1bba7809d67fbe3ef56f4ae8e52ee9d3b1c057b",
           "semantic_comparison": "Both presentations use finite applicants and colleges with a natural quota for each college and strict possibly incomplete lists. Lean encodes listed alternatives by positive scores, the outside option by zero, and omitted alternatives by irrelevant negative distinct values; eligibility tests positivity on both sides per pair. The result ranges over all reachable terminal outcomes of the fixed procedure.",
-          "source_locator": "source.txt:251-274; source.txt:280-282",
+          "source_locator": "cited publication:251-274; cited publication:280-282",
           "source_target_disposition": "approved_source_convention",
           "verdict": "matches_approved_source_convention"
         },
@@ -1120,7 +1120,7 @@
           },
           "semantic_association_sha256": "a20feeb62a1478fbf62f6bf8a1bba7809d67fbe3ef56f4ae8e52ee9d3b1c057b",
           "semantic_comparison": "Neither presentation conditions a probability law or states calibration. The expanded implications condition only logically on a state being reachable from the empty history and terminal; that is exactly the source's phrase 'at this point', not a statistical information-cell claim.",
-          "source_locator": "source.txt:251-274; source.txt:280-282",
+          "source_locator": "cited publication:251-274; cited publication:280-282",
           "source_target_disposition": "approved_source_convention",
           "verdict": "matches_approved_source_convention"
         },
@@ -1136,7 +1136,7 @@
           },
           "semantic_association_sha256": "a20feeb62a1478fbf62f6bf8a1bba7809d67fbe3ef56f4ae8e52ee9d3b1c057b",
           "semantic_comparison": "The source fixes a finite arbitrary-quota college market and its Section 4 applicant-proposing procedure, then states that every applicant weakly prefers its terminal assignment to every other stable assignment. Lean exposes the market data, the approved strict-list numeric representation, pairwise mutual application eligibility inside the step, existence of a reachable terminal state, and the stability-plus-dominance conclusion for every reachable terminal state. No run, final assignment, comparison outcome, rejection certificate, or optimality conclusion is caller supplied.",
-          "source_locator": "source.txt:251-274; source.txt:280-282",
+          "source_locator": "cited publication:251-274; cited publication:280-282",
           "source_target_disposition": "approved_source_convention",
           "verdict": "matches_approved_source_convention"
         },
@@ -1153,7 +1153,7 @@
           },
           "semantic_association_sha256": "a20feeb62a1478fbf62f6bf8a1bba7809d67fbe3ef56f4ae8e52ee9d3b1c057b",
           "semantic_comparison": "The source has no expectation or integral. The relevant definedness issue is instead whether the finite deterministic procedure has a terminal output; Lean proves that output exists and then proves the advertised conclusion for every reachable terminal output.",
-          "source_locator": "source.txt:251-274; source.txt:280-282",
+          "source_locator": "cited publication:251-274; cited publication:280-282",
           "source_target_disposition": "approved_source_convention",
           "verdict": "matches_approved_source_convention"
         },
@@ -1169,7 +1169,7 @@
           },
           "semantic_association_sha256": "a20feeb62a1478fbf62f6bf8a1bba7809d67fbe3ef56f4ae8e52ee9d3b1c057b",
           "semantic_comparison": "The source conclusion compares ordinal assignment outcomes and has no finite or extended rate expression.",
-          "source_locator": "source.txt:251-274; source.txt:280-282",
+          "source_locator": "cited publication:251-274; cited publication:280-282",
           "source_target_disposition": "approved_source_convention",
           "verdict": "not_applicable"
         },
@@ -1199,7 +1199,7 @@
           },
           "semantic_association_sha256": "a20feeb62a1478fbf62f6bf8a1bba7809d67fbe3ef56f4ae8e52ee9d3b1c057b",
           "semantic_comparison": "The source evolves cumulative applications in simultaneous rounds: each unmatched applicant applies to the best untried mutually eligible college, and each college keeps its top quota-many from old holders union new applicants. Lean uses the same deterministic batch transition, begins from empty application histories, and universally validates all reachable terminal states after separately proving that such a state exists.",
-          "source_locator": "source.txt:251-274; source.txt:280-282",
+          "source_locator": "cited publication:251-274; cited publication:280-282",
           "source_target_disposition": "approved_source_convention",
           "transformed_law_analysis": {
             "law_normalization_or_pushforward_evidence": "No probability law, density, PMF, measure normalization, conditioning, or pushforward occurs in either operation; the compared objects are deterministic finite states.",
@@ -1225,7 +1225,7 @@
           },
           "semantic_association_sha256": "a20feeb62a1478fbf62f6bf8a1bba7809d67fbe3ef56f4ae8e52ee9d3b1c057b",
           "semantic_comparison": "There is no probability partition or zero-mass cell. Exhausted or ineligible applicants are handled as ordinary finite deterministic states: an applicant is active exactly when unmatched with a nonempty set of eligible untried colleges, and terminality says no such applicant exists.",
-          "source_locator": "source.txt:251-274; source.txt:280-282",
+          "source_locator": "cited publication:251-274; cited publication:280-282",
           "source_target_disposition": "approved_source_convention",
           "verdict": "matches_approved_source_convention"
         },
@@ -1241,12 +1241,12 @@
           },
           "semantic_association_sha256": "a20feeb62a1478fbf62f6bf8a1bba7809d67fbe3ef56f4ae8e52ee9d3b1c057b",
           "semantic_comparison": "The source procedure and optimality theorem introduce no probability distribution, random support, or endpoint-mass assertion.",
-          "source_locator": "source.txt:251-274; source.txt:280-282",
+          "source_locator": "cited publication:251-274; cited publication:280-282",
           "source_target_disposition": "approved_source_convention",
           "verdict": "not_applicable"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282",
+      "source_location": "cited publication:251-274; cited publication:280-282",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "6d9bd3a69d542474cdc1183531cbbb7e3a7d35f43564edbb961606702f4f8344",
@@ -1272,7 +1272,7 @@
           "lean_evidence": "The expanded carrier surface consists only of generic participant types and the coherent assignment record used by the displayed relation; no finite enumeration or cardinal bound enters this definition.",
           "semantic_association_sha256": "84e8e0210d2be8afbbc6dce97901c32749853855ccd03f726a3d8cbe95fc5b46",
           "semantic_comparison": "The source clause is pointwise in an assignment and two preference orderings. Lean permits arbitrary carrier types because the displayed existential relation needs no finiteness; this is a harmless definitional generalization and does not assert that data outside the paper's preference-list domain constitute a paper market.",
-          "source_locator": "source.txt:76-78",
+          "source_locator": "cited publication:76-78",
           "source_target_disposition": "literal_source_match",
           "verdict": "matches_literal_source"
         },
@@ -1280,7 +1280,7 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no conditioning, information-cell, or calibration operator or output.",
           "semantic_association_sha256": "84e8e0210d2be8afbbc6dce97901c32749853855ccd03f726a3d8cbe95fc5b46",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no conditioning, information-cell, or calibration claim.",
-          "source_locator": "source.txt:76-78",
+          "source_locator": "cited publication:76-78",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         },
@@ -1288,7 +1288,7 @@
           "lean_evidence": "PaperInterface.lean:309-325 exposes the closed transparent proposition with all quantified carriers, score functions, assignments, and comparison clauses visible.",
           "semantic_association_sha256": "84e8e0210d2be8afbbc6dce97901c32749853855ccd03f726a3d8cbe95fc5b46",
           "semantic_comparison": "The source says that two currently assigned applicants alpha and beta, at A and B, witness instability when beta strictly prefers A to B and A strictly prefers beta to alpha. The expanded Lean biconditional has exactly those four witnesses, both current-assignment equalities, and both strict inequalities; it adds no vacancy, unmatched-applicant, individual-rationality, or quota clause.",
-          "source_locator": "source.txt:76-78",
+          "source_locator": "cited publication:76-78",
           "source_target_disposition": "literal_source_match",
           "verdict": "matches_literal_source"
         },
@@ -1296,7 +1296,7 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no expectation, integration, or integrability operator or output.",
           "semantic_association_sha256": "84e8e0210d2be8afbbc6dce97901c32749853855ccd03f726a3d8cbe95fc5b46",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no expectation, integration, or integrability claim.",
-          "source_locator": "source.txt:76-78",
+          "source_locator": "cited publication:76-78",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         },
@@ -1304,7 +1304,7 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no rate parameter or extended-real codomain operator or output.",
           "semantic_association_sha256": "84e8e0210d2be8afbbc6dce97901c32749853855ccd03f726a3d8cbe95fc5b46",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no rate parameter or extended-real codomain claim.",
-          "source_locator": "source.txt:76-78",
+          "source_locator": "cited publication:76-78",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         },
@@ -1312,7 +1312,7 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no joint probability law, transition system, or execution-path operator or output.",
           "semantic_association_sha256": "84e8e0210d2be8afbbc6dce97901c32749853855ccd03f726a3d8cbe95fc5b46",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no joint probability law, transition system, or execution-path claim.",
-          "source_locator": "source.txt:76-78",
+          "source_locator": "cited publication:76-78",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         },
@@ -1320,7 +1320,7 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no probability partition, null-cell, or totalization operator or output.",
           "semantic_association_sha256": "84e8e0210d2be8afbbc6dce97901c32749853855ccd03f726a3d8cbe95fc5b46",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no probability partition, null-cell, or totalization claim.",
-          "source_locator": "source.txt:76-78",
+          "source_locator": "cited publication:76-78",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         },
@@ -1328,12 +1328,12 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no probability distribution, support, or endpoint-mass operator or output.",
           "semantic_association_sha256": "84e8e0210d2be8afbbc6dce97901c32749853855ccd03f726a3d8cbe95fc5b46",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no probability distribution, support, or endpoint-mass claim.",
-          "source_locator": "source.txt:76-78",
+          "source_locator": "cited publication:76-78",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         }
       },
-      "source_location": "source.txt:76-78",
+      "source_location": "cited publication:76-78",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "7ff1aa006671d617f6f8ef7c5f66c91f2b7b3f5923ae78c20b3cadab82f2567d",
@@ -1359,7 +1359,7 @@
           "lean_evidence": "The expanded carrier surface consists only of generic participant types and the coherent assignment record used by the displayed relation; no finite enumeration or cardinal bound enters this definition.",
           "semantic_association_sha256": "9973347f4f5d219d25b0b3351e771a22d3a95a0f51bc4c7c5fe93650769296c8",
           "semantic_comparison": "The prose definition is pointwise and needs no cardinal arithmetic. Generic Lean side types therefore only generalize the definitional carrier; completeness and equal finite size remain visible in Theorem 1 rather than being smuggled into this definition.",
-          "source_locator": "source.txt:121-127",
+          "source_locator": "cited publication:121-127",
           "source_target_disposition": "literal_source_match",
           "verdict": "matches_literal_source"
         },
@@ -1367,7 +1367,7 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no conditioning, information-cell, or calibration operator or output.",
           "semantic_association_sha256": "9973347f4f5d219d25b0b3351e771a22d3a95a0f51bc4c7c5fe93650769296c8",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no conditioning, information-cell, or calibration claim.",
-          "source_locator": "source.txt:121-127",
+          "source_locator": "cited publication:121-127",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         },
@@ -1375,7 +1375,7 @@
           "lean_evidence": "PaperInterface.lean:62-77 exposes the closed transparent proposition with all quantified carriers, score functions, assignments, and comparison clauses visible.",
           "semantic_association_sha256": "9973347f4f5d219d25b0b3351e771a22d3a95a0f51bc4c7c5fe93650769296c8",
           "semantic_comparison": "The source declares a set of marriages unstable exactly when a man and woman both prefer each other to their actual mates. The expanded Lean biconditional is the same existential mutual strict-improvement relation, reading each current mate from the coherent two-sided assignment.",
-          "source_locator": "source.txt:121-127",
+          "source_locator": "cited publication:121-127",
           "source_target_disposition": "literal_source_match",
           "verdict": "matches_literal_source"
         },
@@ -1383,7 +1383,7 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no expectation, integration, or integrability operator or output.",
           "semantic_association_sha256": "9973347f4f5d219d25b0b3351e771a22d3a95a0f51bc4c7c5fe93650769296c8",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no expectation, integration, or integrability claim.",
-          "source_locator": "source.txt:121-127",
+          "source_locator": "cited publication:121-127",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         },
@@ -1391,7 +1391,7 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no rate parameter or extended-real codomain operator or output.",
           "semantic_association_sha256": "9973347f4f5d219d25b0b3351e771a22d3a95a0f51bc4c7c5fe93650769296c8",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no rate parameter or extended-real codomain claim.",
-          "source_locator": "source.txt:121-127",
+          "source_locator": "cited publication:121-127",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         },
@@ -1399,7 +1399,7 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no joint probability law, transition system, or execution-path operator or output.",
           "semantic_association_sha256": "9973347f4f5d219d25b0b3351e771a22d3a95a0f51bc4c7c5fe93650769296c8",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no joint probability law, transition system, or execution-path claim.",
-          "source_locator": "source.txt:121-127",
+          "source_locator": "cited publication:121-127",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         },
@@ -1407,7 +1407,7 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no probability partition, null-cell, or totalization operator or output.",
           "semantic_association_sha256": "9973347f4f5d219d25b0b3351e771a22d3a95a0f51bc4c7c5fe93650769296c8",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no probability partition, null-cell, or totalization claim.",
-          "source_locator": "source.txt:121-127",
+          "source_locator": "cited publication:121-127",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         },
@@ -1415,12 +1415,12 @@
           "lean_evidence": "The complete expanded proposition contains assignments, score comparisons, and logical quantifiers only; it contains no probability distribution, support, or endpoint-mass operator or output.",
           "semantic_association_sha256": "9973347f4f5d219d25b0b3351e771a22d3a95a0f51bc4c7c5fe93650769296c8",
           "semantic_comparison": "The source component is a deterministic matching definition; it makes no probability distribution, support, or endpoint-mass claim.",
-          "source_locator": "source.txt:121-127",
+          "source_locator": "cited publication:121-127",
           "source_target_disposition": "literal_source_match",
           "verdict": "not_applicable"
         }
       },
-      "source_location": "source.txt:121-127",
+      "source_location": "cited publication:121-127",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "74731c683b5ecbcfb4aac299e2aa0be259c3602ecee146371dcf478794ebaf53",
@@ -1451,18 +1451,18 @@
             "source_formula": "Section 3 fixes two finite communities of the same size, has every participant rank every member of the opposite community, and seeks a marriage covering all participants.",
             "source_item_key": "theorem1_stable_marriage_exists",
             "source_item_semantic_sha256": "fa82b7f991320a71e060ca3fd41c28aa1c12b5efce050de6dc4e005c90fcd1f3",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "source_claim_atom": {
             "id": "theorem1.complete_strict_equal_side_domain",
             "source_claim_atom_semantic_sha256": "4720b06f17e205bfb4ee0f3f70e73788e805207ba99cc291a980c3a4051501fb",
             "source_item_key": "theorem1_stable_marriage_exists",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "structural_type_sha256": "993ed48429f33dee5ec0cd189e23670942d873eeb1a278a85e1a7e194ca743eb"
         }
       },
-      "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+      "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "f110ace485f0fff39b0d91c4dcdc7083c9dee1794534303b86db85e0febf6147",
@@ -1493,18 +1493,18 @@
             "source_formula": "Section 3 fixes two finite communities of the same size, has every participant rank every member of the opposite community, and seeks a marriage covering all participants.",
             "source_item_key": "theorem1_stable_marriage_exists",
             "source_item_semantic_sha256": "fa82b7f991320a71e060ca3fd41c28aa1c12b5efce050de6dc4e005c90fcd1f3",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "source_claim_atom": {
             "id": "theorem1.complete_strict_equal_side_domain",
             "source_claim_atom_semantic_sha256": "4720b06f17e205bfb4ee0f3f70e73788e805207ba99cc291a980c3a4051501fb",
             "source_item_key": "theorem1_stable_marriage_exists",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "structural_type_sha256": "93d3fe34aedd500b1ca7a4f7c9c4b05269042165fe636a586b3bf482e4700fc9"
         }
       },
-      "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+      "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "afeb1514488e75f92850a176118703756924e7ca32c5de0c0c88319d0dc8ee12",
@@ -1535,18 +1535,18 @@
             "source_formula": "Section 3 fixes two finite communities of the same size, has every participant rank every member of the opposite community, and seeks a marriage covering all participants.",
             "source_item_key": "theorem1_stable_marriage_exists",
             "source_item_semantic_sha256": "fa82b7f991320a71e060ca3fd41c28aa1c12b5efce050de6dc4e005c90fcd1f3",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "source_claim_atom": {
             "id": "theorem1.complete_strict_equal_side_domain",
             "source_claim_atom_semantic_sha256": "4720b06f17e205bfb4ee0f3f70e73788e805207ba99cc291a980c3a4051501fb",
             "source_item_key": "theorem1_stable_marriage_exists",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "structural_type_sha256": "93d3fe34aedd500b1ca7a4f7c9c4b05269042165fe636a586b3bf482e4700fc9"
         }
       },
-      "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+      "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "353d8f345ae96771ff890fa704fb1541cc1f430ba88356aa7b175812b80b919d",
@@ -1578,18 +1578,18 @@
             "source_formula": "Section 3 fixes two finite communities of the same size, has every participant rank every member of the opposite community, and seeks a marriage covering all participants.",
             "source_item_key": "theorem1_stable_marriage_exists",
             "source_item_semantic_sha256": "fa82b7f991320a71e060ca3fd41c28aa1c12b5efce050de6dc4e005c90fcd1f3",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "source_claim_atom": {
             "id": "theorem1.complete_strict_equal_side_domain",
             "source_claim_atom_semantic_sha256": "4720b06f17e205bfb4ee0f3f70e73788e805207ba99cc291a980c3a4051501fb",
             "source_item_key": "theorem1_stable_marriage_exists",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "structural_type_sha256": "3c277b9bb19798cd4e27b5d5d93f0b67aaf20e78694a9afcf414b40ce7e3f645"
         }
       },
-      "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+      "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "88ea5f1f7b503923ff0a59e4dd9587af4cb593e09efad2e29796349378e434fd",
@@ -1620,18 +1620,18 @@
             "source_formula": "Section 3 fixes two finite communities of the same size, has every participant rank every member of the opposite community, and seeks a marriage covering all participants.",
             "source_item_key": "theorem1_stable_marriage_exists",
             "source_item_semantic_sha256": "fa82b7f991320a71e060ca3fd41c28aa1c12b5efce050de6dc4e005c90fcd1f3",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "source_claim_atom": {
             "id": "theorem1.complete_strict_equal_side_domain",
             "source_claim_atom_semantic_sha256": "4720b06f17e205bfb4ee0f3f70e73788e805207ba99cc291a980c3a4051501fb",
             "source_item_key": "theorem1_stable_marriage_exists",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "structural_type_sha256": "3c277b9bb19798cd4e27b5d5d93f0b67aaf20e78694a9afcf414b40ce7e3f645"
         }
       },
-      "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+      "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "131e3d8ad92b9d62a91fe920a4320d55f1405d1f974915013ab793710a00bdc0",
@@ -1661,18 +1661,18 @@
             "source_formula": "Section 3 fixes two finite communities of the same size, has every participant rank every member of the opposite community, and seeks a marriage covering all participants.",
             "source_item_key": "theorem1_stable_marriage_exists",
             "source_item_semantic_sha256": "fa82b7f991320a71e060ca3fd41c28aa1c12b5efce050de6dc4e005c90fcd1f3",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "source_claim_atom": {
             "id": "theorem1.complete_strict_equal_side_domain",
             "source_claim_atom_semantic_sha256": "4720b06f17e205bfb4ee0f3f70e73788e805207ba99cc291a980c3a4051501fb",
             "source_item_key": "theorem1_stable_marriage_exists",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "structural_type_sha256": "df9e31750c2a0395ef5ee9919e5d07982f67c611908eb5bb58272c7aed96008a"
         }
       },
-      "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+      "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "e89bfa86e337d14195085adffbfaaf3739205ec9e4bab3311ed54a03d0aee423",
@@ -1697,7 +1697,7 @@
         "GS62-STRICT-LIST-NUMERIC-EXTENSION-01": "645defed6c069a39915208a7fa2c6ac638d53ba59edb9cb4307bef3ee34464af"
       },
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded proposition requires injective real scores and the stated sign condition. This is the approved encoding of the source's finite strict preference lists: score order preserves list order, zero is the outside option, complete marriage lists are positive, and omitted college alternatives receive irrelevant distinct negative extensions. It supplies no matching, terminal state, stability conclusion, or optimality conclusion. Expanded type reviewed: MenStrictPreferenceProfile val_m \u2227 WomenStrictPreferenceProfile val_w \u2227 AllPairsAcceptable val_m val_w",
+      "reason": "The expanded proposition requires injective real scores and the stated sign condition. This is the approved encoding of the source's finite strict preference lists: score order preserves list order, zero is the outside option, complete marriage lists are positive, and omitted college alternatives receive irrelevant distinct negative extensions. It supplies no matching, terminal state, stability conclusion, or optimality conclusion. Expanded type reviewed: MenStrictPreferenceProfile val_m ∧ WomenStrictPreferenceProfile val_w ∧ AllPairsAcceptable val_m val_w",
       "semantic_association_sha256": "9d20f0780fa0a5760aa2105a93efbf6707fd02e1712f59561f48448ec2e76fe2",
       "source_claim_semantic_contracts": {
         "d86ccb1507e82990265eff2407ddecce00b4a941b7a8f78fe04d2908b3a7a9b9": {
@@ -1705,22 +1705,22 @@
           "route": "exact_source_claim",
           "schema": 1,
           "source_anchor": {
-            "semantic_match": "The current material input has expanded type `MenStrictPreferenceProfile val_m \u2227 WomenStrictPreferenceProfile val_w \u2227 AllPairsAcceptable val_m val_w`. The expanded proposition requires injective real scores and the stated sign condition. This is the approved encoding of the source's finite strict preference lists: score order preserves list order, zero is the outside option, complete marriage lists are positive, and omitted college alternatives receive irrelevant distinct negative extensions. It supplies no matching, terminal state, stability conclusion, or optimality conclusion. Expanded type reviewed: MenStrictPreferenceProfile val_m \u2227 WomenStrictPreferenceProfile val_w \u2227 AllPairsAcceptable val_m val_w This occurrence is bound to structural type digest 85aa97c32eabcf5da010fde3f6b11fa53f48f59915157953a9f6cfc38be8709b; the classification label and local name grant no source credit.",
+            "semantic_match": "The current material input has expanded type `MenStrictPreferenceProfile val_m ∧ WomenStrictPreferenceProfile val_w ∧ AllPairsAcceptable val_m val_w`. The expanded proposition requires injective real scores and the stated sign condition. This is the approved encoding of the source's finite strict preference lists: score order preserves list order, zero is the outside option, complete marriage lists are positive, and omitted college alternatives receive irrelevant distinct negative extensions. It supplies no matching, terminal state, stability conclusion, or optimality conclusion. Expanded type reviewed: MenStrictPreferenceProfile val_m ∧ WomenStrictPreferenceProfile val_w ∧ AllPairsAcceptable val_m val_w This occurrence is bound to structural type digest 85aa97c32eabcf5da010fde3f6b11fa53f48f59915157953a9f6cfc38be8709b; the classification label and local name grant no source credit.",
             "source_formula": "Section 3 fixes two finite communities of the same size, has every participant rank every member of the opposite community, and seeks a marriage covering all participants.",
             "source_item_key": "theorem1_stable_marriage_exists",
             "source_item_semantic_sha256": "fa82b7f991320a71e060ca3fd41c28aa1c12b5efce050de6dc4e005c90fcd1f3",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "source_claim_atom": {
             "id": "theorem1.complete_strict_equal_side_domain",
             "source_claim_atom_semantic_sha256": "4720b06f17e205bfb4ee0f3f70e73788e805207ba99cc291a980c3a4051501fb",
             "source_item_key": "theorem1_stable_marriage_exists",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "structural_type_sha256": "85aa97c32eabcf5da010fde3f6b11fa53f48f59915157953a9f6cfc38be8709b"
         }
       },
-      "source_location": "source.txt:37-58; source.txt:121-127",
+      "source_location": "cited publication:37-58; cited publication:121-127",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "92a9f51f27948dad02f55176e41ee56fb1e9bef7936f4b710749ceb955086f3d",
@@ -1752,19 +1752,19 @@
             "source_formula": "Every finite equal-side complete strict marriage preference profile admits a complete marriage with no mutually preferable unmatched pair.",
             "source_item_key": "theorem1_stable_marriage_exists",
             "source_item_semantic_sha256": "fa82b7f991320a71e060ca3fd41c28aa1c12b5efce050de6dc4e005c90fcd1f3",
-            "source_locator": "source.txt:191"
+            "source_locator": "cited publication:191"
           },
           "source_claim_atom": {
             "id": "theorem1.stable_marriage_existence",
             "source_claim_atom_semantic_sha256": "3d12d8b30893b4ed493f3540423f7464b6d9627da5998106a3a4269067978f77",
             "source_item_key": "theorem1_stable_marriage_exists",
-            "source_locator": "source.txt:191"
+            "source_locator": "cited publication:191"
           },
           "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
         }
       },
-      "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
-      "source_locator": "source.txt:115-130; source.txt:191; printed pages 11-12",
+      "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
+      "source_locator": "cited publication:115-130; cited publication:191; printed pages 11-12",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "25821736f4e8708b1497d8c3510c89f2d49536e1e51b0d79f214db2a75c01afd",
@@ -1795,19 +1795,19 @@
             "source_formula": "Every finite equal-side complete strict marriage preference profile admits a complete marriage with no mutually preferable unmatched pair.",
             "source_item_key": "theorem1_stable_marriage_exists",
             "source_item_semantic_sha256": "fa82b7f991320a71e060ca3fd41c28aa1c12b5efce050de6dc4e005c90fcd1f3",
-            "source_locator": "source.txt:191"
+            "source_locator": "cited publication:191"
           },
           "source_claim_atom": {
             "id": "theorem1.stable_marriage_existence",
             "source_claim_atom_semantic_sha256": "3d12d8b30893b4ed493f3540423f7464b6d9627da5998106a3a4269067978f77",
             "source_item_key": "theorem1_stable_marriage_exists",
-            "source_locator": "source.txt:191"
+            "source_locator": "cited publication:191"
           },
           "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
         }
       },
-      "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
-      "source_locator": "source.txt:115-130; source.txt:191; printed pages 11-12",
+      "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
+      "source_locator": "cited publication:115-130; cited publication:191; printed pages 11-12",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "dde20ed1827971fb9566315db7e537dcf6339002d6258892a4d8eb8b6b347daf",
@@ -1838,19 +1838,19 @@
             "source_formula": "Every finite equal-side complete strict marriage preference profile admits a complete marriage with no mutually preferable unmatched pair.",
             "source_item_key": "theorem1_stable_marriage_exists",
             "source_item_semantic_sha256": "fa82b7f991320a71e060ca3fd41c28aa1c12b5efce050de6dc4e005c90fcd1f3",
-            "source_locator": "source.txt:191"
+            "source_locator": "cited publication:191"
           },
           "source_claim_atom": {
             "id": "theorem1.stable_marriage_existence",
             "source_claim_atom_semantic_sha256": "3d12d8b30893b4ed493f3540423f7464b6d9627da5998106a3a4269067978f77",
             "source_item_key": "theorem1_stable_marriage_exists",
-            "source_locator": "source.txt:191"
+            "source_locator": "cited publication:191"
           },
           "structural_type_sha256": "46103e05f93834599237b4be4f2a4415af09098127676f52b2660fefa0bf0227"
         }
       },
-      "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
-      "source_locator": "source.txt:115-130; source.txt:191; printed pages 11-12",
+      "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
+      "source_locator": "cited publication:115-130; cited publication:191; printed pages 11-12",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "e21e2cbf3e23cfcefe5e830b3394001d9ff2b62740c4b6f3bf510feab75786c6",
@@ -1881,19 +1881,19 @@
             "source_formula": "Every finite equal-side complete strict marriage preference profile admits a complete marriage with no mutually preferable unmatched pair.",
             "source_item_key": "theorem1_stable_marriage_exists",
             "source_item_semantic_sha256": "fa82b7f991320a71e060ca3fd41c28aa1c12b5efce050de6dc4e005c90fcd1f3",
-            "source_locator": "source.txt:191"
+            "source_locator": "cited publication:191"
           },
           "source_claim_atom": {
             "id": "theorem1.stable_marriage_existence",
             "source_claim_atom_semantic_sha256": "3d12d8b30893b4ed493f3540423f7464b6d9627da5998106a3a4269067978f77",
             "source_item_key": "theorem1_stable_marriage_exists",
-            "source_locator": "source.txt:191"
+            "source_locator": "cited publication:191"
           },
           "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
         }
       },
-      "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
-      "source_locator": "source.txt:115-130; source.txt:191; printed pages 11-12",
+      "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
+      "source_locator": "cited publication:115-130; cited publication:191; printed pages 11-12",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "96a0f3ba22ebaeb08aa213786810e2b4e42b1a6351c3423f5e3d666c34398091",
@@ -1924,19 +1924,19 @@
             "source_formula": "Every finite equal-side complete strict marriage preference profile admits a complete marriage with no mutually preferable unmatched pair.",
             "source_item_key": "theorem1_stable_marriage_exists",
             "source_item_semantic_sha256": "fa82b7f991320a71e060ca3fd41c28aa1c12b5efce050de6dc4e005c90fcd1f3",
-            "source_locator": "source.txt:191"
+            "source_locator": "cited publication:191"
           },
           "source_claim_atom": {
             "id": "theorem1.stable_marriage_existence",
             "source_claim_atom_semantic_sha256": "3d12d8b30893b4ed493f3540423f7464b6d9627da5998106a3a4269067978f77",
             "source_item_key": "theorem1_stable_marriage_exists",
-            "source_locator": "source.txt:191"
+            "source_locator": "cited publication:191"
           },
           "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
         }
       },
-      "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
-      "source_locator": "source.txt:115-130; source.txt:191; printed pages 11-12",
+      "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
+      "source_locator": "cited publication:115-130; cited publication:191; printed pages 11-12",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "da4daa9c27a58d4da3d5f8e643d3d95875c371d848f1e5a94c0529a2b17d33fe",
@@ -1951,10 +1951,10 @@
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
       "validator_type": "structural_projection_from_current_statement_result"
     },
-    "theorem1_stable_marriage_existsSpec.val_m : M \u2192 W \u2192 \u211d": {
+    "theorem1_stable_marriage_existsSpec.val_m : M → W → ℝ": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded input `M \u2192 W \u2192 \u211d` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 1 existence of a complete stable marriage on two equally sized finite sides. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
+      "reason": "The expanded input `M → W → ℝ` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 1 existence of a complete stable marriage on two equally sized finite sides. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
       "semantic_association_sha256": "9d20f0780fa0a5760aa2105a93efbf6707fd02e1712f59561f48448ec2e76fe2",
       "source_claim_semantic_contracts": {
         "d33cca03634ed0877e0321b607292aa41dca8d75dff23ce5ef794e4e2e82c5d1": {
@@ -1962,22 +1962,22 @@
           "route": "exact_source_claim",
           "schema": 1,
           "source_anchor": {
-            "semantic_match": "The current material input has expanded type `M \u2192 W \u2192 \u211d`. The expanded input `M \u2192 W \u2192 \u211d` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 1 existence of a complete stable marriage on two equally sized finite sides. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion. This occurrence is bound to structural type digest 936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb; the classification label and local name grant no source credit.",
+            "semantic_match": "The current material input has expanded type `M → W → ℝ`. The expanded input `M → W → ℝ` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 1 existence of a complete stable marriage on two equally sized finite sides. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion. This occurrence is bound to structural type digest 936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb; the classification label and local name grant no source credit.",
             "source_formula": "Section 3 fixes two finite communities of the same size, has every participant rank every member of the opposite community, and seeks a marriage covering all participants.",
             "source_item_key": "theorem1_stable_marriage_exists",
             "source_item_semantic_sha256": "fa82b7f991320a71e060ca3fd41c28aa1c12b5efce050de6dc4e005c90fcd1f3",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "source_claim_atom": {
             "id": "theorem1.complete_strict_equal_side_domain",
             "source_claim_atom_semantic_sha256": "4720b06f17e205bfb4ee0f3f70e73788e805207ba99cc291a980c3a4051501fb",
             "source_item_key": "theorem1_stable_marriage_exists",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "structural_type_sha256": "936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb"
         }
       },
-      "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+      "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "20848a1b3a3b695664f5b0dce1882d1e27d84694103475e36ff3c16f704c8367",
@@ -1993,10 +1993,10 @@
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
       "validator_type": "manual_semantic_v10"
     },
-    "theorem1_stable_marriage_existsSpec.val_w : W \u2192 M \u2192 \u211d": {
+    "theorem1_stable_marriage_existsSpec.val_w : W → M → ℝ": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded input `W \u2192 M \u2192 \u211d` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 1 existence of a complete stable marriage on two equally sized finite sides. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
+      "reason": "The expanded input `W → M → ℝ` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 1 existence of a complete stable marriage on two equally sized finite sides. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
       "semantic_association_sha256": "9d20f0780fa0a5760aa2105a93efbf6707fd02e1712f59561f48448ec2e76fe2",
       "source_claim_semantic_contracts": {
         "0405f0eb781fbb603555fcebbd9d0f4fbaa417da261260a5c0f7ea0d79de9b17": {
@@ -2004,22 +2004,22 @@
           "route": "exact_source_claim",
           "schema": 1,
           "source_anchor": {
-            "semantic_match": "The current material input has expanded type `W \u2192 M \u2192 \u211d`. The expanded input `W \u2192 M \u2192 \u211d` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 1 existence of a complete stable marriage on two equally sized finite sides. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion. This occurrence is bound to structural type digest 936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb; the classification label and local name grant no source credit.",
+            "semantic_match": "The current material input has expanded type `W → M → ℝ`. The expanded input `W → M → ℝ` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 1 existence of a complete stable marriage on two equally sized finite sides. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion. This occurrence is bound to structural type digest 936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb; the classification label and local name grant no source credit.",
             "source_formula": "Section 3 fixes two finite communities of the same size, has every participant rank every member of the opposite community, and seeks a marriage covering all participants.",
             "source_item_key": "theorem1_stable_marriage_exists",
             "source_item_semantic_sha256": "fa82b7f991320a71e060ca3fd41c28aa1c12b5efce050de6dc4e005c90fcd1f3",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "source_claim_atom": {
             "id": "theorem1.complete_strict_equal_side_domain",
             "source_claim_atom_semantic_sha256": "4720b06f17e205bfb4ee0f3f70e73788e805207ba99cc291a980c3a4051501fb",
             "source_item_key": "theorem1_stable_marriage_exists",
-            "source_locator": "source.txt:115-130"
+            "source_locator": "cited publication:115-130"
           },
           "structural_type_sha256": "936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb"
         }
       },
-      "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+      "source_location": "cited publication:115-130; cited publication:191; printed pages 11-12",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "2112ce23ceed607dd43607c0e8db436ba27e5228d18dcf3daa8733cba25002c3",
@@ -2050,18 +2050,18 @@
             "source_formula": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "source_claim_atom": {
             "id": "theorem2.section4_top_q_procedure",
             "source_claim_atom_semantic_sha256": "8a89914a155c66144d123663dd6fd692e26fa04758866b54e5736aede47bc182",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "structural_type_sha256": "993ed48429f33dee5ec0cd189e23670942d873eeb1a278a85e1a7e194ca743eb"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "f6b1a6e52bac456700b3172b655840cd43abb8058707d5d3120d429cafadf420",
@@ -2086,7 +2086,7 @@
         "GS62-STRICT-LIST-NUMERIC-EXTENSION-01": "645defed6c069a39915208a7fa2c6ac638d53ba59edb9cb4307bef3ee34464af"
       },
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded proposition requires injective real scores and the stated sign condition. This is the approved encoding of the source's finite strict preference lists: score order preserves list order, zero is the outside option, complete marriage lists are positive, and omitted college alternatives receive irrelevant distinct negative extensions. It supplies no matching, terminal state, stability conclusion, or optimality conclusion. Expanded type reviewed: ((\u2200 a c c', val_applicant a c = val_applicant a c' \u2192 c = c') \u2227 \u2200 a c, val_applicant a c \u2260 0) \u2227 ((\u2200 c a a', val_college c a = val_college c a' \u2192 a = a') \u2227 \u2200 c a, val_college c a \u2260 0)",
+      "reason": "The expanded proposition requires injective real scores and the stated sign condition. This is the approved encoding of the source's finite strict preference lists: score order preserves list order, zero is the outside option, complete marriage lists are positive, and omitted college alternatives receive irrelevant distinct negative extensions. It supplies no matching, terminal state, stability conclusion, or optimality conclusion. Expanded type reviewed: ((∀ a c c', val_applicant a c = val_applicant a c' → c = c') ∧ ∀ a c, val_applicant a c ≠ 0) ∧ ((∀ c a a', val_college c a = val_college c a' → a = a') ∧ ∀ c a, val_college c a ≠ 0)",
       "semantic_association_sha256": "acb22edeba29dfb1cbd7b1f9e63aa377d840fd4babb346fbc80eb1fc2927d73b",
       "source_claim_semantic_contracts": {
         "739aaa832003bd80b42ba2110f8131c2b742a0304bde9d0306beda0e8706e55e": {
@@ -2094,22 +2094,22 @@
           "route": "exact_source_claim",
           "schema": 1,
           "source_anchor": {
-            "semantic_match": "The current material input has expanded type `((\u2200 a c c', val_applicant a c = val_applicant a c' \u2192 c = c') \u2227 \u2200 a c, val_applicant a c \u2260 0) \u2227 ((\u2200 c a a', val_college c a = val_college c a' \u2192 a = a') \u2227 \u2200 c a, val_college c a \u2260 0)`. The expanded proposition requires injective real scores and the stated sign condition. This is the approved encoding of the source's finite strict preference lists: score order preserves list order, zero is the outside option, complete marriage lists are positive, and omitted college alternatives receive irrelevant distinct negative extensions. It supplies no matching, terminal state, stability conclusion, or optimality conclusion. Expanded type reviewed: ((\u2200 a c c', val_applicant a c = val_applicant a c' \u2192 c = c') \u2227 \u2200 a c, val_applicant a c \u2260 0) \u2227 ((\u2200 c a a', val_college c a = val_college c a' \u2192 a = a') \u2227 \u2200 c a, val_college c a \u2260 0) This occurrence is bound to structural type digest 1c6c0e6229bb801cd223b10ae80b5700eab2606058e650d6574b29e6f21af1f0; the classification label and local name grant no source credit.",
+            "semantic_match": "The current material input has expanded type `((∀ a c c', val_applicant a c = val_applicant a c' → c = c') ∧ ∀ a c, val_applicant a c ≠ 0) ∧ ((∀ c a a', val_college c a = val_college c a' → a = a') ∧ ∀ c a, val_college c a ≠ 0)`. The expanded proposition requires injective real scores and the stated sign condition. This is the approved encoding of the source's finite strict preference lists: score order preserves list order, zero is the outside option, complete marriage lists are positive, and omitted college alternatives receive irrelevant distinct negative extensions. It supplies no matching, terminal state, stability conclusion, or optimality conclusion. Expanded type reviewed: ((∀ a c c', val_applicant a c = val_applicant a c' → c = c') ∧ ∀ a c, val_applicant a c ≠ 0) ∧ ((∀ c a a', val_college c a = val_college c a' → a = a') ∧ ∀ c a, val_college c a ≠ 0) This occurrence is bound to structural type digest 1c6c0e6229bb801cd223b10ae80b5700eab2606058e650d6574b29e6f21af1f0; the classification label and local name grant no source credit.",
             "source_formula": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "source_claim_atom": {
             "id": "theorem2.section4_top_q_procedure",
             "source_claim_atom_semantic_sha256": "8a89914a155c66144d123663dd6fd692e26fa04758866b54e5736aede47bc182",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "structural_type_sha256": "1c6c0e6229bb801cd223b10ae80b5700eab2606058e650d6574b29e6f21af1f0"
         }
       },
-      "source_location": "source.txt:37-58; source.txt:121-127",
+      "source_location": "cited publication:37-58; cited publication:121-127",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "60f73ce4df5e37be7aef600dc829e89a081c601ed6ed6ab0cc1249cddcfe3d2f",
@@ -2125,10 +2125,10 @@
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
       "validator_type": "manual_semantic_v10"
     },
-    "theorem2_applicant_optimalitySpec.quota : Colleges \u2192 \u2115": {
+    "theorem2_applicant_optimalitySpec.quota : Colleges → ℕ": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded input `Colleges \u2192 \u2115` supplies the arbitrary natural quota fixed for each college for Theorem 2 termination and applicant optimality for every reachable terminal state of the exact batched college procedure. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
+      "reason": "The expanded input `Colleges → ℕ` supplies the arbitrary natural quota fixed for each college for Theorem 2 termination and applicant optimality for every reachable terminal state of the exact batched college procedure. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
       "semantic_association_sha256": "acb22edeba29dfb1cbd7b1f9e63aa377d840fd4babb346fbc80eb1fc2927d73b",
       "source_claim_semantic_contracts": {
         "4bb0b80e66c4ac1691ecc7f6697d32f7e1131278791e9c4b4137d057ed8e8d79": {
@@ -2136,22 +2136,22 @@
           "route": "exact_source_claim",
           "schema": 1,
           "source_anchor": {
-            "semantic_match": "The current material input has expanded type `Colleges \u2192 \u2115`. The expanded input `Colleges \u2192 \u2115` supplies the arbitrary natural quota fixed for each college for Theorem 2 termination and applicant optimality for every reachable terminal state of the exact batched college procedure. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion. This occurrence is bound to structural type digest 882725c60f6629601ea136369ede2dc9692a6d08568e2993d258cbd0b03260ff; the classification label and local name grant no source credit.",
+            "semantic_match": "The current material input has expanded type `Colleges → ℕ`. The expanded input `Colleges → ℕ` supplies the arbitrary natural quota fixed for each college for Theorem 2 termination and applicant optimality for every reachable terminal state of the exact batched college procedure. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion. This occurrence is bound to structural type digest 882725c60f6629601ea136369ede2dc9692a6d08568e2993d258cbd0b03260ff; the classification label and local name grant no source credit.",
             "source_formula": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "source_claim_atom": {
             "id": "theorem2.section4_top_q_procedure",
             "source_claim_atom_semantic_sha256": "8a89914a155c66144d123663dd6fd692e26fa04758866b54e5736aede47bc182",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "structural_type_sha256": "882725c60f6629601ea136369ede2dc9692a6d08568e2993d258cbd0b03260ff"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "6c49c0f06dfa9224469aa81abbfaf2c614ceee6a5b75484c87974a5592db80e0",
@@ -2182,18 +2182,18 @@
             "source_formula": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "source_claim_atom": {
             "id": "theorem2.section4_top_q_procedure",
             "source_claim_atom_semantic_sha256": "8a89914a155c66144d123663dd6fd692e26fa04758866b54e5736aede47bc182",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "structural_type_sha256": "93d3fe34aedd500b1ca7a4f7c9c4b05269042165fe636a586b3bf482e4700fc9"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "19299992b6c91e6940f7decef41915f59a28e96ec9a8bb326cb7df1d84d03054",
@@ -2224,18 +2224,18 @@
             "source_formula": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "source_claim_atom": {
             "id": "theorem2.section4_top_q_procedure",
             "source_claim_atom_semantic_sha256": "8a89914a155c66144d123663dd6fd692e26fa04758866b54e5736aede47bc182",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "structural_type_sha256": "93d3fe34aedd500b1ca7a4f7c9c4b05269042165fe636a586b3bf482e4700fc9"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "3a2203edac67da7667368546f3b758cf6359c9fb7ae95abd5e93d67ed81121cf",
@@ -2267,18 +2267,18 @@
             "source_formula": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "source_claim_atom": {
             "id": "theorem2.section4_top_q_procedure",
             "source_claim_atom_semantic_sha256": "8a89914a155c66144d123663dd6fd692e26fa04758866b54e5736aede47bc182",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "structural_type_sha256": "3c277b9bb19798cd4e27b5d5d93f0b67aaf20e78694a9afcf414b40ce7e3f645"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "3e2b06a19b361d2e4bce3705c445335cefd59def7332deaa16f01c4054ed8571",
@@ -2309,18 +2309,18 @@
             "source_formula": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "source_claim_atom": {
             "id": "theorem2.section4_top_q_procedure",
             "source_claim_atom_semantic_sha256": "8a89914a155c66144d123663dd6fd692e26fa04758866b54e5736aede47bc182",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "structural_type_sha256": "3c277b9bb19798cd4e27b5d5d93f0b67aaf20e78694a9afcf414b40ce7e3f645"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "5b44a15b5b18ba2a522cd5e6da16c85d5627e43bda9cee48c54f56c5137368e7",
@@ -2351,19 +2351,19 @@
             "source_formula": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "source_claim_atom": {
             "id": "theorem2.section4_top_q_procedure",
             "source_claim_atom_semantic_sha256": "8a89914a155c66144d123663dd6fd692e26fa04758866b54e5736aede47bc182",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
-      "source_locator": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
+      "source_locator": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "45e2b6c5cf40a450500e5f38df6a6ecec8bf5e0587f29541f8dae0161f4c2939",
@@ -2394,19 +2394,19 @@
             "source_formula": "Every applicant weakly prefers the assignment returned by the deferred-acceptance procedure to every other stable assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:280-282"
+            "source_locator": "cited publication:280-282"
           },
           "source_claim_atom": {
             "id": "theorem2.applicant_optimality",
             "source_claim_atom_semantic_sha256": "11b3b684db63848bc65287c8ebfe6024f33e6f234fa1bd79c02b2d8ee29633e8",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:280-282"
+            "source_locator": "cited publication:280-282"
           },
           "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
-      "source_locator": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
+      "source_locator": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "a4d26220a9dd4190c963a658af7808e6be8fee414562856931a94be5c7732e35",
@@ -2437,19 +2437,19 @@
             "source_formula": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "source_claim_atom": {
             "id": "theorem2.section4_top_q_procedure",
             "source_claim_atom_semantic_sha256": "8a89914a155c66144d123663dd6fd692e26fa04758866b54e5736aede47bc182",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "structural_type_sha256": "46103e05f93834599237b4be4f2a4415af09098127676f52b2660fefa0bf0227"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
-      "source_locator": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
+      "source_locator": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "50663d1606d1d731170513ac7dc40fe9dd4f869a33a173b38e2a5260a8a1de9f",
@@ -2480,19 +2480,19 @@
             "source_formula": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "source_claim_atom": {
             "id": "theorem2.section4_top_q_procedure",
             "source_claim_atom_semantic_sha256": "8a89914a155c66144d123663dd6fd692e26fa04758866b54e5736aede47bc182",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
-      "source_locator": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
+      "source_locator": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "ab47717b9bf032440f57d3051cc40d500a7d682ef72ab49f2fcff9de7bd4628e",
@@ -2523,19 +2523,19 @@
             "source_formula": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "source_claim_atom": {
             "id": "theorem2.section4_top_q_procedure",
             "source_claim_atom_semantic_sha256": "8a89914a155c66144d123663dd6fd692e26fa04758866b54e5736aede47bc182",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
-      "source_locator": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
+      "source_locator": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "48165dd044dc776c18b66514ccece376c73d529c603c876c8a3a6874f47f13f1",
@@ -2566,19 +2566,19 @@
             "source_formula": "Every applicant weakly prefers the assignment returned by the deferred-acceptance procedure to every other stable assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:280-282"
+            "source_locator": "cited publication:280-282"
           },
           "source_claim_atom": {
             "id": "theorem2.applicant_optimality",
             "source_claim_atom_semantic_sha256": "11b3b684db63848bc65287c8ebfe6024f33e6f234fa1bd79c02b2d8ee29633e8",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:280-282"
+            "source_locator": "cited publication:280-282"
           },
           "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
-      "source_locator": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
+      "source_locator": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "b3cda2090561335fa58cf8aaa6d32812cbbf152cc9cce180315f3d8f67f7eabe",
@@ -2609,19 +2609,19 @@
             "source_formula": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "source_claim_atom": {
             "id": "theorem2.section4_top_q_procedure",
             "source_claim_atom_semantic_sha256": "8a89914a155c66144d123663dd6fd692e26fa04758866b54e5736aede47bc182",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
-      "source_locator": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
+      "source_locator": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "7eff6338e96616858925ab36b054dde970ca2ad86e9a9c90562e4bf57f2a1040",
@@ -2652,19 +2652,19 @@
             "source_formula": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "source_claim_atom": {
             "id": "theorem2.section4_top_q_procedure",
             "source_claim_atom_semantic_sha256": "8a89914a155c66144d123663dd6fd692e26fa04758866b54e5736aede47bc182",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
-      "source_locator": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
+      "source_locator": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "ff297f9533d00d01cd5d0fc76045e81f33f6cae475d42445cadc4586bcfd28f4",
@@ -2679,10 +2679,10 @@
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
       "validator_type": "structural_projection_from_current_statement_result"
     },
-    "theorem2_applicant_optimalitySpec.val_applicant : Applicants \u2192 Colleges \u2192 \u211d": {
+    "theorem2_applicant_optimalitySpec.val_applicant : Applicants → Colleges → ℝ": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded input `Applicants \u2192 Colleges \u2192 \u211d` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 2 termination and applicant optimality for every reachable terminal state of the exact batched college procedure. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
+      "reason": "The expanded input `Applicants → Colleges → ℝ` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 2 termination and applicant optimality for every reachable terminal state of the exact batched college procedure. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
       "semantic_association_sha256": "acb22edeba29dfb1cbd7b1f9e63aa377d840fd4babb346fbc80eb1fc2927d73b",
       "source_claim_semantic_contracts": {
         "a85bcab9cf7e75505bc43430a809b584d7901e1d0d54cdb46a6a816973ca920f": {
@@ -2690,22 +2690,22 @@
           "route": "exact_source_claim",
           "schema": 1,
           "source_anchor": {
-            "semantic_match": "The current material input has expanded type `Applicants \u2192 Colleges \u2192 \u211d`. The expanded input `Applicants \u2192 Colleges \u2192 \u211d` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 2 termination and applicant optimality for every reachable terminal state of the exact batched college procedure. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion. This occurrence is bound to structural type digest 936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb; the classification label and local name grant no source credit.",
+            "semantic_match": "The current material input has expanded type `Applicants → Colleges → ℝ`. The expanded input `Applicants → Colleges → ℝ` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 2 termination and applicant optimality for every reachable terminal state of the exact batched college procedure. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion. This occurrence is bound to structural type digest 936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb; the classification label and local name grant no source credit.",
             "source_formula": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "source_claim_atom": {
             "id": "theorem2.section4_top_q_procedure",
             "source_claim_atom_semantic_sha256": "8a89914a155c66144d123663dd6fd692e26fa04758866b54e5736aede47bc182",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "structural_type_sha256": "936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "1a6e5f1aee6e364bea32f567431a0858655e321f54fc76de4432fe6c22a1846e",
@@ -2721,10 +2721,10 @@
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
       "validator_type": "manual_semantic_v10"
     },
-    "theorem2_applicant_optimalitySpec.val_college : Colleges \u2192 Applicants \u2192 \u211d": {
+    "theorem2_applicant_optimalitySpec.val_college : Colleges → Applicants → ℝ": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded input `Colleges \u2192 Applicants \u2192 \u211d` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 2 termination and applicant optimality for every reachable terminal state of the exact batched college procedure. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
+      "reason": "The expanded input `Colleges → Applicants → ℝ` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 2 termination and applicant optimality for every reachable terminal state of the exact batched college procedure. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
       "semantic_association_sha256": "acb22edeba29dfb1cbd7b1f9e63aa377d840fd4babb346fbc80eb1fc2927d73b",
       "source_claim_semantic_contracts": {
         "fe1d9b156911922eaaa3ce8e2bf851bedaad41345ce9f2a85185805386557ce0": {
@@ -2732,22 +2732,22 @@
           "route": "exact_source_claim",
           "schema": 1,
           "source_anchor": {
-            "semantic_match": "The current material input has expanded type `Colleges \u2192 Applicants \u2192 \u211d`. The expanded input `Colleges \u2192 Applicants \u2192 \u211d` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 2 termination and applicant optimality for every reachable terminal state of the exact batched college procedure. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion. This occurrence is bound to structural type digest 936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb; the classification label and local name grant no source credit.",
+            "semantic_match": "The current material input has expanded type `Colleges → Applicants → ℝ`. The expanded input `Colleges → Applicants → ℝ` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for Theorem 2 termination and applicant optimality for every reachable terminal state of the exact batched college procedure. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion. This occurrence is bound to structural type digest 936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb; the classification label and local name grant no source credit.",
             "source_formula": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
             "source_item_key": "theorem2_applicant_optimality",
             "source_item_semantic_sha256": "ceeb552a6af9cfd7bf6b09b487a0caaae4873d2cd20a89424cacd6289844c08c",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "source_claim_atom": {
             "id": "theorem2.section4_top_q_procedure",
             "source_claim_atom_semantic_sha256": "8a89914a155c66144d123663dd6fd692e26fa04758866b54e5736aede47bc182",
             "source_item_key": "theorem2_applicant_optimality",
-            "source_locator": "source.txt:251-274"
+            "source_locator": "cited publication:251-274"
           },
           "structural_type_sha256": "936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb"
         }
       },
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "cited publication:251-274; cited publication:280-282; printed pages 13-14, Sections 4-5",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "76590d1f8f5b3ef1065b06479f344b91e15ca495ded95b67d2f1de214e7db474",
@@ -2780,7 +2780,7 @@
           "structural_type_sha256": "993ed48429f33dee5ec0cd189e23670942d873eeb1a278a85e1a7e194ca743eb"
         }
       },
-      "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+      "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "802c3e776c4c94d6730ac13108036e4ee8bfba0144ef5c839b889ec2d3d8f03c",
@@ -2813,7 +2813,7 @@
           "structural_type_sha256": "561c0c89d6599b3501a80ea0552042e7b35d16c173973bf4b9930c31a8005d8d"
         }
       },
-      "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+      "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "42bc9384fb4cce2517bccf8185986a9d7bf5f187d88be5ddf9d858ce24000f9b",
@@ -2888,12 +2888,12 @@
                   },
                   "source_key": "displayed_unstable_college_assignment_definition",
                   "source_kind": "definition",
-                  "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+                  "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
                   "source_map_item_sha256": "60b570a79e8169141be4dd6775cd2cfa1fb11e4de43fef56fa3ef014ceb06740",
                   "source_semantic_sha256": "7d68ea8c5073fc7ad178620c6e055509834ddc9dd255f0a89845e85f1398e1ce"
                 }
               ],
-              "source_locator": "source.txt:76-78; printed page 10, first displayed Definition",
+              "source_locator": "cited publication:76-78; printed page 10, first displayed Definition",
               "source_semantic_clause": "An assignment is unstable when two currently assigned applicants and their colleges form the displayed mutually improving replacement pair.",
               "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
             },
@@ -2902,8 +2902,8 @@
           "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
         }
       },
-      "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
-      "source_locator": "source.txt:76-78; printed page 10, first displayed Definition",
+      "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
+      "source_locator": "cited publication:76-78; printed page 10, first displayed Definition",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "1aafe046245a2c9a9df8582ee651e3fb5de8e654ba7bc9e636d7e7e181cb8bf1",
@@ -2977,12 +2977,12 @@
                   },
                   "source_key": "displayed_unstable_college_assignment_definition",
                   "source_kind": "definition",
-                  "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+                  "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
                   "source_map_item_sha256": "60b570a79e8169141be4dd6775cd2cfa1fb11e4de43fef56fa3ef014ceb06740",
                   "source_semantic_sha256": "7d68ea8c5073fc7ad178620c6e055509834ddc9dd255f0a89845e85f1398e1ce"
                 }
               ],
-              "source_locator": "source.txt:76-78; printed page 10, first displayed Definition",
+              "source_locator": "cited publication:76-78; printed page 10, first displayed Definition",
               "source_semantic_clause": "An assignment is unstable when two currently assigned applicants and their colleges form the displayed mutually improving replacement pair.",
               "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
             },
@@ -2991,8 +2991,8 @@
           "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
         }
       },
-      "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
-      "source_locator": "source.txt:76-78; printed page 10, first displayed Definition",
+      "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
+      "source_locator": "cited publication:76-78; printed page 10, first displayed Definition",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "00f94d700fe3cd88cd461c10c82bd966e13e375240f024a3aaada5ecb80ee7dc",
@@ -3066,12 +3066,12 @@
                   },
                   "source_key": "displayed_unstable_college_assignment_definition",
                   "source_kind": "definition",
-                  "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+                  "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
                   "source_map_item_sha256": "60b570a79e8169141be4dd6775cd2cfa1fb11e4de43fef56fa3ef014ceb06740",
                   "source_semantic_sha256": "7d68ea8c5073fc7ad178620c6e055509834ddc9dd255f0a89845e85f1398e1ce"
                 }
               ],
-              "source_locator": "source.txt:76-78; printed page 10, first displayed Definition",
+              "source_locator": "cited publication:76-78; printed page 10, first displayed Definition",
               "source_semantic_clause": "An assignment is unstable when two currently assigned applicants and their colleges form the displayed mutually improving replacement pair.",
               "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
             },
@@ -3080,8 +3080,8 @@
           "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
         }
       },
-      "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
-      "source_locator": "source.txt:76-78; printed page 10, first displayed Definition",
+      "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
+      "source_locator": "cited publication:76-78; printed page 10, first displayed Definition",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "7ccf07a77a5ac734d77b77b96baec018ba3bd97204f42eaf5618f56279b45272",
@@ -3155,12 +3155,12 @@
                   },
                   "source_key": "displayed_unstable_college_assignment_definition",
                   "source_kind": "definition",
-                  "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+                  "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
                   "source_map_item_sha256": "60b570a79e8169141be4dd6775cd2cfa1fb11e4de43fef56fa3ef014ceb06740",
                   "source_semantic_sha256": "7d68ea8c5073fc7ad178620c6e055509834ddc9dd255f0a89845e85f1398e1ce"
                 }
               ],
-              "source_locator": "source.txt:76-78; printed page 10, first displayed Definition",
+              "source_locator": "cited publication:76-78; printed page 10, first displayed Definition",
               "source_semantic_clause": "An assignment is unstable when two currently assigned applicants and their colleges form the displayed mutually improving replacement pair.",
               "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
             },
@@ -3169,8 +3169,8 @@
           "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
         }
       },
-      "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
-      "source_locator": "source.txt:76-78; printed page 10, first displayed Definition",
+      "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
+      "source_locator": "cited publication:76-78; printed page 10, first displayed Definition",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "0fa6e8d18cc46d7039df53f28ae18a74f7d7d0d11a60eb5757ffd10ba8f8d2cc",
@@ -3185,10 +3185,10 @@
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
       "validator_type": "structural_projection_from_current_statement_result"
     },
-    "unstableCollegeAssignment_iff_source_definitionSpec.val_applicant : Applicants \u2192 Colleges \u2192 \u211d": {
+    "unstableCollegeAssignment_iff_source_definitionSpec.val_applicant : Applicants → Colleges → ℝ": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded input `Applicants \u2192 Colleges \u2192 \u211d` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for the displayed replacement-pair college-instability definition. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
+      "reason": "The expanded input `Applicants → Colleges → ℝ` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for the displayed replacement-pair college-instability definition. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
       "semantic_association_sha256": "11011bfa2bd03f26c468aa107e3e263f3984b7fb55816feb10e04636c2fab160",
       "source_claim_semantic_contracts": {
         "c9848a659d060df27b1b06e9c9512c55c02ffb1f787ef95941b0eb928a2adf58": {
@@ -3202,7 +3202,7 @@
           "structural_type_sha256": "936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb"
         }
       },
-      "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+      "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "cd995d6d5ecc2d8c2ea91fc6ca12d238c598e568be3111d22a09ba813cf7ef77",
@@ -3218,10 +3218,10 @@
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
       "validator_type": "manual_semantic_v10"
     },
-    "unstableCollegeAssignment_iff_source_definitionSpec.val_college : Colleges \u2192 Applicants \u2192 \u211d": {
+    "unstableCollegeAssignment_iff_source_definitionSpec.val_college : Colleges → Applicants → ℝ": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded input `Colleges \u2192 Applicants \u2192 \u211d` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for the displayed replacement-pair college-instability definition. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
+      "reason": "The expanded input `Colleges → Applicants → ℝ` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for the displayed replacement-pair college-instability definition. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
       "semantic_association_sha256": "11011bfa2bd03f26c468aa107e3e263f3984b7fb55816feb10e04636c2fab160",
       "source_claim_semantic_contracts": {
         "a2d7ea3fc340262d8518b0dcef075826a3f5417305c782a1010b593a0439eed1": {
@@ -3235,7 +3235,7 @@
           "structural_type_sha256": "936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb"
         }
       },
-      "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+      "source_location": "cited publication:76-78; printed page 10, first displayed Definition",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "7ccfd4de8c0e0ee827d39086a0a50363b5f2ac780a756733e6b4f283cd885c9c",
@@ -3268,7 +3268,7 @@
           "structural_type_sha256": "993ed48429f33dee5ec0cd189e23670942d873eeb1a278a85e1a7e194ca743eb"
         }
       },
-      "source_location": "source.txt:121-127; printed page 11, Section 3",
+      "source_location": "cited publication:121-127; printed page 11, Section 3",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "826c94c84a92d8a5540e1f3e5c22cadd9bff972432353e1b06563171a7b31ea8",
@@ -3301,7 +3301,7 @@
           "structural_type_sha256": "084cc70dfe921dc999aefcc284c1e1958ac99bd3cad6e81c19dcffa38060ef47"
         }
       },
-      "source_location": "source.txt:121-127; printed page 11, Section 3",
+      "source_location": "cited publication:121-127; printed page 11, Section 3",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "6b295bff8a920d99a70de38917f8f998bbb10f8a41f2ac365fa954ce521d661e",
@@ -3376,12 +3376,12 @@
                   },
                   "source_key": "section3_marriage_instability_definition",
                   "source_kind": "definition",
-                  "source_location": "source.txt:121-127; printed page 11, Section 3",
+                  "source_location": "cited publication:121-127; printed page 11, Section 3",
                   "source_map_item_sha256": "dcf39d0a7893ca4219f93c961a1c7fc7f83c52a0d7c839b2a0831666570551ee",
                   "source_semantic_sha256": "47fb76aadb12bf8bc9e8c23ebdfd617351a88fb67f56517af0931fb198e2f364"
                 }
               ],
-              "source_locator": "source.txt:121-127; printed page 11, Section 3",
+              "source_locator": "cited publication:121-127; printed page 11, Section 3",
               "source_semantic_clause": "A set of marriages is unstable exactly when an unmatched man-woman pair both strictly prefer each other to their actual mates.",
               "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
             },
@@ -3390,8 +3390,8 @@
           "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
         }
       },
-      "source_location": "source.txt:121-127; printed page 11, Section 3",
-      "source_locator": "source.txt:121-127; printed page 11, Section 3",
+      "source_location": "cited publication:121-127; printed page 11, Section 3",
+      "source_locator": "cited publication:121-127; printed page 11, Section 3",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "8c69bf16c6315bedb4173d0622a812dec5af5a339285f055520e27805244e977",
@@ -3465,12 +3465,12 @@
                   },
                   "source_key": "section3_marriage_instability_definition",
                   "source_kind": "definition",
-                  "source_location": "source.txt:121-127; printed page 11, Section 3",
+                  "source_location": "cited publication:121-127; printed page 11, Section 3",
                   "source_map_item_sha256": "dcf39d0a7893ca4219f93c961a1c7fc7f83c52a0d7c839b2a0831666570551ee",
                   "source_semantic_sha256": "47fb76aadb12bf8bc9e8c23ebdfd617351a88fb67f56517af0931fb198e2f364"
                 }
               ],
-              "source_locator": "source.txt:121-127; printed page 11, Section 3",
+              "source_locator": "cited publication:121-127; printed page 11, Section 3",
               "source_semantic_clause": "A set of marriages is unstable exactly when an unmatched man-woman pair both strictly prefer each other to their actual mates.",
               "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
             },
@@ -3479,8 +3479,8 @@
           "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
         }
       },
-      "source_location": "source.txt:121-127; printed page 11, Section 3",
-      "source_locator": "source.txt:121-127; printed page 11, Section 3",
+      "source_location": "cited publication:121-127; printed page 11, Section 3",
+      "source_locator": "cited publication:121-127; printed page 11, Section 3",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "e0920b45c101e67588ede8a10edb799a28ead190896192aafb23e172734c291d",
@@ -3554,12 +3554,12 @@
                   },
                   "source_key": "section3_marriage_instability_definition",
                   "source_kind": "definition",
-                  "source_location": "source.txt:121-127; printed page 11, Section 3",
+                  "source_location": "cited publication:121-127; printed page 11, Section 3",
                   "source_map_item_sha256": "dcf39d0a7893ca4219f93c961a1c7fc7f83c52a0d7c839b2a0831666570551ee",
                   "source_semantic_sha256": "47fb76aadb12bf8bc9e8c23ebdfd617351a88fb67f56517af0931fb198e2f364"
                 }
               ],
-              "source_locator": "source.txt:121-127; printed page 11, Section 3",
+              "source_locator": "cited publication:121-127; printed page 11, Section 3",
               "source_semantic_clause": "A set of marriages is unstable exactly when an unmatched man-woman pair both strictly prefer each other to their actual mates.",
               "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
             },
@@ -3568,8 +3568,8 @@
           "structural_type_sha256": "65daa25c4ae911955120e6c5436ac953a6438e88c38fa44529ab3e29509cc557"
         }
       },
-      "source_location": "source.txt:121-127; printed page 11, Section 3",
-      "source_locator": "source.txt:121-127; printed page 11, Section 3",
+      "source_location": "cited publication:121-127; printed page 11, Section 3",
+      "source_locator": "cited publication:121-127; printed page 11, Section 3",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "c9284a3e7801278755f2f10f8021da815f970a6407d81a9a696c7b1af9f56b4b",
@@ -3643,12 +3643,12 @@
                   },
                   "source_key": "section3_marriage_instability_definition",
                   "source_kind": "definition",
-                  "source_location": "source.txt:121-127; printed page 11, Section 3",
+                  "source_location": "cited publication:121-127; printed page 11, Section 3",
                   "source_map_item_sha256": "dcf39d0a7893ca4219f93c961a1c7fc7f83c52a0d7c839b2a0831666570551ee",
                   "source_semantic_sha256": "47fb76aadb12bf8bc9e8c23ebdfd617351a88fb67f56517af0931fb198e2f364"
                 }
               ],
-              "source_locator": "source.txt:121-127; printed page 11, Section 3",
+              "source_locator": "cited publication:121-127; printed page 11, Section 3",
               "source_semantic_clause": "A set of marriages is unstable exactly when an unmatched man-woman pair both strictly prefer each other to their actual mates.",
               "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
             },
@@ -3657,8 +3657,8 @@
           "structural_type_sha256": "2bf264243b7e12c484e1a166df161823e6a78b1a09cc3a9c98db5e6fe1e723b1"
         }
       },
-      "source_location": "source.txt:121-127; printed page 11, Section 3",
-      "source_locator": "source.txt:121-127; printed page 11, Section 3",
+      "source_location": "cited publication:121-127; printed page 11, Section 3",
+      "source_locator": "cited publication:121-127; printed page 11, Section 3",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "4a93d3fbf815c30885601a3a30967cfbcd2fbb276605320fed9f31fd60d82bca",
@@ -3673,10 +3673,10 @@
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
       "validator_type": "structural_projection_from_current_statement_result"
     },
-    "unstableMarriage_iff_source_definitionSpec.val_m : M \u2192 W \u2192 \u211d": {
+    "unstableMarriage_iff_source_definitionSpec.val_m : M → W → ℝ": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded input `M \u2192 W \u2192 \u211d` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for the mutual blocking-pair marriage definition. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
+      "reason": "The expanded input `M → W → ℝ` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for the mutual blocking-pair marriage definition. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
       "semantic_association_sha256": "8af303f2d029f40ae4a8637b36705752dd70aa98f4c376c869d430d5497969aa",
       "source_claim_semantic_contracts": {
         "1a9f0fac04047017ab3c30a56857091f88f578bb2c449cb81fb64a9da7bf0a2b": {
@@ -3690,7 +3690,7 @@
           "structural_type_sha256": "936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb"
         }
       },
-      "source_location": "source.txt:121-127; printed page 11, Section 3",
+      "source_location": "cited publication:121-127; printed page 11, Section 3",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "b5cc93117366e4f325aba233ac45e0b2ee1fef73c19a2bf10be2974ce45d1225",
@@ -3706,10 +3706,10 @@
       "validator": "Codex GS62 v10 nonsemantic semantic-boundary reviewer 2026-08-04",
       "validator_type": "manual_semantic_v10"
     },
-    "unstableMarriage_iff_source_definitionSpec.val_w : W \u2192 M \u2192 \u211d": {
+    "unstableMarriage_iff_source_definitionSpec.val_w : W → M → ℝ": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "reason": "The expanded input `W \u2192 M \u2192 \u211d` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for the mutual blocking-pair marriage definition. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
+      "reason": "The expanded input `W → M → ℝ` supplies one side's real-valued comparison-score table representing ordinal preferences; strictness and acceptability, where required, are supplied separately by the explicit domain proposition for the mutual blocking-pair marriage definition. It is model data only and is not credited as a stable assignment, a procedure run, a terminal outcome, an existence witness, or an optimality conclusion.",
       "semantic_association_sha256": "8af303f2d029f40ae4a8637b36705752dd70aa98f4c376c869d430d5497969aa",
       "source_claim_semantic_contracts": {
         "6bee60eb0e6794f1ad7e909049c19054f84ddd5d2a362be670f2250b64c9457c": {
@@ -3723,7 +3723,7 @@
           "structural_type_sha256": "936b088c1a5d8fc8a771f43de327c158edad4790be6433ed696c28b75642e2bb"
         }
       },
-      "source_location": "source.txt:121-127; printed page 11, Section 3",
+      "source_location": "cited publication:121-127; printed page 11, Section 3",
       "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
       "source_record_item_digest_schema": 5,
       "source_record_item_sha256": "fee09ed9beccace0610a37f4b2d98ce0c0dc19248115198798461e29863c91cd",

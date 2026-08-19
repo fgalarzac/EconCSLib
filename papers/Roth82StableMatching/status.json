@@ -1,67 +1,49 @@
 {
-  "schema": 1,
-  "id": "Roth82StableMatching",
-  "repository_visibility": "public",
-  "title": "The Economics of Matching: Stability and Incentives",
+  "artifacts": {
+    "assumptions": "papers/Roth82StableMatching/Assumptions.lean",
+    "dependency_dag_pdf": "papers/Roth82StableMatching/docs/DependencyDAG.pdf",
+    "dependency_dag_tex": "papers/Roth82StableMatching/docs/DependencyDAG.tex",
+    "final_validation_report": "papers/Roth82StableMatching/FINAL_VALIDATION_REPORT.md",
+    "human_review_packet_pdf": "papers/Roth82StableMatching/docs/HUMAN_REVIEW_PACKET.pdf",
+    "human_review_packet_tex": "papers/Roth82StableMatching/docs/HUMAN_REVIEW_PACKET.tex",
+    "paper_interface": "papers/Roth82StableMatching/PaperInterface.lean",
+    "readme": "papers/Roth82StableMatching/README.md"
+  },
   "authors": "Alvin E. Roth",
-  "source_version": "Mathematics of Operations Research 7(4), 1982",
   "build_target": "lake build Roth82StableMatching",
-  "status": "formalized",
-  "main_caveat": "",
+  "human_review": {
+    "mismatch_rows": 0,
+    "reviewed_rows": 0,
+    "source": "v11 PaperInterface claim surface; human entries are recorded after direct review",
+    "stale_rows": 0,
+    "total_rows": 21,
+    "uncertain_rows": 0
+  },
   "human_summary": "",
   "human_summary_review": {
-    "status": "agent_draft",
-    "note": "Machine-checked proof and automated semantic-audit evidence do not constitute human approval. Do not mark this summary human-approved without explicit review."
+    "note": "Machine-checked proof and automated semantic-audit evidence do not constitute human approval. Do not mark this summary human-approved without explicit review.",
+    "status": "agent_draft"
   },
-  "review_entrypoint": "papers/Roth82StableMatching/FINAL_VALIDATION_REPORT.md",
-  "human_review": {
-    "reviewed_rows": 0,
-    "total_rows": 23,
-    "stale_rows": 0,
-    "mismatch_rows": 0,
-    "surface": "normal_source_presentations_v1",
-    "source": "paper-local status.json counts 11 normal source definitions, 10 named source results, and two explicit source-condition rows. The 42 specification/proof interface rows remain agent/audit evidence; reviewed_rows remains zero because no independent human-review certification is claimed."
-  },
+  "id": "Roth82StableMatching",
+  "main_caveat": "",
+  "open_source_boundaries": [],
   "paper_interface": {
-    "path": "papers/Roth82StableMatching/PaperInterface.lean",
-    "line_count": 1666,
     "declaration_rows": 121,
-    "review_rows": 42,
+    "line_count": 1666,
+    "maintainability_issue": null,
     "oversized": false,
-    "maintainability_issue": null
+    "path": "papers/Roth82StableMatching/PaperInterface.lean",
+    "review_rows": 42
   },
-  "source_inventory": {
-    "path": "papers/Roth82StableMatching/audit/paper_statement_map.json",
-    "map_sha256": "e12802b264e69f1b75182142997d9437c4c6428139189b7e0a39aced88b35d17",
-    "source_artifact_path": "papers/Roth82StableMatching/Roth82StableMatching.txt",
-    "source_artifact_sha256": "55d2c35a8077a74dc9953dcb6f838fcd6e91edc9e77079a2419f185835a79fd4",
-    "item_count": 21,
-    "normal_named_theory_items": 21,
-    "normal_definition_items": 11,
-    "normal_named_result_items": 10,
-    "deep_audit_items": 0,
-    "support_only_items": 0
-  },
-  "artifacts": {
-    "readme": "papers/Roth82StableMatching/README.md",
-    "paper_interface": "papers/Roth82StableMatching/PaperInterface.lean",
-    "assumptions": "papers/Roth82StableMatching/Assumptions.lean",
-    "final_validation_report": "papers/Roth82StableMatching/FINAL_VALIDATION_REPORT.md",
-    "dependency_dag_tex": "papers/Roth82StableMatching/docs/DependencyDAG.tex",
-    "dependency_dag_pdf": "papers/Roth82StableMatching/docs/DependencyDAG.pdf"
-  },
+  "repository_visibility": "public",
+  "review_entrypoint": "papers/Roth82StableMatching/FINAL_VALIDATION_REPORT.md",
   "review_surface": {
-    "source_file": "papers/Roth82StableMatching/PaperInterface.lean",
-    "assumption_source_file": "papers/Roth82StableMatching/Assumptions.lean",
-    "llm_assumption_review": {
-      "assumption_judgment_file": "papers/Roth82StableMatching/audit/assumption_match_llm.json",
-      "policy": "Every configured paper-facing premise is reviewed as source/model data rather than accepted from a declaration name."
-    },
-    "assumption_policy": "strict",
     "assumption_names": [
       "assumption_equal_cardinality",
       "assumption_simple_report_ranks_partner_first"
     ],
+    "assumption_policy": "strict",
+    "assumption_source_file": "papers/Roth82StableMatching/Assumptions.lean",
     "auxiliary_names": [
       "ManyToManyQuotaAssignment",
       "applicantOptimalQuotaAssignment",
@@ -143,6 +125,81 @@
       "womenOptimal",
       "womenOptimal_formula"
     ],
+    "include_names": [
+      "preferenceProfile_eq_source_definitionSpec",
+      "completeMarriageOutcome_iff_source_definitionSpec",
+      "sourceStableMarriage_iff_source_definitionSpec",
+      "fillsIndividualQuotas_iff_source_definitionSpec",
+      "sourceStableMatchingProcedure_iff_source_definitionSpec",
+      "truthfulForAllAgents_iff_source_definitionSpec",
+      "efficientMatchingProcedure_iff_source_definitionSpec",
+      "theorem1_stable_outcome_existsSpec",
+      "theorem2_side_optimal_stable_outcomesSpec",
+      "theorem3_no_stable_truthful_procedureSpec",
+      "theorem4_efficient_truthful_procedure_existsSpec",
+      "theorem5_optimal_side_truthfulSpec",
+      "corollary5_1_first_choice_need_not_be_misrepresentedSpec",
+      "lemma1_simple_report_same_partnerSpec",
+      "lemma2_simple_report_harms_no_manSpec",
+      "theorem6_no_outcome_strictly_better_for_all_menSpec",
+      "theorem7_later_choice_manipulation_unavoidableSpec",
+      "manReportStrictlyRanksPartnerFirst_iff_source_definitionSpec",
+      "matchingProcedure_eq_source_definitionSpec",
+      "sideOptimalStableOutcome_iff_source_definitionSpec",
+      "sourceMarriageModel_iff_source_definitionSpec"
+    ],
+    "llm_assumption_review": {
+      "assumption_judgment_file": "papers/Roth82StableMatching/audit/assumption_match_llm.json",
+      "policy": "Every configured paper-facing premise is reviewed as source/model data rather than accepted from a declaration name."
+    },
+    "llm_paper_coverage_review": {
+      "paper_coverage_audit_file": "papers/Roth82StableMatching/audit/paper_coverage_llm.json",
+      "policy": "Normal coverage is the complete source-only inventory of eleven paper-facing mathematical definitions and ten named results. Algorithms, examples, computational notation, proof-local notation, and ordinary extension prose are deep-only or support material.",
+      "required_prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins"
+    },
+    "llm_source_record_review": {
+      "policy": "Classify every recursive premise and terminal from expanded mathematical content. Do not infer source status from record, field, theorem, or function names.",
+      "required_prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "source_record_audit_file": "papers/Roth82StableMatching/audit/source_record_audit.json",
+      "source_record_judgment_file": "papers/Roth82StableMatching/audit/source_record_match_llm.json"
+    },
+    "llm_statement_review": {
+      "assumption_judgment_file": "papers/Roth82StableMatching/audit/assumption_match_llm.json",
+      "lean_to_tex_file": "papers/Roth82StableMatching/audit/lean_to_tex_llm.json",
+      "match_judgment_file": "papers/Roth82StableMatching/audit/statement_match_llm.json",
+      "paper_coverage_audit_file": "papers/Roth82StableMatching/audit/paper_coverage_llm.json",
+      "policy": "For every selected source claim, compare only its exact byte-pinned raw source-anchor bundle and Lean's expanded transparent `...Spec : Prop` target. The paired proof endpoint receives separate Lean-Meta proof credit; a name, paraphrase, wrapper, or prior aggregate receipt is not a semantic match. Review every retained paper-local prerequisite and every material library prerequisite before the dependent claim.",
+      "require_explicit_source_routes": true,
+      "require_source_claim_atoms": true,
+      "required_prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
+      "review_surface_audit_file": "papers/Roth82StableMatching/audit/review_surface_llm.json",
+      "surface_audit_threshold": 60,
+      "surface_warning_threshold": 140
+    },
+    "paper_coverage_required": true,
+    "proposition_spec_proofs": {
+      "completeMarriageOutcome_iff_source_definitionSpec": "completeMarriageOutcome_iff_source_definition",
+      "corollary5_1_first_choice_need_not_be_misrepresentedSpec": "corollary5_1_first_choice_need_not_be_misrepresented",
+      "efficientMatchingProcedure_iff_source_definitionSpec": "efficientMatchingProcedure_iff_source_definition",
+      "fillsIndividualQuotas_iff_source_definitionSpec": "fillsIndividualQuotas_iff_source_definition",
+      "lemma1_simple_report_same_partnerSpec": "lemma1_simple_report_same_partner",
+      "lemma2_simple_report_harms_no_manSpec": "lemma2_simple_report_harms_no_man",
+      "manReportStrictlyRanksPartnerFirst_iff_source_definitionSpec": "manReportStrictlyRanksPartnerFirst_iff_source_definition",
+      "matchingProcedure_eq_source_definitionSpec": "matchingProcedure_eq_source_definition",
+      "preferenceProfile_eq_source_definitionSpec": "preferenceProfile_eq_source_definition",
+      "sideOptimalStableOutcome_iff_source_definitionSpec": "sideOptimalStableOutcome_iff_source_definition",
+      "sourceMarriageModel_iff_source_definitionSpec": "sourceMarriageModel_iff_source_definition",
+      "sourceStableMarriage_iff_source_definitionSpec": "sourceStableMarriage_iff_source_definition",
+      "sourceStableMatchingProcedure_iff_source_definitionSpec": "sourceStableMatchingProcedure_iff_source_definition",
+      "theorem1_stable_outcome_existsSpec": "theorem1_stable_outcome_exists",
+      "theorem2_side_optimal_stable_outcomesSpec": "theorem2_side_optimal_stable_outcomes",
+      "theorem3_no_stable_truthful_procedureSpec": "theorem3_no_stable_truthful_procedure",
+      "theorem4_efficient_truthful_procedure_existsSpec": "theorem4_efficient_truthful_procedure_exists",
+      "theorem5_optimal_side_truthfulSpec": "theorem5_optimal_side_truthful",
+      "theorem6_no_outcome_strictly_better_for_all_menSpec": "theorem6_no_outcome_strictly_better_for_all_men",
+      "theorem7_later_choice_manipulation_unavoidableSpec": "theorem7_later_choice_manipulation_unavoidable",
+      "truthfulForAllAgents_iff_source_definitionSpec": "truthfulForAllAgents_iff_source_definition"
+    },
     "quarantined_auxiliary_names": [
       "ManyToManyQuotaAssignment",
       "completeMarriageOutcome",
@@ -221,55 +278,25 @@
       "Roth82StableMatching.PaperInterface.womenDeferredAcceptance": "Internal outcome selector used by selected side-optimality and incentive statements. Its behavior is audited through those theorem closures and receives no independent normal-scope source credit.",
       "Roth82StableMatching.PaperInterface.womenOptimal": "Transparent side-optimality support predicate used inside the selected Theorem 2 statement. Its semantic content is audited through that theorem's expanded closure."
     },
-    "paper_coverage_required": true,
-    "include_names": [
-      "preferenceProfile_eq_source_definitionSpec",
-      "preferenceProfile_eq_source_definition",
-      "matchingProcedure_eq_source_definitionSpec",
-      "matchingProcedure_eq_source_definition",
-      "sourceMarriageModel_iff_source_definitionSpec",
-      "sourceMarriageModel_iff_source_definition",
-      "completeMarriageOutcome_iff_source_definitionSpec",
-      "completeMarriageOutcome_iff_source_definition",
-      "sourceStableMarriage_iff_source_definitionSpec",
-      "sourceStableMarriage_iff_source_definition",
-      "sideOptimalStableOutcome_iff_source_definitionSpec",
-      "sideOptimalStableOutcome_iff_source_definition",
-      "fillsIndividualQuotas_iff_source_definitionSpec",
-      "fillsIndividualQuotas_iff_source_definition",
-      "sourceStableMatchingProcedure_iff_source_definitionSpec",
-      "sourceStableMatchingProcedure_iff_source_definition",
-      "truthfulForAllAgents_iff_source_definitionSpec",
-      "truthfulForAllAgents_iff_source_definition",
-      "efficientMatchingProcedure_iff_source_definitionSpec",
-      "efficientMatchingProcedure_iff_source_definition",
-      "manReportStrictlyRanksPartnerFirst_iff_source_definitionSpec",
-      "manReportStrictlyRanksPartnerFirst_iff_source_definition",
-      "theorem1_stable_outcome_existsSpec",
-      "theorem1_stable_outcome_exists",
-      "theorem2_side_optimal_stable_outcomesSpec",
-      "theorem2_side_optimal_stable_outcomes",
-      "theorem3_no_stable_truthful_procedureSpec",
-      "theorem3_no_stable_truthful_procedure",
-      "theorem4_efficient_truthful_procedure_existsSpec",
-      "theorem4_efficient_truthful_procedure_exists",
-      "theorem5_optimal_side_truthfulSpec",
-      "theorem5_optimal_side_truthful",
-      "corollary5_1_first_choice_need_not_be_misrepresentedSpec",
-      "corollary5_1_first_choice_need_not_be_misrepresented",
-      "lemma1_simple_report_same_partnerSpec",
-      "lemma1_simple_report_same_partner",
-      "lemma2_simple_report_harms_no_manSpec",
-      "lemma2_simple_report_harms_no_man",
-      "theorem6_no_outcome_strictly_better_for_all_menSpec",
-      "theorem6_no_outcome_strictly_better_for_all_men",
-      "theorem7_later_choice_manipulation_unavoidableSpec",
-      "theorem7_later_choice_manipulation_unavoidable"
-    ],
+    "require_source_spec_correspondence": true,
+    "require_v11_raw_source_spec_screening": true,
+    "semantic_model_review": {
+      "policy": "Review every expanded paper-facing model, procedure, and theorem surface semantically against the pinned source. Inspect the balanced finite carriers, complete one-to-one outcomes, strict ordinal rankings, numeric outside-option encoding, unilateral report domains, and every existence, optimality, incentive, and rank-manipulation endpoint. Record a dimension as not applicable only after inspecting its expanded semantics; declaration names are routing only.",
+      "required_dimensions": [
+        "expanded_binders_and_domain",
+        "carrier_and_domain",
+        "probability_support_endpoints",
+        "joint_law_and_state_evolution",
+        "conditioning_and_calibration_semantics",
+        "expectation_definedness",
+        "null_cell_totalization_and_partition_scope",
+        "extended_rate_codomain"
+      ],
+      "schema": 2
+    },
     "slices": [
       {
         "id": "all",
-        "title": "Twenty-one normal source items as closed specification/proof pairs",
         "names": [
           "preferenceProfile_eq_source_definitionSpec",
           "preferenceProfile_eq_source_definition",
@@ -313,94 +340,48 @@
           "theorem6_no_outcome_strictly_better_for_all_men",
           "theorem7_later_choice_manipulation_unavoidableSpec",
           "theorem7_later_choice_manipulation_unavoidable"
-        ]
+        ],
+        "title": "Twenty-one normal source items as closed specification/proof pairs"
       }
     ],
     "source_definition_names": [],
-    "proposition_spec_proofs": {
-      "preferenceProfile_eq_source_definitionSpec": "preferenceProfile_eq_source_definition",
-      "completeMarriageOutcome_iff_source_definitionSpec": "completeMarriageOutcome_iff_source_definition",
-      "sourceStableMarriage_iff_source_definitionSpec": "sourceStableMarriage_iff_source_definition",
-      "fillsIndividualQuotas_iff_source_definitionSpec": "fillsIndividualQuotas_iff_source_definition",
-      "sourceStableMatchingProcedure_iff_source_definitionSpec": "sourceStableMatchingProcedure_iff_source_definition",
-      "truthfulForAllAgents_iff_source_definitionSpec": "truthfulForAllAgents_iff_source_definition",
-      "efficientMatchingProcedure_iff_source_definitionSpec": "efficientMatchingProcedure_iff_source_definition",
-      "theorem1_stable_outcome_existsSpec": "theorem1_stable_outcome_exists",
-      "theorem2_side_optimal_stable_outcomesSpec": "theorem2_side_optimal_stable_outcomes",
-      "theorem3_no_stable_truthful_procedureSpec": "theorem3_no_stable_truthful_procedure",
-      "theorem4_efficient_truthful_procedure_existsSpec": "theorem4_efficient_truthful_procedure_exists",
-      "theorem5_optimal_side_truthfulSpec": "theorem5_optimal_side_truthful",
-      "corollary5_1_first_choice_need_not_be_misrepresentedSpec": "corollary5_1_first_choice_need_not_be_misrepresented",
-      "lemma1_simple_report_same_partnerSpec": "lemma1_simple_report_same_partner",
-      "lemma2_simple_report_harms_no_manSpec": "lemma2_simple_report_harms_no_man",
-      "theorem6_no_outcome_strictly_better_for_all_menSpec": "theorem6_no_outcome_strictly_better_for_all_men",
-      "theorem7_later_choice_manipulation_unavoidableSpec": "theorem7_later_choice_manipulation_unavoidable",
-      "manReportStrictlyRanksPartnerFirst_iff_source_definitionSpec": "manReportStrictlyRanksPartnerFirst_iff_source_definition",
-      "matchingProcedure_eq_source_definitionSpec": "matchingProcedure_eq_source_definition",
-      "sideOptimalStableOutcome_iff_source_definitionSpec": "sideOptimalStableOutcome_iff_source_definition",
-      "sourceMarriageModel_iff_source_definitionSpec": "sourceMarriageModel_iff_source_definition"
-    },
-    "require_source_spec_correspondence": true,
+    "source_file": "papers/Roth82StableMatching/PaperInterface.lean",
     "source_proof_fidelity_review": {
       "ledger_file": "papers/Roth82StableMatching/audit/source_proof_fidelity.json",
       "policy": "Source-proof defects are recorded separately from formalization gaps. Normal coverage is restricted to paper-facing mathematical definitions and named theoretical results."
-    },
-    "llm_statement_review": {
-      "lean_to_tex_file": "papers/Roth82StableMatching/audit/lean_to_tex_llm.json",
-      "match_judgment_file": "papers/Roth82StableMatching/audit/statement_match_llm.json",
-      "review_surface_audit_file": "papers/Roth82StableMatching/audit/review_surface_llm.json",
-      "paper_coverage_audit_file": "papers/Roth82StableMatching/audit/paper_coverage_llm.json",
-      "assumption_judgment_file": "papers/Roth82StableMatching/audit/assumption_match_llm.json",
-      "surface_audit_threshold": 60,
-      "surface_warning_threshold": 140,
-      "require_explicit_source_routes": true,
-      "require_source_claim_atoms": true,
-      "required_prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
-      "policy": "Compare the 42 closed Spec/proof declarations with the 21 byte-pinned source items by elaborated binders, expanded predicates, full action domains, and complete endpoints. Names are locators only and never semantic evidence."
-    },
-    "llm_paper_coverage_review": {
-      "paper_coverage_audit_file": "papers/Roth82StableMatching/audit/paper_coverage_llm.json",
-      "required_prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins",
-      "policy": "Normal coverage is the complete source-only inventory of eleven paper-facing mathematical definitions and ten named results. Algorithms, examples, computational notation, proof-local notation, and ordinary extension prose are deep-only or support material."
-    },
-    "llm_source_record_review": {
-      "source_record_audit_file": "papers/Roth82StableMatching/audit/source_record_audit.json",
-      "source_record_judgment_file": "papers/Roth82StableMatching/audit/source_record_match_llm.json",
-      "required_prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-      "policy": "Classify every recursive premise and terminal from expanded mathematical content. Do not infer source status from record, field, theorem, or function names."
-    },
-    "semantic_model_review": {
-      "schema": 2,
-      "required_dimensions": [
-        "expanded_binders_and_domain",
-        "carrier_and_domain",
-        "probability_support_endpoints",
-        "joint_law_and_state_evolution",
-        "conditioning_and_calibration_semantics",
-        "expectation_definedness",
-        "null_cell_totalization_and_partition_scope",
-        "extended_rate_codomain"
-      ],
-      "policy": "Review every expanded paper-facing model, procedure, and theorem surface semantically against the pinned source. Inspect the balanced finite carriers, complete one-to-one outcomes, strict ordinal rankings, numeric outside-option encoding, unilateral report domains, and every existence, optimality, incentive, and rank-manipulation endpoint. Record a dimension as not applicable only after inspecting its expanded semantics; declaration names are routing only."
     }
   },
+  "schema": 1,
+  "source_inventory": {
+    "deep_audit_items": 0,
+    "item_count": 21,
+    "map_sha256": "e12802b264e69f1b75182142997d9437c4c6428139189b7e0a39aced88b35d17",
+    "normal_definition_items": 11,
+    "normal_named_result_items": 10,
+    "normal_named_theory_items": 21,
+    "path": "papers/Roth82StableMatching/audit/paper_statement_map.json",
+    "source_artifact_sha256": "55d2c35a8077a74dc9953dcb6f838fcd6e91edc9e77079a2419f185835a79fd4",
+    "support_only_items": 0
+  },
+  "source_version": "Mathematics of Operations Research 7(4), 1982",
+  "status": "formalized",
+  "title": "The Economics of Matching: Stability and Incentives",
   "v10_audit_state": {
-    "statement_prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
-    "paper_coverage_prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins",
     "assumption_prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-    "source_record_prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-    "semantic_model_schema": 2,
-    "status": "current_complete",
+    "paper_coverage_prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins",
     "reason": "The 42-row Spec/proof surface has current v10 statement evidence and strict v11 source-to-Spec correspondence for all 21 normal source items. The single final raw audit has 227 current judgment groups bound by occurrence contracts to all 204 theorem-realization components, with zero unresolved source items, auxiliaries, recursive failures, or conclusion dependencies. Automated evidence does not imply human release certification.",
     "receipt": {
+      "direct_coverage_rows": 21,
       "review_rows": 42,
       "source_inventory_rows": 21,
-      "direct_coverage_rows": 21,
-      "source_record_judgments": 227,
-      "theorem_realization_components": 204,
       "source_record_audit_sha256": "2232929756e92ac1fb5390607148aca89893966f1b99830181114ce5464ee6e2",
-      "source_record_match_file_sha256": "371845712cd4f14d9f41024c545834e8084e09a78cf038155f8e128ca5670498"
-    }
-  },
-  "open_source_boundaries": []
+      "source_record_judgments": 227,
+      "source_record_match_file_sha256": "371845712cd4f14d9f41024c545834e8084e09a78cf038155f8e128ca5670498",
+      "theorem_realization_components": 204
+    },
+    "semantic_model_schema": 2,
+    "source_record_prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+    "statement_prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
+    "status": "current_complete"
+  }
 }

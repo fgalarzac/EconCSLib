@@ -197,7 +197,7 @@ theorem gn21ExtendedTwoTailPolicy_measurable (lower upper : ℝ≥0∞) :
 
 /--
 The five endpoint-complete policy forms in the printed Lemma 5 table at
-`source.txt:3370-3386`.  The strictly increasing branch has a finite
+`cited publication:3370-3386`.  The strictly increasing branch has a finite
 nonnegative lower endpoint, exactly as printed; the other branches retain the
 paper's explicit infinity endpoints.
 -/
@@ -9723,8 +9723,8 @@ theorem exists_strictlyQuasiConvex_source_form_reward_ge_and_gt_unless_ae_open
     exact ⟨policy, hpolicy_form, hreward, fun h => False.elim (hnot_ae h)⟩
 
 /--
-Direct source-facing form of Lemma 5 (`source.txt:3343-3404`, with the five
-policy forms in the table at `source.txt:3370-3386`).  No optimizer or policy
+Direct source-facing form of Lemma 5 (`cited publication:3343-3404`, with the five
+policy forms in the table at `cited publication:3370-3386`).  No optimizer or policy
 form conclusion is supplied as a premise.
 
 The endpoint hypotheses deliberately state the derivative/response sign
@@ -10332,7 +10332,7 @@ theorem exists_dynamicOpenOptimal_and_all_optima_source_forms_of_replacements
     exact False.elim ((not_lt_of_ge (hrho.2 tau htau_feasible)) hrho_lt_tau)
 
 /--
-Audited Theorem 4 statement (`source.txt:3859-3943`) on the source open-policy
+Audited Theorem 4 statement (`cited publication:3859-3943`) on the source open-policy
 domain.  The two displayed price-case disjunctions preserve all six printed
 case-to-form correspondences; the conclusion uses the endpoint-complete Lemma
 5 forms, so infinite endpoints occur exactly in the rows where the source

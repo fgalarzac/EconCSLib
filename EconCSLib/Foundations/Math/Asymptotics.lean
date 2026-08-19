@@ -1237,6 +1237,18 @@ theorem tendsto_log_div_sqrt_nat_nhds_zero :
         (by norm_num)).tendsto_div_nhds_zero
   exact hreal.comp tendsto_natCast_atTop_atTop
 
+/-- `log(N)^2 / sqrt(N)` tends to zero. -/
+theorem tendsto_log_sq_div_sqrt_nat_nhds_zero :
+    Tendsto
+      (fun N : ℕ => (Real.log (N : ℝ)) ^ 2 / Real.sqrt (N : ℝ))
+      atTop (nhds 0) := by
+  have hreal :
+      Tendsto (fun x : ℝ => (Real.log x) ^ 2 / Real.sqrt x)
+        atTop (nhds 0) := by
+    simpa [Real.sqrt_eq_rpow] using
+      (isLittleO_log_rpow_rpow_atTop (2 : ℝ) (by norm_num : (0 : ℝ) < 1 / 2)).tendsto_div_nhds_zero
+  exact hreal.comp tendsto_natCast_atTop_atTop
+
 /-- A sequence tends to zero if it is eventually dominated by `C / √N`. -/
 theorem TendsToZero_of_eventually_abs_le_inv_sqrt (ε : ℕ → ℝ) {C : ℝ}
     (_hC : 0 < C) (hbound : ∀ᶠ N in atTop, |ε N| ≤ C / Real.sqrt (N : ℝ)) :

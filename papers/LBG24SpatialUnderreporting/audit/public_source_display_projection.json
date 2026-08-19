@@ -1,0 +1,94 @@
+{
+  "generator": "python3 scripts/public_source_display_projection.py",
+  "paper_id": "LBG24SpatialUnderreporting",
+  "private_source_map_sha256": "90c6030f759aa9df65148d26cacc92ca5b851d850f8fe53fb52784714d68b87d",
+  "public_manifest_path": "papers/LBG24SpatialUnderreporting/audit/public_source_display_projection.json",
+  "public_source_map_sha256": "afda52aeef4a1d6f4e816b1232db4b0de14c4ad1aae95239a242d58e49cc39a5",
+  "raw_source_artifact_included": false,
+  "raw_source_display_material": "selected_byte_pinned_source_anchor_quotes",
+  "schema": 1,
+  "selected_source_item_ids": [
+    "condition1_selected_start",
+    "condition2_endpoint_selection",
+    "lemma1_process_thinning_and_detection_rate",
+    "lemma2_exponential_waiting_tail",
+    "proposition1_nonidentifiability",
+    "theorem1_theorem2_likelihood_decomposition"
+  ],
+  "selected_source_items": {
+    "condition1_selected_start": {
+      "source_anchors": [
+        {
+          "line_end": 1573,
+          "line_start": 1571,
+          "publication_locator": "cited publication",
+          "quoted_text": "Condition 1: Given T1 = t1 , S is defined on [t1 , T ], and\nP(S = t|T1 = t1 ) = g(t), ∀T ≥ t ≥ t1 ,\nwhere g(t) is not dependent on λ or the sample path of the Poisson process after t1 .",
+          "quoted_text_sha256": "80e097e09db9f6113b1dbc45833441a1525626dc7198311c91a477227ca00322"
+        }
+      ],
+      "source_kind": "assumption"
+    },
+    "condition2_endpoint_selection": {
+      "source_anchors": [
+        {
+          "line_end": 1592,
+          "line_start": 1574,
+          "publication_locator": "cited publication",
+          "quoted_text": "Condition 2: Given the jumping times of the Poisson process up to any time t, that is, for some\nm ∈ Z+, given {T1 = t1 , . . . , Tm = tm , Tm+1 > t}, the distribution of E is\nP[E = t|{T1 = t1 , . . . , Tm = tm , Tm+1 > t}] = hm (t), for some m ∈ Z+, ∀T ≥ t ≥ tm ,\nwhere hm (t) is a function independent of λ. Furthermore, given T1 = t1 , the distribution of E is\nindependent of the realization of S:\nP[E = t|T1 = t1 , S = s] = P[E = t|T1 = t1 ], ∀T ≥ t ≥ t1 , ∀s ≥ t1 .\nNow, suppose we observe data which contains for each incident, S = s, E = e, X(e) − X(s) =\nM , where X(s) = m ≥ 1, and all the jumping times within interval (s, e]: JM = {Tm+1 =\ntm+1 , . . . , Tm+M = tm+M }, where tm+1 > s and Tm+M ≤ e. Then, conditional on the observed\njumping times before s: H := {T1 = t1 , . . . , Tm = tm ≤ s}, the likelihood of the data can be\ndecomposed as follows:\nP[X(e) − X(s) = M, E = e, S = s, JM |H] = f (e, s, H, JM )p(M |λ(e − s)),\n\n(8)\n\nwhere p(M |λ(e − s)) denotes the likelihood of a Poisson distribution with M occurrences and rate\nparameter λ(e − s), and f (e, s, H, JM ) is a function that does not depend on λ.\nThe proof of the theorem relies on the following lemma, which establishes the distribution of\nthe (random) time between S and the first jump time after S.",
+          "quoted_text_sha256": "65d2e5aae2861018a86a215a1b13e0dd182843271e5dda2a4b58104de39a9c8b"
+        }
+      ],
+      "source_kind": "assumption"
+    },
+    "lemma1_process_thinning_and_detection_rate": {
+      "source_anchors": [
+        {
+          "line_end": 1476,
+          "line_start": 1453,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 1. Suppose each incident gets reported independently, and the distribution of the interval\nof reporting duration Ti has density function f (·) : [0, ∞) 7→ R. Then under steady state, Nθobserved\nfollows a Poisson process with rate Λ′θ , where\n\u0014\n\u0012 Z t\n\u0013\n\u0015\nZ ∞\n′\nΛθ = Λθ 1 −\nexp −\nλθ (u)du f (t)dt .\n0\n\n0\n\nIn the simplest time-homogeneous case, this rate simplifies to:\n\u0014\n\u0015\nZ ∞\n′\nΛθ = Λθ 1 −\nexp (−λθ t) f (t)dt .\n0",
+          "quoted_text_sha256": "7e287ec2957c6705aa88478eb5e1ba038c9f0dfd59218794b97ca146116f3794"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "lemma2_exponential_waiting_tail": {
+      "source_anchors": [
+        {
+          "line_end": 1597,
+          "line_start": 1593,
+          "publication_locator": "cited publication",
+          "quoted_text": "Lemma 2. If the distribution of S satisfies condition 1, then the distribution of the time between\nany realization of S and the next jump time TX(S)+1 is an exponential random variable with rate\nλ.\n\n25",
+          "quoted_text_sha256": "ce091b901077fb37781e90d99ea4040bd5ac5e9792d5dec808d2d6bc1e6c094e"
+        }
+      ],
+      "source_kind": "lemma"
+    },
+    "proposition1_nonidentifiability": {
+      "source_anchors": [
+        {
+          "line_end": 1452,
+          "line_start": 1433,
+          "publication_locator": "cited publication",
+          "quoted_text": "Proposition 1. Consider the simplest setting: both incident occurrence and reporting follow timehomogeneous Poisson processes, with Λθ (τ ) = Λθ and λθ (τ ) = λθ . Further, let incident reporting duration Ti be distributed according to F . Then using just the number of observed incidents\nNθobserved (T ) of type θ in a known time duration [0, T ], the reporting rate λθ is not identifiable. In\nother words, Nθobserved (T ) is a function of both Λθ and λθ :\nNθobserved (T )\n= Λ′θ\nT →∞\nT\n\u0014\n\u0015\nZ ∞\n′\nexp (−λθ t) dF (t) .\nΛθ = Λθ 1 −\nlim\n\nwhere\n\n0\n\nThe proof of Proposition 1 follows directly from the following Lemma.",
+          "quoted_text_sha256": "6f11c923d2ffdaf4e5d7a0058d64dbc368311b3748d62acaad553bf7b9a0cf5e"
+        }
+      ],
+      "source_kind": "proposition"
+    },
+    "theorem1_theorem2_likelihood_decomposition": {
+      "source_anchors": [
+        {
+          "line_end": 1570,
+          "line_start": 1567,
+          "publication_locator": "cited publication",
+          "quoted_text": "Theorem 2. Consider a Poisson process {X(t), T ≥ t ≥ 0} with rate λ (where X(t) denotes the\nnumber of jumps up to time t), and denote the jumping times {T1 , T2 , . . . }. Denote the random\nvariables of the start and end of an observation period S and E, and suppose S and E satisfy the\nfollowing conditions, respectively:",
+          "quoted_text_sha256": "e08bddcea537c98d8da2de381a80a3c666bce3031f753310e788904bc00d3d7d"
+        }
+      ],
+      "source_kind": "theorem"
+    }
+  },
+  "source_artifact_sha256": "2754d60d3304f72257c80a82c1bebbe416ff297ae27ddd13f4af9a0e114e3a6a",
+  "source_coverage_mode": "named_theoretical_statements"
+}

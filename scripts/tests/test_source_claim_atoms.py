@@ -16,6 +16,9 @@ from unittest import mock
 ROOT = Path(__file__).resolve().parents[2]
 GATE_PATH = ROOT / "scripts" / "audit_evidence_integrity.py"
 REPOSITORY_PATH = ROOT / "scripts" / "audit_repository.py"
+SOURCE_RECORD_AUDIT_PATH = (
+    ROOT / "skills" / "econcs-formalizer" / "scripts" / "source_record_audit.py"
+)
 for import_root in (ROOT, ROOT / "scripts"):
     text = str(import_root)
     if text not in sys.path:
@@ -34,6 +37,14 @@ assert REPOSITORY_SPEC is not None and REPOSITORY_SPEC.loader is not None
 REPOSITORY = importlib.util.module_from_spec(REPOSITORY_SPEC)
 sys.modules[REPOSITORY_SPEC.name] = REPOSITORY
 REPOSITORY_SPEC.loader.exec_module(REPOSITORY)
+
+SOURCE_RECORD_SPEC = importlib.util.spec_from_file_location(
+    "source_record_audit", SOURCE_RECORD_AUDIT_PATH
+)
+assert SOURCE_RECORD_SPEC is not None and SOURCE_RECORD_SPEC.loader is not None
+SOURCE_RECORD = importlib.util.module_from_spec(SOURCE_RECORD_SPEC)
+sys.modules[SOURCE_RECORD_SPEC.name] = SOURCE_RECORD
+SOURCE_RECORD_SPEC.loader.exec_module(SOURCE_RECORD)
 
 
 class SourceClaimAtomsTests(unittest.TestCase):
@@ -315,7 +326,8 @@ class SourceClaimAtomsTests(unittest.TestCase):
         messages = [finding.message for finding in self.route_findings()]
         self.assertTrue(
             any(
-                "must be configured PaperInterface theorem/lemma result rows" in message
+                "must be configured Spec-paired theorem/lemma result endpoints"
+                in message
                 for message in messages
             ),
             messages,
@@ -346,6 +358,31 @@ class SourceClaimAtomsTests(unittest.TestCase):
             "review_surface.llm_statement_review.require_source_claim_atoms "
             "must be true when the source map opts into source_claim_atoms",
             errors,
+        )
+
+    def test_explicit_definition_atom_participates_in_the_strict_route(self) -> None:
+        """Definitions stay optional unless the map explicitly atomizes one.
+
+        This keeps the normal theorem-like inventory narrow while allowing a
+        source definition with a complete atom/Spec binding to furnish the
+        source-first context needed by a strict occurrence closure.
+        """
+
+        statement_map = {"source_claim_atoms_schema": 1}
+        self.assertFalse(
+            SOURCE_RECORD.source_claim_atom_authoritative_for_item(
+                statement_map,
+                {"source_kind": "definition"},
+            )
+        )
+        self.assertTrue(
+            SOURCE_RECORD.source_claim_atom_authoritative_for_item(
+                statement_map,
+                {
+                    "source_kind": "definition",
+                    "source_claim_atoms": self.valid_atoms()[:1],
+                },
+            )
         )
 
 

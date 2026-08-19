@@ -6,7 +6,7 @@ evidence_lane = "direct-source-row-review"
 closed_at = "2026-08-18"
 
 [source_artifact]
-path = "papers/GN21DriverSurgePricing/source.txt"
+path = "papers/GN21DriverSurgePricing/cited publication"
 sha256 = "6b6668553e576084e0c6c9995964252bed6b14aae113d6ce90f78538a7eb9889"
 
 [statement_map]

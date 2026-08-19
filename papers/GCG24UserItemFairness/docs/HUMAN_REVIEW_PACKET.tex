@@ -1,0 +1,2767 @@
+% Generated human-review packet template.  Source records, Lean statements,
+% and raw-source-to-Spec screening fields are substituted by
+% scripts/review_dashboard_packet.py.
+% Do not hand-edit generated packets; annotate the PDF or reconcile notes into
+% the paper-local human-review log.
+\documentclass[10pt]{article}
+\usepackage[margin=0.43in]{geometry}
+\usepackage{fontspec}
+\setmainfont{Latin Modern Roman}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{fvextra}
+\usepackage{enumitem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.15em}
+\linespread{0.92}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+\DefineVerbatimEnvironment{ReviewVerbatim}{Verbatim}{breaklines=true,breakanywhere=true,fontsize=\scriptsize}
+\newcommand{\reviewerbox}{%
+  \par\noindent\fbox{\parbox{0.96\linewidth}{\rule{0pt}{0.38in}}}\par
+}
+\newcommand{\reviewmatch}[1]{%
+  \par\noindent\textbf{Reviewer check:} $\square$\; #1\par
+  \noindent\emph{If left unchecked, explain the discrepancy or uncertainty below.}\par
+}
+
+\begin{document}
+\fontsize{9}{10}\selectfont
+
+\begin{center}
+{\LARGE Human review packet: GCG24UserItemFairness}\\[0.35em]
+\small Generated from byte-pinned source excerpts, the expanded PaperInterface
+specifications, and hash-bound raw-source-to-Spec screening records.
+\end{center}
+
+\noindent\textbf{Paper:} GCG24UserItemFairness\\
+\textbf{Paper id:} \texttt{GCG24UserItemFairness}\\
+\textbf{Source version:} NeurIPS 2024 paper; byte-pinned publication source record\\
+\textbf{Source record:} \texttt{audit/paper\_statement\_map.json}\\
+\textbf{Rows:} 37\\
+\textbf{Generated:} 2026-08-19\\
+\textbf{Source URL:} \href{https://openreview.net/pdf?id=ZOZjMs3JTs}{official source}
+
+\noindent\fbox{\parbox{0.96\linewidth}{\textbf{Review status:} 0/37 source-claim screens; 0/15 library prerequisite screens. This is a review worksheet while those direct checks remain pending; it is not a final validation receipt.}}\par
+
+
+
+\section*{How to use this packet}
+For each source claim, compare the exact source excerpts with the expanded
+PaperInterface specification. Mark up this PDF or fill the blank reviewer box in the TeX source;
+return the annotated file for reconciliation into the paper-local human-review
+log.
+
+\section*{Open the interactive dashboard}
+The interactive dashboard is an optional alternative to using this PDF; it
+presents the same review surface rather than an additional review requirement.
+After forking and cloning (or pulling) EconCSLib, run the following from the
+repository root. The cache command is needed only the first time in a new clone.
+\begin{ReviewVerbatim}
+cd <your-EconCSLib-checkout>
+lake exe cache get
+python3 scripts/review_dashboard.py --paper GCG24UserItemFairness --serve
+\end{ReviewVerbatim}
+Open \url{http://127.0.0.1:8765/} in a browser and keep that terminal running
+while reviewing. The dashboard records saved annotations in this paper's
+reviewer-owned review record.
+
+\section*{Contents}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-section-c26db27dcc5f31c6}{Semantic library prerequisites (15; not paper claims)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-prerequisite-a044ec78dc3416bb}{EconCSLib.Policy}
+\item \hyperlink{library-prerequisite-ae914c1008ad6876}{EconCSLib.Policy.FiberRepresentatives}
+\item \hyperlink{library-prerequisite-4947c7fe50d6ca8c}{EconCSLib.Policy.FiberRepresentatives.mk}
+\item \hyperlink{library-prerequisite-431408b14a56af5b}{EconCSLib.Policy.FiberRepresentatives.ofSurjective}
+\item \hyperlink{library-prerequisite-f877c2e1ff5055d0}{EconCSLib.Policy.FiberRepresentatives.repr}
+\item \hyperlink{library-prerequisite-3f5282c6cd6824d2}{EconCSLib.Policy.activePairs}
+\item \hyperlink{library-prerequisite-adfb156708f820de}{EconCSLib.Policy.activePairsCard}
+\item \hyperlink{library-prerequisite-e5c7eedc40c11b7a}{EconCSLib.pmfExp}
+\item \hyperlink{library-prerequisite-5d1b9ed6dad7a9b5}{EconCSLib.Policy.agentScore}
+\item \hyperlink{library-prerequisite-da90e4e59e052ad3}{EconCSLib.Policy.averageOn}
+\item \hyperlink{library-prerequisite-01139ab74b03022e}{EconCSLib.Policy.descendAlong}
+\item \hyperlink{library-prerequisite-09fbb0c526b44fa8}{EconCSLib.Policy.liftAlong}
+\item \hyperlink{library-prerequisite-1181c0a9dbe29e4e}{EconCSLib.Policy.multiAssignedActions}
+\item \hyperlink{library-prerequisite-ecc26a3133fdd38b}{EconCSLib.finiteMax}
+\item \hyperlink{library-prerequisite-087e3287a5c76915}{EconCSLib.finiteMin}
+\end{itemize}
+\item \hyperlink{source-section-f10b5f68e4acf3dc}{Source claims (37)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-9df044aa943faf07}{itemFairnessSpec}
+\item \hyperlink{source-claim-0efedb08b89098c8}{itemNormalizerSpec}
+\item \hyperlink{source-claim-8a9fd6e3ecb98f56}{normalizedItemUtilitySpec}
+\item \hyperlink{source-claim-695e539b33a12ace}{normalizedUserUtilitySpec}
+\item \hyperlink{source-claim-0dabf0e6dbbf52bf}{priceOfFairnessSpec}
+\item \hyperlink{source-claim-0b68590619af089c}{priceOfMisestimationSpec}
+\item \hyperlink{source-claim-326f5e510283a532}{problem11BasicFeasibleSpec}
+\item \hyperlink{source-claim-41e201d4ec448012}{problem11EqualityFeasibleSetSpec}
+\item \hyperlink{source-claim-2d18213881f27a07}{proposition1\_symmetric\_lp\_reductionSpec}
+\item \hyperlink{source-claim-886aec0cf4d20216}{proposition2\_symmetric\_optimum\_existsSpec}
+\item \hyperlink{source-claim-fe2438fd53f645e4}{rawItemUtilitySpec}
+\item \hyperlink{source-claim-9ef94f4afd2b61ac}{rawUserUtilitySpec}
+\item \hyperlink{source-claim-9f0be6e1ade7a30d}{recommendationUtilitySpec}
+\item \hyperlink{source-claim-0b16a4458c32b7d8}{solvesProblemOne\_iffSpec}
+\item \hyperlink{source-claim-9c3a977985663e10}{appendix\_c\_lemma1\_item\_fairness\_positiveSpec}
+\item \hyperlink{source-claim-d461c27ad08b8393}{appendix\_d\_lemma10\_active\_optimizer\_pivot\_at\_or\_before\_midpointSpec}
+\item \hyperlink{source-claim-9a6a42e2321f37e9}{appendix\_d\_lemma11\_optimal\_item\_fairness\_mono\_on\_active\_pivot\_intervalSpec}
+\item \hyperlink{source-claim-2174fb755f649010}{appendix\_d\_lemma3\_unconstrained\_baselineSpec}
+\item \hyperlink{source-claim-bdf6b6ab56cd5fdc}{appendix\_d\_lemma4\_problem6\_unique\_sparse\_solutionSpec}
+\item \hyperlink{source-claim-725d3169ac365914}{appendix\_d\_lemma5\_problem6\_active\_optimizer\_closed\_formSpec}
+\item \hyperlink{source-claim-d98bc9bd5bb82720}{appendix\_d\_lemma6\_optimal\_policy\_type\_utility\_orderSpec}
+\item \hyperlink{source-claim-9c661bd3034e665b}{appendix\_d\_lemma7\_active\_optimizer\_pivot\_monotonicitySpec}
+\item \hyperlink{source-claim-80513579ff0f392a}{appendix\_d\_lemma8\_selected\_pivot\_stitchingSpec}
+\item \hyperlink{source-claim-b15ee860ec553bb1}{appendix\_d\_lemma9\_pair\_share\_algebraSpec}
+\item \hyperlink{source-claim-e72b5fec2071cbe5}{appendix\_e\_lemma12\_symmetrized\_policySpec}
+\item \hyperlink{source-claim-090419aeb8d7a8b0}{appendix\_e\_lemma13\_every\_optimal\_basic\_solution\_has\_pivot\_supportSpec}
+\item \hyperlink{source-claim-053b388150665c75}{appendix\_e\_lemma14\_problem11\_has\_unique\_optimal\_solutionSpec}
+\item \hyperlink{source-claim-2442d32f650b179f}{appendix\_e\_lemma15\_optimal\_solution\_full\_closed\_formSpec}
+\item \hyperlink{source-claim-fa20503a4cc73d27}{appendix\_e\_lemma16\_midpoint\_order\_algebraSpec}
+\item \hyperlink{source-claim-cac20912e50cfdb7}{appendix\_e\_lemma17\_every\_optimal\_solution\_has\_no\_right\_half\_supportSpec}
+\item \hyperlink{source-claim-b8bc7fe7622f9901}{theorem3\_price\_decreases\_first\_halfSpec}
+\item \hyperlink{source-claim-9cd33ed0f79952fe}{theorem3\_price\_increases\_second\_halfSpec}
+\item \hyperlink{source-claim-eae0a47427c4efe2}{theorem4\_misestimation\_tradeoff\_typeOneSpec}
+\item \hyperlink{source-claim-c68da4ed1cd3be2b}{theorem4\_misestimation\_tradeoff\_typeZeroSpec}
+\item \hyperlink{source-claim-d63dd1782000f9f6}{theorem4\_misestimation\_without\_fairness\_universalSpec}
+\item \hyperlink{source-claim-3691478eb60ec56f}{userFairnessSpec}
+\item \hyperlink{source-claim-dd1e59dd74c380a1}{appendix\_c\_lemma2\_item\_fairness\_equality\_lp\_solution\_setSpec}
+\end{itemize}
+\end{itemize}
+
+\clearpage
+\hypertarget{library-section-c26db27dcc5f31c6}{}
+\section*{Material library prerequisites}
+\hypertarget{library-prerequisite-a044ec78dc3416bb}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Policy}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(α : Type u_1) → (β : Type u_2) → α → PMF β
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+abbrev Policy (α β : Type*) := α → PMF β
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-ae914c1008ad6876}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Policy.\allowbreak{}FiberRepresentatives}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+{α : Type u_1} → {κ : Type u_2} → (α → κ) → Type (max u_1 u_2)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+structure FiberRepresentatives {α κ : Type*} (τ : α → κ) where
+  repr : κ → α
+  repr_spec : ∀ k, τ (repr k) = k
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-4947c7fe50d6ca8c}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Policy.\allowbreak{}FiberRepresentatives.\allowbreak{}mk}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean declaration type (metadata)}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  {κ : Type u_2} → {τ : α → κ} → (repr : κ → α) → (∀ (k : κ), τ (repr k) = k) → EconCSLib.Policy.FiberRepresentatives τ
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-431408b14a56af5b}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Policy.\allowbreak{}FiberRepresentatives.\allowbreak{}ofSurjective}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  {κ : Type u_2} → {τ : α → κ} → (hτ : Function.Surjective τ) → { repr := fun k => Classical.choose ⋯, repr_spec := ⋯ }
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def FiberRepresentatives.ofSurjective {α κ : Type*}
+    {τ : α → κ} (hτ : Function.Surjective τ) : FiberRepresentatives τ where
+  repr := fun k => Classical.choose (hτ k)
+  repr_spec := fun k => Classical.choose_spec (hτ k)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-f877c2e1ff5055d0}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Policy.\allowbreak{}FiberRepresentatives.\allowbreak{}repr}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} → {κ : Type u_2} → {τ : α → κ} → (self : EconCSLib.Policy.FiberRepresentatives τ) → (a : κ) → self.1 a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+library declaration is not registered or discoverable
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-3f5282c6cd6824d2}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Policy.\allowbreak{}activePairs}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  {β : Type u_2} →
+    [inst : Fintype α] →
+      [DecidableEq α] → [inst_2 : Fintype β] → [DecidableEq β] → (ρ : EconCSLib.Policy α β) → {p | (ρ p.1) p.2 ≠ 0}
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def activePairs {α β : Type*}
+    [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (ρ : Policy α β) : Finset (α × β) :=
+  Finset.univ.filter fun p => ρ p.1 p.2 ≠ 0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-adfb156708f820de}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Policy.\allowbreak{}activePairsCard}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  {β : Type u_2} →
+    [inst : Fintype α] →
+      [inst_1 : DecidableEq α] →
+        [inst_2 : Fintype β] → [inst_3 : DecidableEq β] → (ρ : EconCSLib.Policy α β) → ρ.activePairs.card
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def activePairsCard {α β : Type*}
+    [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (ρ : Policy α β) : ℕ :=
+  (activePairs ρ).card
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e5c7eedc40c11b7a}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}pmfExp}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} → [inst : Fintype α] → [DecidableEq α] → (μ : PMF α) → (f : α → ℝ) → ∑ a, (μ a).toReal * f a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def pmfExp {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (f : α → ℝ) : ℝ :=
+  ∑ a, (μ a).toReal * f a
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-5d1b9ed6dad7a9b5}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Policy.\allowbreak{}agentScore}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  {β : Type u_2} →
+    [inst : Fintype β] →
+      [inst_1 : DecidableEq β] →
+        (ρ : EconCSLib.Policy α β) → (score : α → β → ℝ) → (a : α) → EconCSLib.pmfExp (ρ a) (score a)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def agentScore {α β : Type*}
+    [Fintype β] [DecidableEq β]
+    (ρ : Policy α β) (score : α → β → ℝ) (a : α) : ℝ :=
+  pmfExp (ρ a) (score a)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-da90e4e59e052ad3}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Policy.\allowbreak{}averageOn}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  {β : Type u_2} →
+    [inst : Fintype β] →
+      (ρ : α → PMF β) → (s : Finset α) → (hs : s.Nonempty) → PMF.ofFintype (fun b => (∑ a ∈ s, (ρ a) b) / ↑s.card) ⋯
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def averageOn {α β : Type*} [Fintype β]
+    (ρ : α → PMF β) (s : Finset α) (hs : s.Nonempty) : PMF β :=
+  PMF.ofFintype
+    (fun b : β => (∑ a ∈ s, ρ a b) / (s.card : ENNReal))
+    (by
+      classical
+      have hcard_ne_zero_nat : s.card ≠ 0 := Finset.card_ne_zero.mpr hs
+      have hcard_ne_zero : (s.card : ENNReal) ≠ 0 := by
+        exact_mod_cast hcard_ne_zero_nat
+      have hcard_ne_top : (s.card : ENNReal) ≠ ⊤ :=
+        ENNReal.natCast_ne_top s.card
+      calc
+        ∑ b : β, (∑ a ∈ s, ρ a b) / (s.card : ENNReal)
+            = ∑ b : β, (s.card : ENNReal)⁻¹ * (∑ a ∈ s, ρ a b) := by
+              refine Finset.sum_congr rfl ?_
+              intro b _
+              rw [ENNReal.div_eq_inv_mul]
+        _ = (s.card : ENNReal)⁻¹ * (∑ b : β, ∑ a ∈ s, ρ a b) := by
+              rw [Finset.mul_sum]
+        _ = (s.card : ENNReal)⁻¹ * (∑ a ∈ s, ∑ b : β, ρ a b) := by
+              rw [Finset.sum_comm]
+        _ = (s.card : ENNReal)⁻¹ * (∑ a ∈ s, (1 : ENNReal)) := by
+              refine congrArg (fun z => (s.card : ENNReal)⁻¹ * z) ?_
+              refine Finset.sum_congr rfl ?_
+              intro a _
+              simpa [tsum_fintype] using (PMF.tsum_coe (ρ a))
+        _ = (s.card : ENNReal)⁻¹ * (s.card : ENNReal) := by
+              simp
+        _ = 1 := ENNReal.inv_mul_cancel hcard_ne_zero hcard_ne_top)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-01139ab74b03022e}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Policy.\allowbreak{}descendAlong}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  {κ : Type u_2} →
+    {β : Type u_3} →
+      {τ : α → κ} →
+        (reps : EconCSLib.Policy.FiberRepresentatives τ) → (ρ : EconCSLib.Policy α β) → (a : κ) → ρ (reps.repr a)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def descendAlong {α κ β : Type*} {τ : α → κ}
+    (reps : FiberRepresentatives τ) (ρ : Policy α β) : Policy κ β :=
+  fun k => ρ (reps.repr k)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-09fbb0c526b44fa8}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Policy.\allowbreak{}liftAlong}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} → {κ : Type u_2} → {β : Type u_3} → (τ : α → κ) → (ρ : EconCSLib.Policy κ β) → (a : α) → ρ (τ a)
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def liftAlong {α κ β : Type*} (τ : α → κ) (ρ : Policy κ β) : Policy α β :=
+  fun a => ρ (τ a)
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-1181c0a9dbe29e4e}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}Policy.\allowbreak{}multiAssignedActions}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} →
+  {β : Type u_2} →
+    [inst : Fintype α] →
+      [inst_1 : DecidableEq α] →
+        [inst_2 : Fintype β] →
+          [DecidableEq β] → (ρ : EconCSLib.Policy α β) → {b | ∃ a a', a ≠ a' ∧ (ρ a) b ≠ 0 ∧ (ρ a') b ≠ 0}
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def multiAssignedActions {α β : Type*}
+    [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (ρ : Policy α β) : Finset β :=
+  Finset.univ.filter fun b => ∃ a a', a ≠ a' ∧ ρ a b ≠ 0 ∧ ρ a' b ≠ 0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-ecc26a3133fdd38b}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}finiteMax}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} → [inst : Fintype α] → [inst_1 : Nonempty α] → (f : α → ℝ) → Finset.univ.sup' ⋯ f
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteMax {α : Type*} [Fintype α] [Nonempty α]
+    (f : α → ℝ) : ℝ :=
+  (Finset.univ : Finset α).sup' Finset.univ_nonempty f
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-087e3287a5c76915}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}finiteMin}
+\textbf{Source connection:} no explicit byte-pinned paper source connection is registered.
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+{α : Type u_1} → [inst : Fintype α] → [inst_1 : Nonempty α] → (f : α → ℝ) → Finset.univ.inf' ⋯ f
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+def finiteMin {α : Type*} [Fintype α] [Nonempty α]
+    (f : α → ℝ) : ℝ :=
+  (Finset.univ : Finset α).inf' Finset.univ_nonempty f
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{not recorded}
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\clearpage
+\hypertarget{source-claim-9df044aa943faf07}{}
+\hypertarget{source-section-f10b5f68e4acf3dc}{}
+\section*{Source claims}
+\subsection*{Review row 1}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 149-\allowbreak{}150\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Given a recommendation policy ρ, user fairness is quantified as the minimum normalized user utility
+Umin (ρ, w) = mini Ui (ρ, w), and item fairness analogously as Imin (ρ, w) = minj Ij (ρ, w).
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} [inst : NeZero n] (W : GCG24UserItemFairness.RecommendationModel m n)
+  (ρ : GCG24UserItemFairness.Policy m n),
+  GCG24UserItemFairness.ProofBridge.itemFairness W ρ =
+    EconCSLib.finiteMin (GCG24UserItemFairness.ProofBridge.normalizedItemUtility W ρ)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.itemFairness_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-0efedb08b89098c8}{}
+\section*{Review row 2}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 134-\allowbreak{}145\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+recommendation policy ρ, let Ui (ρ, w) be user i’s utility from ρ, normalized by the utility maxj wij
+they would receive from being recommended their best match. Let Ij (ρ, w)Pbe item j’s utility from
+ρ, normalized by the utility j receives if it is recommended to every user, i wij . The normalized
+utilities are:
+P
+P
+j ρij wij
+i ρij wij
+Ui (ρ, w) =
+, Ij (ρ, w) = P
+.
+maxj wij
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} (W : GCG24UserItemFairness.RecommendationModel m n) (j : GCG24UserItemFairness.Item n),
+  GCG24UserItemFairness.ProofBridge.itemNormalizer W j = ∑ u, W.utility u j
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.itemNormalizer_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-8a9fd6e3ecb98f56}{}
+\section*{Review row 3}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 134-\allowbreak{}145\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+recommendation policy ρ, let Ui (ρ, w) be user i’s utility from ρ, normalized by the utility maxj wij
+they would receive from being recommended their best match. Let Ij (ρ, w)Pbe item j’s utility from
+ρ, normalized by the utility j receives if it is recommended to every user, i wij . The normalized
+utilities are:
+P
+P
+j ρij wij
+i ρij wij
+Ui (ρ, w) =
+, Ij (ρ, w) = P
+.
+maxj wij
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} (W : GCG24UserItemFairness.RecommendationModel m n) (ρ : GCG24UserItemFairness.Policy m n)
+  (j : GCG24UserItemFairness.Item n),
+  GCG24UserItemFairness.ProofBridge.normalizedItemUtility W ρ j =
+    GCG24UserItemFairness.ProofBridge.rawItemUtility W ρ j / GCG24UserItemFairness.ProofBridge.itemNormalizer W j
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.normalizedItemUtility_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-695e539b33a12ace}{}
+\section*{Review row 4}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 134-\allowbreak{}145\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+recommendation policy ρ, let Ui (ρ, w) be user i’s utility from ρ, normalized by the utility maxj wij
+they would receive from being recommended their best match. Let Ij (ρ, w)Pbe item j’s utility from
+ρ, normalized by the utility j receives if it is recommended to every user, i wij . The normalized
+utilities are:
+P
+P
+j ρij wij
+i ρij wij
+Ui (ρ, w) =
+, Ij (ρ, w) = P
+.
+maxj wij
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} [inst : NeZero n] (W : GCG24UserItemFairness.RecommendationModel m n) (ρ : GCG24UserItemFairness.Policy m n)
+  (u : GCG24UserItemFairness.User m),
+  GCG24UserItemFairness.ProofBridge.normalizedUserUtility W ρ u =
+    GCG24UserItemFairness.ProofBridge.rawUserUtility W ρ u / W.bestItemUtility u
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.normalizedUserUtility_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-0dabf0e6dbbf52bf}{}
+\section*{Review row 5}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 174-\allowbreak{}199\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Research questions: price of fairness and misestimation. We can now define the price of item
+F
+fairness on user fairness πU
+|I (“price of fairness”) as the decrease in user fairness with maximal item
+fairness constraints:
+∗
+∗
+Umin
+(w) − Umin
+(γ = 1, w)
+F
+πU
+.
+|I (w) :=
+∗ (w)
+Umin
+F
+We ask how πU
+|I changes with the utility matrix w. We note that while this question (in terms
+of solutions to Problem (1)) can be simply stated, as we detail in Section 3, finding a closed
+∗
+form expression for Umin
+(1, w) – the optimal minimum normalized user utility given item fairness
+constraints – in terms of w is theoretically challenging.
+
+Similarly, we investigate the price of misestimation. Let ŵij denote the platform’s estimate of the
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} [inst : NeZero m] [inst_1 : NeZero n] (W : GCG24UserItemFairness.RecommendationModel m n),
+  GCG24UserItemFairness.ProofBridge.priceOfFairness W = GCG24UserItemFairness.ProofBridge.priceOfFairnessAt W 1
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.priceOfFairness_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-0b68590619af089c}{}
+\section*{Review row 6}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 199-\allowbreak{}220\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Similarly, we investigate the price of misestimation. Let ŵij denote the platform’s estimate of the
+utility of recommending i to j; let ρ̂(γ) be a policy that solves the optimization problem above with
+3
+
+
+[form-feed in source extraction]
+∗
+misestimated utilities, that is, ρ̂(γ) attains Umin
+(γ, ŵ).1 Then we define the price of misestimation
+M
+on user utility (“price of misestimation”) πU as
+M
+(γ, w, ŵ) :=
+πU
+
+∗
+Umin
+(γ, w) − Umin (ρ̂(γ), w)
+,
+∗ (γ, w)
+Umin
+
+that is, the decrease in true user fairness due to optimizing with estimated utilities. In particular, in
+Section 5 we will examine whether item fairness exacerbates the price of misestimation by comparing
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} [inst : NeZero m] [inst_1 : NeZero n] (E : GCG24UserItemFairness.EstimatedRecommendationModel m n) (γ : ℝ)
+  (ρhat : GCG24UserItemFairness.Policy m n)
+  (hEstimatedOptimal : GCG24UserItemFairness.ProofBridge.solvesProblemOne E.estimatedModel γ ρhat),
+  GCG24UserItemFairness.ProofBridge.priceOfMisestimation E γ ρhat hEstimatedOptimal =
+    (E.trueModel.optimalUserFairnessAtLevel γ - E.trueModel.userFairness ρhat) /
+      E.trueModel.optimalUserFairnessAtLevel γ
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.priceOfMisestimation_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-326f5e510283a532}{}
+\section*{Review row 7}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 3401-\allowbreak{}3412\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+First, we use an analogue of the sparsity result Proposition 2 to show that the optimal x, z has the
+following sparse structure.
+Lemma 13. Let x, z be an optimal basic feasible solution to the linear program Problem 11. There
+′
+′
+′
+′
+′
+is some j ≤ n+1
+2 such that for all j > j, xj = 0 and for all j < j, zj = zn−j +1 = 0. Let the
+pivot index t denote the minimum such j.
+This sparse structure implies uniqueness.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} (beta : ℝ) (v : GCG24UserItemFairness.Item n → ℝ) (ρ : GCG24UserItemFairness.TypePolicy 3 n) (ell : ℝ),
+  GCG24UserItemFairness.ProofBridge.problem11BasicFeasible beta v ρ ell ↔
+    GCG24UserItemFairness.ProofBridge.problem11PointOfPolicy ρ ell ∈
+      Set.extremePoints ℝ (GCG24UserItemFairness.ProofBridge.problem11EqualityFeasibleSet beta v)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.problem11BasicFeasible_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-41e201d4ec448012}{}
+\section*{Review row 8}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 3375-\allowbreak{}3400\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+S ′ = {x, y, z ∈ Ssymm : xj = yn−j+1 , zj = zn−j+1 for all j}.
+Since y is completely determined by x, we can identify S ′ with ∆2n−1 and can identify x, y, z ∈ S ′
+simply by x, z.
+∗
+Lemma 12. If a policy ρ = (x, y, z) ∈ Ssymm solves Umin (ρ) = Umin
+(1), then there is some policy
+∗
+ρ′ = x′ , z ′ ∈ S ′ that solves Umin (ρ′ ) = Umin
+(1).
+
+Applying the framework in Proposition 1 to this proof with S = S ′ and using ŵ as the user and item
+values, we reduce the problem to finding
+ϕ = arg
+
+max
+
+x,z∈∆2n−1 ,λ
+
+λ
+(11)
+
+subject to Ij (x, z) = λ
+
+∀j,
+
+and showing that this ϕ is unique.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} (beta : ℝ) (v : GCG24UserItemFairness.Item n → ℝ),
+  GCG24UserItemFairness.ProofBridge.problem11EqualityFeasibleSet beta v =
+    {p |
+      (∀ (j : GCG24UserItemFairness.Item n), 0 ≤ p.1.1 j) ∧
+        (∀ (j : GCG24UserItemFairness.Item n), 0 ≤ p.1.2 j) ∧
+          ∑ j, p.1.1 j = 1 ∧
+            ∑ j, p.1.2 j = 1 ∧
+              (∀ (j : GCG24UserItemFairness.Item n),
+                  p.1.2 (GCG24UserItemFairness.OpposingTypes.reverseItem j) = p.1.2 j) ∧
+                ∀ (j : GCG24UserItemFairness.Item n),
+                  GCG24UserItemFairness.OpposingTypes.theorem4Problem11ItemValue beta v p.1.1 p.1.2 j = p.2}
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.problem11EqualityFeasibleSet_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-2d18213881f27a07}{}
+\section*{Review row 9}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 292-\allowbreak{}316\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Proposition 1. Suppose that for a set of recommendation policies S ⊆ ∆m
+n−1 ,
+(i) S can be described by a finite set of linear constraints
+(ii) There exists an optimal solution ρ∗ to Problem (2) such that ρ∗ ∈ S
+(iii) ρ∗ is the unique feasible solution to Problem (2) in S
+∗
+Multiple policies ρ̂ may optimize Umin
+(γ, ŵ), and different policies ρ̂ may have different values of
+Umin (ρ̂, w). In our experimental results, we use the policy ρ̂ found by the convex optimization solver.
+1
+
+4
+
+
+[form-feed in source extraction]
+Then, finding an optimal solution ρ∗ to Problem (2) can be reduced to solving a linear program L.
+With Proposition 1, the key technical challenges become: (a) given utility matrix w, finding S
+satisfying the above conditions; (b) given S and w, finding a closed-form expression for ρ∗ ; (c) given
+∗
+a closed form for ρ∗ in terms of w, reasoning about the properties of item fair solution Umin
+(1, w).
+To do this, for our main results, we construct S as a set of recommendations with a particular
+symmetric structure. Suppose users come in K types, where a user of type k shares a utility vector.
+Then, consider Ssymm = {ρ : ρi = ρi′ if wi = wi′ } ⊆ ∆m
+n−1 , the set of policies where users of the
+same type are given the same recommendation probabilities. Note that, in the extreme case, each user
+is their own type. Furthermore, let ρk denote the recommendation policy for type k, for ρ ∈ Ssymm .
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} [inst : NeZero m] [inst_1 : NeZero n] (W : GCG24UserItemFairness.RecommendationModel m n),
+  GCG24UserItemFairness.assumption_positive_recommendation_utilities W →
+    ∀ (S : Set (GCG24UserItemFairness.Policy m n))
+      (D : GCG24UserItemFairness.RecommendationModel.FiniteLinearPolicySetDescription S)
+      (ρstar : GCG24UserItemFairness.Policy m n),
+      W.IsOptimalAtLevel 1 ρstar →
+        ρstar ∈ S →
+          (∀ ρ ∈ S, W.itemFairness ρ = W.optimalItemFairness → ρ = ρstar) →
+            (W.PropositionOneLPFeasible D ρstar W.optimalItemFairness ∧
+                ∀ (ρ' : GCG24UserItemFairness.Policy m n) (ell' : ℝ),
+                  W.PropositionOneLPFeasible D ρ' ell' → ell' ≤ W.optimalItemFairness) ∧
+              ∀ (ρ : GCG24UserItemFairness.Policy m n) (ell : ℝ),
+                (W.PropositionOneLPFeasible D ρ ell ∧
+                    ∀ (ρ' : GCG24UserItemFairness.Policy m n) (ell' : ℝ),
+                      W.PropositionOneLPFeasible D ρ' ell' → ell' ≤ ell) →
+                  ρ = ρstar ∧ ell = W.optimalItemFairness
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.proposition1_symmetric_lp_reduction
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-886aec0cf4d20216}{}
+\section*{Review row 10}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 312-\allowbreak{}338\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+symmetric structure. Suppose users come in K types, where a user of type k shares a utility vector.
+Then, consider Ssymm = {ρ : ρi = ρi′ if wi = wi′ } ⊆ ∆m
+n−1 , the set of policies where users of the
+same type are given the same recommendation probabilities. Note that, in the extreme case, each user
+is their own type. Furthermore, let ρk denote the recommendation policy for type k, for ρ ∈ Ssymm .
+Proposition 2. Ssymm satisfies conditions (i) and (ii) in Proposition 1. Furthermore, solutions
+ρ ∈ Ssymm to Problem (2) have a sparse structure:
+• If ρ is a basic feasible solution to the linear program L in Proposition 1, then there are at
+most n + K − 1 type-item pairs (k, j) such that ρkj > 0 (out of nK possible pairs).
+• If ρ is also optimal, then there are at most K − 1 items that are ever recommended to more
+than one type of user, i.e., where ρkj , ρk′ j > 0 for k ̸= k ′ .
+For our main results, we will leverage the sparsity structure in Proposition 2 to show, with further
+restrictions on utility matrix w, that Ssymm also satisfies (iii). We will then derive closed-form
+expressions for that solution, and show how it changes as a function of w.
+The sparsity structure in Proposition 2 is also interesting in its own right. Without item fairness
+constraints, solutions will be highly sparse: each user will be recommended their most preferred item
+deterministically; each other item will have a recommendation probability of zero. Once we add item
+fairness constraints, solutions do not necessarily remain sparse. However, Proposition 2 shows that
+sparse solutions still arise under item fairness constraints in settings with symmetric solutions.
+
+4
+
+User preference diversity and fairness tradeoffs
+
+We now use the theoretical framework developed in the above section to understand the effect of the
+structure of user utilities on the price of fairness. In particular, we identify “free fairness,” i.e., the
+price of fairness is low, when preferences are sufficiently diverse.
+
+[Next verbatim source excerpt]
+
+Proof. We will first prove that Ssymm satisfies conditions (i) and (ii), and then show sparsity.
+Part 1. Recall that for fixed w,
+\
+
+Ssymm = {ρ : ρi = ρi′ if wi = wi′ } =
+
+{ρ : ρi = ρi′ }
+
+i,i′ :wi =wi′
+
+which is a finite set of linear constraints, so condition (i) holds.
+Now, we show condition (ii), that always there is some ϕ∗ ∈ Ssymm that is an optimal solution to
+Problem 1. Let ρ be an arbitrary optimal solution to Problem 1. Then ρ is also feasible: Imin (ρ) =
+∗
+Imin
+.
+We first define a piece of convenient notation: if two users i, i′ share the same utility vector wi = wi′ ,
+we say that they have the same type τ (i) = τ (i′ ). If τ (i) = τ (i′ ) := τ , we write wij = wi′ j := wτ j
+
+[Next verbatim source excerpt]
+
+symmetric structure. Suppose users come in K types, where a user of type k shares a utility vector.
+Then, consider Ssymm = {ρ : ρi = ρi′ if wi = wi′ } ⊆ ∆m
+n−1 , the set of policies where users of the
+same type are given the same recommendation probabilities. Note that, in the extreme case, each user
+is their own type. Furthermore, let ρk denote the recommendation policy for type k, for ρ ∈ Ssymm .
+
+[Next verbatim source excerpt]
+
+We first define a piece of convenient notation: if two users i, i′ share the same utility vector wi = wi′ ,
+we say that they have the same type τ (i) = τ (i′ ). If τ (i) = τ (i′ ) := τ , we write wij = wi′ j := wτ j
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n K : ℕ} [inst : NeZero m] [inst_1 : NeZero n] [NeZero K]
+  (S : GCG24UserItemFairness.RecommendationModel.SymmetricData m n K) (hTypes : Function.Surjective S.types.toType),
+  GCG24UserItemFairness.assumption_positive_recommendation_utilities S.model →
+    GCG24UserItemFairness.assumption_proposition2_utility_rows_determine_types S →
+      ∀ (ρsrc : GCG24UserItemFairness.Policy m n) (ell : ℝ)
+        (hsource :
+          (GCG24UserItemFairness.RecommendationModel.UserSymmetricEqualityLP.ofSymmetricData S).ActiveBasis ρsrc ell),
+        (∀ (ρ : GCG24UserItemFairness.Policy m n),
+            S.model.UtilityRowSymmetric ρ ↔
+              ∀ (c : GCG24UserItemFairness.UserTypeAssignment.TypeSymmetryLinearConstraintIndex m n),
+                GCG24UserItemFairness.RecommendationModel.policyLinearConstraintHolds
+                  (GCG24UserItemFairness.UserTypeAssignment.typeSymmetryLinearCoefficient S.types c) 0
+                  GCG24UserItemFairness.RecommendationModel.PolicyLinearComparison.eq ρ) ∧
+          (∃ ρsym, S.model.UtilityRowSymmetric ρsym ∧ S.model.IsOptimalAtLevel 1 ρsym) ∧
+            (GCG24UserItemFairness.UserTypeAssignment.descendTypePolicy S.types
+                  (EconCSLib.Policy.FiberRepresentatives.ofSurjective hTypes) ρsrc).ActivePairsBound ∧
+              (ell = (S.canonicalReductionOfSurjective hTypes).reduced.optimalItemFairness →
+                (GCG24UserItemFairness.UserTypeAssignment.descendTypePolicy S.types
+                    (EconCSLib.Policy.FiberRepresentatives.ofSurjective hTypes) ρsrc).SharedItemsBound)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.proposition2_symmetric_optimum_exists
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-fe2438fd53f645e4}{}
+\section*{Review row 11}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 126-\allowbreak{}132\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+utility from
+P
+P
+P
+using the platform is j ρij wij ; item j’s expected utility is i ρij wij , where j ρij = 1 for each
+user i.
+Fairness desiderata. We suppose that the platform uses as a benchmark, for each user or item,
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} (W : GCG24UserItemFairness.RecommendationModel m n) (ρ : GCG24UserItemFairness.Policy m n)
+  (j : GCG24UserItemFairness.Item n),
+  GCG24UserItemFairness.ProofBridge.rawItemUtility W ρ j = ∑ u, W.utility u j * ((ρ u) j).toReal
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.rawItemUtility_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-9ef94f4afd2b61ac}{}
+\section*{Review row 12}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 126-\allowbreak{}132\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+utility from
+P
+P
+P
+using the platform is j ρij wij ; item j’s expected utility is i ρij wij , where j ρij = 1 for each
+user i.
+Fairness desiderata. We suppose that the platform uses as a benchmark, for each user or item,
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} (W : GCG24UserItemFairness.RecommendationModel m n) (ρ : GCG24UserItemFairness.Policy m n)
+  (u : GCG24UserItemFairness.User m),
+  GCG24UserItemFairness.ProofBridge.rawUserUtility W ρ u = EconCSLib.Policy.agentScore ρ W.utility u
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.rawUserUtility_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-9f0be6e1ade7a30d}{}
+\section*{Review row 13}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 116-\allowbreak{}120\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Users, items, and utilities. There is a finite population of m users and n items. Let wij > 0 be
+the utility of recommending item j to user i; this could represent a click-through rate or purchase
+probability. We suppose that user-item utilities are symmetric: each of the user i and item j receives
+utility wij from being recommended item j.
+Let ∆n−1 denote the simplex in Rn . The platform’s task is to choose a recommendation policy
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} (W : GCG24UserItemFairness.RecommendationModel m n) (u : GCG24UserItemFairness.User m)
+  (j : GCG24UserItemFairness.Item n), GCG24UserItemFairness.ProofBridge.recommendationUtility W u j = W.utility u j
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.recommendationUtility_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-0b16a4458c32b7d8}{}
+\section*{Review row 14}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 152-\allowbreak{}174\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+fairness desiderata as follows. At the extremes, the platform could choose a maximally fair solution
+∗
+for one side, ignoring the other. Denote the optimal user fair utility as Umin
+(w) := maxρ Umin (ρ, w)
+(achieved by giving each user their favorite item deterministically), and the optimal item fair utility
+∗
+as Imin
+(w) := maxρ Imin (ρ, w).
+Finally, we cast the two-sided fair optimization – for the optimal γ-constrained user fair solution – as
+∗
+Umin
+(γ, w) = max Umin (ρ, w)
+ρ
+
+(1)
+
+∗
+subject to Imin (ρ, w) ≥ γImin
+(w),
+
+i.e., we maximize the minimum normalized user utility, subject to the minimum normalized item
+utility being at least a fraction γ of the optimal item fair solution.
+Research questions: price of fairness and misestimation. We can now define the price of item
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} [inst : NeZero m] [inst_1 : NeZero n] (W : GCG24UserItemFairness.RecommendationModel m n) (γ : ℝ)
+  (ρ : GCG24UserItemFairness.Policy m n),
+  GCG24UserItemFairness.ProofBridge.solvesProblemOne W γ ρ ↔ W.IsOptimalAtLevel γ ρ
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.solvesProblemOne_iff
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-9c3a977985663e10}{}
+\section*{Review row 15}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1742-\allowbreak{}1745\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 1. Since wij > 0 for all j, Imin
+> 0.
+∗
+= maxρ Imin (ρ) > 0.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} [NeZero m] [inst : NeZero n] (W : GCG24UserItemFairness.RecommendationModel m n),
+  W.Positive → 0 < W.optimalItemFairness
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_c_lemma1_item_fairness_positive
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-d461c27ad08b8393}{}
+\section*{Review row 16}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 3071-\allowbreak{}3078\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 10. If α ≤ 1/2, then t(α) ≤ (n + 1)/2.
+Now, for 1 ≤ t ≤ n, define A(t) = {α : t(α) = t}. Since t(α) is weakly increasing in α by Lemma
+7, A(t) is an interval in (0, 1), and [A(1), A(2), ..., A(n)] forms a consecutive partition of (0, 1). We
+∗
+will now show that Imin
+(α) is increasing on each of the first ⌊(n + 1)/2⌋ intervals, which by Lemma
+10 contain all α ∈ (0, 1/2].
+∗
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} [inst : NeZero n] {alpha : ℝ} {v : GCG24UserItemFairness.Item n → ℝ} (halpha0 : 0 < alpha)
+  (halpha1 : alpha < 1),
+  alpha ≤ 1 / 2 →
+    ∀ (hpos : ∀ (j : GCG24UserItemFairness.Item n), 0 < v j),
+      GCG24UserItemFairness.OpposingTypes.StrictlyDecreasingByIndex v →
+        have t :=
+          (GCG24UserItemFairness.OpposingTypes.problem6FirstClosedPolicy alpha v halpha0 halpha1
+              hpos).lastActiveTypeZero;
+        ↑t ≤ ↑(GCG24UserItemFairness.OpposingTypes.reverseItem t)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_d_lemma10_active_optimizer_pivot_at_or_before_midpoint
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-9a6a42e2321f37e9}{}
+\section*{Review row 17}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 3079-\allowbreak{}3100\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 11. Imin
+(α) is increasing on A(t) for t ≤ (n + 1)/2.
+∗
+Finally, we show that this implies Imin
+(α) is increasing on 0 < α ≤ 1/2. Notice that Ij (x, y, α)
+is continuous in α for each fixed x, y, so Imin (x, y, α) = minj Ij (x, y, α) is continuous in α for
+∗
+each fixed x, y. Recall that Imin
+(α) = maxx,y∈∆n−1 Imin (x, y, α). As the supremum of a set of
+∗
+continuous functions on a compact set must itself be continuous , this means that Imin
+(α) must be
+∗
+continuous in α, since ∆n−1 × ∆n−1 is compact. Since Imin (α) is continuousSand is increasing on
+∗
+each interval {A(t)}t≤(n+1)/2 by Lemma 11, Imin
+(α) must be increasing on t≤(n+1)/2 A(t). By
+S
+∗
+Lemma 10, t≤(n+1)/2 A(t) ⊃ (0, 1/2]. So Imin (α) is increasing on (0, 1/2].
+
+Now, we show Lemmas 10 and 11.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} [inst : NeZero n] {alpha alpha' : ℝ} {v : GCG24UserItemFairness.Item n → ℝ} (halpha0 : 0 < alpha)
+  (halpha1 : alpha < 1) (halpha0' : 0 < alpha') (halpha1' : alpha' < 1),
+  alpha ≤ alpha' →
+    ∀ (hpos : ∀ (j : GCG24UserItemFairness.Item n), 0 < v j),
+      GCG24UserItemFairness.OpposingTypes.StrictlyDecreasingByIndex v →
+        (GCG24UserItemFairness.OpposingTypes.problem6FirstClosedPolicy alpha v halpha0 halpha1
+                hpos).lastActiveTypeZero =
+            (GCG24UserItemFairness.OpposingTypes.problem6FirstClosedPolicy alpha' v halpha0' halpha1'
+                hpos).lastActiveTypeZero →
+          (have t :=
+              (GCG24UserItemFairness.OpposingTypes.problem6FirstClosedPolicy alpha v halpha0 halpha1
+                  hpos).lastActiveTypeZero;
+            ↑t ≤ ↑(GCG24UserItemFairness.OpposingTypes.reverseItem t)) →
+            (GCG24UserItemFairness.OpposingTypes.twoTypeReducedModel alpha v).optimalItemFairness ≤
+              (GCG24UserItemFairness.OpposingTypes.twoTypeReducedModel alpha' v).optimalItemFairness
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_d_lemma11_optimal_item_fairness_mono_on_active_pivot_interval
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-2174fb755f649010}{}
+\section*{Review row 18}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 2098-\allowbreak{}2182\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 3. For all 0 < α < 1, Umin
+(α) = 1.
+∗
+∗
+F
+(Umin −Umin (1,α))/U ∗
+By Lemma 3, Umin
+(α) := Umin
+is constant in α, so πU
+min and it is
+|I (α) =
+∗
+enough to show Umin (1, α) increases in α.
+∗
+
+∗
+
+Recall the definition of Ssymm :
+{ρ : ρi = ρi′ if wi = wi′ }.
+By Proposition 2, we know that Ssymm is a satisfies conditions (i) and (ii) on S for Proposition 1.
+Thus by Proposition 1, it is sufficient to find ϕ such that
+ϕ ∈ arg
+
+max
+
+ρ∈S∩∆m
+n−1 ,λ
+
+λ
+
+subject to Ij (ρ) = λ
+
+∀j,
+
+and show that this ϕ is unique, where the linear program is derived from the proof of Proposition 1.
+Since each user in our population only has one of two possible value vectors, wi = (v1 , ..., vn )
+or wi = (vn , ...., v1 ), we can identify Ssymm with ∆2n−1 , and identify ρ ∈ Ssymm with a pair x, y.
+Expanding the expression for Ij (ρ) and making explicit the dependence on α, we see that
+P
+i ρij wij (α)
+Ij (ρ, α) = P
+wij (α)
+P i
+P
+i:τ (i)=1 ρij vj +
+i:τ (i)=2 ρij vn−j+1
+P
+P
+=
+i:τ (i)=1 vj +
+i:τ (i)=2 vn−j+1
+mαxj vj + m(1 − α)yj vn−j+1
+mαvj + m(1 − α)vn−j+1
+= qj (α)xj + (1 − qj (α))yj
+
+=
+
+where
+qj (α) :=
+
+αvj
+.
+αvj + (1 − α)vn−j+1
+
+Note that for all j and 0 < α < 1, we have 0 < qj , 1 − qj < 1. We can thus simplify
+ϕ = arg
+
+max
+
+x,y∈∆2n−1 ,λ
+
+λ
+(6)
+
+subject to qj (α)xj + (1 − qj (α))yj = λ
+
+∀j,
+
+First, we will show uniqueness and find a closed form to Problem 6 in Lemmas 4 and 5. Then, we
+∗
+will use this closed forms to show that Umin
+(1, α) is increasing for α < 1/2. By symmetry, this
+∗
+implies that Umin
+(1, α) must be decreasing for α > 1/2 and we will be done.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} [inst : NeZero m] [inst_1 : NeZero n] (W : GCG24UserItemFairness.RecommendationModel m n),
+  W.Nonnegative → W.RowHasPositiveItem → W.optimalUserFairnessAtLevel 0 = 1
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_d_lemma3_unconstrained_baseline
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-bdf6b6ab56cd5fdc}{}
+\section*{Review row 19}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 2183-\allowbreak{}2188\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 4. Problem 6 has a unique solution (x, y, λ). Moreover, the solution is sparse: there is some
+1 ≤ t ≤ n such that for j > t, xj = 0, and for j < t, yj = 0.
+Thus, to solve our original problem (Problem 1) we merely need to evaluate the user fairness Umin of
+x, y solving Problem 6 and show that this is increasing. We will do this in the remainder of the proof.
+For each α, let x, y be the solution to the corresponding Problem 6, and define7
+t(α) := max{j : xj (α) > 0}.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} [NeZero n] {alpha : ℝ} {v : GCG24UserItemFairness.Item n → ℝ},
+  0 < alpha →
+    alpha < 1 →
+      (∀ (j : GCG24UserItemFairness.Item n), 0 < v j) →
+        GCG24UserItemFairness.OpposingTypes.StrictlyDecreasingByIndex v →
+          ∃ t ρstar ellstar,
+            (∀ (j : GCG24UserItemFairness.Item n),
+                GCG24UserItemFairness.OpposingTypes.pairShare alpha v j * ((ρstar 0) j).toReal +
+                    (1 - GCG24UserItemFairness.OpposingTypes.pairShare alpha v j) * ((ρstar 1) j).toReal =
+                  ellstar) ∧
+              (∀ (ρ : GCG24UserItemFairness.TypePolicy 2 n) (ell : ℝ),
+                  GCG24UserItemFairness.OpposingTypes.problem6LPFeasible alpha v ρ ell → ell ≤ ellstar) ∧
+                (∀ {j : GCG24UserItemFairness.Item n}, ↑t < ↑j → ((ρstar 0) j).toReal = 0) ∧
+                  (∀ {j : GCG24UserItemFairness.Item n}, ↑j < ↑t → ((ρstar 1) j).toReal = 0) ∧
+                    ∀ (ρ : GCG24UserItemFairness.TypePolicy 2 n) (ell : ℝ),
+                      (∀ (j : GCG24UserItemFairness.Item n),
+                          GCG24UserItemFairness.OpposingTypes.pairShare alpha v j * ((ρ 0) j).toReal +
+                              (1 - GCG24UserItemFairness.OpposingTypes.pairShare alpha v j) * ((ρ 1) j).toReal =
+                            ell) →
+                        (∀ (ρ' : GCG24UserItemFairness.TypePolicy 2 n) (ell' : ℝ),
+                            GCG24UserItemFairness.OpposingTypes.problem6LPFeasible alpha v ρ' ell' → ell' ≤ ell) →
+                          ρ = ρstar ∧ ell = ellstar
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_d_lemma4_problem6_unique_sparse_solution
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-725d3169ac365914}{}
+\section*{Review row 20}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 2190-\allowbreak{}2256\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 5. Let 0 < α < 1, t := t(α). Define
+X 1
+Lt =
+,
+q
+j<t j
+
+Rt =
+
+7
+
+1
+.
+1 − qj
+j>t
+
+X
+
+While there is a single optimal solution x, y to Problem 6 for each α, there may be two t that satisfy Lemma
+4. In particular, this occurs when for each j, xj = 0 or yj = 0. By contrast, t(α) is unique.
+
+28
+
+
+[form-feed in source extraction]
+Then
+
+1
+,
+1 + qt Lt + (1 − qt )Rt
+
+∗
+Imin
+=
+
+and
+
+[U+F8F1 delimiter glyph] I∗
+min
+[U+F8F4 delimiter glyph]
+j<t
+[U+F8F2 delimiter glyph] qj ,
+Lt
+xj = 1 − 1+q L +(1−q
+, j=t,
+t t
+t )Rt
+[U+F8F4 delimiter glyph]
+[U+F8F3 delimiter glyph]
+0,
+j>t
+
+[U+F8F1 delimiter glyph]
+[U+F8F4 delimiter glyph]
+[U+F8F2 delimiter glyph]0,
+Rt
+,
+yj = 1 − 1+qt Lt +(1−q
+t )Rt
+∗
+[U+F8F4 delimiter glyph]
+[U+F8F3 delimiter glyph] Imin ,
+1−qj
+
+j<t
+j=t.
+j>t
+
+Note that for t ̸= t(α), x, y above may not be valid probability vectors.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} [inst : NeZero n] {alpha : ℝ} {v : GCG24UserItemFairness.Item n → ℝ},
+  0 < alpha →
+    alpha < 1 →
+      (∀ (j : GCG24UserItemFairness.Item n), 0 < v j) →
+        GCG24UserItemFairness.OpposingTypes.StrictlyDecreasingByIndex v →
+          ∃ ρstar ellstar,
+            (∀ (j : GCG24UserItemFairness.Item n),
+                GCG24UserItemFairness.OpposingTypes.pairShare alpha v j * ((ρstar 0) j).toReal +
+                    (1 - GCG24UserItemFairness.OpposingTypes.pairShare alpha v j) * ((ρstar 1) j).toReal =
+                  ellstar) ∧
+              (∀ (ρ : GCG24UserItemFairness.TypePolicy 2 n) (ell : ℝ),
+                  GCG24UserItemFairness.OpposingTypes.problem6LPFeasible alpha v ρ ell → ell ≤ ellstar) ∧
+                (∀ (ρ : GCG24UserItemFairness.TypePolicy 2 n) (ell : ℝ),
+                    (∀ (j : GCG24UserItemFairness.Item n),
+                        GCG24UserItemFairness.OpposingTypes.pairShare alpha v j * ((ρ 0) j).toReal +
+                            (1 - GCG24UserItemFairness.OpposingTypes.pairShare alpha v j) * ((ρ 1) j).toReal =
+                          ell) →
+                      (∀ (ρ' : GCG24UserItemFairness.TypePolicy 2 n) (ell' : ℝ),
+                          GCG24UserItemFairness.OpposingTypes.problem6LPFeasible alpha v ρ' ell' → ell' ≤ ell) →
+                        ρ = ρstar ∧ ell = ellstar) ∧
+                  have t := ρstar.lastActiveTypeZero;
+                  ellstar = GCG24UserItemFairness.OpposingTypes.problem6ClosedValue alpha v t ∧
+                    (∀ {j : GCG24UserItemFairness.Item n},
+                        ↑j < ↑t →
+                          ((ρstar 0) j).toReal = ellstar / GCG24UserItemFairness.OpposingTypes.pairShare alpha v j) ∧
+                      ((ρstar 0) t).toReal =
+                          1 - ellstar * GCG24UserItemFairness.OpposingTypes.problem6LeftSum alpha v t ∧
+                        (∀ {j : GCG24UserItemFairness.Item n}, ↑t < ↑j → ((ρstar 0) j).toReal = 0) ∧
+                          (∀ {j : GCG24UserItemFairness.Item n}, ↑j < ↑t → ((ρstar 1) j).toReal = 0) ∧
+                            ((ρstar 1) t).toReal =
+                                1 - ellstar * GCG24UserItemFairness.OpposingTypes.problem6RightSum alpha v t ∧
+                              ∀ {j : GCG24UserItemFairness.Item n},
+                                ↑t < ↑j →
+                                  ((ρstar 1) j).toReal =
+                                    ellstar / (1 - GCG24UserItemFairness.OpposingTypes.pairShare alpha v j)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_d_lemma5_problem6_active_optimizer_closed_form
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-d98bc9bd5bb82720}{}
+\section*{Review row 21}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 2257-\allowbreak{}2313\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 6. For 0 < α < 1/2, if ρ∗ is the optimal recommendation policy, then Ui (ρ∗ , α) ≥
+Ui′ (ρ∗ , α) for τ (i) = 1, τ (i′ ) = 2.
+∗
+By Lemma 6, Umin
+(α) = Ui (α) for i with τ (i) = 2. Then
+∗
+Umin
+(1, α) = Ui (α)
+n
+X
+1
+yj vn−j+1
+maxj vj j=1
+[U+F8EB delimiter glyph]
+[U+F8F6 delimiter glyph]
+X
+1
+[U+F8ED delimiter glyph]yt(α) vn−t(α)+1 +
+yj vn−j+1 [U+F8F8 delimiter glyph]
+=
+maxj vj
+j>t(α)
+[U+F8EB delimiter glyph][U+F8EB delimiter glyph]
+[U+F8F6 delimiter glyph]
+[U+F8F6 delimiter glyph]
+X I ∗ (α)
+X I ∗ (α)
+1
+min
+min
+[U+F8ED delimiter glyph][U+F8ED delimiter glyph]1 −
+[U+F8F8 delimiter glyph] vn−t(α)+1 +
+=
+vn−j+1 [U+F8F8 delimiter glyph]
+maxj vj
+1 − qj (α)
+1 − qj (α)
+j>t(α)
+j>t(α)
+[U+F8EB delimiter glyph]
+[U+F8F6 delimiter glyph]
+X I ∗ (α)
+1
+min
+[U+F8ED delimiter glyph]vn−t(α)+1 +
+=
+(vn−j+1 − vn−t(α)+1 )[U+F8F8 delimiter glyph]
+maxj vj
+1 − qj (α)
+
+=
+
+j>t(α)
+
+∗
+The following results will enable us to conclude that Umin
+(1, α) is increasing for α < 1/2.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} [inst : NeZero n] {alpha : ℝ} {v : GCG24UserItemFairness.Item n → ℝ} (halpha0 : 0 < alpha)
+  (halpha_half : alpha < 1 / 2) (hpos : ∀ (j : GCG24UserItemFairness.Item n), 0 < v j),
+  GCG24UserItemFairness.OpposingTypes.StrictlyDecreasingByIndex v →
+    (GCG24UserItemFairness.OpposingTypes.twoTypeReducedModel alpha v).normalizedTypeUtility
+        (GCG24UserItemFairness.OpposingTypes.problem6FirstClosedPolicy alpha v halpha0 ⋯ hpos) 1 ≤
+      (GCG24UserItemFairness.OpposingTypes.twoTypeReducedModel alpha v).normalizedTypeUtility
+        (GCG24UserItemFairness.OpposingTypes.problem6FirstClosedPolicy alpha v halpha0 ⋯ hpos) 0
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_d_lemma6_optimal_policy_type_utility_order
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-9c661bd3034e665b}{}
+\section*{Review row 22}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 2315-\allowbreak{}2316\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 7. t(α) is weakly increasing.
+∗
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} [inst : NeZero n] {alpha alpha' : ℝ} {v : GCG24UserItemFairness.Item n → ℝ} (halpha0 : 0 < alpha)
+  (halpha1 : alpha < 1) (halpha0' : 0 < alpha') (halpha1' : alpha' < 1),
+  alpha ≤ alpha' →
+    ∀ (hpos : ∀ (j : GCG24UserItemFairness.Item n), 0 < v j),
+      GCG24UserItemFairness.OpposingTypes.StrictlyDecreasingByIndex v →
+        ↑(GCG24UserItemFairness.OpposingTypes.problem6FirstClosedPolicy alpha v halpha0 halpha1
+                hpos).lastActiveTypeZero ≤
+          ↑(GCG24UserItemFairness.OpposingTypes.problem6FirstClosedPolicy alpha' v halpha0' halpha1'
+                hpos).lastActiveTypeZero
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_d_lemma7_active_optimizer_pivot_monotonicity
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-80513579ff0f392a}{}
+\section*{Review row 23}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 2317-\allowbreak{}2318\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 8. Imin
+(α) is increasing for α ≤ 1/2.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} [inst : NeZero n] {alpha alpha' : ℝ} {v : GCG24UserItemFairness.Item n → ℝ},
+  0 < alpha →
+    alpha < 1 →
+      0 < alpha' →
+        alpha' < 1 →
+          alpha ≤ alpha' →
+            alpha ≤ 1 / 2 →
+              alpha' ≤ 1 / 2 →
+                (∀ (j : GCG24UserItemFairness.Item n), 0 < v j) →
+                  GCG24UserItemFairness.OpposingTypes.StrictlyDecreasingByIndex v →
+                    (GCG24UserItemFairness.OpposingTypes.twoTypeReducedModel alpha v).optimalItemFairness ≤
+                      (GCG24UserItemFairness.OpposingTypes.twoTypeReducedModel alpha' v).optimalItemFairness
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_d_lemma8_selected_pivot_stitching
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-b15ee860ec553bb1}{}
+\section*{Review row 24}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 2320-\allowbreak{}2339\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 9. qj (α) strictly increases as α increases and strictly decreases as j increases.
+∗
+Since t(α) is increasing and vj decreases in j, vn−t(α)+1 is increasing in α. Also, Imin
+(α) is
+I∗
+
+(α)
+
+min
+increasing for α < 1/2, and qj (α) is increasing, so 1−q
+is increasing. For j > t(α), vn−j+1 −
+j (α)
+∗
+vn−t(α)+1 > 0. Thus, Umin (1, α) is increasing.
+
+D.2
+
+Supporting lemma proofs
+
+We will first prove Lemma 9, as it is a simple result that we will use extensively.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} {alpha alpha' : ℝ} {v : GCG24UserItemFairness.Item n → ℝ} {i j : GCG24UserItemFairness.Item n},
+  0 < alpha →
+    alpha < 1 →
+      0 < alpha' →
+        alpha' < 1 →
+          alpha < alpha' →
+            (∀ (j : GCG24UserItemFairness.Item n), 0 < v j) →
+              GCG24UserItemFairness.OpposingTypes.StrictlyDecreasingByIndex v →
+                ↑i < ↑j →
+                  GCG24UserItemFairness.OpposingTypes.pairShare alpha v j <
+                      GCG24UserItemFairness.OpposingTypes.pairShare alpha' v j ∧
+                    GCG24UserItemFairness.OpposingTypes.pairShare alpha v j <
+                      GCG24UserItemFairness.OpposingTypes.pairShare alpha v i
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_d_lemma9_pair_share_algebra
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-e72b5fec2071cbe5}{}
+\section*{Review row 25}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 3379-\allowbreak{}3402\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 12. If a policy ρ = (x, y, z) ∈ Ssymm solves Umin (ρ) = Umin
+(1), then there is some policy
+∗
+ρ′ = x′ , z ′ ∈ S ′ that solves Umin (ρ′ ) = Umin
+(1).
+
+Applying the framework in Proposition 1 to this proof with S = S ′ and using ŵ as the user and item
+values, we reduce the problem to finding
+ϕ = arg
+
+max
+
+x,z∈∆2n−1 ,λ
+
+λ
+(11)
+
+subject to Ij (x, z) = λ
+
+∀j,
+
+and showing that this ϕ is unique.
+First, we use an analogue of the sparsity result Proposition 2 to show that the optimal x, z has the
+following sparse structure.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} [inst : NeZero n] {beta : ℝ} {v : GCG24UserItemFairness.Item n → ℝ},
+  (∀ (j : GCG24UserItemFairness.Item n), 0 < v j) →
+    ∀ {ρ : GCG24UserItemFairness.TypePolicy 3 n},
+      (GCG24UserItemFairness.OpposingTypes.theorem4EstimatedReducedModel beta v).IsOptimalAtLevel 1 ρ →
+        (GCG24UserItemFairness.OpposingTypes.theorem4EstimatedReducedModel beta v).IsOptimalAtLevel 1
+            (GCG24UserItemFairness.OpposingTypes.theorem4SymmetrizedPolicy ρ) ∧
+          GCG24UserItemFairness.OpposingTypes.Theorem4MirrorSymmetricPolicy
+            (GCG24UserItemFairness.OpposingTypes.theorem4SymmetrizedPolicy ρ)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_e_lemma12_symmetrized_policy
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-090419aeb8d7a8b0}{}
+\section*{Review row 26}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 3403-\allowbreak{}3412\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 13. Let x, z be an optimal basic feasible solution to the linear program Problem 11. There
+′
+′
+′
+′
+′
+is some j ≤ n+1
+2 such that for all j > j, xj = 0 and for all j < j, zj = zn−j +1 = 0. Let the
+pivot index t denote the minimum such j.
+This sparse structure implies uniqueness.
+
+[Next verbatim source excerpt]
+
+S ′ = {x, y, z ∈ Ssymm : xj = yn−j+1 , zj = zn−j+1 for all j}.
+Since y is completely determined by x, we can identify S ′ with ∆2n−1 and can identify x, y, z ∈ S ′
+simply by x, z.
+∗
+Lemma 12. If a policy ρ = (x, y, z) ∈ Ssymm solves Umin (ρ) = Umin
+(1), then there is some policy
+∗
+ρ′ = x′ , z ′ ∈ S ′ that solves Umin (ρ′ ) = Umin
+(1).
+
+Applying the framework in Proposition 1 to this proof with S = S ′ and using ŵ as the user and item
+values, we reduce the problem to finding
+ϕ = arg
+
+max
+
+x,z∈∆2n−1 ,λ
+
+λ
+(11)
+
+subject to Ij (x, z) = λ
+
+∀j,
+
+and showing that this ϕ is unique.
+
+[Next verbatim source excerpt]
+
+Lemma 17. Let (x, z) be an optimal solution to Problem 11. For j > n+1
+2 , xj = 0.
+In particular, if we let h = ⌊ n+1
+2 ⌋ indicate the index halfway through the set of items, this means that
+we can simplify the problem above to
+arg x max
+,...,x ,
+1
+
+λ
+
+h
+
+z1 ,...,zh ,
+λ
+
+subject to Ij (x, z) = λ, 1 ≤ j ≤ h
+X
+X
+X
+xj =
+zj +
+zn−j+1 = 1
+j≤h
+
+j≤h
+
+(12)
+
+h<j≤n
+
+xj , zj ≥ 0.
+Now this is a linear program with 2h + 1 variables and h + 2 constraints, so by an argument analogous
+to Problem 12, we find that every basic feasible solution x1:h , z1:h must share h − 1 zeros. This means
+that there is a single index t such that xt > 0, zt > 0; if there were more than one, by the pigeonhole
+principle there must be some t′ ≤ h such that xt′ = zt′ = xn−t′ +1 = 0, and It′ (x, z) = 0. Then
+∗
+Imin (x, z) = 0; however, by Lemma 1, Imin (x, z) = Imin
+> 0, so we have a contradiction.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} [inst : NeZero n] {beta : ℝ} {v : GCG24UserItemFairness.Item n → ℝ} {ρ : GCG24UserItemFairness.TypePolicy 3 n}
+  {ell : ℝ},
+  2 < n →
+    (↑n)⁻¹ < beta →
+      beta < 1 / 2 →
+        (∀ (j : GCG24UserItemFairness.Item n), 0 < v j) →
+          GCG24UserItemFairness.OpposingTypes.StrictlyDecreasingByIndex v →
+            GCG24UserItemFairness.OpposingTypes.Theorem4MirrorSymmetricPolicy ρ →
+              (∀ (j : GCG24UserItemFairness.Item n),
+                  GCG24UserItemFairness.OpposingTypes.theorem4Problem11PolicyItemValue beta v ρ j = ell) →
+                (∀ (ρ' : GCG24UserItemFairness.TypePolicy 3 n) (ell' : ℝ),
+                    GCG24UserItemFairness.OpposingTypes.Theorem4MirrorSymmetricPolicy ρ' →
+                      (∀ (j : GCG24UserItemFairness.Item n),
+                          GCG24UserItemFairness.OpposingTypes.theorem4Problem11PolicyItemValue beta v ρ' j = ell') →
+                        ell' ≤ ell) →
+                  GCG24UserItemFairness.ProofBridge.problem11BasicFeasible beta v ρ ell →
+                    have t := GCG24UserItemFairness.OpposingTypes.theorem4Problem11LastActiveTypeZero ρ;
+                    ↑t ≤ ↑(GCG24UserItemFairness.OpposingTypes.reverseItem t) ∧
+                      (∀ (j : GCG24UserItemFairness.Item n), ↑t < ↑j → (ρ 0) j = 0) ∧
+                        (∀ (j : GCG24UserItemFairness.Item n),
+                            ↑j < ↑t → (ρ 2) j = 0 ∧ (ρ 2) (GCG24UserItemFairness.OpposingTypes.reverseItem j) = 0) ∧
+                          ∀ (s : GCG24UserItemFairness.Item n),
+                            (∀ (j : GCG24UserItemFairness.Item n), ↑s < ↑j → (ρ 0) j = 0) →
+                              (∀ (j : GCG24UserItemFairness.Item n),
+                                  ↑j < ↑s →
+                                    (ρ 2) j = 0 ∧ (ρ 2) (GCG24UserItemFairness.OpposingTypes.reverseItem j) = 0) →
+                                ↑t ≤ ↑s
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_e_lemma13_every_optimal_basic_solution_has_pivot_support
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-053b388150665c75}{}
+\section*{Review row 27}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 3413-\allowbreak{}3414\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 14. Problem 11 has a unique optimal solution.
+We can now describe what this solution (x, z) looks like.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} [NeZero n] {beta : ℝ} {v : GCG24UserItemFairness.Item n → ℝ},
+  2 < n →
+    (↑n)⁻¹ < beta →
+      beta < 1 / 2 →
+        (∀ (j : GCG24UserItemFairness.Item n), 0 < v j) →
+          GCG24UserItemFairness.OpposingTypes.StrictlyDecreasingByIndex v →
+            ∃ ρstar ellstar,
+              GCG24UserItemFairness.OpposingTypes.Theorem4MirrorSymmetricPolicy ρstar ∧
+                (∀ (j : GCG24UserItemFairness.Item n),
+                    GCG24UserItemFairness.OpposingTypes.theorem4Problem11PolicyItemValue beta v ρstar j = ellstar) ∧
+                  (∀ (ρ : GCG24UserItemFairness.TypePolicy 3 n) (ell : ℝ),
+                      GCG24UserItemFairness.OpposingTypes.Theorem4MirrorSymmetricPolicy ρ →
+                        GCG24UserItemFairness.OpposingTypes.theorem4Problem11LPFeasible beta v ρ ell → ell ≤ ellstar) ∧
+                    ∀ (ρ : GCG24UserItemFairness.TypePolicy 3 n) (ell : ℝ),
+                      GCG24UserItemFairness.OpposingTypes.Theorem4MirrorSymmetricPolicy ρ →
+                        GCG24UserItemFairness.OpposingTypes.theorem4Problem11LPFeasible beta v ρ ell →
+                          (∀ (ρ' : GCG24UserItemFairness.TypePolicy 3 n) (ell' : ℝ),
+                              GCG24UserItemFairness.OpposingTypes.Theorem4MirrorSymmetricPolicy ρ' →
+                                GCG24UserItemFairness.OpposingTypes.theorem4Problem11LPFeasible beta v ρ' ell' →
+                                  ell' ≤ ell) →
+                            ρ = ρstar ∧ ell = ellstar
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_e_lemma14_problem11_has_unique_optimal_solution
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-2442d32f650b179f}{}
+\section*{Review row 28}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 3415-\allowbreak{}3472\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 15. Let (x, z) be the optimal solution to Problem 12, and let t be the pivot element of (x, z);
+suppose that t ̸= n+1
+2 . Define
+X 1
+Lt :=
+.
+q
+j<t j
+Then
+λ=
+[U+F8F1 delimiter glyph]
+[U+F8F4 delimiter glyph]
+[U+F8F2 delimiter glyph]0,[U+0010 control character]
+
+zj = 12
+[U+F8F4 delimiter glyph]
+[U+F8F3 delimiter glyph]
+
+2βqt + 1/2(1 − 2β)
+,
+1 + qt Lt + 1/2(n − 2t)
+j<t
+
+λ
+1 − (n − 2t) 1−2β
+
+[U+0011 control character]
+
+,
+
+λ
+1−2β ,
+
+j ∈ {t, n − t + 1} .
+t<j <n−t+1
+
+Finally,
+[U+F8F1 delimiter glyph]
+λ
+[U+F8F4 delimiter glyph]
+[U+F8F2 delimiter glyph] 2βqj ,
+λ
+xj = 1 − 2β
+Lt ,
+[U+F8F4 delimiter glyph]
+[U+F8F3 delimiter glyph]0,
+38
+
+j<t
+j=t.
+j>t
+
+
+[form-feed in source extraction]
+If t = n+1
+2 , then x remains the same, but zt = 1 and
+2βqt + (1 − 2β)
+λ=
+.
+1 + qt Lt
+\end{ReviewVerbatim}
+
+\paragraph{Approved corrected review target}
+The archival source above is not asserted equivalent to this replacement.
+\begin{ReviewVerbatim}
+Appendix E, Lemma 15 corrected target: for the equality-form LP solved in the lemma, the printed noncenter lambda, x, and z coordinate formulas hold; at the center pivot z_t = 1 and lambda = 1 / (1 + L_t).
+\end{ReviewVerbatim}
+
+\textbf{Archival source anchor:} {\footnotesize\raggedright cited publication, lines 3415-\allowbreak{}3472\par}
+\paragraph{Recorded basis}
+Repository user approved the Appendix E Lemma 15 typo correction in docs/\allowbreak{}APPROVED\_\allowbreak{}CORRECTED\_\allowbreak{}TARGET\_\allowbreak{}E15\_\allowbreak{}2026-\allowbreak{}07-\allowbreak{}27.\allowbreak{}md.\allowbreak{}
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} [inst : NeZero n] {beta : ℝ} {v : GCG24UserItemFairness.Item n → ℝ} {ρ : GCG24UserItemFairness.TypePolicy 3 n}
+  {ell : ℝ},
+  2 < n →
+    (↑n)⁻¹ < beta →
+      beta < 1 / 2 →
+        (∀ (j : GCG24UserItemFairness.Item n), 0 < v j) →
+          GCG24UserItemFairness.OpposingTypes.StrictlyDecreasingByIndex v →
+            GCG24UserItemFairness.OpposingTypes.Theorem4MirrorSymmetricPolicy ρ →
+              (∀ (j : GCG24UserItemFairness.Item n),
+                  GCG24UserItemFairness.OpposingTypes.theorem4Problem11PolicyItemValue beta v ρ j = ell) →
+                (∀ (ρ' : GCG24UserItemFairness.TypePolicy 3 n) (ell' : ℝ),
+                    GCG24UserItemFairness.OpposingTypes.Theorem4MirrorSymmetricPolicy ρ' →
+                      GCG24UserItemFairness.OpposingTypes.theorem4Problem11LPFeasible beta v ρ' ell' → ell' ≤ ell) →
+                  have t := GCG24UserItemFairness.OpposingTypes.theorem4Problem11LastActiveTypeZero ρ;
+                  ↑t ≤ ↑(GCG24UserItemFairness.OpposingTypes.reverseItem t) ∧
+                    (∀ (j : GCG24UserItemFairness.Item n),
+                        ↑j < ↑t →
+                          ((ρ 0) j).toReal =
+                            ell / (2 * beta * GCG24UserItemFairness.OpposingTypes.pairShare (1 / 2) v j)) ∧
+                      ((ρ 0) t).toReal =
+                          1 -
+                            ell / (2 * beta) * GCG24UserItemFairness.OpposingTypes.paper_lemma15_problem11_leftSum v t ∧
+                        (∀ (j : GCG24UserItemFairness.Item n), ↑t < ↑j → ((ρ 0) j).toReal = 0) ∧
+                          (∀ (j : GCG24UserItemFairness.Item n),
+                              ↑j < ↑t →
+                                ((ρ 2) j).toReal = 0 ∧
+                                  ((ρ 2) (GCG24UserItemFairness.OpposingTypes.reverseItem j)).toReal = 0) ∧
+                            (∀ (j : GCG24UserItemFairness.Item n),
+                                ↑t < ↑j →
+                                  ↑j < ↑(GCG24UserItemFairness.OpposingTypes.reverseItem t) →
+                                    ((ρ 2) j).toReal = ell / (1 - 2 * beta)) ∧
+                              (↑t < ↑(GCG24UserItemFairness.OpposingTypes.reverseItem t) ∧
+                                  ell =
+                                      (2 * beta * GCG24UserItemFairness.OpposingTypes.pairShare (1 / 2) v t +
+                                          1 / 2 * (1 - 2 * beta)) /
+                                        (1 +
+                                            GCG24UserItemFairness.OpposingTypes.pairShare (1 / 2) v t *
+                                              GCG24UserItemFairness.OpposingTypes.paper_lemma15_problem11_leftSum v t +
+                                          1 / 2 * (↑n - 2 * (↑↑t + 1))) ∧
+                                    ((ρ 2) t).toReal = 1 / 2 * (1 - (↑n - 2 * (↑↑t + 1)) * ell / (1 - 2 * beta)) ∧
+                                      ((ρ 2) (GCG24UserItemFairness.OpposingTypes.reverseItem t)).toReal =
+                                        1 / 2 * (1 - (↑n - 2 * (↑↑t + 1)) * ell / (1 - 2 * beta)) ∨
+                                ↑t = ↑(GCG24UserItemFairness.OpposingTypes.reverseItem t) ∧
+                                  ((ρ 2) t).toReal = 1 ∧
+                                    ell =
+                                      1 / (1 + GCG24UserItemFairness.OpposingTypes.paper_lemma15_problem11_leftSum v t))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_e_lemma15_optimal_solution_full_closed_form
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches approved corrected target}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-fa20503a4cc73d27}{}
+\section*{Review row 29}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 3713-\allowbreak{}3735\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 16. If j < n+1
+2 , then qj > 1/2; if j > 2 , then qj < 1/2. If j = 2 , qj = 1/2.
+
+Proof. If j < n+1
+2 , then vj > vn−j+1 and
+qj =
+
+vj
+1
+1
+1
+= ;
+=
+vn−j+1 >
+vj + vn−j+1
+1+1
+2
+1 + vj
+
+if j < n+1
+2 , then vj < vn−j+1 and a symmetric argument holds.
+If j = n+1
+2 , then vj = vn−j+1 and thus qj = 1/2.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} {v : GCG24UserItemFairness.Item n → ℝ} (j : GCG24UserItemFairness.Item n),
+  (∀ (j : GCG24UserItemFairness.Item n), 0 < v j) →
+    GCG24UserItemFairness.OpposingTypes.StrictlyDecreasingByIndex v →
+      (↑j < ↑(GCG24UserItemFairness.OpposingTypes.reverseItem j) →
+          1 / 2 < GCG24UserItemFairness.OpposingTypes.pairShare (1 / 2) v j) ∧
+        (↑(GCG24UserItemFairness.OpposingTypes.reverseItem j) < ↑j →
+            GCG24UserItemFairness.OpposingTypes.pairShare (1 / 2) v j < 1 / 2) ∧
+          (↑j = ↑(GCG24UserItemFairness.OpposingTypes.reverseItem j) →
+            GCG24UserItemFairness.OpposingTypes.pairShare (1 / 2) v j = 1 / 2)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_e_lemma16_midpoint_order_algebra
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-cac20912e50cfdb7}{}
+\section*{Review row 30}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 3845-\allowbreak{}3925\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 17. Let (x, z) be an optimal solution to Problem 11. For j > n+1
+2 , xj = 0.
+In particular, if we let h = ⌊ n+1
+2 ⌋ indicate the index halfway through the set of items, this means that
+we can simplify the problem above to
+arg x max
+,...,x ,
+1
+
+λ
+
+h
+
+z1 ,...,zh ,
+λ
+
+subject to Ij (x, z) = λ, 1 ≤ j ≤ h
+X
+X
+X
+xj =
+zj +
+zn−j+1 = 1
+j≤h
+
+j≤h
+
+(12)
+
+h<j≤n
+
+xj , zj ≥ 0.
+Now this is a linear program with 2h + 1 variables and h + 2 constraints, so by an argument analogous
+to Problem 12, we find that every basic feasible solution x1:h , z1:h must share h − 1 zeros. This means
+that there is a single index t such that xt > 0, zt > 0; if there were more than one, by the pigeonhole
+principle there must be some t′ ≤ h such that xt′ = zt′ = xn−t′ +1 = 0, and It′ (x, z) = 0. Then
+∗
+Imin (x, z) = 0; however, by Lemma 1, Imin (x, z) = Imin
+> 0, so we have a contradiction.
+In terms of x, z,
+v +vn−j+1
+zj
+2
+vj +vn−j+1
+βvj + βvn−j+1 + (1 − 2β)
+2
+v +v
+βvj xj + βvn−j+1 xn−j+1 + (1 − 2β) j n−j+1
+zj
+2
+=
+vj +vn−j+1
+2
+
+Ij (x, z) =
+
+βvj xj + βvn−j+1 xn−j+1 + (1 − 2β) j
+
+[U+0012 control character]
+= 2β
+
+vj
+vn−j+1
+xj +
+xn−j+1
+vj + vn−j+1
+vj + vn−j+1
+
+41
+
+[U+0013 control character]
++ (1 − 2β)zj
+
+
+[form-feed in source extraction]
+v
+
+j
+. Note that qj does not depend on β, and qj is decreasing in j. Then
+Let qj = vj +vn−j+1
+
+Ij (x, y, z) = 2β (qj xj + (1 − qj )yj ) + (1 − 2β)zj .
+Part 2. Moreover, the set of j such that xj = 0 is contiguous; similarly for zj .
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {n : ℕ} [NeZero n] {beta : ℝ} {v : GCG24UserItemFairness.Item n → ℝ} {ρ : GCG24UserItemFairness.TypePolicy 3 n}
+  {ell : ℝ},
+  2 < n →
+    (↑n)⁻¹ < beta →
+      beta < 1 / 2 →
+        (∀ (j : GCG24UserItemFairness.Item n), 0 < v j) →
+          GCG24UserItemFairness.OpposingTypes.StrictlyDecreasingByIndex v →
+            GCG24UserItemFairness.OpposingTypes.Theorem4MirrorSymmetricPolicy ρ →
+              (∀ (j : GCG24UserItemFairness.Item n),
+                  GCG24UserItemFairness.OpposingTypes.theorem4Problem11PolicyItemValue beta v ρ j = ell) →
+                (∀ (ρ' : GCG24UserItemFairness.TypePolicy 3 n) (ell' : ℝ),
+                    GCG24UserItemFairness.OpposingTypes.Theorem4MirrorSymmetricPolicy ρ' →
+                      GCG24UserItemFairness.OpposingTypes.theorem4Problem11LPFeasible beta v ρ' ell' → ell' ≤ ell) →
+                  ∀ (j : GCG24UserItemFairness.Item n),
+                    ↑(GCG24UserItemFairness.OpposingTypes.reverseItem j) < ↑j → (ρ 0) j = 0
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_e_lemma17_every_optimal_solution_has_no_right_half_support
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-b8bc7fe7622f9901}{}
+\section*{Review row 31}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 396-\allowbreak{}397\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 3. πU
+|I (α) is decreasing in α for 0 < α ≤ 1/2, and increasing in α for 1/2 ≤ α < 1.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} [inst : NeZero m] [inst_1 : NeZero n] (S S' : GCG24UserItemFairness.RecommendationModel.SymmetricData m n 2)
+  (hTypes : Function.Surjective S.types.toType) (hTypes' : Function.Surjective S'.types.toType) {alpha alpha' : ℝ}
+  {v : GCG24UserItemFairness.Item n → ℝ},
+  (S.canonicalReductionOfSurjective hTypes).reduced = GCG24UserItemFairness.OpposingTypes.twoTypeReducedModel alpha v →
+    (S'.canonicalReductionOfSurjective hTypes').reduced =
+        GCG24UserItemFairness.OpposingTypes.twoTypeReducedModel alpha' v →
+      0 < alpha →
+        alpha < 1 →
+          0 < alpha' →
+            alpha' < 1 →
+              alpha ≤ alpha' →
+                alpha ≤ 1 / 2 →
+                  alpha' ≤ 1 / 2 →
+                    (∀ (j : GCG24UserItemFairness.Item n), 0 < v j) →
+                      GCG24UserItemFairness.OpposingTypes.StrictlyDecreasingByIndex v →
+                        S'.model.priceOfFairness ≤ S.model.priceOfFairness
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.theorem3_price_decreases_first_half
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-9cd33ed0f79952fe}{}
+\section*{Review row 32}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 396-\allowbreak{}397\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 3. πU
+|I (α) is decreasing in α for 0 < α ≤ 1/2, and increasing in α for 1/2 ≤ α < 1.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} [inst : NeZero m] [inst_1 : NeZero n] (S S' : GCG24UserItemFairness.RecommendationModel.SymmetricData m n 2)
+  (hTypes : Function.Surjective S.types.toType) (hTypes' : Function.Surjective S'.types.toType) {alpha alpha' : ℝ}
+  {v : GCG24UserItemFairness.Item n → ℝ},
+  (S.canonicalReductionOfSurjective hTypes).reduced = GCG24UserItemFairness.OpposingTypes.twoTypeReducedModel alpha v →
+    (S'.canonicalReductionOfSurjective hTypes').reduced =
+        GCG24UserItemFairness.OpposingTypes.twoTypeReducedModel alpha' v →
+      0 < alpha →
+        alpha < 1 →
+          0 < alpha' →
+            alpha' < 1 →
+              alpha ≤ alpha' →
+                1 / 2 ≤ alpha →
+                  1 / 2 ≤ alpha' →
+                    (∀ (j : GCG24UserItemFairness.Item n), 0 < v j) →
+                      GCG24UserItemFairness.OpposingTypes.StrictlyDecreasingByIndex v →
+                        S.model.priceOfFairness ≤ S'.model.priceOfFairness
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.theorem3_price_increases_second_half
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-eae0a47427c4efe2}{}
+\section*{Review row 33}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 456-\allowbreak{}476\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 4. If β > n1 and w and ŵ are as described above, then fairness constraints can arbitrarily
+worsen the price of misestimation.
+• The price of misestimation without fairness constraints is low: for all {vj }, there is a
+∗
+recommendation policy ρ̂ that solves the misestimated problem Umin
+(0, ŵ) so that
+M
+πU
+(0, w, ŵ) ≤
+
+1
+.
+2
+
+• The price of misestimation with fairness constraints can be arbitrarily large: ∀ϵ, there exists
+∗
+{vj } and a recommendation policy ρ̂ that solves the problem Umin
+(1, ŵ) such that
+M
+πU
+(1, w, ŵ) > 1 − ϵ.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} [inst : NeZero m] [inst_1 : NeZero n] (E : GCG24UserItemFairness.EstimatedRecommendationModel m n)
+  (Strue : GCG24UserItemFairness.RecommendationModel.SymmetricData m n 2)
+  (Sest : GCG24UserItemFairness.RecommendationModel.SymmetricData m n 3)
+  (hTypesTrue : Function.Surjective Strue.types.toType) (hTypesEst : Function.Surjective Sest.types.toType)
+  {beta eps : ℝ} (u : GCG24UserItemFairness.User m),
+  GCG24UserItemFairness.assumption_theorem4_true_model_reduction E Strue →
+    GCG24UserItemFairness.assumption_theorem4_estimated_model_reduction E Sest →
+      (Strue.canonicalReductionOfSurjective hTypesTrue).reduced =
+          GCG24UserItemFairness.OpposingTypes.twoTypeReducedModel (1 / 2)
+            (GCG24UserItemFairness.OpposingTypes.theorem4SmallValueVector eps) →
+        (Sest.canonicalReductionOfSurjective hTypesEst).reduced =
+            GCG24UserItemFairness.OpposingTypes.theorem4EstimatedReducedModel beta
+              (GCG24UserItemFairness.OpposingTypes.theorem4SmallValueVector eps) →
+          (∀ (u : GCG24UserItemFairness.User m), Sest.types.toType u = 0 → Strue.types.toType u = 0) →
+            (∀ (u : GCG24UserItemFairness.User m), Sest.types.toType u = 1 → Strue.types.toType u = 1) →
+              Strue.types.toType u = 1 →
+                Sest.types.toType u = 2 →
+                  0 < eps →
+                    (↑n)⁻¹ < beta →
+                      (have ρ0 :=
+                          GCG24UserItemFairness.OpposingTypes.theorem4NoFairnessPolicyCollapsed
+                            (GCG24UserItemFairness.OpposingTypes.theorem4SmallValueVector eps);
+                        E.SolvesEstimatedProblem 0 ((Sest.canonicalReductionOfSurjective hTypesEst).liftedPolicy ρ0) ∧
+                          E.priceOfMisestimation 0 ((Sest.canonicalReductionOfSurjective hTypesEst).liftedPolicy ρ0) ≤
+                            1 / 2) ∧
+                        ∃ ρ1,
+                          E.SolvesEstimatedProblem 1 ((Sest.canonicalReductionOfSurjective hTypesEst).liftedPolicy ρ1) ∧
+                            1 - eps <
+                              E.priceOfMisestimation 1 ((Sest.canonicalReductionOfSurjective hTypesEst).liftedPolicy ρ1)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.theorem4_misestimation_tradeoff_typeOne
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-c68da4ed1cd3be2b}{}
+\section*{Review row 34}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 456-\allowbreak{}476\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 4. If β > n1 and w and ŵ are as described above, then fairness constraints can arbitrarily
+worsen the price of misestimation.
+• The price of misestimation without fairness constraints is low: for all {vj }, there is a
+∗
+recommendation policy ρ̂ that solves the misestimated problem Umin
+(0, ŵ) so that
+M
+πU
+(0, w, ŵ) ≤
+
+1
+.
+2
+
+• The price of misestimation with fairness constraints can be arbitrarily large: ∀ϵ, there exists
+∗
+{vj } and a recommendation policy ρ̂ that solves the problem Umin
+(1, ŵ) such that
+M
+πU
+(1, w, ŵ) > 1 − ϵ.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} [inst : NeZero m] [inst_1 : NeZero n] (E : GCG24UserItemFairness.EstimatedRecommendationModel m n)
+  (Strue : GCG24UserItemFairness.RecommendationModel.SymmetricData m n 2)
+  (Sest : GCG24UserItemFairness.RecommendationModel.SymmetricData m n 3)
+  (hTypesTrue : Function.Surjective Strue.types.toType) (hTypesEst : Function.Surjective Sest.types.toType)
+  {beta eps : ℝ} (u : GCG24UserItemFairness.User m),
+  GCG24UserItemFairness.assumption_theorem4_true_model_reduction E Strue →
+    GCG24UserItemFairness.assumption_theorem4_estimated_model_reduction E Sest →
+      (Strue.canonicalReductionOfSurjective hTypesTrue).reduced =
+          GCG24UserItemFairness.OpposingTypes.twoTypeReducedModel (1 / 2)
+            (GCG24UserItemFairness.OpposingTypes.theorem4SmallValueVector eps) →
+        (Sest.canonicalReductionOfSurjective hTypesEst).reduced =
+            GCG24UserItemFairness.OpposingTypes.theorem4EstimatedReducedModel beta
+              (GCG24UserItemFairness.OpposingTypes.theorem4SmallValueVector eps) →
+          (∀ (u : GCG24UserItemFairness.User m), Sest.types.toType u = 0 → Strue.types.toType u = 0) →
+            (∀ (u : GCG24UserItemFairness.User m), Sest.types.toType u = 1 → Strue.types.toType u = 1) →
+              Strue.types.toType u = 0 →
+                Sest.types.toType u = 2 →
+                  0 < eps →
+                    (↑n)⁻¹ < beta →
+                      (have ρ0 :=
+                          GCG24UserItemFairness.OpposingTypes.theorem4NoFairnessPolicyCollapsed
+                            (GCG24UserItemFairness.OpposingTypes.theorem4SmallValueVector eps);
+                        E.SolvesEstimatedProblem 0 ((Sest.canonicalReductionOfSurjective hTypesEst).liftedPolicy ρ0) ∧
+                          E.priceOfMisestimation 0 ((Sest.canonicalReductionOfSurjective hTypesEst).liftedPolicy ρ0) ≤
+                            1 / 2) ∧
+                        ∃ ρ1,
+                          E.SolvesEstimatedProblem 1 ((Sest.canonicalReductionOfSurjective hTypesEst).liftedPolicy ρ1) ∧
+                            1 - eps <
+                              E.priceOfMisestimation 1 ((Sest.canonicalReductionOfSurjective hTypesEst).liftedPolicy ρ1)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.theorem4_misestimation_tradeoff_typeZero
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-d63dd1782000f9f6}{}
+\section*{Review row 35}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 456-\allowbreak{}476\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 4. If β > n1 and w and ŵ are as described above, then fairness constraints can arbitrarily
+worsen the price of misestimation.
+• The price of misestimation without fairness constraints is low: for all {vj }, there is a
+∗
+recommendation policy ρ̂ that solves the misestimated problem Umin
+(0, ŵ) so that
+M
+πU
+(0, w, ŵ) ≤
+
+1
+.
+2
+
+• The price of misestimation with fairness constraints can be arbitrarily large: ∀ϵ, there exists
+∗
+{vj } and a recommendation policy ρ̂ that solves the problem Umin
+(1, ŵ) such that
+M
+πU
+(1, w, ŵ) > 1 − ϵ.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} [inst : NeZero m] [inst_1 : NeZero n] (E : GCG24UserItemFairness.EstimatedRecommendationModel m n)
+  (Strue : GCG24UserItemFairness.RecommendationModel.SymmetricData m n 2)
+  (Sest : GCG24UserItemFairness.RecommendationModel.SymmetricData m n 3)
+  (hTypesTrue : Function.Surjective Strue.types.toType) (hTypesEst : Function.Surjective Sest.types.toType) {beta : ℝ}
+  {v : GCG24UserItemFairness.Item n → ℝ},
+  GCG24UserItemFairness.assumption_theorem4_true_model_reduction E Strue →
+    GCG24UserItemFairness.assumption_theorem4_estimated_model_reduction E Sest →
+      (Strue.canonicalReductionOfSurjective hTypesTrue).reduced =
+          GCG24UserItemFairness.OpposingTypes.twoTypeReducedModel (1 / 2) v →
+        (Sest.canonicalReductionOfSurjective hTypesEst).reduced =
+            GCG24UserItemFairness.OpposingTypes.theorem4EstimatedReducedModel beta v →
+          (∀ (u : GCG24UserItemFairness.User m), Sest.types.toType u = 0 → Strue.types.toType u = 0) →
+            (∀ (u : GCG24UserItemFairness.User m), Sest.types.toType u = 1 → Strue.types.toType u = 1) →
+              (↑n)⁻¹ < beta →
+                GCG24UserItemFairness.assumption_theorem4_universal_value_vector v →
+                  have ρ := GCG24UserItemFairness.OpposingTypes.theorem4NoFairnessPolicyCollapsed v;
+                  E.SolvesEstimatedProblem 0 ((Sest.canonicalReductionOfSurjective hTypesEst).liftedPolicy ρ) ∧
+                    E.priceOfMisestimation 0 ((Sest.canonicalReductionOfSurjective hTypesEst).liftedPolicy ρ) ≤ 1 / 2
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.theorem4_misestimation_without_fairness_universal
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-3691478eb60ec56f}{}
+\section*{Review row 36}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 149-\allowbreak{}150\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Given a recommendation policy ρ, user fairness is quantified as the minimum normalized user utility
+Umin (ρ, w) = mini Ui (ρ, w), and item fairness analogously as Imin (ρ, w) = minj Ij (ρ, w).
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} [inst : NeZero m] [inst_1 : NeZero n] (W : GCG24UserItemFairness.RecommendationModel m n)
+  (ρ : GCG24UserItemFairness.Policy m n),
+  GCG24UserItemFairness.ProofBridge.userFairness W ρ =
+    EconCSLib.finiteMin (GCG24UserItemFairness.ProofBridge.normalizedUserUtility W ρ)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.userFairness_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-dd1e59dd74c380a1}{}
+\section*{Review row 37}
+\textbf{Source locator:} {\footnotesize\raggedright cited publication, lines 1759-\allowbreak{}1800\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 2. Let F denote the feasible set of Problem 1,
+F ≜ arg max
+Imin (ρ) ≜ arg max
+min Ij (ρ).
+m
+m
+ρ∈∆n−1
+
+ρ∈∆n−1
+
+Then F is the solution set of the linear program
+F = arg max
+m
+
+ρ∈∆n−1 ,λ
+
+j
+
+(3)
+
+λ
+(4)
+
+subject to Ij (ρ) = λ
+
+∀j.
+
+Now, condition (iii) on S implies that there is a unique ρ∗ in S ∩ F. Thus
+ρ∗ = F ∩ S = arg
+max
+λ
+m
+ρ∈∆n−1 ∩S,λ
+
+.
+(5)
+subject to Ij (ρ) = λ ∀j,
+We can add S as a constraint in Problem 4 because we know that there is at least one solution to
+Problem 4 in S – namely, ρ∗ – so this additional constraint will not change the optimal objective
+value, but will constrain the set of optimal solutions to be in S, as desired.
+By condition (ii), ρ∗ is an optimal solution for Problem 1; by condition (i), S can be described by a
+finite set of linear constraints, and thus Problem 5 is a linear program; call this L.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {m n : ℕ} [NeZero m] [inst : NeZero n] (W : GCG24UserItemFairness.RecommendationModel m n),
+  W.Positive →
+    ∀ (rho : GCG24UserItemFairness.Policy m n),
+      W.itemFairness rho = W.optimalItemFairness ↔
+        ∃ ell,
+          W.itemFairnessEqualityLPFeasible rho ell ∧
+            ∀ (rho' : GCG24UserItemFairness.Policy m n) (ell' : ℝ),
+              W.itemFairnessEqualityLPFeasible rho' ell' → ell' ≤ ell
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GCG24UserItemFairness.PaperInterface.appendix_c_lemma2_item_fairness_equality_lp_solution_set
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{not recorded}
+\\
+\textbf{Reason:} not recorded
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\end{document}
