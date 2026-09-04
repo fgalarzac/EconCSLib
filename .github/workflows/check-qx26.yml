@@ -1,6 +1,7 @@
 name: Check QX26 Agentic Delegation
 
 on:
+  push:
   workflow_dispatch:
 
 permissions:
